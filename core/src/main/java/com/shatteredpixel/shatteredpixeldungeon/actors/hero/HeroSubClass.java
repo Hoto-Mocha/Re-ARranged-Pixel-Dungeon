@@ -42,7 +42,10 @@ public enum HeroSubClass {
 	FREERUNNER(HeroIcon.FREERUNNER),
 	
 	SNIPER(HeroIcon.SNIPER),
-	WARDEN(HeroIcon.WARDEN);
+	WARDEN(HeroIcon.WARDEN),
+
+	DESPERADO(HeroIcon.DESPERADO),
+	VETERAN(HeroIcon.VETERAN);
 
 	int icon;
 

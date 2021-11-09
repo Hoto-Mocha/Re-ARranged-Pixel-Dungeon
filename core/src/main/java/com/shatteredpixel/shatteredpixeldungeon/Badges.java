@@ -50,12 +50,14 @@ public class Badges {
 		MASTERY_MAGE,
 		MASTERY_ROGUE,
 		MASTERY_HUNTRESS,
+		MASTERY_GUNNER,
 		FOUND_RATMOGRIFY,
 
 		//bronze
 		UNLOCK_MAGE                 ( 1 ),
 		UNLOCK_ROGUE                ( 2 ),
 		UNLOCK_HUNTRESS             ( 3 ),
+		UNLOCK_GUNNER               ( 19 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),
 		GOLD_COLLECTED_1            ( 6 ),
@@ -692,6 +694,9 @@ public class Badges {
 			break;
 		case HUNTRESS:
 			badge = Badge.MASTERY_HUNTRESS;
+			break;
+		case GUNNER:
+			badge = Badge.MASTERY_GUNNER;
 			break;
 		}
 		

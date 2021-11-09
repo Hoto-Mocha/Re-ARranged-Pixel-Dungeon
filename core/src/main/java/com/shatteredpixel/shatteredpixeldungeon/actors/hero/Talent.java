@@ -26,12 +26,15 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
@@ -53,8 +56,22 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AssultRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.DualPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.GunsWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Handgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -143,6 +160,23 @@ public enum Talent {
 	GROWING_POWER(116, 4), NATURES_WRATH(117, 4), WILD_MOMENTUM(118, 4),
 	//Spirit Hawk T4
 	EAGLE_EYE(119, 4), GO_FOR_THE_EYES(120, 4), SWIFT_SPIRIT(121, 4),
+
+	//Gunner T1
+	FOCUSING_MEAL(128), GUNSLINGERS_INTUITION(129), SHOOT_THE_HEART(130), SHIELD_PARTS(131),
+	//Gunner T2
+	RELOADING_MEAL(132), ARM_ENHANCE(133), OBSCURATION(134), VULNERABLE_BULLET(135), PEEKING(136),
+	//Gunner T3
+	MARTIALARTS(137, 3), STREET_FIGHTING(138, 3),
+	//Desperado T3
+	EXCELLENT_DEXTERITY(139, 3), RUN_AND_GUN(140, 3), GUN_RIOT(141, 3),
+	//Swat T3
+	FLASH_BANG(142, 3), SILENCER(143, 3), SLIDING(144, 3),
+	//Buckshot T4
+	ADDITIONAL_BULLET(145, 4), MATH_BUCKSHOT(146, 4), EXPLOSIVE_BUCKSHOT(147, 4),
+	//Antimater Rifle T4
+	CRITICAL_BULLET(148, 4), CHARGE_BULLET(149, 4), LAST_ONE_BULLET(150, 4),
+	//Grenade Launcher T4
+	HE_GRENADE(151, 4), HUGE_EXPLOSION(152, 4), SUPPORT_DROP(153, 4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -311,6 +345,15 @@ public enum Talent {
 			//effectively 1/2 turns of haste
 			Buff.prolong( hero, Haste.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
 		}
+		if (hero.hasTalent(FOCUSING_MEAL)){
+			//effectively 1/2 turns of bless. adrenaline, invisibility
+			Buff.prolong( hero, Bless.class, 0.67f+hero.pointsInTalent(FOCUSING_MEAL));
+			Buff.prolong( hero, Adrenaline.class, 0.67f+hero.pointsInTalent(FOCUSING_MEAL));
+			Buff.prolong( hero, Invisibility.class, 0.67f+hero.pointsInTalent(FOCUSING_MEAL));
+		}
+		if (hero.hasTalent(RELOADING_MEAL) && Dungeon.hero.belongings.weapon instanceof GunsWeapon){
+
+		}
 	}
 
 	public static class WarriorFoodImmunity extends FlavourBuff{
@@ -333,6 +376,11 @@ public enum Talent {
 		if (item instanceof Ring){
 			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
 		}
+		// 2x/instant for Gunner (see onItemEquipped)
+		if (item instanceof GunsWeapon){
+			factor *= 1f + hero.pointsInTalent(GUNSLINGERS_INTUITION);
+		}
+		
 		return factor;
 	}
 
@@ -410,6 +458,9 @@ public enum Talent {
 		if (hero.pointsInTalent(ARMSMASTERS_INTUITION) == 2 && (item instanceof Weapon || item instanceof Armor)){
 			item.identify();
 		}
+		if (hero.pointsInTalent(GUNSLINGERS_INTUITION) == 2 && (item instanceof GunsWeapon)){
+			item.identify();
+		}
 		if (hero.hasTalent(THIEFS_INTUITION) && item instanceof Ring){
 			if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
 				item.identify();
@@ -460,11 +511,50 @@ public enum Talent {
 			}
 		}
 
+		if (hero.hasTalent(SHOOT_THE_HEART)) {
+			if( hero.belongings.weapon() instanceof CrudePistol.Bullet
+					|| hero.belongings.weapon() instanceof Pistol.Bullet
+					|| hero.belongings.weapon() instanceof GoldenPistol.Bullet
+					|| hero.belongings.weapon() instanceof Handgun.Bullet
+					|| hero.belongings.weapon() instanceof Magnum.Bullet
+					|| hero.belongings.weapon() instanceof HuntingRifle.Bullet
+					|| hero.belongings.weapon() instanceof SniperRifle.Bullet
+					|| hero.belongings.weapon() instanceof DualPistol.Bullet
+					|| hero.belongings.weapon() instanceof SubMachinegun.Bullet
+					|| hero.belongings.weapon() instanceof AssultRifle.Bullet
+					|| hero.belongings.weapon() instanceof HeavyMachinegun.Bullet
+					|| hero.belongings.weapon() instanceof ShotGun.Bullet
+			) { if (enemy.buff(ShootTheHeartTracker.class) == null) {
+				dmg += 1 + hero.pointsInTalent(SHOOT_THE_HEART);
+				Buff.affect(enemy, ShootTheHeartTracker.class);
+				}
+			}
+		}
+
+		if (hero.hasTalent(SHIELD_PARTS)) {
+			if( hero.belongings.weapon() instanceof CrudePistol.Bullet
+					|| hero.belongings.weapon() instanceof Pistol.Bullet
+					|| hero.belongings.weapon() instanceof GoldenPistol.Bullet
+					|| hero.belongings.weapon() instanceof Handgun.Bullet
+					|| hero.belongings.weapon() instanceof Magnum.Bullet
+					|| hero.belongings.weapon() instanceof HuntingRifle.Bullet
+					|| hero.belongings.weapon() instanceof SniperRifle.Bullet
+					|| hero.belongings.weapon() instanceof DualPistol.Bullet
+					|| hero.belongings.weapon() instanceof SubMachinegun.Bullet
+					|| hero.belongings.weapon() instanceof AssultRifle.Bullet
+					|| hero.belongings.weapon() instanceof HeavyMachinegun.Bullet
+					|| hero.belongings.weapon() instanceof ShotGun.Bullet
+			) {
+				Buff.affect(hero, Blocking.BlockBuff.class, 3 ).setBlocking( 1 + 2 * hero.pointsInTalent(SHOOT_THE_HEART));
+			}
+		}
+
 		return dmg;
 	}
 
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
+	public static class ShootTheHeartTracker extends Buff{};
 
 	public static final int MAX_TALENT_TIERS = 4;
 
