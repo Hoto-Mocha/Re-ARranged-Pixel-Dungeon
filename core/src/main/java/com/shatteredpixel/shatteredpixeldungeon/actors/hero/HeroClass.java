@@ -112,7 +112,7 @@ import com.watabou.utils.DeviceCompat;
 
 public enum HeroClass {
 
-	WARRIOR( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR ),
+	WARRIOR( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR, HeroSubClass.VETERAN ),
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK ),
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN );
@@ -250,8 +250,8 @@ public enum HeroClass {
 		Dungeon.quickslot.setSlot(0, cloak);
 		Dungeon.quickslot.setSlot(1, knives);
 
-		//new ScrollOfMagicMapping().identify();
-		//new PotionOfInvisibility().identify();
+		new ScrollOfMagicMapping().identify();
+		new PotionOfInvisibility().identify();
 
 		//new CrudePistol().identify().collect();
 		//new Pistol().identify().collect();
