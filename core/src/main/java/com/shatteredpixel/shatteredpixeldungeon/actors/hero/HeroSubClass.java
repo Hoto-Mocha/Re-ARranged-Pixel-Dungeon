@@ -34,6 +34,7 @@ public enum HeroSubClass {
 
 	BERSERKER(HeroIcon.BERSERKER),
 	GLADIATOR(HeroIcon.GLADIATOR),
+	VETERAN(HeroIcon.VETERAN),
 
 	BATTLEMAGE(HeroIcon.BATTLEMAGE),
 	WARLOCK(HeroIcon.WARLOCK),
@@ -42,10 +43,7 @@ public enum HeroSubClass {
 	FREERUNNER(HeroIcon.FREERUNNER),
 	
 	SNIPER(HeroIcon.SNIPER),
-	WARDEN(HeroIcon.WARDEN),
-
-	DESPERADO(HeroIcon.DESPERADO),
-	VETERAN(HeroIcon.VETERAN);
+	WARDEN(HeroIcon.WARDEN);
 
 	int icon;
 
