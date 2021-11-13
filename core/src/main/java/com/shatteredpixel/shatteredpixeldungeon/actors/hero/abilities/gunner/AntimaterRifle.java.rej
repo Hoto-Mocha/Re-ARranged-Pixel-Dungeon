@@ -1,8 +1,0 @@
-diff a/core/src/main/java/com/shatteredpixel/shatteredpixeldungeon/actors/hero/abilities/gunner/AntimaterRifle.java b/core/src/main/java/com/shatteredpixel/shatteredpixeldungeon/actors/hero/abilities/gunner/AntimaterRifle.java	(rejected hunks)
-@@ -0,0 +1,6 @@
-+package com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner;
-+
-+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
-+
-+public class AntimaterRifle  extends ArmorAbility {
-+}
