@@ -30,7 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 import com.watabou.utils.Bundle;
 
-public class Focusing extends FlavourBuff {
+public class Focusing extends Buff {
 
     private float focusTime = 0f;
     private float maxFocusTime = 5f + 5f * Dungeon.hero.pointsInTalent(ENHANCED_FOCUSING);
@@ -93,15 +93,15 @@ public class Focusing extends FlavourBuff {
 
     @Override
     public void storeInBundle(Bundle bundle) {
-        super.storeInBundle(bundle);
         bundle.put(TIME, focusTime);
         bundle.put(MAXTIME, maxFocusTime);
+        super.storeInBundle(bundle);
     }
 
     @Override
     public void restoreFromBundle(Bundle bundle) {
-        super.restoreFromBundle(bundle);
         focusTime = bundle.getFloat(TIME);
         maxFocusTime = bundle.getFloat(MAXTIME);
+        super.restoreFromBundle(bundle);
     }
 }
