@@ -28,14 +28,19 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
+import com.watabou.utils.Bundle;
 
 public class Focusing extends FlavourBuff {
 
     private float focusTime = 0f;
-    private float maxFocusTime = 5 + 5 * Dungeon.hero.pointsInTalent(ENHANCED_FOCUSING);
+    private float maxFocusTime = 5f + 5f * Dungeon.hero.pointsInTalent(ENHANCED_FOCUSING);
+
     public float getFocusTime() {
         return focusTime;
     }
+
+    private static final String TIME = "focusTime";
+    private static final String MAXTIME = "maxFocusTime";
 
     @Override
     public int icon() {
@@ -84,5 +89,19 @@ public class Focusing extends FlavourBuff {
     @Override
     public String desc() {
         return Messages.get(this, "desc", dispTurns(focusTime));
+    }
+
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put(TIME, focusTime);
+        bundle.put(MAXTIME, maxFocusTime);
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        focusTime = bundle.getFloat(TIME);
+        maxFocusTime = bundle.getFloat(MAXTIME);
     }
 }
