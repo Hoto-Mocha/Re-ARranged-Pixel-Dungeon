@@ -180,8 +180,8 @@ public class RocketLauncher extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 5 * (tier-2)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier-2) +                                                           //if you make something different guns, you should change this
+        return 6 * (tier+1)   +                                                           //if you make something different guns, you should change this
+                lvl * (tier+1) +                                                           //if you make something different guns, you should change this
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
@@ -292,7 +292,7 @@ public class RocketLauncher extends MeleeWeapon {
                 bulletdamage = Random.NormalIntRange(Bulletmin(RocketLauncher.this.buffedLvl()), Bulletmax(RocketLauncher.this.buffedLvl()));
             }
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage += bulletdamage * 0.05f * (focusing.getCount());
+                bulletdamage += Math.round(bulletdamage * 0.05f * (focusing.getFocusTime()));
             }
             return bulletdamage;
         }
