@@ -196,7 +196,7 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
-		//new CrudePistol().identify().collect();
+		new CrudePistol().identify().collect();
 		//new Pistol().identify().collect();
 		//new GoldenPistol().identify().collect();
 		//new Handgun().identify().collect();
@@ -214,7 +214,7 @@ public enum HeroClass {
 		//new DriedRose().identify().collect();
 		//new RingOfReload().identify().collect();
 
-		//new TengusMask().collect();
+		new TengusMask().collect();
 		//new KingsCrown().collect();
 
 		//new ScrollOfUpgrade().identify().quantity(99).collect();
