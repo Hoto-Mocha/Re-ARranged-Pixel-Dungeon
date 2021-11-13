@@ -291,7 +291,7 @@ public class Magnum extends MeleeWeapon {
                 bulletdamage = Random.NormalIntRange(Bulletmin(Magnum.this.buffedLvl()), Bulletmax(Magnum.this.buffedLvl()));
             }
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage += bulletdamage * 0.05f * (focusing.getCount());
+                bulletdamage += Math.round(bulletdamage * 0.05f * (focusing.getFocusTime()));
             }
             return bulletdamage;
         }

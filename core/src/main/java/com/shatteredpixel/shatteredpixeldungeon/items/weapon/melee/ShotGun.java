@@ -290,7 +290,7 @@ public class ShotGun extends MeleeWeapon {
                 bulletdamage = Random.NormalIntRange(Bulletmin(ShotGun.this.buffedLvl()), Bulletmax(ShotGun.this.buffedLvl()));
             }
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage += bulletdamage * 0.05f * (focusing.getCount());
+                bulletdamage += Math.round(bulletdamage * 0.05f * (focusing.getFocusTime()));
             }
             return bulletdamage;
         }

@@ -292,7 +292,7 @@ public class SubMachinegun extends MeleeWeapon {
                 bulletdamage = Random.NormalIntRange(Bulletmin(SubMachinegun.this.buffedLvl()), Bulletmax(SubMachinegun.this.buffedLvl()));
             }
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage += bulletdamage * 0.05f * (focusing.getCount());
+                bulletdamage += Math.round(bulletdamage * 0.05f * (focusing.getFocusTime()));
             }
             return bulletdamage;
         }

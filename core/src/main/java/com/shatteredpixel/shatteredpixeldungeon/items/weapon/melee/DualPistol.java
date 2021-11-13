@@ -291,7 +291,7 @@ public class DualPistol extends MeleeWeapon {
                 bulletdamage = Random.NormalIntRange(Bulletmin(DualPistol.this.buffedLvl()), Bulletmax(DualPistol.this.buffedLvl()));
             }
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage += bulletdamage * 0.05f * (focusing.getCount());
+                bulletdamage += Math.round(bulletdamage * 0.05f * (focusing.getFocusTime()));
             }
             return bulletdamage;
         }
