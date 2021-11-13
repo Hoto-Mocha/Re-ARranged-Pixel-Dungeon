@@ -21,24 +21,20 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent.ENHANCED_FOCUSING;
+
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
-import com.watabou.utils.Bundle;
 
-public class Focusing extends Buff {
+public class Focusing extends FlavourBuff {
 
-    private int count = 0;
     private float focusTime = 0f;
-    private float initialFocusTime = 5f;
-    public int getCount() {
-        return count;
+    private float maxFocusTime = 5 + 5 * Dungeon.hero.pointsInTalent(ENHANCED_FOCUSING);
+    public float getFocusTime() {
+        return focusTime;
     }
 
     @Override
@@ -53,7 +49,7 @@ public class Focusing extends Buff {
 
     @Override
     public float iconFadePercent() {
-        return Math.max(0, (initialFocusTime - focusTime) / initialFocusTime);
+        return Math.max(0, (maxFocusTime - focusTime) / maxFocusTime);
     }
 
     @Override
@@ -62,22 +58,12 @@ public class Focusing extends Buff {
     }
 
     public void hit(Char enemy) {
-
-        count++;
-        focusTime = 5f;
-
-        if (!enemy.isAlive() || (enemy.buff(Corruption.class) != null && enemy.HP == enemy.HT)) {
-            focusTime = Math.max(focusTime, 15 * ((Hero) target).pointsInTalent(Talent.CLEAVE));
+        if (focusTime < maxFocusTime) {
+            focusTime += 2f;
+        } else {
+            focusTime = maxFocusTime;
         }
-
-        initialFocusTime = focusTime;
-
         BuffIndicator.refreshHero(); //refresh the buff visually on-hit
-
-    }
-
-    public void addTime(float time) {
-        focusTime += time;
     }
 
     @Override
@@ -97,43 +83,6 @@ public class Focusing extends Buff {
 
     @Override
     public String desc() {
-        return Messages.get(this, "desc", count, dispTurns(focusTime));
-    }
-
-    private static final String COUNT = "count";
-    private static final String TIME = "focusTime";
-    private static final String INITIAL_TIME = "initialFocusTime";
-
-    @Override
-    public void storeInBundle(Bundle bundle) {
-        super.storeInBundle(bundle);
-        bundle.put(COUNT, count);
-        bundle.put(TIME, focusTime);
-        bundle.put(INITIAL_TIME, initialFocusTime);
-    }
-
-    @Override
-    public void restoreFromBundle(Bundle bundle) {
-        super.restoreFromBundle(bundle);
-        count = bundle.getInt(COUNT);
-        focusTime = bundle.getFloat(TIME);
-    }
-
-    public Image getIcon() {
-        Image icon;
-        if (((Hero) target).belongings.weapon() != null) {
-            icon = new ItemSprite(((Hero) target).belongings.weapon().image, null);
-        } else {
-            icon = new ItemSprite(new Item() {
-                {
-                    image = ItemSpriteSheet.WEAPON_HOLDER;
-                }
-            });
-        }
-        return icon;
-    }
-
-    public int getComboCount() {
-        return count;
+        return Messages.get(this, "desc", dispTurns(focusTime));
     }
 }
