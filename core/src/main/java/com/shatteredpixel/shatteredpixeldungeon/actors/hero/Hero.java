@@ -106,13 +106,21 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.GunsWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
@@ -437,6 +445,7 @@ public class Hero extends Char {
 					accuracy *= (1.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				} else if (wep instanceof HuntingRifle.Bullet
 						|| wep instanceof SniperRifle.Bullet){
+					HuntingRifle.Bullet bullet = (HuntingRifle.Bullet) wep;
 					accuracy *= 0;
 				} else {
 					accuracy *= (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
@@ -1808,8 +1817,23 @@ public class Hero extends Char {
 			Buff.affect( this, Combo.class ).hit( enemy );
 		}
 
-		if (hit && subClass == HeroSubClass.VETERAN && Dungeon.hero.belongings.weapon instanceof GunsWeapon){
-			Buff.affect( this, Focusing.class ).hit( enemy );
+		if (hit && subClass == HeroSubClass.VETERAN){
+			if (Dungeon.hero.belongings.weapon instanceof CrudePistol
+					|| Dungeon.hero.belongings.weapon instanceof Pistol
+					|| Dungeon.hero.belongings.weapon instanceof GoldenPistol
+					|| Dungeon.hero.belongings.weapon instanceof Handgun
+					|| Dungeon.hero.belongings.weapon instanceof Magnum
+					|| Dungeon.hero.belongings.weapon instanceof HuntingRifle
+					|| Dungeon.hero.belongings.weapon instanceof SniperRifle
+					|| Dungeon.hero.belongings.weapon instanceof DualPistol
+					|| Dungeon.hero.belongings.weapon instanceof SubMachinegun
+					|| Dungeon.hero.belongings.weapon instanceof AssultRifle
+					|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegun
+					|| Dungeon.hero.belongings.weapon instanceof ShotGun
+					|| Dungeon.hero.belongings.weapon instanceof RocketLauncher
+			){
+				Buff.affect( this, Focusing.class ).hit( enemy );
+			}
 		}
 
 		curAction = null;
