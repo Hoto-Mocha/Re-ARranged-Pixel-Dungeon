@@ -126,7 +126,7 @@ public class HeavyMachinegun extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 30;                                                                  //if you make something different guns, you should change this
+            max_round = 15;                                                                  //if you make something different guns, you should change this
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             }
@@ -135,7 +135,7 @@ public class HeavyMachinegun extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 30;                                                                      //if you make something different guns, you should change this
+        max_round = 15;                                                                      //if you make something different guns, you should change this
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -152,7 +152,7 @@ public class HeavyMachinegun extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 30;                                                                      //if you make something different guns, you should change this
+        max_round = 15;                                                                      //if you make something different guns, you should change this
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -179,15 +179,15 @@ public class HeavyMachinegun extends MeleeWeapon {
 
     public int Bulletmax(int lvl) {
         return 2 * (tier)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier) +                                                           //if you make something different guns, you should change this
+                lvl * (tier-2) +                                                           //if you make something different guns, you should change this
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public String info() {
 
-        max_round = 30;                                                                       //if you make something different guns, you should change this
-        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);         //if you make something different guns, you should change this;
+        max_round = 15;                                                                       //if you make something different guns, you should change this
+        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);         //if you make something different guns, you should change this;
 
         String info = desc();
 
@@ -265,8 +265,12 @@ public class HeavyMachinegun extends MeleeWeapon {
 
     @Override
     protected float baseDelay(Char owner) {
-        return super.baseDelay(owner);
-    }                   //공격 속도
+        float delay = augment.delayFactor(this.DLY);
+        if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
+            delay -= 0.1f * Dungeon.hero.pointsInTalent(Talent.MARTIAL_ARTS);
+        }
+        return delay;
+    }
 
     public HeavyMachinegun.Bullet knockBullet(){
         return new HeavyMachinegun.Bullet();
@@ -283,15 +287,11 @@ public class HeavyMachinegun extends MeleeWeapon {
 
         @Override
         public int damageRoll(Char owner) {
-            Focusing focusing = new Focusing();
-            int bulletdamage;
+            int bulletdamage = Random.NormalIntRange(Bulletmin(HeavyMachinegun.this.buffedLvl()), Bulletmax(HeavyMachinegun.this.buffedLvl()));
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
-                bulletdamage = Math.round(Random.NormalIntRange(Bulletmin(HeavyMachinegun.this.buffedLvl()), Bulletmax(HeavyMachinegun.this.buffedLvl())) * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
-            } else {
-                bulletdamage = Random.NormalIntRange(Bulletmin(HeavyMachinegun.this.buffedLvl()), Bulletmax(HeavyMachinegun.this.buffedLvl()));
-            }
-            if (owner.buff(Focusing.class) != null) {
-                bulletdamage += Math.round(bulletdamage * 0.05f * (focusing.getFocusTime()));
+                bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
+            } else if (owner.buff(Focusing.class) != null) {
+                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }
@@ -312,13 +312,22 @@ public class HeavyMachinegun extends MeleeWeapon {
         }
 
         @Override
+        public float accuracyFactor(Char user) {
+            float accFactor = super.accuracyFactor(user);
+            if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
+                accFactor += 0.1f * Dungeon.hero.pointsInTalent(Talent.ENHANCED_FOCUSING);
+            }
+            return accFactor;
+        }
+
+        @Override
         public int STRReq(int lvl) {
             return STRReq(tier, HeavyMachinegun.this.buffedLvl());
         }
 
         @Override
         protected void onThrow( int cell ) {
-            for (int i=1; i<=5; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+            for (int i=1; i<=3; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                 Char enemy = Actor.findChar(cell);
                 if (enemy == null || enemy == curUser) {
                     parent = null;

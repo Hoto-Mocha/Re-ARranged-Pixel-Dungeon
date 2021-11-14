@@ -180,7 +180,7 @@ public class SubMachinegun extends MeleeWeapon {
 
     public int Bulletmax(int lvl) {
         return 2 * (tier)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier) +                                                           //if you make something different guns, you should change this
+                lvl * (tier-2) +                                                           //if you make something different guns, you should change this
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
@@ -266,8 +266,12 @@ public class SubMachinegun extends MeleeWeapon {
 
     @Override
     protected float baseDelay(Char owner) {
-        return super.baseDelay(owner);
-    }                   //공격 속도
+        float delay = augment.delayFactor(this.DLY);
+        if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
+            delay -= 0.1f * Dungeon.hero.pointsInTalent(Talent.MARTIAL_ARTS);
+        }
+        return delay;
+    }
 
     public SubMachinegun.Bullet knockBullet(){
         return new SubMachinegun.Bullet();
@@ -284,15 +288,11 @@ public class SubMachinegun extends MeleeWeapon {
 
         @Override
         public int damageRoll(Char owner) {
-            Focusing focusing = new Focusing();
-            int bulletdamage;
+            int bulletdamage = Random.NormalIntRange(Bulletmin(SubMachinegun.this.buffedLvl()), Bulletmax(SubMachinegun.this.buffedLvl()));
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
-                bulletdamage = Math.round(Random.NormalIntRange(Bulletmin(SubMachinegun.this.buffedLvl()), Bulletmax(SubMachinegun.this.buffedLvl())) * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
-            } else {
-                bulletdamage = Random.NormalIntRange(Bulletmin(SubMachinegun.this.buffedLvl()), Bulletmax(SubMachinegun.this.buffedLvl()));
-            }
-            if (owner.buff(Focusing.class) != null) {
-                bulletdamage += Math.round(bulletdamage * 0.05f * (focusing.getFocusTime()));
+                bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
+            } else if (owner.buff(Focusing.class) != null) {
+                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }
@@ -310,6 +310,15 @@ public class SubMachinegun extends MeleeWeapon {
         @Override
         public float delayFactor(Char user) {
             return SubMachinegun.this.delayFactor(user);
+        }
+
+        @Override
+        public float accuracyFactor(Char user) {
+            float accFactor = super.accuracyFactor(user);
+            if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
+                accFactor += 0.1f * Dungeon.hero.pointsInTalent(Talent.ENHANCED_FOCUSING);
+            }
+            return accFactor;
         }
 
         @Override

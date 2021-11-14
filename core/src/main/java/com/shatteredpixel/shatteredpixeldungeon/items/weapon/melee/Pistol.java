@@ -20,6 +20,9 @@
  */
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -58,15 +61,14 @@ public class Pistol extends MeleeWeapon {
     private static final String TXT_STATUS = "%d/%d";
 
     {
-
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.PISTOL;                                  //if you make something different guns, you should change this
+        image = ItemSpriteSheet.PISTOL;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 2;                                                               //if you make something different guns, you should change this
+        tier = 2;
     }
 
     private static final String ROUND = "round";
@@ -89,9 +91,6 @@ public class Pistol extends MeleeWeapon {
         reload_time = bundle.getFloat(RELOAD_TIME);
     }
 
-
-
-
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
@@ -101,8 +100,6 @@ public class Pistol extends MeleeWeapon {
         }
         return actions;
     }
-
-
 
     @Override
     public void execute(Hero hero, String action) {
@@ -126,7 +123,7 @@ public class Pistol extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 4;                                                                  //if you make something different guns, you should change this
+            max_round = 4;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             }
@@ -135,7 +132,7 @@ public class Pistol extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 4;                                                                      //if you make something different guns, you should change this
+        max_round = 4;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -152,7 +149,7 @@ public class Pistol extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 4;                                                                      //if you make something different guns, you should change this
+        max_round = 4;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -162,41 +159,41 @@ public class Pistol extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return tier +                                                                      //if you make something different guns, you should change this
-                lvl;                                                                        //if you make something different guns, you should change this
+        return tier +
+                lvl;
     }
 
     public int max(int lvl) {
-        return 3 * (tier + 1) +                                                            //if you make something different guns, you should change this
-                lvl;                                                           //if you make something different guns, you should change this
+        return 3 * (tier + 1) +
+                lvl;
     }
 
     public int Bulletmin(int lvl) {
-        return 2 * tier +                                                                  //if you make something different guns, you should change this
-                lvl      +                                                                  //if you make something different guns, you should change this
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return 2 * tier +
+                lvl      +
+                RingOfSharpshooting.levelDamageBonus(hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 4 * (tier)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier) +                                                           //if you make something different guns, you should change this
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return 4 * (tier)   +
+                lvl * (tier) +
+                RingOfSharpshooting.levelDamageBonus(hero);
     }
 
     @Override
     public String info() {
 
-        max_round = 4;                                                                       //if you make something different guns, you should change this
-        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);         //if you make something different guns, you should change this;
+        max_round = 4;
+        reload_time = 2f*RingOfReload.reloadMultiplier(hero);
 
         String info = desc();
 
         if (levelKnown) {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
-            if (STRReq() > Dungeon.hero.STR()) {
+            if (STRReq() > hero.STR()) {
                 info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (Dungeon.hero.STR() > STRReq()){
-                info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
+            } else if (hero.STR() > STRReq()){
+                info += " " + Messages.get(Weapon.class, "excess_str", hero.STR() - STRReq());
             }
             info += "\n\n" + Messages.get(Pistol.class, "stats_known",
                     Bulletmin(Pistol.this.buffedLvl()),
@@ -204,7 +201,7 @@ public class Pistol extends MeleeWeapon {
                     round, max_round, reload_time);
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-            if (STRReq(0) > Dungeon.hero.STR()) {
+            if (STRReq(0) > hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
             info += "\n\n" + Messages.get(Pistol.class, "stats_unknown",
@@ -231,7 +228,7 @@ public class Pistol extends MeleeWeapon {
             info += " " + Messages.get(enchantment, "desc");
         }
 
-        if (cursed && isEquipped( Dungeon.hero )) {
+        if (cursed && isEquipped( hero )) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
         } else if (cursedKnown && cursed) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed");
@@ -261,12 +258,16 @@ public class Pistol extends MeleeWeapon {
         }
 
         return damage;
-    }                           //초과 힘에 따른 추가 데미지
+    }
 
     @Override
     protected float baseDelay(Char owner) {
-        return super.baseDelay(owner);
-    }                   //공격 속도
+        float delay = augment.delayFactor(this.DLY);
+        if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
+            delay -= 0.1f * Dungeon.hero.pointsInTalent(Talent.MARTIAL_ARTS);
+        }
+        return delay;
+    }
 
     public Pistol.Bullet knockBullet(){
         return new Pistol.Bullet();
@@ -277,20 +278,16 @@ public class Pistol extends MeleeWeapon {
             image = ItemSpriteSheet.SINGLE_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 2;                                                                            //if you make something different guns, you should change this
+            tier = 2;
         }
 
         @Override
         public int damageRoll(Char owner) {
-            Focusing focusing = new Focusing();
-            int bulletdamage;
+            int bulletdamage = Random.NormalIntRange(Bulletmin(Pistol.this.buffedLvl()), Bulletmax(Pistol.this.buffedLvl()));
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
-                bulletdamage = Math.round(Random.NormalIntRange(Bulletmin(Pistol.this.buffedLvl()), Bulletmax(Pistol.this.buffedLvl())) * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
-            } else {
-                bulletdamage = Random.NormalIntRange(Bulletmin(Pistol.this.buffedLvl()), Bulletmax(Pistol.this.buffedLvl()));
-            }
-            if (owner.buff(Focusing.class) != null) {
-                bulletdamage += Math.round(bulletdamage * 0.05f * (focusing.getFocusTime()));
+                bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
+            } else if (owner.buff(Focusing.class) != null) {
+                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }
@@ -308,6 +305,15 @@ public class Pistol extends MeleeWeapon {
         @Override
         public float delayFactor(Char user) {
             return Pistol.this.delayFactor(user);
+        }
+
+        @Override
+        public float accuracyFactor(Char user) {
+            float accFactor = super.accuracyFactor(user);
+            if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
+                accFactor += 0.1f * Dungeon.hero.pointsInTalent(Talent.ENHANCED_FOCUSING);
+            }
+            return accFactor;
         }
 
         @Override

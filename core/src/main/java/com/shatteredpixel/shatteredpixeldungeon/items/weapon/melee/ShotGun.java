@@ -126,7 +126,7 @@ public class ShotGun extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 2;                                                                  //if you make something different guns, you should change this
+            max_round = 4;                                                                  //if you make something different guns, you should change this
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             }
@@ -135,7 +135,7 @@ public class ShotGun extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 2;                                                                      //if you make something different guns, you should change this
+        max_round = 4;                                                                      //if you make something different guns, you should change this
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -152,7 +152,7 @@ public class ShotGun extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 2;                                                                      //if you make something different guns, you should change this
+        max_round = 4;                                                                      //if you make something different guns, you should change this
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -173,7 +173,6 @@ public class ShotGun extends MeleeWeapon {
 
     public int Bulletmin(int lvl) {
         return 1 +                                                                  //if you make something different guns, you should change this
-                lvl +                                                               //if you make something different guns, you should change this
                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
@@ -186,7 +185,7 @@ public class ShotGun extends MeleeWeapon {
     @Override
     public String info() {
 
-        max_round = 2;                                                                       //if you make something different guns, you should change this
+        max_round = 4;                                                                       //if you make something different guns, you should change this
         reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);         //if you make something different guns, you should change this;
 
         String info = desc();
@@ -265,8 +264,12 @@ public class ShotGun extends MeleeWeapon {
 
     @Override
     protected float baseDelay(Char owner) {
-        return super.baseDelay(owner);
-    }                   //공격 속도
+        float delay = augment.delayFactor(this.DLY);
+        if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
+            delay -= 0.1f * Dungeon.hero.pointsInTalent(Talent.MARTIAL_ARTS);
+        }
+        return delay;
+    }
 
     public ShotGun.Bullet knockBullet(){
         return new ShotGun.Bullet();
@@ -282,15 +285,11 @@ public class ShotGun extends MeleeWeapon {
 
         @Override
         public int damageRoll(Char owner) {
-            Focusing focusing = new Focusing();
-            int bulletdamage;
+            int bulletdamage = Random.NormalIntRange(Bulletmin(ShotGun.this.buffedLvl()), Bulletmax(ShotGun.this.buffedLvl()));
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
-                bulletdamage = Math.round(Random.NormalIntRange(Bulletmin(ShotGun.this.buffedLvl()), Bulletmax(ShotGun.this.buffedLvl())) * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
-            } else {
-                bulletdamage = Random.NormalIntRange(Bulletmin(ShotGun.this.buffedLvl()), Bulletmax(ShotGun.this.buffedLvl()));
-            }
-            if (owner.buff(Focusing.class) != null) {
-                bulletdamage += Math.round(bulletdamage * 0.05f * (focusing.getFocusTime()));
+                bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
+            } else if (owner.buff(Focusing.class) != null) {
+                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }
@@ -317,7 +316,7 @@ public class ShotGun extends MeleeWeapon {
 
         @Override
         protected void onThrow( int cell ) {
-            for (int i=1; i<=6; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+            for (int i=1; i<=10; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                 Char enemy = Actor.findChar(cell);
                 if (enemy == null || enemy == curUser) {
                     parent = null;

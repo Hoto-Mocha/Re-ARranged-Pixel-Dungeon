@@ -68,7 +68,7 @@ public class RocketLauncher extends MeleeWeapon {
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 6;                                                               //if you make something different guns, you should change this
+        tier = 5;                                                               //if you make something different guns, you should change this
     }
 
     private static final String ROUND = "round";
@@ -174,14 +174,14 @@ public class RocketLauncher extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        return (tier+1) +                                                                  //if you make something different guns, you should change this
+        return (tier+2) +                                                                  //if you make something different guns, you should change this
                 lvl      +                                                                  //if you make something different guns, you should change this
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 6 * (tier+1)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier+1) +                                                           //if you make something different guns, you should change this
+        return 6 * (tier+2)   +                                                           //if you make something different guns, you should change this
+                lvl * (tier+2) +                                                           //if you make something different guns, you should change this
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
@@ -279,7 +279,7 @@ public class RocketLauncher extends MeleeWeapon {
             image = ItemSpriteSheet.ROCKET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 6;                                                                            //if you make something different guns, you should change this
+            tier = 5;                                                                            //if you make something different guns, you should change this
         }
 
         @Override
