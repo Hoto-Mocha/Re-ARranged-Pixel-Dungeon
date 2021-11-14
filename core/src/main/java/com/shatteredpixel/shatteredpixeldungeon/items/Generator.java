@@ -396,7 +396,7 @@ public class Generator {
 					Magnum.class,
 					HeavyMachinegun.class,
 					SniperRifle.class,
-					RocketLauncher.class													//6 tier, but low chance
+					RocketLauncher.class
 			};
 			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 ,3, 1};
 			
