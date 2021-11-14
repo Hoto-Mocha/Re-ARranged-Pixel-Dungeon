@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Bones;
@@ -445,7 +447,6 @@ public class Hero extends Char {
 					accuracy *= (1.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				} else if (wep instanceof HuntingRifle.Bullet
 						|| wep instanceof SniperRifle.Bullet){
-					HuntingRifle.Bullet bullet = (HuntingRifle.Bullet) wep;
 					accuracy *= 0;
 				} else {
 					accuracy *= (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
@@ -458,11 +459,24 @@ public class Hero extends Char {
 				else if (wep instanceof HuntingRifle.Bullet
 						|| wep instanceof SniperRifle.Bullet) {
 						accuracy *= 2f;
+				} else if (wep instanceof CrudePistol.Bullet
+					|| wep instanceof Pistol.Bullet
+					|| wep instanceof GoldenPistol.Bullet
+					|| wep instanceof Handgun.Bullet
+					|| wep instanceof Magnum.Bullet
+					|| wep instanceof DualPistol.Bullet
+					|| wep instanceof SubMachinegun.Bullet
+					|| wep instanceof AssultRifle.Bullet
+					|| wep instanceof HeavyMachinegun.Bullet
+					|| wep instanceof RocketLauncher.Rocket) {
+					accuracy *= 1f;
 				} else {
 					accuracy *= 1.5f;
 				}
-
 			}
+		}
+		if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
+			accuracy *= 1f + (0.1f * hero.pointsInTalent(Talent.ENHANCED_FOCUSING));
 		}
 		
 		if (wep != null) {
