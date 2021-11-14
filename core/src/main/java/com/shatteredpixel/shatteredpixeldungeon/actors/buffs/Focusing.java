@@ -21,9 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
-import static com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent.ENHANCED_FOCUSING;
-
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -33,7 +30,7 @@ import com.watabou.utils.Bundle;
 public class Focusing extends Buff {
 
     private float focusTime = 0f;
-    private float maxFocusTime = 5f + 5f * Dungeon.hero.pointsInTalent(ENHANCED_FOCUSING);
+    private float maxFocusTime = 10f;
 
     public float getFocusTime() {
         return focusTime;
