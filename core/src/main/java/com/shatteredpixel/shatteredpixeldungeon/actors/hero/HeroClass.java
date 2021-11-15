@@ -173,6 +173,8 @@ public enum HeroClass {
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
 
+		//new StoneOfAugmentation().quantity(99).collect();
+
 		//new ScrollOfUpgrade().identify().quantity(99).collect();
 		//new ScrollOfTransmutation().identify().quantity(99).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
