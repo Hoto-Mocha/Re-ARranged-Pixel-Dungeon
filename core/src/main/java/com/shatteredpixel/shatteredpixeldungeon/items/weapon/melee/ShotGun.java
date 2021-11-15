@@ -24,6 +24,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -62,11 +64,11 @@ public class ShotGun extends MeleeWeapon {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.SHOTGUN;                                  //if you make something different guns, you should change this
+        image = ItemSpriteSheet.SHOTGUN;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 3;                                                               //if you make something different guns, you should change this
+        tier = 3;
     }
 
     private static final String ROUND = "round";
@@ -126,7 +128,7 @@ public class ShotGun extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 4;                                                                  //if you make something different guns, you should change this
+            max_round = 4;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             }
@@ -135,7 +137,7 @@ public class ShotGun extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 4;                                                                      //if you make something different guns, you should change this
+        max_round = 4;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -152,7 +154,7 @@ public class ShotGun extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 4;                                                                      //if you make something different guns, you should change this
+        max_round = 4;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -162,31 +164,32 @@ public class ShotGun extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return tier +                                                                      //if you make something different guns, you should change this
-                lvl;                                                                        //if you make something different guns, you should change this
+        return tier +
+                lvl;
     }
 
     public int max(int lvl) {
-        return 2 * (tier) +                                                            //if you make something different guns, you should change this
-                lvl * (tier);                                                           //if you make something different guns, you should change this
+        return 2 * (tier) +
+                lvl * (tier);
     }
 
     public int Bulletmin(int lvl) {
-        return 1 +                                                                  //if you make something different guns, you should change this
+        return 1 +
+               lvl +
                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return (tier)   +                                                           //if you make something different guns, you should change this
-               lvl      +                                                           //if you make something different guns, you should change this
+        return (tier)   +
+               lvl * (tier - 1)+
                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public String info() {
 
-        max_round = 4;                                                                       //if you make something different guns, you should change this
-        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);         //if you make something different guns, you should change this;
+        max_round = 4;
+        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
 
         String info = desc();
 
@@ -315,8 +318,8 @@ public class ShotGun extends MeleeWeapon {
         }
 
         @Override
-        protected void onThrow( int cell ) {
-            for (int i=1; i<=10; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+        protected void onThrow( int cell) {
+            for (int i=1; i<=5; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                 Char enemy = Actor.findChar(cell);
                 if (enemy == null || enemy == curUser) {
                     parent = null;
@@ -326,6 +329,9 @@ public class ShotGun extends MeleeWeapon {
                     if (!curUser.shoot(enemy, this)) {
                         CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                         CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                    }
+                    if (Random.Int(19) == 0){
+                        Buff.affect(enemy, Cripple.class, 2f);
                     }
                 }
             }
