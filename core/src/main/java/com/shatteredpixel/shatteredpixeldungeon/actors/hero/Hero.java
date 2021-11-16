@@ -458,7 +458,7 @@ public class Hero extends Char {
 				}
 				else if (wep instanceof HuntingRifle.Bullet
 						|| wep instanceof SniperRifle.Bullet) {
-						accuracy *= 2f;
+						accuracy *= 3f;
 				} else if (wep instanceof CrudePistol.Bullet
 					|| wep instanceof Pistol.Bullet
 					|| wep instanceof GoldenPistol.Bullet
