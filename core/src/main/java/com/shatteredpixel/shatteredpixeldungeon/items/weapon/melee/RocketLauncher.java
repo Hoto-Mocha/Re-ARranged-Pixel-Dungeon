@@ -64,11 +64,11 @@ public class RocketLauncher extends MeleeWeapon {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.ROCKET_LAUNCHER;                                  //if you make something different guns, you should change this
+        image = ItemSpriteSheet.ROCKET_LAUNCHER;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 5;                                                               //if you make something different guns, you should change this
+        tier = 5;
     }
 
     private static final String ROUND = "round";
@@ -128,7 +128,7 @@ public class RocketLauncher extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 1;                                                                  //if you make something different guns, you should change this
+            max_round = 1;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             }
@@ -137,7 +137,7 @@ public class RocketLauncher extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 1;                                                                      //if you make something different guns, you should change this
+        max_round = 1;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -154,7 +154,7 @@ public class RocketLauncher extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 1;                                                                      //if you make something different guns, you should change this
+        max_round = 1;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -164,32 +164,32 @@ public class RocketLauncher extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return tier +                                                                      //if you make something different guns, you should change this
-                lvl;                                                                        //if you make something different guns, you should change this
+        return tier +
+                lvl;
     }
 
     public int max(int lvl) {
-        return 3 * (tier + 1) +                                                            //if you make something different guns, you should change this
-                lvl;                                                           //if you make something different guns, you should change this
+        return 3 * (tier + 1) +
+                lvl;
     }
 
     public int Bulletmin(int lvl) {
-        return (tier+2) +                                                                  //if you make something different guns, you should change this
-                lvl      +                                                                  //if you make something different guns, you should change this
+        return (tier+2) +
+                lvl      +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 6 * (tier+2)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier+2) +                                                           //if you make something different guns, you should change this
+        return 6 * (tier+2)   +
+                lvl * (tier+2) +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public String info() {
 
-        max_round = 1;                                                                       //if you make something different guns, you should change this
-        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);         //if you make something different guns, you should change this;
+        max_round = 1;
+        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
 
         String info = desc();
 
