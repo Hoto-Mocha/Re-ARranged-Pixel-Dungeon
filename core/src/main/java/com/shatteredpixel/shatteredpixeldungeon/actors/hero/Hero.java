@@ -508,6 +508,10 @@ public class Hero extends Char {
 			evasion = belongings.armor().evasionFactor(this, evasion);
 		}
 
+		if (belongings.artifact() instanceof CapeOfThorns && belongings.artifact().cursed) {
+			evasion /= 2;
+		}
+
 		return Math.round(evasion);
 	}
 
