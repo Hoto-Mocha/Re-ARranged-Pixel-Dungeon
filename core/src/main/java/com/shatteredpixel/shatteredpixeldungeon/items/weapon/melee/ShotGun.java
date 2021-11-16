@@ -180,8 +180,8 @@ public class ShotGun extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return (tier)   +
-               lvl * (tier - 1)+
+        return (tier + 2)   +
+               lvl+
                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 

@@ -444,7 +444,7 @@ public class Hero extends Char {
 		if (wep instanceof MissileWeapon){
 			if (Dungeon.level.adjacent( pos, target.pos )) {
 				if (wep instanceof ShotGun.Bullet) {
-					accuracy *= (1.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
+					accuracy *= (2.0f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				} else if (wep instanceof HuntingRifle.Bullet
 						|| wep instanceof SniperRifle.Bullet){
 					accuracy *= 0;
