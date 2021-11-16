@@ -179,8 +179,8 @@ public class HuntingRifle extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 8 * (tier+2)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier+2) +                                                           //if you make something different guns, you should change this
+        return 8 * (tier+3)   +                                                           //if you make something different guns, you should change this
+                lvl * (tier+3) +                                                           //if you make something different guns, you should change this
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
