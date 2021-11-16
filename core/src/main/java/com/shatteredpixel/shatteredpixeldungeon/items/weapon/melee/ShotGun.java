@@ -128,7 +128,7 @@ public class ShotGun extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 4;
+            max_round = 1;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             }
@@ -137,7 +137,7 @@ public class ShotGun extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 4;
+        max_round = 1;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -154,7 +154,7 @@ public class ShotGun extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 4;
+        max_round = 1;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -188,8 +188,8 @@ public class ShotGun extends MeleeWeapon {
     @Override
     public String info() {
 
-        max_round = 4;
-        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        max_round = 1;
+        reload_time = 1f * RingOfReload.reloadMultiplier(Dungeon.hero);
 
         String info = desc();
 
