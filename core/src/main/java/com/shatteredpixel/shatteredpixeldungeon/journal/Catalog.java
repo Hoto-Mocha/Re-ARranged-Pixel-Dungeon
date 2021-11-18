@@ -115,10 +115,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
@@ -217,7 +219,10 @@ public enum Catalog {
 		WEAPONS.seen.put( HeavyMachinegun.class,            false);
 
 		WEAPONS.seen.put( ShotGun.class,                    false);
-		WEAPONS.seen.put( RocketLauncher.class,             false);      //TODO:비활성화 필요
+		WEAPONS.seen.put( RocketLauncher.class,             false);
+
+		WEAPONS.seen.put( ObsidianShield.class,             false);
+		WEAPONS.seen.put( LanceNShield.class,               false);    //TODO:비활성화 필요
 	
 		ARMOR.seen.put( ClothArmor.class,                   false);
 		ARMOR.seen.put( LeatherArmor.class,                 false);
