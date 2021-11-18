@@ -287,16 +287,16 @@ public class ItemSpriteSheet {
 
 	private static final int WEP_TIER6      =                               xy(9, 9);   //8 slots
 	public static final int LANCE           = WEP_TIER6+0;
-	public static final int TIER6_2			= WEP_TIER6+1;
-	public static final int TIER6_3         = WEP_TIER6+2;
-	public static final int TIER6_4         = WEP_TIER6+3;
+	public static final int OBSIDIAN_SHIELD	= WEP_TIER6+1;
+	public static final int LANCE_N_SHIELD  = WEP_TIER6+2;
+	public static final int FROSTSWORD      = WEP_TIER6+3;
 	public static final int TIER6_5         = WEP_TIER6+4;
 	public static final int TIER6_6         = WEP_TIER6+5;
 	static{
 		assignItemRect(LANCE,             15, 15);
-		assignItemRect(TIER6_2,           16, 16);
-		assignItemRect(TIER6_3,           16, 16);
-		assignItemRect(TIER6_4,           16, 16);
+		assignItemRect(OBSIDIAN_SHIELD,   12, 16);
+		assignItemRect(LANCE_N_SHIELD,    16, 15);
+		assignItemRect(FROSTSWORD,        15, 15);
 		assignItemRect(TIER6_5,           16, 16);
 		assignItemRect(TIER6_6,           16, 16);
 	}
