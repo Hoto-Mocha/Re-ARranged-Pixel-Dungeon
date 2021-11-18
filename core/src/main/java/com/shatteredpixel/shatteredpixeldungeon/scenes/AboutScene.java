@@ -63,6 +63,15 @@ public class AboutScene extends PixelScene {
 		Component content = list.content();
 		content.clear();
 
+		CreditsBlock arranged = new CreditsBlock(true, Window.WHITE,
+				"ARranged Pixel Dungeon",
+				Icons.ARRANGED.get(),
+				"Developed by: _Hoto-Mocha_\nBased on Shattered Pixel Dungeon's open source",
+				"github repository",
+				"https://github.com/Hoto-Mocha/shattered-pixel-dungeon-modding");
+		arranged.setRect((w - fullWidth)/2f, 6, 120, 0);
+		content.add(arranged);
+
 		//*** Shattered Pixel Dungeon Credits ***
 
 		String shpxLink = "https://ShatteredPixel.com";
@@ -78,12 +87,11 @@ public class AboutScene extends PixelScene {
 				"ShatteredPixel.com",
 				shpxLink);
 		if (landscape()){
-			shpx.setRect((w - fullWidth)/2f - 6, 10, 120, 0);
+			shpx.setRect(arranged.left(), arranged.bottom() + 12, colWidth, 0);
 		} else {
-			shpx.setRect((w - fullWidth)/2f, 6, 120, 0);
+			shpx.setRect(arranged.left(), arranged.bottom() + 12, colWidth, 0);
 		}
 		content.add(shpx);
-
 		CreditsBlock alex = new CreditsBlock(false, Window.SHPX_COLOR,
 				"Hero Art & Design:",
 				Icons.ALEKS.get(),
@@ -115,6 +123,8 @@ public class AboutScene extends PixelScene {
 				"https://www.youtube.com/channel/UCL1e7SgzSWbD_DQxB_5YcLA");
 		kristjan.setRect(alex.right() - colWidth/4f, alex.bottom() + 5, colWidth/2f, 0);
 		content.add(kristjan);
+
+		addLine(shpx.top() - 8, content);
 
 		//*** Pixel Dungeon Credits ***
 
