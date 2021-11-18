@@ -23,7 +23,6 @@ package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
 import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
@@ -122,15 +121,12 @@ public class SupporterScene extends PixelScene {
 
 			String message = Messages.get(SupporterScene.class, "intro");
 			message += "\n\n" + Messages.get(SupporterScene.class, "patreon_msg");
-			if (Messages.lang() != Languages.ENGLISH) {
-				message += "\n" + Messages.get(SupporterScene.class, "patreon_english");
-			}
-			message += "\n\n- Evan";
+			message += "\n\n- Hoto-Mocha";
 
 			text = PixelScene.renderTextBlock(message, 6);
 			add(text);
 
-			icon = Icons.get(Icons.SHPX);
+			icon = Icons.get(Icons.ARRANGED);
 			add(icon);
 
 		}
@@ -144,7 +140,7 @@ public class SupporterScene extends PixelScene {
 			text.setPos(x + bg.marginLeft(), y + bg.marginTop() + 1);
 
 			icon.y = text.bottom() - icon.height() + 4;
-			icon.x = x + 25;
+			icon.x = x + 42;
 
 			height = (text.bottom() + 3) - y;
 
