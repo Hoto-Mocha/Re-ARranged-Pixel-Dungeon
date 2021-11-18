@@ -85,7 +85,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFear;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfBlast;
@@ -94,6 +93,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfClairvoyance
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfDeepSleep;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfDisarming;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFear;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFlock;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfShock;
@@ -131,6 +131,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -149,6 +151,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -384,7 +387,7 @@ public class Generator {
 					Handgun.class,
 					AssultRifle.class
 			};
-			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 };
+			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3};
 			
 			WEP_T5.classes = new Class<?>[]{
 					Greatsword.class,
@@ -396,9 +399,13 @@ public class Generator {
 					Magnum.class,
 					HeavyMachinegun.class,
 					SniperRifle.class,
-					RocketLauncher.class
+					RocketLauncher.class,
+
+					Lance.class,
+					LanceNShield.class,
+					TrueRunicBlade.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 ,3, 1};
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 ,3, 1, 0, 0, 0};
 			
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
