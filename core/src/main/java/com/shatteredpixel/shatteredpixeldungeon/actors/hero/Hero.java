@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
@@ -118,6 +119,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
@@ -495,6 +497,10 @@ public class Hero extends Char {
 			}
 			return INFINITE_EVASION;
 		}
+
+		if (buff(GuardBuff.class) != null){
+			return 0;
+		}
 		
 		float evasion = defenseSkill;
 		
@@ -522,12 +528,13 @@ public class Hero extends Char {
 			return super.defenseVerb();
 		} else {
 			parry.parried = true;
-			if (buff(Combo.class).getComboCount() < 9 || pointsInTalent(Talent.ENHANCED_COMBO) < 2){
+			if (buff(Combo.class).getComboCount() < 9 || pointsInTalent(Talent.ENHANCED_COMBO) < 2) {
 				parry.detach();
 			}
 			return Messages.get(Monk.class, "parried");
 		}
 	}
+
 
 	@Override
 	public int drRoll() {
@@ -550,6 +557,10 @@ public class Hero extends Char {
 
 		if (buff(HoldFast.class) != null){
 			dr += Random.NormalIntRange(0, 2*pointsInTalent(Talent.HOLD_FAST));
+		}
+
+		if (buff(GuardBuff.class) != null){
+			dr += Random.NormalIntRange(hero.belongings.weapon.buffedLvl(), hero.belongings.weapon.buffedLvl()*4);
 		}
 		
 		return dr;
@@ -1256,6 +1267,10 @@ public class Hero extends Char {
 		if (belongings.armor() != null && belongings.armor().hasGlyph(AntiMagic.class, this)
 				&& AntiMagic.RESISTS.contains(src.getClass())){
 			dmg -= AntiMagic.drRoll(belongings.armor().buffedLvl());
+		}
+
+		if (belongings.weapon() instanceof ObsidianShield && ObsidianShield.RESISTS.contains(src.getClass())) {
+			dmg -= ObsidianShield.drRoll(belongings.weapon().buffedLvl());
 		}
 
 		if (buff(Talent.WarriorFoodImmunity.class) != null){
