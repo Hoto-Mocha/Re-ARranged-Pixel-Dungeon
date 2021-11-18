@@ -83,6 +83,7 @@ public enum Icons {
 	//credits icons:
 	//16x16
 	ALEKS,
+	ARRANGED,
 	//32x32
 	CHARLIE,
 	KRISTJAN,
@@ -230,6 +231,10 @@ public enum Icons {
 		case ALEKS:
 			icon.frame( icon.texture.uvRect( 48, 80, 64, 96 ) );
 			break;
+		case ARRANGED:
+			icon.frame( icon.texture.uvRect( 64, 80, 79, 96 ) );
+			break;
+
 		//32*32 icons are scaled down to match game's size
 		case CHARLIE:
 			icon.frame( icon.texture.uvRect( 0, 96, 32, 128 ) );
