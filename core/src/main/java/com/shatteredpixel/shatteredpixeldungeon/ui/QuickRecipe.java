@@ -66,6 +66,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -391,6 +393,11 @@ public class QuickRecipe extends Component {
 				result.add(null);
 				result.add(null);
 				result.add(new QuickRecipe(new Lance.Recipe()));
+				result.add(null);
+				result.add(null);
+				result.add(new QuickRecipe(new ObsidianShield.Recipe()));
+				result.add(null);
+				result.add(new QuickRecipe(new LanceNShield.Recipe()));
 				return result;
 		}
 	}

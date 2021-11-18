@@ -55,10 +55,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.watabou.utils.Reflection;
 
@@ -216,7 +215,8 @@ public abstract class Recipe {
 		new StewedMeat.threeMeat(),
 		new MeatPie.Recipe(),
 		new TrueRunicBlade.Recipe(),
-		new Lance.Recipe()
+		new Lance.Recipe(),
+		new ObsidianShield.Recipe()
 	};
 	
 	public static Recipe findRecipe(ArrayList<Item> ingredients){
