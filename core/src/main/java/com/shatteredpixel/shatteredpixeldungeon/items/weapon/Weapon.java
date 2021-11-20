@@ -193,7 +193,6 @@ abstract public class Weapon extends KindOfWeapon {
 				delay *= Math.pow( 1.2, encumbrance );
 			}
 		}
-
 		return delay;
 	}
 
