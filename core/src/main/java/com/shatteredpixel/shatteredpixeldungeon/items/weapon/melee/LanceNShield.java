@@ -82,7 +82,7 @@ public class LanceNShield extends MeleeWeapon {
             inputs =  new Class[]{Lance.class, ObsidianShield.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 40;
+            cost = 30;
 
             output = LanceNShield.class;
             outQuantity = 1;

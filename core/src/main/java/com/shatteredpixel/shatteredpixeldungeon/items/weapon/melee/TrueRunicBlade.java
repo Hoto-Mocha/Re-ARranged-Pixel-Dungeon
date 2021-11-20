@@ -69,7 +69,7 @@ public class TrueRunicBlade extends MeleeWeapon {
             inputs =  new Class[]{RunicBlade.class, ArcaneResin.class, ArcaneCatalyst.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 20;
+            cost = 10;
 
             output = TrueRunicBlade.class;
             outQuantity = 1;

@@ -73,7 +73,7 @@ public class ObsidianShield extends MeleeWeapon {
             inputs =  new Class[]{Greatshield.class, AssassinsBlade.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 30;
+            cost = 20;
 
             output = ObsidianShield.class;
             outQuantity = 1;
