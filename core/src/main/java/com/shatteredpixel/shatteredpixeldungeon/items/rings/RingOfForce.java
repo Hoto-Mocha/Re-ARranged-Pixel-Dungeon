@@ -24,6 +24,8 @@ package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
@@ -62,7 +64,11 @@ public class RingOfForce extends Ring {
 			return Random.NormalIntRange(min(level, tier), max(level, tier));
 		} else {
 			//attack without any ring of force influence
-			return Random.NormalIntRange(1, Math.max(hero.STR()-8, 1));
+			if (Dungeon.hero.subClass == HeroSubClass.FIGHTER) {
+				return Random.NormalIntRange((1 + 3 * hero.pointsInTalent(Talent.SKILLS_PRACTICE)), (hero.STR()-8 + hero.lvl + 3 * hero.pointsInTalent(Talent.SKILLS_PRACTICE)));
+			} else {
+				return Random.NormalIntRange(1, Math.max(hero.STR()-8, 1));
+			}
 		}
 	}
 
