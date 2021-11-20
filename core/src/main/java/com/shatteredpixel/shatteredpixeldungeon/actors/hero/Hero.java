@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Alchemy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability;
@@ -43,14 +44,16 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GuardBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
@@ -1194,6 +1197,21 @@ public class Hero extends Char {
 			}
 			if (Dungeon.hero.subClass == HeroSubClass.CHASER && restCount >= (maxrestCount - 2 * hero.pointsInTalent(Talent.CAREFUL_PREPARATION))) {
 				Buff.affect(Dungeon.hero, Invisibility.class, 1f);
+				if (hero.pointsInTalent(Talent.LIGHT_STEPS) >= 1) {
+					if (Random.Int(9) == 0) {
+						Buff.affect(Dungeon.hero, Haste.class, 2f);
+					}
+				}
+				if (hero.pointsInTalent(Talent.LIGHT_STEPS) >= 2) {
+					if (Random.Int(9) == 0) {
+						Buff.affect(Dungeon.hero, Adrenaline.class, 2f);
+					}
+				}
+				if (hero.pointsInTalent(Talent.LIGHT_STEPS) == 3) {
+					if (Random.Int(19) == 0) {
+						Buff.affect(Dungeon.hero, MagicalSight.class, 1f);
+					}
+				}
 			}
 		}
 		resting = fullRest;
