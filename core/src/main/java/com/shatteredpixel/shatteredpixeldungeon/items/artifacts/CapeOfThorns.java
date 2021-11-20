@@ -63,12 +63,16 @@ public class CapeOfThorns extends Artifact {
 	@Override
 	public String desc() {
 		String desc = Messages.get(this, "desc");
-		if (isEquipped( Dungeon.hero )) {
+		if (isEquipped(Dungeon.hero)) {
 			desc += "\n\n";
-			if (cooldown == 0)
+			if (cursed) {
+				desc += Messages.get(this, "desc_cursed");
+			} else if (cooldown == 0) {
 				desc += Messages.get(this, "desc_inactive");
-			else
+			} else {
 				desc += Messages.get(this, "desc_active");
+			}
+
 		}
 
 		return desc;
@@ -90,34 +94,38 @@ public class CapeOfThorns extends Artifact {
 		}
 
 		public int proc(int damage, Char attacker, Char defender){
-			if (cooldown == 0){
-				charge += damage*(1+level()*0.05);
-				if (charge >= chargeCap){
-					charge = 0;
-					cooldown = 10+level();
-					GLog.p( Messages.get(this, "radiating") );
+			if (!cursed) {
+				if (cooldown == 0){
+					charge += damage*(1+level()*0.05);
+					if (charge >= chargeCap){
+						charge = 0;
+						cooldown = 10+level();
+						GLog.p( Messages.get(this, "radiating") );
+					}
 				}
+
+				if (cooldown != 0){
+					int deflected = Random.NormalIntRange(damage/10 * level(), damage);
+					damage -= deflected;
+
+					if (attacker != null && Dungeon.level.adjacent(attacker.pos, defender.pos)) {
+						attacker.damage(deflected, this);
+					}
+
+					exp+= deflected;
+
+					if (exp >= (level()+1)*10 && level() < levelCap){
+						exp -= (level()+1)*10;
+						upgrade();
+						GLog.p( Messages.get(this, "levelup") );
+					}
+
+				}
+				updateQuickslot();
+				return damage;
+			} else {
+				return damage;
 			}
-
-			if (cooldown != 0){
-				int deflected = Random.NormalIntRange(damage/10 * level(), damage);
-				damage -= deflected;
-
-				if (attacker != null && Dungeon.level.adjacent(attacker.pos, defender.pos)) {
-					attacker.damage(deflected, this);
-				}
-
-				exp+= deflected;
-
-				if (exp >= (level()+1)*10 && level() < levelCap){
-					exp -= (level()+1)*10;
-					upgrade();
-					GLog.p( Messages.get(this, "levelup") );
-				}
-
-			}
-			updateQuickslot();
-			return damage;
 		}
 
 		@Override
@@ -127,13 +135,7 @@ public class CapeOfThorns extends Artifact {
 
 		@Override
 		public String desc() {
-			String desc = super.desc();
-
-			if (isEquipped( Dungeon.hero )){
-				desc += "\n\n";
-				desc += Messages.get(this, "desc_equipped");
-			}
-			return desc;
+			return Messages.get(this, "desc", dispTurns(cooldown));
 		}
 
 		@Override
@@ -152,4 +154,6 @@ public class CapeOfThorns extends Artifact {
 		}
 
 	}
+
+
 }
