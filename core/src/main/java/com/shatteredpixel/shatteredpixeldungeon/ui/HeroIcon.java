@@ -19,12 +19,13 @@ public class HeroIcon extends Image {
 	public static final int BERSERKER   = 0;
 	public static final int GLADIATOR   = 1;
 	public static final int VETERAN     = 21;
+
 	public static final int BATTLEMAGE  = 2;
 	public static final int WARLOCK     = 3;
 	//public static final int
 	public static final int ASSASSIN    = 4;
 	public static final int FREERUNNER  = 5;
-	//public static final int
+	public static final int CHASER      = 22;
 	public static final int SNIPER      = 6;
 	public static final int WARDEN      = 7;
 	//public static final int
