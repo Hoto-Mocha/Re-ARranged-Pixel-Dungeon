@@ -49,6 +49,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -60,6 +61,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
@@ -1914,6 +1917,27 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon instanceof RocketLauncher
 			){
 				Buff.affect( this, Focusing.class ).hit( enemy );
+			}
+		}
+
+		if (hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER) {
+			if (hero.pointsInTalent(Talent.VITAL_ATTACK) >= 1 && Random.Int(4) == 0){
+				Buff.affect( enemy, Weakness.class, 3f );
+			}
+			if (hero.pointsInTalent(Talent.VITAL_ATTACK) >= 2 && Random.Int(4) == 0){
+				Buff.affect( enemy, Vulnerable.class, 3f );
+			}
+			if (hero.pointsInTalent(Talent.VITAL_ATTACK) == 3 && Random.Int(9) == 0){
+				Buff.affect( enemy, Paralysis.class, 3f );
+			}
+			if (hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(9) == 0){
+				Buff.affect( this, Adrenaline.class, 3f );
+			}
+			if (hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(9) == 0){
+				Buff.affect( this, Bless.class, 3f );
+			}
+			if (hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(9) == 0){
+				Buff.affect(this, Healing.class).setHeal((int) (3), 0, 1);
 			}
 		}
 
