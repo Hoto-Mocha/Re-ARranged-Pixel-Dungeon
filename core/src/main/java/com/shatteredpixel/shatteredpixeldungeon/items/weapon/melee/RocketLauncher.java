@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -284,15 +285,23 @@ public class RocketLauncher extends MeleeWeapon {
 
         @Override
         public int damageRoll(Char owner) {
-            Focusing focusing = new Focusing();
-            int bulletdamage;
+            Hero hero = (Hero)owner;
+            Char enemy = hero.enemy();
+            int bulletdamage = Random.NormalIntRange(Bulletmin(RocketLauncher.this.buffedLvl()),
+                    Bulletmax(RocketLauncher.this.buffedLvl()));
+
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
-                bulletdamage = Math.round(Random.NormalIntRange(Bulletmin(RocketLauncher.this.buffedLvl()), Bulletmax(RocketLauncher.this.buffedLvl())) * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
-            } else {
-                bulletdamage = Random.NormalIntRange(Bulletmin(RocketLauncher.this.buffedLvl()), Bulletmax(RocketLauncher.this.buffedLvl()));
+                bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
             }
+
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage += Math.round(bulletdamage * 0.05f * (focusing.getFocusTime()));
+                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+            }
+
+            if (Dungeon.hero.hasTalent(Talent.PERFECT_SURPRISE) && enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
+                bulletdamage = Random.NormalIntRange(
+                        Math.round(Bulletmax(RocketLauncher.this.buffedLvl()) * Dungeon.hero.pointsInTalent(Talent.PERFECT_SURPRISE) / 6f ),
+                        Bulletmax(RocketLauncher.this.buffedLvl()));
             }
             return bulletdamage;
         }
