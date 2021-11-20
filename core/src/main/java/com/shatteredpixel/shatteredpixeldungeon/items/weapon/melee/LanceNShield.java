@@ -42,8 +42,8 @@ public class LanceNShield extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        return  3*(tier-3) +    //base
-                lvl*(tier-3);   //level scaling
+        return  3*(tier+1) +     //28 base, down from 40
+                lvl*(tier-2);    //+4 per level, down from +8
     }
 
     @Override
