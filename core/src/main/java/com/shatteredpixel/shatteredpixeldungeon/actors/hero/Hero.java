@@ -179,7 +179,10 @@ public class Hero extends Char {
 	private static final float TIME_TO_REST		    = 1f;
 	private static final float TIME_TO_SEARCH	    = 2f;
 	private static final float HUNGER_FOR_SEARCH	= 6f;
-	
+
+	public int restCount = 0;
+	public int maxrestCount = 10;
+
 	public HeroClass heroClass = HeroClass.ROGUE;
 	public HeroSubClass subClass = HeroSubClass.NONE;
 	public ArmorAbility armorAbility = null;
@@ -269,6 +272,9 @@ public class Hero extends Char {
 	private static final String LEVEL		= "lvl";
 	private static final String EXPERIENCE	= "exp";
 	private static final String HTBOOST     = "htboost";
+
+	private static final String RESTCOUNT	= "restcount";
+	private static final String MAXRESTCOUNT= "maxrestcount";
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -289,6 +295,9 @@ public class Hero extends Char {
 		bundle.put( EXPERIENCE, exp );
 		
 		bundle.put( HTBOOST, HTBoost );
+
+		bundle.put( RESTCOUNT, restCount );
+		bundle.put( MAXRESTCOUNT, maxrestCount );
 
 		belongings.storeInBundle( bundle );
 	}
@@ -312,6 +321,9 @@ public class Hero extends Char {
 		defenseSkill = bundle.getInt( DEFENSE );
 		
 		STR = bundle.getInt( STRENGTH );
+
+		restCount = bundle.getInt(RESTCOUNT);
+		maxrestCount = bundle.getInt(MAXRESTCOUNT);
 
 		belongings.restoreFromBundle( bundle );
 	}
@@ -763,6 +775,10 @@ public class Hero extends Char {
 			} else {
 				actResult = false;
 			}
+
+			if (Dungeon.hero.subClass == HeroSubClass.CHASER){
+				Dungeon.hero.setRestCount(0);
+			}
 		}
 		
 		if(hasTalent(Talent.BARKSKIN) && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS){
@@ -1158,15 +1174,26 @@ public class Hero extends Char {
 	public Char enemy(){
 		return enemy;
 	}
-	
+
+	public void setRestCount(int restCount) {
+		this.restCount = restCount;
+	}
+
 	public void rest( boolean fullRest ) {
 		spendAndNext( TIME_TO_REST );
+
 		if (!fullRest) {
 			if (hasTalent(Talent.HOLD_FAST)){
 				Buff.affect(this, HoldFast.class);
 			}
 			if (sprite != null) {
 				sprite.showStatus(CharSprite.DEFAULT, Messages.get(this, "wait"));
+			}
+			if (Dungeon.hero.subClass == HeroSubClass.CHASER && restCount < (maxrestCount - 2 * hero.pointsInTalent(Talent.CAREFUL_PREPARATION))) {
+				restCount++;
+			}
+			if (Dungeon.hero.subClass == HeroSubClass.CHASER && restCount >= (maxrestCount - 2 * hero.pointsInTalent(Talent.CAREFUL_PREPARATION))) {
+				Buff.affect(Dungeon.hero, Invisibility.class, 1f);
 			}
 		}
 		resting = fullRest;
@@ -1444,6 +1471,9 @@ public class Hero extends Char {
 
 			if (subClass == HeroSubClass.FREERUNNER){
 				Buff.affect(this, Momentum.class).gainStack();
+			}
+			if (Dungeon.hero.subClass == HeroSubClass.CHASER){
+				Dungeon.hero.setRestCount(0);
 			}
 
 			float speed = speed();

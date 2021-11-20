@@ -22,7 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
@@ -59,6 +61,9 @@ public class MerchantsBeacon extends Item {
 			detach( hero.belongings.backpack );
 			Shopkeeper.sell();
 			Sample.INSTANCE.play( Assets.Sounds.BEACON );
+			if (Dungeon.hero.subClass == HeroSubClass.CHASER){
+				Dungeon.hero.setRestCount(0);
+			}
 		}
 
 	}
