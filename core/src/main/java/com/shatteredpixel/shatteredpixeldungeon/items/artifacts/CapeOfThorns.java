@@ -90,38 +90,34 @@ public class CapeOfThorns extends Artifact {
 		}
 
 		public int proc(int damage, Char attacker, Char defender){
-			if (!cursed) {
-				if (cooldown == 0){
-					charge += damage*(1+level()*0.05);
-					if (charge >= chargeCap){
-						charge = 0;
-						cooldown = 10+level();
-						GLog.p( Messages.get(this, "radiating") );
-					}
+			if (cooldown == 0){
+				charge += damage*(1+level()*0.05);
+				if (charge >= chargeCap){
+					charge = 0;
+					cooldown = 10+level();
+					GLog.p( Messages.get(this, "radiating") );
 				}
-
-				if (cooldown != 0){
-					int deflected = Random.NormalIntRange(damage/10 * level(), damage);
-					damage -= deflected;
-
-					if (attacker != null && Dungeon.level.adjacent(attacker.pos, defender.pos)) {
-						attacker.damage(deflected, this);
-					}
-
-					exp+= deflected;
-
-					if (exp >= (level()+1)*10 && level() < levelCap){
-						exp -= (level()+1)*10;
-						upgrade();
-						GLog.p( Messages.get(this, "levelup") );
-					}
-
-				}
-				updateQuickslot();
-				return damage;
-			} else {
-				return damage;
 			}
+
+			if (cooldown != 0){
+				int deflected = Random.NormalIntRange(damage/10 * level(), damage);
+				damage -= deflected;
+
+				if (attacker != null && Dungeon.level.adjacent(attacker.pos, defender.pos)) {
+					attacker.damage(deflected, this);
+				}
+
+				exp+= deflected;
+
+				if (exp >= (level()+1)*10 && level() < levelCap){
+					exp -= (level()+1)*10;
+					upgrade();
+					GLog.p( Messages.get(this, "levelup") );
+				}
+
+			}
+			updateQuickslot();
+			return damage;
 		}
 
 		@Override
@@ -135,10 +131,7 @@ public class CapeOfThorns extends Artifact {
 
 			if (isEquipped( Dungeon.hero )){
 				desc += "\n\n";
-				if (cursed)
-					desc += Messages.get(this, "desc_cursed");
-				else
-					desc += Messages.get(this, "desc_equipped");
+				desc += Messages.get(this, "desc_equipped");
 			}
 			return desc;
 		}
@@ -159,6 +152,4 @@ public class CapeOfThorns extends Artifact {
 		}
 
 	}
-
-
 }
