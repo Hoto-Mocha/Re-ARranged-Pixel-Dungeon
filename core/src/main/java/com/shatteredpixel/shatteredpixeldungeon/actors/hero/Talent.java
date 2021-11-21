@@ -52,6 +52,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -63,6 +64,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
@@ -155,7 +157,10 @@ public enum Talent {
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
-	RATSISTANCE(124, 4), RATLOMACY(125, 4), RATFORCEMENTS(126, 4);
+	RATSISTANCE(124, 4), RATLOMACY(125, 4), RATFORCEMENTS(126, 4),
+
+	//universal T3
+	BETTER_CHOICE(123, 3);
 
 	public static class ImprovisedProjectileCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
@@ -277,6 +282,33 @@ public enum Talent {
 
 		if (talent == HEIGHTENED_SENSES || talent == FARSIGHT){
 			Dungeon.observe();
+		}
+
+		if (talent == BETTER_CHOICE && hero.pointsInTalent(BETTER_CHOICE) == 1){
+			ScrollOfUpgrade scl = new ScrollOfUpgrade();
+			if (scl.doPickUp( Dungeon.hero )) {
+				GLog.i( Messages.get(Dungeon.hero, "you_now_have", scl.name() ));
+			} else {
+				Dungeon.level.drop( scl, Dungeon.hero.pos ).sprite.drop();
+			}
+		}
+
+		if (talent == BETTER_CHOICE && hero.pointsInTalent(BETTER_CHOICE) == 2){
+			ScrollOfUpgrade scl = new ScrollOfUpgrade();
+			if (scl.doPickUp( Dungeon.hero )) {
+				GLog.i( Messages.get(Dungeon.hero, "you_now_have", scl.name() ));
+			} else {
+				Dungeon.level.drop( scl, Dungeon.hero.pos ).sprite.drop();
+			}
+		}
+
+		if (talent == BETTER_CHOICE && hero.pointsInTalent(BETTER_CHOICE) == 3){
+			ScrollOfUpgrade scl = new ScrollOfUpgrade();
+			if (scl.doPickUp( Dungeon.hero )) {
+				GLog.i( Messages.get(Dungeon.hero, "you_now_have", scl.name() ));
+			} else {
+				Dungeon.level.drop( scl, Dungeon.hero.pos ).sprite.drop();
+			}
 		}
 	}
 
@@ -533,16 +565,16 @@ public enum Talent {
 		//tier 3
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN);
+				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN, BETTER_CHOICE);
 				break;
 			case MAGE:
-				Collections.addAll(tierTalents, EMPOWERING_SCROLLS, ALLY_WARP);
+				Collections.addAll(tierTalents, EMPOWERING_SCROLLS, ALLY_WARP, BETTER_CHOICE);
 				break;
 			case ROGUE:
-				Collections.addAll(tierTalents, ENHANCED_RINGS, LIGHT_CLOAK);
+				Collections.addAll(tierTalents, ENHANCED_RINGS, LIGHT_CLOAK, BETTER_CHOICE);
 				break;
 			case HUNTRESS:
-				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);
+				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT, BETTER_CHOICE);
 				break;
 		}
 		for (Talent talent : tierTalents){
