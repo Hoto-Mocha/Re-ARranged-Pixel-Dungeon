@@ -133,6 +133,12 @@ public class GoldenPistol extends MeleeWeapon {
         }
     }
 
+    public void quickReload() {
+        max_round = 4;
+        round = Math.max(max_round, round);
+        updateQuickslot();
+    }
+
     public void reload() {
         max_round = 4;
         curUser.spend(reload_time);
@@ -348,7 +354,7 @@ public class GoldenPistol extends MeleeWeapon {
                     CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
                 }
             }
-            if (hero.buff(InfiniteBullet.class) != null) {
+            if (Dungeon.hero.buff(InfiniteBullet.class) != null) {
                 //round preserves
             } else {
                 round --;

@@ -138,6 +138,12 @@ public class ShotGun extends MeleeWeapon {
         }
     }
 
+    public void quickReload() {
+        max_round = 1;
+        round = Math.max(max_round, round);
+        updateQuickslot();
+    }
+
     public void reload() {
         max_round = 1;
         curUser.spend(reload_time);

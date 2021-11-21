@@ -137,6 +137,12 @@ public class SubMachinegun extends MeleeWeapon {
         }
     }
 
+    public void quickReload() {
+        max_round = 9;
+        round = Math.max(max_round, round);
+        updateQuickslot();
+    }
+
     public void reload() {
         max_round = 9;                                                                      //if you make something different guns, you should change this
         curUser.spend(reload_time);

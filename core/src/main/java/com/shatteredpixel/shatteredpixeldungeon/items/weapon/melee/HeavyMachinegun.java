@@ -138,6 +138,12 @@ public class HeavyMachinegun extends MeleeWeapon {
         }
     }
 
+    public void quickReload() {
+        max_round = 15;
+        round = Math.max(max_round, round);
+        updateQuickslot();
+    }
+
     public void reload() {
         max_round = 15;                                                                      //if you make something different guns, you should change this
         curUser.spend(reload_time);
