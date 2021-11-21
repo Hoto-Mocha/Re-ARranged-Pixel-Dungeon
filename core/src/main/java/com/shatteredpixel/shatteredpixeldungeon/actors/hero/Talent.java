@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
@@ -107,6 +105,8 @@ public enum Talent {
 	EMPOWERED_STRIKE(43, 3), MYSTICAL_CHARGE(44, 3), EXCESS_CHARGE(45, 3),
 	//Warlock T3
 	SOUL_EATER(46, 3), SOUL_SIPHON(47, 3), NECROMANCERS_MINIONS(48, 3),
+	//engineer T3
+	MAGIC_BULLET(137, 3), MAGICAL_ENGINEERING(138, 3), GAS_MASK(139, 3),
 	//Elemental Blast T4
 	BLAST_RADIUS(49, 4), ELEMENTAL_POWER(50, 4), REACTIVE_BARRIER(51, 4),
 	//Wild Magic T4
@@ -583,6 +583,9 @@ public enum Talent {
 				break;
 			case WARLOCK:
 				Collections.addAll(tierTalents, SOUL_EATER, SOUL_SIPHON, NECROMANCERS_MINIONS);
+				break;
+			case ENGINEER:
+				Collections.addAll(tierTalents, MAGIC_BULLET, MAGICAL_ENGINEERING, GAS_MASK);
 				break;
 			case ASSASSIN:
 				Collections.addAll(tierTalents, ENHANCED_LETHALITY, ASSASSINS_REACH, BOUNTY_HUNTER);
