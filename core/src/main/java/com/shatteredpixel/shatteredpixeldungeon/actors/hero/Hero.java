@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
@@ -58,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
@@ -1930,14 +1932,43 @@ public class Hero extends Char {
 			if (hero.pointsInTalent(Talent.VITAL_ATTACK) == 3 && Random.Int(9) == 0){
 				Buff.affect( enemy, Paralysis.class, 3f );
 			}
-			if (hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(9) == 0){
+			if (hero.pointsInTalent(Talent.MIND_PRACTICE) >= 1 && Random.Int(9) == 0){
 				Buff.affect( this, Adrenaline.class, 3f );
 			}
-			if (hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(9) == 0){
+			if (hero.pointsInTalent(Talent.MIND_PRACTICE) >= 2 && Random.Int(9) == 0){
 				Buff.affect( this, Bless.class, 3f );
 			}
 			if (hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(9) == 0){
 				Buff.affect(this, Healing.class).setHeal((int) (3), 0, 1);
+			}
+		}
+		if (Dungeon.hero.belongings.weapon instanceof CrudePistol
+				|| Dungeon.hero.belongings.weapon instanceof Pistol
+				|| Dungeon.hero.belongings.weapon instanceof GoldenPistol
+				|| Dungeon.hero.belongings.weapon instanceof Handgun
+				|| Dungeon.hero.belongings.weapon instanceof Magnum
+				|| Dungeon.hero.belongings.weapon instanceof HuntingRifle
+				|| Dungeon.hero.belongings.weapon instanceof SniperRifle
+				|| Dungeon.hero.belongings.weapon instanceof DualPistol
+				|| Dungeon.hero.belongings.weapon instanceof SubMachinegun
+				|| Dungeon.hero.belongings.weapon instanceof AssultRifle
+				|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegun
+				|| Dungeon.hero.belongings.weapon instanceof ShotGun
+				|| Dungeon.hero.belongings.weapon instanceof RocketLauncher && hero.subClass == HeroSubClass.ENGINEER) {
+			if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && Random.Int(4) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
+				Buff.affect(this, Recharging.class, 1f);
+			}
+			if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 2 && Random.Int(4) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
+				Buff.affect(this, ArtifactRecharge.class).set( 1 );
+			}
+			if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 3) {
+				if (Random.Int(4) == 0) {
+					Buff.affect(this, Recharging.class, 2f);
+				}
+				if (Random.Int(4) == 0) {
+					Buff.affect(this, ArtifactRecharge.class).prolong( 2 );
+				}
+
 			}
 		}
 
