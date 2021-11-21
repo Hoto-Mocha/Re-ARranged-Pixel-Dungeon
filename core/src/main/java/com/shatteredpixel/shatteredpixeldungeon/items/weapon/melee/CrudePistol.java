@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -352,7 +353,11 @@ public class CrudePistol extends MeleeWeapon {
                     CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
                 }
             }
-            round --;
+            if (hero.buff(InfiniteBullet.class) != null) {
+                //round preserves
+            } else {
+                round --;
+            }
             updateQuickslot();
         }
 

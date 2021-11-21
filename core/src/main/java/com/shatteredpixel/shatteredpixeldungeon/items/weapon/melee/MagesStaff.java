@@ -101,10 +101,6 @@ public class MagesStaff extends MeleeWeapon {
 		wand.curCharges = wand.maxCharges;
 	}
 
-	public void setCurCharges() {
-		this.wand.curCharges -= 1;
-	}
-
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions( hero );

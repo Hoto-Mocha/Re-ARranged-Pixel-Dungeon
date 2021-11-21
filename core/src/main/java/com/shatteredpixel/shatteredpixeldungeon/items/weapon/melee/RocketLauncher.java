@@ -20,11 +20,14 @@
  */
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -177,29 +180,29 @@ public class RocketLauncher extends MeleeWeapon {
     public int Bulletmin(int lvl) {
         return (tier+2) +
                 lvl      +
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                RingOfSharpshooting.levelDamageBonus(hero);
     }
 
     public int Bulletmax(int lvl) {
         return 6 * (tier+2)   +
                 lvl * (tier+2) +
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                RingOfSharpshooting.levelDamageBonus(hero);
     }
 
     @Override
     public String info() {
 
         max_round = 1;
-        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = 3f* RingOfReload.reloadMultiplier(hero);
 
         String info = desc();
 
         if (levelKnown) {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
-            if (STRReq() > Dungeon.hero.STR()) {
+            if (STRReq() > hero.STR()) {
                 info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (Dungeon.hero.STR() > STRReq()){
-                info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
+            } else if (hero.STR() > STRReq()){
+                info += " " + Messages.get(Weapon.class, "excess_str", hero.STR() - STRReq());
             }
             info += "\n\n" + Messages.get(RocketLauncher.class, "stats_known",
                     Bulletmin(RocketLauncher.this.buffedLvl()),
@@ -207,7 +210,7 @@ public class RocketLauncher extends MeleeWeapon {
                     round, max_round, reload_time);
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-            if (STRReq(0) > Dungeon.hero.STR()) {
+            if (STRReq(0) > hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
             info += "\n\n" + Messages.get(RocketLauncher.class, "stats_unknown",
@@ -234,7 +237,7 @@ public class RocketLauncher extends MeleeWeapon {
             info += " " + Messages.get(enchantment, "desc");
         }
 
-        if (cursed && isEquipped( Dungeon.hero )) {
+        if (cursed && isEquipped( hero )) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
         } else if (cursedKnown && cursed) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed");
@@ -336,7 +339,7 @@ public class RocketLauncher extends MeleeWeapon {
             }
             for (Char target : targets){
                 curUser.shoot(target, this);
-                if (target == Dungeon.hero && !target.isAlive()){
+                if (target == hero && !target.isAlive()){
                     Dungeon.fail(getClass());
                     GLog.n(Messages.get(RocketLauncher.class, "ondeath"));
                 }
@@ -369,7 +372,11 @@ public class RocketLauncher extends MeleeWeapon {
                 }
             }
             Sample.INSTANCE.play( Assets.Sounds.BLAST );
-            round --;
+            if (hero.buff(InfiniteBullet.class) != null) {
+                //round preserves
+            } else {
+                round --;
+            }
             updateQuickslot();
         }
 
