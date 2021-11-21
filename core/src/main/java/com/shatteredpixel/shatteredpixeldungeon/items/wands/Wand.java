@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
@@ -561,6 +562,9 @@ public abstract class Wand extends Item {
 						float shield = curUser.HT * (0.05f*curWand.curCharges);
 						if (curUser.pointsInTalent(Talent.SHIELD_BATTERY) == 2) shield *= 1.5f;
 						Buff.affect(curUser, Barrier.class).setShield(Math.round(shield));
+						if (Dungeon.hero.subClass == HeroSubClass.ENGINEER && Dungeon.hero.hasTalent(Talent.AMMO_PRESERVE)) {
+							Buff.affect(curUser, InfiniteBullet.class, Math.round(curWand.curCharges / 3f * Dungeon.hero.pointsInTalent(Talent.AMMO_PRESERVE)));
+						}
 						curWand.curCharges = 0;
 						curUser.sprite.operate(curUser.pos);
 						Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
@@ -665,7 +669,7 @@ public abstract class Wand extends Item {
 
 			LockedFloor lock = target.buff(LockedFloor.class);
 			if (lock == null || lock.regenOn())
-				partialCharge += (1f/turnsToCharge) * RingOfEnergy.wandChargeMultiplier(target);
+				partialCharge += (1f/turnsToCharge) * RingOfEnergy.wandChargeMultiplier(target) * (1f + 0.1f * Dungeon.hero.pointsInTalent(Talent.FASTER_CHARGER));
 
 			for (Recharging bonus : target.buffs(Recharging.class)){
 				if (bonus != null && bonus.remainder() > 0f) {
