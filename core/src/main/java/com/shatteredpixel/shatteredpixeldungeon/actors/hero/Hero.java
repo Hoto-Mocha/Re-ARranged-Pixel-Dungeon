@@ -1945,43 +1945,47 @@ public class Hero extends Char {
 				Buff.affect(this, Healing.class).setHeal((int) (3), 0, 1);
 			}
 		}
-		if (Dungeon.hero.belongings.weapon instanceof CrudePistol
-				|| Dungeon.hero.belongings.weapon instanceof Pistol
-				|| Dungeon.hero.belongings.weapon instanceof GoldenPistol
-				|| Dungeon.hero.belongings.weapon instanceof Handgun
-				|| Dungeon.hero.belongings.weapon instanceof Magnum
-				|| Dungeon.hero.belongings.weapon instanceof HuntingRifle
-				|| Dungeon.hero.belongings.weapon instanceof SniperRifle
-				|| Dungeon.hero.belongings.weapon instanceof DualPistol
-				|| Dungeon.hero.belongings.weapon instanceof SubMachinegun
-				|| Dungeon.hero.belongings.weapon instanceof AssultRifle
-				|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegun
-				|| Dungeon.hero.belongings.weapon instanceof ShotGun
-				|| Dungeon.hero.belongings.weapon instanceof RocketLauncher && hero.subClass == HeroSubClass.ENGINEER) {
-			if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && Random.Int(4) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
-				Buff.affect(this, Recharging.class, 1f);
-			}
-			if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 2 && Random.Int(4) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
-				Buff.affect(this, ArtifactRecharge.class).set( 1 );
-			}
-			if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 3) {
-				if (Random.Int(4) == 0) {
-					Buff.affect(this, Recharging.class, 2f);
+		if (hero.subClass == HeroSubClass.ENGINEER) {
+			if (Dungeon.hero.belongings.weapon instanceof CrudePistol
+					|| Dungeon.hero.belongings.weapon instanceof Pistol
+					|| Dungeon.hero.belongings.weapon instanceof GoldenPistol
+					|| Dungeon.hero.belongings.weapon instanceof Handgun
+					|| Dungeon.hero.belongings.weapon instanceof Magnum
+					|| Dungeon.hero.belongings.weapon instanceof HuntingRifle
+					|| Dungeon.hero.belongings.weapon instanceof SniperRifle
+					|| Dungeon.hero.belongings.weapon instanceof DualPistol
+					|| Dungeon.hero.belongings.weapon instanceof SubMachinegun
+					|| Dungeon.hero.belongings.weapon instanceof AssultRifle
+					|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegun
+					|| Dungeon.hero.belongings.weapon instanceof ShotGun
+					|| Dungeon.hero.belongings.weapon instanceof RocketLauncher) {
+				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && Random.Int(4) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
+					Buff.affect(this, Recharging.class, 1f);
+				}
+				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 2 && Random.Int(4) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
+					Buff.affect(this, ArtifactRecharge.class).set( 1 );
+				}
+				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 3) {
+					if (Random.Int(4) == 0) {
+						Buff.affect(this, Recharging.class, 2f);
+					}
+					if (Random.Int(4) == 0) {
+						Buff.affect(this, ArtifactRecharge.class).prolong( 2 );
+					}
 				}
 				if (Random.Int(4) == 0) {
-					Buff.affect(this, ArtifactRecharge.class).prolong( 2 );
+					if (Random.Int(1) == 0) {
+						Buff.affect(enemy, Paralysis.class, 2f);
+						enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+						enemy.sprite.flash();
+						Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+					}
+					Buff.affect(this, Barrier.class).setShield(10);
 				}
-			}
-			if (Random.Int(4) == 0) {
-				if (Random.Int(1) == 0) {
-					Buff.affect(enemy, Paralysis.class, 2f);
-					enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
-					enemy.sprite.flash();
-					Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
-				}
-				Buff.affect(this, Barrier.class).setShield(10);
 			}
 		}
+
+
 
 		curAction = null;
 
