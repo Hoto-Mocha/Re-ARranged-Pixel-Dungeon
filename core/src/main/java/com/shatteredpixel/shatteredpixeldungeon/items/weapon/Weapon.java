@@ -27,10 +27,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Annoying;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Displacing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Exhausting;
@@ -52,6 +54,20 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projec
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -68,6 +84,8 @@ abstract public class Weapon extends KindOfWeapon {
 	public float    ACC = 1f;	// Accuracy modifier
 	public float	DLY	= 1f;	// Speed modifier
 	public int      RCH = 1;    // Reach modifier (only applies to melee hits)
+
+	private Wand wand;
 
 	public enum Augment {
 		SPEED   (0.7f, 0.6667f),
@@ -102,9 +120,34 @@ abstract public class Weapon extends KindOfWeapon {
 	
 	@Override
 	public int proc( Char attacker, Char defender, int damage ) {
-		
+		MagesStaff staff = new MagesStaff();
 		if (enchantment != null && attacker.buff(MagicImmune.class) == null) {
 			damage = enchantment.proc( this, attacker, defender, damage );
+		}
+
+		if (Dungeon.hero.subClass == HeroSubClass.ENGINEER) {
+			if (Dungeon.hero.belongings.weapon instanceof CrudePistol.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof Pistol.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof GoldenPistol.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof Handgun.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof Magnum.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof DualPistol.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof SubMachinegun.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof AssultRifle.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegun.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof HuntingRifle.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof SniperRifle.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof ShotGun.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof RocketLauncher.Rocket
+			) {
+				for (Item i : Dungeon.hero.belongings.backpack.items) {
+					if (i instanceof MagesStaff) {
+						staff.setCurCharges();
+						wand.onHit(staff, attacker, defender, damage);
+						updateQuickslot();
+					}
+				}
+			}
 		}
 		
 		if (!levelKnown && attacker == Dungeon.hero) {
