@@ -106,7 +106,7 @@ public enum Talent {
 	//Warlock T3
 	SOUL_EATER(46, 3), SOUL_SIPHON(47, 3), NECROMANCERS_MINIONS(48, 3),
 	//engineer T3
-	MAGIC_BULLET(137, 3), MAGICAL_ENGINEERING(138, 3), GAS_MASK(139, 3),
+	AMMO_PRESERVE(137, 3), CONNECTING_CHARGER(138, 3), FASTER_CHARGER(139, 3),
 	//Elemental Blast T4
 	BLAST_RADIUS(49, 4), ELEMENTAL_POWER(50, 4), REACTIVE_BARRIER(51, 4),
 	//Wild Magic T4
@@ -585,7 +585,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SOUL_EATER, SOUL_SIPHON, NECROMANCERS_MINIONS);
 				break;
 			case ENGINEER:
-				Collections.addAll(tierTalents, MAGIC_BULLET, MAGICAL_ENGINEERING, GAS_MASK);
+				Collections.addAll(tierTalents, AMMO_PRESERVE, CONNECTING_CHARGER, FASTER_CHARGER);
 				break;
 			case ASSASSIN:
 				Collections.addAll(tierTalents, ENHANCED_LETHALITY, ASSASSINS_REACH, BOUNTY_HUNTER);
