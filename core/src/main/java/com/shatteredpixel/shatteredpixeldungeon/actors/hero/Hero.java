@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
@@ -40,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -73,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
@@ -1664,7 +1667,7 @@ public class Hero extends Char {
 				}
 			}
 			
-			Item.updateQuickslot();
+			updateQuickslot();
 			
 			Badges.validateLevelReached();
 		}
@@ -1891,7 +1894,7 @@ public class Hero extends Char {
 	
 	@Override
 	public void onAttackComplete() {
-		
+
 		AttackIndicator.target(enemy);
 		
 		boolean hit = attack( enemy );
@@ -1968,7 +1971,15 @@ public class Hero extends Char {
 				if (Random.Int(4) == 0) {
 					Buff.affect(this, ArtifactRecharge.class).prolong( 2 );
 				}
-
+			}
+			if (Random.Int(4) == 0) {
+				if (Random.Int(1) == 0) {
+					Buff.affect(enemy, Paralysis.class, 2f);
+					enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+					enemy.sprite.flash();
+					Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+				}
+				Buff.affect(this, Barrier.class).setShield(10);
 			}
 		}
 
