@@ -83,7 +83,31 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -323,8 +347,35 @@ public abstract class Char extends Actor {
 						&& !Dungeon.level.adjacent(h.pos, enemy.pos)){
 					dr = 0;
 				}
-				else if (h.belongings.weapon() instanceof Lance) {
+				else if (h.belongings.weapon() instanceof Lance
+						|| h.belongings.weapon() instanceof CrudePistolAP.Bullet
+						|| h.belongings.weapon() instanceof PistolAP.Bullet
+						|| h.belongings.weapon() instanceof GoldenPistolAP.Bullet
+						|| h.belongings.weapon() instanceof HandgunAP.Bullet
+						|| h.belongings.weapon() instanceof MagnumAP.Bullet
+						|| h.belongings.weapon() instanceof HuntingRifleAP.Bullet
+						|| h.belongings.weapon() instanceof SniperRifleAP.Bullet
+						|| h.belongings.weapon() instanceof DualPistolAP.Bullet
+						|| h.belongings.weapon() instanceof SubMachinegunAP.Bullet
+						|| h.belongings.weapon() instanceof AssultRifleAP.Bullet
+						|| h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
+						|| h.belongings.weapon() instanceof ShotGunAP.Bullet
+				) {
 					dr = 0;
+				} else if (h.belongings.weapon() instanceof CrudePistolHP.Bullet
+						|| h.belongings.weapon() instanceof PistolHP.Bullet
+						|| h.belongings.weapon() instanceof GoldenPistolHP.Bullet
+						|| h.belongings.weapon() instanceof HandgunHP.Bullet
+						|| h.belongings.weapon() instanceof MagnumHP.Bullet
+						|| h.belongings.weapon() instanceof HuntingRifleHP.Bullet
+						|| h.belongings.weapon() instanceof SniperRifleHP.Bullet
+						|| h.belongings.weapon() instanceof DualPistolHP.Bullet
+						|| h.belongings.weapon() instanceof SubMachinegunHP.Bullet
+						|| h.belongings.weapon() instanceof AssultRifleHP.Bullet
+						|| h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
+						|| h.belongings.weapon() instanceof ShotGunHP.Bullet
+				) {
+					dr *= 2;
 				}
 			}
 			
@@ -346,6 +397,39 @@ public abstract class Char extends Actor {
 
 			if (buff( Fury.class ) != null) {
 				dmg *= 1.5f;
+			}
+
+			if (this instanceof Hero){
+				Hero h = (Hero)this;
+				if (h.belongings.weapon() instanceof CrudePistolAP.Bullet
+				 || h.belongings.weapon() instanceof PistolAP.Bullet
+				 || h.belongings.weapon() instanceof GoldenPistolAP.Bullet
+				 || h.belongings.weapon() instanceof HandgunAP.Bullet
+				 || h.belongings.weapon() instanceof MagnumAP.Bullet
+				 || h.belongings.weapon() instanceof HuntingRifleAP.Bullet
+				 || h.belongings.weapon() instanceof SniperRifleAP.Bullet
+				 || h.belongings.weapon() instanceof DualPistolAP.Bullet
+				 || h.belongings.weapon() instanceof SubMachinegunAP.Bullet
+				 || h.belongings.weapon() instanceof AssultRifleAP.Bullet
+				 || h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
+				 || h.belongings.weapon() instanceof ShotGunAP.Bullet
+				) {
+					dmg *= 0.67f;
+				} else if (h.belongings.weapon() instanceof CrudePistolHP.Bullet
+					    || h.belongings.weapon() instanceof PistolHP.Bullet
+					    || h.belongings.weapon() instanceof GoldenPistolHP.Bullet
+					    || h.belongings.weapon() instanceof HandgunHP.Bullet
+					    || h.belongings.weapon() instanceof MagnumHP.Bullet
+					    || h.belongings.weapon() instanceof HuntingRifleHP.Bullet
+					    || h.belongings.weapon() instanceof SniperRifleHP.Bullet
+					    || h.belongings.weapon() instanceof DualPistolHP.Bullet
+					    || h.belongings.weapon() instanceof SubMachinegunHP.Bullet
+					    || h.belongings.weapon() instanceof AssultRifleHP.Bullet
+					    || h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
+					    || h.belongings.weapon() instanceof ShotGunHP.Bullet
+				) {
+					dmg *= 1.2f;
+				}
 			}
 
 			dmg += dmgBonus;
