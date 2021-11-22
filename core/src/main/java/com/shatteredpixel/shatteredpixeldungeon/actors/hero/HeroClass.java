@@ -181,6 +181,7 @@ public enum HeroClass {
 		//new RingOfReload().identify().collect();
 		//new LanceNShield().identify().collect();
 		//new ObsidianShield().identify().collect();
+		//new ChaliceOfBlood().identify().collect();
 
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
