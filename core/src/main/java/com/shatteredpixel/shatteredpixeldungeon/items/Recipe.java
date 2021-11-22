@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
@@ -41,11 +42,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIc
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.APBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.BrassScrap;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.Cartridge;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.HPBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.Scrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
@@ -75,6 +71,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
@@ -246,12 +243,12 @@ public abstract class Recipe {
 		new TrueRunicBlade.Recipe(),
 		new Lance.Recipe(),
 		new ObsidianShield.Recipe(),
+		new LanceNShield.Recipe(),
 		new Scrap.Recipe(),
 		new BrassScrap.Recipe(),
 		new Cartridge.Recipe(),
 		new APBullet.Recipe(),
 		new HPBullet.Recipe(),
-
 		new CrudePistolAP.Recipe(),
 		new CrudePistolHP.Recipe(),
 		new PistolAP.Recipe(),
@@ -262,7 +259,6 @@ public abstract class Recipe {
 		new HandgunHP.Recipe(),
 		new MagnumAP.Recipe(),
 		new MagnumHP.Recipe(),
-
 		new DualPistolAP.Recipe(),
 		new DualPistolHP.Recipe(),
 		new SubMachinegunAP.Recipe(),
@@ -271,12 +267,10 @@ public abstract class Recipe {
 		new AssultRifleHP.Recipe(),
 		new HeavyMachinegunAP.Recipe(),
 		new HeavyMachinegunHP.Recipe(),
-
 		new HuntingRifleAP.Recipe(),
 		new HuntingRifleHP.Recipe(),
 		new SniperRifleAP.Recipe(),
 		new SniperRifleHP.Recipe(),
-
 		new ShotGunAP.Recipe(),
 		new ShotGunHP.Recipe()
 	};
@@ -316,7 +310,7 @@ public abstract class Recipe {
 	
 	public static boolean usableInRecipe(Item item){
 		return !item.cursed
-				&& (!(item instanceof EquipableItem)
+				&& (!(item instanceof Armor)
 					|| (item instanceof AlchemistsToolkit && item.isIdentified())
 					|| item instanceof MissileWeapon);
 	}
