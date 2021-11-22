@@ -52,7 +52,7 @@ public class APBullet extends Item {
 
             cost = 10;
 
-            output = HPBullet.class;
+            output = APBullet.class;
             outQuantity = 1;
         }
     }
