@@ -397,6 +397,7 @@ public class QuickRecipe extends Component {
 				result.add(null);
 				result.add(new QuickRecipe(new ObsidianShield.Recipe()));
 				result.add(null);
+				result.add(null);
 				result.add(new QuickRecipe(new LanceNShield.Recipe()));
 				return result;
 		}
