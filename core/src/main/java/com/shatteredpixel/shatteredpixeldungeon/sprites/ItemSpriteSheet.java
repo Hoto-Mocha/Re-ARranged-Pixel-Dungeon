@@ -289,14 +289,14 @@ public class ItemSpriteSheet {
 	public static final int LANCE           = WEP_TIER6+0;
 	public static final int OBSIDIAN_SHIELD	= WEP_TIER6+1;
 	public static final int LANCE_N_SHIELD  = WEP_TIER6+2;
-	public static final int FROSTSWORD      = WEP_TIER6+3;
+	public static final int TIER6_4         = WEP_TIER6+3;
 	public static final int TIER6_5         = WEP_TIER6+4;
 	public static final int TIER6_6         = WEP_TIER6+5;
 	static{
 		assignItemRect(LANCE,             15, 15);
 		assignItemRect(OBSIDIAN_SHIELD,   12, 16);
 		assignItemRect(LANCE_N_SHIELD,    16, 15);
-		assignItemRect(FROSTSWORD,        15, 15);
+		assignItemRect(TIER6_4,           15, 15);
 		assignItemRect(TIER6_5,           16, 16);
 		assignItemRect(TIER6_6,           16, 16);
 	}
@@ -744,26 +744,34 @@ public class ItemSpriteSheet {
 		assignItemRect(BERRY,       9,  11);
 	}
 
-	private static final int QUEST  =                                       xy(1, 29);  //32 slots
-	public static final int SKULL   = QUEST+0;
-	public static final int DUST    = QUEST+1;
-	public static final int CANDLE  = QUEST+2;
-	public static final int EMBER   = QUEST+3;
-	public static final int PICKAXE = QUEST+4;
-	public static final int ORE     = QUEST+5;
-	public static final int TOKEN   = QUEST+6;
-	public static final int BLOB    = QUEST+7;
-	public static final int SHARD   = QUEST+8;
+	private static final int QUEST       =                                       xy(1, 29);  //32 slots
+	public static final int SKULL        = QUEST+0;
+	public static final int DUST         = QUEST+1;
+	public static final int CANDLE       = QUEST+2;
+	public static final int EMBER        = QUEST+3;
+	public static final int PICKAXE      = QUEST+4;
+	public static final int ORE          = QUEST+5;
+	public static final int TOKEN        = QUEST+6;
+	public static final int BLOB         = QUEST+7;
+	public static final int SHARD        = QUEST+8;
+	public static final int METAL_SHARD  = QUEST+9;
+	public static final int CARTRIDGE    = QUEST+10;
+	public static final int	AP_BULLET    = QUEST+11;
+	public static final int HP_BULLET    = QUEST+12;
 	static{
-		assignItemRect(SKULL,   16, 11);
-		assignItemRect(DUST,    12, 11);
-		assignItemRect(CANDLE,  12, 12);
-		assignItemRect(EMBER,   12, 11);
-		assignItemRect(PICKAXE, 14, 14);
-		assignItemRect(ORE,     15, 15);
-		assignItemRect(TOKEN,   12, 12);
-		assignItemRect(BLOB,    10,  9);
-		assignItemRect(SHARD,    8, 10);
+		assignItemRect(SKULL,       16, 11);
+		assignItemRect(DUST,        12, 11);
+		assignItemRect(CANDLE,      12, 12);
+		assignItemRect(EMBER,       12, 11);
+		assignItemRect(PICKAXE,     14, 14);
+		assignItemRect(ORE,         15, 15);
+		assignItemRect(TOKEN,       12, 12);
+		assignItemRect(BLOB,        10,  9);
+		assignItemRect(SHARD,       8,  10);
+		assignItemRect(METAL_SHARD, 15, 11);
+		assignItemRect(CARTRIDGE,	11, 11);
+		assignItemRect(AP_BULLET,	13, 13);
+		assignItemRect(HP_BULLET,	13, 13);
 	}
 
 	private static final int BAGS       =                                   xy(1, 31);  //16 slots
