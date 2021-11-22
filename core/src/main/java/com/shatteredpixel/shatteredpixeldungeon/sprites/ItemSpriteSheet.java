@@ -754,7 +754,7 @@ public class ItemSpriteSheet {
 	public static final int TOKEN        = QUEST+6;
 	public static final int BLOB         = QUEST+7;
 	public static final int SHARD        = QUEST+8;
-	public static final int METAL_SHARD  = QUEST+9;
+	public static final int BRASS_SCRAP  = QUEST+9;
 	public static final int CARTRIDGE    = QUEST+10;
 	public static final int	AP_BULLET    = QUEST+11;
 	public static final int HP_BULLET    = QUEST+12;
@@ -768,7 +768,7 @@ public class ItemSpriteSheet {
 		assignItemRect(TOKEN,       12, 12);
 		assignItemRect(BLOB,        10,  9);
 		assignItemRect(SHARD,       8,  10);
-		assignItemRect(METAL_SHARD, 15, 11);
+		assignItemRect(BRASS_SCRAP, 15, 11);
 		assignItemRect(CARTRIDGE,	11, 11);
 		assignItemRect(AP_BULLET,	13, 13);
 		assignItemRect(HP_BULLET,	13, 13);
