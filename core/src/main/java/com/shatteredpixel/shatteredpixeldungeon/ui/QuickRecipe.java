@@ -49,11 +49,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIc
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.APBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.BrassScrap;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.Cartridge;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.HPBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.Scrap;
+import com.shatteredpixel.shatteredpixeldungeon.items.APBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.BrassScrap;
+import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
+import com.shatteredpixel.shatteredpixeldungeon.items.HPBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.Scrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
