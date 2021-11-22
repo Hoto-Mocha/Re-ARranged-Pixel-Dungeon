@@ -28,18 +28,42 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -59,18 +83,42 @@ public class StoneOfAugmentation extends InventoryStone {
 	@Override
 	protected boolean usableOnItem(Item item) {
 		if (item instanceof CrudePistol
-			||item instanceof Pistol
-			||item instanceof GoldenPistol
-			||item instanceof Handgun
-			||item instanceof Magnum
-			||item instanceof DualPistol
-			||item instanceof SubMachinegun
-			||item instanceof AssultRifle
-			||item instanceof HeavyMachinegun
-			||item instanceof HuntingRifle
-			||item instanceof SniperRifle
-			||item instanceof ShotGun
-			||item instanceof RocketLauncher
+		  ||item instanceof CrudePistolAP
+		  ||item instanceof CrudePistolHP
+		  ||item instanceof Pistol
+		  ||item instanceof PistolAP
+		  ||item instanceof PistolHP
+		  ||item instanceof GoldenPistol
+		  ||item instanceof GoldenPistolAP
+		  ||item instanceof GoldenPistolHP
+		  ||item instanceof Handgun
+		  ||item instanceof HandgunAP
+		  ||item instanceof HandgunHP
+		  ||item instanceof Magnum
+		  ||item instanceof MagnumAP
+		  ||item instanceof MagnumHP
+		  ||item instanceof DualPistol
+		  ||item instanceof DualPistolAP
+		  ||item instanceof DualPistolHP
+		  ||item instanceof SubMachinegun
+		  ||item instanceof SubMachinegunAP
+		  ||item instanceof SubMachinegunHP
+		  ||item instanceof AssultRifle
+		  ||item instanceof AssultRifleAP
+		  ||item instanceof AssultRifleHP
+		  ||item instanceof HeavyMachinegun
+		  ||item instanceof HeavyMachinegunAP
+		  ||item instanceof HeavyMachinegunHP
+		  ||item instanceof HuntingRifle
+		  ||item instanceof HuntingRifleAP
+		  ||item instanceof HuntingRifleHP
+		  ||item instanceof SniperRifle
+		  ||item instanceof SniperRifleAP
+		  ||item instanceof SniperRifleHP
+		  ||item instanceof ShotGun
+		  ||item instanceof ShotGunAP
+		  ||item instanceof ShotGunHP
+		  ||item instanceof RocketLauncher
 		) {
 			return false;
 		} else {

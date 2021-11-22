@@ -25,19 +25,43 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Bolas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.FishingSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.HeavyBoomerang;
@@ -113,17 +137,41 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(ScorpioSprite.ScorpioShot.class,   0);
 
 		ANGULAR_SPEEDS.put(CrudePistol.Bullet.class,          0);
+		ANGULAR_SPEEDS.put(CrudePistolAP.Bullet.class,        0);
+		ANGULAR_SPEEDS.put(CrudePistolHP.Bullet.class,        0);
 		ANGULAR_SPEEDS.put(Pistol.Bullet.class,               0);
+		ANGULAR_SPEEDS.put(PistolAP.Bullet.class,             0);
+		ANGULAR_SPEEDS.put(PistolHP.Bullet.class,             0);
 		ANGULAR_SPEEDS.put(GoldenPistol.Bullet.class,         0);
+		ANGULAR_SPEEDS.put(GoldenPistolAP.Bullet.class,       0);
+		ANGULAR_SPEEDS.put(GoldenPistolHP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(Handgun.Bullet.class,              0);
+		ANGULAR_SPEEDS.put(HandgunAP.Bullet.class,            0);
+		ANGULAR_SPEEDS.put(HandgunHP.Bullet.class,            0);
 		ANGULAR_SPEEDS.put(Magnum.Bullet.class,               0);
+		ANGULAR_SPEEDS.put(MagnumAP.Bullet.class,             0);
+		ANGULAR_SPEEDS.put(MagnumHP.Bullet.class,             0);
 		ANGULAR_SPEEDS.put(HuntingRifle.Bullet.class,         0);
+		ANGULAR_SPEEDS.put(HuntingRifleAP.Bullet.class,       0);
+		ANGULAR_SPEEDS.put(HuntingRifleHP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(SniperRifle.Bullet.class,          0);
+		ANGULAR_SPEEDS.put(SniperRifleAP.Bullet.class,        0);
+		ANGULAR_SPEEDS.put(SniperRifleHP.Bullet.class,        0);
 		ANGULAR_SPEEDS.put(DualPistol.Bullet.class,           0);
+		ANGULAR_SPEEDS.put(DualPistolAP.Bullet.class,         0);
+		ANGULAR_SPEEDS.put(DualPistolHP.Bullet.class,         0);
 		ANGULAR_SPEEDS.put(SubMachinegun.Bullet.class,        0);
+		ANGULAR_SPEEDS.put(SubMachinegunAP.Bullet.class,      0);
+		ANGULAR_SPEEDS.put(SubMachinegunHP.Bullet.class,      0);
 		ANGULAR_SPEEDS.put(AssultRifle.Bullet.class,          0);
+		ANGULAR_SPEEDS.put(AssultRifleAP.Bullet.class,        0);
+		ANGULAR_SPEEDS.put(AssultRifleHP.Bullet.class,        0);
 		ANGULAR_SPEEDS.put(HeavyMachinegun.Bullet.class,      0);
+		ANGULAR_SPEEDS.put(HeavyMachinegunAP.Bullet.class,    0);
+		ANGULAR_SPEEDS.put(HeavyMachinegunHP.Bullet.class,    0);
 		ANGULAR_SPEEDS.put(ShotGun.Bullet.class,              0);
+		ANGULAR_SPEEDS.put(ShotGunAP.Bullet.class,            0);
+		ANGULAR_SPEEDS.put(ShotGunHP.Bullet.class,            0);
 	    ANGULAR_SPEEDS.put(RocketLauncher.Rocket.class,       0);
 		
 		//720 is default
@@ -184,17 +232,41 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				|| item instanceof TenguSprite.TenguShuriken){
 			speed *= 1.5f;
 		} else if (item instanceof CrudePistol.Bullet
-		        || item instanceof Pistol.Bullet
-				|| item instanceof GoldenPistol.Bullet
-				|| item instanceof Handgun.Bullet
-				|| item instanceof Magnum.Bullet
-				|| item instanceof HuntingRifle.Bullet
-				|| item instanceof SniperRifle.Bullet
-				|| item instanceof DualPistol.Bullet
-				|| item instanceof SubMachinegun.Bullet
-				|| item instanceof AssultRifle.Bullet
-				|| item instanceof HeavyMachinegun.Bullet
-				|| item instanceof ShotGun.Bullet
+				||item instanceof CrudePistolAP.Bullet
+				||item instanceof CrudePistolHP.Bullet
+				||item instanceof Pistol.Bullet
+				||item instanceof PistolAP.Bullet
+				||item instanceof PistolHP.Bullet
+				||item instanceof GoldenPistol.Bullet
+				||item instanceof GoldenPistolAP.Bullet
+				||item instanceof GoldenPistolHP.Bullet
+				||item instanceof Handgun.Bullet
+				||item instanceof HandgunAP.Bullet
+				||item instanceof HandgunHP.Bullet
+				||item instanceof Magnum.Bullet
+				||item instanceof MagnumAP.Bullet
+				||item instanceof MagnumHP.Bullet
+				||item instanceof DualPistol.Bullet
+				||item instanceof DualPistolAP.Bullet
+				||item instanceof DualPistolHP.Bullet
+				||item instanceof SubMachinegun.Bullet
+				||item instanceof SubMachinegunAP.Bullet
+				||item instanceof SubMachinegunHP.Bullet
+				||item instanceof AssultRifle.Bullet
+				||item instanceof AssultRifleAP.Bullet
+				||item instanceof AssultRifleHP.Bullet
+				||item instanceof HeavyMachinegun.Bullet
+				||item instanceof HeavyMachinegunAP.Bullet
+				||item instanceof HeavyMachinegunHP.Bullet
+				||item instanceof HuntingRifle.Bullet
+				||item instanceof HuntingRifleAP.Bullet
+				||item instanceof HuntingRifleHP.Bullet
+				||item instanceof SniperRifle.Bullet
+				||item instanceof SniperRifleAP.Bullet
+				||item instanceof SniperRifleHP.Bullet
+				||item instanceof ShotGun.Bullet
+				||item instanceof ShotGunAP.Bullet
+				||item instanceof ShotGunHP.Bullet
 		) {
 			speed *= 3f;
 		} else if (item instanceof RocketLauncher.Rocket) {
