@@ -164,6 +164,16 @@ public enum HeroClass {
 		//new HuntingRifle().identify().collect();
 		//new SniperRifle().identify().collect();
 		//new ShotGun().identify().collect();
+		//new Lance().identify().collect();
+		//new ObsidianShield().identify().collect();
+		//new Greatshield().identify().collect();
+		//new AssassinsBlade().identify().collect();
+		//new AlchemistsToolkit().identify().collect();
+		//new LiquidMetal().quantity(500).collect();
+		//new ArcaneResin().quantity(20).collect();
+		//new ArcaneCatalyst().quantity(20).collect();
+		//new AlchemicalCatalyst().quantity(20).collect();
+		//new Scrap().quantity(20).collect();
 		//new RocketLauncher().identify().collect();
 		//new CapeOfThorns().identify().collect();
 		//new LloydsBeacon().identify().collect();
