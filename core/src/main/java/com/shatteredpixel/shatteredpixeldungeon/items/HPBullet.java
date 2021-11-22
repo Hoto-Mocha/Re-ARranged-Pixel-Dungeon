@@ -19,10 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.quest;
+package com.shatteredpixel.shatteredpixeldungeon.items;
 
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class HPBullet extends Item {
@@ -47,8 +45,7 @@ public class HPBullet extends Item {
         return quantity * 165;
     }
 
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
+    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe{
         {
             inputs =  new Class[]{Cartridge.class, Scrap.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};

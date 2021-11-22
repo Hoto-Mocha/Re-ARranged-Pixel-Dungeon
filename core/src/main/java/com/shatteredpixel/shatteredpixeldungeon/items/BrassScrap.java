@@ -19,16 +19,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.quest;
+package com.shatteredpixel.shatteredpixeldungeon.items;
 
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Scrap extends Item {
+public class BrassScrap extends Item {
 
     {
-        image = ItemSpriteSheet.BLAND_CHUNKS;
+        image = ItemSpriteSheet.BRASS_SCRAP;
         stackable = true;
     }
 
@@ -44,18 +43,18 @@ public class Scrap extends Item {
 
     @Override
     public int value() {
-        return quantity * 3;
+        return quantity * 46;
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
-            inputs =  new Class[]{LiquidMetal.class, LiquidMetal.class, LiquidMetal.class};
-            inQuantity = new int[]{1, 1, 1};
+            inputs =  new Class[]{Scrap.class, AlchemicalCatalyst.class};
+            inQuantity = new int[]{2, 1};
 
             cost = 3;
 
-            output = Scrap.class;
+            output = BrassScrap.class;
             outQuantity = 1;
         }
     }
