@@ -493,7 +493,6 @@ public class Hero extends Char {
 		if (wep instanceof MissileWeapon){
 			if (Dungeon.level.adjacent( pos, target.pos )) {
 				if (wep instanceof ShotGun.Bullet
-				 || wep instanceof ShotGunAP.Bullet
 				 || wep instanceof ShotGunHP.Bullet) {
 					accuracy *= (2.0f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				} else if (wep instanceof HuntingRifle.Bullet
@@ -509,7 +508,6 @@ public class Hero extends Char {
 
 			} else {
 				if (wep instanceof ShotGun.Bullet
-				 || wep instanceof ShotGunAP.Bullet
 				 || wep instanceof ShotGunHP.Bullet) {
 					accuracy *= 0;
 				}
@@ -547,7 +545,9 @@ public class Hero extends Char {
 						|| wep instanceof HeavyMachinegun.Bullet
 						|| wep instanceof HeavyMachinegunAP.Bullet
 						|| wep instanceof HeavyMachinegunHP.Bullet
-						|| wep instanceof RocketLauncher.Rocket) {
+						|| wep instanceof RocketLauncher.Rocket
+						|| wep instanceof ShotGunAP.Bullet
+				) {
 					accuracy *= 1f;
 				} else {
 					accuracy *= 1.5f;
