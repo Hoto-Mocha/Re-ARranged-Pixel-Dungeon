@@ -127,7 +127,7 @@ public enum Talent {
 	//Freerunner T3
 	EVASIVE_ARMOR(78, 3), PROJECTILE_MOMENTUM(79, 3), SPEEDY_STEALTH(80, 3),
 	//Chaser T3
-	FAST_PREPARATION(131, 3), MYSTICAL_SURPRISE(132, 3), CHAIN_CLOCK(133, 3),
+	INCISIVE_BLADE(131, 3), LETHAL_SURPRISE(132, 3), CHAIN_CLOCK(133, 3),
 	//Smoke Bomb T4
 	HASTY_RETREAT(81, 4), BODY_REPLACEMENT(82, 4), SHADOW_STEP(83, 4),
 	//Death Mark T4
@@ -190,6 +190,27 @@ public enum Talent {
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
 	public static class SpiritBladesTracker extends FlavourBuff{};
+	public static class ChaseCooldown extends FlavourBuff{
+		public int icon() { return target.buff(RevealedArea.class) != null ? BuffIndicator.NONE : BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.4f, 0.4f, 0.8f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (15)); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class ChainCooldown extends FlavourBuff{
+		public int icon() { return target.buff(RevealedArea.class) != null ? BuffIndicator.NONE : BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.2f, 0.5f, 0.8f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 10); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class LethalCooldown extends FlavourBuff{
+		public int icon() { return target.buff(RevealedArea.class) != null ? BuffIndicator.NONE : BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.8f, 0.1f, 0.1f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 5); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
 
 	int icon;
 	int maxPoints;
@@ -488,6 +509,20 @@ public enum Talent {
 			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
+		if (hero.hasTalent(Talent.INCISIVE_BLADE)
+				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
+		) {
+			if (hero.pointsInTalent(Talent.INCISIVE_BLADE) == 1) {
+				dmg += Random.IntRange(0, 5);
+			}
+			if (hero.pointsInTalent(Talent.INCISIVE_BLADE) == 2) {
+				dmg += Random.IntRange(3, 10);
+			}
+			if (hero.pointsInTalent(Talent.INCISIVE_BLADE) == 3) {
+				dmg += Random.IntRange(5, 15);
+			}
+		}
+
 		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE)) {
 			if (hero.belongings.weapon() instanceof MissileWeapon) {
 				Buff.affect(enemy, FollowupStrikeTracker.class);
@@ -626,7 +661,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, EVASIVE_ARMOR, PROJECTILE_MOMENTUM, SPEEDY_STEALTH);
 				break;
 			case CHASER:
-				Collections.addAll(tierTalents, FAST_PREPARATION ,MYSTICAL_SURPRISE , CHAIN_CLOCK);
+				Collections.addAll(tierTalents, INCISIVE_BLADE ,LETHAL_SURPRISE , CHAIN_CLOCK);
 				break;
 			case SNIPER:
 				Collections.addAll(tierTalents, FARSIGHT, SHARED_ENCHANTMENT, SHARED_UPGRADES);
