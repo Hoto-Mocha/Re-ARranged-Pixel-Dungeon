@@ -52,7 +52,7 @@ public class Cartridge extends Item {
             inputs =  new Class[]{BrassScrap.class, ArcaneCatalyst.class};
             inQuantity = new int[]{2, 1};
 
-            cost = 5;
+            cost = 3;
 
             output = Cartridge.class;
             outQuantity = 1;

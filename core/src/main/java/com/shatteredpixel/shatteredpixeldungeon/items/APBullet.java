@@ -50,7 +50,7 @@ public class APBullet extends Item {
             inputs =  new Class[]{Cartridge.class, BrassScrap.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 5;
 
             output = APBullet.class;
             outQuantity = 1;

@@ -52,7 +52,7 @@ public class BrassScrap extends Item {
             inputs =  new Class[]{Scrap.class, AlchemicalCatalyst.class};
             inQuantity = new int[]{2, 1};
 
-            cost = 3;
+            cost = 2;
 
             output = BrassScrap.class;
             outQuantity = 1;

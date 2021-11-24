@@ -51,7 +51,7 @@ public class Scrap extends Item {
             inputs =  new Class[]{LiquidMetal.class, AlchemicalCatalyst.class};
             inQuantity = new int[]{2, 1};
 
-            cost = 3;
+            cost = 1;
 
             output = Scrap.class;
             outQuantity = 1;
