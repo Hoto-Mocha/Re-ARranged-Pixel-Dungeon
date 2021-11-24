@@ -292,7 +292,7 @@ public class HeavyMachinegun extends MeleeWeapon {
 
             hitSound = Assets.Sounds.PUFF;
             tier = 5;                                                                            //if you make something different guns, you should change this
-            ACC = 0.5f;
+            ACC = 0.7f;
         }
 
         @Override
