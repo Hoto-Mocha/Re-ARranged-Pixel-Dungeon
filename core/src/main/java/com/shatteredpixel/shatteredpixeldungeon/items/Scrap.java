@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Scrap extends Item {
@@ -48,8 +47,8 @@ public class Scrap extends Item {
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe{
         {
-            inputs =  new Class[]{LiquidMetal.class, AlchemicalCatalyst.class};
-            inQuantity = new int[]{2, 1};
+            inputs =  new Class[]{LiquidMetal.class};
+            inQuantity = new int[]{3};
 
             cost = 1;
 

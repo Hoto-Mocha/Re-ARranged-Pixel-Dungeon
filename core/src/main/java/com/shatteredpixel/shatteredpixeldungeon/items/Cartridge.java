@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Cartridge extends Item {
@@ -49,8 +48,8 @@ public class Cartridge extends Item {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
-            inputs =  new Class[]{BrassScrap.class, ArcaneCatalyst.class};
-            inQuantity = new int[]{2, 1};
+            inputs =  new Class[]{BrassScrap.class};
+            inQuantity = new int[]{3};
 
             cost = 3;
 
