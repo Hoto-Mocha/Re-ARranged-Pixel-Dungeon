@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GuardBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
@@ -1234,9 +1235,12 @@ public class Hero extends Char {
 			if (sprite != null) {
 				sprite.showStatus(CharSprite.DEFAULT, Messages.get(this, "wait"));
 			}
-			if (Dungeon.hero.subClass == HeroSubClass.CHASER) {
+			if (Dungeon.hero.subClass == HeroSubClass.CHASER
+					&& hero.buff(Talent.ChaseCooldown.class) == null
+					&& hero.buff(Invisibility.class) == null
+					&& hero.buff(CloakOfShadows.cloakStealth.class) == null ) {
 				Buff.affect(Dungeon.hero, Invisibility.class, 5f);
-				//TODO 쿨타임 버프 추가
+				Buff.affect(Dungeon.hero, Talent.ChaseCooldown.class, 15f);
 			}
 		}
 		resting = fullRest;
@@ -1963,27 +1967,54 @@ public class Hero extends Char {
 			}
 		}
 
-		if (hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER) {
-			if (hero.pointsInTalent(Talent.VITAL_ATTACK) >= 1 && Random.Int(4) == 0){
+		if (hero.subClass == HeroSubClass.CHASER && hero.hasTalent(Talent.CHAIN_CLOCK) && ((Mob) enemy).surprisedBy(hero) && hero.buff(Talent.ChainCooldown.class) == null){
+			Buff.affect( this, Invisibility.class, 1f * hero.pointsInTalent(Talent.CHAIN_CLOCK));
+			Buff.affect( this, Haste.class, 1f * hero.pointsInTalent(Talent.CHAIN_CLOCK));
+			Buff.affect( this, Talent.ChainCooldown.class, 10f);
+		}
+
+		if (hero.subClass == HeroSubClass.CHASER && hero.hasTalent(Talent.LETHAL_SURPRISE) && ((Mob) enemy).surprisedBy(hero) && !enemy.isAlive() && hero.buff(Talent.LethalCooldown.class) == null) {
+			if (hero.pointsInTalent(Talent.LETHAL_SURPRISE) >= 1) {
+				for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+					if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
+						Buff.affect( mob, Vulnerable.class, 1f);
+					}
+				}
+				Buff.affect(hero, Talent.LethalCooldown.class, 5f);
+			}
+			if (hero.pointsInTalent(Talent.LETHAL_SURPRISE) >= 2) {
+				for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+					if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
+						Buff.affect( mob, Paralysis.class, 1f);
+					}
+				}
+			}
+			if (hero.pointsInTalent(Talent.LETHAL_SURPRISE) == 3) {
+				Buff.affect(hero, Swiftthistle.TimeBubble.class).twoTurns();
+			}
+		}
+
+		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER) {
+			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) >= 1 && Random.Int(4) == 0){
 				Buff.affect( enemy, Weakness.class, 3f );
 			}
-			if (hero.pointsInTalent(Talent.VITAL_ATTACK) >= 2 && Random.Int(4) == 0){
+			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) >= 2 && Random.Int(4) == 0){
 				Buff.affect( enemy, Vulnerable.class, 3f );
 			}
-			if (hero.pointsInTalent(Talent.VITAL_ATTACK) == 3 && Random.Int(9) == 0){
+			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) == 3 && Random.Int(9) == 0){
 				Buff.affect( enemy, Paralysis.class, 3f );
 			}
-			if (hero.pointsInTalent(Talent.MIND_PRACTICE) >= 1 && Random.Int(9) == 0){
+			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) >= 1 && Random.Int(9) == 0){
 				Buff.affect( this, Adrenaline.class, 3f );
 			}
-			if (hero.pointsInTalent(Talent.MIND_PRACTICE) >= 2 && Random.Int(9) == 0){
+			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) >= 2 && Random.Int(9) == 0){
 				Buff.affect( this, Bless.class, 3f );
 			}
-			if (hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(9) == 0){
+			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(9) == 0){
 				Buff.affect(this, Healing.class).setHeal((int) (3), 0, 1);
 			}
 		}
-		if (hero.subClass == HeroSubClass.ENGINEER) {
+		if (hit && hero.subClass == HeroSubClass.ENGINEER) {
 			if (Dungeon.hero.belongings.weapon instanceof CrudePistol
 					|| Dungeon.hero.belongings.weapon instanceof CrudePistolAP
 					|| Dungeon.hero.belongings.weapon instanceof CrudePistolHP
