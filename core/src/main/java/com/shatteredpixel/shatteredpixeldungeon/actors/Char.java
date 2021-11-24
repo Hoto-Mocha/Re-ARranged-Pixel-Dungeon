@@ -427,7 +427,7 @@ public abstract class Char extends Actor {
 					    || h.belongings.weapon() instanceof AssultRifleHP.Bullet
 					    || h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
 				) {
-					dmg *= 1.5f;
+					dmg *= 1.25f;
 				}
 			}
 
