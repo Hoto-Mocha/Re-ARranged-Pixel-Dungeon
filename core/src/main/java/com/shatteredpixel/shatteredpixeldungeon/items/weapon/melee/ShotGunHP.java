@@ -342,7 +342,7 @@ public class ShotGunHP extends MeleeWeapon {
 
         @Override
         protected void onThrow(int cell) {
-            for (int i=1; i<=5; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+            for (int i=1; i<=10; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                 Char enemy = Actor.findChar(cell);
                 if (enemy == null || enemy == curUser) {
                     parent = null;
