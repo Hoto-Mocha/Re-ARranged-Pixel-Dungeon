@@ -413,9 +413,8 @@ public abstract class Char extends Actor {
 				 || h.belongings.weapon() instanceof SubMachinegunAP.Bullet
 				 || h.belongings.weapon() instanceof AssultRifleAP.Bullet
 				 || h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
-				 || h.belongings.weapon() instanceof ShotGunAP.Bullet
 				) {
-					dmg *= 0.67f;
+					dmg *= 0.80f;
 				} else if (h.belongings.weapon() instanceof CrudePistolHP.Bullet
 					    || h.belongings.weapon() instanceof PistolHP.Bullet
 					    || h.belongings.weapon() instanceof GoldenPistolHP.Bullet
@@ -427,9 +426,8 @@ public abstract class Char extends Actor {
 					    || h.belongings.weapon() instanceof SubMachinegunHP.Bullet
 					    || h.belongings.weapon() instanceof AssultRifleHP.Bullet
 					    || h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
-					    || h.belongings.weapon() instanceof ShotGunHP.Bullet
 				) {
-					dmg *= 1.2f;
+					dmg *= 1.5f;
 				}
 			}
 
