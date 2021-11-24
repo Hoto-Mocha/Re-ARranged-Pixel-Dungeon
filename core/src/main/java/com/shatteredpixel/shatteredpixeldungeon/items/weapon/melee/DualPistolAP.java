@@ -310,14 +310,7 @@ public class DualPistolAP extends MeleeWeapon {
 
             if (owner.buff(Focusing.class) != null) {
                 bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
-            }
-
-            if (Dungeon.hero.hasTalent(Talent.PERFECT_SURPRISE) && enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-                bulletdamage = Random.NormalIntRange(
-                        Math.round(Bulletmax(DualPistolAP.this.buffedLvl()) * Dungeon.hero.pointsInTalent(Talent.PERFECT_SURPRISE) / 6f ),
-                        Bulletmax(DualPistolAP.this.buffedLvl()));
-            }
-            return bulletdamage;
+            }urn bulletdamage;
         }
 
         @Override
