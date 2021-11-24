@@ -398,7 +398,7 @@ public class MagnumHP extends MeleeWeapon {
             inputs =  new Class[]{Magnum.class, HPBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 0;
 
             output = MagnumHP.class;
             outQuantity = 1;

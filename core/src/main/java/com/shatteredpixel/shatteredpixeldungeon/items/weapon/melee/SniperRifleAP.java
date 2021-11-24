@@ -404,7 +404,7 @@ public class SniperRifleAP extends MeleeWeapon {
             inputs =  new Class[]{SniperRifle.class, APBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 0;
 
             output = SniperRifleAP.class;
             outQuantity = 1;

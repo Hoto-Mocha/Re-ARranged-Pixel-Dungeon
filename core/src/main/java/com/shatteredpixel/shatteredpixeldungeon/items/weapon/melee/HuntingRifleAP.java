@@ -404,7 +404,7 @@ public class HuntingRifleAP extends MeleeWeapon {
             inputs =  new Class[]{HuntingRifle.class, APBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 0;
 
             output = HuntingRifleAP.class;
             outQuantity = 1;

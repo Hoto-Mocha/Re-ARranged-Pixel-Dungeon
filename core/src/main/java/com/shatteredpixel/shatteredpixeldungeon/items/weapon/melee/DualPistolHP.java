@@ -406,7 +406,7 @@ public class DualPistolHP extends MeleeWeapon {
             inputs =  new Class[]{DualPistol.class, HPBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 0;
 
             output = DualPistolHP.class;
             outQuantity = 1;

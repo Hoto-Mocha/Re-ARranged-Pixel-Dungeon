@@ -393,7 +393,7 @@ public class PistolHP extends MeleeWeapon {
             inputs =  new Class[]{Pistol.class, HPBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 0;
 
             output = PistolHP.class;
             outQuantity = 1;

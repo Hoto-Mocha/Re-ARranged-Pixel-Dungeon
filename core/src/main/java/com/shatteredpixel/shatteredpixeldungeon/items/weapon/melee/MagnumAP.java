@@ -398,7 +398,7 @@ public class MagnumAP extends MeleeWeapon {
             inputs =  new Class[]{Magnum.class, APBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 0;
 
             output = MagnumAP.class;
             outQuantity = 1;

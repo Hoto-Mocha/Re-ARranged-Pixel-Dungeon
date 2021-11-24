@@ -398,7 +398,7 @@ public class GoldenPistolAP extends MeleeWeapon {
             inputs =  new Class[]{GoldenPistol.class, APBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 0;
 
             output = GoldenPistolAP.class;
             outQuantity = 1;

@@ -405,7 +405,7 @@ public class SubMachinegunHP extends MeleeWeapon {
             inputs =  new Class[]{SubMachinegun.class, HPBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 0;
 
             output = SubMachinegunHP.class;
             outQuantity = 1;

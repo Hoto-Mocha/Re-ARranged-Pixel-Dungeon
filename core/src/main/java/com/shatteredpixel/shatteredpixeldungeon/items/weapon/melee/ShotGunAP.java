@@ -184,14 +184,14 @@ public class ShotGunAP extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        return 1 +
-               lvl +
+        return 3 +
+               3 * lvl +
                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return (tier + 2)   +
-               lvl+
+        return 3 * (tier + 2)   +
+               3 * lvl +
                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
@@ -290,10 +290,10 @@ public class ShotGunAP extends MeleeWeapon {
     public class Bullet extends MissileWeapon {
 
         {
-            image = ItemSpriteSheet.TRIPLE_BULLET;
+            image = ItemSpriteSheet.SINGLE_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 3;                                                                            //if you make something different guns, you should change this
+            tier = 3;
         }
 
         @Override
@@ -341,20 +341,18 @@ public class ShotGunAP extends MeleeWeapon {
 
         @Override
         protected void onThrow(int cell) {
-            for (int i=1; i<=5; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
-                Char enemy = Actor.findChar(cell);
-                if (enemy == null || enemy == curUser) {
-                    parent = null;
+            Char enemy = Actor.findChar(cell);
+            if (enemy == null || enemy == curUser) {
+                parent = null;
+                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+            } else {
+                if (!curUser.shoot(enemy, this)) {
                     CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                     CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                } else {
-                    if (!curUser.shoot(enemy, this)) {
-                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                    }
-                    if (Random.Int(19) == 0){
-                        Buff.affect(enemy, Cripple.class, 2f);
-                    }
+                }
+                if (Random.Int(9) == 0){
+                    Buff.affect(enemy, Cripple.class, 2f);                              //불구 확률 2배
                 }
             }
             if (Dungeon.hero.buff(InfiniteBullet.class) != null) {
@@ -399,12 +397,10 @@ public class ShotGunAP extends MeleeWeapon {
             inputs =  new Class[]{ShotGun.class, APBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 0;
 
             output = ShotGunAP.class;
             outQuantity = 1;
         }
-
     }
-
 }

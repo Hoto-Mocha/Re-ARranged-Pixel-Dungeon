@@ -407,7 +407,7 @@ public class AssultRifleHP extends MeleeWeapon {
             inputs =  new Class[]{AssultRifle.class, HPBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 10;
+            cost = 0;
 
             output = AssultRifleHP.class;
             outQuantity = 1;
