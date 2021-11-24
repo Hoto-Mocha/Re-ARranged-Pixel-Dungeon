@@ -247,9 +247,6 @@ public abstract class Char extends Actor {
 			if (Dungeon.hero.subClass == HeroSubClass.FREERUNNER){
 				Buff.affect(Dungeon.hero, Momentum.class).gainStack();
 			}
-			if (Dungeon.hero.subClass == HeroSubClass.CHASER){
-				Dungeon.hero.setRestCount(0);
-			}
 
 			Dungeon.hero.busy();
 		}

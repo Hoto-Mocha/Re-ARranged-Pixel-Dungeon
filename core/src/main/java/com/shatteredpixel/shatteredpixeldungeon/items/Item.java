@@ -30,7 +30,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
@@ -149,20 +148,12 @@ public class Item implements Bundlable {
 			
 			if (hero.belongings.backpack.contains(this) || isEquipped(hero)) {
 				doDrop(hero);
-				if (Dungeon.hero.subClass == HeroSubClass.CHASER){
-					Dungeon.hero.setRestCount(0);
-				}
 			}
 			
 		} else if (action.equals( AC_THROW )) {
-			
 			if (hero.belongings.backpack.contains(this) || isEquipped(hero)) {
 				doThrow(hero);
-				if (Dungeon.hero.subClass == HeroSubClass.CHASER){
-					Dungeon.hero.setRestCount(0);
-				}
 			}
-			
 		}
 	}
 	
