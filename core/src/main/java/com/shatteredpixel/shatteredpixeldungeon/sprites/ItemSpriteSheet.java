@@ -242,6 +242,8 @@ public class ItemSpriteSheet {
 	public static final int ROUND_SHIELD    = WEP_TIER3+3;
 	public static final int SAI             = WEP_TIER3+4;
 	public static final int WHIP            = WEP_TIER3+5;
+	public static final int SPEAR_N_SHIELD    = WEP_TIER3+6;
+
 	static{
 		assignItemRect(SWORD,           14, 14);
 		assignItemRect(MACE,            15, 15);
@@ -249,6 +251,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ROUND_SHIELD,    16, 16);
 		assignItemRect(SAI,             16, 16);
 		assignItemRect(WHIP,            14, 14);
+		assignItemRect(SPEAR_N_SHIELD,  16, 15);
 	}
 
 	private static final int WEP_TIER4      =                               xy(9, 8);   //8 slots
@@ -365,7 +368,21 @@ public class ItemSpriteSheet {
 		assignItemRect(SPECIALGUNS_6        ,16, 16);
 	}
 
-
+	private static final int ALCHEMYGUNS         =                               xy(1, 34);
+	public static final int MINIGUN        = ALCHEMYGUNS+0;
+	public static final int LARGEHANDGUN   = ALCHEMYGUNS+1;
+	public static final int ANTIMATER_RIFLE = ALCHEMYGUNS+2;
+	public static final int ALCHEMYGUNS_4  = ALCHEMYGUNS+3;
+	public static final int ALCHEMYGUNS_5  = ALCHEMYGUNS+4;
+	public static final int ALCHEMYGUNS_6  = ALCHEMYGUNS+5;
+	static{
+		assignItemRect(MINIGUN            ,16, 15);
+		assignItemRect(LARGEHANDGUN       ,13, 15);
+		assignItemRect(ANTIMATER_RIFLE    ,14, 16);
+		assignItemRect(ALCHEMYGUNS_4      ,16, 16);
+		assignItemRect(ALCHEMYGUNS_5      ,16, 16);
+		assignItemRect(ALCHEMYGUNS_6      ,16, 16);
+	}
 
 	private static final int MISSILE_WEP    =                               xy(1, 10);  //16 slots. 3 per tier + boomerang
 	public static final int SPIRIT_BOW      = MISSILE_WEP+0;
