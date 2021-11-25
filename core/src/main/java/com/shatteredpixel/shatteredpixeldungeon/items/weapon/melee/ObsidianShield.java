@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -45,8 +46,13 @@ public class ObsidianShield extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        return  3*(tier+1) +     //21 base, down from 35
-                lvl*(tier-2);                   //+3 per level, down from +7
+        return  3*(tier+1) +
+                lvl*(tier-2);
+    }
+
+    @Override
+    public int STRReq(int lvl) {
+        return STRReq(tier-1, lvl); //18 base strength req, down from 20
     }
 
     @Override
@@ -70,7 +76,7 @@ public class ObsidianShield extends MeleeWeapon {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
-            inputs =  new Class[]{Greatshield.class, AssassinsBlade.class, ArcaneResin.class};
+            inputs =  new Class[]{Greatshield.class, Cartridge.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
             cost = 20;
