@@ -189,7 +189,7 @@ public class DualPistol extends MeleeWeapon {
 
     public int Bulletmax(int lvl) {
         return 2 * (tier)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier-2) +                                                           //if you make something different guns, you should change this
+                lvl * (tier) +                                                           //if you make something different guns, you should change this
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
