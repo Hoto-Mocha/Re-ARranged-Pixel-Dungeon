@@ -22,9 +22,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GuardBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -37,18 +39,18 @@ public class LanceNShield extends MeleeWeapon {
         hitSound = Assets.Sounds.HIT_SLASH;
         hitSoundPitch = 1.1f;
 
-        tier = 7;
+        tier = 6;
     }
 
     @Override
     public int max(int lvl) {
-        return  3*(tier+1) +     //28 base, down from 40
-                lvl*(tier-2);    //+4 per level, down from +8
+        return  3*(tier+1) +
+                lvl*(tier+1);
     }
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier-2, lvl); //18 base strength req, down from 22
+        return STRReq(tier-1, lvl); //18 base strength req, down from 20
     }
 
     @Override
@@ -61,7 +63,7 @@ public class LanceNShield extends MeleeWeapon {
         float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
 
         if (Random.Float() < procChance) {
-            Buff.affect( attacker, GuardBuff.class);
+            Buff.affect( attacker, LanceGuardBuff.class);
             return super.proc( attacker, defender, damage );
         } else {
             return super.proc( attacker, defender, damage );
@@ -72,7 +74,7 @@ public class LanceNShield extends MeleeWeapon {
         if (isIdentified()){
             return Messages.get(this, "stats_desc", buffedLvl(), 6+3*buffedLvl());
         } else {
-            return Messages.get(this, "typical_stats_desc", 0, 3);
+            return Messages.get(this, "typical_stats_desc", 0, 6);
         }
     }
 
