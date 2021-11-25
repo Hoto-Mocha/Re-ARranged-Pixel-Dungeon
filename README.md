@@ -1,3 +1,20 @@
+# ARranged Pixel Dungeon
+
+This is an EXPERIMENTAL mod project of the SPD.
+
+ARPD supports only KOREAN language yet.
+
+• New Contents
+- Various Guns & Even ROCKET
+- Normal & AP & HP Bullets
+- 5 of alchemical Weapons
+- 4 of new Subclasses
+- Added 2 artifacts deleted in SPD
+- 2 artifact buffed
+- 1 of New ring
+
+
+
 # Shattered Pixel Dungeon
 
 A Roguelike RPG, with randomly generated levels, items, enemies, and traps! Based on the [source code of Pixel Dungeon](https://github.com/00-Evan/pixel-dungeon-gradle), by [Watabou](https://www.watabou.ru).
