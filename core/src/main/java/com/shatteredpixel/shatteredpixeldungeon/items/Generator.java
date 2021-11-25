@@ -111,6 +111,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfPrismaticLight
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
@@ -147,6 +150,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleA
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -154,6 +160,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
@@ -171,6 +180,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
@@ -410,6 +420,8 @@ public class Generator {
 					HuntingRifle.class,
 
 					//alchemical weapons
+					SpearNShield.class,
+
 					GoldenPistolAP.class,
 					GoldenPistolHP.class,
 					SubMachinegunAP.class,
@@ -419,7 +431,7 @@ public class Generator {
 					HuntingRifleAP.class,
 					HuntingRifleHP.class
 			};
-			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 ,3 ,3, 0, 0, 0, 0, 0, 0};
+			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 ,3 ,3, 0, 0, 0, 0, 0, 0, 0};
 			
 			WEP_T4.classes = new Class<?>[]{
 					Longsword.class,
@@ -461,9 +473,18 @@ public class Generator {
 					HeavyMachinegunAP.class,
 					HeavyMachinegunHP.class,
 					SniperRifleAP.class,
-					SniperRifleHP.class
+					SniperRifleHP.class,
+					MiniGun.class,
+					MiniGunAP.class,
+					MiniGunHP.class,
+					LargeHandgun.class,
+					LargeHandgunAP.class,
+					LargeHandgunHP.class,
+					AntimaterRifle.class,
+					AntimaterRifleAP.class,
+					AntimaterRifleHP.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 ,3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 ,3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 			
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
