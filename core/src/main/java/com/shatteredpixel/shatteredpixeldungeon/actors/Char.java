@@ -83,6 +83,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
@@ -98,8 +100,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
@@ -357,6 +364,9 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof AssultRifleAP.Bullet
 						|| h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
 						|| h.belongings.weapon() instanceof ShotGunAP.Bullet
+						|| h.belongings.weapon() instanceof MiniGunAP.Bullet
+						|| h.belongings.weapon() instanceof LargeHandgunAP.Bullet
+						|| h.belongings.weapon() instanceof AntimaterRifleAP.Bullet
 				) {
 					dr = 0;
 				} else if (h.belongings.weapon() instanceof CrudePistolHP.Bullet
@@ -370,6 +380,9 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof SubMachinegunHP.Bullet
 						|| h.belongings.weapon() instanceof AssultRifleHP.Bullet
 						|| h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
+						|| h.belongings.weapon() instanceof MiniGunHP.Bullet
+						|| h.belongings.weapon() instanceof LargeHandgunHP.Bullet
+						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
 				) {
 					dr *= 2;
 				} else if (h.belongings.weapon instanceof ShotGunHP.Bullet) {
@@ -410,6 +423,9 @@ public abstract class Char extends Actor {
 				 || h.belongings.weapon() instanceof SubMachinegunAP.Bullet
 				 || h.belongings.weapon() instanceof AssultRifleAP.Bullet
 				 || h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
+				 || h.belongings.weapon() instanceof MiniGunAP.Bullet
+				 || h.belongings.weapon() instanceof LargeHandgunAP.Bullet
+				 || h.belongings.weapon() instanceof AntimaterRifleAP.Bullet
 				) {
 					dmg *= 0.80f;
 				} else if (h.belongings.weapon() instanceof CrudePistolHP.Bullet
@@ -423,6 +439,9 @@ public abstract class Char extends Actor {
 					    || h.belongings.weapon() instanceof SubMachinegunHP.Bullet
 					    || h.belongings.weapon() instanceof AssultRifleHP.Bullet
 					    || h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
+						|| h.belongings.weapon() instanceof MiniGunHP.Bullet
+						|| h.belongings.weapon() instanceof LargeHandgunHP.Bullet
+						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
 				) {
 					dmg *= 1.25f;
 				}
