@@ -455,7 +455,7 @@ public class Generator {
 					Lance.class,
 					LanceNShield.class,
 					TrueRunicBlade.class,
-					
+
 					MagnumAP.class,
 					MagnumHP.class,
 					HeavyMachinegunAP.class,
