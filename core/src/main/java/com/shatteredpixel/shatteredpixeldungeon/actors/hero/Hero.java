@@ -50,7 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GuardBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
@@ -63,6 +63,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
@@ -119,6 +120,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
@@ -141,10 +145,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
@@ -484,10 +494,16 @@ public class Hero extends Char {
 					accuracy *= (2.0f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				} else if (wep instanceof HuntingRifle.Bullet
 						|| wep instanceof SniperRifle.Bullet
+						|| wep instanceof AntimaterRifle.Bullet
+
 						|| wep instanceof HuntingRifleAP.Bullet
 						|| wep instanceof SniperRifleAP.Bullet
+						|| wep instanceof AntimaterRifleAP.Bullet
+
 						|| wep instanceof HuntingRifleHP.Bullet
-						|| wep instanceof SniperRifleHP.Bullet){
+						|| wep instanceof SniperRifleHP.Bullet
+						|| wep instanceof AntimaterRifleHP.Bullet
+				){
 					accuracy *= 0;
 				} else {
 					accuracy *= (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
@@ -500,10 +516,16 @@ public class Hero extends Char {
 				}
 				else if (wep instanceof HuntingRifle.Bullet
 						|| wep instanceof SniperRifle.Bullet
+						|| wep instanceof AntimaterRifle.Bullet
+
 						|| wep instanceof HuntingRifleAP.Bullet
 						|| wep instanceof SniperRifleAP.Bullet
+						|| wep instanceof AntimaterRifleAP.Bullet
+
 						|| wep instanceof HuntingRifleHP.Bullet
-						|| wep instanceof SniperRifleHP.Bullet) {
+						|| wep instanceof SniperRifleHP.Bullet
+						|| wep instanceof AntimaterRifleHP.Bullet
+				) {
 						accuracy *= 3f;
 				} else if (wep instanceof CrudePistol.Bullet
 						|| wep instanceof CrudePistolAP.Bullet
@@ -534,6 +556,12 @@ public class Hero extends Char {
 						|| wep instanceof HeavyMachinegunHP.Bullet
 						|| wep instanceof RocketLauncher.Rocket
 						|| wep instanceof ShotGunAP.Bullet
+						|| wep instanceof MiniGun.Bullet
+						|| wep instanceof MiniGunAP.Bullet
+						|| wep instanceof MiniGunHP.Bullet
+						|| wep instanceof LargeHandgun.Bullet
+						|| wep instanceof LargeHandgunAP.Bullet
+						|| wep instanceof LargeHandgunHP.Bullet
 				) {
 					accuracy *= 1f;
 				} else {
@@ -562,7 +590,7 @@ public class Hero extends Char {
 			return INFINITE_EVASION;
 		}
 
-		if (buff(GuardBuff.class) != null){
+		if (buff(LanceGuardBuff.class) != null || buff(SpearGuardBuff.class) != null){
 			return 0;
 		}
 		
@@ -623,8 +651,12 @@ public class Hero extends Char {
 			dr += Random.NormalIntRange(0, 2*pointsInTalent(Talent.HOLD_FAST));
 		}
 
-		if (buff(GuardBuff.class) != null){
-			dr += Random.NormalIntRange(hero.belongings.weapon.buffedLvl(), hero.belongings.weapon.buffedLvl()*4);
+		if (buff(LanceGuardBuff.class) != null){
+			dr += Random.NormalIntRange(hero.belongings.weapon.buffedLvl(), 6+hero.belongings.weapon.buffedLvl()*3);
+		}
+
+		if (buff(SpearGuardBuff.class) != null){
+			dr += Random.NormalIntRange(hero.belongings.weapon.buffedLvl(), 4+hero.belongings.weapon.buffedLvl()*2);
 		}
 		
 		return dr;
@@ -1311,6 +1343,14 @@ public class Hero extends Char {
 		if (rockArmor != null) {
 			damage = rockArmor.absorb(damage);
 		}
+
+		if (hero.buff(LanceGuardBuff.class) != null || hero.buff(SpearGuardBuff.class) != null) {
+			if (sprite != null && sprite.visible) {
+				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
+				hero.sprite.attack(hero.pos);
+			}
+			attack( enemy );
+		}
 		
 		return damage;
 	}
@@ -1962,6 +2002,15 @@ public class Hero extends Char {
 			 || Dungeon.hero.belongings.weapon instanceof ShotGunAP
 			 || Dungeon.hero.belongings.weapon instanceof ShotGunHP
 			 || Dungeon.hero.belongings.weapon instanceof RocketLauncher
+			 || Dungeon.hero.belongings.weapon instanceof MiniGun.Bullet
+			 || Dungeon.hero.belongings.weapon instanceof MiniGunAP.Bullet
+			 || Dungeon.hero.belongings.weapon instanceof MiniGunHP.Bullet
+			 || Dungeon.hero.belongings.weapon instanceof LargeHandgun.Bullet
+			 || Dungeon.hero.belongings.weapon instanceof LargeHandgunAP.Bullet
+			 || Dungeon.hero.belongings.weapon instanceof LargeHandgunHP.Bullet
+			 || Dungeon.hero.belongings.weapon instanceof AntimaterRifle.Bullet
+			 || Dungeon.hero.belongings.weapon instanceof AntimaterRifleAP.Bullet
+			 || Dungeon.hero.belongings.weapon instanceof AntimaterRifleHP.Bullet
 			){
 				Buff.affect( this, Focusing.class ).hit( enemy );
 			}
@@ -2052,6 +2101,15 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon instanceof ShotGunAP
 					|| Dungeon.hero.belongings.weapon instanceof ShotGunHP
 					|| Dungeon.hero.belongings.weapon instanceof RocketLauncher
+					|| Dungeon.hero.belongings.weapon instanceof MiniGun.Bullet
+					|| Dungeon.hero.belongings.weapon instanceof MiniGunAP.Bullet
+					|| Dungeon.hero.belongings.weapon instanceof MiniGunHP.Bullet
+					|| Dungeon.hero.belongings.weapon instanceof LargeHandgun.Bullet
+					|| Dungeon.hero.belongings.weapon instanceof LargeHandgunAP.Bullet
+					|| Dungeon.hero.belongings.weapon instanceof LargeHandgunHP.Bullet
+					|| Dungeon.hero.belongings.weapon instanceof AntimaterRifle.Bullet
+					|| Dungeon.hero.belongings.weapon instanceof AntimaterRifleAP.Bullet
+					|| Dungeon.hero.belongings.weapon instanceof AntimaterRifleHP.Bullet
 			) {
 				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && Random.Int(4) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
 					Buff.affect(this, Recharging.class, 1f);
