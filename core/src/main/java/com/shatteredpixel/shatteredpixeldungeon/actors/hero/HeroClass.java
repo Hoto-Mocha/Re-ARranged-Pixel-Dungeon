@@ -61,6 +61,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -179,7 +180,8 @@ public enum HeroClass {
 		//new ArcaneCatalyst().quantity(20).collect();
 		//new AlchemicalCatalyst().quantity(20).collect();
 		//new Scrap().quantity(20).collect();
-		new RocketLauncher().identify().collect();
+		//new RocketLauncher().identify().collect();
+		//new RPG7().identify().collect();
 		//new CapeOfThorns().identify().collect();
 		//new LloydsBeacon().identify().collect();
 		//new DriedRose().identify().collect();
@@ -193,11 +195,11 @@ public enum HeroClass {
 
 		//new StoneOfAugmentation().quantity(99).collect();
 
-		new ScrollOfUpgrade().identify().quantity(99).collect();
+		//new ScrollOfUpgrade().identify().quantity(99).collect();
 		//new ScrollOfTransmutation().identify().quantity(99).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
-		new PotionOfInvisibility().identify().quantity(30).collect();
-		new PotionOfStrength().identify().quantity(20).collect();
+		//new PotionOfInvisibility().identify().quantity(30).collect();
+		//new PotionOfStrength().identify().quantity(20).collect();
 		//new CurseInfusion().quantity(50).collect();
 		//new ScrollOfMysticalEnergy().quantity(50).collect();
 
