@@ -190,7 +190,7 @@ public class RocketLauncher extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 6 * (tier+5)   +
+        return 8 * (tier+5)   +
                 lvl * (tier+5) +
                 RingOfSharpshooting.levelDamageBonus(hero);
     }
