@@ -179,19 +179,19 @@ public class RocketLauncher extends MeleeWeapon {
     }
 
     public int max(int lvl) {
-        return 3 * (tier + 1) +
+        return tier +
                 lvl;
     }
 
     public int Bulletmin(int lvl) {
-        return (tier+2) +
+        return (tier+5) +
                 lvl      +
                 RingOfSharpshooting.levelDamageBonus(hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 6 * (tier+2)   +
-                lvl * (tier+2) +
+        return 6 * (tier+5)   +
+                lvl * (tier+5) +
                 RingOfSharpshooting.levelDamageBonus(hero);
     }
 
@@ -360,11 +360,6 @@ public class RocketLauncher extends MeleeWeapon {
                         GameScene.updateMap(c);
                         terrainAffected = true;
                     }
-                    //destroys items / triggers bombs caught in the blast.
-                    Heap heap = Dungeon.level.heaps.get(c);
-                    if (heap != null)
-                        heap.explode();
-
                     Char ch = Actor.findChar(c);
                     if (ch != null) {
                         affected.add(ch);
