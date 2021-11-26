@@ -148,7 +148,7 @@ public class RocketLauncher extends MeleeWeapon {
 
     public void fullReload() {
         max_round = 4;
-        curUser.spend(reload_time);
+        curUser.spend(reload_time*(max_round-round));
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
         curUser.sprite.operate(curUser.pos);
