@@ -129,8 +129,9 @@ public class MagnumAP extends MeleeWeapon {
             max_round = 4;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
+            } else {
+                reload();
             }
-            reload();
         }
     }
 

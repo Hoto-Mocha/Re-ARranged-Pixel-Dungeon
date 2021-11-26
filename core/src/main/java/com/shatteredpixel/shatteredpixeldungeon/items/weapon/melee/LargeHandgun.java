@@ -130,8 +130,9 @@ public class LargeHandgun extends MeleeWeapon {
             max_round = 6;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
+            } else {
+                reload();
             }
-            reload();
         }
     }
 

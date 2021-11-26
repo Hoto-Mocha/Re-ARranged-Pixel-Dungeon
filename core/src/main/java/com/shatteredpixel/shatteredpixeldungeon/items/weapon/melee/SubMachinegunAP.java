@@ -133,8 +133,9 @@ public class SubMachinegunAP extends MeleeWeapon {
             max_round = 9;                                                                  //if you make something different guns, you should change this
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
+            } else {
+                reload();
             }
-            reload();
         }
     }
 
