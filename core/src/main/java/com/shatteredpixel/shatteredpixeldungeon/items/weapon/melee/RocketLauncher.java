@@ -131,29 +131,44 @@ public class RocketLauncher extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 1;
+            max_round = 4;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
+            } else {
+                fullReload();
             }
-            reload();
         }
     }
 
     public void quickReload() {
-        max_round = 1;
+        max_round = 4;
         round = Math.max(max_round, round);
         updateQuickslot();
     }
 
-
-    public void reload() {
-        max_round = 1;
+    public void fullReload() {
+        max_round = 4;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
         curUser.sprite.operate(curUser.pos);
         round = Math.max(max_round, round);
+        GLog.i(Messages.get(this, "reloading"));
 
+        updateQuickslot();
+    }
+
+    public void reload() {
+        max_round = 4;
+        curUser.spend(reload_time);
+        curUser.busy();
+        Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
+        curUser.sprite.operate(curUser.pos);
+        if(round < 4) {
+            round ++;
+        } else {
+            round = Math.max(max_round, round);
+        }
         GLog.i(Messages.get(this, "reloading"));
 
         updateQuickslot();
@@ -164,7 +179,7 @@ public class RocketLauncher extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 1;
+        max_round = 4;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -190,7 +205,7 @@ public class RocketLauncher extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 8 * (tier+5)   +
+        return 2 * (tier+5)   +
                 lvl * (tier+5) +
                 RingOfSharpshooting.levelDamageBonus(hero);
     }
@@ -198,8 +213,8 @@ public class RocketLauncher extends MeleeWeapon {
     @Override
     public String info() {
 
-        max_round = 1;
-        reload_time = 3f* RingOfReload.reloadMultiplier(hero);
+        max_round = 4;
+        reload_time = 2f* RingOfReload.reloadMultiplier(hero);
 
         String info = desc();
 
