@@ -178,7 +178,7 @@ public enum HeroClass {
 		//new LiquidMetal().quantity(500).collect();
 		//new ArcaneResin().quantity(20).collect();
 		//new ArcaneCatalyst().quantity(20).collect();
-		//new AlchemicalCatalyst().quantity(20).collect();
+		//new AlchemicalCatalyst().quantity(20).collect();i
 		//new Scrap().quantity(20).collect();
 		//new RocketLauncher().identify().collect();
 		//new RPG7().identify().collect();
