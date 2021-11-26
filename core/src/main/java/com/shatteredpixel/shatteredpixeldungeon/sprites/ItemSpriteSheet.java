@@ -369,17 +369,17 @@ public class ItemSpriteSheet {
 	}
 
 	private static final int ALCHEMYGUNS         =                               xy(1, 34);
-	public static final int MINIGUN        = ALCHEMYGUNS+0;
-	public static final int LARGEHANDGUN   = ALCHEMYGUNS+1;
+	public static final int MINIGUN         = ALCHEMYGUNS+0;
+	public static final int LARGEHANDGUN    = ALCHEMYGUNS+1;
 	public static final int ANTIMATER_RIFLE = ALCHEMYGUNS+2;
-	public static final int ALCHEMYGUNS_4  = ALCHEMYGUNS+3;
-	public static final int ALCHEMYGUNS_5  = ALCHEMYGUNS+4;
-	public static final int ALCHEMYGUNS_6  = ALCHEMYGUNS+5;
+	public static final int RPG7            = ALCHEMYGUNS+3;
+	public static final int ALCHEMYGUNS_5   = ALCHEMYGUNS+4;
+	public static final int ALCHEMYGUNS_6   = ALCHEMYGUNS+5;
 	static{
 		assignItemRect(MINIGUN            ,16, 15);
 		assignItemRect(LARGEHANDGUN       ,13, 15);
 		assignItemRect(ANTIMATER_RIFLE    ,14, 16);
-		assignItemRect(ALCHEMYGUNS_4      ,16, 16);
+		assignItemRect(RPG7               ,16, 16);
 		assignItemRect(ALCHEMYGUNS_5      ,16, 16);
 		assignItemRect(ALCHEMYGUNS_6      ,16, 16);
 	}

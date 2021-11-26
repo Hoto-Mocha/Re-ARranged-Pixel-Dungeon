@@ -90,6 +90,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
@@ -296,7 +297,8 @@ public abstract class Recipe {
 		new LargeHandgunHP.Recipe(),
 		new AntimaterRifle.Recipe(),
 		new AntimaterRifleAP.Recipe(),
-		new AntimaterRifleHP.Recipe()
+		new AntimaterRifleHP.Recipe(),
+		new RPG7.Recipe()
 	};
 	
 	public static Recipe findRecipe(ArrayList<Item> ingredients){

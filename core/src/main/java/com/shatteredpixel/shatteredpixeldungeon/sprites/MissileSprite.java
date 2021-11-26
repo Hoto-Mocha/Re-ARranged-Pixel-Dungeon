@@ -61,6 +61,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
@@ -189,9 +190,10 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(LargeHandgun.Bullet.class,         0);
 		ANGULAR_SPEEDS.put(LargeHandgunAP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(LargeHandgunHP.Bullet.class,       0);
-		ANGULAR_SPEEDS.put(AntimaterRifle.Bullet.class,         0);
-		ANGULAR_SPEEDS.put(AntimaterRifleAP.Bullet.class,       0);
-		ANGULAR_SPEEDS.put(AntimaterRifleHP.Bullet.class,       0);
+		ANGULAR_SPEEDS.put(AntimaterRifle.Bullet.class,       0);
+		ANGULAR_SPEEDS.put(AntimaterRifleAP.Bullet.class,     0);
+		ANGULAR_SPEEDS.put(AntimaterRifleHP.Bullet.class,     0);
+		ANGULAR_SPEEDS.put(RPG7.Rocket.class,                 0);
 		//720 is default
 		
 		ANGULAR_SPEEDS.put(HeavyBoomerang.class,1440);
@@ -294,6 +296,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				||item instanceof AntimaterRifle.Bullet
 				||item instanceof AntimaterRifleAP.Bullet
 				||item instanceof AntimaterRifleHP.Bullet
+				||item instanceof RPG7.Rocket
 		) {
 			speed *= 3f;
 		} else if (item instanceof RocketLauncher.Rocket) {
