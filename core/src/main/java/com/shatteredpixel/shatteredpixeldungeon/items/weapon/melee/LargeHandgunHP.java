@@ -389,7 +389,7 @@ public class LargeHandgunHP extends MeleeWeapon {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
-            inputs =  new Class[]{Magnum.class, HPBullet.class, ArcaneResin.class};
+            inputs =  new Class[]{LargeHandgun.class, HPBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
             cost = 0;

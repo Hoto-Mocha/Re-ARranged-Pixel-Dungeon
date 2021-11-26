@@ -394,7 +394,7 @@ public class AntimaterRifleHP extends MeleeWeapon {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
-            inputs =  new Class[]{SniperRifle.class, HPBullet.class, ArcaneResin.class};
+            inputs =  new Class[]{AntimaterRifle.class, HPBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
             cost = 0;
