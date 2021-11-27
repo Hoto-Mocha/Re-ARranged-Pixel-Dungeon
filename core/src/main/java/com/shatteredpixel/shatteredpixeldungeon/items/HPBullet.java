@@ -50,7 +50,7 @@ public class HPBullet extends Item {
             inputs =  new Class[]{Cartridge.class, Scrap.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 5;
+            cost = 3;
 
             output = HPBullet.class;
             outQuantity = 1;
