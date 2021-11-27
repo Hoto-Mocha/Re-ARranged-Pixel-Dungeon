@@ -21,10 +21,13 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
@@ -157,6 +160,11 @@ public class ShotGunHP extends MeleeWeapon {
 
         GLog.i(Messages.get(this, "reloading"));
 
+        if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
+            Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
+            Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
+        }
+
         updateQuickslot();
     }
 
@@ -200,8 +208,7 @@ public class ShotGunHP extends MeleeWeapon {
     public String info() {
 
         max_round = 1;
-        reload_time = 1f * RingOfReload.reloadMultiplier(Dungeon.hero);
-
+        reload_time = 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {

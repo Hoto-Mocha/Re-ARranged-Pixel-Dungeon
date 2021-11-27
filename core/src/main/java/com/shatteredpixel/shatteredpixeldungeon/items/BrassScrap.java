@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class BrassScrap extends Item {
@@ -52,6 +54,9 @@ public class BrassScrap extends Item {
             inQuantity = new int[]{3};
 
             cost = 2;
+            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
+                cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
+            }
 
             output = BrassScrap.class;
             outQuantity = 1;

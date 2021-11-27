@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
+import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
@@ -30,8 +32,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ExtraBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
@@ -53,10 +57,58 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -154,6 +206,25 @@ public enum Talent {
 	//Spirit Hawk T4
 	EAGLE_EYE(119, 4), GO_FOR_THE_EYES(120, 4), SWIFT_SPIRIT(121, 4),
 
+	//Gunner T1
+	REARRANGE(160), GUNNERS_INTUITION(161), SHOOT_THE_HEART(162), SAFE_RELOAD(163),
+	//Gunner T2
+	IN_THE_GUNFIRE(164), ANOTHER_CHANCE(165), CHOICE_N_FOCUS(166), BLACKSMITH(167), LARGER_MAGAZINE(168),
+	//Gunner T3
+	MELEE_ENHANCE(169, 3), BOOM_ENHANCE(170, 3),
+	//Launcher T3
+	MACHINEGUN_MASTER(171, 3), ACC_PRACTICE(172, 2), REBOUND_PRACTICE(173, 3),
+	//Ranger T3
+	HANDGUN_MASTER(174, 3), BETTER_FOCUS(175, 3), REBOUND_CONTROL(176, 3),
+	//RifleMan T3
+	RIFLE_MASTER(140, 3), ALL_FOR_ONE(141, 3), EVASIVE_MOVE(142, 3),
+	//Riot T4
+	RIOT_1(177, 4), RIOT_2(178,4), RIOT_3(179, 4),
+	//ArtillerySupport T4
+	ARTILLERY_1(180, 4), ARTILLERY_2(181, 4), ARTILLERY_3(182, 4),
+	//Napalm T4
+	NAPALM_1(183,4), NAPALM_2(184, 4), NAPALM_3(185,4),
+
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -211,6 +282,13 @@ public enum Talent {
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
+	public static class ReloadCooldown extends FlavourBuff{
+		public int icon() { return target.buff(RevealedArea.class) != null ? BuffIndicator.NONE : BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.3f, 0.3f, 0.3f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 6); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
 
 	int icon;
 	int maxPoints;
@@ -242,6 +320,8 @@ public enum Talent {
 					return 90;
 				case HUNTRESS:
 					return 122;
+				case GUNNER:
+					return 185;
 			}
 		} else {
 			return icon;
@@ -271,6 +351,9 @@ public enum Talent {
 		if (talent == NATURES_BOUNTY){
 			if ( hero.pointsInTalent(NATURES_BOUNTY) == 1) Buff.count(hero, NatureBerriesAvailable.class, 4);
 			else                                           Buff.count(hero, NatureBerriesAvailable.class, 2);
+		}
+		if (talent == LARGER_MAGAZINE) {
+			updateQuickslot();
 		}
 
 		if (talent == ARMSMASTERS_INTUITION && hero.pointsInTalent(ARMSMASTERS_INTUITION) == 2){
@@ -372,6 +455,14 @@ public enum Talent {
 			//effectively 1/2 turns of haste
 			Buff.prolong( hero, Haste.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
 		}
+		if (hero.hasTalent(REARRANGE)){
+			//effectively 5/10 turns of ExtraBullet
+			Buff.prolong( hero, ExtraBullet.class, 5f*hero.pointsInTalent(REARRANGE));
+		}
+		if (hero.hasTalent(IN_THE_GUNFIRE)) {
+			//effectively 1/2 turns of ExtraBullet
+			Buff.prolong( hero, InfiniteBullet.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
+		}
 	}
 
 	public static class WarriorFoodImmunity extends FlavourBuff{
@@ -393,6 +484,57 @@ public enum Talent {
 		// 2x/instant for rogue (see onItemEqupped), also id's type on equip/on pickup
 		if (item instanceof Ring){
 			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
+		}
+
+		if (item instanceof CrudePistol
+				||item instanceof CrudePistolAP
+				||item instanceof CrudePistolHP
+				||item instanceof Pistol
+				||item instanceof PistolAP
+				||item instanceof PistolHP
+				||item instanceof GoldenPistol
+				||item instanceof GoldenPistolAP
+				||item instanceof GoldenPistolHP
+				||item instanceof Handgun
+				||item instanceof HandgunAP
+				||item instanceof HandgunHP
+				||item instanceof Magnum
+				||item instanceof MagnumAP
+				||item instanceof MagnumHP
+				||item instanceof DualPistol
+				||item instanceof DualPistolAP
+				||item instanceof DualPistolHP
+				||item instanceof SubMachinegun
+				||item instanceof SubMachinegunAP
+				||item instanceof SubMachinegunHP
+				||item instanceof AssultRifle
+				||item instanceof AssultRifleAP
+				||item instanceof AssultRifleHP
+				||item instanceof HeavyMachinegun
+				||item instanceof HeavyMachinegunAP
+				||item instanceof HeavyMachinegunHP
+				||item instanceof HuntingRifle
+				||item instanceof HuntingRifleAP
+				||item instanceof HuntingRifleHP
+				||item instanceof SniperRifle
+				||item instanceof SniperRifleAP
+				||item instanceof SniperRifleHP
+				||item instanceof ShotGun
+				||item instanceof ShotGunAP
+				||item instanceof ShotGunHP
+				||item instanceof MiniGun
+				||item instanceof MiniGunAP
+				||item instanceof MiniGunHP
+				||item instanceof LargeHandgun
+				||item instanceof LargeHandgunAP
+				||item instanceof LargeHandgunHP
+				||item instanceof AntimaterRifle
+				||item instanceof AntimaterRifleAP
+				||item instanceof AntimaterRifleHP
+				||item instanceof RPG7
+				||item instanceof RocketLauncher
+		) {
+			factor *= 1f + hero.pointsInTalent(GUNNERS_INTUITION);
 		}
 		return factor;
 	}
@@ -459,6 +601,24 @@ public enum Talent {
 				SpellSprite.show( hero, SpellSprite.CHARGE );
 			}
 		}
+		if (hero.hasTalent(ANOTHER_CHANCE)) {
+			ScrollOfUpgrade scl = new ScrollOfUpgrade();
+			StoneOfEnchantment enchantment = new StoneOfEnchantment();
+			if (hero.pointsInTalent(Talent.ANOTHER_CHANCE) >= 1 && Random.Int(19) == 0) {
+				if (enchantment.doPickUp( Dungeon.hero )) {
+					GLog.i( Messages.get(Dungeon.hero, "you_now_have", enchantment.name() ));
+				} else {
+					Dungeon.level.drop( enchantment, Dungeon.hero.pos ).sprite.drop();
+				}
+			}
+			if (hero.pointsInTalent(Talent.ANOTHER_CHANCE) == 2 && Random.Int(19) == 0) {
+				if (scl.doPickUp( Dungeon.hero )) {
+					GLog.i( Messages.get(Dungeon.hero, "you_now_have", scl.name() ));
+				} else {
+					Dungeon.level.drop( scl, Dungeon.hero.pos ).sprite.drop();
+				}
+			}
+		}
 	}
 
 	public static void onArtifactUsed( Hero hero ){
@@ -477,6 +637,57 @@ public enum Talent {
 			} else {
 				((Ring) item).setKnown();
 			}
+		}
+		if (hero.pointsInTalent(GUNNERS_INTUITION) == 2 &&
+				(item instanceof CrudePistol
+						||item instanceof CrudePistolAP
+						||item instanceof CrudePistolHP
+						||item instanceof Pistol
+						||item instanceof PistolAP
+						||item instanceof PistolHP
+						||item instanceof GoldenPistol
+						||item instanceof GoldenPistolAP
+						||item instanceof GoldenPistolHP
+						||item instanceof Handgun
+						||item instanceof HandgunAP
+						||item instanceof HandgunHP
+						||item instanceof Magnum
+						||item instanceof MagnumAP
+						||item instanceof MagnumHP
+						||item instanceof DualPistol
+						||item instanceof DualPistolAP
+						||item instanceof DualPistolHP
+						||item instanceof SubMachinegun
+						||item instanceof SubMachinegunAP
+						||item instanceof SubMachinegunHP
+						||item instanceof AssultRifle
+						||item instanceof AssultRifleAP
+						||item instanceof AssultRifleHP
+						||item instanceof HeavyMachinegun
+						||item instanceof HeavyMachinegunAP
+						||item instanceof HeavyMachinegunHP
+						||item instanceof HuntingRifle
+						||item instanceof HuntingRifleAP
+						||item instanceof HuntingRifleHP
+						||item instanceof SniperRifle
+						||item instanceof SniperRifleAP
+						||item instanceof SniperRifleHP
+						||item instanceof ShotGun
+						||item instanceof ShotGunAP
+						||item instanceof ShotGunHP
+						||item instanceof MiniGun
+						||item instanceof MiniGunAP
+						||item instanceof MiniGunHP
+						||item instanceof LargeHandgun
+						||item instanceof LargeHandgunAP
+						||item instanceof LargeHandgunHP
+						||item instanceof AntimaterRifle
+						||item instanceof AntimaterRifleAP
+						||item instanceof AntimaterRifleHP
+						||item instanceof RPG7
+						||item instanceof RocketLauncher)
+		){
+			item.identify();
 		}
 	}
 
@@ -538,11 +749,66 @@ public enum Talent {
 			}
 		}
 
+		if (Dungeon.hero.belongings.weapon instanceof CrudePistol.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof CrudePistolAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof CrudePistolHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof Pistol.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof PistolAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof PistolHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof GoldenPistol.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof GoldenPistolAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof GoldenPistolHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof Handgun.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof HandgunAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof HandgunHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof Magnum.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof MagnumAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof MagnumHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof DualPistol.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof DualPistolAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof DualPistolHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof SubMachinegun.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof SubMachinegunAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof SubMachinegunHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof AssultRifle.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof AssultRifleAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof AssultRifleHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegun.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegunAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegunHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof HuntingRifle.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof HuntingRifleAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof HuntingRifleHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof SniperRifle.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof SniperRifleAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof SniperRifleHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof ShotGun.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof ShotGunAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof ShotGunHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof RocketLauncher.Rocket
+				|| Dungeon.hero.belongings.weapon instanceof MiniGun.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof MiniGunAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof MiniGunHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof LargeHandgun.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof LargeHandgunAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof LargeHandgunHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof AntimaterRifle.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof AntimaterRifleAP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof AntimaterRifleHP.Bullet
+				|| Dungeon.hero.belongings.weapon instanceof RPG7.Rocket
+		){
+			if (hero.hasTalent(Talent.SHOOT_THE_HEART) && enemy instanceof Mob && enemy.buff(ShootTheHeartTracker.class) == null){
+				dmg += 1 + hero.pointsInTalent(Talent.SHOOT_THE_HEART);
+				Buff.affect(enemy, ShootTheHeartTracker.class);
+			}
+		}
+
 		return dmg;
 	}
 
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
+	public static class ShootTheHeartTracker extends Buff{};
 
 	public static final int MAX_TALENT_TIERS = 4;
 
@@ -571,6 +837,9 @@ public enum Talent {
 			case HUNTRESS:
 				Collections.addAll(tierTalents, NATURES_BOUNTY, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, NATURES_AID);
 				break;
+			case GUNNER:
+				Collections.addAll(tierTalents,	REARRANGE, GUNNERS_INTUITION, SHOOT_THE_HEART, SAFE_RELOAD);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			talents.get(0).put(talent, 0);
@@ -591,6 +860,9 @@ public enum Talent {
 			case HUNTRESS:
 				Collections.addAll(tierTalents, INVIGORATING_MEAL, RESTORED_NATURE, REJUVENATING_STEPS, HEIGHTENED_SENSES, DURABLE_PROJECTILES);
 				break;
+			case GUNNER:
+				Collections.addAll(tierTalents,	IN_THE_GUNFIRE, ANOTHER_CHANCE, CHOICE_N_FOCUS, BLACKSMITH, LARGER_MAGAZINE);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			talents.get(1).put(talent, 0);
@@ -610,6 +882,9 @@ public enum Talent {
 				break;
 			case HUNTRESS:
 				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT, BETTER_CHOICE);
+				break;
+			case GUNNER:
+				Collections.addAll(tierTalents, MELEE_ENHANCE, BOOM_ENHANCE);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -671,6 +946,15 @@ public enum Talent {
 				break;
 			case FIGHTER:
 				Collections.addAll(tierTalents, SKILLS_PRACTICE, MIND_PRACTICE, VITAL_ATTACK);
+				break;
+			case LAUNCHER:
+				Collections.addAll(tierTalents, MACHINEGUN_MASTER, ACC_PRACTICE, REBOUND_PRACTICE);
+				break;
+			case RANGER:
+				Collections.addAll(tierTalents, HANDGUN_MASTER, BETTER_FOCUS, REBOUND_CONTROL);
+				break;
+			case RIFLEMAN:
+				Collections.addAll(tierTalents, RIFLE_MASTER, ALL_FOR_ONE, EVASIVE_MOVE);
 				break;
 		}
 		for (Talent talent : tierTalents){

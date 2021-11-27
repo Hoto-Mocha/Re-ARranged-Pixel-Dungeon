@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Scrap extends Item {
@@ -51,6 +53,9 @@ public class Scrap extends Item {
             inQuantity = new int[]{3};
 
             cost = 1;
+            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
+                cost -= 1f;
+            }
 
             output = Scrap.class;
             outQuantity = 1;

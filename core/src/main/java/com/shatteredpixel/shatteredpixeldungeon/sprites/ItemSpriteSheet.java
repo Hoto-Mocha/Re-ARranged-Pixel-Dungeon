@@ -353,18 +353,18 @@ public class ItemSpriteSheet {
 	}
 
 	private static final int SPECIALGUNS         =                               xy(9, 33);
-	public static final int SHOTGUN        = SPECIALGUNS+0;
-	public static final int ROCKET_LAUNCHER= SPECIALGUNS+1;
-	public static final int SPECIALGUNS_3  = SPECIALGUNS+2;
-	public static final int SPECIALGUNS_4  = SPECIALGUNS+3;
-	public static final int SPECIALGUNS_5  = SPECIALGUNS+4;
-	public static final int SPECIALGUNS_6  = SPECIALGUNS+5;
+	public static final int SHOTGUN          = SPECIALGUNS+0;
+	public static final int ROCKET_LAUNCHER  = SPECIALGUNS+1;
+	public static final int SPECIALGUNS_3    = SPECIALGUNS+2;
+	public static final int FLAMETHORWER     = SPECIALGUNS+3;
+	public static final int PLASMA_CANNON    = SPECIALGUNS+4;
+	public static final int SPECIALGUNS_6    = SPECIALGUNS+5;
 	static{
 		assignItemRect(SHOTGUN              ,14, 16);
 		assignItemRect(ROCKET_LAUNCHER      ,15, 15);
 		assignItemRect(SPECIALGUNS_3        ,16, 16);
-		assignItemRect(SPECIALGUNS_4        ,16, 16);
-		assignItemRect(SPECIALGUNS_5        ,16, 16);
+		assignItemRect(FLAMETHORWER         ,14, 15);
+		assignItemRect(PLASMA_CANNON        ,14, 16);
 		assignItemRect(SPECIALGUNS_6        ,16, 16);
 	}
 
@@ -459,6 +459,7 @@ public class ItemSpriteSheet {
 	public static final int ARMOR_MAGE      = ARMOR+6;
 	public static final int ARMOR_ROGUE     = ARMOR+7;
 	public static final int ARMOR_HUNTRESS  = ARMOR+8;
+	public static final int ARMOR_GUNNER    = ARMOR+9;
 	static{
 		assignItemRect(ARMOR_CLOTH,     15, 12);
 		assignItemRect(ARMOR_LEATHER,   14, 13);
@@ -469,6 +470,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ARMOR_MAGE,      15, 15);
 		assignItemRect(ARMOR_ROGUE,     14, 12);
 		assignItemRect(ARMOR_HUNTRESS,  13, 15);
+		assignItemRect(ARMOR_GUNNER,    15, 13);
 	}
 
 	                                                                                    //16 free slots

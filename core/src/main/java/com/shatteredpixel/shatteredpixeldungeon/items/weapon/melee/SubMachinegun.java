@@ -21,10 +21,14 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
@@ -128,7 +132,10 @@ public class SubMachinegun extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 9;                                                                  //if you make something different guns, you should change this
+            max_round = 9;
+            if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }//if you make something different guns, you should change this
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
@@ -139,12 +146,18 @@ public class SubMachinegun extends MeleeWeapon {
 
     public void quickReload() {
         max_round = 9;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
         round = Math.max(max_round, round);
         updateQuickslot();
     }
 
     public void reload() {
-        max_round = 9;                                                                      //if you make something different guns, you should change this
+        max_round = 9;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }//if you make something different guns, you should change this
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -152,6 +165,11 @@ public class SubMachinegun extends MeleeWeapon {
         round = Math.max(max_round, round);
 
         GLog.i(Messages.get(this, "reloading"));
+
+        if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
+            Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
+            Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
+        }
 
         updateQuickslot();
     }
@@ -161,7 +179,10 @@ public class SubMachinegun extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 9;                                                                      //if you make something different guns, you should change this
+        max_round = 9;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }//if you make something different guns, you should change this
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -195,9 +216,11 @@ public class SubMachinegun extends MeleeWeapon {
     @Override
     public String info() {
 
-        max_round = 9;                                                                       //if you make something different guns, you should change this
-        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);         //if you make something different guns, you should change this;
-
+        max_round = 9;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }//if you make something different guns, you should change this
+        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {

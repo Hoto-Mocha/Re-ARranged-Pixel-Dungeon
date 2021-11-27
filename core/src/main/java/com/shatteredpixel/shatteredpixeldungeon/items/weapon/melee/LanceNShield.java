@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -85,6 +86,9 @@ public class LanceNShield extends MeleeWeapon {
             inQuantity = new int[]{1, 1, 1};
 
             cost = 30;
+            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
+                cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
+            }
 
             output = LanceNShield.class;
             outQuantity = 1;

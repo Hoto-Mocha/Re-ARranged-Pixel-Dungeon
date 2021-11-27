@@ -27,9 +27,12 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -158,6 +161,11 @@ public class AntimaterRifle extends MeleeWeapon {
 
         GLog.i(Messages.get(this, "reloading"));
 
+    if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
+        Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
+        Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
+    }
+
         updateQuickslot();
     }
 
@@ -201,7 +209,6 @@ public class AntimaterRifle extends MeleeWeapon {
 
         max_round = 1;
         reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
-
         String info = desc();
 
         if (levelKnown) {
@@ -399,6 +406,9 @@ public class AntimaterRifle extends MeleeWeapon {
             inQuantity = new int[]{1, 1, 1};
 
             cost = 3;
+            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
+                cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
+            }
 
             output = AntimaterRifle.class;
             outQuantity = 1;

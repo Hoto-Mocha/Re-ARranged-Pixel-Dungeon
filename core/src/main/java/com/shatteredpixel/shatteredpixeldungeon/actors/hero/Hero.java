@@ -569,7 +569,57 @@ public class Hero extends Char {
 					accuracy *= 1.5f;
 				}
 			}
+			if (this.hasTalent(Talent.CHOICE_N_FOCUS)) {
+				if (hero.belongings.weapon() instanceof CrudePistolAP.Bullet
+					|| hero.belongings.weapon() instanceof PistolAP.Bullet
+					|| hero.belongings.weapon() instanceof GoldenPistolAP.Bullet
+					|| hero.belongings.weapon() instanceof HandgunAP.Bullet
+					|| hero.belongings.weapon() instanceof MagnumAP.Bullet
+					|| hero.belongings.weapon() instanceof HuntingRifleAP.Bullet
+					|| hero.belongings.weapon() instanceof SniperRifleAP.Bullet
+					|| hero.belongings.weapon() instanceof DualPistolAP.Bullet
+					|| hero.belongings.weapon() instanceof SubMachinegunAP.Bullet
+					|| hero.belongings.weapon() instanceof AssultRifleAP.Bullet
+					|| hero.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
+					|| hero.belongings.weapon() instanceof MiniGunAP.Bullet
+					|| hero.belongings.weapon() instanceof LargeHandgunAP.Bullet
+					|| hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
+					|| hero.belongings.weapon() instanceof CrudePistolHP.Bullet
+					|| hero.belongings.weapon() instanceof PistolHP.Bullet
+					|| hero.belongings.weapon() instanceof GoldenPistolHP.Bullet
+					|| hero.belongings.weapon() instanceof HandgunHP.Bullet
+					|| hero.belongings.weapon() instanceof MagnumHP.Bullet
+					|| hero.belongings.weapon() instanceof HuntingRifleHP.Bullet
+					|| hero.belongings.weapon() instanceof SniperRifleHP.Bullet
+					|| hero.belongings.weapon() instanceof DualPistolHP.Bullet
+					|| hero.belongings.weapon() instanceof SubMachinegunHP.Bullet
+					|| hero.belongings.weapon() instanceof AssultRifleHP.Bullet
+					|| hero.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
+					|| hero.belongings.weapon() instanceof MiniGunHP.Bullet
+					|| hero.belongings.weapon() instanceof LargeHandgunHP.Bullet
+					|| hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet
+					|| hero.belongings.weapon() instanceof CrudePistol.Bullet
+					|| hero.belongings.weapon() instanceof Pistol.Bullet
+					|| hero.belongings.weapon() instanceof GoldenPistol.Bullet
+					|| hero.belongings.weapon() instanceof Handgun.Bullet
+					|| hero.belongings.weapon() instanceof Magnum.Bullet
+					|| hero.belongings.weapon() instanceof HuntingRifle.Bullet
+					|| hero.belongings.weapon() instanceof SniperRifle.Bullet
+					|| hero.belongings.weapon() instanceof DualPistol.Bullet
+					|| hero.belongings.weapon() instanceof SubMachinegun.Bullet
+					|| hero.belongings.weapon() instanceof AssultRifle.Bullet
+					|| hero.belongings.weapon() instanceof HeavyMachinegun.Bullet
+					|| hero.belongings.weapon() instanceof MiniGun.Bullet
+					|| hero.belongings.weapon() instanceof LargeHandgun.Bullet
+					|| hero.belongings.weapon() instanceof AntimaterRifle.Bullet
+					|| hero.belongings.weapon() instanceof RocketLauncher.Rocket
+					|| hero.belongings.weapon() instanceof RPG7.Rocket
+				) {
+					accuracy *= 1.1f + 0.1f * hero.pointsInTalent(Talent.CHOICE_N_FOCUS);
+				}
+			}
 		}
+
 		if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
 			accuracy *= 1f + (0.1f * hero.pointsInTalent(Talent.ENHANCED_FOCUSING));
 		}
@@ -2004,15 +2054,16 @@ public class Hero extends Char {
 			 || Dungeon.hero.belongings.weapon instanceof ShotGunAP
 			 || Dungeon.hero.belongings.weapon instanceof ShotGunHP
 			 || Dungeon.hero.belongings.weapon instanceof RocketLauncher
-			 || Dungeon.hero.belongings.weapon instanceof MiniGun.Bullet
-			 || Dungeon.hero.belongings.weapon instanceof MiniGunAP.Bullet
-			 || Dungeon.hero.belongings.weapon instanceof MiniGunHP.Bullet
-			 || Dungeon.hero.belongings.weapon instanceof LargeHandgun.Bullet
-			 || Dungeon.hero.belongings.weapon instanceof LargeHandgunAP.Bullet
-			 || Dungeon.hero.belongings.weapon instanceof LargeHandgunHP.Bullet
-			 || Dungeon.hero.belongings.weapon instanceof AntimaterRifle.Bullet
-			 || Dungeon.hero.belongings.weapon instanceof AntimaterRifleAP.Bullet
-			 || Dungeon.hero.belongings.weapon instanceof AntimaterRifleHP.Bullet
+			 || Dungeon.hero.belongings.weapon instanceof MiniGun
+			 || Dungeon.hero.belongings.weapon instanceof MiniGunAP
+			 || Dungeon.hero.belongings.weapon instanceof MiniGunHP
+			 || Dungeon.hero.belongings.weapon instanceof LargeHandgun
+			 || Dungeon.hero.belongings.weapon instanceof LargeHandgunAP
+			 || Dungeon.hero.belongings.weapon instanceof LargeHandgunHP
+			 || Dungeon.hero.belongings.weapon instanceof AntimaterRifle
+			 || Dungeon.hero.belongings.weapon instanceof AntimaterRifleAP
+			 || Dungeon.hero.belongings.weapon instanceof AntimaterRifleHP
+			 || Dungeon.hero.belongings.weapon instanceof RPG7
 			){
 				Buff.affect( this, Focusing.class ).hit( enemy );
 			}

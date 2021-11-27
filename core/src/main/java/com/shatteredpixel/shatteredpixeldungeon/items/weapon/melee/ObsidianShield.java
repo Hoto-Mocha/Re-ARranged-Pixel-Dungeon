@@ -21,7 +21,9 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
@@ -80,6 +82,9 @@ public class ObsidianShield extends MeleeWeapon {
             inQuantity = new int[]{1, 1, 1};
 
             cost = 20;
+            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
+                cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
+            }
 
             output = ObsidianShield.class;
             outQuantity = 1;

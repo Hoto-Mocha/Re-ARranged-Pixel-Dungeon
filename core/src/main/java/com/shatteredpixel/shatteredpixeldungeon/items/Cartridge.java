@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Cartridge extends Item {
@@ -52,6 +54,10 @@ public class Cartridge extends Item {
             inQuantity = new int[]{3};
 
             cost = 3;
+            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
+                cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
+            }
+
 
             output = Cartridge.class;
             outQuantity = 1;

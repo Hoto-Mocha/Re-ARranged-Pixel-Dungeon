@@ -56,6 +56,7 @@ public class Badges {
 		UNLOCK_MAGE                 ( 1 ),
 		UNLOCK_ROGUE                ( 2 ),
 		UNLOCK_HUNTRESS             ( 3 ),
+		UNLOCK_GUNNER               ( 19 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),
 		GOLD_COLLECTED_1            ( 6 ),
@@ -723,6 +724,12 @@ public class Badges {
 	public static void validateHuntressUnlock(){
 		if (Statistics.thrownAssists >= 15 && !global.contains(Badge.UNLOCK_HUNTRESS)){
 			displayBadge( Badge.UNLOCK_HUNTRESS );
+		}
+	}
+
+	public static void validateGunnerUnlock(){
+		if (Statistics.thrownAssists >= 15 && !global.contains(Badge.UNLOCK_GUNNER)){
+			displayBadge( Badge.UNLOCK_GUNNER );
 		}
 	}
 	

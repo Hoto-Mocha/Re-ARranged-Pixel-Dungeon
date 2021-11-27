@@ -40,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ExtraBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
@@ -83,36 +84,51 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -444,6 +460,118 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
 				) {
 					dmg *= 1.25f;
+				}
+			}
+
+			if (Dungeon.hero.buff(ExtraBullet.class) != null) {
+				Hero h = (Hero)this;
+				if (h.belongings.weapon() instanceof CrudePistolAP.Bullet
+						|| h.belongings.weapon() instanceof PistolAP.Bullet
+						|| h.belongings.weapon() instanceof GoldenPistolAP.Bullet
+						|| h.belongings.weapon() instanceof HandgunAP.Bullet
+						|| h.belongings.weapon() instanceof MagnumAP.Bullet
+						|| h.belongings.weapon() instanceof HuntingRifleAP.Bullet
+						|| h.belongings.weapon() instanceof SniperRifleAP.Bullet
+						|| h.belongings.weapon() instanceof DualPistolAP.Bullet
+						|| h.belongings.weapon() instanceof SubMachinegunAP.Bullet
+						|| h.belongings.weapon() instanceof AssultRifleAP.Bullet
+						|| h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
+						|| h.belongings.weapon() instanceof MiniGunAP.Bullet
+						|| h.belongings.weapon() instanceof LargeHandgunAP.Bullet
+						|| h.belongings.weapon() instanceof AntimaterRifleAP.Bullet
+						|| h.belongings.weapon() instanceof CrudePistolHP.Bullet
+						|| h.belongings.weapon() instanceof PistolHP.Bullet
+						|| h.belongings.weapon() instanceof GoldenPistolHP.Bullet
+						|| h.belongings.weapon() instanceof HandgunHP.Bullet
+						|| h.belongings.weapon() instanceof MagnumHP.Bullet
+						|| h.belongings.weapon() instanceof HuntingRifleHP.Bullet
+						|| h.belongings.weapon() instanceof SniperRifleHP.Bullet
+						|| h.belongings.weapon() instanceof DualPistolHP.Bullet
+						|| h.belongings.weapon() instanceof SubMachinegunHP.Bullet
+						|| h.belongings.weapon() instanceof AssultRifleHP.Bullet
+						|| h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
+						|| h.belongings.weapon() instanceof MiniGunHP.Bullet
+						|| h.belongings.weapon() instanceof LargeHandgunHP.Bullet
+						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
+						|| h.belongings.weapon() instanceof CrudePistol.Bullet
+						|| h.belongings.weapon() instanceof Pistol.Bullet
+						|| h.belongings.weapon() instanceof GoldenPistol.Bullet
+						|| h.belongings.weapon() instanceof Handgun.Bullet
+						|| h.belongings.weapon() instanceof Magnum.Bullet
+						|| h.belongings.weapon() instanceof HuntingRifle.Bullet
+						|| h.belongings.weapon() instanceof SniperRifle.Bullet
+						|| h.belongings.weapon() instanceof DualPistol.Bullet
+						|| h.belongings.weapon() instanceof SubMachinegun.Bullet
+						|| h.belongings.weapon() instanceof AssultRifle.Bullet
+						|| h.belongings.weapon() instanceof HeavyMachinegun.Bullet
+						|| h.belongings.weapon() instanceof MiniGun.Bullet
+						|| h.belongings.weapon() instanceof LargeHandgun.Bullet
+						|| h.belongings.weapon() instanceof AntimaterRifle.Bullet
+						|| h.belongings.weapon() instanceof RocketLauncher.Rocket
+						|| h.belongings.weapon() instanceof RPG7.Rocket
+				) {
+					dmg += 3;
+				}
+
+			}
+
+			if (Dungeon.hero.hasTalent(Talent.MELEE_ENHANCE)) {
+				Hero h = (Hero)this;
+				if (h.belongings.weapon() instanceof CrudePistolAP
+					|| h.belongings.weapon() instanceof PistolAP
+					|| h.belongings.weapon() instanceof GoldenPistolAP
+					|| h.belongings.weapon() instanceof HandgunAP
+					|| h.belongings.weapon() instanceof MagnumAP
+					|| h.belongings.weapon() instanceof HuntingRifleAP
+					|| h.belongings.weapon() instanceof SniperRifleAP
+					|| h.belongings.weapon() instanceof DualPistolAP
+					|| h.belongings.weapon() instanceof SubMachinegunAP
+					|| h.belongings.weapon() instanceof AssultRifleAP
+					|| h.belongings.weapon() instanceof HeavyMachinegunAP
+					|| h.belongings.weapon() instanceof MiniGunAP
+					|| h.belongings.weapon() instanceof LargeHandgunAP
+					|| h.belongings.weapon() instanceof AntimaterRifleAP
+					|| h.belongings.weapon() instanceof CrudePistolHP
+					|| h.belongings.weapon() instanceof PistolHP
+					|| h.belongings.weapon() instanceof GoldenPistolHP
+					|| h.belongings.weapon() instanceof HandgunHP
+					|| h.belongings.weapon() instanceof MagnumHP
+					|| h.belongings.weapon() instanceof HuntingRifleHP
+					|| h.belongings.weapon() instanceof SniperRifleHP
+					|| h.belongings.weapon() instanceof DualPistolHP
+					|| h.belongings.weapon() instanceof SubMachinegunHP
+					|| h.belongings.weapon() instanceof AssultRifleHP
+					|| h.belongings.weapon() instanceof HeavyMachinegunHP
+					|| h.belongings.weapon() instanceof MiniGunHP
+					|| h.belongings.weapon() instanceof LargeHandgunHP
+					|| h.belongings.weapon() instanceof AntimaterRifleHP
+					|| h.belongings.weapon() instanceof CrudePistol
+					|| h.belongings.weapon() instanceof Pistol
+					|| h.belongings.weapon() instanceof GoldenPistol
+					|| h.belongings.weapon() instanceof Handgun
+					|| h.belongings.weapon() instanceof Magnum
+					|| h.belongings.weapon() instanceof HuntingRifle
+					|| h.belongings.weapon() instanceof SniperRifle
+					|| h.belongings.weapon() instanceof DualPistol
+					|| h.belongings.weapon() instanceof SubMachinegun
+					|| h.belongings.weapon() instanceof AssultRifle
+					|| h.belongings.weapon() instanceof HeavyMachinegun
+					|| h.belongings.weapon() instanceof MiniGun
+					|| h.belongings.weapon() instanceof LargeHandgun
+					|| h.belongings.weapon() instanceof AntimaterRifle
+					|| h.belongings.weapon() instanceof RocketLauncher
+					|| h.belongings.weapon() instanceof RPG7
+				) {
+					dmg += 5*Dungeon.hero.pointsInTalent(Talent.MELEE_ENHANCE);
+				}
+			}
+
+			if (Dungeon.hero.hasTalent(Talent.BOOM_ENHANCE)) {
+				Hero h = (Hero)this;
+				if (h.belongings.weapon() instanceof RocketLauncher.Rocket
+					|| h.belongings.weapon() instanceof RPG7.Rocket
+				) {
+					dmg *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.BOOM_ENHANCE);
 				}
 			}
 
