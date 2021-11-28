@@ -728,9 +728,7 @@ public class Badges {
 	}
 
 	public static void validateGunnerUnlock(){
-		if (Statistics.thrownAssists >= 15 && !global.contains(Badge.UNLOCK_GUNNER)){
-			displayBadge( Badge.UNLOCK_GUNNER );
-		}
+		displayBadge( Badge.UNLOCK_GUNNER );
 	}
 	
 	public static void validateMasteryCombo( int n ) {
@@ -744,6 +742,7 @@ public class Badges {
 	public static void validateVictory() {
 
 		Badge badge = Badge.VICTORY;
+		validateGunnerUnlock();
 		displayBadge( badge );
 
 		switch (Dungeon.hero.heroClass) {
@@ -759,6 +758,10 @@ public class Badges {
 		case HUNTRESS:
 			badge = Badge.VICTORY_HUNTRESS;
 			break;
+		case GUNNER:
+			//TODO 거너 클리어 뱃지 추가
+			break;
+
 		}
 		local.add( badge );
 		if (!global.contains( badge )) {
