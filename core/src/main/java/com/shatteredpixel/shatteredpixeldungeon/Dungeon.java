@@ -692,7 +692,9 @@ public class Dungeon {
 	public static void observe(){
 		int dist = 8;
 		dist *= 1f + 0.25f*Dungeon.hero.pointsInTalent(Talent.FARSIGHT);
-		dist -= 1f * Dungeon.hero.pointsInTalent(Talent.CHOICE_N_FOCUS);
+		if (!Dungeon.isChallenged( Challenges.DARKNESS )) {
+			dist -= 1f * Dungeon.hero.pointsInTalent(Talent.CHOICE_N_FOCUS);
+		}
 		observe( dist+1 );
 	}
 	
