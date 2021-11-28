@@ -224,13 +224,13 @@ public enum Catalog {
 		WEAPONS.seen.put( AssultRifle.class,                false);
 		WEAPONS.seen.put( HeavyMachinegun.class,            false);
 
+		WEAPONS.seen.put( ShotGun.class,                    false);
+		WEAPONS.seen.put( RocketLauncher.class,             false);
+		
 		WEAPONS.seen.put( LargeHandgun.class,               false);
 		WEAPONS.seen.put( AntimaterRifle.class,             false);
 		WEAPONS.seen.put( MiniGun.class,                    false);
 		WEAPONS.seen.put( RPG7.class,                       false);
-
-		WEAPONS.seen.put( ShotGun.class,                    false);
-		WEAPONS.seen.put( RocketLauncher.class,             false);
 
 		WEAPONS.seen.put( ObsidianShield.class,             false);
 		WEAPONS.seen.put( LanceNShield.class,               false);
