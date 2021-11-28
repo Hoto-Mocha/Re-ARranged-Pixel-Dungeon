@@ -42,8 +42,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.En
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
+import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
@@ -296,6 +298,7 @@ public enum HeroClass {
 		new PotionOfMindVision().identify();
 		new ScrollOfLullaby().identify();
 
+		//new Amulet().collect();
 		//new TengusMask().collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new DriedRose().identify().collect();
@@ -312,7 +315,9 @@ public enum HeroClass {
 
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
-		
+
+		//new KingsCrown().collect();
+
 		//new PotionOfStrength().quantity(20).identify().collect();
 		//new AntimaterRifle().identify().collect();
 		//new AssultRifle().identify().collect();
