@@ -68,10 +68,11 @@ public class Amulet extends Item {
 	public boolean doPickUp( Hero hero ) {
 		if (super.doPickUp( hero )) {
 
-			validateGunnerUnlock();
-			
 			if (!Statistics.amuletObtained) {
 				Statistics.amuletObtained = true;
+
+				Badges.validateGunnerUnlock();
+
 				hero.spend(-TIME_TO_PICK_UP);
 
 				//add a delayed actor here so pickup behaviour can fully process.
