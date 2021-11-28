@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon;
 
+import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
@@ -728,7 +729,7 @@ public class Badges {
 	}
 
 	public static void validateGunnerUnlock(){
-		if (Statistics.amuletObtained && !global.contains(Badge.UNLOCK_GUNNER))
+		if ((Statistics.amuletObtained = true) && !global.contains(Badge.UNLOCK_GUNNER))
 		displayBadge( Badge.UNLOCK_GUNNER );
 	}
 	
