@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Badges.validateGunnerUnlock;
+
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -65,6 +67,8 @@ public class Amulet extends Item {
 	@Override
 	public boolean doPickUp( Hero hero ) {
 		if (super.doPickUp( hero )) {
+
+			validateGunnerUnlock();
 			
 			if (!Statistics.amuletObtained) {
 				Statistics.amuletObtained = true;
