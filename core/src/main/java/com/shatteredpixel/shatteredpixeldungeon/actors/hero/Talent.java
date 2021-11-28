@@ -460,8 +460,8 @@ public enum Talent {
 			Buff.prolong( hero, ExtraBullet.class, 5f*hero.pointsInTalent(REARRANGE));
 		}
 		if (hero.hasTalent(IN_THE_GUNFIRE)) {
-			//effectively 1/2 turns of ExtraBullet
-			Buff.prolong( hero, InfiniteBullet.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
+			//effectively 1/2 turns of infiniteBullet
+			Buff.prolong( hero, InfiniteBullet.class, 0.67f+hero.pointsInTalent(IN_THE_GUNFIRE));
 		}
 	}
 
