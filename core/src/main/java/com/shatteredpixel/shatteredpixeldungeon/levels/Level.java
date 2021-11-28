@@ -1076,6 +1076,7 @@ public abstract class Level implements Bundlable {
 			int viewDist = c.viewDistance;
 			if (c instanceof Hero){
 				viewDist *= 1f + 0.25f*((Hero) c).pointsInTalent(Talent.FARSIGHT);
+				viewDist -= 1f * ((Hero) c).pointsInTalent(Talent.CHOICE_N_FOCUS);
 			}
 			
 			ShadowCaster.castShadow( cx, cy, fieldOfView, blocking, viewDist );
@@ -1092,6 +1093,7 @@ public abstract class Level implements Bundlable {
 			if (c.buff(MagicalSight.class) != null){
 				sense = 8;
 				sense *= 1f + 0.25f*((Hero) c).pointsInTalent(Talent.FARSIGHT);
+				sense -= 1f * ((Hero) c).pointsInTalent(Talent.CHOICE_N_FOCUS);
 			}
 		}
 		
