@@ -405,7 +405,7 @@ public class Generator {
 					DualPistolAP.class,
 					DualPistolHP.class
 			};
-			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,3 ,3 , 0, 0, 0, 0};
+			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,3 ,3, 0, 0, 0, 0};
 			
 			WEP_T3.classes = new Class<?>[]{
 					Sword.class,
@@ -484,7 +484,7 @@ public class Generator {
 					AntimaterRifleAP.class,
 					AntimaterRifleHP.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 ,3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 ,3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 			
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
