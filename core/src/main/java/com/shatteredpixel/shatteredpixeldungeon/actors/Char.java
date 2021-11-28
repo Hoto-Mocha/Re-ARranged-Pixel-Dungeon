@@ -40,9 +40,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ExtraBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
@@ -269,6 +272,14 @@ public abstract class Char extends Actor {
 		if (c == Dungeon.hero){
 			if (Dungeon.hero.subClass == HeroSubClass.FREERUNNER){
 				Buff.affect(Dungeon.hero, Momentum.class).gainStack();
+			}
+
+			Dungeon.hero.busy();
+		}
+
+		if (c == Dungeon.hero){
+			if (Dungeon.hero.subClass == HeroSubClass.RANGER && Random.Int(50) == 0){
+				Buff.affect(Dungeon.hero, Haste.class,5);
 			}
 
 			Dungeon.hero.busy();
@@ -572,6 +583,21 @@ public abstract class Char extends Actor {
 					|| h.belongings.weapon() instanceof RPG7.Rocket
 				) {
 					dmg *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.BOOM_ENHANCE);
+				}
+			}
+
+			if (Dungeon.hero.hasTalent(Talent.ONLY_ONE_SHOT)) {
+				if (Dungeon.hero.belongings.weapon() instanceof HuntingRifle.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof SniperRifle.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof SniperRifleAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof SniperRifleHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet
+				) {
+					dmg *= 1f + 0.1f*Dungeon.hero.pointsInTalent(Talent.ONLY_ONE_SHOT);
 				}
 			}
 

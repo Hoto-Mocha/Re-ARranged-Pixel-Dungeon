@@ -29,10 +29,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
@@ -122,8 +125,10 @@ public class HuntingRifle extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
+                    reload_time = (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT))* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
+                    reload_time = (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT))* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -132,7 +137,7 @@ public class HuntingRifle extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 1;                                                                  //if you make something different guns, you should change this
+            max_round = 1;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
@@ -148,7 +153,7 @@ public class HuntingRifle extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 1;                                                                      //if you make something different guns, you should change this
+        max_round = 1;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -170,7 +175,7 @@ public class HuntingRifle extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 1;                                                                      //if you make something different guns, you should change this
+        max_round = 1;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -180,32 +185,39 @@ public class HuntingRifle extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return tier +                                                                      //if you make something different guns, you should change this
-                lvl;                                                                        //if you make something different guns, you should change this
+        return tier +
+                lvl;
     }
 
     public int max(int lvl) {
-        return 3 * (tier + 1) +                                                            //if you make something different guns, you should change this
-                lvl;                                                           //if you make something different guns, you should change this
+        return 3 * (tier + 1) +
+                lvl;
     }
 
     public int Bulletmin(int lvl) {
-        return 3 * tier +                                                                  //if you make something different guns, you should change this
-                lvl      +                                                                  //if you make something different guns, you should change this
+        return 3 * tier +
+                lvl      +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 8 * (tier+3)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier+3) +                                                           //if you make something different guns, you should change this
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null){
+            return 8 * (tier+3)   +
+                    lvl * (tier+3) +
+                    RingOfSharpshooting.levelDamageBonus(Dungeon.hero) +
+                    10 + 5 * hero.pointsInTalent(Talent.RIFLE_MASTER);
+        } else {
+            return 8 * (tier+3)   +
+                    lvl * (tier+3) +
+                    RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
     @Override
     public String info() {
 
-        max_round = 1;                                                                       //if you make something different guns, you should change this
-        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        max_round = 1;
+        reload_time = (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT))* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
@@ -349,6 +361,9 @@ public class HuntingRifle extends MeleeWeapon {
 
         @Override
         protected void onThrow( int cell ) {
+            if (Random.Int(3) <= hero.pointsInTalent(Talent.EVASIVE_MOVE)-1) {
+                Buff.affect(hero, EvasiveMove.class, 0.9999f);
+            }
             Char enemy = Actor.findChar( cell );
             if (enemy == null || enemy == curUser) {
                 parent = null;

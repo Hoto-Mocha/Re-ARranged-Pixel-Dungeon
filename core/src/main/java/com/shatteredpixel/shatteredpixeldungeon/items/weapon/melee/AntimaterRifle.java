@@ -29,11 +29,14 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
@@ -62,7 +65,7 @@ public class AntimaterRifle extends MeleeWeapon {
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
 
-    private int max_round;
+    private int max_round = 1;
     private int round;
     private float reload_time;
     private static final String TXT_STATUS = "%d/%d";
@@ -72,11 +75,11 @@ public class AntimaterRifle extends MeleeWeapon {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.ANTIMATER_RIFLE;                                  //if you make something different guns, you should change this
+        image = ItemSpriteSheet.ANTIMATER_RIFLE;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 6;                                                             //if you make something different guns, you should change this
+        tier = 6;
     }
 
     private static final String ROUND = "round";
@@ -126,8 +129,10 @@ public class AntimaterRifle extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
+                    reload_time = (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT))* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
+                    reload_time = (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT))* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -200,15 +205,21 @@ public class AntimaterRifle extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 10 * (tier+3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
-               lvl * (tier+3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero));
+        if (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null){
+            return 10 * (tier+3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
+                    lvl * (tier+3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
+                    10 + 5 * hero.pointsInTalent(Talent.RIFLE_MASTER);
+        } else {
+            return 10 * (tier+3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
+                    lvl * (tier+3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero));
+        }
     }
 
     @Override
     public String info() {
 
         max_round = 1;
-        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT))* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
@@ -352,6 +363,9 @@ public class AntimaterRifle extends MeleeWeapon {
 
         @Override
         protected void onThrow( int cell ) {
+            if (Random.Int(3) <= hero.pointsInTalent(Talent.EVASIVE_MOVE)-1) {
+                Buff.affect(hero, EvasiveMove.class, 0.9999f);
+            }
             Char enemy = Actor.findChar( cell );
             if (enemy == null || enemy == curUser) {
                 parent = null;

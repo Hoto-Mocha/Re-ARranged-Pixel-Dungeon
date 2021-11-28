@@ -97,7 +97,12 @@ public class Swiftthistle extends Plant {
 		public void twoTurns() {
 			left = 2f;
 		}
-		
+
+		public void oneTurn(){
+			left = 1f;
+		}
+
+
 		@Override
 		public String toString() {
 			return Messages.get(this, "name");

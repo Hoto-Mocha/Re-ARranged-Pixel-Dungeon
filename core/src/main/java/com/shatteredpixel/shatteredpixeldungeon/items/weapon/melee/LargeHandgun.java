@@ -27,7 +27,12 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -117,7 +122,11 @@ public class LargeHandgun extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload();
+                    if (hero.hasTalent(Talent.ELEMENTAL_BULLET)) {
+                        elementReload();
+                    } else {
+                        reload();
+                    }
                 } else {
                     usesTargeting = true;
                     curUser = hero;
@@ -129,17 +138,19 @@ public class LargeHandgun extends MeleeWeapon {
         if (action.equals(AC_RELOAD)) {
             max_round = 6;
             if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
+                max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+            }
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
+            } else if (round == 0 && hero.hasTalent(Talent.ELEMENTAL_BULLET)){
+                elementReload();
             } else {
                 reload();
             }
         }
     }
 
-    public void quickReload() {
+    public void quickReload(Char owner) {
         max_round = 6;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
@@ -149,6 +160,9 @@ public class LargeHandgun extends MeleeWeapon {
     }
 
     public void reload() {
+        Buff.detach(hero, FrostBullet.class);
+        Buff.detach(hero, FireBullet.class);
+        Buff.detach(hero, ElectroBullet.class);
         max_round = 6;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
@@ -160,6 +174,46 @@ public class LargeHandgun extends MeleeWeapon {
         round = Math.max(max_round, round);
 
         GLog.i(Messages.get(this, "reloading"));
+
+        if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
+            Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
+            Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
+        }
+
+        updateQuickslot();
+    }
+
+    public void elementReload() {
+        Buff.detach(hero, FrostBullet.class);
+        Buff.detach(hero, FireBullet.class);
+        Buff.detach(hero, ElectroBullet.class);
+        max_round = 6;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
+        curUser.spend(reload_time);
+        curUser.busy();
+        Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
+        curUser.sprite.operate(curUser.pos);
+        round = Math.max(max_round, round);
+
+        GLog.i(Messages.get(this, "reloading"));
+
+        if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
+            Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
+            Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
+        }
+
+        int chance = Random.Int(6);
+        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) >= 1 && chance == 0) {
+            Buff.affect(hero, FrostBullet.class, 100f);
+        }
+        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) >= 2 && chance == 1) {
+            Buff.affect(hero, FireBullet.class, 100f);
+        }
+        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) == 3 && chance == 2) {
+            Buff.affect(hero, ElectroBullet.class, 100f);
+        }
 
         updateQuickslot();
     }
@@ -200,7 +254,8 @@ public class LargeHandgun extends MeleeWeapon {
     public int Bulletmax(int lvl) {
         return 4 * (tier)   +
                 lvl * (tier) +
-                RingOfSharpshooting.levelDamageBonus(hero);
+                RingOfSharpshooting.levelDamageBonus(hero) +
+                5 * hero.pointsInTalent(Talent.HANDGUN_MASTER);
     }
 
     @Override
@@ -335,7 +390,11 @@ public class LargeHandgun extends MeleeWeapon {
 
         @Override
         public float delayFactor(Char user) {
-            return LargeHandgun.this.delayFactor(user);
+            if (hero.hasTalent(Talent.RECOIL_CONTROL)) {
+                return LargeHandgun.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
+            } else {
+                return LargeHandgun.this.delayFactor(user);
+            }
         }
 
         @Override

@@ -100,6 +100,7 @@ public class BuffIndicator extends Component {
 	public static final int MOMENTUM    = 51;
 	public static final int ANKH        = 52;
 	public static final int NOINV       = 53;
+	public static final int BULLET 		= 54;
 
 	public static final int SIZE    = 7;
 	

@@ -125,8 +125,10 @@ public class ShotGunHP extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
+                    reload_time = 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
+                    reload_time = 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;

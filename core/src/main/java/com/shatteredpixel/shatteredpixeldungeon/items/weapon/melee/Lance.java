@@ -56,7 +56,7 @@ public class Lance extends MeleeWeapon {
             inputs =  new Class[]{Glaive.class, Cartridge.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
-            cost = 20;
+            cost = 10;
             if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
                 cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
             }

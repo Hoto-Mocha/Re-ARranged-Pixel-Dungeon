@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
@@ -121,8 +122,10 @@ public class HeavyMachinegun extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
+                    reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
+                    reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -209,7 +212,8 @@ public class HeavyMachinegun extends MeleeWeapon {
     public int Bulletmax(int lvl) {
         return 2 * (tier)   +                                                           //if you make something different guns, you should change this
                 lvl * (tier-2) +                                                           //if you make something different guns, you should change this
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero) +
+                5 * Dungeon.hero.pointsInTalent(Talent.MACHINEGUN_MASTER);
     }
 
     @Override
@@ -364,24 +368,60 @@ public class HeavyMachinegun extends MeleeWeapon {
 
         @Override
         protected void onThrow( int cell ) {
-            for (int i=1; i<=3; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
-                Char enemy = Actor.findChar(cell);
-                if (enemy == null || enemy == curUser) {
-                    parent = null;
-                    CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                    CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                } else {
-                    if (!curUser.shoot(enemy, this)) {
+            if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3-hero.pointsInTalent(Talent.RECOIL_PRACTICE)) == 0) {
+                for (int i=1; i<=4; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+                    if (round <= 0) {
+                        break;
+                    }
+                    Char enemy = Actor.findChar(cell);
+                    if (enemy == null || enemy == curUser) {
+                        parent = null;
                         CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                         CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                    } else {
+                        if (!curUser.shoot(enemy, this)) {
+                            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                        }
                     }
+                    if (hero.buff(InfiniteBullet.class) != null) {
+                        //round preserves
+                    } else {
+                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(9) == 0) {
+                            //round preserves
+                        } else {
+                            round --;
+                        }
+                    }
+                    updateQuickslot();
                 }
-                if (hero.buff(InfiniteBullet.class) != null) {
-                    //round preserves
-                } else {
-                    round --;
+            } else {
+                for (int i=1; i<=3; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+                    if (round <= 0) {
+                        break;
+                    }
+                    Char enemy = Actor.findChar(cell);
+                    if (enemy == null || enemy == curUser) {
+                        parent = null;
+                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                    } else {
+                        if (!curUser.shoot(enemy, this)) {
+                            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                        }
+                    }
+                    if (hero.buff(InfiniteBullet.class) != null) {
+                        //round preserves
+                    } else {
+                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(9) == 0) {
+                            //round preserves
+                        } else {
+                            round --;
+                        }
+                    }
+                    updateQuickslot();
                 }
-                updateQuickslot();
             }
         }
 

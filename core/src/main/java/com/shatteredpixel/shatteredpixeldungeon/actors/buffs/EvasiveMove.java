@@ -22,53 +22,44 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.watabou.noosa.Image;
 import com.watabou.utils.Random;
 
-public class FrostImbue extends FlavourBuff {
-	
-	{
-		type = buffType.POSITIVE;
-		announced = true;
-	}
-	
-	public static final float DURATION	= 50f;
-	
-	public void proc(Char enemy){
-		if (Random.Int(5) == 0) {
-			Buff.affect(enemy, Frost.class, 2f);
-			enemy.sprite.emitter().burst( SnowParticle.FACTORY, 2 );
-		} else {
-			Buff.affect(enemy, Chill.class, 2f);
-			enemy.sprite.emitter().burst( SnowParticle.FACTORY, 2 );
-		}
+public class EvasiveMove extends FlavourBuff {
 
-	}
-	
-	@Override
-	public int icon() {
-		return BuffIndicator.FROST;
-	}
+    {
+        type = buffType.POSITIVE;
+        announced = true;
+    }
 
-	@Override
-	public float iconFadePercent() {
-		return Math.max(0, (DURATION - visualcooldown()) / DURATION);
-	}
-	
-	@Override
-	public String toString() {
-		return Messages.get(this, "name");
-	}
-	
-	@Override
-	public String desc() {
-		return Messages.get(this, "desc", dispTurns());
-	}
-	
-	{
-		immunities.add( Frost.class );
-		immunities.add( Chill.class );
-	}
+    public static final float DURATION	= 1f;
+
+    @Override
+    public int icon() {
+        return BuffIndicator.HASTE;
+    }
+
+    @Override
+    public void tintIcon(Image icon) {
+        icon.hardlight(1f, 0.2f, 0.2f);
+    }
+
+    @Override
+    public float iconFadePercent() {
+        return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+    }
+
+    @Override
+    public String toString() {
+        return Messages.get(this, "name");
+    }
+
+    @Override
+    public String desc() {
+        return Messages.get(this, "desc", dispTurns());
+    }
 }

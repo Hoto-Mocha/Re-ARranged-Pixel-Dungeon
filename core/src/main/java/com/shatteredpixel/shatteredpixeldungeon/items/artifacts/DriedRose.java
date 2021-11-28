@@ -593,13 +593,13 @@ public class DriedRose extends Artifact {
 			if (rose != null) {
 				if (rose.weapon != null) {
 					if (Dungeon.hero.belongings.weapon != null) {
-						dmg += rose.weapon.damageRoll(this) + Math.round(Dungeon.hero.belongings.weapon.damageRoll(this) / 2);
+						dmg += rose.weapon.damageRoll(this) + Math.round(Dungeon.hero.belongings.weapon.damageRoll(this) / 2f);
 					} else {
 						dmg += rose.weapon.damageRoll(this);
 					}
 				} else {
 					if (Dungeon.hero.belongings.weapon != null) {
-						dmg += Random.NormalIntRange(0, 5) + Math.round(Dungeon.hero.belongings.weapon.damageRoll(this) / 2);
+						dmg += Random.NormalIntRange(0, 5) + Math.round(Dungeon.hero.belongings.weapon.damageRoll(this) / 2f);
 					} else {
 						dmg += Random.NormalIntRange(0, 5);
 					}

@@ -25,50 +25,44 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
-import com.watabou.utils.Random;
+import com.watabou.noosa.Image;
 
-public class FrostImbue extends FlavourBuff {
-	
-	{
-		type = buffType.POSITIVE;
-		announced = true;
-	}
-	
-	public static final float DURATION	= 50f;
-	
-	public void proc(Char enemy){
-		if (Random.Int(5) == 0) {
-			Buff.affect(enemy, Frost.class, 2f);
-			enemy.sprite.emitter().burst( SnowParticle.FACTORY, 2 );
-		} else {
-			Buff.affect(enemy, Chill.class, 2f);
-			enemy.sprite.emitter().burst( SnowParticle.FACTORY, 2 );
-		}
+public class FrostBullet extends FlavourBuff {
 
-	}
-	
-	@Override
-	public int icon() {
-		return BuffIndicator.FROST;
-	}
+    {
+        type = buffType.POSITIVE;
+        announced = true;
+    }
 
-	@Override
-	public float iconFadePercent() {
-		return Math.max(0, (DURATION - visualcooldown()) / DURATION);
-	}
-	
-	@Override
-	public String toString() {
-		return Messages.get(this, "name");
-	}
-	
-	@Override
-	public String desc() {
-		return Messages.get(this, "desc", dispTurns());
-	}
-	
-	{
-		immunities.add( Frost.class );
-		immunities.add( Chill.class );
-	}
+    public static final float DURATION	= 100f;
+
+    public void proc(Char enemy){
+        Buff.affect(enemy, Chill.class, 2f);
+        enemy.sprite.emitter().burst( SnowParticle.FACTORY, 2 );
+    }
+
+    @Override
+    public int icon() {
+        return BuffIndicator.BULLET;
+    }
+
+    @Override
+    public void tintIcon(Image icon) {
+        icon.hardlight(0.2f, 0.2f, 1f);
+    }
+
+    @Override
+    public float iconFadePercent() {
+        return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+    }
+
+    @Override
+    public String toString() {
+        return Messages.get(this, "name");
+    }
+
+    @Override
+    public String desc() {
+        return Messages.get(this, "desc", dispTurns());
+    }
 }

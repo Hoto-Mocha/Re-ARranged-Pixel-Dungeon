@@ -213,11 +213,11 @@ public enum Talent {
 	//Gunner T3
 	MELEE_ENHANCE(169, 3), BOOM_ENHANCE(170, 3),
 	//Launcher T3
-	MACHINEGUN_MASTER(171, 3), ACC_PRACTICE(172, 2), REBOUND_PRACTICE(173, 3),
+	MACHINEGUN_MASTER(171, 3), ACC_PRACTICE(172, 2), RECOIL_PRACTICE(173, 3),
 	//Ranger T3
-	HANDGUN_MASTER(174, 3), BETTER_FOCUS(175, 3), REBOUND_CONTROL(176, 3),
+	HANDGUN_MASTER(174, 3), RECOIL_CONTROL(175, 3), ELEMENTAL_BULLET(176, 3),
 	//RifleMan T3
-	RIFLE_MASTER(140, 3), ALL_FOR_ONE(141, 3), EVASIVE_MOVE(142, 3),
+	RIFLE_MASTER(140, 3), ONLY_ONE_SHOT(141, 3), EVASIVE_MOVE(142, 3),
 	//Riot T4
 	RIOT_1(177, 4), RIOT_2(178,4), RIOT_3(179, 4),
 	//ArtillerySupport T4
@@ -948,13 +948,13 @@ public enum Talent {
 				Collections.addAll(tierTalents, SKILLS_PRACTICE, MIND_PRACTICE, VITAL_ATTACK);
 				break;
 			case LAUNCHER:
-				Collections.addAll(tierTalents, MACHINEGUN_MASTER, ACC_PRACTICE, REBOUND_PRACTICE);
+				Collections.addAll(tierTalents, MACHINEGUN_MASTER, ACC_PRACTICE, RECOIL_PRACTICE);
 				break;
 			case RANGER:
-				Collections.addAll(tierTalents, HANDGUN_MASTER, BETTER_FOCUS, REBOUND_CONTROL);
+				Collections.addAll(tierTalents, HANDGUN_MASTER, RECOIL_CONTROL, ELEMENTAL_BULLET);
 				break;
 			case RIFLEMAN:
-				Collections.addAll(tierTalents, RIFLE_MASTER, ALL_FOR_ONE, EVASIVE_MOVE);
+				Collections.addAll(tierTalents, RIFLE_MASTER, ONLY_ONE_SHOT, EVASIVE_MOVE);
 				break;
 		}
 		for (Talent talent : tierTalents){

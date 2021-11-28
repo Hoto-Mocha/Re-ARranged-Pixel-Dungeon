@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Rio
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -67,6 +68,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
@@ -312,8 +314,11 @@ public enum HeroClass {
 
 		new PotionOfStrength().quantity(20).identify().collect();
 		new AntimaterRifle().identify().collect();
+		new AssultRifle().identify().collect();
 		new PotionOfExperience().quantity(30).identify().collect();
+		new PotionOfInvisibility().quantity(30).identify().collect();
 		new FrozenCarpaccio().quantity(99).collect();
+		new TengusMask().collect();
 	}
 
 	public String title() {

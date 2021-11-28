@@ -124,8 +124,10 @@ public class ShotGunAP extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
+                    reload_time = 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
+                    reload_time = 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -192,14 +194,14 @@ public class ShotGunAP extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        return 3 +
-               3 * lvl +
+        return 4 +
+               lvl +
                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 3 * (tier + 2)   +
-               3 * lvl +
+        return 4 * (tier+2)   +
+                lvl * (tier+2) +
                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 

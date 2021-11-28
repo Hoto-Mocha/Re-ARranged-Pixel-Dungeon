@@ -124,8 +124,10 @@ public class RPG7 extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
+                    reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
+                    reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -138,7 +140,7 @@ public class RPG7 extends MeleeWeapon {
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
-                fullReload();
+                reload();
             }
         }
     }
@@ -149,34 +151,13 @@ public class RPG7 extends MeleeWeapon {
         updateQuickslot();
     }
 
-    public void fullReload() {
-        max_round = 1;
-        curUser.spend(reload_time*(max_round-round));
-        curUser.busy();
-        Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
-        curUser.sprite.operate(curUser.pos);
-        round = Math.max(max_round, round);
-        GLog.i(Messages.get(this, "reloading"));
-
-        if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
-            Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
-            Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
-        }
-
-        updateQuickslot();
-    }
-
     public void reload() {
         max_round = 1;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
         curUser.sprite.operate(curUser.pos);
-        if(round < 4) {
-            round ++;
-        } else {
-            round = Math.max(max_round, round);
-        }
+        round = Math.max(max_round, round);
         GLog.i(Messages.get(this, "reloading"));
 
         if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
