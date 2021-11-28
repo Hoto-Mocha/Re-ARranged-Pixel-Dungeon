@@ -728,6 +728,7 @@ public class Badges {
 	}
 
 	public static void validateGunnerUnlock(){
+		if (Statistics.amuletObtained && !global.contains(Badge.UNLOCK_GUNNER))
 		displayBadge( Badge.UNLOCK_GUNNER );
 	}
 	
@@ -742,7 +743,6 @@ public class Badges {
 	public static void validateVictory() {
 
 		Badge badge = Badge.VICTORY;
-		validateGunnerUnlock();
 		displayBadge( badge );
 
 		switch (Dungeon.hero.heroClass) {
