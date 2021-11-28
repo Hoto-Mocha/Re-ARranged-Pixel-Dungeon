@@ -182,6 +182,12 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.GLOVES),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
+				case GUNNER:
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.RING_SAPPHIRE),
+							new ItemSprite(ItemSpriteSheet.MAGNUM),
+							new ItemSprite(ItemSpriteSheet.CRUDE_PISTOL),
+							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
 			}
 			for (Image im : icons) {
 				add(im);
