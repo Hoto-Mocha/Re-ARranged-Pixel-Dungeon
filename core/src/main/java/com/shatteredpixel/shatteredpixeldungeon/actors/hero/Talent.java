@@ -321,7 +321,7 @@ public enum Talent {
 				case HUNTRESS:
 					return 122;
 				case GUNNER:
-					return 185;
+					return 186;
 			}
 		} else {
 			return icon;
