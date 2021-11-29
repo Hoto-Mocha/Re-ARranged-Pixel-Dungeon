@@ -372,7 +372,7 @@ public class MiniGunAP extends MeleeWeapon {
         @Override
         protected void onThrow( int cell ) {
             if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3-hero.pointsInTalent(Talent.RECOIL_PRACTICE)) == 0) {
-                for (int i=1; i<=4; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+                for (int i=1; i<=7; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                     if (round <= 0) {
                         break;
                     }
@@ -399,7 +399,7 @@ public class MiniGunAP extends MeleeWeapon {
                     updateQuickslot();
                 }
             } else {
-                for (int i=1; i<=3; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+                for (int i=1; i<=6; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                     if (round <= 0) {
                         break;
                     }
