@@ -2181,22 +2181,22 @@ public class Hero extends Char {
 		}
 
 		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER) {
-			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) >= 1 && Random.Int(4) == 0){
+			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) >= 1 && Random.Int(5) == 0){
 				Buff.affect( enemy, Weakness.class, 3f );
 			}
-			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) >= 2 && Random.Int(4) == 0){
+			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) >= 2 && Random.Int(5) == 0){
 				Buff.affect( enemy, Vulnerable.class, 3f );
 			}
-			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) == 3 && Random.Int(9) == 0){
+			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) == 3 && Random.Int(10) == 0){
 				Buff.affect( enemy, Paralysis.class, 3f );
 			}
-			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) >= 1 && Random.Int(9) == 0){
+			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) >= 1 && Random.Int(10) == 0){
 				Buff.affect( this, Adrenaline.class, 3f );
 			}
-			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) >= 2 && Random.Int(9) == 0){
+			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) >= 2 && Random.Int(10) == 0){
 				Buff.affect( this, Bless.class, 3f );
 			}
-			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(9) == 0){
+			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(10) == 0){
 				Buff.affect(this, Healing.class).setHeal((int) (3), 0, 1);
 			}
 		}
@@ -2248,10 +2248,10 @@ public class Hero extends Char {
 					|| hero.belongings.weapon instanceof AntimaterRifleAP
 					|| hero.belongings.weapon instanceof AntimaterRifleHP
 			) {
-				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && Random.Int(4) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
+				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
 					Buff.affect(this, Recharging.class, 1f);
 				}
-				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 2 && Random.Int(4) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
+				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 2 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
 					Buff.affect(this, ArtifactRecharge.class).set( 1 );
 				}
 				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 3) {
@@ -2262,7 +2262,7 @@ public class Hero extends Char {
 						Buff.affect(this, ArtifactRecharge.class).prolong( 2 );
 					}
 				}
-				if (Random.Int(4) == 0) {
+				if (Random.Int(5) == 0) {
 					if (Random.Int(1) == 0) {
 						Buff.affect(enemy, Paralysis.class, 2f);
 						enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);

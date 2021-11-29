@@ -371,7 +371,7 @@ public class MiniGun extends MeleeWeapon {
 
         @Override
         protected void onThrow( int cell ) {
-            if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3-hero.pointsInTalent(Talent.RECOIL_PRACTICE)) == 0) {
+            if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3) <= hero.pointsInTalent(Talent.RECOIL_PRACTICE)-1) {
                 for (int i=1; i<=7; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                     if (round <= 0) {
                         break;

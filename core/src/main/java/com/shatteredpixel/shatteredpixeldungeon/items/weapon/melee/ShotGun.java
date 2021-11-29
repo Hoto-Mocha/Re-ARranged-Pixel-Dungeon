@@ -353,7 +353,7 @@ public class ShotGun extends MeleeWeapon {
                         CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                         CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
                     }
-                    if (Random.Int(19) == 0){
+                    if (Random.Int(20) == 0){
                         Buff.affect(enemy, Cripple.class, 2f);
                     }
                 }
