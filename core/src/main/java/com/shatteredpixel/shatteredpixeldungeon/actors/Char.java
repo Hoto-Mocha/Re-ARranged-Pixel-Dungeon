@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LifeLink;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
@@ -61,6 +62,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Speed;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Stamina;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
@@ -475,51 +477,50 @@ public abstract class Char extends Actor {
 			}
 
 			if (Dungeon.hero.buff(ExtraBullet.class) != null) {
-				Hero h = (Hero)this;
-				if (h.belongings.weapon() instanceof CrudePistolAP.Bullet
-						|| h.belongings.weapon() instanceof PistolAP.Bullet
-						|| h.belongings.weapon() instanceof GoldenPistolAP.Bullet
-						|| h.belongings.weapon() instanceof HandgunAP.Bullet
-						|| h.belongings.weapon() instanceof MagnumAP.Bullet
-						|| h.belongings.weapon() instanceof HuntingRifleAP.Bullet
-						|| h.belongings.weapon() instanceof SniperRifleAP.Bullet
-						|| h.belongings.weapon() instanceof DualPistolAP.Bullet
-						|| h.belongings.weapon() instanceof SubMachinegunAP.Bullet
-						|| h.belongings.weapon() instanceof AssultRifleAP.Bullet
-						|| h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
-						|| h.belongings.weapon() instanceof MiniGunAP.Bullet
-						|| h.belongings.weapon() instanceof LargeHandgunAP.Bullet
-						|| h.belongings.weapon() instanceof AntimaterRifleAP.Bullet
-						|| h.belongings.weapon() instanceof CrudePistolHP.Bullet
-						|| h.belongings.weapon() instanceof PistolHP.Bullet
-						|| h.belongings.weapon() instanceof GoldenPistolHP.Bullet
-						|| h.belongings.weapon() instanceof HandgunHP.Bullet
-						|| h.belongings.weapon() instanceof MagnumHP.Bullet
-						|| h.belongings.weapon() instanceof HuntingRifleHP.Bullet
-						|| h.belongings.weapon() instanceof SniperRifleHP.Bullet
-						|| h.belongings.weapon() instanceof DualPistolHP.Bullet
-						|| h.belongings.weapon() instanceof SubMachinegunHP.Bullet
-						|| h.belongings.weapon() instanceof AssultRifleHP.Bullet
-						|| h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
-						|| h.belongings.weapon() instanceof MiniGunHP.Bullet
-						|| h.belongings.weapon() instanceof LargeHandgunHP.Bullet
-						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
-						|| h.belongings.weapon() instanceof CrudePistol.Bullet
-						|| h.belongings.weapon() instanceof Pistol.Bullet
-						|| h.belongings.weapon() instanceof GoldenPistol.Bullet
-						|| h.belongings.weapon() instanceof Handgun.Bullet
-						|| h.belongings.weapon() instanceof Magnum.Bullet
-						|| h.belongings.weapon() instanceof HuntingRifle.Bullet
-						|| h.belongings.weapon() instanceof SniperRifle.Bullet
-						|| h.belongings.weapon() instanceof DualPistol.Bullet
-						|| h.belongings.weapon() instanceof SubMachinegun.Bullet
-						|| h.belongings.weapon() instanceof AssultRifle.Bullet
-						|| h.belongings.weapon() instanceof HeavyMachinegun.Bullet
-						|| h.belongings.weapon() instanceof MiniGun.Bullet
-						|| h.belongings.weapon() instanceof LargeHandgun.Bullet
-						|| h.belongings.weapon() instanceof AntimaterRifle.Bullet
-						|| h.belongings.weapon() instanceof RocketLauncher.Rocket
-						|| h.belongings.weapon() instanceof RPG7.Rocket
+				if (Dungeon.hero.belongings.weapon() instanceof CrudePistolAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof PistolAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof GoldenPistolAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof HandgunAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof MagnumAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof SniperRifleAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof DualPistolAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof SubMachinegunAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof AssultRifleAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof MiniGunAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof CrudePistolHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof PistolHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof GoldenPistolHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof HandgunHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof MagnumHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof SniperRifleHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof DualPistolHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof SubMachinegunHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof AssultRifleHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof MiniGunHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof CrudePistol.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof Pistol.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof GoldenPistol.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof Handgun.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof Magnum.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof HuntingRifle.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof SniperRifle.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof DualPistol.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof SubMachinegun.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof AssultRifle.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof HeavyMachinegun.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof MiniGun.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof LargeHandgun.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof RocketLauncher.Rocket
+				 || Dungeon.hero.belongings.weapon() instanceof RPG7.Rocket
 				) {
 					dmg += 3;
 				}
@@ -527,60 +528,58 @@ public abstract class Char extends Actor {
 			}
 
 			if (Dungeon.hero.hasTalent(Talent.MELEE_ENHANCE)) {
-				Hero h = (Hero)this;
-				if (h.belongings.weapon() instanceof CrudePistolAP
-					|| h.belongings.weapon() instanceof PistolAP
-					|| h.belongings.weapon() instanceof GoldenPistolAP
-					|| h.belongings.weapon() instanceof HandgunAP
-					|| h.belongings.weapon() instanceof MagnumAP
-					|| h.belongings.weapon() instanceof HuntingRifleAP
-					|| h.belongings.weapon() instanceof SniperRifleAP
-					|| h.belongings.weapon() instanceof DualPistolAP
-					|| h.belongings.weapon() instanceof SubMachinegunAP
-					|| h.belongings.weapon() instanceof AssultRifleAP
-					|| h.belongings.weapon() instanceof HeavyMachinegunAP
-					|| h.belongings.weapon() instanceof MiniGunAP
-					|| h.belongings.weapon() instanceof LargeHandgunAP
-					|| h.belongings.weapon() instanceof AntimaterRifleAP
-					|| h.belongings.weapon() instanceof CrudePistolHP
-					|| h.belongings.weapon() instanceof PistolHP
-					|| h.belongings.weapon() instanceof GoldenPistolHP
-					|| h.belongings.weapon() instanceof HandgunHP
-					|| h.belongings.weapon() instanceof MagnumHP
-					|| h.belongings.weapon() instanceof HuntingRifleHP
-					|| h.belongings.weapon() instanceof SniperRifleHP
-					|| h.belongings.weapon() instanceof DualPistolHP
-					|| h.belongings.weapon() instanceof SubMachinegunHP
-					|| h.belongings.weapon() instanceof AssultRifleHP
-					|| h.belongings.weapon() instanceof HeavyMachinegunHP
-					|| h.belongings.weapon() instanceof MiniGunHP
-					|| h.belongings.weapon() instanceof LargeHandgunHP
-					|| h.belongings.weapon() instanceof AntimaterRifleHP
-					|| h.belongings.weapon() instanceof CrudePistol
-					|| h.belongings.weapon() instanceof Pistol
-					|| h.belongings.weapon() instanceof GoldenPistol
-					|| h.belongings.weapon() instanceof Handgun
-					|| h.belongings.weapon() instanceof Magnum
-					|| h.belongings.weapon() instanceof HuntingRifle
-					|| h.belongings.weapon() instanceof SniperRifle
-					|| h.belongings.weapon() instanceof DualPistol
-					|| h.belongings.weapon() instanceof SubMachinegun
-					|| h.belongings.weapon() instanceof AssultRifle
-					|| h.belongings.weapon() instanceof HeavyMachinegun
-					|| h.belongings.weapon() instanceof MiniGun
-					|| h.belongings.weapon() instanceof LargeHandgun
-					|| h.belongings.weapon() instanceof AntimaterRifle
-					|| h.belongings.weapon() instanceof RocketLauncher
-					|| h.belongings.weapon() instanceof RPG7
+				if (Dungeon.hero.belongings.weapon() instanceof CrudePistolAP
+				 || Dungeon.hero.belongings.weapon() instanceof PistolAP
+				 || Dungeon.hero.belongings.weapon() instanceof GoldenPistolAP
+				 || Dungeon.hero.belongings.weapon() instanceof HandgunAP
+				 || Dungeon.hero.belongings.weapon() instanceof MagnumAP
+				 || Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP
+				 || Dungeon.hero.belongings.weapon() instanceof SniperRifleAP
+				 || Dungeon.hero.belongings.weapon() instanceof DualPistolAP
+				 || Dungeon.hero.belongings.weapon() instanceof SubMachinegunAP
+				 || Dungeon.hero.belongings.weapon() instanceof AssultRifleAP
+				 || Dungeon.hero.belongings.weapon() instanceof HeavyMachinegunAP
+				 || Dungeon.hero.belongings.weapon() instanceof MiniGunAP
+				 || Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP
+				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP
+				 || Dungeon.hero.belongings.weapon() instanceof CrudePistolHP
+				 || Dungeon.hero.belongings.weapon() instanceof PistolHP
+				 || Dungeon.hero.belongings.weapon() instanceof GoldenPistolHP
+				 || Dungeon.hero.belongings.weapon() instanceof HandgunHP
+				 || Dungeon.hero.belongings.weapon() instanceof MagnumHP
+				 || Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP
+				 || Dungeon.hero.belongings.weapon() instanceof SniperRifleHP
+				 || Dungeon.hero.belongings.weapon() instanceof DualPistolHP
+				 || Dungeon.hero.belongings.weapon() instanceof SubMachinegunHP
+				 || Dungeon.hero.belongings.weapon() instanceof AssultRifleHP
+				 || Dungeon.hero.belongings.weapon() instanceof HeavyMachinegunHP
+				 || Dungeon.hero.belongings.weapon() instanceof MiniGunHP
+				 || Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP
+				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP
+				 || Dungeon.hero.belongings.weapon() instanceof CrudePistol
+				 || Dungeon.hero.belongings.weapon() instanceof Pistol
+				 || Dungeon.hero.belongings.weapon() instanceof GoldenPistol
+				 || Dungeon.hero.belongings.weapon() instanceof Handgun
+				 || Dungeon.hero.belongings.weapon() instanceof Magnum
+				 || Dungeon.hero.belongings.weapon() instanceof HuntingRifle
+				 || Dungeon.hero.belongings.weapon() instanceof SniperRifle
+				 || Dungeon.hero.belongings.weapon() instanceof DualPistol
+				 || Dungeon.hero.belongings.weapon() instanceof SubMachinegun
+				 || Dungeon.hero.belongings.weapon() instanceof AssultRifle
+				 || Dungeon.hero.belongings.weapon() instanceof HeavyMachinegun
+				 || Dungeon.hero.belongings.weapon() instanceof MiniGun
+				 || Dungeon.hero.belongings.weapon() instanceof LargeHandgun
+				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifle
+				 || Dungeon.hero.belongings.weapon() instanceof RocketLauncher
+				 || Dungeon.hero.belongings.weapon() instanceof RPG7
 				) {
 					dmg += 5*Dungeon.hero.pointsInTalent(Talent.MELEE_ENHANCE);
 				}
 			}
 
 			if (Dungeon.hero.hasTalent(Talent.BOOM_ENHANCE)) {
-				Hero h = (Hero)this;
-				if (h.belongings.weapon() instanceof RocketLauncher.Rocket
-					|| h.belongings.weapon() instanceof RPG7.Rocket
+				if (Dungeon.hero.belongings.weapon() instanceof RocketLauncher.Rocket
+					|| Dungeon.hero.belongings.weapon() instanceof RPG7.Rocket
 				) {
 					dmg *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.BOOM_ENHANCE);
 				}
@@ -599,6 +598,10 @@ public abstract class Char extends Actor {
 				) {
 					dmg *= 1f + 0.1f*Dungeon.hero.pointsInTalent(Talent.ONLY_ONE_SHOT);
 				}
+			}
+
+			if ((Dungeon.hero.buff(SpearGuard.class) != null) || (Dungeon.hero.buff(LanceGuard.class) != null)) {
+				dmg *= 0.4f;
 			}
 
 			dmg += dmgBonus;

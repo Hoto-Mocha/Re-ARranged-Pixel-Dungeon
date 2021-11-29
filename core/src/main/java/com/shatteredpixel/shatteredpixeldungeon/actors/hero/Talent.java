@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
@@ -207,7 +208,7 @@ public enum Talent {
 	EAGLE_EYE(119, 4), GO_FOR_THE_EYES(120, 4), SWIFT_SPIRIT(121, 4),
 
 	//Gunner T1
-	REARRANGE(160), GUNNERS_INTUITION(161), SHOOT_THE_HEART(162), SAFE_RELOAD(163),
+	REARRANGE(160), GUNNERS_INTUITION(161), SPEEDY_MOVE(162), SAFE_RELOAD(163),
 	//Gunner T2
 	IN_THE_GUNFIRE(164), ANOTHER_CHANCE(165), CHOICE_N_FOCUS(166), BLACKSMITH(167), LARGER_MAGAZINE(168),
 	//Gunner T3
@@ -749,59 +750,11 @@ public enum Talent {
 			}
 		}
 
-		if (Dungeon.hero.belongings.weapon instanceof CrudePistol.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof CrudePistolAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof CrudePistolHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof Pistol.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof PistolAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof PistolHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof GoldenPistol.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof GoldenPistolAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof GoldenPistolHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof Handgun.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof HandgunAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof HandgunHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof Magnum.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof MagnumAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof MagnumHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof DualPistol.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof DualPistolAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof DualPistolHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof SubMachinegun.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof SubMachinegunAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof SubMachinegunHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof AssultRifle.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof AssultRifleAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof AssultRifleHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegun.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegunAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof HeavyMachinegunHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof HuntingRifle.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof HuntingRifleAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof HuntingRifleHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof SniperRifle.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof SniperRifleAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof SniperRifleHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof ShotGun.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof ShotGunAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof ShotGunHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof RocketLauncher.Rocket
-				|| Dungeon.hero.belongings.weapon instanceof MiniGun.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof MiniGunAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof MiniGunHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof LargeHandgun.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof LargeHandgunAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof LargeHandgunHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof AntimaterRifle.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof AntimaterRifleAP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof AntimaterRifleHP.Bullet
-				|| Dungeon.hero.belongings.weapon instanceof RPG7.Rocket
-		){
-			if (hero.hasTalent(Talent.SHOOT_THE_HEART) && enemy instanceof Mob && enemy.buff(ShootTheHeartTracker.class) == null){
-				dmg += 1 + hero.pointsInTalent(Talent.SHOOT_THE_HEART);
-				Buff.affect(enemy, ShootTheHeartTracker.class);
-			}
+		if (hero.hasTalent(Talent.SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(ShootTheHeartTracker.class) == null){
+			Buff.affect(enemy, ShootTheHeartTracker.class);
+			Buff.affect(hero, Haste.class, 1f + hero.pointsInTalent(Talent.SPEEDY_MOVE));
 		}
+
 
 		return dmg;
 	}
@@ -838,7 +791,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, NATURES_BOUNTY, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, NATURES_AID);
 				break;
 			case GUNNER:
-				Collections.addAll(tierTalents,	REARRANGE, GUNNERS_INTUITION, SHOOT_THE_HEART, SAFE_RELOAD);
+				Collections.addAll(tierTalents,	REARRANGE, GUNNERS_INTUITION, SPEEDY_MOVE, SAFE_RELOAD);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -884,7 +837,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT, BETTER_CHOICE);
 				break;
 			case GUNNER:
-				Collections.addAll(tierTalents, MELEE_ENHANCE, BOOM_ENHANCE);
+				Collections.addAll(tierTalents, MELEE_ENHANCE, BOOM_ENHANCE, BETTER_CHOICE);
 				break;
 		}
 		for (Talent talent : tierTalents){
