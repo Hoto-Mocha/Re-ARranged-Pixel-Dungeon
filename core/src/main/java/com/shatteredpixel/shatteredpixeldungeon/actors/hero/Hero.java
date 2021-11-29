@@ -54,6 +54,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
@@ -67,6 +68,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
@@ -692,7 +694,7 @@ public class Hero extends Char {
 			return INFINITE_EVASION;
 		}
 
-		if (buff(LanceGuardBuff.class) != null || buff(SpearGuardBuff.class) != null){
+		if (buff(LanceGuard.class) != null || buff(SpearGuard.class) != null){
 			return 0;
 		}
 		
@@ -753,11 +755,11 @@ public class Hero extends Char {
 			dr += Random.NormalIntRange(0, 2*pointsInTalent(Talent.HOLD_FAST));
 		}
 
-		if (buff(LanceGuardBuff.class) != null){
-			dr += Random.NormalIntRange(hero.belongings.weapon.buffedLvl(), 6+hero.belongings.weapon.buffedLvl()*3);
+		if (buff(LanceGuard.class) != null){
+			dr += Random.NormalIntRange(hero.belongings.weapon.buffedLvl()*2, 6+hero.belongings.weapon.buffedLvl()*3);
 		}
 
-		if (buff(SpearGuardBuff.class) != null){
+		if (buff(SpearGuard.class) != null){
 			dr += Random.NormalIntRange(hero.belongings.weapon.buffedLvl(), 4+hero.belongings.weapon.buffedLvl()*2);
 		}
 		
@@ -809,6 +811,10 @@ public class Hero extends Char {
 			) {
 				speed *= 1.1f;
 			}
+		}
+
+		if ((hero.buff(SpearGuard.class) != null) || (hero.buff(LanceGuard.class) != null)) {
+			speed *= 0.5f;
 		}
 
 		if (belongings.armor() != null) {
@@ -1471,12 +1477,10 @@ public class Hero extends Char {
 			damage = rockArmor.absorb(damage);
 		}
 
-		if (hero.buff(LanceGuardBuff.class) != null || hero.buff(SpearGuardBuff.class) != null) {
+		if (hero.buff(LanceGuard.class) != null || hero.buff(SpearGuard.class) != null) {
 			if (sprite != null && sprite.visible) {
 				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
-				hero.sprite.attack(hero.pos);
 			}
-			attack( enemy );
 		}
 		
 		return damage;
