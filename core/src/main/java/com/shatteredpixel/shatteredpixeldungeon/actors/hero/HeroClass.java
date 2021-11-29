@@ -75,7 +75,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
@@ -189,7 +191,7 @@ public enum HeroClass {
 		//new ObsidianShield().identify().collect();
 		//new Greatshield().identify().collect();
 		//new AssassinsBlade().identify().collect();
-		//new SpearNShield().identify().collect();
+		new SpearNShield().identify().collect();
 
 		//new AlchemistsToolkit().identify().collect();
 		//new LiquidMetal().quantity(500).collect();
@@ -203,7 +205,7 @@ public enum HeroClass {
 		//new LloydsBeacon().identify().collect();
 		//new DriedRose().identify().collect();
 		//new RingOfReload().identify().collect();
-		//new LanceNShield().identify().collect();
+		new LanceNShield().identify().collect();
 		//new ObsidianShield().identify().collect();
 		//new ChaliceOfBlood().identify().collect();
 
@@ -212,11 +214,11 @@ public enum HeroClass {
 
 		//new StoneOfAugmentation().quantity(99).collect();
 
-		//new ScrollOfUpgrade().identify().quantity(99).collect();
+		new ScrollOfUpgrade().identify().quantity(99).collect();
 		//new ScrollOfTransmutation().identify().quantity(99).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new PotionOfInvisibility().identify().quantity(30).collect();
-		//new PotionOfStrength().identify().quantity(20).collect();
+		new PotionOfStrength().identify().quantity(20).collect();
 		//new CurseInfusion().quantity(50).collect();
 		//new ScrollOfMysticalEnergy().quantity(50).collect();
 
