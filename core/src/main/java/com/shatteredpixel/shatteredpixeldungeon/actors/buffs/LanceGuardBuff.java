@@ -21,17 +21,23 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 
-public class LanceGuardBuff extends FlavourBuff {
+public class LanceGuardBuff extends FlavourBuff implements ActionIndicator.Action {
 
     {
         type = buffType.POSITIVE;
         announced = true;
     }
-    public static final float DURATION	= 1f;
+    public static final float DURATION	= 5f;
 
     @Override
     public int icon() {
@@ -40,7 +46,7 @@ public class LanceGuardBuff extends FlavourBuff {
 
     @Override
     public void tintIcon(Image icon) {
-        icon.hardlight(0.5f, 1f, 2f);
+        icon.hardlight(1f, 1f, 0);
     }
 
     @Override
@@ -51,5 +57,33 @@ public class LanceGuardBuff extends FlavourBuff {
     @Override
     public String desc() {
         return Messages.get(this, "desc", dispTurns());
+    }
+
+    @Override
+    public float iconFadePercent() {
+        return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+    }
+
+    @Override
+    public boolean attachTo(Char target) {
+        ActionIndicator.setAction(this);
+        return super.attachTo(target);
+    }
+
+    @Override
+    public void detach() {
+        super.detach();
+        ActionIndicator.clearAction(this);
+    }
+
+    @Override
+    public Image getIcon() {
+        return new ItemSprite(ItemSpriteSheet.LANCE_N_SHIELD, null);
+    }
+
+    @Override
+    public void doAction() {
+        Buff.affect( Dungeon.hero, LanceGuard.class, 5f);
+        Buff.detach( Dungeon.hero, LanceGuardBuff.class);
     }
 }

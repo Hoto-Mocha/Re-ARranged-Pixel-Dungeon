@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
@@ -58,8 +59,8 @@ public class SpearNShield extends MeleeWeapon {
 
         float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
 
-        if (Random.Float() < procChance) {
-            Buff.affect( attacker, SpearGuardBuff.class);
+        if (Random.Float() < procChance && (Dungeon.hero.buff(SpearGuardBuff.class) == null) && (Dungeon.hero.buff(SpearGuard.class) == null)) {
+            Buff.prolong( attacker, SpearGuardBuff.class, 5f);
             return super.proc( attacker, defender, damage );
         } else {
             return super.proc( attacker, defender, damage );
@@ -72,6 +73,16 @@ public class SpearNShield extends MeleeWeapon {
         } else {
             return Messages.get(this, "typical_stats_desc", 0, 3);
         }
+    }
+
+    @Override
+    protected float baseDelay( Char owner ){
+        float delay = augment.delayFactor(this.DLY);
+        if (Dungeon.hero.buff(SpearGuard.class) != null) {
+            delay *= 0.5f;
+        }
+
+        return delay;
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

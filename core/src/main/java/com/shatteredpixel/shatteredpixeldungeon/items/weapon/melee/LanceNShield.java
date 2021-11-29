@@ -26,7 +26,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -50,11 +51,6 @@ public class LanceNShield extends MeleeWeapon {
     }
 
     @Override
-    public int STRReq(int lvl) {
-        return STRReq(tier-1, lvl); //18 base strength req, down from 20
-    }
-
-    @Override
     public int proc(Char attacker, Char defender, int damage ) {
 
         // lvl 0 - 33%
@@ -63,8 +59,8 @@ public class LanceNShield extends MeleeWeapon {
 
         float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
 
-        if (Random.Float() < procChance) {
-            Buff.affect( attacker, LanceGuardBuff.class);
+        if (Random.Float() < procChance && (Dungeon.hero.buff(LanceGuardBuff.class) == null) && (Dungeon.hero.buff(LanceGuard.class) == null)) {
+            Buff.prolong( attacker, LanceGuardBuff.class, 5f);
             return super.proc( attacker, defender, damage );
         } else {
             return super.proc( attacker, defender, damage );
@@ -73,10 +69,20 @@ public class LanceNShield extends MeleeWeapon {
 
     public String statsInfo(){
         if (isIdentified()){
-            return Messages.get(this, "stats_desc", buffedLvl(), 6+3*buffedLvl());
+            return Messages.get(this, "stats_desc", 2*buffedLvl(), 6+3*buffedLvl());
         } else {
             return Messages.get(this, "typical_stats_desc", 0, 6);
         }
+    }
+
+    @Override
+    protected float baseDelay( Char owner ){
+        float delay = augment.delayFactor(this.DLY);
+        if (Dungeon.hero.buff(LanceGuard.class) != null) {
+            delay *= 0.5f;
+        }
+
+        return delay;
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

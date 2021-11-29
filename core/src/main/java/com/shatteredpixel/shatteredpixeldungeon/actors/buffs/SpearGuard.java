@@ -22,7 +22,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -31,7 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 
-public class SpearGuardBuff extends FlavourBuff implements ActionIndicator.Action {
+public class SpearGuard extends FlavourBuff {
 
     {
         type = buffType.POSITIVE;
@@ -46,7 +45,12 @@ public class SpearGuardBuff extends FlavourBuff implements ActionIndicator.Actio
 
     @Override
     public void tintIcon(Image icon) {
-        icon.hardlight(1f, 1f, 0);
+        icon.hardlight(0.5f, 1f, 2f);
+    }
+
+    @Override
+    public float iconFadePercent() {
+        return Math.max(0, (DURATION - visualcooldown()) / DURATION);
     }
 
     @Override
@@ -57,33 +61,5 @@ public class SpearGuardBuff extends FlavourBuff implements ActionIndicator.Actio
     @Override
     public String desc() {
         return Messages.get(this, "desc", dispTurns());
-    }
-
-    @Override
-    public float iconFadePercent() {
-        return Math.max(0, (DURATION - visualcooldown()) / DURATION);
-    }
-
-    @Override
-    public boolean attachTo(Char target) {
-        ActionIndicator.setAction(this);
-        return super.attachTo(target);
-    }
-
-    @Override
-    public void detach() {
-        super.detach();
-        ActionIndicator.clearAction(this);
-    }
-
-    @Override
-    public Image getIcon() {
-        return new ItemSprite(ItemSpriteSheet.SPEAR_N_SHIELD, null);
-    }
-
-    @Override
-    public void doAction() {
-        Buff.affect( Dungeon.hero, SpearGuard.class, 5f);
-        Buff.detach( Dungeon.hero, SpearGuardBuff.class);
     }
 }
