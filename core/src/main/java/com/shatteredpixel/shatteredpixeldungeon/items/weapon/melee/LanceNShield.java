@@ -92,9 +92,6 @@ public class LanceNShield extends MeleeWeapon {
             inQuantity = new int[]{1, 1, 1};
 
             cost = 10;
-            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
-                cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
-            }
 
             output = LanceNShield.class;
             outQuantity = 1;
