@@ -96,7 +96,7 @@ public class MagicalInfusion extends InventorySpell {
 			inputs =  new Class[]{Cartridge.class, ArcaneResin.class};
 			inQuantity = new int[]{2, 1};
 
-			cost = 10;
+			cost = 15;
 
 			output = MagicalInfusion.class;
 			outQuantity = 1;
