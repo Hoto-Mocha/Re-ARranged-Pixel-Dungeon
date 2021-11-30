@@ -207,7 +207,7 @@ public class AntimaterRifleAP extends MeleeWeapon {
         if (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null){
             return 6 * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
                     lvl * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
-                    10 + 5 * hero.pointsInTalent(Talent.RIFLE_MASTER);
+                    10 + 10 * hero.pointsInTalent(Talent.RIFLE_MASTER);
         } else {
             return 6 * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
                     lvl * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero));

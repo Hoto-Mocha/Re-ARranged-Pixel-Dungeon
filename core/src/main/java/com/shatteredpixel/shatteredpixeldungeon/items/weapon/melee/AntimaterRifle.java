@@ -208,7 +208,7 @@ public class AntimaterRifle extends MeleeWeapon {
         if (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null){
             return 6 * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
                     lvl * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
-                    10 + 5 * hero.pointsInTalent(Talent.RIFLE_MASTER);
+                    10 + 10 * hero.pointsInTalent(Talent.RIFLE_MASTER);
         } else {
             return 6 * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
                     lvl * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero));
@@ -420,9 +420,6 @@ public class AntimaterRifle extends MeleeWeapon {
             inQuantity = new int[]{1, 1, 1};
 
             cost = 3;
-            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
-                cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
-            }
 
             output = AntimaterRifle.class;
             outQuantity = 1;

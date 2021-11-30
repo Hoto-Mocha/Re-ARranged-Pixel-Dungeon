@@ -463,10 +463,7 @@ public class MiniGun extends MeleeWeapon {
             inQuantity = new int[]{1, 1, 1};
 
             cost = 3;
-            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
-                cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
-            }
-
+            
             output = MiniGun.class;
             outQuantity = 1;
         }

@@ -178,7 +178,7 @@ public class SniperRifleHP extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 1;                                                                      //if you make something different guns, you should change this
+        max_round = 1;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -188,18 +188,18 @@ public class SniperRifleHP extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return tier +                                                                      //if you make something different guns, you should change this
-                lvl;                                                                        //if you make something different guns, you should change this
+        return tier +
+                lvl;
     }
 
     public int max(int lvl) {
-        return 3 * (tier + 1) +                                                            //if you make something different guns, you should change this
-                lvl;                                                           //if you make something different guns, you should change this
+        return 3 * (tier + 1) +
+                lvl;
     }
 
     public int Bulletmin(int lvl) {
-        return 3 * tier +                                                                  //if you make something different guns, you should change this
-                lvl      +                                                                  //if you make something different guns, you should change this
+        return 3 * tier +
+                lvl      +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
@@ -208,7 +208,7 @@ public class SniperRifleHP extends MeleeWeapon {
             return 6 * (tier+3)   +
                     lvl * (tier+3) +
                     RingOfSharpshooting.levelDamageBonus(Dungeon.hero) +
-                    10 + 5 * hero.pointsInTalent(Talent.RIFLE_MASTER);
+                    10 + 10 * hero.pointsInTalent(Talent.RIFLE_MASTER);
         } else {
             return 6 * (tier+3)   +
                     lvl * (tier+3) +

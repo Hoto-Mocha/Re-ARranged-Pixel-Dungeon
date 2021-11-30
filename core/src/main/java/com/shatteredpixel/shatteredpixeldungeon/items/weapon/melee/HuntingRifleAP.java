@@ -207,7 +207,7 @@ public class HuntingRifleAP extends MeleeWeapon {
             return 6 * (tier+3)   +
                     lvl * (tier+3) +
                     RingOfSharpshooting.levelDamageBonus(Dungeon.hero) +
-                    10 + 5 * hero.pointsInTalent(Talent.RIFLE_MASTER);
+                    10 + 10 * hero.pointsInTalent(Talent.RIFLE_MASTER);
         } else {
             return 6 * (tier+3)   +
                     lvl * (tier+3) +
