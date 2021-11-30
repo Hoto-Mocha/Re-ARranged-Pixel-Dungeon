@@ -254,7 +254,6 @@ public abstract class Recipe {
 		new CurseInfusion.Recipe(),
 		new FeatherFall.Recipe(),
 		new MagicalInfusion.Recipe(),
-		new MagicalInfusion.Recipe2(),
 		new MagicalPorter.Recipe(),
 		new PhaseShift.Recipe(),
 		new ReclaimTrap.Recipe(),
@@ -321,7 +320,8 @@ public abstract class Recipe {
 		new AntimaterRifle.Recipe(),
 		new AntimaterRifleAP.Recipe(),
 		new AntimaterRifleHP.Recipe(),
-		new RPG7.Recipe()
+		new RPG7.Recipe(),
+		new MagicalInfusion.Recipe2()
 	};
 	
 	public static Recipe findRecipe(ArrayList<Item> ingredients){
