@@ -54,9 +54,6 @@ public class BrassScrap extends Item {
             inQuantity = new int[]{3};
 
             cost = 2;
-            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
-                cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
-            }
 
             output = BrassScrap.class;
             outQuantity = 1;

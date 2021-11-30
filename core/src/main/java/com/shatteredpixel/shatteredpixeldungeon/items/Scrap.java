@@ -53,9 +53,6 @@ public class Scrap extends Item {
             inQuantity = new int[]{3};
 
             cost = 1;
-            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
-                cost -= 1f;
-            }
 
             output = Scrap.class;
             outQuantity = 1;

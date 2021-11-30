@@ -463,7 +463,7 @@ public class MiniGun extends MeleeWeapon {
             inQuantity = new int[]{1, 1, 1};
 
             cost = 3;
-            
+
             output = MiniGun.class;
             outQuantity = 1;
         }

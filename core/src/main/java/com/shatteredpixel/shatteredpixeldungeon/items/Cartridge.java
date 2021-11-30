@@ -54,9 +54,6 @@ public class Cartridge extends Item {
             inQuantity = new int[]{3};
 
             cost = 3;
-            if (Dungeon.hero.hasTalent(Talent.BLACKSMITH)) {
-                cost -= 1f * Dungeon.hero.pointsInTalent(Talent.BLACKSMITH);
-            }
 
 
             output = Cartridge.class;
