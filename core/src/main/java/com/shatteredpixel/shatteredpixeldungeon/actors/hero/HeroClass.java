@@ -323,10 +323,11 @@ public enum HeroClass {
 		//new PotionOfStrength().quantity(20).identify().collect();
 		//new AntimaterRifle().identify().collect();
 		//new AssultRifle().identify().collect();
-		//new PotionOfExperience().quantity(30).identify().collect();
+		new ScrollOfUpgrade().quantity(50).collect();
+		new PotionOfExperience().quantity(30).identify().collect();
 		//new PotionOfInvisibility().quantity(30).identify().collect();
 		//new FrozenCarpaccio().quantity(99).collect();
-		//new TengusMask().collect();
+		new TengusMask().collect();
 	}
 
 	public String title() {
