@@ -132,12 +132,11 @@ public class HighGrass {
 					Sample.INSTANCE.play( Assets.Sounds.MELD );
 				}
 
-				if (hero.subClass == HeroSubClass.RIFLEMAN) {
-					Buff.prolong(hero, Invisibility.class, 1);
+				if (hero.hasTalent(Talent.CAMOUFLAGE)) {
+					Buff.prolong(hero, Invisibility.class, hero.pointsInTalent(Talent.CAMOUFLAGE));
 					Sample.INSTANCE.play( Assets.Sounds.MELD );
 				}
 			}
-			
 		}
 		
 		freezeTrample = false;
