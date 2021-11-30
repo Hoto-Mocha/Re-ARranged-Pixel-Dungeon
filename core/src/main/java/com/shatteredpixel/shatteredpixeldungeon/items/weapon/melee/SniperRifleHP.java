@@ -205,12 +205,12 @@ public class SniperRifleHP extends MeleeWeapon {
 
     public int Bulletmax(int lvl) {
         if (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null){
-            return 8 * (tier+3)   +
+            return 6 * (tier+3)   +
                     lvl * (tier+3) +
                     RingOfSharpshooting.levelDamageBonus(Dungeon.hero) +
                     10 + 5 * hero.pointsInTalent(Talent.RIFLE_MASTER);
         } else {
-            return 8 * (tier+3)   +
+            return 6 * (tier+3)   +
                     lvl * (tier+3) +
                     RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }

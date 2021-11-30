@@ -205,12 +205,12 @@ public class AntimaterRifleHP extends MeleeWeapon {
 
     public int Bulletmax(int lvl) {
         if (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null){
-            return 10 * (tier+3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
-                    lvl * (tier+3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
+            return 6 * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
+                    lvl * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
                     10 + 5 * hero.pointsInTalent(Talent.RIFLE_MASTER);
         } else {
-            return 10 * (tier+3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
-                    lvl * (tier+3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero));
+            return 6 * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
+                    lvl * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero));
         }
     }
 
