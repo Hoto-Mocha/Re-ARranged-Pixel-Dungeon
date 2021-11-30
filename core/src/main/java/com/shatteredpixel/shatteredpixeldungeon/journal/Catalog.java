@@ -228,7 +228,7 @@ public enum Catalog {
 		WEAPONS.seen.put( MiniGun.class,                    false);
 
 		WEAPONS.seen.put( ShotGun.class,                    false);
-		
+
 		WEAPONS.seen.put( RocketLauncher.class,             false);
 		WEAPONS.seen.put( RPG7.class,                       false);
 
