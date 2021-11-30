@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
@@ -334,6 +335,7 @@ public enum HeroClass {
 		new LiquidMetal().quantity(400).collect();
 		new Pistol().identify().collect();
 		new Pistol().identify().collect();
+		new ArcaneResin().quantity(30).collect();
 		//new PotionOfInvisibility().quantity(30).identify().collect();
 		//new FrozenCarpaccio().quantity(99).collect();
 		new TengusMask().collect();
