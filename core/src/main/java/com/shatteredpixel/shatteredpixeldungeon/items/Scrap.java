@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -51,9 +52,11 @@ public class Scrap extends Item {
         {
             inputs =  new Class[]{LiquidMetal.class};
             inQuantity = new int[]{3};
-
-            cost = 1;
-
+            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
+                cost = 0;
+            } else {
+                cost = 1;
+            }
             output = Scrap.class;
             outQuantity = 1;
         }

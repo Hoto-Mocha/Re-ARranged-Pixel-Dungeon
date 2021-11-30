@@ -66,10 +66,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
@@ -78,8 +80,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
@@ -100,9 +104,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
@@ -257,7 +263,12 @@ public abstract class Recipe {
 		new Pistol.Recipe(),
 		new GoldenPistol.Recipe(),
 		new Handgun.Recipe(),
-		new Magnum.Recipe()
+		new Magnum.Recipe(),
+		new DualPistol.Recipe(),
+		new SubMachinegun.Recipe(),
+		new AssultRifle.Recipe(),
+		new HeavyMachinegun.Recipe(),
+		new SniperRifle.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
