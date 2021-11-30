@@ -210,7 +210,7 @@ public enum Talent {
 	//Gunner T1
 	REARRANGE(160), GUNNERS_INTUITION(161), SPEEDY_MOVE(162), SAFE_RELOAD(163),
 	//Gunner T2
-	IN_THE_GUNFIRE(164), ANOTHER_CHANCE(165), CHOICE_N_FOCUS(166), BLACKSMITH(167), LARGER_MAGAZINE(168),
+	IN_THE_GUNFIRE(164), ANOTHER_CHANCE(165), CHOICE_N_FOCUS(166), CAMOUFLAGE(167), LARGER_MAGAZINE(168),
 	//Gunner T3
 	MELEE_ENHANCE(169, 3), BOOM_ENHANCE(170, 3),
 	//Launcher T3
@@ -605,14 +605,14 @@ public enum Talent {
 		if (hero.hasTalent(ANOTHER_CHANCE)) {
 			ScrollOfUpgrade scl = new ScrollOfUpgrade();
 			StoneOfEnchantment enchantment = new StoneOfEnchantment();
-			if (hero.pointsInTalent(Talent.ANOTHER_CHANCE) >= 1 && Random.Int(19) == 0) {
+			if (hero.pointsInTalent(Talent.ANOTHER_CHANCE) >= 1 && Random.Int(5) == 0) {
 				if (enchantment.doPickUp( Dungeon.hero )) {
 					GLog.i( Messages.get(Dungeon.hero, "you_now_have", enchantment.name() ));
 				} else {
 					Dungeon.level.drop( enchantment, Dungeon.hero.pos ).sprite.drop();
 				}
 			}
-			if (hero.pointsInTalent(Talent.ANOTHER_CHANCE) == 2 && Random.Int(19) == 0) {
+			if (hero.pointsInTalent(Talent.ANOTHER_CHANCE) == 2 && Random.Int(10) == 0) {
 				if (scl.doPickUp( Dungeon.hero )) {
 					GLog.i( Messages.get(Dungeon.hero, "you_now_have", scl.name() ));
 				} else {
@@ -814,7 +814,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, INVIGORATING_MEAL, RESTORED_NATURE, REJUVENATING_STEPS, HEIGHTENED_SENSES, DURABLE_PROJECTILES);
 				break;
 			case GUNNER:
-				Collections.addAll(tierTalents,	IN_THE_GUNFIRE, ANOTHER_CHANCE, CHOICE_N_FOCUS, BLACKSMITH, LARGER_MAGAZINE);
+				Collections.addAll(tierTalents,	IN_THE_GUNFIRE, ANOTHER_CHANCE, CHOICE_N_FOCUS, CAMOUFLAGE, LARGER_MAGAZINE);
 				break;
 		}
 		for (Talent talent : tierTalents){
