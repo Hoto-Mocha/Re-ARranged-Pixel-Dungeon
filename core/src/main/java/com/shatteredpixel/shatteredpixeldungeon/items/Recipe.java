@@ -320,8 +320,7 @@ public abstract class Recipe {
 		new AntimaterRifle.Recipe(),
 		new AntimaterRifleAP.Recipe(),
 		new AntimaterRifleHP.Recipe(),
-		new RPG7.Recipe(),
-		new MagicalInfusion.Recipe2()
+		new RPG7.Recipe()
 	};
 	
 	public static Recipe findRecipe(ArrayList<Item> ingredients){

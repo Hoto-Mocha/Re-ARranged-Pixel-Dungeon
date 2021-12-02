@@ -89,17 +89,4 @@ public class MagicalInfusion extends InventorySpell {
 			outQuantity = 1;
 		}
 	}
-
-	public static class Recipe2 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-		{
-			inputs =  new Class[]{Cartridge.class, ArcaneResin.class};
-			inQuantity = new int[]{2, 1};
-
-			cost = 15;
-
-			output = MagicalInfusion.class;
-			outQuantity = 1;
-		}
-	}
 }
