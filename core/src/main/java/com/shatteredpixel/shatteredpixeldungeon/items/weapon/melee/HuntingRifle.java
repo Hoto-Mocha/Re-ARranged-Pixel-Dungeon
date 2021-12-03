@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -342,7 +343,11 @@ public class HuntingRifle extends MeleeWeapon {
 
         @Override
         public float delayFactor(Char user) {
-            return HuntingRifle.this.delayFactor(user);
+            if (hero.buff(Riot.riotTracker.class) != null) {
+                return HuntingRifle.this.delayFactor(user)/2f;
+            } else {
+                return HuntingRifle.this.delayFactor(user);
+            }
         }
 
         @Override
@@ -376,6 +381,8 @@ public class HuntingRifle extends MeleeWeapon {
                 }
             }
             if (hero.buff(InfiniteBullet.class) != null) {
+                //round preserves
+            } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                 //round preserves
             } else {
                 round --;

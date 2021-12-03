@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -426,6 +427,8 @@ public class HandgunHP extends MeleeWeapon {
                 }
             }
             if (hero.buff(InfiniteBullet.class) != null) {
+                //round preserves
+            } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                 //round preserves
             } else {
                 round --;

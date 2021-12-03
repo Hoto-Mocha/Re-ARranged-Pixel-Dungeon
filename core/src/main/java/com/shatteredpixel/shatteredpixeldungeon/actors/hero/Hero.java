@@ -74,6 +74,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -811,6 +812,10 @@ public class Hero extends Char {
 			) {
 				speed *= 1.1f;
 			}
+		}
+
+		if (hero.buff(Riot.riotTracker.class) != null && hero.hasTalent(Talent.HASTE_MOVE)) {
+			speed *= 1f + 0.25f * hero.pointsInTalent(Talent.HASTE_MOVE);
 		}
 
 		if ((hero.buff(SpearGuard.class) != null) || (hero.buff(LanceGuard.class) != null)) {

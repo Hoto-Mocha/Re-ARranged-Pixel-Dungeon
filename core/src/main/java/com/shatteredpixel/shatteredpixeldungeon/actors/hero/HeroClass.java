@@ -323,22 +323,22 @@ public enum HeroClass {
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
 
-		//new KingsCrown().collect();
+		new KingsCrown().collect();
 
-		//new PotionOfStrength().quantity(20).identify().collect();
-		//new AntimaterRifle().identify().collect();
+		new PotionOfStrength().quantity(20).identify().collect();
+		new AntimaterRifle().identify().collect();
 		//new AssultRifle().identify().collect();
 		//new ScrollOfUpgrade().quantity(50).identify().collect();
 		//new PotionOfExperience().identify().quantity(50).collect();
 		//new AlchemistsToolkit().identify().collect();
 		//new ScrollOfMysticalEnergy().identify().quantity(50).collect();
 		//new LiquidMetal().quantity(400).collect();
-		//new Pistol().identify().collect();
+		new Pistol().identify().collect();
 		//new Pistol().identify().collect();
 		//new ArcaneResin().quantity(30).collect();
 		//new PotionOfInvisibility().quantity(30).identify().collect();
 		//new FrozenCarpaccio().quantity(99).collect();
-		//new TengusMask().collect();
+		new TengusMask().collect();
 	}
 
 	public String title() {

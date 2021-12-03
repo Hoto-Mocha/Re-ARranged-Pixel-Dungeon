@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -352,7 +353,11 @@ public class HeavyMachinegun extends MeleeWeapon {
 
         @Override
         public float delayFactor(Char user) {
-            return HeavyMachinegun.this.delayFactor(user);
+            if (hero.buff(Riot.riotTracker.class) != null) {
+                return HeavyMachinegun.this.delayFactor(user)/2f;
+            } else {
+                return HeavyMachinegun.this.delayFactor(user);
+            }
         }
 
         @Override
@@ -389,6 +394,8 @@ public class HeavyMachinegun extends MeleeWeapon {
                     }
                     if (hero.buff(InfiniteBullet.class) != null) {
                         //round preserves
+                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
+                        //round preserves
                     } else {
                         if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(9) == 0) {
                             //round preserves
@@ -415,6 +422,8 @@ public class HeavyMachinegun extends MeleeWeapon {
                         }
                     }
                     if (hero.buff(InfiniteBullet.class) != null) {
+                        //round preserves
+                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                         //round preserves
                     } else {
                         if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(9) == 0) {

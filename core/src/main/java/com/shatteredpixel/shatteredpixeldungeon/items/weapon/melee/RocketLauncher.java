@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -367,7 +368,11 @@ public class RocketLauncher extends MeleeWeapon {
 
         @Override
         public float delayFactor(Char user) {
-            return RocketLauncher.this.delayFactor(user);
+            if (hero.buff(Riot.riotTracker.class) != null) {
+                return RocketLauncher.this.delayFactor(user)/2f;
+            } else {
+                return RocketLauncher.this.delayFactor(user);
+            }
         }
 
         @Override
@@ -414,6 +419,8 @@ public class RocketLauncher extends MeleeWeapon {
             }
             Sample.INSTANCE.play( Assets.Sounds.BLAST );
             if (hero.buff(InfiniteBullet.class) != null) {
+                //round preserves
+            } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                 //round preserves
             } else {
                 round --;

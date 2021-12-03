@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -392,9 +393,17 @@ public class MagnumHP extends MeleeWeapon {
         @Override
         public float delayFactor(Char user) {
             if (hero.hasTalent(Talent.RECOIL_CONTROL)) {
-                return MagnumHP.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
+                if (hero.buff(Riot.riotTracker.class) != null) {
+                    return MagnumHP.this.delayFactor(user)/2f*(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
+                } else {
+                    return MagnumHP.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
+                }
             } else {
-                return MagnumHP.this.delayFactor(user);
+                if (hero.buff(Riot.riotTracker.class) != null) {
+                    return MagnumHP.this.delayFactor(user)/2f;
+                } else {
+                    return MagnumHP.this.delayFactor(user);
+                }
             }
         }
 
@@ -426,6 +435,8 @@ public class MagnumHP extends MeleeWeapon {
                 }
             }
             if (hero.buff(InfiniteBullet.class) != null) {
+                //round preserves
+            } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                 //round preserves
             } else {
                 round --;
