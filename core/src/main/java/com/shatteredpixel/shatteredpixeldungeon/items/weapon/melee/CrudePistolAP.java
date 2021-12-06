@@ -244,24 +244,24 @@ public class CrudePistolAP extends MeleeWeapon {
 
     public int min(int lvl) {
         return tier +
-               lvl;
+                lvl;
     }
 
     public int max(int lvl) {
-        return 3 * (tier + 1) +
-               lvl;
+        return 4 * (tier + 1) +
+                lvl;
     }
 
     public int Bulletmin(int lvl) {
         return 2 * tier +
-               lvl      +
-               RingOfSharpshooting.levelDamageBonus(hero);
+                lvl      +
+                RingOfSharpshooting.levelDamageBonus(hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 4 * (tier)   +
-               lvl * (tier) +
-               RingOfSharpshooting.levelDamageBonus(hero) +
+        return 4 * (tier+1)   +
+                lvl * (tier+1)  +
+                RingOfSharpshooting.levelDamageBonus(hero) +
                 5 * hero.pointsInTalent(Talent.HANDGUN_MASTER);
     }
 

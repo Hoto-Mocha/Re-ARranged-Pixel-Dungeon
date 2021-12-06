@@ -221,8 +221,8 @@ public enum Talent {
 	RIFLE_MASTER(140, 3), ONLY_ONE_SHOT(141, 3), EVASIVE_MOVE(142, 3),
 	//Riot T4
 	HASTE_MOVE(177, 4), SHOT_CONCENTRATION(178,4), ROUND_PRESERVE(179, 4),
-	//ArtillerySupport T4
-	ARTILLERY_1(180, 4), ARTILLERY_2(181, 4), ARTILLERY_3(182, 4),
+	//ReinforcedArmor T4
+	BAYONET(180, 4), TACTICAL_SIGHT(181, 4), PLATE_ADD(182, 4),
 	//Napalm T4
 	NAPALM_1(183,4), NAPALM_2(184, 4), NAPALM_3(185,4),
 
@@ -462,7 +462,7 @@ public enum Talent {
 		}
 		if (hero.hasTalent(IN_THE_GUNFIRE)) {
 			//effectively 1/2 turns of infiniteBullet
-			Buff.prolong( hero, InfiniteBullet.class, 0.67f+hero.pointsInTalent(IN_THE_GUNFIRE));
+			Buff.prolong( hero, InfiniteBullet.class, 0.001f+hero.pointsInTalent(IN_THE_GUNFIRE));
 		}
 	}
 

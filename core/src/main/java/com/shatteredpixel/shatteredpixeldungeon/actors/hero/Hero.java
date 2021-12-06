@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
@@ -74,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
@@ -501,15 +503,13 @@ public class Hero extends Char {
 			if (Dungeon.level.adjacent( pos, target.pos )) {
 				if (wep instanceof ShotGun.Bullet
 				 || wep instanceof ShotGunHP.Bullet) {
-					accuracy *= (2.0f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
+					accuracy *= (1.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				} else if (wep instanceof HuntingRifle.Bullet
 						|| wep instanceof SniperRifle.Bullet
 						|| wep instanceof AntimaterRifle.Bullet
-
 						|| wep instanceof HuntingRifleAP.Bullet
 						|| wep instanceof SniperRifleAP.Bullet
 						|| wep instanceof AntimaterRifleAP.Bullet
-
 						|| wep instanceof HuntingRifleHP.Bullet
 						|| wep instanceof SniperRifleHP.Bullet
 						|| wep instanceof AntimaterRifleHP.Bullet
@@ -525,18 +525,16 @@ public class Hero extends Char {
 					accuracy *= 0;
 				}
 				else if (wep instanceof HuntingRifle.Bullet
-						|| wep instanceof SniperRifle.Bullet
-						|| wep instanceof AntimaterRifle.Bullet
-
-						|| wep instanceof HuntingRifleAP.Bullet
-						|| wep instanceof SniperRifleAP.Bullet
-						|| wep instanceof AntimaterRifleAP.Bullet
-
-						|| wep instanceof HuntingRifleHP.Bullet
-						|| wep instanceof SniperRifleHP.Bullet
-						|| wep instanceof AntimaterRifleHP.Bullet
+					  || wep instanceof SniperRifle.Bullet
+					  || wep instanceof AntimaterRifle.Bullet
+					  || wep instanceof HuntingRifleAP.Bullet
+					  || wep instanceof SniperRifleAP.Bullet
+					  || wep instanceof AntimaterRifleAP.Bullet
+					  || wep instanceof HuntingRifleHP.Bullet
+					  || wep instanceof SniperRifleHP.Bullet
+					  || wep instanceof AntimaterRifleHP.Bullet
 				) {
-						accuracy *= 3f;
+						accuracy *= 2f;
 				} else if (wep instanceof CrudePistol.Bullet
 						|| wep instanceof CrudePistolAP.Bullet
 						|| wep instanceof CrudePistolHP.Bullet
@@ -673,6 +671,62 @@ public class Hero extends Char {
 			if (buff(FrostBullet.class) != null) buff(FrostBullet.class).proc(enemy);
 			if (buff(ElectroBullet.class) != null) buff(ElectroBullet.class).proc(enemy);
 		}
+
+		if (hero.buff(Riot.riotTracker.class) != null && hero.hasTalent(Talent.SHOT_CONCENTRATION)) {
+			if (wep instanceof CrudePistol.Bullet
+					|| wep instanceof CrudePistolAP.Bullet
+					|| wep instanceof CrudePistolHP.Bullet
+					|| wep instanceof Pistol.Bullet
+					|| wep instanceof PistolAP.Bullet
+					|| wep instanceof PistolHP.Bullet
+					|| wep instanceof GoldenPistol.Bullet
+					|| wep instanceof GoldenPistolAP.Bullet
+					|| wep instanceof GoldenPistolHP.Bullet
+					|| wep instanceof Handgun.Bullet
+					|| wep instanceof HandgunAP.Bullet
+					|| wep instanceof HandgunHP.Bullet
+					|| wep instanceof Magnum.Bullet
+					|| wep instanceof MagnumAP.Bullet
+					|| wep instanceof MagnumHP.Bullet
+					|| wep instanceof DualPistol.Bullet
+					|| wep instanceof DualPistolAP.Bullet
+					|| wep instanceof DualPistolHP.Bullet
+					|| wep instanceof SubMachinegun.Bullet
+					|| wep instanceof SubMachinegunAP.Bullet
+					|| wep instanceof SubMachinegunHP.Bullet
+					|| wep instanceof AssultRifle.Bullet
+					|| wep instanceof AssultRifleAP.Bullet
+					|| wep instanceof AssultRifleHP.Bullet
+					|| wep instanceof HeavyMachinegun.Bullet
+					|| wep instanceof HeavyMachinegunAP.Bullet
+					|| wep instanceof HeavyMachinegunHP.Bullet
+					|| wep instanceof HuntingRifle.Bullet
+					|| wep instanceof HuntingRifleAP.Bullet
+					|| wep instanceof HuntingRifleHP.Bullet
+					|| wep instanceof SniperRifle.Bullet
+					|| wep instanceof SniperRifleAP.Bullet
+					|| wep instanceof SniperRifleHP.Bullet
+					|| wep instanceof ShotGun.Bullet
+					|| wep instanceof ShotGunAP.Bullet
+					|| wep instanceof ShotGunHP.Bullet
+					|| wep instanceof RocketLauncher.Rocket
+					|| wep instanceof MiniGun.Bullet
+					|| wep instanceof MiniGunAP.Bullet
+					|| wep instanceof MiniGunHP.Bullet
+					|| wep instanceof LargeHandgun.Bullet
+					|| wep instanceof LargeHandgunAP.Bullet
+					|| wep instanceof LargeHandgunHP.Bullet
+					|| wep instanceof AntimaterRifle.Bullet
+					|| wep instanceof AntimaterRifleAP.Bullet
+					|| wep instanceof AntimaterRifleHP.Bullet
+					|| wep instanceof RPG7.Rocket
+			){
+				if (Random.Int(4) < hero.pointsInTalent(Talent.SHOT_CONCENTRATION)) {
+					Riot.riotTracker riot = hero.buff(Riot.riotTracker.class);
+					riot.extend();
+				}
+			}
+		}
 		
 		if (wep != null) {
 			return (int)(attackSkill * accuracy * wep.accuracyFactor( this ));
@@ -789,6 +843,10 @@ public class Hero extends Char {
 		float speed = super.speed();
 
 		speed *= RingOfHaste.speedMultiplier(this);
+
+		if (hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null && hero.hasTalent(Talent.PLATE_ADD)) {
+			speed *= (1 - hero.pointsInTalent(Talent.PLATE_ADD)/8f);
+		}
 
 		if (hero.subClass == HeroSubClass.RANGER) {
 			if (hero.belongings.weapon instanceof CrudePistol
@@ -2154,6 +2212,59 @@ public class Hero extends Char {
 			 || hero.belongings.weapon instanceof RPG7
 			){
 				Buff.affect( this, Focusing.class ).hit( enemy );
+			}
+		}
+
+		if (hit && hero.hasTalent(Talent.BAYONET) && hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null){
+			if (hero.belongings.weapon instanceof CrudePistol
+			 || hero.belongings.weapon instanceof CrudePistolAP
+			 || hero.belongings.weapon instanceof CrudePistolHP
+			 || hero.belongings.weapon instanceof Pistol
+			 || hero.belongings.weapon instanceof PistolAP
+			 || hero.belongings.weapon instanceof PistolHP
+			 || hero.belongings.weapon instanceof GoldenPistol
+			 || hero.belongings.weapon instanceof GoldenPistolAP
+			 || hero.belongings.weapon instanceof GoldenPistolHP
+			 || hero.belongings.weapon instanceof Handgun
+			 || hero.belongings.weapon instanceof HandgunAP
+			 || hero.belongings.weapon instanceof HandgunHP
+			 || hero.belongings.weapon instanceof Magnum
+			 || hero.belongings.weapon instanceof MagnumAP
+			 || hero.belongings.weapon instanceof MagnumHP
+			 || hero.belongings.weapon instanceof DualPistol
+			 || hero.belongings.weapon instanceof DualPistolAP
+			 || hero.belongings.weapon instanceof DualPistolHP
+			 || hero.belongings.weapon instanceof SubMachinegun
+			 || hero.belongings.weapon instanceof SubMachinegunAP
+			 || hero.belongings.weapon instanceof SubMachinegunHP
+			 || hero.belongings.weapon instanceof AssultRifle
+			 || hero.belongings.weapon instanceof AssultRifleAP
+			 || hero.belongings.weapon instanceof AssultRifleHP
+			 || hero.belongings.weapon instanceof HeavyMachinegun
+			 || hero.belongings.weapon instanceof HeavyMachinegunAP
+			 || hero.belongings.weapon instanceof HeavyMachinegunHP
+			 || hero.belongings.weapon instanceof HuntingRifle
+			 || hero.belongings.weapon instanceof HuntingRifleAP
+			 || hero.belongings.weapon instanceof HuntingRifleHP
+			 || hero.belongings.weapon instanceof SniperRifle
+			 || hero.belongings.weapon instanceof SniperRifleAP
+			 || hero.belongings.weapon instanceof SniperRifleHP
+			 || hero.belongings.weapon instanceof ShotGun
+			 || hero.belongings.weapon instanceof ShotGunAP
+			 || hero.belongings.weapon instanceof ShotGunHP
+			 || hero.belongings.weapon instanceof RocketLauncher
+			 || hero.belongings.weapon instanceof MiniGun
+			 || hero.belongings.weapon instanceof MiniGunAP
+			 || hero.belongings.weapon instanceof MiniGunHP
+			 || hero.belongings.weapon instanceof LargeHandgun
+			 || hero.belongings.weapon instanceof LargeHandgunAP
+			 || hero.belongings.weapon instanceof LargeHandgunHP
+			 || hero.belongings.weapon instanceof AntimaterRifle
+			 || hero.belongings.weapon instanceof AntimaterRifleAP
+			 || hero.belongings.weapon instanceof AntimaterRifleHP
+			 || hero.belongings.weapon instanceof RPG7
+			){
+				Buff.affect( enemy, Bleeding.class ).set( 4 + hero.pointsInTalent(Talent.BAYONET));
 			}
 		}
 

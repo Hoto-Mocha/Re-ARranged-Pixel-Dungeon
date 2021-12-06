@@ -45,22 +45,23 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
-public class Riot extends ArmorAbility {
+public class ReinforcedArmor extends ArmorAbility {
 
     {
-        baseChargeUse = 35f;
+        baseChargeUse = 25f;
     }
 
     @Override
     protected void activate(ClassArmor armor, Hero hero, Integer target) {
 
-        Buff.prolong(hero, riotTracker.class, riotTracker.DURATION/2f);
+        Buff.prolong(hero, reinforcedArmorTracker.class, reinforcedArmorTracker.DURATION);
         hero.sprite.operate(hero.pos);
-        Sample.INSTANCE.play(Assets.Sounds.MISS);
+        Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
         //hero.sprite.emitter().burst(LeafParticle.GENERAL, 10);
 
         armor.charge -= chargeUse(hero);
@@ -72,40 +73,35 @@ public class Riot extends ArmorAbility {
 
     @Override
     public int icon() {
-        return HeroIcon.RIOT;
+        return HeroIcon.REINFORCEDARMOR;
     }
 
     @Override
     public Talent[] talents() {
-        return new Talent[]{Talent.HASTE_MOVE, Talent.SHOT_CONCENTRATION, Talent.ROUND_PRESERVE, Talent.HEROIC_ENERGY};
+        return new Talent[]{Talent.BAYONET, Talent.TACTICAL_SIGHT, Talent.PLATE_ADD, Talent.HEROIC_ENERGY};
     }
 
-    public static class riotTracker extends FlavourBuff {
+    public static class reinforcedArmorTracker extends FlavourBuff {
 
         public static final float DURATION = 20f;
 
-        public int extensionsLeft = 10;
-
-        public void extend(){
-            if (Random.Int(4) < Dungeon.hero.pointsInTalent(Talent.SHOT_CONCENTRATION) && extensionsLeft > 0) {
-                spend(1);
-                extensionsLeft--;
-            }
-        }
-
         @Override
         public int icon() {
-            return BuffIndicator.BULLET;
+            return BuffIndicator.PLATE;
         }
 
         @Override
         public void tintIcon(Image icon) {
-            icon.hardlight(0.2f, 1f, 0.2f);
+            icon.hardlight(1f, 1f, 1f);
         }
 
         @Override
         public float iconFadePercent() {
             return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+        }
+
+        public int blockingRoll(){
+            return Random.NormalIntRange(5 + 5 * Dungeon.hero.pointsInTalent(Talent.PLATE_ADD), 20 + 5 * Dungeon.hero.pointsInTalent(Talent.PLATE_ADD));
         }
 
         @Override
@@ -117,7 +113,6 @@ public class Riot extends ArmorAbility {
         public String desc() {
             return Messages.get(this, "desc", dispTurns());
         }
-
     }
 }
 
