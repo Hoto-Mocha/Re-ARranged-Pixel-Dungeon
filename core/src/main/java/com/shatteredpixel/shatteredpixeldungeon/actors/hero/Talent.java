@@ -223,8 +223,8 @@ public enum Talent {
 	HASTE_MOVE(177, 4), SHOT_CONCENTRATION(178,4), ROUND_PRESERVE(179, 4),
 	//ReinforcedArmor T4
 	BAYONET(180, 4), TACTICAL_SIGHT(181, 4), PLATE_ADD(182, 4),
-	//Napalm T4
-	NAPALM_1(183,4), NAPALM_2(184, 4), NAPALM_3(185,4),
+	//FirstAidKit T4
+	ADDITIONAL_MEDS(183,4), THERAPEUTIC_BANDAGE(184, 4), FASTER_HEALING(185,4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one

@@ -49,7 +49,7 @@ public class HeroIcon extends Image {
 	public static final int RATMOGRIFY      = 20;
 	public static final int RIOT            = 28;
 	public static final int REINFORCEDARMOR = 29;
-	public static final int NAPALM          = 30;
+	public static final int FIRSTAIDKIT     = 30;
 
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );
