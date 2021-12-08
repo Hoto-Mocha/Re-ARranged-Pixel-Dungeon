@@ -76,11 +76,11 @@ public class SniperRifle extends MeleeWeapon {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.SNIPER_RIFLE;                                  //if you make something different guns, you should change this
+        image = ItemSpriteSheet.SNIPER_RIFLE;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 5;                                                             //if you make something different guns, you should change this
+        tier = 5;
     }
 
     private static final String ROUND = "round";
