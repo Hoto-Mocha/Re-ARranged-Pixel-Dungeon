@@ -317,7 +317,7 @@ public enum HeroClass {
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
 
-		new KingsCrown().collect();
+		//new KingsCrown().collect();
 
 		//new PotionOfStrength().quantity(20).identify().collect();
 		//new AntimaterRifle().identify().collect();
