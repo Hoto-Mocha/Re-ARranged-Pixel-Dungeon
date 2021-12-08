@@ -39,8 +39,20 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScrol
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
@@ -149,7 +161,23 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		Weapon n;
 		Generator.Category c;
 		if (w instanceof MeleeWeapon) {
-			c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
+			if (w instanceof LargeHandgun
+			 || w instanceof LargeHandgunAP
+			 || w instanceof LargeHandgunHP
+			 || w instanceof MiniGun
+			 || w instanceof MiniGunAP
+			 || w instanceof MiniGunHP
+			 || w instanceof AntimaterRifle
+			 || w instanceof AntimaterRifleAP
+			 || w instanceof AntimaterRifleHP
+			 || w instanceof Lance
+			 || w instanceof ObsidianShield
+			 || w instanceof LanceNShield
+			) {
+				c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
+			} else {
+				c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
+			}
 		} else {
 			c = Generator.misTiers[((MissileWeapon)w).tier - 1];
 		}
