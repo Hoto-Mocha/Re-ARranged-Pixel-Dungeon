@@ -1,17 +1,20 @@
 # ARranged Pixel Dungeon
 
-This is an EXPERIMENTAL mod project of the SPD.
+This is an mod project of the SPD.
 
 ARPD supports only KOREAN language yet.
 
 • New Contents
 - Various Guns & Even ROCKET
 - Normal & AP & HP Bullets
-- 5 of alchemical Weapons
+- 5 of new alchemical Weapons
 - 4 of new Subclasses
-- Added 2 artifacts deleted in SPD
+- Added 2 artifacts what is deleted in SPD
 - 2 artifact buffed
-- 1 of New ring
+- 1 of New ring : Ring of Reload
+- 1 of New Playable Class : Gunner!
+- 3 of New SubClasses of Gunner
+- 3 of New Armor Abilities of Gunner
 
 
 
