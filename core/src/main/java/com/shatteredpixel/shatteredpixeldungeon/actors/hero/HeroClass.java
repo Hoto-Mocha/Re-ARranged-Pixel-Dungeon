@@ -82,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
@@ -345,6 +346,8 @@ public enum HeroClass {
 		//new PotionOfInvisibility().quantity(30).identify().collect();
 		//new FrozenCarpaccio().quantity(99).collect();
 		//new TengusMask().collect();
+		//new KingsCrown().collect();
+		//new Magnum().identify().collect();
 		//new DriedRose().identify().collect();
 		//new RingOfForce().identify().collect();
 	}
