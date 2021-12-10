@@ -395,7 +395,7 @@ public class Magnum extends MeleeWeapon {
         public float delayFactor(Char user) {
             if (hero.hasTalent(Talent.RECOIL_CONTROL)) {
                 if (hero.buff(Riot.riotTracker.class) != null) {
-                    return Magnum.this.delayFactor(user)/2f*(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
+                    return Magnum.this.delayFactor(user)/(2f + 2f * hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
                 } else {
                     return Magnum.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
                 }

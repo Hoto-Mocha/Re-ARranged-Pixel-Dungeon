@@ -394,9 +394,17 @@ public class Handgun extends MeleeWeapon {
         @Override
         public float delayFactor(Char user) {
             if (hero.hasTalent(Talent.RECOIL_CONTROL)) {
-                return Handgun.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
+                if (hero.buff(Riot.riotTracker.class) != null) {
+                    return Handgun.this.delayFactor(user)/(2f + 2f * hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
+                } else {
+                    return Handgun.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
+                }
             } else {
-                return Handgun.this.delayFactor(user);
+                if (hero.buff(Riot.riotTracker.class) != null) {
+                    return Handgun.this.delayFactor(user)/2f;
+                } else {
+                    return Handgun.this.delayFactor(user);
+                }
             }
         }
 
