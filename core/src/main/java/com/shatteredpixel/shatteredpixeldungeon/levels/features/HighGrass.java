@@ -141,8 +141,8 @@ public class HighGrass {
 					Camouflage.activate(statue, statue.armor().buffedLvl());
 				}
 
-				if (Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
-					Buff.prolong(Dungeon.hero, Invisibility.class, Dungeon.hero.pointsInTalent(Talent.CAMOUFLAGE));
+				if (hero.hasTalent(Talent.CAMOUFLAGE)) {
+					Buff.prolong(hero, Invisibility.class, hero.pointsInTalent(Talent.CAMOUFLAGE));
 					Sample.INSTANCE.play( Assets.Sounds.MELD );
 				}
 			}

@@ -233,9 +233,6 @@ public abstract class Recipe {
 		new ExoticScroll.ScrollToExotic(),
 		new ArcaneResin.Recipe(),
 		new Alchemize.Recipe(),
-		new Scrap.Recipe(),
-		new BrassScrap.Recipe(),
-		new Cartridge.Recipe(),
 		new StewedMeat.oneMeat()
 	};
 	
@@ -288,6 +285,9 @@ public abstract class Recipe {
 		new Lance.Recipe(),
 		new ObsidianShield.Recipe(),
 		new LanceNShield.Recipe(),
+		new Scrap.Recipe(),
+		new BrassScrap.Recipe(),
+		new Cartridge.Recipe(),
 		new APBullet.Recipe(),
 		new HPBullet.Recipe(),
 		new CrudePistolAP.Recipe(),
