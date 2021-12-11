@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0'
+        classpath 'com.android.tools.build:gradle:7.0.3'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.13'
     }
 }
@@ -16,16 +16,16 @@ allprojects {
         appPackageName = 'com.arrangedpixel.arrangedpixeldungeon'
 
         appVersionCode = 586
-        appVersionName = '1.0.3_based_1.13.2'
+        appVersionName = '1.1.0_based_1.13.2'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
-        appAndroidCompileSDK = 30 //TODO update to 31 once it is out of preview
+        appAndroidCompileSDK = 31
         appAndroidMinSDK = 14
         appAndroidTargetSDK = 31
 
         gdxVersion = '1.10.0'
-        robovmVersion = '2.3.13'
+        robovmVersion = '2.3.14'
     }
     version = appVersionName
 

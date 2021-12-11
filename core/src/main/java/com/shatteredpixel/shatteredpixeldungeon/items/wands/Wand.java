@@ -399,7 +399,7 @@ public abstract class Wand extends Item {
 		} else {
 			ScrollEmpower empower = curUser.buff(ScrollEmpower.class);
 			if (empower != null){
-				empower.detach();
+				empower.use();
 			}
 		}
 
