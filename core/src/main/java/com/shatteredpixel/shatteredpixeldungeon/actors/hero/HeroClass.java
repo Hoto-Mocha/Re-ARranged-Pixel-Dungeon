@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Sh
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
+import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -69,6 +70,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMysticalEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
@@ -327,6 +329,7 @@ public enum HeroClass {
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
 
+		//new LiquidMetal().quantity(400).collect();
 		//new PotionOfStrength().quantity(20).identify().collect();
 		//new AntimaterRifle().identify().collect();
 		//new AntimaterRifleAP().identify().collect();
@@ -341,6 +344,8 @@ public enum HeroClass {
 		//new PotionOfExperience().identify().quantity(50).collect();
 		//new AlchemistsToolkit().identify().collect();
 		//new ScrollOfMysticalEnergy().identify().quantity(50).collect();
+		//new ScrollOfMagicMapping().identify().quantity(50).collect();
+		//new ScrollOfMetamorphosis().identify().quantity(50).collect();
 		//new ScrollOfTransmutation().identify().quantity(50).collect();
 		//new ArcaneResin().quantity(30).collect();
 		//new PotionOfInvisibility().quantity(30).identify().collect();

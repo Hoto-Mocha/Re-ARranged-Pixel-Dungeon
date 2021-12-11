@@ -833,19 +833,19 @@ public enum Talent {
 		//tier 3
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN, BETTER_CHOICE);
+				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN);
 				break;
 			case MAGE:
-				Collections.addAll(tierTalents, EMPOWERING_SCROLLS, ALLY_WARP, BETTER_CHOICE);
+				Collections.addAll(tierTalents, EMPOWERING_SCROLLS, ALLY_WARP);
 				break;
 			case ROGUE:
-				Collections.addAll(tierTalents, ENHANCED_RINGS, LIGHT_CLOAK, BETTER_CHOICE);
+				Collections.addAll(tierTalents, ENHANCED_RINGS, LIGHT_CLOAK);
 				break;
 			case HUNTRESS:
-				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT, BETTER_CHOICE);
+				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);
 				break;
 			case GUNNER:
-				Collections.addAll(tierTalents, MELEE_ENHANCE, BOOM_ENHANCE, BETTER_CHOICE);
+				Collections.addAll(tierTalents, MELEE_ENHANCE, BOOM_ENHANCE);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -876,49 +876,49 @@ public enum Talent {
 		//tier 3
 		switch (cls){
 			case BERSERKER: default:
-				Collections.addAll(tierTalents, ENDLESS_RAGE, BERSERKING_STAMINA, ENRAGED_CATALYST);
+				Collections.addAll(tierTalents, BETTER_CHOICE, ENDLESS_RAGE, BERSERKING_STAMINA, ENRAGED_CATALYST);
 				break;
 			case GLADIATOR:
-				Collections.addAll(tierTalents, CLEAVE, LETHAL_DEFENSE, ENHANCED_COMBO);
+				Collections.addAll(tierTalents, BETTER_CHOICE, CLEAVE, LETHAL_DEFENSE, ENHANCED_COMBO);
 				break;
 			case VETERAN:
-				Collections.addAll(tierTalents, ARM_VETERAN, MARTIAL_ARTS, ENHANCED_FOCUSING);
+				Collections.addAll(tierTalents, BETTER_CHOICE, ARM_VETERAN, MARTIAL_ARTS, ENHANCED_FOCUSING);
 				break;
 			case BATTLEMAGE:
-				Collections.addAll(tierTalents, EMPOWERED_STRIKE, MYSTICAL_CHARGE, EXCESS_CHARGE);
+				Collections.addAll(tierTalents, BETTER_CHOICE, EMPOWERED_STRIKE, MYSTICAL_CHARGE, EXCESS_CHARGE);
 				break;
 			case WARLOCK:
-				Collections.addAll(tierTalents, SOUL_EATER, SOUL_SIPHON, NECROMANCERS_MINIONS);
+				Collections.addAll(tierTalents, BETTER_CHOICE, SOUL_EATER, SOUL_SIPHON, NECROMANCERS_MINIONS);
 				break;
 			case ENGINEER:
-				Collections.addAll(tierTalents, AMMO_PRESERVE, CONNECTING_CHARGER, FASTER_CHARGER);
+				Collections.addAll(tierTalents, BETTER_CHOICE, AMMO_PRESERVE, CONNECTING_CHARGER, FASTER_CHARGER);
 				break;
 			case ASSASSIN:
-				Collections.addAll(tierTalents, ENHANCED_LETHALITY, ASSASSINS_REACH, BOUNTY_HUNTER);
+				Collections.addAll(tierTalents, BETTER_CHOICE, ENHANCED_LETHALITY, ASSASSINS_REACH, BOUNTY_HUNTER);
 				break;
 			case FREERUNNER:
-				Collections.addAll(tierTalents, EVASIVE_ARMOR, PROJECTILE_MOMENTUM, SPEEDY_STEALTH);
+				Collections.addAll(tierTalents, BETTER_CHOICE, EVASIVE_ARMOR, PROJECTILE_MOMENTUM, SPEEDY_STEALTH);
 				break;
 			case CHASER:
-				Collections.addAll(tierTalents, INCISIVE_BLADE ,LETHAL_SURPRISE , CHAIN_CLOCK);
+				Collections.addAll(tierTalents, BETTER_CHOICE, INCISIVE_BLADE ,LETHAL_SURPRISE , CHAIN_CLOCK);
 				break;
 			case SNIPER:
-				Collections.addAll(tierTalents, FARSIGHT, SHARED_ENCHANTMENT, SHARED_UPGRADES);
+				Collections.addAll(tierTalents, BETTER_CHOICE, FARSIGHT, SHARED_ENCHANTMENT, SHARED_UPGRADES);
 				break;
 			case WARDEN:
-				Collections.addAll(tierTalents, DURABLE_TIPS, BARKSKIN, SHIELDING_DEW);
+				Collections.addAll(tierTalents, BETTER_CHOICE, DURABLE_TIPS, BARKSKIN, SHIELDING_DEW);
 				break;
 			case FIGHTER:
-				Collections.addAll(tierTalents, SKILLS_PRACTICE, MIND_PRACTICE, VITAL_ATTACK);
+				Collections.addAll(tierTalents, BETTER_CHOICE, SKILLS_PRACTICE, MIND_PRACTICE, VITAL_ATTACK);
 				break;
 			case LAUNCHER:
-				Collections.addAll(tierTalents, MACHINEGUN_MASTER, ACC_PRACTICE, RECOIL_PRACTICE);
+				Collections.addAll(tierTalents, BETTER_CHOICE, MACHINEGUN_MASTER, ACC_PRACTICE, RECOIL_PRACTICE);
 				break;
 			case RANGER:
-				Collections.addAll(tierTalents, HANDGUN_MASTER, RECOIL_CONTROL, ELEMENTAL_BULLET);
+				Collections.addAll(tierTalents, BETTER_CHOICE, HANDGUN_MASTER, RECOIL_CONTROL, ELEMENTAL_BULLET);
 				break;
 			case RIFLEMAN:
-				Collections.addAll(tierTalents, RIFLE_MASTER, ONLY_ONE_SHOT, EVASIVE_MOVE);
+				Collections.addAll(tierTalents, BETTER_CHOICE, RIFLE_MASTER, ONLY_ONE_SHOT, EVASIVE_MOVE);
 				break;
 		}
 		for (Talent talent : tierTalents){
