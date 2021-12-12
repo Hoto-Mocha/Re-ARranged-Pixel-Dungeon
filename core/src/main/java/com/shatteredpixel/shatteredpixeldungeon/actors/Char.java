@@ -686,7 +686,7 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
 							|| Dungeon.hero.belongings.weapon() instanceof RPG7
 					) {
-						dmg += 2*hero.belongings.weapon.buffedLvl();
+						dmg += Random.NormalIntRange(0, hero.belongings.weapon.buffedLvl());
 					}
 				}
 			}
