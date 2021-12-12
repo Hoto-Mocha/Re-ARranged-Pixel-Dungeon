@@ -421,20 +421,4 @@ public class SniperRifle extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{HuntingRifle.class, APBullet.class};
-            inQuantity = new int[]{1, 1};
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                cost = 10;
-            } else {
-                cost = 100;
-            }
-            output = SniperRifle.class;
-            outQuantity = 1;
-        }
-
-    }
 }

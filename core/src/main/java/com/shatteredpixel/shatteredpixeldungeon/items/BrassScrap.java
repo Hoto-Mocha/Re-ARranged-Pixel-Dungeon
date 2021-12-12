@@ -45,21 +45,31 @@ public class BrassScrap extends Item {
 
     @Override
     public int value() {
-        return quantity * 46;
+        return quantity * 15;
     }
 
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{Scrap.class};
-            inQuantity = new int[]{3};
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                cost = 0;
-            } else {
-                cost = 2;
-            }
-            output = BrassScrap.class;
-            outQuantity = 1;
-        }
-    }
+    //public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+//
+    //    {
+    //        inputs =  new Class[]{Scrap.class};
+    //        inQuantity = new int[]{3};
+//
+    //        cost = 1;
+//
+    //        output = BrassScrap.class;
+    //        outQuantity = 1;
+    //    }
+    //}
+//
+    //public static class Recipe2 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe{
+    //    {
+    //        inputs =  new Class[]{LiquidMetal.class};
+    //        inQuantity = new int[]{15};
+//
+    //        cost = 2;
+//
+    //        output = BrassScrap.class;
+    //        outQuantity = 1;
+    //    }
+    //}
 }

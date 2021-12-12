@@ -45,18 +45,16 @@ public class APBullet extends Item {
 
     @Override
     public int value() {
-        return quantity * 208;
+        return quantity * 120;
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe{
         {
-            inputs =  new Class[]{Cartridge.class, BrassScrap.class, ArcaneResin.class};
-            inQuantity = new int[]{1, 1, 1};
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                cost = 1;
-            } else {
-                cost = 3;
-            }
+            inputs =  new Class[]{Cartridge.class, LiquidMetal.class, ArcaneResin.class};
+            inQuantity = new int[]{1, 30, 1};
+
+            cost = 3;
+
             output = APBullet.class;
             outQuantity = 1;
         }

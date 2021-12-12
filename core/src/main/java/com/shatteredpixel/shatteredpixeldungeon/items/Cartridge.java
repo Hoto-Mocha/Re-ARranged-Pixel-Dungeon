@@ -48,18 +48,14 @@ public class Cartridge extends Item {
         return quantity * 132;
     }
 
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
+    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe{
         {
-            inputs =  new Class[]{BrassScrap.class};
-            inQuantity = new int[]{3};
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                cost = 1;
-            } else {
-                cost = 3;
-            }
+            inputs =  new Class[]{LiquidMetal.class};
+            inQuantity = new int[]{60};
+
+            cost = 3;
+
             output = Cartridge.class;
             outQuantity = 1;
         }
-    }
-}
+    }}

@@ -469,20 +469,4 @@ public class AssultRifle extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-        {
-            inputs =  new Class[]{SubMachinegun.class, Cartridge.class};
-            inQuantity = new int[]{1, 1};
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                cost = 5;
-            } else {
-                cost = 100;
-            }
-            output = AssultRifle.class;
-            outQuantity = 1;
-        }
-
-    }
-
 }

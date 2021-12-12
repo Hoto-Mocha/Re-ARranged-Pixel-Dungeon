@@ -405,14 +405,14 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe( new ArcaneResin.Recipe(),
 						new ArrayList<Item>(Arrays.asList(new Wand.PlaceHolder())),
 						new ArcaneResin()));
+				//result.add(null);
+				//result.add(null);
+				//result.add(new QuickRecipe(new Scrap.Recipe()));
+				//result.add(null);
+				//result.add(new QuickRecipe(new BrassScrap.Recipe()));
 				result.add(null);
-				result.add(null);
-				result.add(new QuickRecipe(new Scrap.Recipe()));
-				result.add(null);
-				result.add(new QuickRecipe(new BrassScrap.Recipe()));
 				result.add(null);
 				result.add(new QuickRecipe(new Cartridge.Recipe()));
-				result.add(null);
 				result.add(null);
 				result.add(new QuickRecipe(new APBullet.Recipe()));
 				result.add(new QuickRecipe(new HPBullet.Recipe()));
@@ -478,20 +478,6 @@ public class QuickRecipe extends Component {
 				result.add(null);
 				result.add(new QuickRecipe(new MiniGunAP.Recipe()));
 				result.add(new QuickRecipe(new MiniGunHP.Recipe()));
-				result.add(null);
-				result.add(null);
-				result.add(new QuickRecipe(new Pistol.Recipe()));
-				result.add(new QuickRecipe(new DualPistol.Recipe()));
-				result.add(null);
-				result.add(new QuickRecipe(new GoldenPistol.Recipe()));
-				result.add(new QuickRecipe(new SubMachinegun.Recipe()));
-				result.add(null);
-				result.add(new QuickRecipe(new Handgun.Recipe()));
-				result.add(new QuickRecipe(new AssultRifle.Recipe()));
-				result.add(null);
-				result.add(new QuickRecipe(new Magnum.Recipe()));
-				result.add(new QuickRecipe(new HeavyMachinegun.Recipe()));
-				result.add(new QuickRecipe(new SniperRifle.Recipe()));
 				return result;
 			case 7:
 				result.add(new QuickRecipe(new AlchemicalCatalyst.Recipe(), new ArrayList<>(Arrays.asList(new Potion.PlaceHolder(), new Plant.Seed.PlaceHolder())), new AlchemicalCatalyst()));

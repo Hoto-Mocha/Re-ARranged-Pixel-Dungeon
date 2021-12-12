@@ -264,16 +264,7 @@ public abstract class Recipe {
 		new WildEnergy.Recipe(),
 		new TelekineticGrab.Recipe(),
 		new SummonElemental.Recipe(),
-		new StewedMeat.twoMeat(),
-		new Pistol.Recipe(),
-		new GoldenPistol.Recipe(),
-		new Handgun.Recipe(),
-		new Magnum.Recipe(),
-		new DualPistol.Recipe(),
-		new SubMachinegun.Recipe(),
-		new AssultRifle.Recipe(),
-		new HeavyMachinegun.Recipe(),
-		new SniperRifle.Recipe()
+		new StewedMeat.twoMeat()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
@@ -285,8 +276,8 @@ public abstract class Recipe {
 		new Lance.Recipe(),
 		new ObsidianShield.Recipe(),
 		new LanceNShield.Recipe(),
-		new Scrap.Recipe(),
-		new BrassScrap.Recipe(),
+		//new Scrap.Recipe(),
+		//new BrassScrap.Recipe(),
 		new Cartridge.Recipe(),
 		new APBullet.Recipe(),
 		new HPBullet.Recipe(),
