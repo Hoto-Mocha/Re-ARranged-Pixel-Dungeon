@@ -42,9 +42,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.En
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
+import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -70,14 +72,26 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMysticalEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
@@ -86,7 +100,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
@@ -225,6 +244,7 @@ public enum HeroClass {
 
 		//new ScrollOfUpgrade().identify().quantity(99).collect();
 		//new ScrollOfTransmutation().identify().quantity(99).collect();
+		//new Evolution().quantity(50).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new PotionOfInvisibility().identify().quantity(30).collect();
 		//new PotionOfStrength().identify().quantity(20).collect();
@@ -327,29 +347,53 @@ public enum HeroClass {
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
 
-		//new PotionOfStrength().quantity(20).identify().collect();
-		//new AntimaterRifle().identify().collect();
-		//new AntimaterRifleAP().identify().collect();
-		//new AntimaterRifleHP().identify().collect();
-		//new MiniGun().identify().collect();
-		//new MiniGunAP().identify().collect();
-		//new MiniGunHP().identify().collect();
-		//new LargeHandgun().identify().collect();
-		//new LargeHandgunAP().identify().collect();
-		//new LargeHandgunHP().identify().collect();
-		//new ScrollOfUpgrade().quantity(50).identify().collect();
-		//new PotionOfExperience().identify().quantity(50).collect();
+		//new CrudePistol().identify().collect();
+		//new Pistol().identify().collect();
+		//new GoldenPistol().identify().collect();
+		//new Handgun().identify().collect();
+		//new Magnum().identify().collect();
+		//new DualPistol().identify().collect();
+		//new SubMachinegun().identify().collect();
+		//new AssultRifle().identify().collect();
+		//new HeavyMachinegun().identify().collect();
+		//new HuntingRifle().identify().collect();
+		//new SniperRifle().identify().collect();
+		//new ShotGun().identify().collect();
+		//new Lance().identify().collect();
+		//new ObsidianShield().identify().collect();
+		//new Greatshield().identify().collect();
+		//new AssassinsBlade().identify().collect();
+		//new SpearNShield().identify().collect();
+
 		//new AlchemistsToolkit().identify().collect();
-		//new ScrollOfMysticalEnergy().identify().quantity(50).collect();
-		//new ScrollOfTransmutation().identify().quantity(50).collect();
-		//new ArcaneResin().quantity(30).collect();
-		//new PotionOfInvisibility().quantity(30).identify().collect();
-		//new FrozenCarpaccio().quantity(99).collect();
+		//new LiquidMetal().quantity(500).collect();
+		//new ArcaneResin().quantity(20).collect();
+		//new ArcaneCatalyst().quantity(20).collect();
+		//new AlchemicalCatalyst().quantity(20).collect();i
+		//new Scrap().quantity(20).collect();
+		//new RocketLauncher().identify().collect();
+		//new RPG7().identify().collect();
+		//new CapeOfThorns().identify().collect();
+		//new LloydsBeacon().identify().collect();
+		//new DriedRose().identify().collect();
+		//new RingOfReload().identify().collect();
+		//new LanceNShield().identify().collect();
+		//new ObsidianShield().identify().collect();
+		//new ChaliceOfBlood().identify().collect();
+
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
-		//new Magnum().identify().collect();
-		//new DriedRose().identify().collect();
-		//new RingOfForce().identify().collect();
+
+		//new StoneOfAugmentation().quantity(99).collect();
+
+		//new ScrollOfUpgrade().identify().quantity(99).collect();
+		//new ScrollOfTransmutation().identify().quantity(99).collect();
+		//new Evolution().quantity(50).collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
+		//new PotionOfInvisibility().identify().quantity(30).collect();
+		//new PotionOfStrength().identify().quantity(20).collect();
+		//new CurseInfusion().quantity(50).collect();
+		//new ScrollOfMysticalEnergy().quantity(50).collect();
 	}
 
 	public String title() {
