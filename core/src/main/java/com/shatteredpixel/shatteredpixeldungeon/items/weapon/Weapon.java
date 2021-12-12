@@ -25,11 +25,15 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Annoying;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Displacing;
@@ -100,6 +104,8 @@ abstract public class Weapon extends KindOfWeapon {
 	public Enchantment enchantment;
 	public boolean curseInfusionBonus = false;
 	public boolean masteryPotionBonus = false;
+
+	private Sheath sheath;
 	
 	@Override
 	public int proc( Char attacker, Char defender, int damage ) {
@@ -119,6 +125,24 @@ abstract public class Weapon extends KindOfWeapon {
 		}
 
 		return damage;
+	}
+
+	public void affixSheath(Sheath sheath){
+		this.sheath = sheath;
+		if (sheath.level() > 0){
+			//doesn't trigger upgrading logic such as affecting curses/glyphs
+			int newLevel = level()+1;
+			if (curseInfusionBonus) newLevel--;
+			level(newLevel);
+			Badges.validateItemLevelAquired(this);
+		}
+		if (sheath.getEnchant() != null){
+			enchant(sheath.getEnchant());
+		}
+	}
+
+	public Sheath checkSheath(){
+		return sheath;
 	}
 	
 	public void onHeroGainExp( float levelPercent, Hero hero ){

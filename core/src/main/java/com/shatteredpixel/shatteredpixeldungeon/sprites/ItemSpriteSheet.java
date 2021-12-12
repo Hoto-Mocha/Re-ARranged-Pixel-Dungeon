@@ -782,6 +782,7 @@ public class ItemSpriteSheet {
 	public static final int CARTRIDGE    = QUEST+10;
 	public static final int	AP_BULLET    = QUEST+11;
 	public static final int HP_BULLET    = QUEST+12;
+	public static final int SHEATH       = QUEST+13;
 	static{
 		assignItemRect(SKULL,       16, 11);
 		assignItemRect(DUST,        12, 11);
@@ -796,6 +797,7 @@ public class ItemSpriteSheet {
 		assignItemRect(CARTRIDGE,	11, 11);
 		assignItemRect(AP_BULLET,	13, 13);
 		assignItemRect(HP_BULLET,	13, 13);
+		assignItemRect(SHEATH,	    13, 13);
 	}
 
 	private static final int BAGS       =                                   xy(1, 31);  //16 slots

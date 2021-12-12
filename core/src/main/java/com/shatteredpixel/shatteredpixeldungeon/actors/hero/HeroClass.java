@@ -47,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -202,6 +203,8 @@ public enum HeroClass {
 
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
+
+		//new Sheath().collect();
 
 		//new CrudePistol().identify().collect();
 		//new Pistol().identify().collect();
