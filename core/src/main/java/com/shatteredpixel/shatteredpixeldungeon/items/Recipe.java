@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalPorter;
@@ -235,7 +236,7 @@ public abstract class Recipe {
 		new Alchemize.Recipe(),
 		new StewedMeat.oneMeat()
 	};
-	
+
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
 		new Blandfruit.CookFruit(),
 		new Bomb.EnhanceBomb(),
@@ -264,7 +265,8 @@ public abstract class Recipe {
 		new WildEnergy.Recipe(),
 		new TelekineticGrab.Recipe(),
 		new SummonElemental.Recipe(),
-		new StewedMeat.twoMeat()
+		new StewedMeat.twoMeat(),
+		new Evolution.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
