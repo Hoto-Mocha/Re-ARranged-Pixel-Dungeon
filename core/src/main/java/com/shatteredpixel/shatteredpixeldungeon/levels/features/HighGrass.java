@@ -140,7 +140,9 @@ public class HighGrass {
 				if (statue.armor() != null && statue.armor().hasGlyph(Camouflage.class, statue)){
 					Camouflage.activate(statue, statue.armor().buffedLvl());
 				}
-			} else if (Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
+			}
+
+			if (Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
 				Buff.prolong(Dungeon.hero, Invisibility.class, Dungeon.hero.pointsInTalent(Talent.CAMOUFLAGE));
 				Sample.INSTANCE.play( Assets.Sounds.MELD );
 			}
@@ -150,7 +152,7 @@ public class HighGrass {
 		
 		if (ShatteredPixelDungeon.scene() instanceof GameScene) {
 			GameScene.updateMap(pos);
-			
+
 			CellEmitter.get(pos).burst(LeafParticle.LEVEL_SPECIFIC, 4);
 			if (Dungeon.level.heroFOV[pos]) Dungeon.observe();
 		}
