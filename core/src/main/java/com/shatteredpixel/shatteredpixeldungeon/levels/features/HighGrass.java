@@ -140,11 +140,9 @@ public class HighGrass {
 				if (statue.armor() != null && statue.armor().hasGlyph(Camouflage.class, statue)){
 					Camouflage.activate(statue, statue.armor().buffedLvl());
 				}
-
-				if (Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
-					Buff.prolong(Dungeon.hero, Invisibility.class, Dungeon.hero.pointsInTalent(Talent.CAMOUFLAGE));
-					Sample.INSTANCE.play( Assets.Sounds.MELD );
-				}
+			} else if (Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
+				Buff.prolong(Dungeon.hero, Invisibility.class, Dungeon.hero.pointsInTalent(Talent.CAMOUFLAGE));
+				Sample.INSTANCE.play( Assets.Sounds.MELD );
 			}
 		}
 		
