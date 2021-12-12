@@ -425,7 +425,7 @@ public abstract class Char extends Actor {
 				) {
 					dr *= 3;
 				} else if (h.belongings.weapon instanceof ShotGunHP.Bullet) {
-					dr *= 1.5;
+					dr *= 2;
 				}
 			}
 			
