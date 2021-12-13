@@ -47,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -474,4 +475,17 @@ public class Pistol extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
+
+    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+        {
+            inputs =  new Class[]{CrudePistol.class, LiquidMetal.class};
+            inQuantity = new int[]{1, 10};
+
+            cost = 0;
+
+            output = Pistol.class;
+            outQuantity = 1;
+        }
+    }
 }

@@ -475,4 +475,18 @@ public class GoldenPistol extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
+
+    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+        {
+            inputs =  new Class[]{Pistol.class, LiquidMetal.class};
+            inQuantity = new int[]{1, 30};
+
+            cost = 0;
+
+            output = GoldenPistol.class;
+            outQuantity = 1;
+        }
+    }
+
 }
