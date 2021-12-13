@@ -359,7 +359,6 @@ public abstract class Recipe {
 	public static boolean usableInRecipe(Item item) {
 		return !item.cursed && !item.isEquipped(hero)
 				&& (!(item instanceof Armor)) && (!(item instanceof Ring)) && (!(item instanceof Artifact))
-					|| (item instanceof AlchemistsToolkit && item.isIdentified())
 					|| (item instanceof MissileWeapon);
 	}
 }
