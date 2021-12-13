@@ -365,6 +365,9 @@ public class SniperRifle extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (SniperRifle.this.masteryPotionBonus) {
+                return STRReq(tier, SniperRifle.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, SniperRifle.this.buffedLvl());
         }
 

@@ -345,6 +345,9 @@ public class ShotGunHP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (ShotGunHP.this.masteryPotionBonus) {
+                return STRReq(tier, ShotGunHP.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, ShotGunHP.this.buffedLvl());
         }
 

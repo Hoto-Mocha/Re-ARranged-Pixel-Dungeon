@@ -418,6 +418,9 @@ public class PistolAP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (PistolAP.this.masteryPotionBonus) {
+                return STRReq(tier, PistolAP.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, PistolAP.this.buffedLvl());
         }
 

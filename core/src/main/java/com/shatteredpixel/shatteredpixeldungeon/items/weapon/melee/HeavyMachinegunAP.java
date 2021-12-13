@@ -370,6 +370,9 @@ public class HeavyMachinegunAP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (HeavyMachinegunAP.this.masteryPotionBonus) {
+                return STRReq(tier, HeavyMachinegunAP.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, HeavyMachinegunAP.this.buffedLvl());
         }
 

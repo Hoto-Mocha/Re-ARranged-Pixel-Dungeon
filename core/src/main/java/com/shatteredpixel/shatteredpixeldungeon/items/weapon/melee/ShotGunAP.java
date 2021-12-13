@@ -344,6 +344,9 @@ public class ShotGunAP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (ShotGunAP.this.masteryPotionBonus) {
+                return STRReq(tier, ShotGunAP.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, ShotGunAP.this.buffedLvl());
         }
 

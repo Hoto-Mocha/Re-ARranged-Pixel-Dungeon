@@ -377,6 +377,9 @@ public class RocketLauncher extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (RocketLauncher.this.masteryPotionBonus) {
+                return STRReq(tier, RocketLauncher.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, RocketLauncher.this.buffedLvl());
         }
 

@@ -418,6 +418,9 @@ public class LargeHandgunHP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (LargeHandgunHP.this.masteryPotionBonus) {
+                return STRReq(tier, LargeHandgunHP.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, LargeHandgunHP.this.buffedLvl());
         }
 

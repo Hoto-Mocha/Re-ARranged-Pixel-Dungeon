@@ -423,6 +423,9 @@ public class CrudePistol extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (CrudePistol.this.masteryPotionBonus) {
+                return STRReq(tier, CrudePistol.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, CrudePistol.this.buffedLvl());
         }
 

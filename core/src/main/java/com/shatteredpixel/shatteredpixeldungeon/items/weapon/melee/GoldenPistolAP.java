@@ -418,6 +418,9 @@ public class GoldenPistolAP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (GoldenPistolAP.this.masteryPotionBonus) {
+                return STRReq(tier, GoldenPistolAP.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, GoldenPistolAP.this.buffedLvl());
         }
 

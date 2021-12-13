@@ -371,6 +371,9 @@ public class MiniGun extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (MiniGun.this.masteryPotionBonus) {
+                return STRReq(tier, MiniGun.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, MiniGun.this.buffedLvl());
         }
 

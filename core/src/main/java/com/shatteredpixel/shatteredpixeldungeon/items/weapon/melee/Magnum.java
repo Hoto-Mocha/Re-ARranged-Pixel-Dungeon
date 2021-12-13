@@ -419,6 +419,9 @@ public class Magnum extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
+            if (Magnum.this.masteryPotionBonus) {
+                return STRReq(tier, Magnum.this.buffedLvl()) - 2;
+            }
             return STRReq(tier, Magnum.this.buffedLvl());
         }
 
