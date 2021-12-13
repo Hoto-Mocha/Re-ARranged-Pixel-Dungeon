@@ -194,7 +194,7 @@ public class Evolution extends InventorySpell {
         {
             if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
                 inputs =  new Class[]{LiquidMetal.class, ArcaneCatalyst.class};
-                inQuantity = new int[]{100, 1};
+                inQuantity = new int[]{80, 1};
 
                 cost = 5;
 
