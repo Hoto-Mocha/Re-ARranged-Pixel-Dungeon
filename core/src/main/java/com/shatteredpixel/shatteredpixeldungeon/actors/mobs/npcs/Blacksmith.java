@@ -29,7 +29,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.DarkGold;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
@@ -224,13 +223,6 @@ public class Blacksmith extends NPC {
 			BrokenSeal seal = ((Armor) second).checkSeal();
 			if (seal != null){
 				Dungeon.level.drop( seal, Dungeon.hero.pos );
-			}
-		}
-
-		if (second instanceof Weapon){
-			Sheath sheath = ((Weapon) second).checkSheath();
-			if (sheath != null){
-				Dungeon.level.drop( sheath, Dungeon.hero.pos );
 			}
 		}
 
