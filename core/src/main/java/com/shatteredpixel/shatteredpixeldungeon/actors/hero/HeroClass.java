@@ -354,13 +354,13 @@ public enum HeroClass {
 		//new Pistol().identify().collect();
 		//new GoldenPistol().identify().collect();
 		//new Handgun().identify().collect();
-		new Magnum().identify().collect();
+		//new Magnum().identify().collect();
 		//new DualPistol().identify().collect();
 		//new SubMachinegun().identify().collect();
 		//new AssultRifle().identify().collect();
-		new HeavyMachinegun().identify().collect();
+		//new HeavyMachinegun().identify().collect();
 		//new HuntingRifle().identify().collect();
-		new SniperRifle().identify().collect();
+		//new SniperRifle().identify().collect();
 		//new ShotGun().identify().collect();
 		//new Lance().identify().collect();
 		//new ObsidianShield().identify().collect();
@@ -368,9 +368,9 @@ public enum HeroClass {
 		//new AssassinsBlade().identify().collect();
 		//new SpearNShield().identify().collect();
 
-		new AlchemistsToolkit().identify().collect();
-		new LiquidMetal().quantity(500).collect();
-		new ArcaneResin().quantity(20).collect();
+		//new AlchemistsToolkit().identify().collect();
+		//new LiquidMetal().quantity(500).collect();
+		//new ArcaneResin().quantity(20).collect();
 		//new ArcaneCatalyst().quantity(20).collect();
 		//new AlchemicalCatalyst().quantity(20).collect();i
 		//new Scrap().quantity(20).collect();
@@ -391,11 +391,11 @@ public enum HeroClass {
 
 		//new ScrollOfUpgrade().identify().quantity(99).collect();
 		//new ScrollOfTransmutation().identify().quantity(99).collect();
-		new Evolution().quantity(50).collect();
-		new PotionOfExperience().identify().quantity(30).collect();
+		//new Evolution().quantity(50).collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
 		//new PotionOfInvisibility().identify().quantity(30).collect();
-		new PotionOfStrength().identify().quantity(20).collect();
-		new PotionOfMastery().identify().quantity(20).collect();
+		//new PotionOfStrength().identify().quantity(20).collect();
+		//new PotionOfMastery().identify().quantity(20).collect();
 		//new CurseInfusion().quantity(50).collect();
 		//new ScrollOfMysticalEnergy().quantity(50).collect();
 	}
