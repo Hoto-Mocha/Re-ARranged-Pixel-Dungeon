@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.APBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -424,10 +425,10 @@ public class RPG7 extends MeleeWeapon {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
-            inputs =  new Class[]{RocketLauncher.class, APBullet.class, HPBullet.class};
-            inQuantity = new int[]{1, 1, 1};
+            inputs =  new Class[]{RocketLauncher.class, Evolution.class};
+            inQuantity = new int[]{1, 1};
 
-            cost = 3;
+            cost = 5;
 
             output = RPG7.class;
             outQuantity = 1;

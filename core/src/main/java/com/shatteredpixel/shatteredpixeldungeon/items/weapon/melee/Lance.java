@@ -57,7 +57,7 @@ public class Lance extends MeleeWeapon {
             inputs =  new Class[]{Glaive.class, LiquidMetal.class, ArcaneResin.class};
             inQuantity = new int[]{1, 50, 1};
 
-            cost = 10;
+            cost = 5;
 
             output = Lance.class;
             outQuantity = 1;

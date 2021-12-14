@@ -274,7 +274,8 @@ public abstract class Recipe {
 		new MiniGun.Recipe(),
 		new LargeHandgun.Recipe(),
 		new AntimaterRifle.Recipe(),
-		new SharpKatana.Recipe()
+		new SharpKatana.Recipe(),
+		new RPG7.Recipe()
 
 	};
 	
@@ -320,8 +321,7 @@ public abstract class Recipe {
 		new LargeHandgunAP.Recipe(),
 		new LargeHandgunHP.Recipe(),
 		new AntimaterRifleAP.Recipe(),
-		new AntimaterRifleHP.Recipe(),
-		new RPG7.Recipe()
+		new AntimaterRifleHP.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){
