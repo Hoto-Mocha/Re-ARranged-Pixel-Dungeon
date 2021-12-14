@@ -116,9 +116,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Katana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LongKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -133,6 +136,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShortKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
@@ -143,6 +148,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.watabou.utils.Bundle;
 
@@ -182,33 +188,42 @@ public enum Catalog {
 		WEAPONS.seen.put( Gloves.class,                     false);
 		WEAPONS.seen.put( Dagger.class,                     false);
 		WEAPONS.seen.put( MagesStaff.class,                 false);
+		WEAPONS.seen.put( WornKatana.class,                 false);
 		WEAPONS.seen.put( Shortsword.class,                 false);
 		WEAPONS.seen.put( HandAxe.class,                    false);
 		WEAPONS.seen.put( Spear.class,                      false);
 		WEAPONS.seen.put( Quarterstaff.class,               false);
 		WEAPONS.seen.put( Dirk.class,                       false);
+		WEAPONS.seen.put( ShortKatana.class,                false);
 		WEAPONS.seen.put( Sword.class,                      false);
 		WEAPONS.seen.put( Mace.class,                       false);
 		WEAPONS.seen.put( Scimitar.class,                   false);
 		WEAPONS.seen.put( RoundShield.class,                false);
 		WEAPONS.seen.put( Sai.class,                        false);
 		WEAPONS.seen.put( Whip.class,                       false);
+		WEAPONS.seen.put( Katana.class,                     false);
 		WEAPONS.seen.put( Longsword.class,                  false);
 		WEAPONS.seen.put( BattleAxe.class,                  false);
 		WEAPONS.seen.put( Flail.class,                      false);
 		WEAPONS.seen.put( RunicBlade.class,                 false);
 		WEAPONS.seen.put( AssassinsBlade.class,             false);
 		WEAPONS.seen.put( Crossbow.class,                   false);
+		WEAPONS.seen.put( LongKatana.class,                 false);
 		WEAPONS.seen.put( Greatsword.class,                 false);
 		WEAPONS.seen.put( WarHammer.class,                  false);
 		WEAPONS.seen.put( Glaive.class,                     false);
 		WEAPONS.seen.put( Greataxe.class,                   false);
 		WEAPONS.seen.put( Greatshield.class,                false);
 		WEAPONS.seen.put( Gauntlet.class,                   false);
+		WEAPONS.seen.put( LargeKatana.class,                false);
+		WEAPONS.seen.put( SharpKatana.class,                false);
 
 		WEAPONS.seen.put( TrueRunicBlade.class,             false);
-
 		WEAPONS.seen.put( Lance.class,                      false);
+
+		WEAPONS.seen.put( ObsidianShield.class,             false);
+		WEAPONS.seen.put( LanceNShield.class,               false);
+		WEAPONS.seen.put( SpearNShield.class,               false);
 
 		WEAPONS.seen.put( CrudePistol.class,                false);
 		WEAPONS.seen.put( Pistol.class,                     false);
@@ -231,10 +246,6 @@ public enum Catalog {
 
 		WEAPONS.seen.put( RocketLauncher.class,             false);
 		WEAPONS.seen.put( RPG7.class,                       false);
-
-		WEAPONS.seen.put( ObsidianShield.class,             false);
-		WEAPONS.seen.put( LanceNShield.class,               false);
-		WEAPONS.seen.put( SpearNShield.class,               false);
 	
 		ARMOR.seen.put( ClothArmor.class,                   false);
 		ARMOR.seen.put( LeatherArmor.class,                 false);
