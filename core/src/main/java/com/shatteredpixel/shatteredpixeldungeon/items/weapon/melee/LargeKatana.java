@@ -32,8 +32,6 @@ public class LargeKatana extends MeleeWeapon {
         hitSoundPitch = 1.3f;
 
         tier = 5;
-
-        bones = false;
     }
 
     @Override

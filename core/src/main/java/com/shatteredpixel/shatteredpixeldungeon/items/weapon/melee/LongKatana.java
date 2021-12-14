@@ -32,8 +32,6 @@ public class LongKatana extends MeleeWeapon {
         hitSoundPitch = 1.3f;
 
         tier = 4;
-
-        bones = false;
     }
 
     @Override

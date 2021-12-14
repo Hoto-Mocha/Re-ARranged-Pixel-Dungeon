@@ -32,8 +32,6 @@ public class ShortKatana extends MeleeWeapon {
         hitSoundPitch = 1.3f;
 
         tier = 2;
-
-        bones = false;
     }
 
     @Override

@@ -35,8 +35,6 @@ public class SharpKatana extends MeleeWeapon {
         hitSoundPitch = 1.3f;
 
         tier = 6;
-
-        bones = false;
     }
 
     @Override

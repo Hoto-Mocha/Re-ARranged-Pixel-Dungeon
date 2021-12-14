@@ -32,8 +32,6 @@ public class Katana extends MeleeWeapon {
         hitSoundPitch = 1.3f;
 
         tier = 3;
-
-        bones = false;
     }
 
     @Override
