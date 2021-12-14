@@ -138,7 +138,7 @@ public class MiniGunHP extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 60;
+            max_round = 30;
             if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }//if you make something different guns, you should change this
@@ -151,7 +151,7 @@ public class MiniGunHP extends MeleeWeapon {
     }
 
     public void quickReload() {
-        max_round = 60;
+        max_round = 30;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -160,7 +160,7 @@ public class MiniGunHP extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 60;
+        max_round = 30;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -185,7 +185,7 @@ public class MiniGunHP extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 60;
+        max_round = 30;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -223,7 +223,7 @@ public class MiniGunHP extends MeleeWeapon {
     @Override
     public String info() {
 
-        max_round = 60;
+        max_round = 30;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
