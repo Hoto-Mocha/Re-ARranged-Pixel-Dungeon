@@ -46,7 +46,7 @@ public class SharpKatana extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        return  5*(tier+1) +    //base
+        return  6*(tier+1) +    //base
                 lvl*(tier+2);   //level scaling
     }
 
