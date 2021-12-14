@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
+import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -78,10 +79,10 @@ public class ObsidianShield extends MeleeWeapon {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
-            inputs =  new Class[]{Greatshield.class, Cartridge.class, ArcaneResin.class};
-            inQuantity = new int[]{1, 1, 1};
+            inputs =  new Class[]{Greatshield.class, LiquidMetal.class, ArcaneResin.class};
+            inQuantity = new int[]{1, 50, 1};
 
-            cost = 10;
+            cost = 5;
 
             output = ObsidianShield.class;
             outQuantity = 1;

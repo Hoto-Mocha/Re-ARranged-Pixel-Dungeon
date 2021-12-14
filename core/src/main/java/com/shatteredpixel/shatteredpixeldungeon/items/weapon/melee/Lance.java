@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
+import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Lance extends MeleeWeapon {
@@ -53,8 +54,8 @@ public class Lance extends MeleeWeapon {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
-            inputs =  new Class[]{Glaive.class, Cartridge.class, ArcaneResin.class};
-            inQuantity = new int[]{1, 1, 1};
+            inputs =  new Class[]{Glaive.class, LiquidMetal.class, ArcaneResin.class};
+            inQuantity = new int[]{1, 50, 1};
 
             cost = 10;
 
