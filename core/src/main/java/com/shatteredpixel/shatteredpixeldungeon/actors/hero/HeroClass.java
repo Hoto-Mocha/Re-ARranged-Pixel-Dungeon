@@ -47,7 +47,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -352,15 +351,15 @@ public enum HeroClass {
 		new ScrollOfTeleportation().identify();
 
 		//new CrudePistol().identify().collect();
-		new Pistol().identify().collect();
-		new GoldenPistol().identify().collect();
-		new Handgun().identify().collect();
+		//new Pistol().identify().collect();
+		//new GoldenPistol().identify().collect();
+		//new Handgun().identify().collect();
 		new Magnum().identify().collect();
-		new DualPistol().identify().collect();
-		new SubMachinegun().identify().collect();
-		new AssultRifle().identify().collect();
+		//new DualPistol().identify().collect();
+		//new SubMachinegun().identify().collect();
+		//new AssultRifle().identify().collect();
 		new HeavyMachinegun().identify().collect();
-		new HuntingRifle().identify().collect();
+		//new HuntingRifle().identify().collect();
 		new SniperRifle().identify().collect();
 		//new ShotGun().identify().collect();
 		//new Lance().identify().collect();
@@ -370,8 +369,8 @@ public enum HeroClass {
 		//new SpearNShield().identify().collect();
 
 		new AlchemistsToolkit().identify().collect();
-		//new LiquidMetal().quantity(500).collect();
-		//new ArcaneResin().quantity(20).collect();
+		new LiquidMetal().quantity(500).collect();
+		new ArcaneResin().quantity(20).collect();
 		//new ArcaneCatalyst().quantity(20).collect();
 		//new AlchemicalCatalyst().quantity(20).collect();i
 		//new Scrap().quantity(20).collect();
@@ -392,8 +391,8 @@ public enum HeroClass {
 
 		//new ScrollOfUpgrade().identify().quantity(99).collect();
 		//new ScrollOfTransmutation().identify().quantity(99).collect();
-		//new Evolution().quantity(50).collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
+		new Evolution().quantity(50).collect();
+		new PotionOfExperience().identify().quantity(30).collect();
 		//new PotionOfInvisibility().identify().quantity(30).collect();
 		new PotionOfStrength().identify().quantity(20).collect();
 		new PotionOfMastery().identify().quantity(20).collect();
