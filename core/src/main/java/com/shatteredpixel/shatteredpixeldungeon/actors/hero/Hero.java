@@ -925,6 +925,7 @@ public class Hero extends Char {
 		if (belongings.weapon() instanceof Flail)                                       return false;
 		if (belongings.weapon() instanceof RocketLauncher.Rocket)					    return false;
 		if (belongings.weapon() instanceof RPG7.Rocket)				          	        return false;
+		if (belongings.weapon() instanceof MiniGun.Bullet)				          	    return false;
 		if (belongings.weapon() instanceof ShotGun.Bullet)				          	    return false;
 		//if (belongings.weapon() instanceof ShotGunAP.Bullet)				          	return false;           //슬러그 샷건은 기습가능
 		if (belongings.weapon() instanceof ShotGunHP.Bullet)				          	return false;
