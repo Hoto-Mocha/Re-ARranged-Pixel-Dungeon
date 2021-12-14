@@ -305,6 +305,12 @@ public class MiniGunAP extends MeleeWeapon {
     @Override
     protected float baseDelay(Char owner) {
         float delay = augment.delayFactor(this.DLY);
+        if (owner instanceof Hero) {
+            int encumbrance = STRReq() - ((Hero)owner).STR();
+            if (encumbrance > 0){
+                delay *= Math.pow( 1.2, encumbrance );
+            }
+        }
         if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
             delay -= 0.1f * Dungeon.hero.pointsInTalent(Talent.MARTIAL_ARTS);
         }
