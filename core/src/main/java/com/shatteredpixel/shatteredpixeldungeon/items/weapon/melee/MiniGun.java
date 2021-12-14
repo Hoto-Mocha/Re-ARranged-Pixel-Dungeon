@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -471,10 +472,10 @@ public class MiniGun extends MeleeWeapon {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
-            inputs =  new Class[]{HeavyMachinegun.class, APBullet.class, HPBullet.class};
-            inQuantity = new int[]{1, 1, 1};
+            inputs =  new Class[]{HeavyMachinegun.class, Evolution.class};
+            inQuantity = new int[]{1, 2};
 
-            cost = 3;
+            cost = 5;
 
             output = MiniGun.class;
             outQuantity = 1;

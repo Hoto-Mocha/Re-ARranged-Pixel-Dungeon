@@ -111,6 +111,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
@@ -433,6 +434,9 @@ public class QuickRecipe extends Component {
 				result.add(null);
 				result.add(new QuickRecipe(new MiniGun.Recipe()));
 				result.add(new QuickRecipe(new RPG7.Recipe()));
+				result.add(null);
+				result.add(null);
+				result.add(new QuickRecipe(new SharpKatana.Recipe()));
 				result.add(null);
 				result.add(null);
 				result.add(new QuickRecipe(new CrudePistolAP.Recipe()));

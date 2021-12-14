@@ -105,6 +105,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
@@ -269,7 +270,12 @@ public abstract class Recipe {
 		new StewedMeat.twoMeat(),
 		new Evolution.Recipe(),
 		new Pistol.Recipe(),
-		new GoldenPistol.Recipe()
+		new GoldenPistol.Recipe(),
+		new MiniGun.Recipe(),
+		new LargeHandgun.Recipe(),
+		new AntimaterRifle.Recipe(),
+		new SharpKatana.Recipe()
+
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
@@ -309,13 +315,10 @@ public abstract class Recipe {
 		new SniperRifleHP.Recipe(),
 		new ShotGunAP.Recipe(),
 		new ShotGunHP.Recipe(),
-		new MiniGun.Recipe(),
 		new MiniGunAP.Recipe(),
 		new MiniGunHP.Recipe(),
-		new LargeHandgun.Recipe(),
 		new LargeHandgunAP.Recipe(),
 		new LargeHandgunHP.Recipe(),
-		new AntimaterRifle.Recipe(),
 		new AntimaterRifleAP.Recipe(),
 		new AntimaterRifleHP.Recipe(),
 		new RPG7.Recipe()
