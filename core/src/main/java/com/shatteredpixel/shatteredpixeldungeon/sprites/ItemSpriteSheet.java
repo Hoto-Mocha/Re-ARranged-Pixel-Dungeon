@@ -727,7 +727,7 @@ public class ItemSpriteSheet {
 	public static final int AQUA_BLAST      = SPELLS+7;
 	public static final int FEATHER_FALL    = SPELLS+8;
 	public static final int RECLAIM_TRAP    = SPELLS+9;
-	
+	public static final int AD_EVOLUTION	= SPELLS+10;
 	public static final int CURSE_INFUSE    = SPELLS+11;
 	public static final int MAGIC_INFUSE    = SPELLS+12;
 	public static final int ALCHEMIZE       = SPELLS+13;

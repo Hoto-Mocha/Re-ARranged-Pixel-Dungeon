@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Scrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
@@ -420,24 +421,8 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new HPBullet.Recipe()));
 				result.add(null);
 				result.add(null);
-				result.add(new QuickRecipe(new TrueRunicBlade.Recipe()));
-				result.add(null);
-				result.add(new QuickRecipe(new Lance.Recipe()));
-				result.add(new QuickRecipe(new ObsidianShield.Recipe()));
-				result.add(null);
 				result.add(new QuickRecipe(new SpearNShield.Recipe()));
 				result.add(new QuickRecipe(new LanceNShield.Recipe()));
-				result.add(null);
-				result.add(null);
-				result.add(new QuickRecipe(new LargeHandgun.Recipe()));
-				result.add(new QuickRecipe(new AntimaterRifle.Recipe()));
-				result.add(null);
-				result.add(new QuickRecipe(new MiniGun.Recipe()));
-				result.add(new QuickRecipe(new RPG7.Recipe()));
-				result.add(null);
-				result.add(null);
-				result.add(new QuickRecipe(new SharpKatana.Recipe()));
-				result.add(null);
 				result.add(null);
 				result.add(new QuickRecipe(new CrudePistolAP.Recipe()));
 				result.add(new QuickRecipe(new CrudePistolHP.Recipe()));
@@ -523,6 +508,8 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new CurseInfusion.Recipe()));
 				result.add(new QuickRecipe(new Recycle.Recipe()));
 				result.add(new QuickRecipe(new Evolution.Recipe()));
+				result.add(null);
+				result.add(new QuickRecipe(new AdvancedEvolution.Recipe()));
 				return result;
 		}
 	}

@@ -166,10 +166,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
@@ -240,6 +242,19 @@ public class Generator {
 		WEP_T3	( 0, 0, MeleeWeapon.class),
 		WEP_T4	( 0, 0, MeleeWeapon.class),
 		WEP_T5	( 0, 0, MeleeWeapon.class),
+		EVO_1   ( 0, 0, MeleeWeapon.class),     //AntimaterRifle
+		EVO_2   ( 0, 0, MeleeWeapon.class),     //MiniGun
+		EVO_3   ( 0, 0, MeleeWeapon.class),     //LargeHandgun
+		EVO_4   ( 0, 0, MeleeWeapon.class),     //RPG7
+		EVO_5   ( 0, 0, MeleeWeapon.class),     //SharpKatana
+		EVO_6   ( 0, 0, MeleeWeapon.class),     //Lance
+		EVO_7   ( 0, 0, MeleeWeapon.class),     //ObsidianShield
+		EVO_8   ( 0, 0, MeleeWeapon.class),     //TrueRunicBlade
+
+		GUN_1   ( 0, 0, MeleeWeapon.class),
+		GUN_2   ( 0, 0, MeleeWeapon.class),
+		GUN_3   ( 0, 0, MeleeWeapon.class),
+		GUN_4   ( 0, 0, MeleeWeapon.class),
 		
 		ARMOR	( 2, 1, Armor.class ),
 		
@@ -501,7 +516,82 @@ public class Generator {
 					SharpKatana.class
 			};
 			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 3 ,3 ,3, 3, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-			
+
+			EVO_1.classes = new Class<?>[]{
+					AntimaterRifle.class,
+					SniperRifle.class
+			};
+			EVO_1.probs = new float[]{1, 1};
+
+			EVO_2.classes = new Class<?>[]{
+					MiniGun.class,
+					HeavyMachinegun.class
+			};
+			EVO_2.probs = new float[]{1, 1};
+
+			EVO_3.classes = new Class<?>[]{
+					LargeHandgun.class,
+					Magnum.class
+			};
+			EVO_3.probs = new float[]{1, 1};
+
+			EVO_4.classes = new Class<?>[]{
+					RPG7.class,
+					RocketLauncher.class
+			};
+			EVO_4.probs = new float[]{1, 1};
+
+			EVO_5.classes = new Class<?>[]{
+					SharpKatana.class,
+					LargeKatana.class
+			};
+			EVO_5.probs = new float[]{9, 1};
+
+			EVO_6.classes = new Class<?>[]{
+					Lance.class,
+					Glaive.class
+			};
+			EVO_6.probs = new float[]{9, 1};
+
+			EVO_7.classes = new Class<?>[]{
+					ObsidianShield.class,
+					Greatshield.class
+			};
+			EVO_7.probs = new float[]{9, 1};
+
+			EVO_8.classes = new Class<?>[]{
+					TrueRunicBlade.class,
+					RunicBlade.class
+			};
+			EVO_8.probs = new float[]{9, 1};
+
+
+
+			GUN_1.classes = new Class<?>[]{
+					AntimaterRifle.class,
+					SniperRifle.class
+			};
+			GUN_1.probs = new float[]{1, 1};
+
+			GUN_2.classes = new Class<?>[]{
+					MiniGun.class,
+					HeavyMachinegun.class
+			};
+			GUN_2.probs = new float[]{1, 1};
+
+			GUN_3.classes = new Class<?>[]{
+					LargeHandgun.class,
+					Magnum.class
+			};
+			GUN_3.probs = new float[]{1, 1};
+
+			GUN_4.classes = new Class<?>[]{
+					RPG7.class,
+					RocketLauncher.class
+			};
+			GUN_4.probs = new float[]{1, 1};
+
+
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
 					ClothArmor.class,
@@ -684,7 +774,21 @@ public class Generator {
 			Category.WEP_T2,
 			Category.WEP_T3,
 			Category.WEP_T4,
-			Category.WEP_T5
+			Category.WEP_T5,
+
+			Category.EVO_1,
+			Category.EVO_2,
+			Category.EVO_3,
+			Category.EVO_4,
+			Category.EVO_5,
+			Category.EVO_6,
+			Category.EVO_7,
+			Category.EVO_8,
+
+			Category.GUN_1,
+			Category.GUN_2,
+			Category.GUN_3,
+			Category.GUN_4
 	};
 
 	public static MeleeWeapon randomWeapon(){

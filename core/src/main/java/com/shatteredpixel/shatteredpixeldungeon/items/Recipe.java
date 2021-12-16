@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotio
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
@@ -270,13 +271,7 @@ public abstract class Recipe {
 		new StewedMeat.twoMeat(),
 		new Evolution.Recipe(),
 		new Pistol.Recipe(),
-		new GoldenPistol.Recipe(),
-		new MiniGun.Recipe(),
-		new LargeHandgun.Recipe(),
-		new AntimaterRifle.Recipe(),
-		new SharpKatana.Recipe(),
-		new RPG7.Recipe()
-
+		new GoldenPistol.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
@@ -284,9 +279,6 @@ public abstract class Recipe {
 		new StewedMeat.threeMeat(),
 		new MeatPie.Recipe(),
 		new SpearNShield.Recipe(),
-		new TrueRunicBlade.Recipe(),
-		new Lance.Recipe(),
-		new ObsidianShield.Recipe(),
 		new LanceNShield.Recipe(),
 		//new Scrap.Recipe(),
 		//new BrassScrap.Recipe(),
@@ -321,7 +313,8 @@ public abstract class Recipe {
 		new LargeHandgunAP.Recipe(),
 		new LargeHandgunHP.Recipe(),
 		new AntimaterRifleAP.Recipe(),
-		new AntimaterRifleHP.Recipe()
+		new AntimaterRifleHP.Recipe(),
+		new AdvancedEvolution.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){
