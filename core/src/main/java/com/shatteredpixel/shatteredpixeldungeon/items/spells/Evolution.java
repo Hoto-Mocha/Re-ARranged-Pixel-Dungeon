@@ -163,7 +163,6 @@ public class Evolution extends InventorySpell {
             c = Generator.wepTiers[((MeleeWeapon)w).tier];
         }
 
-
         do {
             n = (Weapon) Reflection.newInstance(c.classes[Random.chances(c.probs)]);
         } while (Challenges.isItemBlocked(n) || n.getClass() == w.getClass());
@@ -196,23 +195,13 @@ public class Evolution extends InventorySpell {
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                inputs =  new Class[]{LiquidMetal.class, ArcaneResin.class};
-                inQuantity = new int[]{40, 1};
+            inputs =  new Class[]{LiquidMetal.class, ArcaneResin.class};
+            inQuantity = new int[]{40, 1};
 
-                cost = 5;
+            cost = 5;
 
-                output = Evolution.class;
-                outQuantity = 1;
-            } else {
-                inputs =  new Class[]{ScrollOfTransmutation.class, ArcaneResin.class};
-                inQuantity = new int[]{1, 1};
-
-                cost = 10;
-
-                output = Evolution.class;
-                outQuantity = 1;
-            }
+            output = Evolution.class;
+            outQuantity = 1;
         }
     }
 }
