@@ -49,6 +49,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
@@ -57,6 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
@@ -136,6 +138,7 @@ public class Evolution extends InventorySpell {
                 || w instanceof Lance
                 || w instanceof ObsidianShield
                 || w instanceof LanceNShield
+                || w instanceof SharpKatana
         ) {
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
         } else if (w instanceof Greatsword
@@ -153,6 +156,7 @@ public class Evolution extends InventorySpell {
                 || w instanceof SniperRifle
                 || w instanceof SniperRifleAP
                 || w instanceof SniperRifleHP
+                || w instanceof LargeKatana
         ){
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
         } else {
@@ -193,8 +197,8 @@ public class Evolution extends InventorySpell {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
             if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                inputs =  new Class[]{LiquidMetal.class, ArcaneCatalyst.class};
-                inQuantity = new int[]{75, 1};
+                inputs =  new Class[]{LiquidMetal.class, ArcaneResin.class};
+                inQuantity = new int[]{40, 1};
 
                 cost = 5;
 
