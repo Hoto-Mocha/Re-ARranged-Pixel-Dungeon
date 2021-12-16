@@ -376,6 +376,7 @@ public enum HeroClass {
 		//new RunicBlade().identify().collect();
 		//new AssassinsBlade().identify().collect();
 		//new SpearNShield().identify().collect();
+		//new RocketLauncher().identify().collect();
 
 		//new AlchemistsToolkit().identify().collect();
 		//new LiquidMetal().quantity(1000).collect();
@@ -383,7 +384,7 @@ public enum HeroClass {
 		//new AdvancedEvolution().quantity(50).collect();
 		//new ArcaneCatalyst().quantity(20).collect();
 		//new AlchemicalCatalyst().quantity(20).collect();
-		//new RocketLauncher().identify().collect();
+
 		//new RPG7().identify().collect();
 		//new CapeOfThorns().identify().collect();
 		//new LloydsBeacon().identify().collect();
