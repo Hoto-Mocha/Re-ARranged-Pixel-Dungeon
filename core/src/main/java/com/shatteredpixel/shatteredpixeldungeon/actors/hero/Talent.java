@@ -58,6 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -388,20 +389,20 @@ public enum Talent {
 		}
 
 		if (talent == BETTER_CHOICE && hero.pointsInTalent(BETTER_CHOICE) == 1){
-			ScrollOfUpgrade scl = new ScrollOfUpgrade();
-			if (scl.doPickUp( Dungeon.hero )) {
-				GLog.i( Messages.get(Dungeon.hero, "you_now_have", scl.name() ));
+			StoneOfEnchantment stone = new StoneOfEnchantment();
+			if (stone.doPickUp( Dungeon.hero )) {
+				GLog.i( Messages.get(Dungeon.hero, "you_now_have", stone.name() ));
 			} else {
-				Dungeon.level.drop( scl, Dungeon.hero.pos ).sprite.drop();
+				Dungeon.level.drop( stone, Dungeon.hero.pos ).sprite.drop();
 			}
 		}
 
 		if (talent == BETTER_CHOICE && hero.pointsInTalent(BETTER_CHOICE) == 2){
-			ScrollOfUpgrade scl = new ScrollOfUpgrade();
-			if (scl.doPickUp( Dungeon.hero )) {
-				GLog.i( Messages.get(Dungeon.hero, "you_now_have", scl.name() ));
+			ScrollOfEnchantment enchantment = new ScrollOfEnchantment();
+			if (enchantment.doPickUp( Dungeon.hero )) {
+				GLog.i( Messages.get(Dungeon.hero, "you_now_have", enchantment.name() ));
 			} else {
-				Dungeon.level.drop( scl, Dungeon.hero.pos ).sprite.drop();
+				Dungeon.level.drop( enchantment, Dungeon.hero.pos ).sprite.drop();
 			}
 		}
 
