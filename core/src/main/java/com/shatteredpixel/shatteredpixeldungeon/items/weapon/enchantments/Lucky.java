@@ -45,7 +45,7 @@ public class Lucky extends Weapon.Enchantment {
 		// lvl 2 ~ 14%
 		float procChance;
 		if (weapon instanceof TrueRunicBlade) {
-			procChance = (level+5f)/(level+10f) * procChanceMultiplier(attacker);
+			procChance = 1;
 		} else {
 			procChance = (level+4f)/(level+40f) * procChanceMultiplier(attacker);
 		}
