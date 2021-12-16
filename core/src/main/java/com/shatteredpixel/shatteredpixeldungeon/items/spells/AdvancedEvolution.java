@@ -93,8 +93,14 @@ public class AdvancedEvolution extends InventorySpell {
     @Override
     protected boolean usableOnItem(Item item) {
         return item instanceof SniperRifle
+                || item instanceof SniperRifleHP
+                || item instanceof SniperRifleAP
             || item instanceof HeavyMachinegun
+                || item instanceof HeavyMachinegunHP
+                || item instanceof HeavyMachinegunAP
             || item instanceof Magnum
+                || item instanceof MagnumAP
+                || item instanceof MagnumHP
             || item instanceof RocketLauncher
             || item instanceof LargeKatana
             || item instanceof Glaive
