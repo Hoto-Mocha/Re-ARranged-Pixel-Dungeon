@@ -519,51 +519,115 @@ public class Generator {
 
 			EVO_1.classes = new Class<?>[]{
 					AntimaterRifle.class,
-					SniperRifle.class
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class,
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class
 			};
-			EVO_1.probs = new float[]{1, 1};
+			EVO_1.probs = new float[]{10, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
 
 			EVO_2.classes = new Class<?>[]{
 					MiniGun.class,
-					HeavyMachinegun.class
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class,
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class
 			};
-			EVO_2.probs = new float[]{1, 1};
+			EVO_2.probs = new float[]{10, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
 
 			EVO_3.classes = new Class<?>[]{
 					LargeHandgun.class,
-					Magnum.class
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class,
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class
 			};
-			EVO_3.probs = new float[]{1, 1};
+			EVO_3.probs = new float[]{10, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
 
 			EVO_4.classes = new Class<?>[]{
 					RPG7.class,
-					RocketLauncher.class
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class,
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class,
 			};
-			EVO_4.probs = new float[]{1, 1};
+			EVO_4.probs = new float[]{10, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
 
 			EVO_5.classes = new Class<?>[]{
 					SharpKatana.class,
-					LargeKatana.class
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class,
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class,
 			};
-			EVO_5.probs = new float[]{9, 1};
+			EVO_5.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
 
 			EVO_6.classes = new Class<?>[]{
 					Lance.class,
-					Glaive.class
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class,
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class,
 			};
-			EVO_6.probs = new float[]{9, 1};
+			EVO_6.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
 
 			EVO_7.classes = new Class<?>[]{
 					ObsidianShield.class,
-					Greatshield.class
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class,
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class,
 			};
-			EVO_7.probs = new float[]{9, 1};
+			EVO_7.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
 
 			EVO_8.classes = new Class<?>[]{
 					TrueRunicBlade.class,
-					RunicBlade.class
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class, //not contains
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class,
 			};
-			EVO_8.probs = new float[]{9, 1};
+			EVO_8.probs = new float[]{90, 2, 2, 1, 0 ,1 ,1 ,1 ,1 ,1};
 
 
 
