@@ -58,6 +58,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
@@ -135,6 +137,7 @@ public class Evolution extends InventorySpell {
                 || w instanceof AntimaterRifle
                 || w instanceof AntimaterRifleAP
                 || w instanceof AntimaterRifleHP
+                || w instanceof RPG7
                 || w instanceof Lance
                 || w instanceof ObsidianShield
                 || w instanceof LanceNShield
@@ -156,6 +159,7 @@ public class Evolution extends InventorySpell {
                 || w instanceof SniperRifle
                 || w instanceof SniperRifleAP
                 || w instanceof SniperRifleHP
+                || w instanceof RocketLauncher
                 || w instanceof LargeKatana
         ){
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
