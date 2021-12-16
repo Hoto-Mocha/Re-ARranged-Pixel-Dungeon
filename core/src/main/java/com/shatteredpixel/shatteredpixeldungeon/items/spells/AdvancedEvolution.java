@@ -155,47 +155,47 @@ public class AdvancedEvolution extends InventorySpell {
                 || w instanceof SniperRifleHP
                 || w instanceof SniperRifleAP) {
             if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                c = Generator.wepTiers[13];
+                c = Generator.evoTiers[8];
             } else {
-                c = Generator.wepTiers[5];
+                c = Generator.evoTiers[0];
             }
         }
         else if (w instanceof HeavyMachinegun
                 || w instanceof HeavyMachinegunHP
                 || w instanceof HeavyMachinegunAP) {
             if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                c = Generator.wepTiers[14];
+                c = Generator.evoTiers[9];
             } else {
-                c = Generator.wepTiers[6];
+                c = Generator.evoTiers[1];
             }
         }
         else if (w instanceof Magnum
                 || w instanceof MagnumAP
                 || w instanceof MagnumHP) {
             if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                c = Generator.wepTiers[15];
+                c = Generator.evoTiers[10];
             } else {
-                c = Generator.wepTiers[7];
+                c = Generator.evoTiers[2];
             }
         }
         else if (w instanceof RocketLauncher) {
             if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                c = Generator.wepTiers[16];
+                c = Generator.evoTiers[11];
             } else {
-                c = Generator.wepTiers[8];
+                c = Generator.evoTiers[3];
             }
         }
         else if (w instanceof LargeKatana) {
-            c = Generator.wepTiers[9];
+            c = Generator.evoTiers[4];
         }
         else if (w instanceof Glaive) {
-            c = Generator.wepTiers[10];
+            c = Generator.evoTiers[5];
         }
         else if (w instanceof Greatshield) {
-            c = Generator.wepTiers[11];
+            c = Generator.evoTiers[6];
         }
         else { // w instanceof RunicBlade
-            c = Generator.wepTiers[12];
+            c = Generator.evoTiers[7];
         }
 
         do {

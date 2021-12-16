@@ -841,7 +841,9 @@ public class Generator {
 			Category.WEP_T3,
 			Category.WEP_T4,
 			Category.WEP_T5,
+	};
 
+	public static final Category[] evoTiers = new Category[]{
 			Category.EVO_1,
 			Category.EVO_2,
 			Category.EVO_3,
@@ -856,6 +858,8 @@ public class Generator {
 			Category.GUN_3,
 			Category.GUN_4
 	};
+
+
 
 	public static MeleeWeapon randomWeapon(){
 		return randomWeapon(Dungeon.depth / 5);
