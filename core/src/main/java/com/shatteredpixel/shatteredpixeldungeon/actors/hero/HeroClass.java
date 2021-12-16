@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMysticalEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
@@ -376,8 +377,9 @@ public enum HeroClass {
 		new AlchemistsToolkit().identify().collect();
 		new LiquidMetal().quantity(1000).collect();
 		new ArcaneResin().quantity(50).collect();
+		new AdvancedEvolution().quantity(50).collect();
 		//new ArcaneCatalyst().quantity(20).collect();
-		//new AlchemicalCatalyst().quantity(20).collect();i
+		//new AlchemicalCatalyst().quantity(20).collect();
 		new RocketLauncher().identify().collect();
 		//new RPG7().identify().collect();
 		//new CapeOfThorns().identify().collect();
