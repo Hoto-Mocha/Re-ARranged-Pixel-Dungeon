@@ -66,19 +66,4 @@ public class TrueRunicBlade extends MeleeWeapon {
 
         return delay;
     }
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{RunicBlade.class, LiquidMetal.class, ArcaneResin.class};
-            inQuantity = new int[]{1, 50, 1};
-
-            cost = 10;
-
-            output = TrueRunicBlade.class;
-            outQuantity = 1;
-        }
-
-    }
-
 }

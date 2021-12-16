@@ -43,50 +43,37 @@ public class ObsidianShield extends MeleeWeapon {
     }
 
     public static final HashSet<Class> RESISTS = new HashSet<>();
+
     static {
-        RESISTS.addAll( AntiMagic.RESISTS );
+        RESISTS.addAll(AntiMagic.RESISTS);
     }
 
     @Override
     public int max(int lvl) {
-        return  3*(tier+1) +
-                lvl*(tier-2);
+        return 3 * (tier + 1) +
+                lvl * (tier - 2);
     }
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier-1, lvl); //18 base strength req, down from 20
+        return STRReq(tier - 1, lvl); //18 base strength req, down from 20
     }
 
     @Override
-    public int defenseFactor( Char owner ) {
-        return 4+2*buffedLvl();    //4 extra defence, plus 2 per level;
+    public int defenseFactor(Char owner) {
+        return 4 + 2 * buffedLvl();    //4 extra defence, plus 2 per level;
     }
 
     //see Hero.damage for antimagic effects
-    public static int drRoll( int level ){
-        return Random.NormalIntRange(0, 4+2*level); //4 extra defence, plus 2 per level;
+    public static int drRoll(int level) {
+        return Random.NormalIntRange(0, 4 + 2 * level); //4 extra defence, plus 2 per level;
     }
 
-    public String statsInfo(){
-        if (isIdentified()){
-            return Messages.get(this, "stats_desc", 6+3*buffedLvl());
+    public String statsInfo() {
+        if (isIdentified()) {
+            return Messages.get(this, "stats_desc", 6 + 3 * buffedLvl());
         } else {
             return Messages.get(this, "typical_stats_desc", 6);
         }
-    }
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{Greatshield.class, LiquidMetal.class, ArcaneResin.class};
-            inQuantity = new int[]{1, 50, 1};
-
-            cost = 5;
-
-            output = ObsidianShield.class;
-            outQuantity = 1;
-        }
-
     }
 }

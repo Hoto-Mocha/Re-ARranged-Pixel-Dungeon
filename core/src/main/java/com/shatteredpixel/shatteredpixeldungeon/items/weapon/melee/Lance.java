@@ -50,19 +50,4 @@ public class Lance extends MeleeWeapon {
         return  4*(tier+1) +    //28 base
                 lvl*(tier);     //scaling +6 per +1
     }
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{Glaive.class, LiquidMetal.class, ArcaneResin.class};
-            inQuantity = new int[]{1, 50, 1};
-
-            cost = 5;
-
-            output = Lance.class;
-            outQuantity = 1;
-        }
-
-    }
-
 }

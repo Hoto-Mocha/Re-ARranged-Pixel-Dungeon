@@ -47,19 +47,4 @@ public class SharpKatana extends MeleeWeapon {
         return  6*(tier+1) +    //base
                 lvl*(tier+2);   //level scaling
     }
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{LargeKatana.class, Evolution.class};
-            inQuantity = new int[]{1, 1};
-
-            cost = 5;
-
-            output = SharpKatana.class;
-            outQuantity = 1;
-        }
-
-    }
-
 }

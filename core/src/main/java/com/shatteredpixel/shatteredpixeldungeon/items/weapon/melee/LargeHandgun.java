@@ -480,19 +480,4 @@ public class LargeHandgun extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{Magnum.class, Evolution.class};
-            inQuantity = new int[]{1, 2};
-
-            cost = 5;
-
-            output = LargeHandgun.class;
-            outQuantity = 1;
-        }
-
-    }
-
 }

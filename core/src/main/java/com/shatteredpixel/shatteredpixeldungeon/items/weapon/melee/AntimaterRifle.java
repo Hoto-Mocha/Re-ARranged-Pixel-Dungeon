@@ -429,19 +429,4 @@ public class AntimaterRifle extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{SniperRifle.class, Evolution.class};
-            inQuantity = new int[]{1, 2};
-
-            cost = 5;
-
-            output = AntimaterRifle.class;
-            outQuantity = 1;
-        }
-
-    }
-
 }

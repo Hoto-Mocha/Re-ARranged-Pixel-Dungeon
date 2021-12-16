@@ -60,7 +60,7 @@ import java.util.ArrayList;
 
 public class MiniGun extends MeleeWeapon {
 
-    public static final String AC_SHOOT		= "SHOOT";
+    public static final String AC_SHOOT = "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
 
     private int max_round;
@@ -101,18 +101,15 @@ public class MiniGun extends MeleeWeapon {
     }
 
 
-
-
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
-        if (isEquipped( hero )) {
+        if (isEquipped(hero)) {
             actions.add(AC_SHOOT);
             actions.add(AC_RELOAD);
         }
         return actions;
     }
-
 
 
     @Override
@@ -122,15 +119,15 @@ public class MiniGun extends MeleeWeapon {
 
         if (action.equals(AC_SHOOT)) {
 
-            if (!isEquipped( hero )) {
+            if (!isEquipped(hero)) {
                 usesTargeting = false;
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = 5f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = 5f * RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    reload_time = 5f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = 5f * RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -141,9 +138,9 @@ public class MiniGun extends MeleeWeapon {
         if (action.equals(AC_RELOAD)) {
             max_round = 30;
             if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }//if you make something different guns, you should change this
-            if (round == max_round){
+                max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+            }//if you make something different guns, you should change this
+            if (round == max_round) {
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
                 reload();
@@ -174,7 +171,7 @@ public class MiniGun extends MeleeWeapon {
         GLog.i(Messages.get(this, "reloading"));
 
         if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
-            Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
+            Buff.affect(hero, Barrier.class).setShield(1 + 2 * hero.pointsInTalent(Talent.SAFE_RELOAD));
             Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
         }
 
@@ -182,7 +179,9 @@ public class MiniGun extends MeleeWeapon {
     }
 
 
-    public int getRound() { return this.round; }
+    public int getRound() {
+        return this.round;
+    }
 
     @Override
     public String status() {
@@ -215,8 +214,8 @@ public class MiniGun extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 2 * (tier-1)   +
-                lvl * (tier-1) +
+        return 2 * (tier - 1) +
+                lvl * (tier - 1) +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero) +
                 5 * Dungeon.hero.pointsInTalent(Talent.MACHINEGUN_MASTER);
     }
@@ -228,14 +227,14 @@ public class MiniGun extends MeleeWeapon {
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
-        reload_time = 5f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = 5f * RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
             if (STRReq() > Dungeon.hero.STR()) {
                 info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (Dungeon.hero.STR() > STRReq()){
+            } else if (Dungeon.hero.STR() > STRReq()) {
                 info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
             }
             info += "\n\n" + Messages.get(MiniGun.class, "stats_known",
@@ -266,16 +265,16 @@ public class MiniGun extends MeleeWeapon {
             case NONE:
         }
 
-        if (enchantment != null && (cursedKnown || !enchantment.curse())){
+        if (enchantment != null && (cursedKnown || !enchantment.curse())) {
             info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
             info += " " + Messages.get(enchantment, "desc");
         }
 
-        if (cursed && isEquipped( Dungeon.hero )) {
+        if (cursed && isEquipped(Dungeon.hero)) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
         } else if (cursedKnown && cursed) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed");
-        } else if (!isIdentified() && cursedKnown){
+        } else if (!isIdentified() && cursedKnown) {
             info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
         }
 
@@ -294,9 +293,9 @@ public class MiniGun extends MeleeWeapon {
         int damage = augment.damageFactor(super.damageRoll(owner));
 
         if (owner instanceof Hero) {
-            int exStr = ((Hero)owner).STR() - STRReq();
+            int exStr = ((Hero) owner).STR() - STRReq();
             if (exStr > 0) {
-                damage += Random.IntRange( 0, exStr );
+                damage += Random.IntRange(0, exStr);
             }
         }
 
@@ -307,9 +306,9 @@ public class MiniGun extends MeleeWeapon {
     protected float baseDelay(Char owner) {
         float delay = augment.delayFactor(this.DLY);
         if (owner instanceof Hero) {
-            int encumbrance = STRReq() - ((Hero)owner).STR();
-            if (encumbrance > 0){
-                delay *= Math.pow( 1.2, encumbrance );
+            int encumbrance = STRReq() - ((Hero) owner).STR();
+            if (encumbrance > 0) {
+                delay *= Math.pow(1.2, encumbrance);
             }
         }
         if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
@@ -318,9 +317,10 @@ public class MiniGun extends MeleeWeapon {
         return delay;
     }
 
-    public MiniGun.Bullet knockBullet(){
+    public MiniGun.Bullet knockBullet() {
         return new MiniGun.Bullet();
     }
+
     public class Bullet extends MissileWeapon {
 
         {
@@ -333,7 +333,7 @@ public class MiniGun extends MeleeWeapon {
 
         @Override
         public int damageRoll(Char owner) {
-            Hero hero = (Hero)owner;
+            Hero hero = (Hero) owner;
             Char enemy = hero.enemy();
             int bulletdamage = Random.NormalIntRange(Bulletmin(MiniGun.this.buffedLvl()),
                     Bulletmax(MiniGun.this.buffedLvl()));
@@ -361,7 +361,7 @@ public class MiniGun extends MeleeWeapon {
         @Override
         public float delayFactor(Char user) {
             if (hero.buff(Riot.riotTracker.class) != null) {
-                return MiniGun.this.delayFactor(user)/2f;
+                return MiniGun.this.delayFactor(user) / 2f;
             } else {
                 return MiniGun.this.delayFactor(user);
             }
@@ -385,9 +385,9 @@ public class MiniGun extends MeleeWeapon {
         }
 
         @Override
-        protected void onThrow( int cell ) {
-            if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3) <= hero.pointsInTalent(Talent.RECOIL_PRACTICE)-1) {
-                for (int i=1; i<=7; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+        protected void onThrow(int cell) {
+            if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3) <= hero.pointsInTalent(Talent.RECOIL_PRACTICE) - 1) {
+                for (int i = 1; i <= 7; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                     if (round <= 0) {
                         break;
                     }
@@ -404,19 +404,19 @@ public class MiniGun extends MeleeWeapon {
                     }
                     if (hero.buff(InfiniteBullet.class) != null) {
                         //round preserves
-                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
+                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE) - 1) {
                         //round preserves
                     } else {
                         if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(9) == 0) {
                             //round preserves
                         } else {
-                            round --;
+                            round--;
                         }
                     }
                     updateQuickslot();
                 }
             } else {
-                for (int i=1; i<=6; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+                for (int i = 1; i <= 6; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                     if (round <= 0) {
                         break;
                     }
@@ -433,13 +433,13 @@ public class MiniGun extends MeleeWeapon {
                     }
                     if (hero.buff(InfiniteBullet.class) != null) {
                         //round preserves
-                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
+                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE) - 1) {
                         //round preserves
                     } else {
                         if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(9) == 0) {
                             //round preserves
                         } else {
-                            round --;
+                            round--;
                         }
                     }
                     updateQuickslot();
@@ -449,7 +449,7 @@ public class MiniGun extends MeleeWeapon {
 
         @Override
         public void throwSound() {
-            Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f) );
+            Sample.INSTANCE.play(Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f));
         }
 
         @Override
@@ -460,7 +460,7 @@ public class MiniGun extends MeleeWeapon {
 
     private CellSelector.Listener shooter = new CellSelector.Listener() {
         @Override
-        public void onSelect( Integer target ) {
+        public void onSelect(Integer target) {
             if (target != null) {
                 if (target == curUser.pos) {
                     reload();
@@ -469,23 +469,10 @@ public class MiniGun extends MeleeWeapon {
                 }
             }
         }
+
         @Override
         public String prompt() {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{HeavyMachinegun.class, Evolution.class};
-            inQuantity = new int[]{1, 2};
-
-            cost = 5;
-
-            output = MiniGun.class;
-            outQuantity = 1;
-        }
-
-    }
 }

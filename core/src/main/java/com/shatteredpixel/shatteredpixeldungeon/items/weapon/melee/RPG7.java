@@ -431,18 +431,4 @@ public class RPG7 extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{RocketLauncher.class, Evolution.class};
-            inQuantity = new int[]{1, 1};
-
-            cost = 5;
-
-            output = RPG7.class;
-            outQuantity = 1;
-        }
-
-    }
 }
