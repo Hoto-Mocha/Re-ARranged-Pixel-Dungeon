@@ -199,7 +199,7 @@ public class Evolution extends InventorySpell {
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
-            inputs =  new Class[]{LiquidMetal.class, ArcaneResin.class};
+            inputs =  new Class[]{LiquidMetal.class, ArcaneCatalyst.class};
             inQuantity = new int[]{40, 1};
 
             cost = 5;
