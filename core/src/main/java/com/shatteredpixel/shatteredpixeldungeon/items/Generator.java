@@ -571,25 +571,27 @@ public class Generator {
 					AntimaterRifle.class,
 					SniperRifle.class
 			};
-			GUN_1.probs = new float[]{1, 1};
+			GUN_1.probs = new float[]{1, 0};
 
 			GUN_2.classes = new Class<?>[]{
 					MiniGun.class,
 					HeavyMachinegun.class
 			};
-			GUN_2.probs = new float[]{1, 1};
+			GUN_2.probs = new float[]{1, 0};
 
 			GUN_3.classes = new Class<?>[]{
 					LargeHandgun.class,
 					Magnum.class
 			};
-			GUN_3.probs = new float[]{1, 1};
+			GUN_3.probs = new float[]{1, 0};
 
 			GUN_4.classes = new Class<?>[]{
 					RPG7.class,
 					RocketLauncher.class
 			};
-			GUN_4.probs = new float[]{1, 1};
+			GUN_4.probs = new float[]{1, 0};
+
+
 
 
 			//see Generator.randomArmor

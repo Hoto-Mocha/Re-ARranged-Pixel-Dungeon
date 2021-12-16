@@ -145,21 +145,27 @@ public class AdvancedEvolution extends InventorySpell {
         Weapon n;
         Generator.Category c;
 
-        if (w instanceof SniperRifle) {
+        if (w instanceof SniperRifle
+                || w instanceof SniperRifleHP
+                || w instanceof SniperRifleAP) {
             if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
                 c = Generator.wepTiers[13];
             } else {
                 c = Generator.wepTiers[5];
             }
         }
-        else if (w instanceof HeavyMachinegun) {
+        else if (w instanceof HeavyMachinegun
+                || w instanceof HeavyMachinegunHP
+                || w instanceof HeavyMachinegunAP) {
             if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
                 c = Generator.wepTiers[14];
             } else {
                 c = Generator.wepTiers[6];
             }
         }
-        else if (w instanceof Magnum) {
+        else if (w instanceof Magnum
+                || w instanceof MagnumAP
+                || w instanceof MagnumHP) {
             if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
                 c = Generator.wepTiers[15];
             } else {
