@@ -689,10 +689,19 @@ public class DriedRose extends Artifact {
 		public int drRoll() {
 			int block = 0;
 			if (rose != null && rose.armor != null){
-				block += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax()) + Math.round(Random.NormalIntRange(Dungeon.hero.belongings.armor.DRMin(), Dungeon.hero.belongings.armor.DRMax())/2);
+				if (Dungeon.hero.belongings.armor == null) {
+					block += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax());
+				} else {
+					block += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax()) + Math.round(Random.NormalIntRange(Dungeon.hero.belongings.armor.DRMin(), Dungeon.hero.belongings.armor.DRMax())/2);
+				}
 			}
 			if (rose != null && rose.weapon != null){
-				block += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this )) + Math.round(Random.NormalIntRange(0, Dungeon.hero.belongings.weapon.defenseFactor(this))/2);
+				if (Dungeon.hero.belongings.weapon == null) {
+					block += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this ));
+				} else {
+					block += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this )) + Math.round(Random.NormalIntRange(0, Dungeon.hero.belongings.weapon.defenseFactor(this))/2);
+				}
+
 			}
 			return block;
 		}
