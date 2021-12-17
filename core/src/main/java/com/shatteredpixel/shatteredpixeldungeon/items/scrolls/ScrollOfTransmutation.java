@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.TippedDart;
@@ -185,6 +186,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			 || w instanceof Lance
 			 || w instanceof ObsidianShield
 			 || w instanceof LanceNShield
+			 ||	w instanceof SharpKatana
 			) {
 				c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
 			} else {
