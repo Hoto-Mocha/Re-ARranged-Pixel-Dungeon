@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
@@ -100,6 +101,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
@@ -108,6 +110,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
@@ -372,23 +375,28 @@ public enum HeroClass {
 		//new ObsidianShield().identify().collect();
 		//new Greatshield().identify().collect();
 		//new Glaive().identify().collect();
-		//new LargeKatana().identify().collect();
+		new LargeKatana().identify().collect();
 		//new RunicBlade().identify().collect();
 		//new AssassinsBlade().identify().collect();
 		//new SpearNShield().identify().collect();
 		//new RocketLauncher().identify().collect();
+		//new Mace().identify().collect();
+		//new WornShortsword().identify().collect();
+		//new RoundShield().identify().upgrade(1).collect();
+		//new Greatshield().identify().upgrade(1).collect();
 
 		//new AlchemistsToolkit().identify().collect();
 		//new LiquidMetal().quantity(1000).collect();
 		//new ArcaneResin().quantity(50).collect();
-		//new AdvancedEvolution().quantity(50).collect();
+		new AdvancedEvolution().quantity(50).collect();
 		//new ArcaneCatalyst().quantity(20).collect();
 		//new AlchemicalCatalyst().quantity(20).collect();
 
 		//new RPG7().identify().collect();
 		//new CapeOfThorns().identify().collect();
 		//new LloydsBeacon().identify().collect();
-		//new DriedRose().identify().collect();
+		//new DriedRose().upgrade(10).identify().collect();
+		//new LeatherArmor().identify().collect();
 		//new RingOfReload().identify().collect();
 		//new LanceNShield().identify().collect();
 		//new ObsidianShield().identify().collect();
@@ -401,13 +409,16 @@ public enum HeroClass {
 
 		//new ScrollOfUpgrade().identify().quantity(99).collect();
 		//new ScrollOfMetamorphosis().identify().quantity(99).collect();
-		//new Evolution().quantity(50).collect();
+		new Evolution().quantity(50).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new PotionOfInvisibility().identify().quantity(30).collect();
 		//new PotionOfStrength().identify().quantity(50).collect();
 		//new ScrollOfIdentify().identify().quantity(50).collect();
 		//new PotionOfMastery().identify().quantity(20).collect();
 		//new CurseInfusion().quantity(50).collect();
+		//new ScrollOfMagicMapping().identify().quantity(50).collect();
+		//new PotionOfMindVision().identify().quantity(50).collect();
+		//new PotionOfHealing().identify().quantity(800).collect();
 		//new ScrollOfMysticalEnergy().quantity(50).collect();
 	}
 
