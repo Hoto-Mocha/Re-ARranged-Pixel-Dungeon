@@ -63,6 +63,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -182,6 +185,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(ShotGun.Bullet.class,              0);
 		ANGULAR_SPEEDS.put(ShotGunAP.Bullet.class,            0);
 		ANGULAR_SPEEDS.put(ShotGunHP.Bullet.class,            0);
+		ANGULAR_SPEEDS.put(SPAS.Bullet.class,                 0);
+		ANGULAR_SPEEDS.put(SPASAP.Bullet.class,               0);
+		ANGULAR_SPEEDS.put(SPASHP.Bullet.class,               0);
 	    ANGULAR_SPEEDS.put(RocketLauncher.Rocket.class,       0);
 
 		ANGULAR_SPEEDS.put(MiniGun.Bullet.class,              0);
@@ -287,6 +293,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				||item instanceof ShotGun.Bullet
 				||item instanceof ShotGunAP.Bullet
 				||item instanceof ShotGunHP.Bullet
+				||item instanceof SPAS.Bullet
+				||item instanceof SPASAP.Bullet
+				||item instanceof SPASHP.Bullet
 				||item instanceof MiniGun.Bullet
 				||item instanceof MiniGunAP.Bullet
 				||item instanceof MiniGunHP.Bullet

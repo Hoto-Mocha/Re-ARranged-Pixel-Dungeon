@@ -36,6 +36,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Lead;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
@@ -1064,7 +1066,7 @@ public abstract class Level implements Bundlable {
 		int cx = c.pos % width();
 		int cy = c.pos / width();
 		
-		boolean sighted = c.buff( Blindness.class ) == null && c.buff( Shadows.class ) == null
+		boolean sighted = c.buff( Lead.class ) == null && c.buff( Blindness.class ) == null && c.buff( Shadows.class ) == null
 						&& c.buff( TimekeepersHourglass.timeStasis.class ) == null && c.isAlive();
 		if (sighted) {
 			boolean[] blocking;
@@ -1191,6 +1193,17 @@ public abstract class Level implements Bundlable {
 			} else if (((Hero) c).hasTalent(Talent.TACTICAL_SIGHT) && Dungeon.hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null) {
 				Hero h = (Hero) c;
 				int range = 1+h.pointsInTalent(Talent.TACTICAL_SIGHT);
+				for (Mob mob : mobs) {
+					int p = mob.pos;
+					if (!fieldOfView[p] && distance(c.pos, p) <= range) {
+						for (int i : PathFinder.NEIGHBOURS9) {
+							heroMindFov[mob.pos + i] = true;
+						}
+					}
+				}
+			} else if (Dungeon.hero.subClass == HeroSubClass.MASTER && Dungeon.hero.buff(Dong.class) != null && Dungeon.hero.buff(Lead.class) != null) {
+				Hero h = (Hero) c;
+				int range = 2+h.pointsInTalent(Talent.DONG_MIND_EYES);
 				for (Mob mob : mobs) {
 					int p = mob.pos;
 					if (!fieldOfView[p] && distance(c.pos, p) <= range) {

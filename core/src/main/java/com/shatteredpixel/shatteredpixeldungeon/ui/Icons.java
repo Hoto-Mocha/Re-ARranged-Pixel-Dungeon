@@ -73,6 +73,7 @@ public enum Icons {
 	ROGUE,
 	HUNTRESS,
 	GUNNER,
+	SAMURAI,
 	
 	//main menu icons
 	ENTER,
@@ -283,11 +284,11 @@ public enum Icons {
 			icon.frame( icon.texture.uvRect( 101, 32, 128, 62 ) );
 			icon.scale.set(PixelScene.align(0.49f));
 			break;
-
 		case ARRANGED:
 			icon.frame( icon.texture.uvRect( 0, 128, 15, 144 ) );
 			break;
-
+		case SAMURAI:
+			icon.frame( icon.texture.uvRect( 16, 128, 30, 142 ) );
 		}
 		return icon;
 	}
@@ -304,6 +305,8 @@ public enum Icons {
 			return get( HUNTRESS );
 		case GUNNER:
 			return get( GUNNER );
+		case SAMURAI:
+			return get( SAMURAI );
 		default:
 			return null;
 		}

@@ -60,6 +60,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
@@ -161,6 +164,9 @@ public class Evolution extends InventorySpell {
                 || w instanceof SniperRifleHP
                 || w instanceof RocketLauncher
                 || w instanceof LargeKatana
+                || w instanceof SPAS
+                || w instanceof SPASAP
+                || w instanceof SPASHP
         ){
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
         } else {

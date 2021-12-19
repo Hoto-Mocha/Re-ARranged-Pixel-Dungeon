@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -104,7 +105,7 @@ public class LargeHandgunAP extends MeleeWeapon {
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
-        if (isEquipped( hero )) {
+        if (isEquipped( hero ) || hero.subClass == HeroSubClass.GUNSLINGER) {
             actions.add(AC_SHOOT);
             actions.add(AC_RELOAD);
         }
@@ -118,7 +119,7 @@ public class LargeHandgunAP extends MeleeWeapon {
 
         if (action.equals(AC_SHOOT)) {
 
-            if (!isEquipped( hero )) {
+            if (!isEquipped( hero ) && hero.subClass != HeroSubClass.GUNSLINGER) {
                 usesTargeting = false;
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
@@ -247,16 +248,16 @@ public class LargeHandgunAP extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        return 2 * tier +
-                lvl      +
-                RingOfSharpshooting.levelDamageBonus(hero);
+            return 2 * tier +
+                    lvl      +
+                    RingOfSharpshooting.levelDamageBonus(hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 4 * (tier)   +
-                lvl * (tier) +
-                RingOfSharpshooting.levelDamageBonus(hero) +
-                5 * hero.pointsInTalent(Talent.HANDGUN_MASTER);
+            return 4 * (tier+1)   +
+                    lvl * (tier+1)  +
+                    RingOfSharpshooting.levelDamageBonus(hero) +
+                    5 * hero.pointsInTalent(Talent.HANDGUN_MASTER);
     }
 
     @Override
@@ -407,7 +408,10 @@ public class LargeHandgunAP extends MeleeWeapon {
                 if (hero.buff(Riot.riotTracker.class) != null) {
                     return LargeHandgunAP.this.delayFactor(user)/2f;
                 } else {
-                    return LargeHandgunAP.this.delayFactor(user);
+                    if (hero.hasTalent(Talent.HOLSTER) && round == max_round) {
+                        return LargeHandgunAP.this.delayFactor(user)/(1f+hero.pointsInTalent(Talent.HOLSTER));
+                    } else
+                        return LargeHandgunAP.this.delayFactor(user);
                 }
             }
         }

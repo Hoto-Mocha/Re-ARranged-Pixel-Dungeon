@@ -29,8 +29,11 @@ import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CertainCrit;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CritBonus;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ExtraBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
@@ -102,6 +105,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -126,6 +132,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -227,6 +234,25 @@ public enum Talent {
 	//FirstAidKit T4
 	ADDITIONAL_MEDS(183,4), THERAPEUTIC_BANDAGE(184, 4), FASTER_HEALING(185,4),
 
+	//Samurai T1
+	CRITICAL_MEAL(192), MASTERS_INTUITION(193), UNEXPECTED_SLASH(194), FLOW_AWAY(195),
+	//Samurai T2
+	FOCUSING_MEAL(196), CRITICAL_UPGRADE(197), MAGICAL_TRANSFERENCE(198), PARRY(199), DETECTION(200),
+	//Samurai T3
+	DEEP_SCAR(201, 3), FAST_LEAD(202, 3),
+	//Slasher T3
+	CONTINUOUS_ATTACK(203, 3), SLASHING_PRACTICE(204, 3), SERIAL_MOMENTUM(205, 3),
+	//Master T3
+	DONG_MIND_EYES(206, 3), JUNG_DETECTION(207, 3), MIND_FOCUS(208, 3),
+	//Gunslinger T3
+	HOLSTER(143, 3), DESTRUCTIVE_BULLET(144, 3), CLOSE_SHOOTING(145, 3),
+	//Awake T4
+	AWAKE_LIMIT(209, 4), AWAKE_DURATION(210, 4), WAIT(211, 4),
+	//ShadowBlade T4
+	DOUBLE_BLADE_PRACTICE(212, 4), CRITCICAL_SHADOW(213, 4),HERBAL_SHADOW(214, 4),
+	//Kunai T4
+	KUNAI_OF_DOOM(215, 4), MYSTICAL_KUNAI(216, 4), POISONED_KUNAI(217, 4),
+
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -264,30 +290,37 @@ public enum Talent {
 	};
 	public static class SpiritBladesTracker extends FlavourBuff{};
 	public static class ChaseCooldown extends FlavourBuff{
-		public int icon() { return target.buff(RevealedArea.class) != null ? BuffIndicator.NONE : BuffIndicator.TIME; }
+		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.4f, 0.4f, 0.8f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / (15)); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
 	public static class ChainCooldown extends FlavourBuff{
-		public int icon() { return target.buff(RevealedArea.class) != null ? BuffIndicator.NONE : BuffIndicator.TIME; }
+		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.2f, 0.5f, 0.8f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 10); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
 	public static class LethalCooldown extends FlavourBuff{
-		public int icon() { return target.buff(RevealedArea.class) != null ? BuffIndicator.NONE : BuffIndicator.TIME; }
+		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.8f, 0.1f, 0.1f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 5); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
 	public static class ReloadCooldown extends FlavourBuff{
-		public int icon() { return target.buff(RevealedArea.class) != null ? BuffIndicator.NONE : BuffIndicator.TIME; }
+		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.3f, 0.3f, 0.3f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 6); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class DestructiveCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(1.9f, 2.4f, 3.25f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
@@ -463,6 +496,12 @@ public enum Talent {
 			//effectively 1/2 turns of infiniteBullet
 			Buff.prolong( hero, InfiniteBullet.class, 0.001f+hero.pointsInTalent(IN_THE_GUNFIRE));
 		}
+		if (hero.hasTalent(Talent.CRITICAL_MEAL)) {
+			Buff.prolong( hero, CritBonus.class, 10f).set(5f * hero.pointsInTalent(Talent.CRITICAL_MEAL));
+		}
+		if (hero.hasTalent(Talent.FOCUSING_MEAL)) {
+			Buff.prolong( hero, Bless.class, 1f + 2f*hero.pointsInTalent(FOCUSING_MEAL));
+		}
 	}
 
 	public static class WarriorFoodImmunity extends FlavourBuff{
@@ -522,6 +561,9 @@ public enum Talent {
 				||item instanceof ShotGun
 				||item instanceof ShotGunAP
 				||item instanceof ShotGunHP
+				||item instanceof SPAS
+				||item instanceof SPASAP
+				||item instanceof SPASHP
 				||item instanceof MiniGun
 				||item instanceof MiniGunAP
 				||item instanceof MiniGunHP
@@ -611,13 +653,17 @@ public enum Talent {
 					Dungeon.level.drop( enchantment, Dungeon.hero.pos ).sprite.drop();
 				}
 			}
-			if (hero.pointsInTalent(Talent.ANOTHER_CHANCE) == 2 && Random.Int(10) == 0) {
+			if (hero.pointsInTalent(ANOTHER_CHANCE) == 2 && Random.Int(10) == 0) {
 				if (scl.doPickUp( Dungeon.hero )) {
 					GLog.i( Messages.get(Dungeon.hero, "you_now_have", scl.name() ));
 				} else {
 					Dungeon.level.drop( scl, Dungeon.hero.pos ).sprite.drop();
 				}
 			}
+		}
+
+		if (hero.hasTalent(CRITICAL_UPGRADE)) {
+		 	Buff.prolong(hero, CertainCrit.class, 5*hero.pointsInTalent(CRITICAL_UPGRADE));
 		}
 	}
 
@@ -675,6 +721,9 @@ public enum Talent {
 						||item instanceof ShotGun
 						||item instanceof ShotGunAP
 						||item instanceof ShotGunHP
+						||item instanceof SPAS
+						||item instanceof SPASAP
+						||item instanceof SPASHP
 						||item instanceof MiniGun
 						||item instanceof MiniGunAP
 						||item instanceof MiniGunHP
@@ -689,11 +738,19 @@ public enum Talent {
 		){
 			item.identify();
 		}
+		if (hero.pointsInTalent(MASTERS_INTUITION) >= 1 && item instanceof Weapon) {
+			item.identify();
+		}
 	}
 
 	public static void onItemCollected( Hero hero, Item item ){
 		if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
 			if (item instanceof Ring) ((Ring) item).setKnown();
+		}
+		if (hero.pointsInTalent(MASTERS_INTUITION) == 2) {
+			if (item instanceof Weapon) {
+				item.identify();
+			}
 		}
 	}
 
@@ -749,6 +806,12 @@ public enum Talent {
 			}
 		}
 
+		if (hero.hasTalent(Talent.UNEXPECTED_SLASH)
+				&& enemy.buff(UnexpectedSlashTracker.class) == null){
+			dmg += hero.pointsInTalent(Talent.SUCKER_PUNCH);
+			Buff.affect(enemy, UnexpectedSlashTracker.class);
+		}
+
 		if (hero.hasTalent(Talent.SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(ShootTheHeartTracker.class) == null){
 			Buff.affect(enemy, ShootTheHeartTracker.class);
 			Buff.affect(hero, Haste.class, 1f + hero.pointsInTalent(Talent.SPEEDY_MOVE));
@@ -760,6 +823,7 @@ public enum Talent {
 
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
+	public static class UnexpectedSlashTracker extends Buff{};
 	public static class ShootTheHeartTracker extends Buff{};
 
 	public static final int MAX_TALENT_TIERS = 4;
@@ -796,6 +860,9 @@ public enum Talent {
 			case GUNNER:
 				Collections.addAll(tierTalents,	REARRANGE, GUNNERS_INTUITION, SPEEDY_MOVE, SAFE_RELOAD);
 				break;
+			case SAMURAI:
+				Collections.addAll(tierTalents,	CRITICAL_MEAL, MASTERS_INTUITION, UNEXPECTED_SLASH, FLOW_AWAY);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -822,6 +889,9 @@ public enum Talent {
 			case GUNNER:
 				Collections.addAll(tierTalents,	IN_THE_GUNFIRE, ANOTHER_CHANCE, CHOICE_N_FOCUS, CAMOUFLAGE, LARGER_MAGAZINE);
 				break;
+			case SAMURAI:
+				Collections.addAll(tierTalents,	FOCUSING_MEAL, CRITICAL_UPGRADE, MAGICAL_TRANSFERENCE, PARRY, DETECTION);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -847,6 +917,9 @@ public enum Talent {
 				break;
 			case GUNNER:
 				Collections.addAll(tierTalents, MELEE_ENHANCE, BOOM_ENHANCE);
+				break;
+			case SAMURAI:
+				Collections.addAll(tierTalents,	DEEP_SCAR, FAST_LEAD);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -920,6 +993,15 @@ public enum Talent {
 				break;
 			case RIFLEMAN:
 				Collections.addAll(tierTalents, BETTER_CHOICE, RIFLE_MASTER, ONLY_ONE_SHOT, EVASIVE_MOVE);
+				break;
+			case SLASHER:
+				Collections.addAll(tierTalents, BETTER_CHOICE, CONTINUOUS_ATTACK, SLASHING_PRACTICE, SERIAL_MOMENTUM);
+				break;
+			case MASTER:
+				Collections.addAll(tierTalents, BETTER_CHOICE, DONG_MIND_EYES, JUNG_DETECTION, MIND_FOCUS);
+				break;
+			case GUNSLINGER:
+				Collections.addAll(tierTalents, BETTER_CHOICE, HOLSTER, DESTRUCTIVE_BULLET, CLOSE_SHOOTING);
 				break;
 		}
 		for (Talent talent : tierTalents){

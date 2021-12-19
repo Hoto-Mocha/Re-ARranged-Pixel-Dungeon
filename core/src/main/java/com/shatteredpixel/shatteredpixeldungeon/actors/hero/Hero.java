@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
@@ -55,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
@@ -62,15 +64,18 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Lead;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StanceCooldown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
@@ -83,6 +88,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
@@ -132,6 +138,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
@@ -173,6 +180,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -199,6 +209,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.SurfaceScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
+import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
@@ -223,6 +234,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+
+import sun.jvm.hotspot.opto.Block;
 
 public class Hero extends Char {
 
@@ -507,6 +520,10 @@ public class Hero extends Char {
 			Buff.affect( this, Combo.class ).hit( enemy );
 		}
 
+		if (hit && subClass == HeroSubClass.SLASHER){
+			Buff.affect( this, SerialAttack.class ).hit( enemy );
+		}
+
 		return hit;
 	}
 	
@@ -516,11 +533,21 @@ public class Hero extends Char {
 		
 		float accuracy = 1;
 		accuracy *= RingOfAccuracy.accuracyMultiplier( this );
+
+		if (hero.buff(Lead.class) != null) {
+			accuracy *= 1.2f;
+		}
+
+		if (hero.buff(Jung.class) != null) {
+			accuracy = INFINITE_ACCURACY;
+		}
 		
 		if (wep instanceof MissileWeapon){
 			if (Dungeon.level.adjacent( pos, target.pos )) {
 				if (wep instanceof ShotGun.Bullet
-				 || wep instanceof ShotGunHP.Bullet) {
+				 || wep instanceof SPAS.Bullet
+				 || wep instanceof ShotGunHP.Bullet
+				 || wep instanceof SPASHP.Bullet) {
 					accuracy *= (1.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				} else if (wep instanceof HuntingRifle.Bullet
 						|| wep instanceof SniperRifle.Bullet
@@ -533,13 +560,36 @@ public class Hero extends Char {
 						|| wep instanceof AntimaterRifleHP.Bullet
 				){
 					accuracy *= 0;
+				} else if (hero.hasTalent(Talent.CLOSE_SHOOTING)) {
+					if (wep instanceof CrudePistol.Bullet
+							|| wep instanceof CrudePistolAP.Bullet
+							|| wep instanceof CrudePistolHP.Bullet
+							|| wep instanceof Pistol.Bullet
+							|| wep instanceof PistolAP.Bullet
+							|| wep instanceof PistolHP.Bullet
+							|| wep instanceof GoldenPistol.Bullet
+							|| wep instanceof GoldenPistolAP.Bullet
+							|| wep instanceof GoldenPistolHP.Bullet
+							|| wep instanceof Handgun.Bullet
+							|| wep instanceof HandgunAP.Bullet
+							|| wep instanceof HandgunHP.Bullet
+							|| wep instanceof Magnum.Bullet
+							|| wep instanceof MagnumAP.Bullet
+							|| wep instanceof MagnumHP.Bullet
+							|| wep instanceof LargeHandgun.Bullet
+							|| wep instanceof LargeHandgunAP.Bullet
+							|| wep instanceof LargeHandgunHP.Bullet) {
+						accuracy *= 1f + 0.5f * hero.pointsInTalent((Talent.CLOSE_SHOOTING));
+					}
 				} else {
 					accuracy *= (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				}
 
 			} else {
 				if (wep instanceof ShotGun.Bullet
-				 || wep instanceof ShotGunHP.Bullet) {
+			     || wep instanceof SPAS.Bullet
+				 || wep instanceof ShotGunHP.Bullet
+				 || wep instanceof SPASHP.Bullet) {
 					accuracy *= 0;
 				}
 				else if (wep instanceof HuntingRifle.Bullet
@@ -582,6 +632,7 @@ public class Hero extends Char {
 						|| wep instanceof HeavyMachinegunHP.Bullet
 						|| wep instanceof RocketLauncher.Rocket
 						|| wep instanceof ShotGunAP.Bullet
+						|| wep instanceof SPASAP.Bullet
 						|| wep instanceof MiniGun.Bullet
 						|| wep instanceof MiniGunAP.Bullet
 						|| wep instanceof MiniGunHP.Bullet
@@ -727,6 +778,9 @@ public class Hero extends Char {
 					|| wep instanceof ShotGun.Bullet
 					|| wep instanceof ShotGunAP.Bullet
 					|| wep instanceof ShotGunHP.Bullet
+					|| wep instanceof SPAS.Bullet
+					|| wep instanceof SPASAP.Bullet
+					|| wep instanceof SPASHP.Bullet
 					|| wep instanceof RocketLauncher.Rocket
 					|| wep instanceof MiniGun.Bullet
 					|| wep instanceof MiniGunAP.Bullet
@@ -835,6 +889,10 @@ public class Hero extends Char {
 		if (buff(SpearGuard.class) != null){
 			dr += Random.NormalIntRange(hero.belongings.weapon.buffedLvl(), 4+hero.belongings.weapon.buffedLvl()*2);
 		}
+
+		if (buff(Lead.class) != null) {
+			dr += Random.NormalIntRange(0, 5*pointsInTalent(Talent.PARRY));
+		}
 		
 		return dr;
 	}
@@ -931,6 +989,10 @@ public class Hero extends Char {
 		if (belongings.weapon() instanceof ShotGun.Bullet)				          	    return false;
 		//if (belongings.weapon() instanceof ShotGunAP.Bullet)				          	return false;           //슬러그 샷건은 기습가능
 		if (belongings.weapon() instanceof ShotGunHP.Bullet)				          	return false;
+		if (belongings.weapon() instanceof SPAS.Bullet)				             	 	return false;
+		//if (belongings.weapon() instanceof SPASAP.Bullet)				         	 	return false;
+		if (belongings.weapon() instanceof SPASHP.Bullet)				        	  	return false;
+
 
 		return true;
 	}
@@ -960,15 +1022,28 @@ public class Hero extends Char {
 			return 0;
 		}
 
+		if (buff(Lead.class) != null && buff(Jung.class) != null) {
+			hero.buff(Jung.class).detach();
+			Buff.affect(hero, Dong.class);
+			Buff.affect(hero, StanceCooldown.class, 9f);
+			buff(Dong.class).getIcon();
+			return 1;
+		}
+
 		if (belongings.weapon() != null) {
-			
-			return belongings.weapon().delayFactor( this );
-			
+
+				return belongings.weapon().delayFactor( this );
+
 		} else {
-			//Normally putting furor speed on unarmed attacks would be unnecessary
-			//But there's going to be that one guy who gets a furor+force ring combo
-			//This is for that one guy, you shall get your fists of fury!
-			return 1f/RingOfFuror.attackSpeedMultiplier(this);
+			if (hero.hasTalent(Talent.SLASHING_PRACTICE) && hero.buff(SerialAttack.class) != null) {
+				return 1f / RingOfFuror.attackSpeedMultiplier(this) / (1f + 0.05f * buff(SerialAttack.class).getCount());
+			} else {
+				//Normally putting furor speed on unarmed attacks would be unnecessary
+				//But there's going to be that one guy who gets a furor+force ring combo
+				//This is for that one guy, you shall get your fists of fury!
+				return 1f / RingOfFuror.attackSpeedMultiplier(this);
+			}
+
 		}
 	}
 
@@ -1486,6 +1561,25 @@ public class Hero extends Char {
 					&& hero.buff(CloakOfShadows.cloakStealth.class) == null ) {
 				Buff.affect(Dungeon.hero, Invisibility.class, 5f);
 				Buff.affect(Dungeon.hero, Talent.ChaseCooldown.class, 15f);
+			}
+			if (hero.heroClass == HeroClass.SAMURAI) {
+				if (hero.buff(Lead.class) == null && hero.hasTalent(Talent.FLOW_AWAY) && Random.Int(10) < hero.pointsInTalent(Talent.FLOW_AWAY)) {
+					Buff.affect(hero, EvasiveMove.class, 0.9999f);
+				}
+				Buff.affect(hero, Lead.class);
+
+				if (hero.subClass == HeroSubClass.MASTER && hero.buff(StanceCooldown.class) == null) {
+					if (hero.buff(Dong.class) == null && hero.buff(Jung.class) == null) {
+
+						Buff.affect(hero, Dong.class);
+
+					} else if (hero.buff(Dong.class) != null) {
+
+						hero.buff(Dong.class).detach();
+						Buff.affect(hero, Jung.class);
+
+					}
+				}
 			}
 		}
 		resting = fullRest;
@@ -2182,12 +2276,38 @@ public class Hero extends Char {
 	@Override
 	public void onAttackComplete() {
 
+		int exStr = 0;
+		if (hero.belongings.weapon != null) {
+			exStr = hero.STR() - hero.belongings.weapon.STRReq();
+		}
 		AttackIndicator.target(enemy);
 		
 		boolean hit = attack( enemy );
 		
 		Invisibility.dispel();
 		spend( attackDelay() );
+
+		if (hero.buff(Lead.class) != null) {
+
+			if (hit) {
+				Buff.affect(enemy, Bleeding.class).set(Math.min(3+hero.pointsInTalent(Talent.DEEP_SCAR), Math.round(exStr/2f)));
+			}
+			if (!enemy.isAlive() && Dungeon.hero.hasTalent(Talent.FAST_LEAD) && Random.Int(3) < Dungeon.hero.pointsInTalent(Talent.FAST_LEAD)) {
+				Buff.affect(hero, Lead.class);
+			} else {
+				hero.buff(Lead.class).detach();
+			}
+		}
+
+		if (hit && hero.hasTalent(Talent.MIND_FOCUS)) {
+			int healAmt = hero.pointsInTalent(Talent.MIND_FOCUS);
+			healAmt = Math.min( healAmt, hero.HT - hero.HP );
+			if (healAmt > 0 && hero.isAlive()) {
+				hero.HP += healAmt;
+				hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+				hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+			}
+		}
 
 		if (hit && subClass == HeroSubClass.GLADIATOR){
 			Buff.affect( this, Combo.class ).hit( enemy );
@@ -2230,6 +2350,9 @@ public class Hero extends Char {
 			 || hero.belongings.weapon instanceof ShotGun
 			 || hero.belongings.weapon instanceof ShotGunAP
 			 || hero.belongings.weapon instanceof ShotGunHP
+			 || hero.belongings.weapon instanceof SPAS
+			 || hero.belongings.weapon instanceof SPASAP
+			 || hero.belongings.weapon instanceof SPASHP
 			 || hero.belongings.weapon instanceof RocketLauncher
 			 || hero.belongings.weapon instanceof MiniGun
 			 || hero.belongings.weapon instanceof MiniGunAP
@@ -2283,6 +2406,9 @@ public class Hero extends Char {
 			 || hero.belongings.weapon instanceof ShotGun
 			 || hero.belongings.weapon instanceof ShotGunAP
 			 || hero.belongings.weapon instanceof ShotGunHP
+			 || hero.belongings.weapon instanceof SPAS
+			 || hero.belongings.weapon instanceof SPASAP
+			 || hero.belongings.weapon instanceof SPASHP
 			 || hero.belongings.weapon instanceof RocketLauncher
 			 || hero.belongings.weapon instanceof MiniGun
 			 || hero.belongings.weapon instanceof MiniGunAP
@@ -2384,6 +2510,9 @@ public class Hero extends Char {
 					|| hero.belongings.weapon instanceof ShotGun
 					|| hero.belongings.weapon instanceof ShotGunAP
 					|| hero.belongings.weapon instanceof ShotGunHP
+					|| hero.belongings.weapon instanceof SPAS
+					|| hero.belongings.weapon instanceof SPASAP
+					|| hero.belongings.weapon instanceof SPASHP
 					|| hero.belongings.weapon instanceof RocketLauncher
 					|| hero.belongings.weapon instanceof MiniGun
 					|| hero.belongings.weapon instanceof MiniGunAP

@@ -71,6 +71,7 @@ public class Amulet extends Item {
 				Statistics.amuletObtained = true;
 
 				Badges.validateGunnerUnlock();
+				Badges.validateSamuraiUnlock();
 
 				hero.spend(-TIME_TO_PICK_UP);
 

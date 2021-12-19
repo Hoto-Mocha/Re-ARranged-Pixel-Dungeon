@@ -25,7 +25,13 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CertainCrit;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CritBonus;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Lead;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
@@ -98,11 +104,43 @@ abstract public class KindOfWeapon extends EquipableItem {
 		return max(buffedLvl());
 	}
 
+	public int STRReq() {
+		return STRReq();
+	}
+
 	abstract public int min(int lvl);
 	abstract public int max(int lvl);
 
-	public int damageRoll( Char owner ) {
-		return Random.NormalIntRange( min(), max() );
+	public int damageRoll( Char owner) {
+		int critChance = 0;
+		critChance += 2 * (Dungeon.hero.STR - Dungeon.hero.belongings.weapon.STRReq());
+		critChance += Dungeon.hero.lvl;
+
+		if (Dungeon.hero.buff(Lead.class) != null) {
+			critChance *= 1.2f;
+		}
+
+		if (Dungeon.hero.buff(Jung.class) != null) {
+			critChance *= 2f + 0.5f * Dungeon.hero.pointsInTalent(Talent.JUNG_DETECTION);
+		}
+
+		if (Dungeon.hero.buff(CritBonus.class) != null) {
+			critChance += Dungeon.hero.buff(CritBonus.class).level();
+		}
+
+		if (Dungeon.hero.hasTalent(Talent.DETECTION)) {
+			critChance += 5 * Dungeon.hero.pointsInTalent(Talent.DETECTION);
+		}
+
+		if (Dungeon.hero.buff(CertainCrit.class) != null) {
+			critChance = 100;
+		}
+
+		if (Dungeon.hero.heroClass == HeroClass.SAMURAI && Random.Int(100) < critChance) {
+			return Random.NormalIntRange( Math.round(0.75f*max()), max());
+		} else {
+			return Random.NormalIntRange( min(), max() );
+		}
 	}
 	
 	public float accuracyFactor( Char owner ) {

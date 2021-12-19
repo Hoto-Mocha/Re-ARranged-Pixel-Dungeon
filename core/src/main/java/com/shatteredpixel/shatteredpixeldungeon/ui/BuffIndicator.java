@@ -102,6 +102,8 @@ public class BuffIndicator extends Component {
 	public static final int NOINV       = 53;
 	public static final int BULLET 		= 54;
 	public static final int PLATE 		= 55;
+	public static final int STATE_DONG	= 56;
+	public static final int STATE_JUNG	= 57;
 
 	public static final int SIZE    = 7;
 	

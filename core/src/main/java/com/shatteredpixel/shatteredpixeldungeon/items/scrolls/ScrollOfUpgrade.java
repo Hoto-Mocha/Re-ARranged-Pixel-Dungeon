@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.utils.Random;
 
 public class ScrollOfUpgrade extends InventoryScroll {
 	
@@ -67,8 +68,11 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			boolean wasCursed = w.cursed;
 			boolean hadCursedEnchant = w.hasCurseEnchant();
 			boolean hadGoodEnchant = w.hasGoodEnchant();
-
-			w.upgrade();
+			if (w.enchantment != null && Random.Int(2) < Dungeon.hero.pointsInTalent(Talent.MAGICAL_TRANSFERENCE)) {
+				w.upgrade(true);
+			} else {
+				w.upgrade();
+			}
 
 			if (w.cursedKnown && hadCursedEnchant && !w.hasCurseEnchant()){
 				removeCurse( Dungeon.hero );

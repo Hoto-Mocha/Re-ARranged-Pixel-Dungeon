@@ -106,6 +106,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -308,6 +310,8 @@ public abstract class Recipe {
 		new SniperRifleHP.Recipe(),
 		new ShotGunAP.Recipe(),
 		new ShotGunHP.Recipe(),
+		new SPASAP.Recipe(),
+		new SPASHP.Recipe(),
 		new MiniGunAP.Recipe(),
 		new MiniGunHP.Recipe(),
 		new LargeHandgunAP.Recipe(),

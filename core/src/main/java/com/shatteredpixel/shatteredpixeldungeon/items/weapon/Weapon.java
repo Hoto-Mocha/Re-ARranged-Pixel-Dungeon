@@ -21,12 +21,15 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
@@ -188,7 +191,7 @@ abstract public class Weapon extends KindOfWeapon {
 	
 	@Override
 	public float delayFactor( Char owner ) {
-		return baseDelay(owner) * (1f/speedMultiplier(owner));
+			return baseDelay(owner) * (1f/speedMultiplier(owner));
 	}
 
 	protected float baseDelay( Char owner ){
@@ -203,7 +206,11 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 
 	protected float speedMultiplier(Char owner ){
-		return RingOfFuror.attackSpeedMultiplier(owner);
+		if (hero.hasTalent(Talent.SLASHING_PRACTICE) && hero.buff(SerialAttack.class) != null) {
+			return RingOfFuror.attackSpeedMultiplier(owner)*Math.min(1f + 0.05f * hero.buff(SerialAttack.class).getCount(), 1.2f + 0.05f * hero.pointsInTalent(Talent.SLASHING_PRACTICE));
+		} else {
+			return RingOfFuror.attackSpeedMultiplier(owner);
+		}
 	}
 
 	@Override

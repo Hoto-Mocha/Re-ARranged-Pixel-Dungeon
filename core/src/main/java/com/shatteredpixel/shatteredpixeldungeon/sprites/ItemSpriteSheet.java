@@ -371,14 +371,14 @@ public class ItemSpriteSheet {
 	public static final int SPECIALGUNS_3    = SPECIALGUNS+2;
 	public static final int FLAMETHORWER     = SPECIALGUNS+3;
 	public static final int PLASMA_CANNON    = SPECIALGUNS+4;
-	public static final int SPECIALGUNS_6    = SPECIALGUNS+5;
+	public static final int SPAS             = SPECIALGUNS+5;
 	static{
 		assignItemRect(SHOTGUN              ,14, 16);
 		assignItemRect(ROCKET_LAUNCHER      ,15, 15);
 		assignItemRect(SPECIALGUNS_3        ,16, 16);
 		assignItemRect(FLAMETHORWER         ,14, 15);
 		assignItemRect(PLASMA_CANNON        ,14, 16);
-		assignItemRect(SPECIALGUNS_6        ,16, 16);
+		assignItemRect(SPAS                 ,15, 16);
 	}
 
 	private static final int ALCHEMYGUNS         =                               xy(1, 34);

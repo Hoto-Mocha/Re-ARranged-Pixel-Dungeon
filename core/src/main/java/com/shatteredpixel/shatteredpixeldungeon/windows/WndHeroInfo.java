@@ -73,6 +73,9 @@ public class WndHeroInfo extends WndTabbed {
 			case GUNNER:
 				tabIcon = new ItemSprite(ItemSpriteSheet.MAGNUM, null);
 				break;
+			case SAMURAI:
+				tabIcon = new ItemSprite(ItemSpriteSheet.LONG_KATANA, null);
+				break;
 		}
 
 		int finalHeight = MIN_HEIGHT;
@@ -192,6 +195,11 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.CRUDE_PISTOL),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
+				case SAMURAI:
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.RING_RUBY),
+							new ItemSprite(ItemSpriteSheet.SHEATH),
+							new ItemSprite(ItemSpriteSheet.WORN_KATANA),
+							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 			}
 			for (Image im : icons) {
 				add(im);

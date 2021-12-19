@@ -337,6 +337,11 @@ public class WndStartGame extends Window {
 							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.MAGNUM, null));
 							heroMisc.icon(new ItemSprite(ItemSpriteSheet.RING_SAPPHIRE, null));
 							break;
+						case SAMURAI:
+							heroItem.icon(new ItemSprite(ItemSpriteSheet.SHEATH, null));
+							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.LONG_KATANA, null));
+							heroMisc.icon(new ItemSprite(ItemSpriteSheet.RING_RUBY, null));
+							break;
 					}
 					
 					layout();

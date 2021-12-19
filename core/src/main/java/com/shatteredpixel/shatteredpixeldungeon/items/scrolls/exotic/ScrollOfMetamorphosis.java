@@ -175,6 +175,14 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 			restrictedTalents.put(Talent.LIGHT_CLOAK, HeroClass.ROGUE);
 
 			restrictedTalents.put(Talent.SEER_SHOT, HeroClass.HUNTRESS);
+
+			restrictedTalents.put(Talent.CRITICAL_MEAL, HeroClass.SAMURAI);
+			restrictedTalents.put(Talent.FLOW_AWAY, HeroClass.SAMURAI);
+			restrictedTalents.put(Talent.CRITICAL_UPGRADE, HeroClass.SAMURAI);
+			restrictedTalents.put(Talent.PARRY, HeroClass.SAMURAI);
+			restrictedTalents.put(Talent.DETECTION, HeroClass.SAMURAI);
+			restrictedTalents.put(Talent.DEEP_SCAR, HeroClass.SAMURAI);
+			restrictedTalents.put(Talent.FAST_LEAD, HeroClass.SAMURAI);
 		}
 
 		public static WndMetamorphReplace INSTANCE;

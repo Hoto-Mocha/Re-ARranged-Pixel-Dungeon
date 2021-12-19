@@ -20,7 +20,6 @@
  */
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
-
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -29,19 +28,17 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.APBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
@@ -60,7 +57,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class GoldenPistolHP extends MeleeWeapon {
+public class SPASHP extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
@@ -71,14 +68,15 @@ public class GoldenPistolHP extends MeleeWeapon {
     private static final String TXT_STATUS = "%d/%d";
 
     {
+
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.GOLDEN_PISTOL;
+        image = ItemSpriteSheet.SPAS;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 3;
+        tier = 5;
     }
 
     private static final String ROUND = "round";
@@ -101,15 +99,20 @@ public class GoldenPistolHP extends MeleeWeapon {
         reload_time = bundle.getFloat(RELOAD_TIME);
     }
 
+
+
+
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
-        if (isEquipped( hero ) || hero.subClass == HeroSubClass.GUNSLINGER) {
+        if (isEquipped( hero )) {
             actions.add(AC_SHOOT);
             actions.add(AC_RELOAD);
         }
         return actions;
     }
+
+
 
     @Override
     public void execute(Hero hero, String action) {
@@ -118,19 +121,15 @@ public class GoldenPistolHP extends MeleeWeapon {
 
         if (action.equals(AC_SHOOT)) {
 
-            if (!isEquipped( hero ) && hero.subClass != HeroSubClass.GUNSLINGER) {
+            if (!isEquipped( hero )) {
                 usesTargeting = false;
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
-                    if (hero.hasTalent(Talent.ELEMENTAL_BULLET)) {
-                        elementReload();
-                    } else {
-                        reload();
-                    }
+                    reload_time = 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload();
                 } else {
-                    reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -139,37 +138,23 @@ public class GoldenPistolHP extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 4;
-            if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-                max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-            }
+            max_round = 1;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
-            } else if (round == 0 && hero.hasTalent(Talent.ELEMENTAL_BULLET)){
-                elementReload();
             } else {
                 reload();
             }
         }
     }
 
-    public void quickReload(Char owner) {
-        max_round = 4;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
+    public void quickReload() {
+        max_round = 1;
         round = Math.max(max_round, round);
         updateQuickslot();
     }
 
     public void reload() {
-        Buff.detach(hero, FrostBullet.class);
-        Buff.detach(hero, FireBullet.class);
-        Buff.detach(hero, ElectroBullet.class);
-        max_round = 4;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
+        max_round = 1;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -181,41 +166,6 @@ public class GoldenPistolHP extends MeleeWeapon {
         if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
             Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
             Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
-        }
-
-        updateQuickslot();
-    }
-
-    public void elementReload() {
-        Buff.detach(hero, FrostBullet.class);
-        Buff.detach(hero, FireBullet.class);
-        Buff.detach(hero, ElectroBullet.class);
-        max_round = 4;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        curUser.spend(reload_time);
-        curUser.busy();
-        Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
-        curUser.sprite.operate(curUser.pos);
-        round = Math.max(max_round, round);
-
-        GLog.i(Messages.get(this, "reloading"));
-
-        if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
-            Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
-            Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
-        }
-
-        int chance = Random.Int(6);
-        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) >= 1 && chance == 0) {
-            Buff.affect(hero, FrostBullet.class, 100f);
-        }
-        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) >= 2 && chance == 1) {
-            Buff.affect(hero, FireBullet.class, 100f);
-        }
-        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) == 3 && chance == 2) {
-            Buff.affect(hero, ElectroBullet.class, 100f);
         }
 
         updateQuickslot();
@@ -226,10 +176,7 @@ public class GoldenPistolHP extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 4;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
+        max_round = 1;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -244,50 +191,46 @@ public class GoldenPistolHP extends MeleeWeapon {
     }
 
     public int max(int lvl) {
-        return 3 * (tier + 1) +
-                lvl;
+        return 2 * (tier) +
+                lvl * (tier);
     }
 
     public int Bulletmin(int lvl) {
-            return 2 * tier +
-                    lvl      +
-                    RingOfSharpshooting.levelDamageBonus(hero);
+        return 1 +
+               lvl +
+               RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-            return 4 * (tier+1)   +
-                    lvl * (tier+1)  +
-                    RingOfSharpshooting.levelDamageBonus(hero) +
-                    5 * hero.pointsInTalent(Talent.HANDGUN_MASTER);
+        return (tier + 2)   +
+               lvl * 3 +
+               RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public String info() {
 
-        max_round = 4;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        max_round = 1;
+        reload_time = 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
-            if (STRReq() > hero.STR()) {
+            if (STRReq() > Dungeon.hero.STR()) {
                 info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (hero.STR() > STRReq()){
-                info += " " + Messages.get(Weapon.class, "excess_str", hero.STR() - STRReq());
+            } else if (Dungeon.hero.STR() > STRReq()){
+                info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
             }
-            info += "\n\n" + Messages.get(GoldenPistolHP.class, "stats_known",
-                    Bulletmin(GoldenPistolHP.this.buffedLvl()),
-                    Bulletmax(GoldenPistolHP.this.buffedLvl()),
+            info += "\n\n" + Messages.get(SPASHP.class, "stats_known",
+                    Bulletmin(SPASHP.this.buffedLvl()),
+                    Bulletmax(SPASHP.this.buffedLvl()),
                     round, max_round, reload_time);
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-            if (STRReq(0) > hero.STR()) {
+            if (STRReq(0) > Dungeon.hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
-            info += "\n\n" + Messages.get(GoldenPistolHP.class, "stats_unknown",
+            info += "\n\n" + Messages.get(SPASHP.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, reload_time);
@@ -311,7 +254,7 @@ public class GoldenPistolHP extends MeleeWeapon {
             info += " " + Messages.get(enchantment, "desc");
         }
 
-        if (cursed && isEquipped( hero )) {
+        if (cursed && isEquipped( Dungeon.hero )) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
         } else if (cursedKnown && cursed) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed");
@@ -341,7 +284,7 @@ public class GoldenPistolHP extends MeleeWeapon {
         }
 
         return damage;
-    }
+    }                           //초과 힘에 따른 추가 데미지
 
     @Override
     protected float baseDelay(Char owner) {
@@ -358,24 +301,24 @@ public class GoldenPistolHP extends MeleeWeapon {
         return delay;
     }
 
-    public GoldenPistolHP.Bullet knockBullet(){
-        return new GoldenPistolHP.Bullet();
+    public SPASHP.Bullet knockBullet(){
+        return new SPASHP.Bullet();
     }
     public class Bullet extends MissileWeapon {
 
         {
-            image = ItemSpriteSheet.SINGLE_BULLET;
+            image = ItemSpriteSheet.TRIPLE_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 3;
+            tier = 5;
         }
 
         @Override
         public int damageRoll(Char owner) {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
-            int bulletdamage = Random.NormalIntRange(Bulletmin(GoldenPistolHP.this.buffedLvl()),
-                    Bulletmax(GoldenPistolHP.this.buffedLvl()));
+            int bulletdamage = Random.NormalIntRange(Bulletmin(SPASHP.this.buffedLvl()),
+                    Bulletmax(SPASHP.this.buffedLvl()));
 
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
@@ -389,62 +332,47 @@ public class GoldenPistolHP extends MeleeWeapon {
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-            return GoldenPistolHP.this.hasEnchant(type, owner);
+            return SPASHP.this.hasEnchant(type, owner);
         }
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
-            return GoldenPistolHP.this.proc(attacker, defender, damage);
+            return SPASHP.this.proc(attacker, defender, damage);
         }
 
         @Override
         public float delayFactor(Char user) {
-            if (hero.hasTalent(Talent.RECOIL_CONTROL)) {
-                if (hero.buff(Riot.riotTracker.class) != null) {
-                    return GoldenPistolHP.this.delayFactor(user)/(2f + 2f * hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
-                } else {
-                    return GoldenPistolHP.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
-                }
+            if (hero.buff(Riot.riotTracker.class) != null) {
+                return SPASHP.this.delayFactor(user)/2f;
             } else {
-                if (hero.buff(Riot.riotTracker.class) != null) {
-                    return GoldenPistolHP.this.delayFactor(user)/2f;
-                } else {
-                    if (hero.hasTalent(Talent.HOLSTER) && round == max_round) {
-                        return GoldenPistolHP.this.delayFactor(user)/(1f+hero.pointsInTalent(Talent.HOLSTER));
-                    } else
-                        return GoldenPistolHP.this.delayFactor(user);
-                }
+                return SPASHP.this.delayFactor(user);
             }
-        }
-
-        @Override
-        public float accuracyFactor(Char user) {
-            float accFactor = super.accuracyFactor(user);
-            if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
-                accFactor += 0.1f * Dungeon.hero.pointsInTalent(Talent.ENHANCED_FOCUSING);
-            }
-            return accFactor;
         }
 
         @Override
         public int STRReq(int lvl) {
-            if (GoldenPistolHP.this.masteryPotionBonus) {
-                return STRReq(tier, GoldenPistolHP.this.buffedLvl()) - 2;
+            if (SPASHP.this.masteryPotionBonus) {
+                return STRReq(tier, SPASHP.this.buffedLvl()) - 2;
             }
-            return STRReq(tier, GoldenPistolHP.this.buffedLvl());
+            return STRReq(tier, SPASHP.this.buffedLvl());
         }
 
         @Override
-        protected void onThrow( int cell ) {
-            Char enemy = Actor.findChar( cell );
-            if (enemy == null || enemy == curUser) {
-                parent = null;
-                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-            } else {
-                if (!curUser.shoot( enemy, this )) {
+        protected void onThrow(int cell) {
+            for (int i=1; i<=10; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+                Char enemy = Actor.findChar(cell);
+                if (enemy == null || enemy == curUser) {
+                    parent = null;
                     CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                     CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                } else {
+                    if (!curUser.shoot(enemy, this)) {
+                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                    }
+                    if (Random.Int(20) == 0){
+                        Buff.affect(enemy, Cripple.class, 2f);
+                    }
                 }
             }
             if (hero.buff(InfiniteBullet.class) != null) {
@@ -488,15 +416,13 @@ public class GoldenPistolHP extends MeleeWeapon {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
-            inputs =  new Class[]{GoldenPistol.class, HPBullet.class, ArcaneResin.class};
+            inputs =  new Class[]{SPAS.class, HPBullet.class, ArcaneResin.class};
             inQuantity = new int[]{1, 1, 1};
 
             cost = 0;
 
-            output = GoldenPistolHP.class;
+            output = SPASHP.class;
             outQuantity = 1;
         }
-
     }
-
 }

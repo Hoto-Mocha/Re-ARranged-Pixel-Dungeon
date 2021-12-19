@@ -63,6 +63,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShiel
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
@@ -93,14 +96,17 @@ public class AdvancedEvolution extends InventorySpell {
     @Override
     protected boolean usableOnItem(Item item) {
         return item instanceof SniperRifle
-                || item instanceof SniperRifleHP
-                || item instanceof SniperRifleAP
+            || item instanceof SniperRifleHP
+            || item instanceof SniperRifleAP
             || item instanceof HeavyMachinegun
-                || item instanceof HeavyMachinegunHP
-                || item instanceof HeavyMachinegunAP
+            || item instanceof HeavyMachinegunHP
+            || item instanceof HeavyMachinegunAP
             || item instanceof Magnum
-                || item instanceof MagnumAP
-                || item instanceof MagnumHP
+            || item instanceof MagnumAP
+            || item instanceof MagnumHP
+            || item instanceof ShotGun
+            || item instanceof ShotGunAP
+            || item instanceof ShotGunHP
             || item instanceof RocketLauncher
             || item instanceof LargeKatana
             || item instanceof Glaive
@@ -176,6 +182,15 @@ public class AdvancedEvolution extends InventorySpell {
                 c = Generator.evoTiers[10];
             } else {
                 c = Generator.evoTiers[2];
+            }
+        }
+        else if (w instanceof ShotGun
+                || w instanceof ShotGunAP
+                || w instanceof ShotGunHP) {
+            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
+                c = Generator.evoTiers[13];
+            } else {
+                c = Generator.evoTiers[12];
             }
         }
         else if (w instanceof RocketLauncher) {

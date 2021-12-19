@@ -50,7 +50,11 @@ public enum HeroSubClass {
 
 	LAUNCHER(HeroIcon.LAUNCHER),
 	RANGER(HeroIcon.RANGER),
-	RIFLEMAN(HeroIcon.RIFLEMAN);
+	RIFLEMAN(HeroIcon.RIFLEMAN),
+
+	SLASHER(HeroIcon.SLASHER),
+	MASTER(HeroIcon.MASTER),
+	GUNSLINGER(HeroIcon.GUNSLINGER);
 
 	int icon;
 

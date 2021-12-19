@@ -64,6 +64,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -127,6 +130,9 @@ public class StoneOfAugmentation extends InventoryStone {
 		  ||item instanceof ShotGun
 		  ||item instanceof ShotGunAP
 		  ||item instanceof ShotGunHP
+		  ||item instanceof SPAS
+		  ||item instanceof SPASAP
+		  ||item instanceof SPASHP
 		  ||item instanceof RocketLauncher
 		  ||item instanceof LargeHandgun
 		  ||item instanceof LargeHandgunAP
