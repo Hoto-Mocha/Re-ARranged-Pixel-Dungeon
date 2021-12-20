@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -28,16 +29,23 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.watabou.noosa.Camera;
+import com.watabou.noosa.Image;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
@@ -49,85 +57,19 @@ public class ShadowBlade extends ArmorAbility {
 	}
 
 	@Override
-	public String targetingPrompt() {
-		return Messages.get(this, "prompt");
+	protected void activate(ClassArmor armor, Hero hero, Integer target) {
+
+		Buff.prolong(hero, shadowBladeTracker.class, shadowBladeTracker.DURATION);
+		hero.sprite.operate(hero.pos);
+		Sample.INSTANCE.play(Assets.Sounds.MISS);
+		hero.sprite.emitter().burst(ShadowParticle.UP, 10);
+
+		armor.charge -= chargeUse(hero);
+		armor.updateQuickslot();
+		Invisibility.dispel();
+		hero.spendAndNext(Actor.TICK);
+
 	}
-
-	@Override
-	public float chargeUse( Hero hero ) {
-		float chargeUse = super.chargeUse(hero);
-		if (hero.buff(DoubleJumpTracker.class) != null){
-			//reduced charge use by 16%/30%/41%/50%
-			chargeUse *= Math.pow(0.84, hero.pointsInTalent(Talent.DOUBLE_JUMP));
-		}
-		return chargeUse;
-	}
-
-	@Override
-	public void activate( ClassArmor armor, Hero hero, Integer target ) {
-		if (target != null) {
-
-			Ballistica route = new Ballistica(hero.pos, target, Ballistica.STOP_TARGET | Ballistica.STOP_SOLID);
-			int cell = route.collisionPos;
-
-			//can't occupy the same cell as another char, so move back one.
-			int backTrace = route.dist-1;
-			while (Actor.findChar( cell ) != null && cell != hero.pos) {
-				cell = route.path.get(backTrace);
-				backTrace--;
-			}
-
-			armor.charge -= chargeUse( hero );
-			armor.updateQuickslot();
-
-			final int dest = cell;
-			hero.busy();
-			hero.sprite.jump(hero.pos, cell, new Callback() {
-				@Override
-				public void call() {
-					hero.move(dest);
-					Dungeon.level.occupyCell(hero);
-					Dungeon.observe();
-					GameScene.updateFog();
-
-					for (int i : PathFinder.NEIGHBOURS8) {
-						Char mob = Actor.findChar(hero.pos + i);
-						if (mob != null && mob != hero && mob.alignment != Char.Alignment.ALLY) {
-							if (hero.hasTalent(Talent.BODY_SLAM)){
-								int damage = hero.drRoll();
-								damage = Math.round(damage*0.25f*hero.pointsInTalent(Talent.BODY_SLAM));
-								mob.damage(damage, hero);
-							}
-							if (mob.pos == hero.pos + i && hero.hasTalent(Talent.IMPACT_WAVE)){
-								Ballistica trajectory = new Ballistica(mob.pos, mob.pos + i, Ballistica.MAGIC_BOLT);
-								int strength = 1+hero.pointsInTalent(Talent.IMPACT_WAVE);
-								WandOfBlastWave.throwChar(mob, trajectory, strength, true);
-								if (Random.Int(4) < hero.pointsInTalent(Talent.IMPACT_WAVE)){
-									Buff.prolong(mob, Vulnerable.class, 3f);
-								}
-							}
-						}
-					}
-
-					WandOfBlastWave.BlastWave.blast(dest);
-					Camera.main.shake(2, 0.5f);
-
-					Invisibility.dispel();
-					hero.spendAndNext(Actor.TICK);
-
-					if (hero.buff(DoubleJumpTracker.class) != null){
-						hero.buff(DoubleJumpTracker.class).detach();
-					} else {
-						if (hero.hasTalent(Talent.DOUBLE_JUMP)) {
-							Buff.affect(hero, DoubleJumpTracker.class, 3);
-						}
-					}
-				}
-			});
-		}
-	}
-
-	public static class DoubleJumpTracker extends FlavourBuff{};
 
 	@Override
 	public int icon() {
@@ -136,6 +78,34 @@ public class ShadowBlade extends ArmorAbility {
 
 	@Override
 	public Talent[] talents() {
-		return new Talent[]{Talent.BODY_SLAM, Talent.IMPACT_WAVE, Talent.DOUBLE_JUMP, Talent.HEROIC_ENERGY};
+		return new Talent[]{Talent.DOUBLE_BLADE_PRACTICE, Talent.CRITICAL_SHADOW, Talent.HERBAL_SHADOW, Talent.HEROIC_ENERGY};
+	}
+
+	public static class shadowBladeTracker extends FlavourBuff {
+
+		public static final float DURATION = 10f;
+
+		@Override
+		public int icon() {
+			return BuffIndicator.SHADOWBLADE;
+		}
+
+		@Override
+		public float iconFadePercent() {
+			return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+		}
+
+		@Override
+		public String toString() {
+			return Messages.get(this, "name");
+		}
+
+		@Override
+		public String desc() {
+			return Messages.get(this, "desc", dispTurns());
+		}
+
 	}
 }
+
+

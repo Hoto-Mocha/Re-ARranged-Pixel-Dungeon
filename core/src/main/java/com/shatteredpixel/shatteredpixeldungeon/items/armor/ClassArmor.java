@@ -105,6 +105,9 @@ abstract public class ClassArmor extends Armor {
 		case GUNNER:
 			classArmor = new GunnerArmor();
 			break;
+		case SAMURAI:
+			classArmor = new SamuraiArmor();
+			break;
 		}
 
 		classArmor.level(armor.level() - (armor.curseInfusionBonus ? 1 : 0));

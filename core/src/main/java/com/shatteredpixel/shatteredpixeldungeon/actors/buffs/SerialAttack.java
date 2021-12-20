@@ -52,6 +52,7 @@ import com.watabou.utils.PathFinder;
 public class SerialAttack extends Buff {
 	
 	private int count = 0;
+	private int dmgBonus = 0;
 	private float comboTime = 0f;
 	private float initialComboTime = 5f;
 
@@ -83,8 +84,10 @@ public class SerialAttack extends Buff {
 
 		if (count < 4+Dungeon.hero.pointsInTalent(Talent.CONTINUOUS_ATTACK)) {
 			count++;
+			dmgBonus += 5;
 		} else {
 			count = 4+Dungeon.hero.pointsInTalent(Talent.CONTINUOUS_ATTACK);
+			dmgBonus = 5*(4+Dungeon.hero.pointsInTalent(Talent.CONTINUOUS_ATTACK));
 		}
 
 		comboTime = 5f;
@@ -118,7 +121,7 @@ public class SerialAttack extends Buff {
 
 	@Override
 	public String desc() {
-		return Messages.get(this, "desc", count, dispTurns(comboTime));
+		return Messages.get(this, "desc", count, dmgBonus, dispTurns(comboTime));
 	}
 
 	private static final String COUNT = "count";

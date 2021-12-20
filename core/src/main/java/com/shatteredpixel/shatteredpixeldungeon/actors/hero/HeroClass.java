@@ -39,7 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.Shad
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.SmokeBomb;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Awake;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Kunai;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Abil_Kunai;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
@@ -230,8 +230,6 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
-		//new Sheath().collect();
-
 		//new CrudePistol().identify().collect();
 		//new Pistol().identify().collect();
 		//new GoldenPistol().identify().collect();
@@ -361,6 +359,8 @@ public enum HeroClass {
 		//new Amulet().collect();
 		//new TengusMask().collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
+		//new TestWeapon().identify().collect();
+		//new PotionOfHealing().identify().quantity(50).collect();
 		//new DriedRose().identify().collect();
 	}
 
@@ -462,7 +462,8 @@ public enum HeroClass {
 		new PotionOfStrength().identify();
 
 		//new PotionOfStrength().quantity(50).collect();
-		//new PotionOfExperience().quantity(50).collect();
+		//new PotionOfExperience().identify().quantity(50).collect();
+		//new PotionOfHealing().identify().quantity(50).collect();
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
 		//new ScrollOfUpgrade().identify().quantity(50).collect();
@@ -501,7 +502,7 @@ public enum HeroClass {
 			case GUNNER:
 				return new ArmorAbility[]{new Riot(), new ReinforcedArmor(), new FirstAidKit()};
 			case SAMURAI:
-				return new ArmorAbility[]{new Awake(), new ShadowBlade(), new Kunai()};
+				return new ArmorAbility[]{new Awake(), new ShadowBlade(), new Abil_Kunai()};
 		}
 	}
 

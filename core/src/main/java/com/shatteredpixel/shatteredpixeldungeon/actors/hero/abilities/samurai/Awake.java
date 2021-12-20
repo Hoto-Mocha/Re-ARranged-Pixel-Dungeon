@@ -21,29 +21,37 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
-import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
+import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Camera;
+import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 public class Awake extends ArmorAbility {
@@ -53,94 +61,21 @@ public class Awake extends ArmorAbility {
 	}
 
 	@Override
-	public String targetingPrompt() {
-		return Messages.get(this, "prompt");
-	}
-
-	@Override
 	protected void activate(ClassArmor armor, Hero hero, Integer target) {
-		if (target == null){
-			return;
+
+		Buff.prolong(hero, awakeTracker.class, 10f + 5f * hero.pointsInTalent(Talent.AWAKE_DURATION));
+		if (hero.hasTalent(Talent.INSURANCE)) {
+			Buff.affect(hero, Barrier.class).setShield(10*hero.pointsInTalent(Talent.INSURANCE));
 		}
-		if (target == hero.pos){
-			GLog.w(Messages.get(this, "self_target"));
-			return;
-		}
-		hero.busy();
+		SpellSprite.show(hero, SpellSprite.BERSERK);
+		Sample.INSTANCE.play( Assets.Sounds.CHALLENGE );
+		GameScene.flash(0xFF0000);
 
 		armor.charge -= chargeUse(hero);
-		Item.updateQuickslot();
+		armor.updateQuickslot();
+		Invisibility.dispel();
+		hero.spendAndNext(Actor.TICK);
 
-		Ballistica aim = new Ballistica(hero.pos, target, Ballistica.WONT_STOP);
-
-		int maxDist = 5 + hero.pointsInTalent(Talent.EXPANDING_WAVE);
-		int dist = Math.min(aim.dist, maxDist);
-
-		ConeAOE cone = new ConeAOE(aim,
-				dist,
-				60 + 15*hero.pointsInTalent(Talent.EXPANDING_WAVE),
-				Ballistica.STOP_SOLID | Ballistica.STOP_TARGET);
-
-		//cast to cells at the tip, rather than all cells, better performance.
-		for (Ballistica ray : cone.outerRays){
-			((MagicMissile)hero.sprite.parent.recycle( MagicMissile.class )).reset(
-					MagicMissile.FORCE_CONE,
-					hero.sprite,
-					ray.path.get(ray.dist),
-					null
-			);
-		}
-
-		hero.sprite.zap(target);
-		Sample.INSTANCE.play(Assets.Sounds.BLAST, 1f, 0.5f);
-		Camera.main.shake(2, 0.5f);
-		//final zap at 2/3 distance, for timing of the actual effect
-		MagicMissile.boltFromChar(hero.sprite.parent,
-				MagicMissile.FORCE_CONE,
-				hero.sprite,
-				cone.coreRay.path.get(dist * 2 / 3),
-				new Callback() {
-					@Override
-					public void call() {
-
-						for (int cell : cone.cells){
-
-							Char ch = Actor.findChar(cell);
-							if (ch != null && ch.alignment != hero.alignment){
-								int scalingStr = hero.STR()-10;
-								int damage = Random.NormalIntRange(5 + scalingStr, 10 + 2*scalingStr);
-								damage = Math.round(damage * (1f + 0.2f*hero.pointsInTalent(Talent.SHOCK_FORCE)));
-								damage -= ch.drRoll();
-
-								if (hero.pointsInTalent(Talent.STRIKING_WAVE) == 4){
-									Buff.affect(hero, Talent.StrikingWaveTracker.class, 0f);
-								}
-
-								if (Random.Int(10) < 3*hero.pointsInTalent(Talent.STRIKING_WAVE)){
-									damage = hero.attackProc(ch, damage);
-									ch.damage(damage, hero);
-									if (hero.subClass == HeroSubClass.GLADIATOR){
-										Buff.affect( hero, Combo.class ).hit( ch );
-									}
-								} else {
-									ch.damage(damage, hero);
-								}
-								if (ch.isAlive()){
-									if (Random.Int(4) < hero.pointsInTalent(Talent.SHOCK_FORCE)){
-										Buff.affect(ch, Paralysis.class, 5f);
-									} else {
-										Buff.affect(ch, Cripple.class, 5f);
-									}
-								}
-
-							}
-						}
-
-						Invisibility.dispel();
-						hero.spendAndNext(Actor.TICK);
-
-					}
-				});
 	}
 
 	@Override
@@ -150,6 +85,34 @@ public class Awake extends ArmorAbility {
 
 	@Override
 	public Talent[] talents() {
-		return new Talent[]{Talent.EXPANDING_WAVE, Talent.STRIKING_WAVE, Talent.SHOCK_FORCE, Talent.HEROIC_ENERGY};
+		return new Talent[]{Talent.AWAKE_LIMIT, Talent.AWAKE_DURATION, Talent.INSURANCE, Talent.HEROIC_ENERGY};
+	}
+
+	public static class awakeTracker extends FlavourBuff {
+
+		public static final float DURATION = 30f;
+
+		@Override
+		public int icon() {
+			return BuffIndicator.AWAKE;
+		}
+
+		@Override
+		public float iconFadePercent() {
+			return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+		}
+
+		@Override
+		public String toString() {
+			return Messages.get(this, "name");
+		}
+
+		@Override
+		public String desc() {
+			return Messages.get(this, "desc", dispTurns());
+		}
+
 	}
 }
+
+

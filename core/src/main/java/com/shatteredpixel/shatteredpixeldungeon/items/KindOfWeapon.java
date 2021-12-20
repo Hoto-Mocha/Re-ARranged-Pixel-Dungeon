@@ -113,8 +113,10 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 	public int damageRoll( Char owner) {
 		int critChance = 0;
-		critChance += 2 * (Dungeon.hero.STR - Dungeon.hero.belongings.weapon.STRReq());
-		critChance += Dungeon.hero.lvl;
+		if (Dungeon.hero.heroClass == HeroClass.SAMURAI && Dungeon.hero.belongings.weapon != null) {
+			critChance += 2 * (Dungeon.hero.STR - Dungeon.hero.belongings.weapon.STRReq());
+			critChance += Dungeon.hero.lvl;
+		}
 
 		if (Dungeon.hero.buff(Lead.class) != null) {
 			critChance *= 1.2f;

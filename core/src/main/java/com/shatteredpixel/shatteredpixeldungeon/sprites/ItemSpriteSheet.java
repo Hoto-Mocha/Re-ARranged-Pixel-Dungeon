@@ -113,7 +113,7 @@ public class ItemSpriteSheet {
 		assignItemRect(DUAL_BULLET,     11, 10);
 		assignItemRect(TRIPLE_BULLET,   11, 11);
 		assignItemRect(SNIPER_BULLET,   8, 8);
-		assignItemRect(ROCKET,   9, 9);
+		assignItemRect(ROCKET,          9, 9);
 	}
 
 	private static final int CONTAINERS     =                               xy(1, 3);   //16 slots
@@ -473,6 +473,8 @@ public class ItemSpriteSheet {
 	public static final int ARMOR_ROGUE     = ARMOR+7;
 	public static final int ARMOR_HUNTRESS  = ARMOR+8;
 	public static final int ARMOR_GUNNER    = ARMOR+9;
+	public static final int ARMOR_SAMURAI   = ARMOR+10;
+
 	static{
 		assignItemRect(ARMOR_CLOTH,     15, 12);
 		assignItemRect(ARMOR_LEATHER,   14, 13);
@@ -484,6 +486,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ARMOR_ROGUE,     14, 12);
 		assignItemRect(ARMOR_HUNTRESS,  13, 15);
 		assignItemRect(ARMOR_GUNNER,    15, 13);
+		assignItemRect(ARMOR_SAMURAI,   12, 16);
 	}
 
 	                                                                                    //16 free slots

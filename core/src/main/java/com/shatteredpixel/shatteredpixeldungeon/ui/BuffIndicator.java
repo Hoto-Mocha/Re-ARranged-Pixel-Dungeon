@@ -104,6 +104,8 @@ public class BuffIndicator extends Component {
 	public static final int PLATE 		= 55;
 	public static final int STATE_DONG	= 56;
 	public static final int STATE_JUNG	= 57;
+	public static final int SHADOWBLADE	= 58;
+	public static final int AWAKE		= 59;
 
 	public static final int SIZE    = 7;
 	
