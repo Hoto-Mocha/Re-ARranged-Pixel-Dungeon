@@ -172,6 +172,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
@@ -539,7 +540,7 @@ public class Hero extends Char {
 			accuracy *= 1.2f;
 		}
 
-		if (hero.buff(Jung.class) != null) {
+		if (hero.buff(Jung.class) != null && hero.buff(Lead.class) != null && wep instanceof MeleeWeapon) {
 			accuracy = INFINITE_ACCURACY;
 		}
 		

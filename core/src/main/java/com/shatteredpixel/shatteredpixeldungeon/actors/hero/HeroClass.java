@@ -127,6 +127,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
@@ -475,6 +476,9 @@ public enum HeroClass {
 		//new LeatherArmor().collect();
 		//new TestWeapon().identify().collect();
 		//new CrudePistol().identify().collect();
+		//new TrueRunicBlade().identify().collect();
+		//new ScrollOfTransmutation().identify().quantity(50).collect();
+		//new Evolution().quantity(50).collect();
 	}
 
 	public String title() {

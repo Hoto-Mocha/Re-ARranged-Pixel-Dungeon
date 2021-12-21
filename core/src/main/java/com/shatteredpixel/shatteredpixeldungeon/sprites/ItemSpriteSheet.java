@@ -391,7 +391,7 @@ public class ItemSpriteSheet {
 	static{
 		assignItemRect(MINIGUN            ,16, 15);
 		assignItemRect(LARGEHANDGUN       ,13, 15);
-		assignItemRect(ANTIMATER_RIFLE    ,14, 16);
+		assignItemRect(ANTIMATER_RIFLE    ,15, 16);
 		assignItemRect(RPG7               ,16, 16);
 		assignItemRect(ALCHEMYGUNS_5      ,16, 16);
 		assignItemRect(ALCHEMYGUNS_6      ,16, 16);

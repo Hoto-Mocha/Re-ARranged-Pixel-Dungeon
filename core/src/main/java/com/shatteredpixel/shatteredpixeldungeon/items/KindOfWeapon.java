@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -33,7 +35,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -111,7 +117,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 	abstract public int min(int lvl);
 	abstract public int max(int lvl);
 
-	public int damageRoll( Char owner) {
+	public int damageRoll(Char owner) {
 		int critChance = 0;
 		if (Dungeon.hero.heroClass == HeroClass.SAMURAI && Dungeon.hero.belongings.weapon != null) {
 			critChance += 2 * (Dungeon.hero.STR - Dungeon.hero.belongings.weapon.STRReq());
@@ -138,7 +144,9 @@ abstract public class KindOfWeapon extends EquipableItem {
 			critChance = 100;
 		}
 
-		if (Dungeon.hero.heroClass == HeroClass.SAMURAI && Random.Int(100) < critChance) {
+		if (Dungeon.hero.heroClass == HeroClass.SAMURAI && Random.Int(100) < critChance && Dungeon.hero.belongings.weapon instanceof MeleeWeapon) {
+			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+			hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
 			return Random.NormalIntRange( Math.round(0.75f*max()), max());
 		} else {
 			return Random.NormalIntRange( min(), max() );

@@ -67,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -153,6 +154,7 @@ public class Evolution extends InventorySpell {
                 || w instanceof Greatshield
                 || w instanceof Glaive
                 || w instanceof Greataxe
+                || w instanceof TrueRunicBlade
                 || w instanceof Magnum
                 || w instanceof MagnumAP
                 || w instanceof MagnumHP
@@ -205,10 +207,10 @@ public class Evolution extends InventorySpell {
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
-            inputs =  new Class[]{LiquidMetal.class, ArcaneCatalyst.class};
-            inQuantity = new int[]{40, 1};
+            inputs =  new Class[]{LiquidMetal.class, ArcaneResin.class};
+            inQuantity = new int[]{50, 1};
 
-            cost = 5;
+            cost = 4;
 
             output = Evolution.class;
             outQuantity = 1;
