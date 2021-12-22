@@ -43,8 +43,7 @@ public class WornKatana extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        return  6*(tier+1) +    //base
-                lvl*(tier+2);   //level scaling
+        return  5*(tier+2) +
+                lvl*(tier+2);
     }
-
 }

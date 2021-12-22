@@ -394,7 +394,7 @@ public class DriedRose extends Artifact {
 			
 			LockedFloor lock = target.buff(LockedFloor.class);
 			if (charge < chargeCap && !cursed && (lock == null || lock.regenOn())) {
-				//250 turns to a full charge
+				//500 turns to a full charge
 				partialCharge += (2/5f * RingOfEnergy.artifactChargeMultiplier(target));
 				if (partialCharge > 1){
 					charge++;

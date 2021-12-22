@@ -34,6 +34,8 @@ public class RingOfMight extends Ring {
 
 	{
 		icon = ItemSpriteSheet.Icons.RING_MIGHT;
+
+		bones = false;
 	}
 
 	@Override
