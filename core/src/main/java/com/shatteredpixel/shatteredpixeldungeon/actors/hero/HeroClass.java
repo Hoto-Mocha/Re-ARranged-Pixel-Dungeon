@@ -120,6 +120,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
@@ -378,52 +379,16 @@ public enum HeroClass {
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
 
-		//new CrudePistol().identify().collect();
-		//new Pistol().identify().collect();
-		//new GoldenPistol().identify().collect();
-		//new Handgun().identify().collect();
-		//new Magnum().identify().collect();
-		//new DualPistol().identify().collect();
-		//new SubMachinegun().identify().collect();
-		//new AssultRifle().identify().collect();
-		//new HeavyMachinegun().identify().collect();
-		//new HuntingRifle().identify().collect();
-		//new SniperRifle().identify().collect();
-		//new ShotGun().identify().collect();
-		//new Lance().identify().collect();
-		//new ObsidianShield().identify().collect();
-		//new Greatshield().identify().collect();
-		//new Glaive().identify().collect();
-		//new LargeKatana().identify().collect();
-		//new RunicBlade().identify().collect();
-		//new AssassinsBlade().identify().collect();
-		//new SpearNShield().identify().collect();
-		//new RocketLauncher().identify().collect();
-		//new Mace().identify().collect();
-		//new WornShortsword().identify().collect();
-		//new RoundShield().identify().upgrade(1).collect();
-		//new Greatshield().identify().upgrade(1).collect();
-		//new ShotGun().identify().collect();
-		//new ShotGun().identify().collect();
-		//new ShotGun().identify().collect();
-		//new ShotGun().identify().collect();
 
+
+
+		//new RocketLauncher().identify().upgrade(15).collect();
 		//new AlchemistsToolkit().identify().collect();
 		//new LiquidMetal().quantity(1000).collect();
 		//new ArcaneResin().quantity(50).collect();
 		//new AdvancedEvolution().quantity(50).collect();
 		//new ArcaneCatalyst().quantity(20).collect();
 		//new AlchemicalCatalyst().quantity(20).collect();
-
-		//new RPG7().identify().collect();
-		//new CapeOfThorns().identify().collect();
-		//new LloydsBeacon().identify().collect();
-		//new DriedRose().upgrade(10).identify().collect();
-		//new LeatherArmor().identify().collect();
-		//new RingOfReload().identify().collect();
-		//new LanceNShield().identify().collect();
-		//new ObsidianShield().identify().collect();
-		//new ChaliceOfBlood().identify().collect();
 
 		//new TengusMask().collect();
 		//new KingsCrown().collect();

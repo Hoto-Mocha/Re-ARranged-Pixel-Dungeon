@@ -49,7 +49,7 @@ public class TrueRunicBlade extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        return  1 + lvl;  // 1 base, down from 20
+        return  3 + lvl;  // 3 base, down from 20
     }
 
     @Override

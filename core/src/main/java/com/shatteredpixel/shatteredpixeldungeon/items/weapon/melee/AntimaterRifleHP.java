@@ -189,13 +189,11 @@ public class AntimaterRifleHP extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return tier +
-                lvl;
+        return 0;
     }
 
     public int max(int lvl) {
-        return tier +
-                lvl;
+        return 10;
     }
 
     public int Bulletmin(int lvl) {

@@ -186,7 +186,7 @@ public class RocketLauncher extends MeleeWeapon {
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
         curUser.sprite.operate(curUser.pos);
-        if(round < 4) {
+        if(round < 4 + 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE)) {
             round ++;
         } else {
             round = Math.max(max_round, round);
@@ -219,13 +219,11 @@ public class RocketLauncher extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return tier +
-                lvl;
+        return 0;
     }
 
     public int max(int lvl) {
-        return tier +
-                lvl;
+        return 10;
     }
 
     public int Bulletmin(int lvl) {

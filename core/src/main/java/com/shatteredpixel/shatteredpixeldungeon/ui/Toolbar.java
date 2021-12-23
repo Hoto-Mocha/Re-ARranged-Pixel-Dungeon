@@ -302,7 +302,7 @@ public class Toolbar extends Component {
 	
 	private static class Tool extends Button {
 		
-		private static final int BGCOLOR = 0x7B8073;
+		private static final int BGCOLOR = 0x1E1E1E;
 		
 		private Image base;
 		

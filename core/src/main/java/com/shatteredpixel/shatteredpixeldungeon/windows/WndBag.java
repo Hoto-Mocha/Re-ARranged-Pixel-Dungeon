@@ -367,8 +367,8 @@ public class WndBag extends WndTabbed {
 	
 	private class ItemButton extends ItemSlot {
 		
-		private static final int NORMAL		= 0x9953564D;
-		private static final int EQUIPPED	= 0x9991938C;
+		private static final int NORMAL		= 0xFF3C3C3C;
+		private static final int EQUIPPED	= 0xFF595959;
 		
 		private Item item;
 		private ColorBlock bg;
