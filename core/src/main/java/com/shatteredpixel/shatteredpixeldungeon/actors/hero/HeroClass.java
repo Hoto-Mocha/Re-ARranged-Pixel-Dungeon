@@ -438,9 +438,6 @@ public enum HeroClass {
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
 
-
-
-
 		//new RocketLauncher().identify().upgrade(15).collect();
 		//new AlchemistsToolkit().identify().collect();
 		//new LiquidMetal().quantity(1000).collect();
