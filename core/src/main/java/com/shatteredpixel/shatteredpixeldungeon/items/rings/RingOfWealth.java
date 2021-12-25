@@ -35,7 +35,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -226,20 +228,62 @@ public class RingOfWealth extends Ring {
 	}
 
 	private static Item genHighValueConsumable(){
-		switch (Random.Int(4)){
-			case 0: default:
-				Item i = genMidValueConsumable();
-				if (i instanceof Bomb){
-					return new Bomb.DoubleBomb();
-				} else {
-					return i.quantity(i.quantity()*2);
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
+				switch (Random.Int(10)){
+					case 0: case 1: default:
+						Item i = genMidValueConsumable();
+						if (i instanceof Bomb){
+							return new Bomb.DoubleBomb();
+						} else {
+							return i.quantity(i.quantity()*2);
+						}
+					case 2: case 3:
+						return new StoneOfEnchantment();
+					case 4: case 5:
+						return new PotionOfExperience();
+					case 6: case 7:
+						return new ScrollOfTransmutation();
+					case 8:
+						return new ScrollOfUpgrade();
+					case 9:
+						return new ScrollOfEnchantment();
 				}
-			case 1:
-				return new StoneOfEnchantment();
-			case 2:
-				return new PotionOfExperience();
-			case 3:
-				return new ScrollOfTransmutation();
+			} else {
+				switch (Random.Int(5)){
+					case 0: default:
+						Item i = genMidValueConsumable();
+						if (i instanceof Bomb){
+							return new Bomb.DoubleBomb();
+						} else {
+							return i.quantity(i.quantity()*2);
+						}
+					case 1:
+						return new StoneOfEnchantment();
+					case 2:
+						return new PotionOfExperience();
+					case 3:
+						return new ScrollOfTransmutation();
+					case 4:
+						return new ScrollOfUpgrade();
+				}
+			}
+		} else {
+			switch (Random.Int(4)){
+				case 0: default:
+					Item i = genMidValueConsumable();
+					if (i instanceof Bomb){
+						return new Bomb.DoubleBomb();
+					} else {
+						return i.quantity(i.quantity()*2);
+					}
+				case 1:
+					return new StoneOfEnchantment();
+				case 2:
+					return new PotionOfExperience();
+				case 3:
+					return new ScrollOfTransmutation();
+			}
 		}
 	}
 
@@ -267,6 +311,7 @@ public class RingOfWealth extends Ring {
 				result = Generator.random(Generator.Category.ARTIFACT);
 				break;
 		}
+
 		//minimum level is 1/2/3/4/5/6 when ring level is 1/3/6/10/15/21
 		if (result.isUpgradable()){
 			int minLevel = (int)Math.floor((Math.sqrt(8*level + 1)-1)/2f);

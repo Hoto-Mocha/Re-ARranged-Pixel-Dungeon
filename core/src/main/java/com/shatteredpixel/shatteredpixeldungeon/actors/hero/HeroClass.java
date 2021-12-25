@@ -55,24 +55,31 @@ import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Noisemaker;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.FrozenCarpaccio;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMastery;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
@@ -84,7 +91,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMysticalEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
@@ -240,6 +249,12 @@ public enum HeroClass {
 			hero.belongings.armor.affixSeal(new BrokenSeal());
 		}
 
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			RingOfWealth wealth = new RingOfWealth();
+			(hero.belongings.ring = wealth).identify().upgrade(3);
+			hero.belongings.ring.activate( hero );
+		}
+
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
@@ -302,6 +317,12 @@ public enum HeroClass {
 		(hero.belongings.weapon = staff).identify();
 		hero.belongings.weapon.activate(hero);
 
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			RingOfWealth wealth = new RingOfWealth();
+			(hero.belongings.ring = wealth).identify().upgrade(3);
+			hero.belongings.ring.activate( hero );
+		}
+
 		Dungeon.quickslot.setSlot(0, staff);
 
 		new ScrollOfUpgrade().identify();
@@ -322,6 +343,12 @@ public enum HeroClass {
 
 		ThrowingKnife knives = new ThrowingKnife();
 		knives.quantity(3).collect();
+
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			RingOfWealth wealth = new RingOfWealth();
+			(hero.belongings.ring = wealth).identify().upgrade(3);
+			hero.belongings.ring.activate( hero );
+		}
 
 		Dungeon.quickslot.setSlot(0, cloak);
 		Dungeon.quickslot.setSlot(1, knives);
@@ -354,8 +381,18 @@ public enum HeroClass {
 		//new ScrollOfUpgrade().identify().quantity(99).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new PotionOfInvisibility().identify().quantity(30).collect();
-		//new PotionOfStrength().identify().quantity(20).collect(); 										//TODO:삭제필요
-
+		//new PotionOfStrength().identify().quantity(20).collect();
+		//new ScrollOfMagicMapping().identify().quantity(50).collect();
+		//new TestWeapon().identify().collect();
+		//new TestWeapon().identify().collect();
+		//new ScrollOfPsionicBlast().identify().quantity(100).collect();
+		//new PotionOfMindVision().identify().quantity(100).collect();
+		//new PotionOfCleansing().identify().quantity(100).collect();
+		//new Noisemaker().quantity(100).collect();
+		//new DriedRose().identify().upgrade(10).collect();
+		//new PlateArmor().identify().upgrade(50).collect();
+		//new FrozenCarpaccio().quantity(10000).collect();
+		//new Alchemize().quantity(999).collect();															//TODO:삭제필요
 	}
 
 	private static void initHuntress( Hero hero ) {
@@ -363,6 +400,12 @@ public enum HeroClass {
 		(hero.belongings.weapon = new Gloves()).identify();
 		SpiritBow bow = new SpiritBow();
 		bow.identify().collect();
+
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			RingOfWealth wealth = new RingOfWealth();
+			(hero.belongings.ring = wealth).identify().upgrade(3);
+			hero.belongings.ring.activate( hero );
+		}
 
 		Dungeon.quickslot.setSlot(0, bow);
 
@@ -383,6 +426,12 @@ public enum HeroClass {
 		RingOfReload reload = new RingOfReload();
 		(hero.belongings.ring = reload).identify().upgrade(3);
 		hero.belongings.ring.activate( hero );
+
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			RingOfWealth wealth = new RingOfWealth();
+			(hero.belongings.misc = wealth).identify().upgrade(3);
+			hero.belongings.misc.activate( hero );
+		}
 
 		Dungeon.quickslot.setSlot(0, crude);
 
@@ -432,6 +481,12 @@ public enum HeroClass {
 
 		ThrowingKnife knives = new ThrowingKnife();
 		knives.quantity(3).collect();
+
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			RingOfWealth wealth = new RingOfWealth();
+			(hero.belongings.misc = wealth).identify().upgrade(3);
+			hero.belongings.misc.activate( hero );
+		}
 
 		Dungeon.quickslot.setSlot(0, knives);
 
