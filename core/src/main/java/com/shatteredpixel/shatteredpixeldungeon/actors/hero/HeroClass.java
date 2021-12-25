@@ -68,6 +68,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibili
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMastery;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
@@ -430,7 +431,10 @@ public enum HeroClass {
 
 		//new PotionOfStrength().quantity(50).collect();
 		//new PotionOfExperience().identify().quantity(50).collect();
+		//new PotionOfDivineInspiration().identify().quantity(4).collect();
 		//new PotionOfHealing().identify().quantity(50).collect();
+		//new ScrollOfMagicMapping().identify().quantity(50).collect();
+		//new PotionOfMindVision().identify().quantity(50).collect();
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
 		//new ScrollOfUpgrade().identify().quantity(50).collect();
@@ -445,6 +449,7 @@ public enum HeroClass {
 		//new TrueRunicBlade().identify().collect();
 		//new ScrollOfTransmutation().identify().quantity(50).collect();
 		//new Evolution().quantity(50).collect();
+		//new DriedRose().upgrade(10).identify().collect();
 	}
 
 	public String title() {

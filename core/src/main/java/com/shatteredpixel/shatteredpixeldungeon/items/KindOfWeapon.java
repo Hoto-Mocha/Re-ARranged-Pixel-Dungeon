@@ -144,7 +144,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 			critChance = 100;
 		}
 
-		if (Dungeon.hero.heroClass == HeroClass.SAMURAI && Random.Int(100) < critChance && Dungeon.hero.belongings.weapon instanceof MeleeWeapon) {
+		if (owner == hero && Dungeon.hero.heroClass == HeroClass.SAMURAI && Random.Int(100) < critChance && Dungeon.hero.belongings.weapon instanceof MeleeWeapon) {
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 			hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
 			return Random.NormalIntRange( Math.round(0.75f*max()), max());
