@@ -136,6 +136,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortswor
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.utils.DeviceCompat;
 
 public enum HeroClass {
@@ -198,13 +199,21 @@ public enum HeroClass {
 				break;
 		}
 
-		for (int s = 0; s < QuickSlot.SIZE; s++){
-			if (Dungeon.quickslot.getItem(s) == null){
-				Dungeon.quickslot.setSlot(s, waterskin);
-				break;
+		if (!PixelScene.landscape()) {
+			for (int s = 0; s < 4; s++){
+				if (Dungeon.quickslot.getItem(s) == null){
+					Dungeon.quickslot.setSlot(s, waterskin);
+					break;
+				}
+			}
+		} else {
+			for (int s = 0; s < 8; s++){
+				if (Dungeon.quickslot.getItem(s) == null){
+					Dungeon.quickslot.setSlot(s, waterskin);
+					break;
+				}
 			}
 		}
-
 	}
 
 	public Badges.Badge masteryBadge() {

@@ -23,12 +23,14 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
 import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTerrainTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
@@ -74,17 +76,28 @@ public class Toolbar extends Component {
 	
 	@Override
 	protected void createChildren() {
-		
-		btnQuick = new QuickslotTool[8];
 
-		add( btnQuick[7] = new QuickslotTool(64, 0, 22, 24, 7) );
-		add( btnQuick[6] = new QuickslotTool(64, 0, 22, 24, 6) );
-		add( btnQuick[5] = new QuickslotTool(64, 0, 22, 24, 5) );
-		add( btnQuick[4] = new QuickslotTool(64, 0, 22, 24, 4) );
-		add( btnQuick[3] = new QuickslotTool(64, 0, 22, 24, 3) );
-		add( btnQuick[2] = new QuickslotTool(64, 0, 22, 24, 2) );
-		add( btnQuick[1] = new QuickslotTool(64, 0, 22, 24, 1) );
-		add( btnQuick[0] = new QuickslotTool(64, 0, 22, 24, 0) );
+		if (!PixelScene.landscape()) {
+			btnQuick = new QuickslotTool[6];
+
+			add( btnQuick[5] = new QuickslotTool(64, 0, 22, 24, 5) );
+			add( btnQuick[4] = new QuickslotTool(64, 0, 22, 24, 4) );
+			add( btnQuick[3] = new QuickslotTool(64, 0, 22, 24, 3) );
+			add( btnQuick[2] = new QuickslotTool(64, 0, 22, 24, 2) );
+			add( btnQuick[1] = new QuickslotTool(64, 0, 22, 24, 1) );
+			add( btnQuick[0] = new QuickslotTool(64, 0, 22, 24, 0) );
+		} else {
+			btnQuick = new QuickslotTool[8];
+
+			add( btnQuick[7] = new QuickslotTool(64, 0, 22, 24, 7) );
+			add( btnQuick[6] = new QuickslotTool(64, 0, 22, 24, 6) );
+			add( btnQuick[5] = new QuickslotTool(64, 0, 22, 24, 5) );
+			add( btnQuick[4] = new QuickslotTool(64, 0, 22, 24, 4) );
+			add( btnQuick[3] = new QuickslotTool(64, 0, 22, 24, 3) );
+			add( btnQuick[2] = new QuickslotTool(64, 0, 22, 24, 2) );
+			add( btnQuick[1] = new QuickslotTool(64, 0, 22, 24, 1) );
+			add( btnQuick[0] = new QuickslotTool(64, 0, 22, 24, 0) );
+		}
 		
 		add(btnWait = new Tool(24, 0, 20, 26) {
 			@Override
@@ -180,19 +193,35 @@ public class Toolbar extends Component {
 	
 	@Override
 	protected void layout() {
-
-		for(int i = 0; i <= 7; i++) {
-			if (i == 0 && !SPDSettings.flipToolbar() ||
-				i == 7 && SPDSettings.flipToolbar()){
-				btnQuick[i].border(0, 2);
-				btnQuick[i].frame(106, 0, 19, 24);
-			} else if (i == 0 && SPDSettings.flipToolbar() ||
-					i == 7 && !SPDSettings.flipToolbar()){
-				btnQuick[i].border(2, 1);
-				btnQuick[i].frame(86, 0, 20, 24);
-			} else {
-				btnQuick[i].border(0, 1);
-				btnQuick[i].frame(88, 0, 18, 24);
+		if (!PixelScene.landscape()) {
+			for(int i = 0; i <= 5; i++) {
+				if (i == 0 && !SPDSettings.flipToolbar() ||
+						i == 5 && SPDSettings.flipToolbar()){
+					btnQuick[i].border(0, 2);
+					btnQuick[i].frame(106, 0, 19, 24);
+				} else if (i == 0 && SPDSettings.flipToolbar() ||
+						i == 5 && !SPDSettings.flipToolbar()){
+					btnQuick[i].border(2, 1);
+					btnQuick[i].frame(86, 0, 20, 24);
+				} else {
+					btnQuick[i].border(0, 1);
+					btnQuick[i].frame(88, 0, 18, 24);
+				}
+			}
+		} else {
+			for(int i = 0; i <= 7; i++) {
+				if (i == 0 && !SPDSettings.flipToolbar() ||
+						i == 7 && SPDSettings.flipToolbar()){
+					btnQuick[i].border(0, 2);
+					btnQuick[i].frame(106, 0, 19, 24);
+				} else if (i == 0 && SPDSettings.flipToolbar() ||
+						i == 7 && !SPDSettings.flipToolbar()){
+					btnQuick[i].border(2, 1);
+					btnQuick[i].frame(86, 0, 20, 24);
+				} else {
+					btnQuick[i].border(0, 1);
+					btnQuick[i].frame(88, 0, 18, 24);
+				}
 			}
 		}
 
@@ -204,22 +233,39 @@ public class Toolbar extends Component {
 
 				btnInventory.setPos(right - btnInventory.width(), y);
 
-				btnQuick[0].setPos(btnInventory.left() - btnQuick[0].width(), y+2);
-				btnQuick[1].setPos(btnQuick[0].left() - btnQuick[1].width(), y+2);
-				btnQuick[2].setPos(btnQuick[1].left() - btnQuick[2].width(), y+2);
-				btnQuick[3].setPos(btnQuick[2].left() - btnQuick[3].width(), y+2);
-				btnQuick[4].setPos(btnQuick[3].left() - btnQuick[4].width(), y+2);
-				btnQuick[5].setPos(btnQuick[4].left() - btnQuick[5].width(), y+2);
-				btnQuick[6].setPos(btnQuick[5].left() - btnQuick[6].width(), y+2);
-				btnQuick[7].setPos(btnQuick[6].left() - btnQuick[7].width(), y+2);
-				
-				//center the quickslots if they
-				if (btnQuick[7].left() < btnSearch.right()){
-					float diff = Math.round(btnSearch.right() - btnQuick[7].left())/2;
-					for( int i = 0; i < 8; i++){
-						btnQuick[i].setPos( btnQuick[i].left()+diff, btnQuick[i].top() );
+				if (!PixelScene.landscape()) {
+					btnQuick[0].setPos(btnInventory.left() - btnQuick[0].width(), y+2);
+					btnQuick[1].setPos(btnQuick[0].left() - btnQuick[1].width(), y+2);
+					btnQuick[2].setPos(btnQuick[1].left() - btnQuick[2].width(), y+2);
+					btnQuick[3].setPos(btnQuick[2].left() - btnQuick[3].width(), y+2);
+					btnQuick[4].setPos(btnQuick[3].left() - btnQuick[4].width(), y+2);
+					btnQuick[5].setPos(btnQuick[4].left() - btnQuick[5].width(), y+2);
+
+					if (btnQuick[5].left() < btnSearch.right()){
+						float diff = Math.round(btnSearch.right() - btnQuick[5].left())/2;
+						for( int i = 0; i < 6; i++){
+							btnQuick[i].setPos( btnQuick[i].left()+diff, btnQuick[i].top() );
+						}
+					}
+				} else {
+					btnQuick[0].setPos(btnInventory.left() - btnQuick[0].width(), y+2);
+					btnQuick[1].setPos(btnQuick[0].left() - btnQuick[1].width(), y+2);
+					btnQuick[2].setPos(btnQuick[1].left() - btnQuick[2].width(), y+2);
+					btnQuick[3].setPos(btnQuick[2].left() - btnQuick[3].width(), y+2);
+					btnQuick[4].setPos(btnQuick[3].left() - btnQuick[4].width(), y+2);
+					btnQuick[5].setPos(btnQuick[4].left() - btnQuick[5].width(), y+2);
+					btnQuick[6].setPos(btnQuick[5].left() - btnQuick[6].width(), y+2);
+					btnQuick[7].setPos(btnQuick[6].left() - btnQuick[7].width(), y+2);
+
+					if (btnQuick[7].left() < btnSearch.right()){
+						float diff = Math.round(btnSearch.right() - btnQuick[7].left())/2;
+						for( int i = 0; i < 8; i++){
+							btnQuick[i].setPos( btnQuick[i].left()+diff, btnQuick[i].top() );
+						}
 					}
 				}
+
+				//center the quickslots if they
 				
 				break;
 
@@ -236,19 +282,35 @@ public class Toolbar extends Component {
 				btnSearch.setPos(btnWait.left() - btnSearch.width(), y);
 				btnInventory.setPos(btnSearch.left() - btnInventory.width(), y);
 
-				btnQuick[0].setPos(btnInventory.left() - btnQuick[0].width(), y+2);
-				btnQuick[1].setPos(btnQuick[0].left() - btnQuick[1].width(), y+2);
-				btnQuick[2].setPos(btnQuick[1].left() - btnQuick[2].width(), y+2);
-				btnQuick[3].setPos(btnQuick[2].left() - btnQuick[3].width(), y+2);
-				btnQuick[4].setPos(btnQuick[3].left() - btnQuick[4].width(), y+2);
-				btnQuick[5].setPos(btnQuick[4].left() - btnQuick[5].width(), y+2);
-				btnQuick[6].setPos(btnQuick[5].left() - btnQuick[6].width(), y+2);
-				btnQuick[7].setPos(btnQuick[6].left() - btnQuick[7].width(), y+2);
-				
-				if (btnQuick[7].left() < 0){
-					float diff = -Math.round(btnQuick[7].left())/2;
-					for( int i = 0; i < 8; i++){
-						btnQuick[i].setPos( btnQuick[i].left()+diff, btnQuick[i].top() );
+				if (!PixelScene.landscape()) {
+					btnQuick[0].setPos(btnInventory.left() - btnQuick[0].width(), y+2);
+					btnQuick[1].setPos(btnQuick[0].left() - btnQuick[1].width(), y+2);
+					btnQuick[2].setPos(btnQuick[1].left() - btnQuick[2].width(), y+2);
+					btnQuick[3].setPos(btnQuick[2].left() - btnQuick[3].width(), y+2);
+					btnQuick[4].setPos(btnQuick[3].left() - btnQuick[4].width(), y+2);
+					btnQuick[5].setPos(btnQuick[4].left() - btnQuick[5].width(), y+2);
+
+					if (btnQuick[5].left() < 0){
+						float diff = -Math.round(btnQuick[5].left())/2;
+						for( int i = 0; i < 6; i++){
+							btnQuick[i].setPos( btnQuick[i].left()+diff, btnQuick[i].top() );
+						}
+					}
+				} else {
+					btnQuick[0].setPos(btnInventory.left() - btnQuick[0].width(), y+2);
+					btnQuick[1].setPos(btnQuick[0].left() - btnQuick[1].width(), y+2);
+					btnQuick[2].setPos(btnQuick[1].left() - btnQuick[2].width(), y+2);
+					btnQuick[3].setPos(btnQuick[2].left() - btnQuick[3].width(), y+2);
+					btnQuick[4].setPos(btnQuick[3].left() - btnQuick[4].width(), y+2);
+					btnQuick[5].setPos(btnQuick[4].left() - btnQuick[5].width(), y+2);
+					btnQuick[6].setPos(btnQuick[5].left() - btnQuick[6].width(), y+2);
+					btnQuick[7].setPos(btnQuick[6].left() - btnQuick[7].width(), y+2);
+
+					if (btnQuick[7].left() < 0){
+						float diff = -Math.round(btnQuick[7].left())/2;
+						for( int i = 0; i < 8; i++){
+							btnQuick[i].setPos( btnQuick[i].left()+diff, btnQuick[i].top() );
+						}
 					}
 				}
 				
@@ -262,10 +324,15 @@ public class Toolbar extends Component {
 			btnSearch.setPos( (right - btnSearch.right()), y);
 			btnInventory.setPos( (right - btnInventory.right()), y);
 
-			for(int i = 0; i <= 7; i++) {
-				btnQuick[i].setPos( right - btnQuick[i].right(), y+2);
+			if (!PixelScene.landscape()) {
+				for(int i = 0; i <= 5; i++) {
+					btnQuick[i].setPos( right - btnQuick[i].right(), y+2);
+				}
+			} else {
+				for(int i = 0; i <= 7; i++) {
+					btnQuick[i].setPos( right - btnQuick[i].right(), y+2);
+				}
 			}
-
 		}
 
 	}

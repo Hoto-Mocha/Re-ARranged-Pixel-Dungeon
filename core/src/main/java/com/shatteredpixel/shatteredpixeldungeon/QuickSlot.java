@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon;
 
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
@@ -37,8 +38,14 @@ public class QuickSlot {
 	 */
 
 	//note that the current max size is coded at 4, due to UI constraints, but it could be much much bigger with no issue.
-	public static int SIZE = 8;
+	public int SIZE = 8;
 	private Item[] slots = new Item[SIZE];
+
+	{
+		if (!PixelScene.landscape()) {
+			SIZE = 6;
+		}
+	}
 
 
 	//direct array interaction methods, everything should build from these methods.
