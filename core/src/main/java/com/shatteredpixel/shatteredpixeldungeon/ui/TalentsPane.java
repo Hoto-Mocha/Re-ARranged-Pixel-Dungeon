@@ -204,7 +204,7 @@ public class TalentsPane extends ScrollPane {
 				if (i >= openStars && i < (openStars + usedStars)){
 					im.tint(0.75f, 0.75f, 0.75f, 0.9f);
 				} else if (i >= (openStars + usedStars)){
-					im.tint(0f, 0f, 0f, 0.9f);
+					im.tint(0f, 0f, 0f, 1f);
 				}
 			}
 		}
