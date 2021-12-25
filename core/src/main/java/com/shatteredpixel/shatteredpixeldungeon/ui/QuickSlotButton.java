@@ -40,7 +40,7 @@ import com.watabou.utils.PathFinder;
 
 public class QuickSlotButton extends Button {
 	
-	private static QuickSlotButton[] instance = new QuickSlotButton[4];
+	private static QuickSlotButton[] instance = new QuickSlotButton[8];
 	private int slotNum;
 
 	private ItemSlot slot;
@@ -67,7 +67,7 @@ public class QuickSlotButton extends Button {
 	}
 
 	public static void reset() {
-		instance = new QuickSlotButton[4];
+		instance = new QuickSlotButton[8];
 
 		lastTarget = null;
 	}
@@ -160,6 +160,14 @@ public class QuickSlotButton extends Button {
 				return SPDAction.QUICKSLOT_3;
 			case 3:
 				return SPDAction.QUICKSLOT_4;
+			case 4:
+				return SPDAction.QUICKSLOT_5;
+			case 5:
+				return SPDAction.QUICKSLOT_6;
+			case 6:
+				return SPDAction.QUICKSLOT_7;
+			case 7:
+				return SPDAction.QUICKSLOT_8;
 			default:
 				return super.keyAction();
 		}
