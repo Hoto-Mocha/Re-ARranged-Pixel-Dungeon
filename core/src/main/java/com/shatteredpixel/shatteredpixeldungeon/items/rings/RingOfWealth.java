@@ -203,7 +203,23 @@ public class RingOfWealth extends Ring {
 			case 2:
 				return Generator.random(Generator.Category.POTION);
 			case 3:
-				return Generator.random(Generator.Category.SCROLL);
+				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+					if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
+						if (Random.Int(8) == 0) {
+							return new ScrollOfUpgrade();
+						} else {
+							return Generator.random(Generator.Category.SCROLL);
+						}
+					} else {
+						if (Random.Int(4) == 0) {
+							return new ScrollOfUpgrade();
+						} else {
+							return Generator.random(Generator.Category.SCROLL);
+						}
+					}
+				} else {
+					return Generator.random(Generator.Category.SCROLL);
+				}
 		}
 	}
 
@@ -217,7 +233,24 @@ public class RingOfWealth extends Ring {
 				return Reflection.newInstance(ExoticPotion.regToExo.get(i.getClass()));
 			case 2:
 				i = Generator.randomUsingDefaults(Generator.Category.SCROLL);
-				return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
+				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+					if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
+						if (Random.Int(4) == 0) {
+							return new ScrollOfUpgrade();
+						} else {
+							return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
+						}
+					} else {
+						if (Random.Int(2) == 0) {
+							return new ScrollOfUpgrade();
+						} else {
+							return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
+						}
+					}
+				} else {
+					return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
+				}
+
 			case 3:
 				return Random.Int(2) == 0 ? new ArcaneCatalyst() : new AlchemicalCatalyst();
 			case 4:
