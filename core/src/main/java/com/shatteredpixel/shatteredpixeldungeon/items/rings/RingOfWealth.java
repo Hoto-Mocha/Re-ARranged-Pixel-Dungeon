@@ -114,12 +114,14 @@ public class RingOfWealth extends Ring {
 
 		//reset (if needed), decrement, and store counts
 		if (triesToDrop == Float.MIN_VALUE) {
-			triesToDrop = Random.NormalIntRange(0, 25);
-			dropsToEquip = Random.NormalIntRange(4, 8);
+			triesToDrop = (Dungeon.isChallenged(Challenges.GAMBLER)) ? Random.NormalIntRange(0, 10) : Random.NormalIntRange(0, 25);
+			dropsToEquip = (Dungeon.isChallenged(Challenges.GAMBLER)) ? 6 : Random.NormalIntRange(4, 8);
 		}
 
 		//now handle reward logic
 		ArrayList<Item> drops = new ArrayList<>();
+		ScrollOfUpgrade scl = new ScrollOfUpgrade();
+		ScrollOfEnchantment enchantment = new ScrollOfEnchantment();
 
 		triesToDrop -= tries;
 		while ( triesToDrop <= 0 ){
@@ -128,8 +130,16 @@ public class RingOfWealth extends Ring {
 				do {
 					i = genEquipmentDrop(bonus - 1);
 				} while (Challenges.isItemBlocked(i));
-				drops.add(i);
-				dropsToEquip = Random.NormalIntRange(4, 8);
+				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+					if (Dungeon.isChallenged(Challenges.NO_SCROLLS) && Random.Int(2) == 0) {
+						drops.add(enchantment);
+					} else {
+						drops.add(scl);
+					}
+				} else {
+					drops.add(i);
+				}
+				dropsToEquip = (Dungeon.isChallenged(Challenges.GAMBLER)) ? 6 : Random.NormalIntRange(4, 8);
 			} else {
 				Item i;
 				do {
@@ -138,7 +148,7 @@ public class RingOfWealth extends Ring {
 				drops.add(i);
 				dropsToEquip--;
 			}
-			triesToDrop += Random.NormalIntRange(0, 25);
+			triesToDrop += (Dungeon.isChallenged(Challenges.GAMBLER)) ? Random.NormalIntRange(0, 10) : Random.NormalIntRange(0, 25);
 		}
 
 		//store values back into rings
@@ -194,32 +204,41 @@ public class RingOfWealth extends Ring {
 	}
 
 	private static Item genLowValueConsumable(){
-		switch (Random.Int(4)){
-			case 0: default:
-				Item i = new Gold().random();
-				return i.quantity(i.quantity()/2);
-			case 1:
-				return Generator.random(Generator.Category.STONE);
-			case 2:
-				return Generator.random(Generator.Category.POTION);
-			case 3:
-				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			switch (Random.Int(4)){
+				case 0: default:
+					return Generator.random(Generator.Category.SEED);
+				case 1:
+					return Generator.random(Generator.Category.STONE);
+				case 2:
+					return Generator.random(Generator.Category.POTION);
+				case 3:
 					if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
-						if (Random.Int(8) == 0) {
+						if (Random.Int(16) == 0) {
 							return new ScrollOfUpgrade();
 						} else {
 							return Generator.random(Generator.Category.SCROLL);
 						}
 					} else {
-						if (Random.Int(4) == 0) {
+						if (Random.Int(8) == 0) {
 							return new ScrollOfUpgrade();
 						} else {
 							return Generator.random(Generator.Category.SCROLL);
 						}
 					}
-				} else {
+			}
+		} else {
+			switch (Random.Int(4)){
+				case 0: default:
+					Item i = new Gold().random();
+					return i.quantity(i.quantity()/2);
+				case 1:
+					return Generator.random(Generator.Category.STONE);
+				case 2:
+					return Generator.random(Generator.Category.POTION);
+				case 3:
 					return Generator.random(Generator.Category.SCROLL);
-				}
+			}
 		}
 	}
 
@@ -235,13 +254,13 @@ public class RingOfWealth extends Ring {
 				i = Generator.randomUsingDefaults(Generator.Category.SCROLL);
 				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 					if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
-						if (Random.Int(4) == 0) {
+						if (Random.Int(8) == 0) {
 							return new ScrollOfUpgrade();
 						} else {
 							return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
 						}
 					} else {
-						if (Random.Int(2) == 0) {
+						if (Random.Int(4) == 0) {
 							return new ScrollOfUpgrade();
 						} else {
 							return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
@@ -354,7 +373,7 @@ public class RingOfWealth extends Ring {
 		}
 		result.cursed = false;
 		result.cursedKnown = true;
-		if (result.level() >= 2) {
+		if (result.level() >= 2 || Dungeon.isChallenged(Challenges.GAMBLER)) {
 			latestDropTier = 4;
 		} else {
 			latestDropTier = 3;

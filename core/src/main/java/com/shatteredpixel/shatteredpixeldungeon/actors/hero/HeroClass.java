@@ -64,6 +64,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Noisemaker;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.FrozenCarpaccio;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
@@ -251,7 +252,7 @@ public enum HeroClass {
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
-			(hero.belongings.ring = wealth).identify().upgrade(3);
+			(hero.belongings.ring = wealth).identify();
 			hero.belongings.ring.activate( hero );
 		}
 
@@ -319,7 +320,7 @@ public enum HeroClass {
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
-			(hero.belongings.ring = wealth).identify().upgrade(3);
+			(hero.belongings.ring = wealth).identify();
 			hero.belongings.ring.activate( hero );
 		}
 
@@ -346,7 +347,7 @@ public enum HeroClass {
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
-			(hero.belongings.ring = wealth).identify().upgrade(3);
+			(hero.belongings.ring = wealth).identify();
 			hero.belongings.ring.activate( hero );
 		}
 
@@ -391,8 +392,8 @@ public enum HeroClass {
 		//new Noisemaker().quantity(100).collect();
 		//new DriedRose().identify().upgrade(10).collect();
 		//new PlateArmor().identify().upgrade(50).collect();
-		//new FrozenCarpaccio().quantity(10000).collect();
-		//new Alchemize().quantity(999).collect();															//TODO:삭제필요
+		//new MeatPie().quantity(10000).collect();
+		//new Alchemize().quantity(999).collect();
 	}
 
 	private static void initHuntress( Hero hero ) {
@@ -403,7 +404,7 @@ public enum HeroClass {
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
-			(hero.belongings.ring = wealth).identify().upgrade(3);
+			(hero.belongings.ring = wealth).identify();
 			hero.belongings.ring.activate( hero );
 		}
 
@@ -429,7 +430,7 @@ public enum HeroClass {
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
-			(hero.belongings.misc = wealth).identify().upgrade(3);
+			(hero.belongings.misc = wealth).identify();
 			hero.belongings.misc.activate( hero );
 		}
 
@@ -481,7 +482,7 @@ public enum HeroClass {
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
-			(hero.belongings.misc = wealth).identify().upgrade(3);
+			(hero.belongings.misc = wealth).identify();
 			hero.belongings.misc.activate( hero );
 		}
 
