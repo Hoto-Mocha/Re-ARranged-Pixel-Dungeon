@@ -27,6 +27,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslo
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Bones;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -293,7 +294,7 @@ public class Hero extends Char {
 	public Hero() {
 		super();
 
-		HP = HT = 20;
+		HP = HT = (Dungeon.isChallenged(Challenges.SUPERMAN)) ? 1 : 20;
 		STR = STARTING_STR;
 		
 		belongings = new Belongings( this );
@@ -304,7 +305,7 @@ public class Hero extends Char {
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
 		
-		HT = 20 + 5*(lvl-1) + HTBoost;
+		HT = (Dungeon.isChallenged(Challenges.SUPERMAN)) ? 1 : 20 + 5*(lvl-1) + HTBoost;
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -535,6 +536,10 @@ public class Hero extends Char {
 		
 		float accuracy = 1;
 		accuracy *= RingOfAccuracy.accuracyMultiplier( this );
+
+		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
+			accuracy *= 2;
+		}
 
 		if (hero.buff(Lead.class) != null) {
 			accuracy *= 1.2f;
@@ -830,6 +835,10 @@ public class Hero extends Char {
 		float evasion = defenseSkill;
 		
 		evasion *= RingOfEvasion.evasionMultiplier( this );
+
+		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
+			evasion *= 3;
+		}
 		
 		if (paralysed > 0) {
 			evasion /= 2;
