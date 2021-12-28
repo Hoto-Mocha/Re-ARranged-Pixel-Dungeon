@@ -59,6 +59,7 @@ public class Badges {
 		UNLOCK_HUNTRESS             ( 3 ),
 		UNLOCK_GUNNER               ( 19 ),
 		UNLOCK_SAMURAI				( 20 ),
+		UNLOCK_PLANTER				( 21 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),
 		GOLD_COLLECTED_1            ( 6 ),
@@ -743,6 +744,11 @@ public class Badges {
 	public static void validateSamuraiUnlock(){
 		if ((Statistics.amuletObtained = true) && !global.contains(Badge.UNLOCK_SAMURAI))
 			displayBadge( Badge.UNLOCK_SAMURAI );
+	}
+
+	public static void validatePlanterUnlock(){
+		if ((Statistics.amuletObtained = true) && !global.contains(Badge.UNLOCK_PLANTER))
+			displayBadge( Badge.UNLOCK_PLANTER );
 	}
 	
 	public static void validateMasteryCombo( int n ) {

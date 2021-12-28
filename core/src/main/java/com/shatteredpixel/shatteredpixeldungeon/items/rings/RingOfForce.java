@@ -65,10 +65,8 @@ public class RingOfForce extends Ring {
 			return Random.NormalIntRange(min(level, tier), max(level, tier));
 		} else {
 			//attack without any ring of force influence
-			if (Dungeon.hero.subClass == HeroSubClass.FIGHTER && !Dungeon.isChallenged(Challenges.SUPERMAN)) {
-				return Random.NormalIntRange((1 + 3 * hero.pointsInTalent(Talent.SKILLS_PRACTICE)), (hero.STR()-8 + hero.lvl + 3 * hero.pointsInTalent(Talent.SKILLS_PRACTICE)));
-			} else if (Dungeon.isChallenged(Challenges.SUPERMAN)){
-				return Random.NormalIntRange(hero.lvl*5, hero.lvl*10);
+			if (Dungeon.hero.subClass == HeroSubClass.FIGHTER) {
+				return Random.NormalIntRange((1 + 3 * hero.pointsInTalent(Talent.SKILLS_PRACTICE)), (hero.STR() - 8 + hero.lvl + 3 * hero.pointsInTalent(Talent.SKILLS_PRACTICE)));
 			} else {
 				return Random.NormalIntRange(1, Math.max(hero.STR()-8, 1));
 			}

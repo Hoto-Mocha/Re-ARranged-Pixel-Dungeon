@@ -34,6 +34,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.S
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WildMagic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.Root;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.Sprout;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.Watering;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.ShadowClone;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.SmokeBomb;
@@ -85,6 +88,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
@@ -137,6 +141,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLaunche
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
@@ -157,7 +162,8 @@ public enum HeroClass {
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.CHASER ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.FIGHTER ),
 	GUNNER( HeroSubClass.LAUNCHER , HeroSubClass.RANGER , HeroSubClass.RIFLEMAN ),
-	SAMURAI( HeroSubClass.SLASHER , HeroSubClass.MASTER , HeroSubClass.GUNSLINGER );
+	SAMURAI( HeroSubClass.SLASHER , HeroSubClass.MASTER , HeroSubClass.GUNSLINGER ),
+	PLANTER( HeroSubClass.TRESUREHUNTER, HeroSubClass.ADVENTURER, HeroSubClass.RESERCHER);
 
 	private HeroSubClass[] subClasses;
 
@@ -208,6 +214,9 @@ public enum HeroClass {
 			case SAMURAI:
 				initSamurai( hero );
 				break;
+
+			case PLANTER:
+				initPlanter( hero );
 		}
 
 		if (!PixelScene.landscape()) {
@@ -515,6 +524,24 @@ public enum HeroClass {
 		//new DriedRose().upgrade(10).identify().collect();
 	}
 
+	private static void initPlanter( Hero hero ) {
+		Shovel shovel = new Shovel();
+
+		(hero.belongings.weapon = shovel).identify();
+		hero.belongings.weapon.activate(hero);
+
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			RingOfWealth wealth = new RingOfWealth();
+			(hero.belongings.ring = wealth).identify();
+			hero.belongings.ring.activate( hero );
+		}
+
+		//Dungeon.quickslot.setSlot(0, shovel);
+
+		new ScrollOfMirrorImage().identify();
+		new PotionOfPurity().identify();
+	}
+
 	public String title() {
 		return Messages.get(HeroClass.class, name());
 	}
@@ -541,6 +568,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Riot(), new ReinforcedArmor(), new FirstAidKit()};
 			case SAMURAI:
 				return new ArmorAbility[]{new Awake(), new ShadowBlade(), new Abil_Kunai()};
+			case PLANTER:
+				return new ArmorAbility[]{new Sprout(), new Watering(), new Root()};
 		}
 	}
 
@@ -558,6 +587,8 @@ public enum HeroClass {
 				return Assets.Sprites.GUNNER;
 			case SAMURAI:
 				return Assets.Sprites.SAMURAI;
+			case PLANTER:
+				return Assets.Sprites.PLANTER;
 		}
 	}
 
@@ -575,6 +606,8 @@ public enum HeroClass {
 				return Assets.Splashes.GUNNER;
 			case SAMURAI:
 				return Assets.Splashes.SAMURAI;
+			case PLANTER:
+				return Assets.Splashes.PLANTER;
 		}
 	}
 	
@@ -628,6 +661,14 @@ public enum HeroClass {
 						Messages.get(HeroClass.class, "samurai_perk4"),
 						Messages.get(HeroClass.class, "samurai_perk5"),
 				};
+			case PLANTER:
+				return new String[]{
+						Messages.get(HeroClass.class, "planter_perk1"),
+						Messages.get(HeroClass.class, "planter_perk2"),
+						Messages.get(HeroClass.class, "planter_perk3"),
+						Messages.get(HeroClass.class, "planter_perk4"),
+						Messages.get(HeroClass.class, "planter_perk5"),
+				};
 		}
 	}
 	
@@ -648,6 +689,8 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_GUNNER);
 			case SAMURAI:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_SAMURAI);
+			case PLANTER:
+				return Badges.isUnlocked(Badges.Badge.UNLOCK_PLANTER);
 		}
 	}
 	
@@ -665,6 +708,8 @@ public enum HeroClass {
 				return Messages.get(HeroClass.class, "gunner_unlock");
 			case SAMURAI:
 				return Messages.get(HeroClass.class, "samurai_unlock");
+			case PLANTER:
+				return Messages.get(HeroClass.class, "planter_unlock");
 		}
 	}
 

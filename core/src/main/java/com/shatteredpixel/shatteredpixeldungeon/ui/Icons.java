@@ -74,6 +74,7 @@ public enum Icons {
 	HUNTRESS,
 	GUNNER,
 	SAMURAI,
+	PLANTER,
 	
 	//main menu icons
 	ENTER,
@@ -289,6 +290,8 @@ public enum Icons {
 			break;
 		case SAMURAI:
 			icon.frame( icon.texture.uvRect( 16, 128, 30, 142 ) );
+		case PLANTER:
+			icon.frame( icon.texture.uvRect( 32, 128, 48, 144 ) );
 		}
 		return icon;
 	}
@@ -307,6 +310,8 @@ public enum Icons {
 			return get( GUNNER );
 		case SAMURAI:
 			return get( SAMURAI );
+		case PLANTER:
+			return get( PLANTER );
 		default:
 			return null;
 		}

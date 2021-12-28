@@ -16,25 +16,28 @@ public class HeroIcon extends Image {
 	public static final int NONE    = 31;
 
 	//subclasses
-	public static final int BERSERKER   = 0;
-	public static final int GLADIATOR   = 1;
-	public static final int VETERAN     = 21;
+	public static final int BERSERKER   	= 0;
+	public static final int GLADIATOR   	= 1;
+	public static final int VETERAN     	= 21;
 
-	public static final int BATTLEMAGE  = 2;
-	public static final int WARLOCK     = 3;
-	public static final int ENGINEER    = 24;
-	public static final int ASSASSIN    = 4;
-	public static final int FREERUNNER  = 5;
-	public static final int CHASER      = 22;
-	public static final int SNIPER      = 6;
-	public static final int WARDEN      = 7;
-	public static final int FIGHTER     = 23;
-	public static final int LAUNCHER    = 25;
-	public static final int RANGER      = 26;
-	public static final int RIFLEMAN    = 27;
-	public static final int SLASHER     = 31;
-	public static final int MASTER      = 32;
-	public static final int GUNSLINGER  = 33;
+	public static final int BATTLEMAGE  	= 2;
+	public static final int WARLOCK     	= 3;
+	public static final int ENGINEER    	= 24;
+	public static final int ASSASSIN    	= 4;
+	public static final int FREERUNNER  	= 5;
+	public static final int CHASER      	= 22;
+	public static final int SNIPER      	= 6;
+	public static final int WARDEN      	= 7;
+	public static final int FIGHTER     	= 23;
+	public static final int LAUNCHER    	= 25;
+	public static final int RANGER      	= 26;
+	public static final int RIFLEMAN    	= 27;
+	public static final int SLASHER     	= 31;
+	public static final int MASTER      	= 32;
+	public static final int GUNSLINGER  	= 33;
+	public static final int TRESUREHUNTER	= 37;
+	public static final int ADVENTURER		= 38;
+	public static final int RESERCHER		= 39;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;
@@ -56,6 +59,9 @@ public class HeroIcon extends Image {
 	public static final int AWAKE			= 34;
 	public static final int SHADOW_BLADE	= 35;
 	public static final int KUNAI			= 36;
+	public static final int SPROUT			= 40;
+	public static final int WATERING		= 41;
+	public static final int ROOT			= 42;
 
 
 	public HeroIcon(HeroSubClass subCls){

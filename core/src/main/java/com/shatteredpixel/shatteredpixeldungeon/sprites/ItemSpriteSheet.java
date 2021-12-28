@@ -214,12 +214,14 @@ public class ItemSpriteSheet {
 	public static final int DAGGER          = WEP_TIER1+4;
 	public static final int MAGES_STAFF     = WEP_TIER1+5;
 	public static final int WORN_KATANA     = WEP_TIER1+6;
+	public static final int SHOVEL			= WEP_TIER1+7;
 	static{
-		assignItemRect(WORN_SHORTSWORD, 13, 13);
-		assignItemRect(GLOVES,          12, 16);
-		assignItemRect(DAGGER,          12, 13);
-		assignItemRect(MAGES_STAFF,     15, 16);
-		assignItemRect(WORN_KATANA,     13, 13);
+		assignItemRect(WORN_SHORTSWORD,13, 13);
+		assignItemRect(GLOVES,         12, 16);
+		assignItemRect(DAGGER,         12, 13);
+		assignItemRect(MAGES_STAFF,    15, 16);
+		assignItemRect(WORN_KATANA,    13, 13);
+		assignItemRect(SHOVEL,   	   16, 16);
 	}
 
 	private static final int WEP_TIER2      =                               xy(9, 7);   //8 slots

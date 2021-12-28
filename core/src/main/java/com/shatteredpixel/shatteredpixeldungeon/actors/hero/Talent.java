@@ -357,6 +357,10 @@ public enum Talent {
 					return 122;
 				case GUNNER:
 					return 186;
+				case SAMURAI:
+					return 218;
+				case PLANTER:
+					return 250;
 			}
 		} else {
 			return icon;
