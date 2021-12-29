@@ -163,7 +163,7 @@ public enum HeroClass {
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.FIGHTER ),
 	GUNNER( HeroSubClass.LAUNCHER , HeroSubClass.RANGER , HeroSubClass.RIFLEMAN ),
 	SAMURAI( HeroSubClass.SLASHER , HeroSubClass.MASTER , HeroSubClass.GUNSLINGER ),
-	PLANTER( HeroSubClass.TRESUREHUNTER, HeroSubClass.ADVENTURER, HeroSubClass.RESERCHER);
+	PLANTER( HeroSubClass.TREASUREHUNTER, HeroSubClass.ADVENTURER, HeroSubClass.RESEARCHER);
 
 	private HeroSubClass[] subClasses;
 
