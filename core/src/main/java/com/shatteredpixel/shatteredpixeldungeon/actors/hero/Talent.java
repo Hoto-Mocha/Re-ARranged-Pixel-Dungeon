@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CertainCrit;
@@ -122,6 +123,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -260,11 +262,11 @@ public enum Talent {
 	//Planter T3
 	BLOOMING_WEAPON(233, 3), FARMER(234, 3),
 	//TreasureHunter T3
-	TAKEDOWN(235), DETECTOR(236), GOLD_SHIELD(237),
+	TAKEDOWN(235, 3), DETECTOR(236, 3), GOLD_SHIELD(237, 3),
 	//Adventurer T3
 	JUNGLE_ADVENTURE(238, 3), SHADOW(239, 3), RAINING(240, 3),
 	//Researcher T3
-	ENERGY_DRAIN(146, 3), DEW_MAKING(147, 3), BIO_ENERGY(148),
+	SHOCK_DRAIN(146, 3), DEW_MAKING(147, 3), BIO_ENERGY(148, 3),
 	//Sprout T4
 	SPROUT_1(241, 4), SPROUT_2(242, 4), SPROUT_3(243, 4),
 	//Watering T4
@@ -338,6 +340,13 @@ public enum Talent {
 	public static class DestructiveCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(1.9f, 2.4f, 3.25f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class TakeDownCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
@@ -524,6 +533,9 @@ public enum Talent {
 		if (hero.hasTalent(Talent.FOCUSING_MEAL)) {
 			Buff.prolong( hero, Bless.class, 1f + 2f*hero.pointsInTalent(FOCUSING_MEAL));
 		}
+		if (hero.hasTalent(Talent.NATURAL_MEAL)) {
+			Buff.affect(Dungeon.hero, Barkskin.class).set(2+3*(Dungeon.hero.pointsInTalent(Talent.NATURES_AID)), 3);
+		}
 	}
 
 	public static class WarriorFoodImmunity extends FlavourBuff{
@@ -645,6 +657,9 @@ public enum Talent {
 				}
 			}
 			Dungeon.observe();
+		}
+		if (hero.hasTalent(Talent.HERBAL_HEALING)) {
+			Buff.affect(hero, Sungrass.Health.class).boost(10*hero.pointsInTalent(Talent.HERBAL_HEALING));
 		}
 	}
 
@@ -885,6 +900,9 @@ public enum Talent {
 			case SAMURAI:
 				Collections.addAll(tierTalents,	CRITICAL_MEAL, MASTERS_INTUITION, UNEXPECTED_SLASH, FLOW_AWAY);
 				break;
+			case PLANTER:
+				Collections.addAll(tierTalents,	FLOWER_BERRY, ADVENTURERS_INTUITION, SWING, NATURES_PROTECTION);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -914,6 +932,9 @@ public enum Talent {
 			case SAMURAI:
 				Collections.addAll(tierTalents,	FOCUSING_MEAL, CRITICAL_UPGRADE, MAGICAL_TRANSFERENCE, PARRY, DETECTION);
 				break;
+			case PLANTER:
+				Collections.addAll(tierTalents,	NATURAL_MEAL, HERBAL_HEALING, SPROUT, VINE, MASS_PRODUCTION);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -942,6 +963,9 @@ public enum Talent {
 				break;
 			case SAMURAI:
 				Collections.addAll(tierTalents,	DEEP_SCAR, FAST_LEAD);
+				break;
+			case PLANTER:
+				Collections.addAll(tierTalents,	BLOOMING_WEAPON, FARMER);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1025,6 +1049,16 @@ public enum Talent {
 			case GUNSLINGER:
 				Collections.addAll(tierTalents, BETTER_CHOICE, HOLSTER, DESTRUCTIVE_BULLET, CLOSE_SHOOTING);
 				break;
+			case TREASUREHUNTER:
+				Collections.addAll(tierTalents, BETTER_CHOICE, TAKEDOWN, DETECTOR, GOLD_SHIELD);
+				break;
+			case ADVENTURER:
+				Collections.addAll(tierTalents, BETTER_CHOICE, JUNGLE_ADVENTURE, SHADOW, RAINING);
+				break;
+			case RESEARCHER:
+				Collections.addAll(tierTalents, BETTER_CHOICE, SHOCK_DRAIN, DEW_MAKING, BIO_ENERGY);
+				break;
+
 		}
 		for (Talent talent : tierTalents){
 			talents.get(2).put(talent, 0);

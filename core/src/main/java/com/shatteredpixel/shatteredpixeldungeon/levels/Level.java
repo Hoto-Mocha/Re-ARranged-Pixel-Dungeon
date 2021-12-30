@@ -220,31 +220,87 @@ public abstract class Level implements Bundlable {
 			if (Dungeon.depth > 1) {
 				//50% chance of getting a level feeling
 				//~7.15% chance for each feeling
-				switch (Random.Int( 14 )) {
-					case 0:
-						feeling = Feeling.CHASM;
-						break;
-					case 1:
-						feeling = Feeling.WATER;
-						break;
-					case 2:
-						feeling = Feeling.GRASS;
-						break;
-					case 3:
-						feeling = Feeling.DARK;
-						addItemToSpawn(new Torch());
-						viewDistance = Math.round(viewDistance/2f);
-						break;
-					case 4:
-						feeling = Feeling.LARGE;
-						addItemToSpawn(Generator.random(Generator.Category.FOOD));
-						break;
-					case 5:
-						feeling = Feeling.TRAPS;
-						break;
-					case 6:
-						feeling = Feeling.SECRETS;
-						break;
+				if (Dungeon.hero.pointsInTalent(Talent.ADVENTURERS_INTUITION) == 1) {
+					switch (Random.Int( 14 )) {
+						case 0:
+							feeling = Feeling.CHASM;
+							break;
+						case 1:
+							feeling = Feeling.WATER;
+							break;
+						case 2: case 3: case 4: case 5:
+							feeling = Feeling.GRASS;
+							break;
+						case 6:
+							feeling = Feeling.DARK;
+							addItemToSpawn(new Torch());
+							viewDistance = Math.round(viewDistance/2f);
+							break;
+						case 7:
+							feeling = Feeling.LARGE;
+							addItemToSpawn(Generator.random(Generator.Category.FOOD));
+							break;
+						case 8:
+							feeling = Feeling.TRAPS;
+							break;
+						case 9:
+							feeling = Feeling.SECRETS;
+							break;
+					}
+				} else if (Dungeon.hero.pointsInTalent(Talent.ADVENTURERS_INTUITION) == 2) {
+						switch (Random.Int( 14 )) {
+							case 0:
+								feeling = Feeling.CHASM;
+								break;
+							case 1:
+								feeling = Feeling.WATER;
+								break;
+							case 2: case 3: case 4: case 5: case 6: case 7: case 8:
+								feeling = Feeling.GRASS;
+								break;
+							case 9:
+								feeling = Feeling.DARK;
+								addItemToSpawn(new Torch());
+								viewDistance = Math.round(viewDistance / 2f);
+								break;
+							case 10:
+								feeling = Feeling.LARGE;
+								addItemToSpawn(Generator.random(Generator.Category.FOOD));
+								break;
+							case 11:
+								feeling = Feeling.TRAPS;
+								break;
+							case 12:
+								feeling = Feeling.SECRETS;
+								break;
+						}
+				} else {
+					switch (Random.Int( 14 )) {
+						case 0:
+							feeling = Feeling.CHASM;
+							break;
+						case 1:
+							feeling = Feeling.WATER;
+							break;
+						case 2:
+							feeling = Feeling.GRASS;
+							break;
+						case 3:
+							feeling = Feeling.DARK;
+							addItemToSpawn(new Torch());
+							viewDistance = Math.round(viewDistance/2f);
+							break;
+						case 4:
+							feeling = Feeling.LARGE;
+							addItemToSpawn(Generator.random(Generator.Category.FOOD));
+							break;
+						case 5:
+							feeling = Feeling.TRAPS;
+							break;
+						case 6:
+							feeling = Feeling.SECRETS;
+							break;
+					}
 				}
 			}
 		}
@@ -954,6 +1010,11 @@ public abstract class Level implements Bundlable {
 				}
 				GameScene.updateMap(ch.pos);
 				Buff.affect(ch, Talent.RejuvenatingStepsCooldown.class, 15f - 5f*Dungeon.hero.pointsInTalent(Talent.REJUVENATING_STEPS));
+			} else if (map[ch.pos] == Terrain.GRASS || map[ch.pos] == Terrain.EMBERS) {
+				if (Dungeon.hero.pointsInTalent(Talent.JUNGLE_ADVENTURE) == 3) {
+					set(ch.pos, Terrain.FURROWED_GRASS);
+					GameScene.updateMap(ch.pos);
+				}
 			}
 			
 			if (pit[ch.pos]){

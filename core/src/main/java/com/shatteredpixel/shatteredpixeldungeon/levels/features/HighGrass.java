@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Swing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -60,7 +61,7 @@ public class HighGrass {
 		Char ch = Actor.findChar(pos);
 		
 		if (level.map[pos] == Terrain.FURROWED_GRASS){
-			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.RIFLEMAN)){
+			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.RIFLEMAN || ((Hero) ch).heroClass == HeroClass.PLANTER)){
 				//Do nothing
 				freezeTrample = true;
 			} else {
@@ -68,7 +69,7 @@ public class HighGrass {
 			}
 			
 		} else {
-			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.RIFLEMAN)){
+			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.RIFLEMAN || ((Hero) ch).heroClass == HeroClass.PLANTER)){
 				Level.set(pos, Terrain.FURROWED_GRASS);
 				freezeTrample = true;
 			} else {
@@ -114,8 +115,11 @@ public class HighGrass {
 			
 			if (naturalismLevel >= 0) {
 				// Seed, scales from 1/25 to 1/5
-				if (Random.Int(25 - (naturalismLevel * 5)) == 0) {
+				if (Random.Int(25 - (naturalismLevel * 5) - Dungeon.hero.pointsInTalent(Talent.FARMER)) == 0) {
 					level.drop(Generator.random(Generator.Category.SEED), pos).sprite.drop();
+					if (Random.Int(4) < Dungeon.hero.pointsInTalent(Talent.SPROUT)) {
+						level.drop(Generator.random(Generator.Category.SEED), pos).sprite.drop();
+					}
 				}
 				
 				// Dew, scales from 1/6 to 1/3
@@ -141,10 +145,12 @@ public class HighGrass {
 					Camouflage.activate(statue, statue.armor().buffedLvl());
 				}
 			}
-
 			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
 				Buff.prolong(Dungeon.hero, Invisibility.class, Dungeon.hero.pointsInTalent(Talent.CAMOUFLAGE));
 				Sample.INSTANCE.play( Assets.Sounds.MELD );
+			}
+			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.SWING)) {
+				Buff.prolong(Dungeon.hero, Swing.class, 1.001f+Dungeon.hero.pointsInTalent(Talent.SWING));
 			}
 		}
 		

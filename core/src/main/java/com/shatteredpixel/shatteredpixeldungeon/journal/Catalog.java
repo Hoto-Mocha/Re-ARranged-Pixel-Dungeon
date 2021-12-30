@@ -141,7 +141,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShortKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
@@ -191,6 +193,7 @@ public enum Catalog {
 		WEAPONS.seen.put( MagesStaff.class,                 false);
 		WEAPONS.seen.put( WornKatana.class,                 false);
 		WEAPONS.seen.put( Shortsword.class,                 false);
+		WEAPONS.seen.put( Shovel.class,         	        false);
 		WEAPONS.seen.put( HandAxe.class,                    false);
 		WEAPONS.seen.put( Spear.class,                      false);
 		WEAPONS.seen.put( Quarterstaff.class,               false);
@@ -218,6 +221,7 @@ public enum Catalog {
 		WEAPONS.seen.put( Gauntlet.class,                   false);
 		WEAPONS.seen.put( LargeKatana.class,                false);
 		WEAPONS.seen.put( SharpKatana.class,                false);
+		WEAPONS.seen.put( Spade.class,             		    false);
 
 		WEAPONS.seen.put( TrueRunicBlade.class,             false);
 		WEAPONS.seen.put( Lance.class,                      false);

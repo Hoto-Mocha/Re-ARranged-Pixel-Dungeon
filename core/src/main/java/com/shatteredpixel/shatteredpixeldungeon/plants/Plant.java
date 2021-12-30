@@ -27,13 +27,19 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.Berry;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -66,9 +72,17 @@ public abstract class Plant implements Bundlable {
 			((Hero) ch).interrupt();
 		}
 
+		if (ch instanceof Mob && Dungeon.hero.hasTalent(Talent.VINE)) {
+			Buff.affect(ch, Roots.class, 1+2*Dungeon.hero.pointsInTalent(Talent.VINE));
+		}
+
 		if (Dungeon.level.heroFOV[pos] && Dungeon.hero.hasTalent(Talent.NATURES_AID)){
 			// 3/5 turns based on talent points spent
 			Buff.affect(Dungeon.hero, Barkskin.class).set(2, 1 + 2*(Dungeon.hero.pointsInTalent(Talent.NATURES_AID)));
+		}
+
+		if (Dungeon.level.heroFOV[pos] && Dungeon.hero.hasTalent(Talent.NATURES_PROTECTION)){
+			Buff.affect(Dungeon.hero, Barrier.class).setShield(2 + 3 * Dungeon.hero.pointsInTalent(Talent.NATURES_PROTECTION));
 		}
 
 		wither();
@@ -99,7 +113,14 @@ public abstract class Plant implements Bundlable {
 				Dungeon.level.drop(Reflection.newInstance(seedClass), pos).sprite.drop();
 			}
 		}
-		
+
+		if (Dungeon.hero.hasTalent(Talent.FLOWER_BERRY) && Random.Int(20) < Dungeon.hero.pointsInTalent(Talent.FLOWER_BERRY)) {
+			Dungeon.level.drop(new Berry(), pos).sprite.drop();
+		}
+
+		if (Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.RAINING)) {
+			Dungeon.level.drop(new Dewdrop(), pos).sprite.drop();
+		}
 	}
 	
 	private static final String POS	= "pos";

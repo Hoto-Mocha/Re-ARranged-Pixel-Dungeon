@@ -66,6 +66,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
@@ -111,7 +112,8 @@ public class AdvancedEvolution extends InventorySpell {
             || item instanceof LargeKatana
             || item instanceof Glaive
             || item instanceof Greatshield
-            || item instanceof RunicBlade;
+            || item instanceof RunicBlade
+            || item instanceof Shovel;
     }
 
     @Override
@@ -209,8 +211,11 @@ public class AdvancedEvolution extends InventorySpell {
         else if (w instanceof Greatshield) {
             c = Generator.evoTiers[6];
         }
-        else { // w instanceof RunicBlade
+        else  if (w instanceof RunicBlade){
             c = Generator.evoTiers[7];
+        }
+        else { //w instanceof Shovel
+            c = Generator.evoTiers[14];
         }
 
         do {

@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Regrowth;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
@@ -89,6 +90,17 @@ public class RegrowthBomb extends Bomb {
 			if (plantPos != null) {
 				Dungeon.level.plant((Plant.Seed) Generator.randomUsingDefaults(Generator.Category.SEED), plantPos);
 				plantCandidates.remove(plantPos);
+			}
+		}
+
+		if (Dungeon.hero.hasTalent(Talent.MASS_PRODUCTION)) {
+			for (int i = 0; i < Dungeon.hero.pointsInTalent(Talent.MASS_PRODUCTION); i++) {
+				Integer plantPos = Random.element(plantCandidates);
+				if (plantPos != null) {
+					WandOfRegrowth.Dewcatcher.Seed dewcatcher = new WandOfRegrowth.Dewcatcher.Seed();
+					Dungeon.level.plant(dewcatcher, plantPos);
+					plantCandidates.remove(plantPos);
+				}
 			}
 		}
 		

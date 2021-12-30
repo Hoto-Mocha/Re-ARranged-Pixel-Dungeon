@@ -62,10 +62,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Noisemaker;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.RegrowthBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.FrozenCarpaccio;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
@@ -152,6 +154,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortswor
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.utils.DeviceCompat;
 
@@ -269,40 +272,6 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
-		//new CrudePistol().identify().collect();
-		//new Pistol().identify().collect();
-		//new GoldenPistol().identify().collect();
-		//new Handgun().identify().collect();
-		//new Magnum().identify().collect();
-		//new DualPistol().identify().collect();
-		//new SubMachinegun().identify().collect();
-		//new AssultRifle().identify().collect();
-		//new HeavyMachinegun().identify().collect();
-		//new HuntingRifle().identify().collect();
-		//new SniperRifle().identify().collect();
-		//new ShotGun().identify().collect();
-		//new Lance().identify().collect();
-		//new ObsidianShield().identify().collect();
-		//new Greatshield().identify().collect();
-		//new AssassinsBlade().identify().collect();
-		//new SpearNShield().identify().collect();
-
-		//new AlchemistsToolkit().identify().collect();
-		//new LiquidMetal().quantity(500).collect();
-		//new ArcaneResin().quantity(20).collect();
-		//new ArcaneCatalyst().quantity(20).collect();
-		//new AlchemicalCatalyst().quantity(20).collect();i
-		//new Scrap().quantity(20).collect();
-		//new RocketLauncher().identify().collect();
-		//new RPG7().identify().collect();
-		//new CapeOfThorns().identify().collect();
-		//new LloydsBeacon().identify().collect();
-		//new DriedRose().identify().collect();
-		//new RingOfReload().identify().collect();
-		//new LanceNShield().identify().collect();
-		//new ObsidianShield().identify().collect();
-		//new ChaliceOfBlood().identify().collect();
-
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
 
@@ -316,6 +285,8 @@ public enum HeroClass {
 		//new PotionOfStrength().identify().quantity(20).collect();
 		//new CurseInfusion().quantity(50).collect();
 		//new ScrollOfMysticalEnergy().quantity(50).collect();
+
+		//new RegrowthBomb().quantity(50).collect();
 
 		//TODO:삭제필요
 	}
@@ -423,6 +394,8 @@ public enum HeroClass {
 		new PotionOfMindVision().identify();
 		new ScrollOfLullaby().identify();
 
+		//new TrueRunicBlade().identify().upgrade(10).collect();
+		//new PotionOfStrength().identify().quantity(20).collect();
 		//new Amulet().collect();
 		//new TengusMask().collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
@@ -526,9 +499,15 @@ public enum HeroClass {
 
 	private static void initPlanter( Hero hero ) {
 		Shovel shovel = new Shovel();
-
 		(hero.belongings.weapon = shovel).identify();
 		hero.belongings.weapon.activate(hero);
+		ThrowingStone stones = new ThrowingStone();
+		stones.quantity(3).collect();
+		Dungeon.quickslot.setSlot(0, stones);
+
+		SandalsOfNature sandals = new SandalsOfNature();
+		(hero.belongings.artifact = sandals).identify();
+		hero.belongings.artifact.activate( hero );
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
@@ -536,10 +515,22 @@ public enum HeroClass {
 			hero.belongings.ring.activate( hero );
 		}
 
-		//Dungeon.quickslot.setSlot(0, shovel);
+		Dungeon.quickslot.setSlot(0, shovel);
+		Dungeon.quickslot.setSlot(1, stones);
 
 		new ScrollOfMirrorImage().identify();
 		new PotionOfPurity().identify();
+
+		//new Earthroot.Seed().quantity(50).collect();
+		//new TengusMask().collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
+		//new RegrowthBomb().quantity(50).collect();
+		//new KingsCrown().collect();
+		//new Evolution().collect();
+		//new AdvancedEvolution().collect();
+		//new Shovel().identify().collect();
+		//new ScrollOfUpgrade().identify().quantity(50).collect();
+		//new ScrollOfTransmutation().identify().quantity(50).collect();
 	}
 
 	public String title() {

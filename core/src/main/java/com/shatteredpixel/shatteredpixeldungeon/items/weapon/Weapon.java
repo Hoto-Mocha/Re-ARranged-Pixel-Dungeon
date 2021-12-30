@@ -31,8 +31,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
+import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
@@ -58,16 +61,21 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projec
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import sun.security.provider.Sun;
 
 abstract public class Weapon extends KindOfWeapon {
 
@@ -122,6 +130,37 @@ abstract public class Weapon extends KindOfWeapon {
 				GLog.p( Messages.get(Weapon.class, "identify") );
 				Badges.validateItemLevelAquired( this );
 			}
+		}
+
+		if (hero.hasTalent(Talent.BLOOMING_WEAPON) && Random.Int(20) < hero.pointsInTalent(Talent.BLOOMING_WEAPON)) {
+			boolean secondPlant = Random.Int(3) == 0;
+			ArrayList<Integer> positions = new ArrayList<>();
+			Blooming blooming = new Blooming();
+			for (int i : PathFinder.NEIGHBOURS8){
+				positions.add(i);
+			}
+			Random.shuffle( positions );
+			for (int i : positions){
+				if (blooming.plantGrass(defender.pos + i)){
+					if (secondPlant) secondPlant = false;
+					else return damage;
+				}
+			}
+		}
+
+		if (hero.subClass == HeroSubClass.TREASUREHUNTER
+				&& defender.HP <= damage
+				&& Random.Int(100) < 10+4*hero.belongings.weapon.buffedLvl()
+				&& (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade)) {
+			Buff.affect(defender, Lucky.LuckProc.class);
+		}
+
+		if (hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade)) {
+			Dungeon.level.drop( new Gold(1 + Math.round(hero.belongings.weapon.level()/2f)), defender.pos ).sprite.drop();
+		}
+
+		if (hero.hasTalent(Talent.DEW_MAKING) && Random.Int(50) < hero.pointsInTalent(Talent.DEW_MAKING)) {
+			Dungeon.level.drop( new Dewdrop(), defender.pos).sprite.drop();
 		}
 
 		return damage;

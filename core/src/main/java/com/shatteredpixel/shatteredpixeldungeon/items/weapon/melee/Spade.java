@@ -26,21 +26,13 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShovelDigCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
@@ -48,18 +40,18 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class Shovel extends MeleeWeapon {
+public class Spade extends MeleeWeapon {
 
     public static final String AC_DIG	= "DIG";
 
     {
         defaultAction = AC_DIG;
 
-        image = ItemSpriteSheet.SHOVEL;
+        image = ItemSpriteSheet.SPADE;
         hitSound = Assets.Sounds.HIT_SLASH;
-        hitSoundPitch = 1.1f;
+        hitSoundPitch = 1.3f;
 
-        tier = 1;
+        tier = 5;
 
         bones = false;
     }

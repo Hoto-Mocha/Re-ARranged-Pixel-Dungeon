@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
@@ -931,6 +932,15 @@ public class Hero extends Char {
 
 		speed *= RingOfHaste.speedMultiplier(this);
 
+		if (hero.hasTalent(Talent.JUNGLE_ADVENTURE)) {
+			if (hero.pointsInTalent(Talent.JUNGLE_ADVENTURE) > 0 && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS) {
+				speed *= 1.2f;
+			}
+			if (hero.pointsInTalent(Talent.JUNGLE_ADVENTURE) > 1 && Dungeon.level.map[pos] == Terrain.WATER) {
+				speed *= 1.2f;
+			}
+		}
+
 		if (hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null && hero.hasTalent(Talent.PLATE_ADD)) {
 			speed *= (1 - hero.pointsInTalent(Talent.PLATE_ADD)/8f);
 		}
@@ -1168,6 +1178,10 @@ public class Hero extends Char {
 		
 		if(hasTalent(Talent.BARKSKIN) && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS){
 			Buff.affect(this, Barkskin.class).set( (lvl*pointsInTalent(Talent.BARKSKIN))/2, 1 );
+		}
+
+		if(Dungeon.level.map[pos] == Terrain.FURROWED_GRASS && hero.hasTalent(Talent.SHADOW) && hero.buff(Shadows.class) != null) {
+			Buff.prolong(this, Shadows.class, 1.0001f);
 		}
 		
 		return actResult;
@@ -1560,6 +1574,9 @@ public class Hero extends Char {
 		spendAndNext( TIME_TO_REST );
 
 		if (!fullRest) {
+			if (Dungeon.level.map[pos] == Terrain.FURROWED_GRASS && hero.hasTalent(Talent.SHADOW) && hero.buff(Shadows.class) == null) {
+				Buff.affect(this, Shadows.class, 1.0001f);
+			}
 			if (hasTalent(Talent.HOLD_FAST)){
 				Buff.affect(this, HoldFast.class);
 			}
@@ -1654,7 +1671,20 @@ public class Hero extends Char {
 		
 		Earthroot.Armor armor = buff( Earthroot.Armor.class );
 		if (armor != null) {
+			int consumedArmor = 2*(damage-armor.absorb( damage ));
 			damage = armor.absorb( damage );
+			if (hero.subClass == HeroSubClass.RESEARCHER) {
+				int healPercent = Math.max(1, Math.round(consumedArmor/5f));
+				int healAmt = (hero.pointsInTalent(Talent.BIO_ENERGY) == 3) ? 2*healPercent : healPercent;
+				healAmt = Math.min( healAmt, hero.HT - hero.HP );
+				if (healAmt > 0 && hero.isAlive()) {
+					hero.HP += healAmt;
+					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
+			}
+
+
 		}
 
 		WandOfLivingEarth.RockArmor rockArmor = buff(WandOfLivingEarth.RockArmor.class);

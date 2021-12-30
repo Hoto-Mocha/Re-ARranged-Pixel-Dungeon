@@ -186,9 +186,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
@@ -261,6 +263,8 @@ public class Generator {
 
 		EVO_9   ( 0, 0, MeleeWeapon.class),
 		GUN_5   ( 0, 0, MeleeWeapon.class),
+
+		SHO		( 0, 0, MeleeWeapon.class),
 
 		ARMOR	( 2, 1, Armor.class ),
 		
@@ -415,12 +419,13 @@ public class Generator {
 					MagesStaff.class,
 					CrudePistol.class,
 					WornKatana.class,
+					Shovel.class,
 
 					//alchemical weapons
 					CrudePistolAP.class,
 					CrudePistolHP.class
 			};
-			WEP_T1.probs = new float[]{ 1, 1, 1, 0, 1, 1, 0, 0};
+			WEP_T1.probs = new float[]{ 1, 1, 1, 0, 1, 1, 0, 0, 0};
 			
 			WEP_T2.classes = new Class<?>[]{
 					Shortsword.class,
@@ -522,9 +527,10 @@ public class Generator {
 					SPAS.class,
 					SPASAP.class,
 					SPASHP.class,
-					SharpKatana.class
+					SharpKatana.class,
+					Spade.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 			EVO_1.classes = new Class<?>[]{
 					AntimaterRifle.class,
@@ -684,6 +690,12 @@ public class Generator {
 					ShotGun.class
 			};
 			GUN_5.probs = new float[]{1, 0};
+
+			SHO.classes = new Class<?>[]{
+					Spade.class,
+					WornShortsword.class
+			};
+			SHO.probs = new float[]{1, 0};
 
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
@@ -887,6 +899,8 @@ public class Generator {
 
 			Category.EVO_9,
 			Category.GUN_5,
+
+			Category.SHO
 	};
 
 

@@ -76,6 +76,8 @@ public class WndHeroInfo extends WndTabbed {
 			case SAMURAI:
 				tabIcon = new ItemSprite(ItemSpriteSheet.LONG_KATANA, null);
 				break;
+			case PLANTER:
+				tabIcon = new ItemSprite(ItemSpriteSheet.SHOVEL, null);
 		}
 
 		int finalHeight = MIN_HEIGHT;
@@ -200,6 +202,13 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.SHEATH),
 							new ItemSprite(ItemSpriteSheet.WORN_KATANA),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
+				case PLANTER:
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.ARTIFACT_GREAVES),
+							new Image(Assets.Environment.TILES_SEWERS, 112, 96, 16, 16),
+							new ItemSprite(ItemSpriteSheet.SHOVEL),
+							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
 			}
 			for (Image im : icons) {
 				add(im);

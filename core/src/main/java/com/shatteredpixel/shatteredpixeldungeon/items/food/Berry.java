@@ -47,6 +47,7 @@ public class Berry extends Food {
 				|| Dungeon.hero.hasTalent(Talent.INVIGORATING_MEAL)
 				|| Dungeon.hero.hasTalent(Talent.IN_THE_GUNFIRE)
 				|| Dungeon.hero.hasTalent(Talent.FOCUSING_MEAL)
+				|| Dungeon.hero.hasTalent(Talent.NATURAL_MEAL)
 		){
 			return 0;
 		} else {

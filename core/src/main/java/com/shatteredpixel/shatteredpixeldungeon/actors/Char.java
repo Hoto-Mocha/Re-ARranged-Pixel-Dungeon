@@ -70,6 +70,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Speed;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Stamina;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Swing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
@@ -145,9 +146,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
@@ -393,6 +396,10 @@ public abstract class Char extends Actor {
 
 			ReinforcedArmor.reinforcedArmorTracker rearmor = enemy.buff(ReinforcedArmor.reinforcedArmorTracker.class);
 			if (rearmor != null)  dr += rearmor.blockingRoll();
+
+			if (this instanceof Hero && hero.subClass == HeroSubClass.ADVENTURER && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS) {
+				Buff.affect(enemy, Poison.class).extend(1.0001f);
+			}
 			
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
@@ -477,13 +484,25 @@ public abstract class Char extends Actor {
 				dmg *= 3f;
 			}
 
+			if (this instanceof Hero || hero.buff(Swing.class) != null) {
+				dmg += 2;
+			}
+
 			if (buff( Fury.class ) != null) {
 				dmg *= 1.5f;
 			}
+
 			if (this instanceof Hero) {
 				if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null) {
 					dmg *= 0.5f;
 				}
+			}
+
+			if (this instanceof Hero
+					&& hero.hasTalent(Talent.TAKEDOWN)
+					&& hero.buff(Talent.TakeDownCooldown.class) == null
+					&& (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade)) {
+				Buff.affect(hero, Talent.TakeDownCooldown.class, 20f);
 			}
 
 			if (this instanceof Hero) {

@@ -307,7 +307,7 @@ public class ItemSpriteSheet {
 	public static final int OBSIDIAN_SHIELD	= WEP_TIER6+1;
 	public static final int LANCE_N_SHIELD  = WEP_TIER6+2;
 	public static final int SHARP_KATANA    = WEP_TIER6+3;
-	public static final int TIER6_5         = WEP_TIER6+4;
+	public static final int SPADE           = WEP_TIER6+4;
 	public static final int TIER6_6         = WEP_TIER6+5;
 
 	static{
@@ -315,7 +315,7 @@ public class ItemSpriteSheet {
 		assignItemRect(OBSIDIAN_SHIELD,   12, 16);
 		assignItemRect(LANCE_N_SHIELD,    16, 15);
 		assignItemRect(SHARP_KATANA,      12, 16);
-		assignItemRect(TIER6_5,           16, 16);
+		assignItemRect(SPADE,             16, 16);
 		assignItemRect(TIER6_6,           16, 16);
 	}
 
@@ -476,6 +476,7 @@ public class ItemSpriteSheet {
 	public static final int ARMOR_HUNTRESS  = ARMOR+8;
 	public static final int ARMOR_GUNNER    = ARMOR+9;
 	public static final int ARMOR_SAMURAI   = ARMOR+10;
+	public static final int ARMOR_PLANTER   = ARMOR+11;
 
 	static{
 		assignItemRect(ARMOR_CLOTH,     15, 12);
@@ -489,6 +490,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ARMOR_HUNTRESS,  13, 15);
 		assignItemRect(ARMOR_GUNNER,    15, 13);
 		assignItemRect(ARMOR_SAMURAI,   12, 16);
+		assignItemRect(ARMOR_PLANTER,   15, 12);
 	}
 
 	                                                                                    //16 free slots

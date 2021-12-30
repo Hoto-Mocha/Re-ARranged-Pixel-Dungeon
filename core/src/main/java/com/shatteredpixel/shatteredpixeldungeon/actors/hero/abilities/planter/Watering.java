@@ -256,6 +256,6 @@ public class Watering extends ArmorAbility {
 
 	@Override
 	public Talent[] talents() {
-		return new Talent[]{Talent.EXPANDING_WAVE, Talent.STRIKING_WAVE, Talent.SHOCK_FORCE, Talent.HEROIC_ENERGY};
+		return new Talent[]{Talent.WATERING_1, Talent.WATERING_2, Talent.WATERING_3, Talent.HEROIC_ENERGY};
 	}
 }

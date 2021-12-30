@@ -136,6 +136,6 @@ public class Root extends ArmorAbility {
 
 	@Override
 	public Talent[] talents() {
-		return new Talent[]{Talent.BODY_SLAM, Talent.IMPACT_WAVE, Talent.DOUBLE_JUMP, Talent.HEROIC_ENERGY};
+		return new Talent[]{Talent.ROOT_1, Talent.ROOT_2, Talent.ROOT_3, Talent.HEROIC_ENERGY};
 	}
 }

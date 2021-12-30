@@ -188,6 +188,6 @@ public class Sprout extends ArmorAbility {
 
 	@Override
 	public Talent[] talents() {
-		return new Talent[]{Talent.SUSTAINED_RETRIBUTION, Talent.SHRUG_IT_OFF, Talent.EVEN_THE_ODDS, Talent.HEROIC_ENERGY};
+		return new Talent[]{Talent.SPROUT_1, Talent.SPROUT_2, Talent.SPROUT_3, Talent.HEROIC_ENERGY};
 	}
 }
