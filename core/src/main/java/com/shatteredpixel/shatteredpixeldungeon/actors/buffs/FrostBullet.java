@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
+import com.watabou.utils.Random;
 
 public class FrostBullet extends FlavourBuff {
 
@@ -37,7 +38,12 @@ public class FrostBullet extends FlavourBuff {
     public static final float DURATION	= 100f;
 
     public void proc(Char enemy){
-        Buff.affect(enemy, Chill.class, 2f);
+        if (Random.Float() < 0.75) {
+            Buff.affect(enemy, Chill.class, 2f);
+        } else {
+            Buff.affect(enemy, Frost.class, 5f);
+        }
+
         enemy.sprite.emitter().burst( SnowParticle.FACTORY, 2 );
     }
 

@@ -253,7 +253,16 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 
 	@Override
-	public int reachFactor(Char owner) { return hasEnchant(Projecting.class, owner) ? RCH+1 : RCH; }
+	public int reachFactor(Char owner) {
+		int reach = RCH;
+		if (hasEnchant(Projecting.class, owner)) {
+			reach += 1;
+		}
+		if (hero.hasTalent(Talent.VINE_WHIP)) {
+			reach += hero.pointsInTalent(Talent.VINE_WHIP);
+		}
+		return reach;
+	}
 
 	public int STRReq(){
 		int req = STRReq(level());

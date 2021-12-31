@@ -290,8 +290,10 @@ public enum Icons {
 			break;
 		case SAMURAI:
 			icon.frame( icon.texture.uvRect( 16, 128, 30, 142 ) );
+			break;
 		case PLANTER:
 			icon.frame( icon.texture.uvRect( 32, 128, 48, 144 ) );
+			break;
 		}
 		return icon;
 	}

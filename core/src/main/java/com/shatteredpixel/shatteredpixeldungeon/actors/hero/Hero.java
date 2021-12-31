@@ -2774,11 +2774,11 @@ public class Hero extends Char {
 							
 						//unintentional trap detection scales from 40% at floor 0 to 30% at floor 25
 						} else if (Dungeon.level.map[curr] == Terrain.SECRET_TRAP) {
-							chance = 0.4f - (Dungeon.depth / 250f);
+							chance = (hero.hasTalent(Talent.JUNGLE_ADVENTURE)) ? 1.25f*(0.4f - (Dungeon.depth / 250f)) : 0.4f - (Dungeon.depth / 250f);
 							
 						//unintentional door detection scales from 20% at floor 0 to 0% at floor 20
 						} else {
-							chance = 0.2f - (Dungeon.depth / 100f);
+							chance = (hero.hasTalent(Talent.JUNGLE_ADVENTURE)) ? 1.25f*(0.2f - (Dungeon.depth / 100f)) : 0.2f - (Dungeon.depth / 100f);;
 						}
 						
 						if (Random.Float() < chance) {

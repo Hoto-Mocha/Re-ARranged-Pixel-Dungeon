@@ -77,7 +77,8 @@ public class WndHeroInfo extends WndTabbed {
 				tabIcon = new ItemSprite(ItemSpriteSheet.LONG_KATANA, null);
 				break;
 			case PLANTER:
-				tabIcon = new ItemSprite(ItemSpriteSheet.SHOVEL, null);
+				tabIcon = new ItemSprite(ItemSpriteSheet.SPADE, null);
+				break;
 		}
 
 		int finalHeight = MIN_HEIGHT;

@@ -468,9 +468,10 @@ public class Generator {
 					ShotGunAP.class,
 					ShotGunHP.class,
 					HuntingRifleAP.class,
-					HuntingRifleHP.class
+					HuntingRifleHP.class,
+					Spade.class
 			};
-			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,5 ,4, 5, 0, 0, 0, 0, 0, 0, 0};
+			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,5 ,4, 5, 0, 0, 0, 0, 0, 0, 0, 0};
 			
 			WEP_T4.classes = new Class<?>[]{
 					Longsword.class,
@@ -527,10 +528,9 @@ public class Generator {
 					SPAS.class,
 					SPASAP.class,
 					SPASHP.class,
-					SharpKatana.class,
-					Spade.class
+					SharpKatana.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 			EVO_1.classes = new Class<?>[]{
 					AntimaterRifle.class,

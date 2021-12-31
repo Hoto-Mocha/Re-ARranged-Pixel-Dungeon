@@ -521,6 +521,7 @@ public enum HeroClass {
 		new ScrollOfMirrorImage().identify();
 		new PotionOfPurity().identify();
 
+		//new PotionOfMindVision().identify().collect();
 		//new Earthroot.Seed().quantity(50).collect();
 		//new TengusMask().collect();
 		//new PotionOfExperience().identify().quantity(30).collect();

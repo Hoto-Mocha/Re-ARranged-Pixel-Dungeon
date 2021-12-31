@@ -73,7 +73,7 @@ public abstract class Plant implements Bundlable {
 		}
 
 		if (ch instanceof Mob && Dungeon.hero.hasTalent(Talent.VINE)) {
-			Buff.affect(ch, Roots.class, 1+2*Dungeon.hero.pointsInTalent(Talent.VINE));
+			Buff.affect(ch, Roots.class, 2+3*Dungeon.hero.pointsInTalent(Talent.VINE));
 		}
 
 		if (Dungeon.level.heroFOV[pos] && Dungeon.hero.hasTalent(Talent.NATURES_AID)){
@@ -108,6 +108,10 @@ public abstract class Plant implements Bundlable {
 			}
 		}
 
+		if (Dungeon.hero.pointsInTalent(Talent.FARMER) > 1) {
+			seedChance += 0.2f;
+		}
+
 		if (Random.Float() < seedChance){
 			if (seedClass != null && seedClass != Rotberry.Seed.class) {
 				Dungeon.level.drop(Reflection.newInstance(seedClass), pos).sprite.drop();
@@ -116,10 +120,6 @@ public abstract class Plant implements Bundlable {
 
 		if (Dungeon.hero.hasTalent(Talent.FLOWER_BERRY) && Random.Int(20) < Dungeon.hero.pointsInTalent(Talent.FLOWER_BERRY)) {
 			Dungeon.level.drop(new Berry(), pos).sprite.drop();
-		}
-
-		if (Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.RAINING)) {
-			Dungeon.level.drop(new Dewdrop(), pos).sprite.drop();
 		}
 	}
 	
@@ -137,7 +137,7 @@ public abstract class Plant implements Bundlable {
 	
 	public String desc() {
 		String desc = Messages.get(this, "desc");
-		if (Dungeon.hero.subClass == HeroSubClass.WARDEN){
+		if (Dungeon.hero.subClass == HeroSubClass.WARDEN || Dungeon.hero.pointsInTalent(Talent.FARMER) == 3){
 			desc += "\n\n" + Messages.get(this, "warden_desc");
 		}
 		return desc;
@@ -172,7 +172,7 @@ public abstract class Plant implements Bundlable {
 				super.onThrow( cell );
 			} else {
 				Dungeon.level.plant( this, cell );
-				if (Dungeon.hero.subClass == HeroSubClass.WARDEN) {
+				if (Dungeon.hero.subClass == HeroSubClass.WARDEN || Dungeon.hero.hasTalent(Talent.FARMER)) {
 					for (int i : PathFinder.NEIGHBOURS8) {
 						int c = Dungeon.level.map[cell + i];
 						if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
@@ -234,7 +234,7 @@ public abstract class Plant implements Bundlable {
 		@Override
 		public String desc() {
 			String desc = Messages.get(plantClass, "desc");
-			if (Dungeon.hero.subClass == HeroSubClass.WARDEN){
+			if (Dungeon.hero.subClass == HeroSubClass.WARDEN || Dungeon.hero.pointsInTalent(Talent.FARMER) == 3){
 				desc += "\n\n" + Messages.get(plantClass, "warden_desc");
 			}
 			return desc;

@@ -498,6 +498,10 @@ public abstract class Char extends Actor {
 				}
 			}
 
+			if (this instanceof Hero && hero.hasTalent(Talent.VINE_WHIP)) {
+				dmg /= hero.pointsInTalent(Talent.VINE_WHIP)+1;
+			}
+
 			if (this instanceof Hero
 					&& hero.hasTalent(Talent.TAKEDOWN)
 					&& hero.buff(Talent.TakeDownCooldown.class) == null

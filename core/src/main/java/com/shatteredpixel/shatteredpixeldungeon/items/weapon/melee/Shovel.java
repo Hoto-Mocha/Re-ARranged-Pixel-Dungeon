@@ -36,14 +36,19 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShovelDigCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -61,6 +66,7 @@ public class Shovel extends MeleeWeapon {
 
         tier = 1;
 
+        unique = true;
         bones = false;
     }
 
@@ -94,12 +100,20 @@ public class Shovel extends MeleeWeapon {
 
         GLog.i(Messages.get(this, "dig"));
 
-        Dungeon.level.drop(Generator.random(Generator.Category.SEED), hero.pos).sprite.drop();
+        for (int i : PathFinder.NEIGHBOURS9) {
+            int c = Dungeon.level.map[hero.pos + i];
+            if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+                    || c == Terrain.EMBERS || c == Terrain.GRASS){
+                Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
+                GameScene.updateMap(hero.pos + i);
+                CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+            }
+        }
         if (Random.Int(10) < hero.pointsInTalent(Talent.DETECTOR)) {
             Dungeon.level.drop(Lucky.genLoot(), hero.pos).sprite.drop();
             Lucky.showFlare(hero.sprite);
         }
-        Buff.affect(hero, ShovelDigCoolDown.class, Math.max(50-3*buffedLvl(), 20));
+        Buff.affect(hero, ShovelDigCoolDown.class, Math.max(30-2*buffedLvl(), 10));
     }
 
     @Override

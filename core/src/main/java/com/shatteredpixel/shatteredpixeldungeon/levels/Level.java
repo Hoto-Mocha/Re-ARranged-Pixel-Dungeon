@@ -904,9 +904,13 @@ public abstract class Level implements Bundlable {
 		GameScene.plantSeed( pos );
 
 		for (Char ch : Actor.chars()){
-			if (ch instanceof WandOfRegrowth.Lotus
+			if ((ch instanceof WandOfRegrowth.Lotus
 					&& ((WandOfRegrowth.Lotus) ch).inRange(pos)
-					&& Actor.findChar(pos) != null){
+					&& Actor.findChar(pos) != null)
+					||
+				   (Dungeon.level.heroFOV[pos]
+					&& Dungeon.hero.subClass == HeroSubClass.ADVENTURER
+					&& Actor.findChar(pos) != null)){
 				plant.trigger();
 				return null;
 			}
@@ -1178,6 +1182,12 @@ public abstract class Level implements Bundlable {
 		if (c.isAlive() && c == Dungeon.hero) {
 			for (Buff b : c.buffs( MindVision.class )) {
 				sense = Math.max( ((MindVision)b).distance, sense );
+			}
+			if (Dungeon.hero.subClass == HeroSubClass.ADVENTURER) {
+				sense += 1;
+				if (Dungeon.hero.pointsInTalent(Talent.JUNGLE_ADVENTURE) > 1) {
+					sense += 1;
+				}
 			}
 			if (c.buff(MagicalSight.class) != null){
 				sense = Math.max( MagicalSight.DISTANCE, sense );

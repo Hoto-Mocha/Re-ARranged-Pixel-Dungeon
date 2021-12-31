@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -264,7 +265,7 @@ public enum Talent {
 	//TreasureHunter T3
 	TAKEDOWN(235, 3), DETECTOR(236, 3), GOLD_SHIELD(237, 3),
 	//Adventurer T3
-	JUNGLE_ADVENTURE(238, 3), SHADOW(239, 3), RAINING(240, 3),
+	JUNGLE_ADVENTURE(238, 3), SHADOW(239, 3), VINE_WHIP(240, 3),
 	//Researcher T3
 	SHOCK_DRAIN(146, 3), DEW_MAKING(147, 3), BIO_ENERGY(148, 3),
 	//Sprout T4
@@ -534,7 +535,28 @@ public enum Talent {
 			Buff.prolong( hero, Bless.class, 1f + 2f*hero.pointsInTalent(FOCUSING_MEAL));
 		}
 		if (hero.hasTalent(Talent.NATURAL_MEAL)) {
-			Buff.affect(Dungeon.hero, Barkskin.class).set(2+3*(Dungeon.hero.pointsInTalent(Talent.NATURES_AID)), 3);
+			if (hero.pointsInTalent(Talent.NATURAL_MEAL) == 1) {
+				for (int i : PathFinder.NEIGHBOURS4) {
+					int c = Dungeon.level.map[hero.pos + i];
+					if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+							|| c == Terrain.EMBERS || c == Terrain.GRASS){
+						Level.set(hero.pos + i, Terrain.HIGH_GRASS);
+						GameScene.updateMap(hero.pos + i);
+						CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+					}
+				};
+			} else {
+				for (int i : PathFinder.NEIGHBOURS8) {
+					int c = Dungeon.level.map[hero.pos + i];
+					if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+							|| c == Terrain.EMBERS || c == Terrain.GRASS){
+						Level.set(hero.pos + i, Terrain.HIGH_GRASS);
+						GameScene.updateMap(hero.pos + i);
+						CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+					}
+				};
+			}
+
 		}
 	}
 
@@ -1053,7 +1075,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, BETTER_CHOICE, TAKEDOWN, DETECTOR, GOLD_SHIELD);
 				break;
 			case ADVENTURER:
-				Collections.addAll(tierTalents, BETTER_CHOICE, JUNGLE_ADVENTURE, SHADOW, RAINING);
+				Collections.addAll(tierTalents, BETTER_CHOICE, JUNGLE_ADVENTURE, SHADOW, VINE_WHIP);
 				break;
 			case RESEARCHER:
 				Collections.addAll(tierTalents, BETTER_CHOICE, SHOCK_DRAIN, DEW_MAKING, BIO_ENERGY);
