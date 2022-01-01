@@ -523,16 +523,16 @@ public enum HeroClass {
 		new PotionOfPurity().identify();
 
 		//new PotionOfMindVision().identify().collect();
-		new PotionOfMagicalSight().identify().quantity(50).collect();
+		//new PotionOfMagicalSight().identify().quantity(50).collect();
 		//new Earthroot.Seed().quantity(50).collect();
-		new TengusMask().collect();
-		new PotionOfExperience().identify().quantity(30).collect();
+		//new TengusMask().collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
 		//new RegrowthBomb().quantity(50).collect();
 		//new KingsCrown().collect();
 		//new Evolution().collect();
 		//new AdvancedEvolution().collect();
 		//new Shovel().identify().collect();
-		new ScrollOfUpgrade().identify().quantity(50).collect();
+		//new ScrollOfUpgrade().identify().quantity(50).collect();
 		//new ScrollOfTransmutation().identify().quantity(50).collect();
 	}
 
