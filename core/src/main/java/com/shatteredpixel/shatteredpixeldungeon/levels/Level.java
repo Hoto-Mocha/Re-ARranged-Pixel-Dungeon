@@ -1192,9 +1192,6 @@ public abstract class Level implements Bundlable {
 			if (c.buff(MagicalSight.class) != null){
 				sense = Math.max( MagicalSight.DISTANCE, sense );
 				sense *= 1f + 0.25f*((Hero) c).pointsInTalent(Talent.FARSIGHT);
-				if (!Dungeon.isChallenged( Challenges.DARKNESS )) {
-					sense -= 1f * ((Hero) c).pointsInTalent(Talent.CHOICE_N_FOCUS);
-				}
 			}
 		}
 		

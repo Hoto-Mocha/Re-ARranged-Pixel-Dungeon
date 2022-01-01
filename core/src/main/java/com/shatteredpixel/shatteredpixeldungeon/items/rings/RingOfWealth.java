@@ -361,7 +361,7 @@ public class RingOfWealth extends Ring {
 				break;
 			case 4:
 				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
-					result = null;
+					result = Generator.random(Generator.Category.RING);
 				} else {
 					result = Generator.random(Generator.Category.ARTIFACT);
 				}

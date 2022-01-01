@@ -258,7 +258,7 @@ abstract public class Weapon extends KindOfWeapon {
 		if (hasEnchant(Projecting.class, owner)) {
 			reach += 1;
 		}
-		if (hero.hasTalent(Talent.VINE_WHIP)) {
+		if (hero.hasTalent(Talent.VINE_WHIP) && owner == hero) {
 			reach += hero.pointsInTalent(Talent.VINE_WHIP);
 		}
 		return reach;

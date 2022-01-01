@@ -15,8 +15,8 @@ allprojects {
         appName = 'ARranged Pixel Dungeon'
         appPackageName = 'com.arrangedpixel.arrangedpixeldungeon'
 
-        appVersionCode = 604
-        appVersionName = '1.1.1_based_1.21.1'
+        appVersionCode = 605
+        appVersionName = '1.1.1_based_1.21.2'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 

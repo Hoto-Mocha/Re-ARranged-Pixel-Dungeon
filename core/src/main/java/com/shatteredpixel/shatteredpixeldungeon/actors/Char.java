@@ -134,6 +134,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
@@ -396,10 +397,6 @@ public abstract class Char extends Actor {
 
 			ReinforcedArmor.reinforcedArmorTracker rearmor = enemy.buff(ReinforcedArmor.reinforcedArmorTracker.class);
 			if (rearmor != null)  dr += rearmor.blockingRoll();
-
-			if (this instanceof Hero && hero.subClass == HeroSubClass.ADVENTURER && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS) {
-				Buff.affect(enemy, Poison.class).extend(1.0001f);
-			}
 			
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
@@ -498,8 +495,8 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.hasTalent(Talent.VINE_WHIP)) {
-				dmg /= hero.pointsInTalent(Talent.VINE_WHIP)+1;
+			if (this instanceof Hero && hero.hasTalent(Talent.VINE_WHIP) && hero.belongings.weapon instanceof MeleeWeapon) {
+				dmg *= 1-0.2f*hero.pointsInTalent(Talent.VINE_WHIP);
 			}
 
 			if (this instanceof Hero

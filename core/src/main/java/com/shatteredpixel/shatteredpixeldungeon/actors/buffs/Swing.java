@@ -43,7 +43,7 @@ public class Swing extends FlavourBuff {
 
     @Override
     public void tintIcon(Image icon) {
-        icon.hardlight(0.2f, 0.1f, 0.2f);
+        icon.hardlight(0.5f, 0.1f, 0.5f);
     }
 
     @Override

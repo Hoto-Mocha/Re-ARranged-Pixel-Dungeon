@@ -106,7 +106,7 @@ public class Spade extends MeleeWeapon {
             Dungeon.level.drop(Lucky.genLoot(), hero.pos).sprite.drop();
             Lucky.showFlare(hero.sprite);
         }
-        Buff.affect(hero, ShovelDigCoolDown.class, Math.max(30-2*buffedLvl(), 10));
+        Buff.affect(hero, ShovelDigCoolDown.class, Math.max(20-2*buffedLvl(), 5));
     }
 
     @Override

@@ -32,7 +32,7 @@ public class ShovelDigCoolDown extends FlavourBuff {
         announced = false;
     }
 
-    public static final float DURATION	= 50f;
+    public static final float DURATION	= 30f;
 
     @Override
     public int icon() {
