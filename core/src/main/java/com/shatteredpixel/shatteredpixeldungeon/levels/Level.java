@@ -1015,7 +1015,7 @@ public abstract class Level implements Bundlable {
 				GameScene.updateMap(ch.pos);
 				Buff.affect(ch, Talent.RejuvenatingStepsCooldown.class, 15f - 5f*Dungeon.hero.pointsInTalent(Talent.REJUVENATING_STEPS));
 			} else if (map[ch.pos] == Terrain.GRASS || map[ch.pos] == Terrain.EMBERS) {
-				if (Dungeon.hero.pointsInTalent(Talent.JUNGLE_ADVENTURE) == 3) {
+				if (Dungeon.hero.pointsInTalent(Talent.JUNGLE_ADVENTURE) == 3 && ch == Dungeon.hero) {
 					set(ch.pos, Terrain.FURROWED_GRASS);
 					GameScene.updateMap(ch.pos);
 				}

@@ -81,12 +81,14 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.TreasureMap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Awake;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
@@ -481,8 +483,12 @@ public abstract class Char extends Actor {
 				dmg *= 3f;
 			}
 
-			if (this instanceof Hero || hero.buff(Swing.class) != null) {
+			if (this instanceof Hero && hero.buff(Swing.class) != null) {
 				dmg += 2;
+			}
+
+			if (this instanceof Hero && hero.buff(TreasureMap.GoldTracker.class) != null) {
+				dmg *= 1 + 0.1f * hero.pointsInTalent(Talent.GOLD_HUNTER);
 			}
 
 			if (buff( Fury.class ) != null) {

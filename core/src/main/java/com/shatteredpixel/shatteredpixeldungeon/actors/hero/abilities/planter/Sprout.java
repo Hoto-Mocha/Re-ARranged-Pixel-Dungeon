@@ -25,161 +25,137 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Freezing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFrost;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLightning;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfPrismaticLight;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
+import com.watabou.utils.PathFinder;
+import com.watabou.utils.Random;
+import com.watabou.utils.Reflection;
+
+import java.util.ArrayList;
 
 public class Sprout extends ArmorAbility {
 
 	{
-		baseChargeUse = 50f;
+		baseChargeUse = 35f;
 	}
 
 	@Override
 	protected void activate(ClassArmor armor, Hero hero, Integer target) {
-
-		Buff.prolong(hero, EndureTracker.class, 13f).setup(hero);
-
-		Combo combo = hero.buff(Combo.class);
-		if (combo != null){
-			combo.addTime(3f);
+		Ballistica aim;
+		ArrayList<Integer> plantCandidates = new ArrayList<>();
+		if (hero.pos % Dungeon.level.width() > 10){
+			aim = new Ballistica(hero.pos, hero.pos - 1, Ballistica.WONT_STOP);
+		} else {
+			aim = new Ballistica(hero.pos, hero.pos + 1, Ballistica.WONT_STOP);
 		}
-		hero.sprite.operate(hero.pos);
+
+		int aoeSize = 4 + hero.pointsInTalent(Talent.FOREST);
+
+		int projectileProps = Ballistica.STOP_SOLID | Ballistica.STOP_TARGET;
+
+		ConeAOE aoe = new ConeAOE(aim, aoeSize, 360, projectileProps);
+
+		final float effectMulti = 0.1f*hero.pointsInTalent(Talent.JUNGLE);
+
+		for (int cell : aoe.cells) {
+			int t = Dungeon.level.map[cell];
+			if (Random.Float() < 0.2f+effectMulti) {
+				if ((t == Terrain.EMPTY || t == Terrain.EMPTY_DECO || t == Terrain.EMBERS
+						|| t == Terrain.GRASS || t == Terrain.FURROWED_GRASS)
+						&& Dungeon.level.plants.get(cell) == null) {
+					if (hero.hasTalent(Talent.REGROWTH) && Random.Int(20) < hero.pointsInTalent(Talent.REGROWTH)) {
+						Dungeon.level.plant((Plant.Seed) Generator.randomUsingDefaults(Generator.Category.SEED), cell);
+						CellEmitter.get( cell ).burst( LeafParticle.LEVEL_SPECIFIC, 8 );
+					} else {
+						Level.set(cell, Terrain.HIGH_GRASS);
+						CellEmitter.get( cell ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+					}
+					GameScene.updateMap(cell);
+				}
+			}
+
+			if (hero.hasTalent(Talent.REGROWTH)) {
+
+				int plants = hero.pointsInTalent(Talent.REGROWTH);
+
+				for (int i = 0; i < plants; i++) {
+					Integer plantPos = Random.element(plantCandidates);
+					if (plantPos != null) {
+						Dungeon.level.plant((Plant.Seed) Generator.randomUsingDefaults(Generator.Category.SEED), plantPos);
+						plantCandidates.remove(plantPos);
+					}
+				}
+			}
+		}
+
+		hero.spendAndNext(Actor.TICK);
+		hero.sprite.operate( hero.pos );
+		Invisibility.dispel();
+		hero.busy();
 
 		armor.charge -= chargeUse(hero);
 		armor.updateQuickslot();
-		Invisibility.dispel();
-		hero.spendAndNext(3f);
+
+		Sample.INSTANCE.play( Assets.Sounds.TRAMPLE );
+
 	}
-
-	public static class EndureTracker extends FlavourBuff {
-
-		public boolean enduring;
-
-		public int damageBonus;
-		public int maxDmgTaken;
-		public int hitsLeft;
-
-		@Override
-		public int icon() {
-			return enduring ? BuffIndicator.NONE : BuffIndicator.AMOK;
-		}
-
-		@Override
-		public float iconFadePercent() {
-			return Math.max(0, (10f - visualcooldown()) / 10f);
-		}
-
-		@Override
-		public String toString() {
-			return Messages.get(this, "name");
-		}
-
-		@Override
-		public String desc() {
-			return Messages.get(this, "desc", damageBonus, hitsLeft);
-		}
-
-		public void setup(Hero hero){
-			enduring = true;
-			maxDmgTaken = (int) (hero.HT * Math.pow(0.67f, hero.pointsInTalent(Talent.SHRUG_IT_OFF)));
-			damageBonus = 0;
-			hitsLeft = 0;
-		}
-
-		public int adjustDamageTaken(int damage){
-			if (enduring) {
-				damageBonus += damage/3;
-				return damage/2;
-			}
-			return damage;
-		}
-
-		public int enforceDamagetakenLimit(int damage){
-			if (damage >= maxDmgTaken) {
-				damage = maxDmgTaken;
-				maxDmgTaken = 0;
-			} else {
-				maxDmgTaken -= damage;
-			}
-			return damage;
-		}
-
-		public void endEnduring(){
-			if (!enduring){
-				return;
-			}
-
-			enduring = false;
-			damageBonus *= 1f + 0.15f*Dungeon.hero.pointsInTalent(Talent.SUSTAINED_RETRIBUTION);
-
-			int nearby = 0;
-			for (Char ch : Actor.chars()){
-				if (ch.alignment == Char.Alignment.ENEMY && Dungeon.level.distance(target.pos, ch.pos) <= 2){
-					nearby ++;
-				}
-			}
-			damageBonus *= 1f + (nearby*0.05f*Dungeon.hero.pointsInTalent(Talent.EVEN_THE_ODDS));
-
-			hitsLeft = 1+Dungeon.hero.pointsInTalent(Talent.SUSTAINED_RETRIBUTION);
-			damageBonus /= hitsLeft;
-
-			if (damageBonus > 0) {
-				target.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
-				Sample.INSTANCE.play(Assets.Sounds.CHALLENGE);
-			} else {
-				detach();
-			}
-		}
-
-		public int damageFactor(int damage){
-			if (enduring){
-				return damage;
-			} else {
-				int bonusDamage = damageBonus;
-				hitsLeft--;
-
-				if (hitsLeft <= 0){
-					detach();
-				}
-				return damage + bonusDamage;
-			}
-		}
-
-		public static String ENDURING       = "enduring";
-		public static String DAMAGE_BONUS   = "damage_bonus";
-		public static String MAX_DMG_TAKEN  = "max_dmg_taken";
-		public static String HITS_LEFT      = "hits_left";
-
-		@Override
-		public void storeInBundle(Bundle bundle) {
-			super.storeInBundle(bundle);
-			bundle.put(ENDURING, enduring);
-			bundle.put(DAMAGE_BONUS, damageBonus);
-			bundle.put(MAX_DMG_TAKEN, maxDmgTaken);
-			bundle.put(HITS_LEFT, hitsLeft);
-		}
-
-		@Override
-		public void restoreFromBundle(Bundle bundle) {
-			super.restoreFromBundle(bundle);
-			enduring = bundle.getBoolean(ENDURING);
-			damageBonus = bundle.getInt(DAMAGE_BONUS);
-			maxDmgTaken = bundle.getInt(ENDURING);
-			hitsLeft = bundle.getInt(HITS_LEFT);
-		}
-	};
 
 	@Override
 	public int icon() {
@@ -188,6 +164,6 @@ public class Sprout extends ArmorAbility {
 
 	@Override
 	public Talent[] talents() {
-		return new Talent[]{Talent.SPROUT_1, Talent.SPROUT_2, Talent.SPROUT_3, Talent.HEROIC_ENERGY};
+		return new Talent[]{Talent.JUNGLE, Talent.FOREST, Talent.REGROWTH, Talent.HEROIC_ENERGY};
 	}
 }

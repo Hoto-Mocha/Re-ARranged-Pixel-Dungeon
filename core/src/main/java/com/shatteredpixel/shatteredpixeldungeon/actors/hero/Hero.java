@@ -932,15 +932,6 @@ public class Hero extends Char {
 
 		speed *= RingOfHaste.speedMultiplier(this);
 
-		if (hero.hasTalent(Talent.JUNGLE_ADVENTURE)) {
-			if (hero.pointsInTalent(Talent.JUNGLE_ADVENTURE) > 0 && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS) {
-				speed *= 1.2f;
-			}
-			if (hero.pointsInTalent(Talent.JUNGLE_ADVENTURE) > 1 && Dungeon.level.map[pos] == Terrain.WATER) {
-				speed *= 1.2f;
-			}
-		}
-
 		if (hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null && hero.hasTalent(Talent.PLATE_ADD)) {
 			speed *= (1 - hero.pointsInTalent(Talent.PLATE_ADD)/8f);
 		}

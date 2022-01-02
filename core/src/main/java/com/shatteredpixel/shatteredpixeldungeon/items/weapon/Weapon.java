@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.TreasureMap;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
@@ -155,7 +156,12 @@ abstract public class Weapon extends KindOfWeapon {
 			Buff.affect(defender, Lucky.LuckProc.class);
 		}
 
-		if (hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade)) {
+		if (attacker.buff(TreasureMap.LuckTracker.class) != null
+				&& defender.HP <= damage) {
+			Buff.affect(defender, Lucky.LuckProc.class);
+		}
+
+		if (attacker == hero && hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade)) {
 			Dungeon.level.drop( new Gold(1 + Math.round(hero.belongings.weapon.level()/2f)), defender.pos ).sprite.drop();
 		}
 

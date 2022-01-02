@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.TreasureMap;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -85,6 +86,10 @@ public class Gold extends Item {
 			if (curShield < maxShield) {
 				Buff.affect(hero, Barrier.class).incShield(shield);
 			}
+		}
+
+		if (hero.buff(TreasureMap.LuckTracker.class) != null && hero.hasTalent(Talent.GOLD_HUNTER)) {
+			Buff.prolong(hero, TreasureMap.GoldTracker.class, TreasureMap.GoldTracker.DURATION);
 		}
 		
 		return true;

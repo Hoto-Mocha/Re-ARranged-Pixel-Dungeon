@@ -269,11 +269,11 @@ public enum Talent {
 	//Researcher T3
 	SHOCK_DRAIN(146, 3), DEW_MAKING(147, 3), BIO_ENERGY(148, 3),
 	//Sprout T4
-	SPROUT_1(241, 4), SPROUT_2(242, 4), SPROUT_3(243, 4),
-	//Watering T4
-	WATERING_1(244, 4), WATERING_2(245, 4), WATERING_3(246, 4),
+	JUNGLE(241, 4), FOREST(242, 4), REGROWTH(243, 4),
+	//TreasureMap T4
+	LONG_LUCK(244, 4), FORESIGHT(245, 4), GOLD_HUNTER(246, 4),
 	//Root T4
-	ROOT_1(247, 4), ROOT_2(248, 4), ROOT_3(249, 4),
+	POISONOUS_ROOT(247, 4), ROOT_SPREAD(248, 4), ROOT_ARMOR(249, 4),
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4

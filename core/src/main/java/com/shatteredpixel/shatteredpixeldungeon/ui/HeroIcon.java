@@ -60,7 +60,7 @@ public class HeroIcon extends Image {
 	public static final int SHADOW_BLADE	= 35;
 	public static final int KUNAI			= 36;
 	public static final int SPROUT			= 40;
-	public static final int WATERING		= 41;
+	public static final int TREASUREMAP		= 41;
 	public static final int ROOT			= 42;
 
 
