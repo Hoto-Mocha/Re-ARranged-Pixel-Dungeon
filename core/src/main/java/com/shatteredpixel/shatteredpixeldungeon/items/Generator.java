@@ -119,6 +119,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
@@ -145,9 +146,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Katana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
@@ -265,6 +268,10 @@ public class Generator {
 		GUN_5   ( 0, 0, MeleeWeapon.class),
 
 		SHO		( 0, 0, MeleeWeapon.class),
+
+		EVO_10   ( 0, 0, MeleeWeapon.class),
+		EVO_11   ( 0, 0, MeleeWeapon.class),
+		EVO_12   ( 0, 0, MeleeWeapon.class),
 
 		ARMOR	( 2, 1, Armor.class ),
 		
@@ -528,9 +535,12 @@ public class Generator {
 					SPAS.class,
 					SPASAP.class,
 					SPASHP.class,
-					SharpKatana.class
+					SharpKatana.class,
+					HugeSword.class,
+					IronHammer.class,
+					BeamSaber.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 			EVO_1.classes = new Class<?>[]{
 					AntimaterRifle.class,
@@ -544,7 +554,7 @@ public class Generator {
 					AssultRifle.class,
 					LongKatana.class
 			};
-			EVO_1.probs = new float[]{10, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
+			EVO_1.probs = new float[]{70, 6, 5, 5, 4 ,3 ,3 ,1 ,1 ,2}; //70% Success
 
 			EVO_2.classes = new Class<?>[]{
 					MiniGun.class,
@@ -558,7 +568,7 @@ public class Generator {
 					AssultRifle.class,
 					LongKatana.class
 			};
-			EVO_2.probs = new float[]{10, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
+			EVO_2.probs = new float[]{70, 6, 5, 5, 4 ,3 ,3 ,1 ,1 ,2}; //70% Success
 
 			EVO_3.classes = new Class<?>[]{
 					LargeHandgun.class,
@@ -572,7 +582,7 @@ public class Generator {
 					AssultRifle.class,
 					LongKatana.class
 			};
-			EVO_3.probs = new float[]{10, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
+			EVO_3.probs = new float[]{70, 6, 5, 5, 4 ,3 ,3 ,1 ,1 ,2}; //70% Success
 
 			EVO_4.classes = new Class<?>[]{
 					RPG7.class,
@@ -586,7 +596,7 @@ public class Generator {
 					AssultRifle.class,
 					LongKatana.class,
 			};
-			EVO_4.probs = new float[]{10, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
+			EVO_4.probs = new float[]{70, 6, 5, 5, 4 ,3 ,3 ,1 ,1 ,2}; //70% Success
 
 			EVO_5.classes = new Class<?>[]{
 					SharpKatana.class,
@@ -600,7 +610,7 @@ public class Generator {
 					AssultRifle.class,
 					LongKatana.class,
 			};
-			EVO_5.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
+			EVO_5.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
 
 			EVO_6.classes = new Class<?>[]{
 					Lance.class,
@@ -614,7 +624,7 @@ public class Generator {
 					AssultRifle.class,
 					LongKatana.class,
 			};
-			EVO_6.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
+			EVO_6.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
 
 			EVO_7.classes = new Class<?>[]{
 					ObsidianShield.class,
@@ -628,7 +638,7 @@ public class Generator {
 					AssultRifle.class,
 					LongKatana.class,
 			};
-			EVO_7.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1};
+			EVO_7.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
 
 			EVO_8.classes = new Class<?>[]{
 					TrueRunicBlade.class,
@@ -642,7 +652,7 @@ public class Generator {
 					AssultRifle.class,
 					LongKatana.class,
 			};
-			EVO_8.probs = new float[]{90, 2, 2, 1, 0 ,1 ,1 ,1 ,1 ,1};
+			EVO_8.probs = new float[]{90, 2, 2, 1, 0 ,1 ,1 ,1 ,1 ,1}; //90% Success
 
 
 
@@ -650,27 +660,25 @@ public class Generator {
 					AntimaterRifle.class,
 					SniperRifle.class
 			};
-			GUN_1.probs = new float[]{1, 0};
+			GUN_1.probs = new float[]{1, 0}; //100% Success For Gunner
 
 			GUN_2.classes = new Class<?>[]{
 					MiniGun.class,
 					HeavyMachinegun.class
 			};
-			GUN_2.probs = new float[]{1, 0};
+			GUN_2.probs = new float[]{1, 0}; //100% Success For Gunner
 
 			GUN_3.classes = new Class<?>[]{
 					LargeHandgun.class,
 					Magnum.class
 			};
-			GUN_3.probs = new float[]{1, 0};
+			GUN_3.probs = new float[]{1, 0}; //100% Success For Gunner
 
 			GUN_4.classes = new Class<?>[]{
 					RPG7.class,
 					RocketLauncher.class
 			};
-			GUN_4.probs = new float[]{1, 0};
-
-
+			GUN_4.probs = new float[]{1, 0}; //100% Success For Gunner
 
 			EVO_9.classes = new Class<?>[]{
 					SPAS.class,
@@ -683,19 +691,61 @@ public class Generator {
 					DualPistol.class,
 					ShortKatana.class,
 			};
-			EVO_9.probs = new float[]{10, 2, 2, 1, 1, 1 ,1 ,1 ,1};
+			EVO_9.probs = new float[]{70, 6, 6, 5, 5, 4 ,1 ,1 ,2}; //70% Success
 
 			GUN_5.classes = new Class<?>[]{
 					SPAS.class,
 					ShotGun.class
 			};
-			GUN_5.probs = new float[]{1, 0};
+			GUN_5.probs = new float[]{1, 0}; //100% Success For Gunner
 
 			SHO.classes = new Class<?>[]{
 					Spade.class,
 					WornShortsword.class
 			};
-			SHO.probs = new float[]{1, 0};
+			SHO.probs = new float[]{1, 0}; //100% Success For Shovel
+
+			EVO_10.classes = new Class<?>[]{
+					HugeSword.class,
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class,
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class,
+			};
+			EVO_10.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
+
+			EVO_11.classes = new Class<?>[]{
+					IronHammer.class,
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class,
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class,
+			};
+			EVO_11.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
+
+			EVO_12.classes = new Class<?>[]{
+					BeamSaber.class,
+					Longsword.class,
+					BattleAxe.class,
+					Flail.class,
+					RunicBlade.class,
+					AssassinsBlade.class,
+					Crossbow.class,
+					Handgun.class,
+					AssultRifle.class,
+					LongKatana.class,
+			};
+			EVO_12.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
 
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
@@ -900,7 +950,11 @@ public class Generator {
 			Category.EVO_9,
 			Category.GUN_5,
 
-			Category.SHO
+			Category.SHO,
+
+			Category.EVO_10,
+			Category.EVO_11,
+			Category.EVO_12,
 	};
 
 

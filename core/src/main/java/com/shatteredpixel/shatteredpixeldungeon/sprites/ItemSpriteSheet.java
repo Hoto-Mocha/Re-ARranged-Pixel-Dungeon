@@ -308,7 +308,9 @@ public class ItemSpriteSheet {
 	public static final int LANCE_N_SHIELD  = WEP_TIER6+2;
 	public static final int SHARP_KATANA    = WEP_TIER6+3;
 	public static final int SPADE           = WEP_TIER6+4;
-	public static final int TIER6_6         = WEP_TIER6+5;
+	public static final int HUGE_SWORD      = WEP_TIER6+5;
+	public static final int IRON_HAMMER     = WEP_TIER6+6;
+	public static final int BEAM_SABER      = WEP_TIER6+7;
 
 	static{
 		assignItemRect(LANCE,             15, 15);
@@ -316,7 +318,9 @@ public class ItemSpriteSheet {
 		assignItemRect(LANCE_N_SHIELD,    16, 15);
 		assignItemRect(SHARP_KATANA,      12, 16);
 		assignItemRect(SPADE,             16, 16);
-		assignItemRect(TIER6_6,           16, 16);
+		assignItemRect(HUGE_SWORD,        16, 16);
+		assignItemRect(IRON_HAMMER,       16, 16);
+		assignItemRect(BEAM_SABER,        15, 15);
 	}
 
 	private static final int HANDGUNS         =                               xy(1, 32);

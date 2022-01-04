@@ -113,7 +113,10 @@ public class AdvancedEvolution extends InventorySpell {
             || item instanceof Glaive
             || item instanceof Greatshield
             || item instanceof RunicBlade
-            || item instanceof Shovel;
+            || item instanceof Shovel
+            || item instanceof Greataxe
+            || item instanceof WarHammer
+            || item instanceof Gauntlet;
     }
 
     @Override
@@ -155,6 +158,10 @@ public class AdvancedEvolution extends InventorySpell {
     }
 
     private static Weapon changeWeapon( Weapon w ) {
+
+        //Normal Weapon Success Rate: 90%
+        //Gun Success Rate: 70%
+        //Gus Success Rate for Gunner: 100%
 
         Weapon n;
         Generator.Category c;
@@ -214,8 +221,17 @@ public class AdvancedEvolution extends InventorySpell {
         else  if (w instanceof RunicBlade){
             c = Generator.evoTiers[7];
         }
-        else { //w instanceof Shovel
+        else if (w instanceof Shovel) {
             c = Generator.evoTiers[14];
+        }
+        else if (w instanceof Greataxe) {
+            c = Generator.evoTiers[15];
+        }
+        else if (w instanceof WarHammer) {
+            c = Generator.evoTiers[16];
+        }
+        else { //w instanceof Gauntlet
+            c = Generator.evoTiers[17];
         }
 
         do {

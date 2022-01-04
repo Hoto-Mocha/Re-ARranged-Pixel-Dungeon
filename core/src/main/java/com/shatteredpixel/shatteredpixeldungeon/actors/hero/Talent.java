@@ -873,7 +873,7 @@ public enum Talent {
 
 		if (hero.hasTalent(Talent.SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(ShootTheHeartTracker.class) == null){
 			Buff.affect(enemy, ShootTheHeartTracker.class);
-			Buff.affect(hero, Haste.class, 1f + hero.pointsInTalent(Talent.SPEEDY_MOVE));
+			Buff.prolong(hero, Haste.class, 1f + hero.pointsInTalent(Talent.SPEEDY_MOVE));
 		}
 
 

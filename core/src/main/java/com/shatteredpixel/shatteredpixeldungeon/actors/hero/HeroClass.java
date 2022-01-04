@@ -79,9 +79,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
@@ -220,6 +223,9 @@ public enum HeroClass {
 		//new PotionOfStrength().identify().quantity(20).collect();
 		//new CurseInfusion().quantity(50).collect();
 		//new ScrollOfMysticalEnergy().quantity(50).collect();
+		//new BeamSaber().identify().collect();
+		//new HugeSword().identify().collect();
+		//new IronHammer().identify().collect();
 
 		//new RegrowthBomb().quantity(50).collect();
 
@@ -462,6 +468,7 @@ public enum HeroClass {
 		//new TengusMask().collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new RegrowthBomb().quantity(50).collect();
+
 		//new KingsCrown().collect();
 		//new TestWeapon().identify().collect();
 		//new PlateArmor().identify().upgrade(100).collect();
