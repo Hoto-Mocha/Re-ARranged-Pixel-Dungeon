@@ -42,6 +42,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
@@ -187,6 +190,9 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			 || w instanceof ObsidianShield
 			 || w instanceof LanceNShield
 			 ||	w instanceof SharpKatana
+			 || w instanceof HugeSword
+			 || w instanceof IronHammer
+			 || w instanceof BeamSaber
 			) {
 				c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
 			} else {

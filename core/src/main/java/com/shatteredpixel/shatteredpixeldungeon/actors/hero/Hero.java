@@ -196,6 +196,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
@@ -2483,6 +2484,10 @@ public class Hero extends Char {
 			if (hero.pointsInTalent(Talent.LETHAL_SURPRISE) == 3) {
 				Buff.affect(hero, Swiftthistle.TimeBubble.class).twoTurns();
 			}
+		}
+
+		if (hero.belongings.weapon instanceof TestWeapon) {
+			Buff.affect(hero, Awareness.class, 1000f);
 		}
 
 		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER) {
