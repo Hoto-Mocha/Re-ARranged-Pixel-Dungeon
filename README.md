@@ -13,8 +13,8 @@ ARPD supports only KOREAN language yet.
 - 2 artifact buffed
 - 1 of New ring : Ring of Reload
 - 3 of New Playable Class : Gunner, Samurai, Planter!
-- 3 of New SubClasses of Gunner, Samurai, Planter
-- 3 of New Armor Abilities of Gunner, Samurai, Planter
+- 12 of New SubClasses of Gunner, Samurai, Planter
+- 12 of New Armor Abilities of Gunner, Samurai, Planter
 
 
 
