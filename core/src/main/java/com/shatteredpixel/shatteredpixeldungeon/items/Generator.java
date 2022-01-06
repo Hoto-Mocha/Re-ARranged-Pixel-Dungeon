@@ -130,6 +130,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
@@ -426,7 +427,7 @@ public class Generator {
 					MagesStaff.class,
 					CrudePistol.class,
 					WornKatana.class,
-					Shovel.class,
+					Shovel.class
 
 					//alchemical weapons
 					//CrudePistolAP.class,
@@ -442,7 +443,7 @@ public class Generator {
 					Dirk.class,
 					Pistol.class,
 					DualPistol.class,
-					ShortKatana.class,
+					ShortKatana.class
 
 					//alchemical weapons
 					//PistolAP.class,
@@ -463,7 +464,7 @@ public class Generator {
 					SubMachinegun.class,
 					ShotGun.class,
 					HuntingRifle.class,
-					Katana.class,
+					Katana.class
 
 					//alchemical weapons
 					//SpearNShield.class,
@@ -488,7 +489,7 @@ public class Generator {
 					Crossbow.class,
 					Handgun.class,
 					AssultRifle.class,
-					LongKatana.class,
+					LongKatana.class
 
 					//alchemical weapons
 					//HandgunAP.class,
@@ -509,7 +510,8 @@ public class Generator {
 					HeavyMachinegun.class,
 					SniperRifle.class,
 					RocketLauncher.class,
-					LargeKatana.class,
+					FlameThrower.class,
+					LargeKatana.class
 
 					//alchemical weapons
 					//Lance.class,
@@ -538,7 +540,7 @@ public class Generator {
 					//IronHammer.class,
 					//BeamSaber.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 5};
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 4, 5};
 
 			//see AdvancedEvolution.changeWeapon
 			EVO_1.classes = new Class<?>[]{
