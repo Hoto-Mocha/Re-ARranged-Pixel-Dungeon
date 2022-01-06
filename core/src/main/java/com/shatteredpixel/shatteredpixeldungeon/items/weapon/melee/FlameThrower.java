@@ -26,17 +26,23 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
@@ -44,6 +50,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -51,11 +61,12 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SPAS extends MeleeWeapon {
+public class FlameThrower extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
@@ -70,7 +81,7 @@ public class SPAS extends MeleeWeapon {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.SPAS;
+        image = ItemSpriteSheet.FLAMETHORWER;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
@@ -97,9 +108,6 @@ public class SPAS extends MeleeWeapon {
         reload_time = bundle.getFloat(RELOAD_TIME);
     }
 
-
-
-
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
@@ -109,8 +117,6 @@ public class SPAS extends MeleeWeapon {
         }
         return actions;
     }
-
-
 
     @Override
     public void execute(Hero hero, String action) {
@@ -124,10 +130,10 @@ public class SPAS extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -136,7 +142,7 @@ public class SPAS extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 1;
+            max_round = 4;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
@@ -146,13 +152,13 @@ public class SPAS extends MeleeWeapon {
     }
 
     public void quickReload() {
-        max_round = 1;
+        max_round = 4;
         round = Math.max(max_round, round);
         updateQuickslot();
     }
 
     public void reload() {
-        max_round = 1;
+        max_round = 4;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -174,7 +180,7 @@ public class SPAS extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 1;
+        max_round = 4;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -189,27 +195,27 @@ public class SPAS extends MeleeWeapon {
     }
 
     public int max(int lvl) {
-        return 2 * (tier) +
-                lvl * (tier);
+        return 3 * (tier + 1) +
+                lvl;
     }
 
     public int Bulletmin(int lvl) {
-        return 1 +
-               lvl +
-               RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return tier +
+                lvl +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return (tier + 2)   +
-               lvl * 3 +
-               RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return 5 * (tier + 1) +
+                lvl * 3 +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public String info() {
 
-        max_round = 1;
-        reload_time = 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        max_round = 4;
+        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
@@ -219,16 +225,16 @@ public class SPAS extends MeleeWeapon {
             } else if (Dungeon.hero.STR() > STRReq()){
                 info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
             }
-            info += "\n\n" + Messages.get(SPAS.class, "stats_known",
-                    Bulletmin(SPAS.this.buffedLvl()),
-                    Bulletmax(SPAS.this.buffedLvl()),
+            info += "\n\n" + Messages.get(FlameThrower.class, "stats_known",
+                    Bulletmin(FlameThrower.this.buffedLvl()),
+                    Bulletmax(FlameThrower.this.buffedLvl()),
                     round, max_round, reload_time);
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > Dungeon.hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
-            info += "\n\n" + Messages.get(SPAS.class, "stats_unknown",
+            info += "\n\n" + Messages.get(FlameThrower.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, reload_time);
@@ -299,13 +305,13 @@ public class SPAS extends MeleeWeapon {
         return delay;
     }
 
-    public SPAS.Bullet knockBullet(){
-        return new SPAS.Bullet();
+    public FlameThrower.Bullet knockBullet(){
+        return new FlameThrower.Bullet();
     }
     public class Bullet extends MissileWeapon {
 
         {
-            image = ItemSpriteSheet.TRIPLE_BULLET;
+            image = ItemSpriteSheet.NOTHING; //Also See MissileSprite.setup
 
             hitSound = Assets.Sounds.PUFF;
             tier = 5;
@@ -315,8 +321,8 @@ public class SPAS extends MeleeWeapon {
         public int damageRoll(Char owner) {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
-            int bulletdamage = Random.NormalIntRange(Bulletmin(SPAS.this.buffedLvl()),
-                    Bulletmax(SPAS.this.buffedLvl()));
+            int bulletdamage = Random.NormalIntRange(Bulletmin(FlameThrower.this.buffedLvl()),
+                    Bulletmax(FlameThrower.this.buffedLvl()));
 
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
@@ -325,71 +331,114 @@ public class SPAS extends MeleeWeapon {
             if (owner.buff(Focusing.class) != null) {
                 bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
+
+            if (Dungeon.hero.hasTalent(Talent.HEAVY_ENHANCE)) {
+                bulletdamage *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.HEAVY_ENHANCE);
+            }
             return bulletdamage;
         }
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-            return SPAS.this.hasEnchant(type, owner);
+            return FlameThrower.this.hasEnchant(type, owner);
         }
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
-            return SPAS.this.proc(attacker, defender, damage);
+            return FlameThrower.this.proc(attacker, defender, damage);
         }
 
         @Override
         public float delayFactor(Char user) {
             if (hero.buff(Riot.riotTracker.class) != null) {
-                return SPAS.this.delayFactor(user)/2f;
+                return FlameThrower.this.delayFactor(user)/2f;
             } else {
-                return SPAS.this.delayFactor(user);
+                return FlameThrower.this.delayFactor(user);
             }
         }
 
         @Override
         public int STRReq(int lvl) {
-            if (SPAS.this.masteryPotionBonus) {
-                return STRReq(tier, SPAS.this.buffedLvl()) - 2;
+            if (FlameThrower.this.masteryPotionBonus) {
+                return STRReq(tier, FlameThrower.this.buffedLvl()) - 2;
             }
-            return STRReq(tier, SPAS.this.buffedLvl());
+            return STRReq(tier, FlameThrower.this.buffedLvl());
         }
 
         @Override
         protected void onThrow(int cell) {
-            for (int i=1; i<=5; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
-                Char enemy = Actor.findChar(cell);
-                if (enemy == null || enemy == curUser) {
-                    parent = null;
-                    CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                    CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                } else {
-                    if (!curUser.shoot(enemy, this)) {
-                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                    }
-                    if (Random.Int(20) == 0){
-                        Buff.affect(enemy, Cripple.class, 2f);
-                    }
-                }
-            }
-            if (hero.buff(InfiniteBullet.class) != null) {
-                //round preserves
-            } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
-                //round preserves
-            } else {
-                if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
+            Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP);
+            int maxDist = 5;
+            int dist = Math.min(aim.dist, maxDist);
+            ConeAOE cone = new ConeAOE(aim,
+                    dist,
+                    30,
+                    Ballistica.STOP_SOLID | Ballistica.STOP_TARGET);
+
+            if (cell == hero.pos) {
+                if (hero.buff(InfiniteBullet.class) != null) {
+                    //round preserves
+                } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                     //round preserves
                 } else {
-                    round --;
+                    if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(9) == 0) {
+                        //round preserves
+                    } else {
+                        round --;
+                    }
                 }
+                updateQuickslot();
+                return; //투사체가 영웅 위치에서 떨어질 때는 작동하지 않음
+            } else {
+                //cast to cells at the tip, rather than all cells, better performance.
+                for (Ballistica ray : cone.outerRays){
+                    ((MagicMissile)hero.sprite.parent.recycle( MagicMissile.class )).reset(
+                            MagicMissile.FIRE_CONE,
+                            hero.sprite,
+                            ray.path.get(ray.dist),
+                            null
+                    );
+                }
+
+                for (int cells : cone.cells){
+
+                    GameScene.add(Blob.seed(cells, 4, Fire.class));
+
+                    Char ch = Actor.findChar(cells);
+                    if (ch != null && ch.alignment != hero.alignment){
+                        int damage = damageRoll(hero);
+                        ch.damage(damage, hero);
+                    }
+                }
+                Sample.INSTANCE.play(Assets.Sounds.BURNING, 1f);
+                //final zap at 2/3 distance, for timing of the actual effect
+                MagicMissile.boltFromChar(hero.sprite.parent,
+                        MagicMissile.FIRE_CONE,
+                        hero.sprite,
+                        cone.coreRay.path.get(dist * 2 / 3),
+                        new Callback() {
+                            @Override
+                            public void call() {
+                            }
+                        });
+                if (hero.buff(InfiniteBullet.class) != null) {
+                    //round preserves
+                } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
+                    //round preserves
+                } else {
+                    if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
+                        //round preserves
+                    } else {
+                        round --;
+                    }
+                }
+                updateQuickslot();
             }
-            updateQuickslot();
         }
 
         @Override
         public void throwSound() {
-            Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f) );
+            //Play Nothing
         }
 
         @Override

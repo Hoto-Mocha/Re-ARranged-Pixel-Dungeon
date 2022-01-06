@@ -126,10 +126,10 @@ public class DualPistolAP extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -216,8 +216,7 @@ public class DualPistolAP extends MeleeWeapon {
     public int Bulletmax(int lvl) {
         return 2 * (tier)   +                                                           //if you make something different guns, you should change this
                 lvl * (tier) +                                                           //if you make something different guns, you should change this
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero) +
-                5 * Dungeon.hero.pointsInTalent(Talent.MACHINEGUN_MASTER);
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
@@ -405,7 +404,7 @@ public class DualPistolAP extends MeleeWeapon {
                     } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                         //round preserves
                     } else {
-                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(9) == 0) {
+                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
                             //round preserves
                         } else {
                             round --;
@@ -434,7 +433,7 @@ public class DualPistolAP extends MeleeWeapon {
                     } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                         //round preserves
                     } else {
-                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(9) == 0) {
+                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
                             //round preserves
                         } else {
                             round --;

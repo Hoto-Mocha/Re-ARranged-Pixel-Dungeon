@@ -106,6 +106,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dirk;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
@@ -209,6 +210,7 @@ public enum Catalog {
 		WEAPONS.seen.put( Sai.class,                        false);
 		WEAPONS.seen.put( Whip.class,                       false);
 		WEAPONS.seen.put( Katana.class,                     false);
+		WEAPONS.seen.put( Spade.class,             		    false);
 		WEAPONS.seen.put( Longsword.class,                  false);
 		WEAPONS.seen.put( BattleAxe.class,                  false);
 		WEAPONS.seen.put( Flail.class,                      false);
@@ -224,7 +226,6 @@ public enum Catalog {
 		WEAPONS.seen.put( Gauntlet.class,                   false);
 		WEAPONS.seen.put( LargeKatana.class,                false);
 		WEAPONS.seen.put( SharpKatana.class,                false);
-		WEAPONS.seen.put( Spade.class,             		    false);
 		WEAPONS.seen.put( HugeSword.class,             		false);
 		WEAPONS.seen.put( IronHammer.class,             	false);
 		WEAPONS.seen.put( BeamSaber.class,             		false);
@@ -258,6 +259,7 @@ public enum Catalog {
 
 		WEAPONS.seen.put( RocketLauncher.class,             false);
 		WEAPONS.seen.put( RPG7.class,                       false);
+		WEAPONS.seen.put( FlameThrower.class,               false);
 	
 		ARMOR.seen.put( ClothArmor.class,                   false);
 		ARMOR.seen.put( LeatherArmor.class,                 false);

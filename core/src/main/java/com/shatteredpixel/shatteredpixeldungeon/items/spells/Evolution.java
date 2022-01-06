@@ -36,6 +36,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
@@ -44,6 +48,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
@@ -146,6 +152,9 @@ public class Evolution extends InventorySpell {
                 || w instanceof ObsidianShield
                 || w instanceof LanceNShield
                 || w instanceof SharpKatana
+                || w instanceof HugeSword
+                || w instanceof IronHammer
+                || w instanceof BeamSaber
         ) {
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
         } else if (w instanceof Greatsword
@@ -169,6 +178,9 @@ public class Evolution extends InventorySpell {
                 || w instanceof SPAS
                 || w instanceof SPASAP
                 || w instanceof SPASHP
+                || w instanceof FlameThrower
+                || w instanceof FlameThrowerAP
+                || w instanceof FlameThrowerHP
         ){
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
         } else {

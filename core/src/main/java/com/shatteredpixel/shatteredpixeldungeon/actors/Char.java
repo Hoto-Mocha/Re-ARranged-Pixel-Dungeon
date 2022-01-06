@@ -119,6 +119,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
@@ -148,8 +151,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
@@ -747,6 +752,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifle
 							|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
 							|| Dungeon.hero.belongings.weapon() instanceof RPG7
+							|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
+							|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerAP
+							|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerHP
 					) {
 						dmg += 5*Dungeon.hero.pointsInTalent(Talent.MELEE_ENHANCE);
 					}
@@ -799,6 +807,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifle
 							|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
 							|| Dungeon.hero.belongings.weapon() instanceof RPG7
+							|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
+							|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerAP
+							|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerHP
 					) {
 						dmg += Random.NormalIntRange(0, hero.belongings.weapon.buffedLvl());
 					}
@@ -806,11 +817,17 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero) {
-				if (Dungeon.hero.hasTalent(Talent.BOOM_ENHANCE)) {
+				if (Dungeon.hero.hasTalent(Talent.HEAVY_ENHANCE)) {
 					if (Dungeon.hero.belongings.weapon() instanceof RocketLauncher.Rocket
 							|| Dungeon.hero.belongings.weapon() instanceof RPG7.Rocket
+							|| Dungeon.hero.belongings.weapon() instanceof ShotGun.Bullet
+							|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP.Bullet
+							|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP.Bullet
+							|| Dungeon.hero.belongings.weapon() instanceof SPAS.Bullet
+							|| Dungeon.hero.belongings.weapon() instanceof SPASAP.Bullet
+							|| Dungeon.hero.belongings.weapon() instanceof SPASHP.Bullet
 					) {
-						dmg *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.BOOM_ENHANCE);
+						dmg *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.HEAVY_ENHANCE);
 					}
 				}
 			}

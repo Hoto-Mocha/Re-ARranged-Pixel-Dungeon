@@ -37,6 +37,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
@@ -200,6 +203,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(AntimaterRifleAP.Bullet.class,     0);
 		ANGULAR_SPEEDS.put(AntimaterRifleHP.Bullet.class,     0);
 		ANGULAR_SPEEDS.put(RPG7.Rocket.class,                 0);
+		ANGULAR_SPEEDS.put(FlameThrower.Bullet.class,         0);
 		//720 is default
 		
 		ANGULAR_SPEEDS.put(HeavyBoomerang.class,1440);
@@ -310,6 +314,10 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 			speed *= 3f;
 		} else if (item instanceof RocketLauncher.Rocket) {
 			speed *= 1.2f;
+		} else if (item instanceof FlameThrower.Bullet
+				|| item instanceof FlameThrowerAP.Bullet
+				|| item instanceof FlameThrowerHP.Bullet ) {
+			speed *= 100f;
 		}
 		
 		PosTweener tweener = new PosTweener( this, to, d.length() / speed );

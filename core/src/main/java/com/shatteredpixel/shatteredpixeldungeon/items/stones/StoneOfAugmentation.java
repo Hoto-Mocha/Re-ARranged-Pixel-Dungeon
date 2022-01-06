@@ -39,6 +39,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
@@ -63,6 +66,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
@@ -134,6 +138,7 @@ public class StoneOfAugmentation extends InventoryStone {
 		  ||item instanceof SPASAP
 		  ||item instanceof SPASHP
 		  ||item instanceof RocketLauncher
+		  ||item instanceof RPG7
 		  ||item instanceof LargeHandgun
 		  ||item instanceof LargeHandgunAP
 		  ||item instanceof LargeHandgunHP
@@ -143,6 +148,9 @@ public class StoneOfAugmentation extends InventoryStone {
 		  ||item instanceof MiniGun
 		  ||item instanceof MiniGunAP
 		  ||item instanceof MiniGunHP
+		  ||item instanceof FlameThrower
+		  ||item instanceof FlameThrowerAP
+		  ||item instanceof FlameThrowerHP
 		) {
 			return false;
 		} else {

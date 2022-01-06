@@ -79,6 +79,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
@@ -223,9 +226,9 @@ public enum Talent {
 	//Gunner T2
 	IN_THE_GUNFIRE(164), ANOTHER_CHANCE(165), CHOICE_N_FOCUS(166), CAMOUFLAGE(167), LARGER_MAGAZINE(168),
 	//Gunner T3
-	MELEE_ENHANCE(169, 3), BOOM_ENHANCE(170, 3),
+	MELEE_ENHANCE(169, 3), HEAVY_ENHANCE(170, 3),
 	//Launcher T3
-	MACHINEGUN_MASTER(171, 3), ACC_PRACTICE(172, 3), RECOIL_PRACTICE(173, 3),
+	HEAVY_GUNNER(171, 3), ACC_PRACTICE(172, 3), RECOIL_PRACTICE(173, 3),
 	//Ranger T3
 	HANDGUN_MASTER(174, 3), RECOIL_CONTROL(175, 3), ELEMENTAL_BULLET(176, 3),
 	//RifleMan T3
@@ -793,7 +796,11 @@ public enum Talent {
 						||item instanceof AntimaterRifleAP
 						||item instanceof AntimaterRifleHP
 						||item instanceof RPG7
-						||item instanceof RocketLauncher)
+						||item instanceof RocketLauncher
+						||item instanceof FlameThrower
+						||item instanceof FlameThrowerAP
+						||item instanceof FlameThrowerHP
+				)
 		){
 			item.identify();
 		}
@@ -981,7 +988,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);
 				break;
 			case GUNNER:
-				Collections.addAll(tierTalents, MELEE_ENHANCE, BOOM_ENHANCE);
+				Collections.addAll(tierTalents, MELEE_ENHANCE, HEAVY_ENHANCE);
 				break;
 			case SAMURAI:
 				Collections.addAll(tierTalents,	DEEP_SCAR, FAST_LEAD);
@@ -1054,7 +1061,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, BETTER_CHOICE, SKILLS_PRACTICE, MIND_PRACTICE, VITAL_ATTACK);
 				break;
 			case LAUNCHER:
-				Collections.addAll(tierTalents, BETTER_CHOICE, MACHINEGUN_MASTER, ACC_PRACTICE, RECOIL_PRACTICE);
+				Collections.addAll(tierTalents, BETTER_CHOICE, HEAVY_GUNNER, ACC_PRACTICE, RECOIL_PRACTICE);
 				break;
 			case RANGER:
 				Collections.addAll(tierTalents, BETTER_CHOICE, HANDGUN_MASTER, RECOIL_CONTROL, ELEMENTAL_BULLET);

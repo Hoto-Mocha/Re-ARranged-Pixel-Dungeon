@@ -155,6 +155,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
@@ -2397,6 +2400,9 @@ public class Hero extends Char {
 			 || hero.belongings.weapon instanceof AntimaterRifleAP
 			 || hero.belongings.weapon instanceof AntimaterRifleHP
 			 || hero.belongings.weapon instanceof RPG7
+			 || hero.belongings.weapon instanceof FlameThrower
+			 || hero.belongings.weapon instanceof FlameThrowerAP
+			 || hero.belongings.weapon instanceof FlameThrowerHP
 			){
 				Buff.affect( this, Focusing.class ).hit( enemy );
 			}
@@ -2453,6 +2459,9 @@ public class Hero extends Char {
 			 || hero.belongings.weapon instanceof AntimaterRifleAP
 			 || hero.belongings.weapon instanceof AntimaterRifleHP
 			 || hero.belongings.weapon instanceof RPG7
+			 || hero.belongings.weapon instanceof FlameThrower
+			 || hero.belongings.weapon instanceof FlameThrowerAP
+			 || hero.belongings.weapon instanceof FlameThrowerHP
 			){
 				Buff.affect( enemy, Bleeding.class ).set( 4 + hero.pointsInTalent(Talent.BAYONET));
 			}
@@ -2560,6 +2569,10 @@ public class Hero extends Char {
 					|| hero.belongings.weapon instanceof AntimaterRifle
 					|| hero.belongings.weapon instanceof AntimaterRifleAP
 					|| hero.belongings.weapon instanceof AntimaterRifleHP
+					|| hero.belongings.weapon instanceof RPG7
+					|| hero.belongings.weapon instanceof FlameThrower
+					|| hero.belongings.weapon instanceof FlameThrowerAP
+					|| hero.belongings.weapon instanceof FlameThrowerHP
 			) {
 				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
 					Buff.affect(this, Recharging.class, 1f);

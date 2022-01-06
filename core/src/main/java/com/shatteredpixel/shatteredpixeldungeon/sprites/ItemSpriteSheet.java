@@ -88,7 +88,7 @@ public class ItemSpriteSheet {
 	public static final int ENERGY          = UNCOLLECTIBLE+5;
 	public static final int GUIDE_PAGE      = UNCOLLECTIBLE+6;
 	public static final int ALCH_PAGE       = UNCOLLECTIBLE+7;
-	
+	public static final int NOTHING			= UNCOLLECTIBLE+8; //for invisible ballistic
 	public static final int TENGU_BOMB      = UNCOLLECTIBLE+9;
 	public static final int TENGU_SHOCKER   = UNCOLLECTIBLE+10;
 	public static final int	SINGLE_BULLET   = UNCOLLECTIBLE+11;
@@ -105,10 +105,9 @@ public class ItemSpriteSheet {
 		assignItemRect(ENERGY,      16, 16);
 		assignItemRect(GUIDE_PAGE,  10, 11);
 		assignItemRect(ALCH_PAGE,   10, 11);
-		
+		assignItemRect(NOTHING,     16, 16);
 		assignItemRect(TENGU_BOMB,      10, 10);
 		assignItemRect(TENGU_SHOCKER,   10, 10);
-
 		assignItemRect(SINGLE_BULLET,   8, 8);
 		assignItemRect(DUAL_BULLET,     11, 10);
 		assignItemRect(TRIPLE_BULLET,   11, 11);
