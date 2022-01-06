@@ -228,10 +228,10 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
-		new TengusMask().collect();
-		new KingsCrown().collect();
+		//new TengusMask().collect();
+		//new KingsCrown().collect();
 
-		new FlameThrower().identify().collect();
+		//new FlameThrower().identify().collect();
 
 		//new StoneOfAugmentation().quantity(99).collect();
 
