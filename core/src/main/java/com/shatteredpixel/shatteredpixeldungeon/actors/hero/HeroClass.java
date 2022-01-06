@@ -82,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMysticalEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
@@ -102,6 +103,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
@@ -232,6 +236,9 @@ public enum HeroClass {
 		//new KingsCrown().collect();
 
 		//new FlameThrower().identify().collect();
+		//new PlasmaCannon().identify().collect();
+		//new PlasmaCannonAP().identify().collect();
+		//new PlasmaCannonHP().identify().collect();
 
 		//new StoneOfAugmentation().quantity(99).collect();
 
@@ -242,6 +249,7 @@ public enum HeroClass {
 		//new PotionOfInvisibility().identify().quantity(30).collect();
 		//new PotionOfStrength().identify().quantity(20).collect();
 		//new ScrollOfRecharging().identify().quantity(20).collect();
+		//new ScrollOfMysticalEnergy().identify().quantity(20).collect();
 		//new WandOfFireblast().identify().collect();
 		//new WandOfBlastWave().identify().collect();
 		//new CrudePistol().identify().collect();

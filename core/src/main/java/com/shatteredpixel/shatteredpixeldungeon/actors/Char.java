@@ -149,6 +149,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
@@ -810,6 +813,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
 							|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerAP
 							|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerHP
+							|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannon
+							|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannonAP
+							|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannonHP
 					) {
 						dmg += Random.NormalIntRange(0, hero.belongings.weapon.buffedLvl());
 					}

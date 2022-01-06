@@ -113,6 +113,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShiel
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
@@ -478,6 +480,9 @@ public class QuickRecipe extends Component {
 				result.add(null);
 				result.add(new QuickRecipe(new FlameThrowerAP.Recipe()));
 				result.add(new QuickRecipe(new FlameThrowerHP.Recipe()));
+				result.add(null);
+				result.add(new QuickRecipe(new PlasmaCannonAP.Recipe()));
+				result.add(new QuickRecipe(new PlasmaCannonHP.Recipe()));
 				return result;
 			case 7:
 				result.add(new QuickRecipe(new AlchemicalCatalyst.Recipe(), new ArrayList<>(Arrays.asList(new Potion.PlaceHolder(), new Plant.Seed.PlaceHolder())), new AlchemicalCatalyst()));

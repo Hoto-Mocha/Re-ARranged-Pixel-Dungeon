@@ -200,7 +200,7 @@ public class FlameThrowerHP extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 4 * (tier + 1) +
+        return 3 * (tier + 1) +
                 lvl * 2 +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
@@ -361,73 +361,54 @@ public class FlameThrowerHP extends MeleeWeapon {
 
         @Override
         protected void onThrow(int cell) {
-            Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP);
+            Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP); //Always Projecting and no distance limit, see MissileWeapon.throwPos
             int maxDist = 3;
             int dist = Math.min(aim.dist, maxDist);
             ConeAOE cone = new ConeAOE(aim,
                     dist,
                     45,
                     Ballistica.STOP_SOLID | Ballistica.STOP_TARGET);
-
-            if (cell == hero.pos) {
-                if (hero.buff(InfiniteBullet.class) != null) {
-                    //round preserves
-                } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
-                    //round preserves
-                } else {
-                    if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
-                        //round preserves
-                    } else {
-                        round --;
-                    }
-                }
-                updateQuickslot();
-                return; //투사체가 영웅 위치에서 떨어질 때는 작동하지 않음
-            } else {
-                //cast to cells at the tip, rather than all cells, better performance.
-                for (Ballistica ray : cone.outerRays){
-                    ((MagicMissile)hero.sprite.parent.recycle( MagicMissile.class )).reset(
-                            MagicMissile.FIRE_CONE,
-                            hero.sprite,
-                            ray.path.get(ray.dist),
-                            null
-                    );
-                }
-
-                for (int cells : cone.cells){
-
-                    GameScene.add(Blob.seed(cells, 2, Fire.class));
-
-                    Char ch = Actor.findChar(cells);
-                    if (ch != null && ch.alignment != hero.alignment){
-                        int damage = damageRoll(hero);
-                        ch.damage(damage, hero);
-                    }
-                }
-                Sample.INSTANCE.play(Assets.Sounds.BURNING, 1f);
-                //final zap at 2/3 distance, for timing of the actual effect
-                MagicMissile.boltFromChar(hero.sprite.parent,
+            //cast to cells at the tip, rather than all cells, better performance.
+            for (Ballistica ray : cone.outerRays){
+                ((MagicMissile)hero.sprite.parent.recycle( MagicMissile.class )).reset(
                         MagicMissile.FIRE_CONE,
                         hero.sprite,
-                        cone.coreRay.path.get(dist * 2 / 3),
-                        new Callback() {
-                            @Override
-                            public void call() {
-                            }
-                        });
-                if (hero.buff(InfiniteBullet.class) != null) {
-                    //round preserves
-                } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
+                        ray.path.get(ray.dist),
+                        null
+                );
+            }
+            for (int cells : cone.cells){
+                GameScene.add(Blob.seed(cells, 2, Fire.class));
+                Char ch = Actor.findChar(cells);
+                if (ch != null && ch.alignment != hero.alignment){
+                    int damage = damageRoll(hero);
+                    damage -= ch.drRoll();
+                    ch.damage(damage, hero);
+                }
+            }
+            Sample.INSTANCE.play(Assets.Sounds.BURNING, 1f);
+            //final zap at 2/3 distance, for timing of the actual effect
+            MagicMissile.boltFromChar(hero.sprite.parent,
+                    MagicMissile.FIRE_CONE,
+                    hero.sprite,
+                    cone.coreRay.path.get(dist * 2 / 3),
+                    new Callback() {
+                @Override
+                public void call() {
+                }
+            });
+            if (hero.buff(InfiniteBullet.class) != null) {
+                //round preserves
+            } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
+                //round preserves
+            } else {
+                if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
                     //round preserves
                 } else {
-                    if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
-                        //round preserves
-                    } else {
-                        round --;
-                    }
+                    round --;
                 }
-                updateQuickslot();
             }
+            updateQuickslot();
         }
 
         @Override

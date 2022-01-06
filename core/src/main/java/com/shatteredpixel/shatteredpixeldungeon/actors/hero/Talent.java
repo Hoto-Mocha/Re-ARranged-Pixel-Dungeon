@@ -108,6 +108,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
@@ -800,6 +803,9 @@ public enum Talent {
 						||item instanceof FlameThrower
 						||item instanceof FlameThrowerAP
 						||item instanceof FlameThrowerHP
+						||item instanceof PlasmaCannon
+						||item instanceof PlasmaCannonAP
+						||item instanceof PlasmaCannonHP
 				)
 		){
 			item.identify();

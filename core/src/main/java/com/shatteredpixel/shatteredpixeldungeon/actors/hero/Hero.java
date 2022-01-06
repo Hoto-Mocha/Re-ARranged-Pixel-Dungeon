@@ -185,6 +185,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShiel
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
@@ -2403,6 +2406,9 @@ public class Hero extends Char {
 			 || hero.belongings.weapon instanceof FlameThrower
 			 || hero.belongings.weapon instanceof FlameThrowerAP
 			 || hero.belongings.weapon instanceof FlameThrowerHP
+			 || hero.belongings.weapon instanceof PlasmaCannon
+			 || hero.belongings.weapon instanceof PlasmaCannonAP
+			 || hero.belongings.weapon instanceof PlasmaCannonHP
 			){
 				Buff.affect( this, Focusing.class ).hit( enemy );
 			}
@@ -2462,6 +2468,9 @@ public class Hero extends Char {
 			 || hero.belongings.weapon instanceof FlameThrower
 			 || hero.belongings.weapon instanceof FlameThrowerAP
 			 || hero.belongings.weapon instanceof FlameThrowerHP
+			 || hero.belongings.weapon instanceof PlasmaCannon
+			 || hero.belongings.weapon instanceof PlasmaCannonAP
+			 || hero.belongings.weapon instanceof PlasmaCannonHP
 			){
 				Buff.affect( enemy, Bleeding.class ).set( 4 + hero.pointsInTalent(Talent.BAYONET));
 			}
@@ -2573,6 +2582,9 @@ public class Hero extends Char {
 					|| hero.belongings.weapon instanceof FlameThrower
 					|| hero.belongings.weapon instanceof FlameThrowerAP
 					|| hero.belongings.weapon instanceof FlameThrowerHP
+					|| hero.belongings.weapon instanceof PlasmaCannon
+					|| hero.belongings.weapon instanceof PlasmaCannonAP
+					|| hero.belongings.weapon instanceof PlasmaCannonHP
 			) {
 				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
 					Buff.affect(this, Recharging.class, 1f);

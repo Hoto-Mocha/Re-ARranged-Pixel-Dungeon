@@ -174,6 +174,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShiel
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
@@ -251,28 +252,6 @@ public class Generator {
 		WEP_T3	( 0, 0, MeleeWeapon.class),
 		WEP_T4	( 0, 0, MeleeWeapon.class),
 		WEP_T5	( 0, 0, MeleeWeapon.class),
-		EVO_1   ( 0, 0, MeleeWeapon.class),     //AntimaterRifle
-		EVO_2   ( 0, 0, MeleeWeapon.class),     //MiniGun
-		EVO_3   ( 0, 0, MeleeWeapon.class),     //LargeHandgun
-		EVO_4   ( 0, 0, MeleeWeapon.class),     //RPG7
-		EVO_5   ( 0, 0, MeleeWeapon.class),     //SharpKatana
-		EVO_6   ( 0, 0, MeleeWeapon.class),     //Lance
-		EVO_7   ( 0, 0, MeleeWeapon.class),     //ObsidianShield
-		EVO_8   ( 0, 0, MeleeWeapon.class),     //TrueRunicBlade
-
-		GUN_1   ( 0, 0, MeleeWeapon.class),
-		GUN_2   ( 0, 0, MeleeWeapon.class),
-		GUN_3   ( 0, 0, MeleeWeapon.class),
-		GUN_4   ( 0, 0, MeleeWeapon.class),
-
-		EVO_9   ( 0, 0, MeleeWeapon.class),
-		GUN_5   ( 0, 0, MeleeWeapon.class),
-
-		SHO		( 0, 0, MeleeWeapon.class),
-
-		EVO_10   ( 0, 0, MeleeWeapon.class),		//HugeSword
-		EVO_11   ( 0, 0, MeleeWeapon.class),		//IronHammer
-		EVO_12   ( 0, 0, MeleeWeapon.class),		//BeamSaber
 
 		ARMOR	( 2, 1, Armor.class ),
 		
@@ -295,7 +274,30 @@ public class Generator {
 		SCROLL	( 8, 8, Scroll.class ),
 		STONE   ( 1, 1, Runestone.class),
 		
-		GOLD	( 10, 10,   Gold.class );
+		GOLD	( 10, 10,   Gold.class ),
+
+		EVO_1   ( 0, 0, MeleeWeapon.class),     //AntimaterRifle
+		EVO_2   ( 0, 0, MeleeWeapon.class),     //MiniGun
+		EVO_3   ( 0, 0, MeleeWeapon.class),     //LargeHandgun
+		EVO_4   ( 0, 0, MeleeWeapon.class),     //RPG7
+		EVO_5   ( 0, 0, MeleeWeapon.class),     //SharpKatana
+		EVO_6   ( 0, 0, MeleeWeapon.class),     //Lance
+		EVO_7   ( 0, 0, MeleeWeapon.class),     //ObsidianShield
+		EVO_8   ( 0, 0, MeleeWeapon.class),     //TrueRunicBlade
+
+		GUN_1   ( 0, 0, MeleeWeapon.class),
+		GUN_2   ( 0, 0, MeleeWeapon.class),
+		GUN_3   ( 0, 0, MeleeWeapon.class),
+		GUN_4   ( 0, 0, MeleeWeapon.class),
+
+		EVO_9   ( 0, 0, MeleeWeapon.class),
+		GUN_5   ( 0, 0, MeleeWeapon.class),
+
+		SHO		( 0, 0, MeleeWeapon.class),
+
+		EVO_10   ( 0, 0, MeleeWeapon.class),		//HugeSword
+		EVO_11   ( 0, 0, MeleeWeapon.class),		//IronHammer
+		EVO_12   ( 0, 0, MeleeWeapon.class);		//BeamSaber
 		
 		public Class<?>[] classes;
 
@@ -511,6 +513,7 @@ public class Generator {
 					SniperRifle.class,
 					RocketLauncher.class,
 					FlameThrower.class,
+					PlasmaCannon.class,
 					LargeKatana.class
 
 					//alchemical weapons
@@ -540,7 +543,7 @@ public class Generator {
 					//IronHammer.class,
 					//BeamSaber.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 4, 5};
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 4, 4, 5};
 
 			//see AdvancedEvolution.changeWeapon
 			EVO_1.classes = new Class<?>[]{

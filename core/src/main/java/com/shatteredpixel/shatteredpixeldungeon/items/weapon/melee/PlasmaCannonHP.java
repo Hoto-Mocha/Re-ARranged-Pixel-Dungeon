@@ -26,47 +26,42 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.APBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class FlameThrower extends MeleeWeapon {
+public class PlasmaCannonHP extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
@@ -81,7 +76,7 @@ public class FlameThrower extends MeleeWeapon {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.FLAMETHORWER;
+        image = ItemSpriteSheet.PLASMA_CANNON;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
@@ -142,7 +137,7 @@ public class FlameThrower extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 4;
+            max_round = 3;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
@@ -152,13 +147,13 @@ public class FlameThrower extends MeleeWeapon {
     }
 
     public void quickReload() {
-        max_round = 4;
+        max_round = 3;
         round = Math.max(max_round, round);
         updateQuickslot();
     }
 
     public void reload() {
-        max_round = 4;
+        max_round = 3;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -180,7 +175,7 @@ public class FlameThrower extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 4;
+        max_round = 3;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -206,15 +201,15 @@ public class FlameThrower extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 5 * (tier + 1) +
-                lvl * 3 +
+        return 3 * (tier + 1) +
+                lvl * 2 +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public String info() {
 
-        max_round = 4;
+        max_round = 3;
         reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
@@ -225,16 +220,16 @@ public class FlameThrower extends MeleeWeapon {
             } else if (Dungeon.hero.STR() > STRReq()){
                 info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
             }
-            info += "\n\n" + Messages.get(FlameThrower.class, "stats_known",
-                    Bulletmin(FlameThrower.this.buffedLvl()),
-                    Bulletmax(FlameThrower.this.buffedLvl()),
+            info += "\n\n" + Messages.get(PlasmaCannonHP.class, "stats_known",
+                    Bulletmin(PlasmaCannonHP.this.buffedLvl()),
+                    Bulletmax(PlasmaCannonHP.this.buffedLvl()),
                     round, max_round, reload_time);
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > Dungeon.hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
-            info += "\n\n" + Messages.get(FlameThrower.class, "stats_unknown",
+            info += "\n\n" + Messages.get(PlasmaCannonHP.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, reload_time);
@@ -305,8 +300,8 @@ public class FlameThrower extends MeleeWeapon {
         return delay;
     }
 
-    public FlameThrower.Bullet knockBullet(){
-        return new FlameThrower.Bullet();
+    public PlasmaCannonHP.Bullet knockBullet(){
+        return new PlasmaCannonHP.Bullet();
     }
     public class Bullet extends MissileWeapon {
 
@@ -321,8 +316,8 @@ public class FlameThrower extends MeleeWeapon {
         public int damageRoll(Char owner) {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
-            int bulletdamage = Random.NormalIntRange(Bulletmin(FlameThrower.this.buffedLvl()),
-                    Bulletmax(FlameThrower.this.buffedLvl()));
+            int bulletdamage = Random.NormalIntRange(Bulletmin(PlasmaCannonHP.this.buffedLvl()),
+                    Bulletmax(PlasmaCannonHP.this.buffedLvl()));
 
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
@@ -335,77 +330,80 @@ public class FlameThrower extends MeleeWeapon {
             if (Dungeon.hero.hasTalent(Talent.HEAVY_ENHANCE)) {
                 bulletdamage *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.HEAVY_ENHANCE);
             }
+
+            if (hero.buff(Recharging.class) != null) {
+                bulletdamage *= 1.5f;
+            }
+
+            if (hero.buff(ArtifactRecharge.class) != null) {
+                bulletdamage *= 1.5f;
+            }
+
             return bulletdamage;
         }
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-            return FlameThrower.this.hasEnchant(type, owner);
+            return PlasmaCannonHP.this.hasEnchant(type, owner);
         }
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
-            return FlameThrower.this.proc(attacker, defender, damage);
+            return PlasmaCannonHP.this.proc(attacker, defender, damage);
         }
 
         @Override
         public float delayFactor(Char user) {
             if (hero.buff(Riot.riotTracker.class) != null) {
-                return FlameThrower.this.delayFactor(user)/2f;
+                return PlasmaCannonHP.this.delayFactor(user)/2f;
             } else {
-                return FlameThrower.this.delayFactor(user);
+                return PlasmaCannonHP.this.delayFactor(user);
             }
         }
 
         @Override
         public int STRReq(int lvl) {
-            if (FlameThrower.this.masteryPotionBonus) {
-                return STRReq(tier, FlameThrower.this.buffedLvl()) - 2;
+            if (PlasmaCannonHP.this.masteryPotionBonus) {
+                return STRReq(tier, PlasmaCannonHP.this.buffedLvl()) - 2;
             }
-            return STRReq(tier, FlameThrower.this.buffedLvl());
+            return STRReq(tier, PlasmaCannonHP.this.buffedLvl());
         }
 
         @Override
         protected void onThrow(int cell) {
             Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP); //Always Projecting and no distance limit, see MissileWeapon.throwPos
-            int maxDist = 5;
+            ArrayList<Char> chars = new ArrayList<>();
+            int maxDist = 6;
             int dist = Math.min(aim.dist, maxDist);
-            ConeAOE cone = new ConeAOE(aim,
-                    dist,
-                    30,
-                    Ballistica.STOP_SOLID | Ballistica.STOP_TARGET);
-            //cast to cells at the tip, rather than all cells, better performance.
-            for (Ballistica ray : cone.outerRays){
-                ((MagicMissile)hero.sprite.parent.recycle( MagicMissile.class )).reset(
-                        MagicMissile.FIRE_CONE,
-                        hero.sprite,
-                        ray.path.get(ray.dist),
-                        null
-                );
-            }
+            int cells = aim.path.get(Math.min(aim.dist, dist));
+            boolean terrainAffected = false;
+            for (int c : aim.subPath(1, maxDist)) {
 
-            for (int cells : cone.cells){
-
-                GameScene.add(Blob.seed(cells, 4, Fire.class));
-
-                Char ch = Actor.findChar(cells);
-                if (ch != null && ch.alignment != hero.alignment){
-                    int damage = damageRoll(hero);
-                    damage -= ch.drRoll();
-                    ch.damage(damage, hero);
+                Char ch;
+                if ((ch = Actor.findChar( c )) != null) {
+                    chars.add( ch );
                 }
+
+                if (Dungeon.level.flamable[c]) {
+
+                    Dungeon.level.destroy( c );
+                    GameScene.updateMap( c );
+                    terrainAffected = true;
+
+                }
+
+                CellEmitter.center( c ).burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
             }
-            Sample.INSTANCE.play(Assets.Sounds.BURNING, 1f);
-            //final zap at 2/3 distance, for timing of the actual effect
-            MagicMissile.boltFromChar(hero.sprite.parent,
-                    MagicMissile.FIRE_CONE,
-                    hero.sprite,
-                    cone.coreRay.path.get(dist * 2 / 3),
-                    new Callback() {
-                        @Override
-                        public void call() {
-                        }
-                    });
+            if (terrainAffected) {
+                Dungeon.observe();
+            }
+            curUser.sprite.parent.add(new Beam.DeathRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( cells )));
+            for (Char ch : chars) {
+                int damage = damageRoll(hero);
+                ch.damage(damage, hero);
+                ch.sprite.centerEmitter().burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
+                ch.sprite.flash();
+            }
             if (hero.buff(InfiniteBullet.class) != null) {
                 //round preserves
             } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
@@ -447,5 +445,19 @@ public class FlameThrower extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
+
+    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+        {
+            inputs =  new Class[]{PlasmaCannon.class, HPBullet.class, ArcaneResin.class};
+            inQuantity = new int[]{1, 1, 1};
+
+            cost = 0;
+
+            output = PlasmaCannonHP.class;
+            outQuantity = 1;
+        }
+
+    }
 
 }

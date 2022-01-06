@@ -107,6 +107,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShiel
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
@@ -322,6 +324,8 @@ public abstract class Recipe {
 		new AntimaterRifleHP.Recipe(),
 		new FlameThrowerAP.Recipe(),
 		new FlameThrowerHP.Recipe(),
+		new PlasmaCannonAP.Recipe(),
+		new PlasmaCannonHP.Recipe(),
 		new AdvancedEvolution.Recipe()
 	};
 	

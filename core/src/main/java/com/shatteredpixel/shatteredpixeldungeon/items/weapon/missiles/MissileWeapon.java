@@ -37,6 +37,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -150,6 +156,14 @@ abstract public class MissileWeapon extends Weapon {
 	public int throwPos(Hero user, int dst) {
 
 		boolean projecting = hasEnchant(Projecting.class, user);
+		if (this instanceof PlasmaCannon.Bullet
+		||	this instanceof PlasmaCannonAP.Bullet
+		||	this instanceof PlasmaCannonHP.Bullet
+		||	this instanceof FlameThrower.Bullet
+		||	this instanceof FlameThrowerAP.Bullet
+		||	this instanceof FlameThrowerHP.Bullet) {
+			projecting = true;
+		}
 		if (!projecting && Random.Int(3) < user.pointsInTalent(Talent.SHARED_ENCHANTMENT)){
 			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(Dungeon.hero)){
 				//do nothing
@@ -160,11 +174,19 @@ abstract public class MissileWeapon extends Weapon {
 				}
 			}
 		}
-
-		if (projecting && !Dungeon.level.solid[dst] && Dungeon.level.distance(user.pos, dst) <= 4){
+		if (this instanceof PlasmaCannon.Bullet
+		||	this instanceof PlasmaCannonAP.Bullet
+		||	this instanceof PlasmaCannonHP.Bullet
+		||	this instanceof FlameThrower.Bullet
+		||	this instanceof FlameThrowerAP.Bullet
+		||	this instanceof FlameThrowerHP.Bullet) {
 			return dst;
 		} else {
-			return super.throwPos(user, dst);
+			if (projecting && !Dungeon.level.solid[dst] && Dungeon.level.distance(user.pos, dst) <= 4){
+				return dst;
+			} else {
+				return super.throwPos(user, dst);
+			}
 		}
 	}
 

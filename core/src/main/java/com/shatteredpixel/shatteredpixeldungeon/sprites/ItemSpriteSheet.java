@@ -91,11 +91,6 @@ public class ItemSpriteSheet {
 	public static final int NOTHING			= UNCOLLECTIBLE+8; //for invisible ballistic
 	public static final int TENGU_BOMB      = UNCOLLECTIBLE+9;
 	public static final int TENGU_SHOCKER   = UNCOLLECTIBLE+10;
-	public static final int	SINGLE_BULLET   = UNCOLLECTIBLE+11;
-	public static final int	DUAL_BULLET     = UNCOLLECTIBLE+12;
-	public static final int TRIPLE_BULLET   = UNCOLLECTIBLE+13;
-	public static final int SNIPER_BULLET   = UNCOLLECTIBLE+14;
-	public static final int ROCKET          = UNCOLLECTIBLE+15;
 	static{
 		assignItemRect(GOLD,        15, 13);
 		assignItemRect(DEWDROP,     10, 10);
@@ -108,11 +103,6 @@ public class ItemSpriteSheet {
 		assignItemRect(NOTHING,     16, 16);
 		assignItemRect(TENGU_BOMB,      10, 10);
 		assignItemRect(TENGU_SHOCKER,   10, 10);
-		assignItemRect(SINGLE_BULLET,   8, 8);
-		assignItemRect(DUAL_BULLET,     11, 10);
-		assignItemRect(TRIPLE_BULLET,   11, 11);
-		assignItemRect(SNIPER_BULLET,   8, 8);
-		assignItemRect(ROCKET,          9, 9);
 	}
 
 	private static final int CONTAINERS     =                               xy(1, 3);   //16 slots
@@ -822,6 +812,42 @@ public class ItemSpriteSheet {
 		assignItemRect(AP_BULLET,	13, 13);
 		assignItemRect(HP_BULLET,	13, 13);
 		assignItemRect(SHEATH,	    13, 13);
+	}
+
+	private static final int BULLETS      	=                                       xy(1, 30);  //16 slots
+	public static final int SINGLE_BULLET 	= BULLETS+0;
+	public static final int DUAL_BULLET   	= BULLETS+1;
+	public static final int TRIPLE_BULLET 	= BULLETS+2;
+	public static final int SNIPER_BULLET 	= BULLETS+3;
+	public static final int ROCKET        	= BULLETS+4;
+	public static final int ENERGY_BULLET_1 = BULLETS+5;
+	public static final int ENERGY_BULLET_2 = BULLETS+6;
+	public static final int ENERGY_BULLET_3 = BULLETS+7;
+	public static final int BULLET_9  		= BULLETS+8;
+	public static final int BULLET_10 		= BULLETS+9;
+	public static final int BULLET_11 		= BULLETS+10;
+	public static final int	BULLET_12 		= BULLETS+11;
+	public static final int BULLET_13 		= BULLETS+12;
+	public static final int BULLET_14 		= BULLETS+13;
+	public static final int BULLET_15 		= BULLETS+13;
+	public static final int BULLET_16 		= BULLETS+13;
+	static{
+		assignItemRect(SINGLE_BULLET,   8,  8 );
+		assignItemRect(DUAL_BULLET,     11, 10);
+		assignItemRect(TRIPLE_BULLET,   11, 11);
+		assignItemRect(SNIPER_BULLET,   8,  8 );
+		assignItemRect(ROCKET,          9,  9 );
+		assignItemRect(ENERGY_BULLET_1, 10, 10);
+		assignItemRect(ENERGY_BULLET_2, 12, 12);
+		assignItemRect(ENERGY_BULLET_3, 12, 12);
+		assignItemRect(BULLET_9, 		16, 16);
+		assignItemRect(BULLET_10,		16, 16);
+		assignItemRect(BULLET_11,		16, 16);
+		assignItemRect(BULLET_12,		16, 16);
+		assignItemRect(BULLET_13,		16, 16);
+		assignItemRect(BULLET_14,		16, 16);
+		assignItemRect(BULLET_15,		16, 16);
+		assignItemRect(BULLET_16,		16, 16);
 	}
 
 	private static final int BAGS       =                                   xy(1, 31);  //16 slots
