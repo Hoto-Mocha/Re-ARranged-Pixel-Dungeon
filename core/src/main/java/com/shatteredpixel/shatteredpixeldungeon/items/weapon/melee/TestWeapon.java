@@ -34,14 +34,15 @@ public class TestWeapon extends MeleeWeapon {
         tier = 1;
 
         bones = false;
+        ACC = 100f;
     }
 
     public int min(int lvl) {
-        return 100;
+        return 1000;
     }
 
     public int max(int lvl) {
-        return 100;
+        return 1000;
     }
 
 }

@@ -271,6 +271,7 @@ public enum HeroClass {
 		//new TestWeapon().identify().collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new RingOfHaste().identify().upgrade(100).collect();
+		//new RingOfWealth().identify().upgrade(100).collect();
 		//new AdvancedEvolution().quantity(6).collect();
 
 		//new RegrowthBomb().quantity(50).collect();
