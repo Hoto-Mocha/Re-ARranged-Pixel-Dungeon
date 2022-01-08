@@ -137,6 +137,9 @@ public class FlameThrowerHP extends MeleeWeapon {
         }
         if (action.equals(AC_RELOAD)) {
             max_round = 6;
+            if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
@@ -147,12 +150,18 @@ public class FlameThrowerHP extends MeleeWeapon {
 
     public void quickReload() {
         max_round = 6;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
         round = Math.max(max_round, round);
         updateQuickslot();
     }
 
     public void reload() {
         max_round = 6;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -175,6 +184,9 @@ public class FlameThrowerHP extends MeleeWeapon {
     @Override
     public String status() {
         max_round = 6;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -209,6 +221,9 @@ public class FlameThrowerHP extends MeleeWeapon {
     public String info() {
 
         max_round = 6;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
         reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 

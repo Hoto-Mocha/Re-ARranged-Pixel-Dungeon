@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
@@ -142,8 +143,10 @@ public class Evolution extends InventorySpell {
 
         Weapon n;
         Generator.Category c;
-
-        if (w instanceof LargeHandgun
+        if (w instanceof MissileButton)
+        {
+            c = Generator.wepTiers[((MeleeWeapon)w).tier - 3];
+        } else if (w instanceof LargeHandgun
                 || w instanceof LargeHandgunAP
                 || w instanceof LargeHandgunHP
                 || w instanceof MiniGun

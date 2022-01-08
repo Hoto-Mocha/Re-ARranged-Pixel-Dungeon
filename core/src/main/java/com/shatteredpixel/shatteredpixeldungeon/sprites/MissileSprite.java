@@ -61,6 +61,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
@@ -212,6 +213,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(PlasmaCannon.Bullet.class,         0);
 		ANGULAR_SPEEDS.put(PlasmaCannonAP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(PlasmaCannonHP.Bullet.class,       0);
+		ANGULAR_SPEEDS.put(MissileButton.Rocket.class,        0);
 		//720 is default
 		
 		ANGULAR_SPEEDS.put(HeavyBoomerang.class,1440);
@@ -328,6 +330,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				|| item instanceof PlasmaCannon.Bullet
 				|| item instanceof PlasmaCannonAP.Bullet
 				|| item instanceof PlasmaCannonHP.Bullet
+				|| item instanceof MissileButton.Rocket
 		) {
 			speed *= 100f;
 		}

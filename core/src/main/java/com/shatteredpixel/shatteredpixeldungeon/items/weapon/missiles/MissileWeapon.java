@@ -40,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projec
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
@@ -161,7 +162,8 @@ abstract public class MissileWeapon extends Weapon {
 		||	this instanceof PlasmaCannonHP.Bullet
 		||	this instanceof FlameThrower.Bullet
 		||	this instanceof FlameThrowerAP.Bullet
-		||	this instanceof FlameThrowerHP.Bullet) {
+		||	this instanceof FlameThrowerHP.Bullet
+		||	this instanceof MissileButton.Rocket) {
 			projecting = true;
 		}
 		if (!projecting && Random.Int(3) < user.pointsInTalent(Talent.SHARED_ENCHANTMENT)){
@@ -179,7 +181,8 @@ abstract public class MissileWeapon extends Weapon {
 		||	this instanceof PlasmaCannonHP.Bullet
 		||	this instanceof FlameThrower.Bullet
 		||	this instanceof FlameThrowerAP.Bullet
-		||	this instanceof FlameThrowerHP.Bullet) {
+		||	this instanceof FlameThrowerHP.Bullet
+		||	this instanceof MissileButton.Rocket) {
 			return dst;
 		} else {
 			if (projecting && !Dungeon.level.solid[dst] && Dungeon.level.distance(user.pos, dst) <= 4){

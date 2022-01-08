@@ -450,9 +450,10 @@ public class Generator {
 					FlameThrowerAP.class,
 					FlameThrowerHP.class,
 					PlasmaCannonAP.class,
-					PlasmaCannonHP.class
+					PlasmaCannonHP.class,
+					MissileButton.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 4, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 4, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
 
 			//see AdvancedEvolution.changeWeapon
 			EVO_1.classes = new Class<?>[]{

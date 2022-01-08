@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
@@ -48,7 +49,7 @@ public class CurseInfusion extends InventorySpell {
 
 	@Override
 	protected boolean usableOnItem(Item item) {
-		return ((item instanceof EquipableItem && !(item instanceof MissileWeapon)) || item instanceof Wand);
+		return ((item instanceof EquipableItem && !(item instanceof MissileWeapon)) && !(item instanceof MissileButton) || item instanceof Wand);
 	}
 
 	@Override

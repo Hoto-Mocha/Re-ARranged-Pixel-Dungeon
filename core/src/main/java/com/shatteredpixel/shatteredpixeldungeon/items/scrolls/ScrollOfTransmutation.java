@@ -55,7 +55,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
@@ -177,7 +179,10 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		Weapon n;
 		Generator.Category c;
 		if (w instanceof MeleeWeapon) {
-			if (w instanceof LargeHandgun
+			if (w instanceof MissileButton) {
+				c = Generator.wepTiers[((MeleeWeapon) w).tier - 3];
+			} else if (
+				w instanceof LargeHandgun
 			 || w instanceof LargeHandgunAP
 			 || w instanceof LargeHandgunHP
 			 || w instanceof MiniGun
@@ -186,6 +191,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			 || w instanceof AntimaterRifle
 			 || w instanceof AntimaterRifleAP
 			 || w instanceof AntimaterRifleHP
+			 || w instanceof RPG7
 			 || w instanceof Lance
 			 || w instanceof ObsidianShield
 			 || w instanceof LanceNShield

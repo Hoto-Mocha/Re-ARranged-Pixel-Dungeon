@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
@@ -159,6 +160,7 @@ public class StoneOfAugmentation extends InventoryStone {
 		  ||item instanceof PlasmaCannon
 		  ||item instanceof PlasmaCannonAP
 		  ||item instanceof PlasmaCannonHP
+		  ||item instanceof MissileButton
 		) {
 			return false;
 		} else {

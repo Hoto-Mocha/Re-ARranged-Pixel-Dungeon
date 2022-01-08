@@ -64,14 +64,13 @@ public class MeleeWeapon extends Weapon {
 	
 	@Override
 	public String info() {
-
 		String info = desc();
 
 		if (levelKnown) {
 			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
 			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Weapon.class, "too_heavy");
-			} else if (Dungeon.hero.STR() > STRReq()){
+			} else if (Dungeon.hero.STR() > STRReq()) {
 				info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
 			}
 		} else {
@@ -80,33 +79,25 @@ public class MeleeWeapon extends Weapon {
 				info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
 			}
 		}
-
 		String statsInfo = statsInfo();
 		if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
-
 		switch (augment) {
 			case SPEED:
 				info += " " + Messages.get(Weapon.class, "faster");
-				break;
-			case DAMAGE:
-				info += " " + Messages.get(Weapon.class, "stronger");
-				break;
-			case NONE:
+				break; case DAMAGE: info += " " + Messages.get(Weapon.class, "stronger");
+				break; case NONE:
 		}
-
-		if (enchantment != null && (cursedKnown || !enchantment.curse())){
+		if (enchantment != null && (cursedKnown || !enchantment.curse())) {
 			info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
 			info += " " + Messages.get(enchantment, "desc");
 		}
-
-		if (cursed && isEquipped( Dungeon.hero )) {
+		if (cursed && isEquipped(Dungeon.hero)) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
 		} else if (cursedKnown && cursed) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed");
-		} else if (!isIdentified() && cursedKnown){
+		} else if (!isIdentified() && cursedKnown) {
 			info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
 		}
-		
 		return info;
 	}
 	

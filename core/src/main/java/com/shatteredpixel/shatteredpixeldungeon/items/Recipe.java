@@ -103,6 +103,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
@@ -277,7 +278,8 @@ public abstract class Recipe {
 		new StewedMeat.twoMeat(),
 		new Evolution.Recipe(),
 		new Pistol.Recipe(),
-		new GoldenPistol.Recipe()
+		new GoldenPistol.Recipe(),
+		new MissileButton.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{

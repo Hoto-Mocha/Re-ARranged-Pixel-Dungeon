@@ -131,6 +131,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
@@ -262,6 +263,7 @@ public enum Catalog {
 		WEAPONS.seen.put( RPG7.class,                       false);
 		WEAPONS.seen.put( FlameThrower.class,               false);
 		WEAPONS.seen.put( PlasmaCannon.class,               false);
+		WEAPONS.seen.put( MissileButton.class,              false);
 	
 		ARMOR.seen.put( ClothArmor.class,                   false);
 		ARMOR.seen.put( LeatherArmor.class,                 false);

@@ -392,6 +392,12 @@ public class ItemSpriteSheet {
 		assignItemRect(ALCHEMYGUNS_6      ,16, 16);
 	}
 
+	private static final int ETC               =                               xy(9, 34);
+	public static final int MISSILE_BUTTON     = ETC+0;
+	static{
+		assignItemRect(MISSILE_BUTTON            ,14, 14);
+	}
+
 	private static final int MISSILE_WEP    =                               xy(1, 10);  //16 slots. 3 per tier + boomerang
 	public static final int SPIRIT_BOW      = MISSILE_WEP+0;
 	
