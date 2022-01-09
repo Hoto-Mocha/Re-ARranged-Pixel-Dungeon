@@ -369,8 +369,8 @@ public class ShotGunAP extends MeleeWeapon {
                     CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                     CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
                 }
-                if (Random.Int(10) == 0){
-                    Buff.affect(enemy, Cripple.class, 2f);                              //불구 확률 2배
+                if (Random.Int(4) == 0){
+                    Buff.affect(enemy, Cripple.class, 5f);                              //불구 확률 5배, 지속 시간도 5턴으로 증가
                 }
             }
             if (hero.buff(InfiniteBullet.class) != null) {

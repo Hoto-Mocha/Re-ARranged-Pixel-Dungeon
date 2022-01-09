@@ -55,6 +55,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LifeLink;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
@@ -433,8 +434,7 @@ public abstract class Char extends Actor {
 					}
 					dr = 0;
 				}
-				else if (h.belongings.weapon() instanceof Lance
-						|| h.belongings.weapon() instanceof CrudePistolAP.Bullet
+				else if (h.belongings.weapon() instanceof CrudePistolAP.Bullet
 						|| h.belongings.weapon() instanceof PistolAP.Bullet
 						|| h.belongings.weapon() instanceof GoldenPistolAP.Bullet
 						|| h.belongings.weapon() instanceof HandgunAP.Bullet
@@ -504,6 +504,11 @@ public abstract class Char extends Actor {
 
 			if (buff( Fury.class ) != null) {
 				dmg *= 1.5f;
+			}
+
+			if (this instanceof Hero && hero.buff(LanceBuff.class) != null && hero.belongings.weapon() instanceof Lance) {
+				dmg *= 1f + hero.buff(LanceBuff.class).getDamageFactor();
+				Buff.detach(this, LanceBuff.class);
 			}
 
 			if (this instanceof Hero) {

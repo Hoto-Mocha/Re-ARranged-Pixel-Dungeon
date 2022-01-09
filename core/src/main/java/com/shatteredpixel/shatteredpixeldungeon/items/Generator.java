@@ -151,59 +151,35 @@ import java.util.LinkedHashMap;
 public class Generator {
 
 	public enum Category {
-		WEAPON	( 2, 2, MeleeWeapon.class),
-		WEP_T1	( 0, 0, MeleeWeapon.class),
-		WEP_T2	( 0, 0, MeleeWeapon.class),
-		WEP_T3	( 0, 0, MeleeWeapon.class),
-		WEP_T4	( 0, 0, MeleeWeapon.class),
-		WEP_T5	( 0, 0, MeleeWeapon.class),
+		WEAPON		( 2, 2, MeleeWeapon.class),
+		WEP_T1		( 0, 0, MeleeWeapon.class),
+		WEP_T2		( 0, 0, MeleeWeapon.class),
+		WEP_T3		( 0, 0, MeleeWeapon.class),
+		WEP_T4		( 0, 0, MeleeWeapon.class),
+		WEP_T5		( 0, 0, MeleeWeapon.class),
 
-		ARMOR	( 2, 1, Armor.class ),
+		ARMOR		( 2, 1, Armor.class ),
 		
-		MISSILE ( 1, 2, MissileWeapon.class ),
-		MIS_T1  ( 0, 0, MissileWeapon.class ),
-		MIS_T2  ( 0, 0, MissileWeapon.class ),
-		MIS_T3  ( 0, 0, MissileWeapon.class ),
-		MIS_T4  ( 0, 0, MissileWeapon.class ),
-		MIS_T5  ( 0, 0, MissileWeapon.class ),
+		MISSILE 	( 1, 2, MissileWeapon.class ),
+		MIS_T1  	( 0, 0, MissileWeapon.class ),
+		MIS_T2  	( 0, 0, MissileWeapon.class ),
+		MIS_T3  	( 0, 0, MissileWeapon.class ),
+		MIS_T4  	( 0, 0, MissileWeapon.class ),
+		MIS_T5  	( 0, 0, MissileWeapon.class ),
 		
-		WAND	( 1, 1, Wand.class ),
-		RING	( 1, 0, Ring.class ),
-		ARTIFACT( 0, 1, Artifact.class),
+		WAND		( 1, 1, Wand.class ),
+		RING		( 1, 0, Ring.class ),
+		ARTIFACT	( 0, 1, Artifact.class),
 		
-		FOOD	( 0, 0, Food.class ),
+		FOOD		( 0, 0, Food.class ),
 		
-		POTION	( 8, 8, Potion.class ),
-		SEED	( 1, 1, Plant.Seed.class ),
+		POTION		( 8, 8, Potion.class ),
+		SEED		( 1, 1, Plant.Seed.class ),
 		
-		SCROLL	( 8, 8, Scroll.class ),
-		STONE   ( 1, 1, Runestone.class),
+		SCROLL		( 8, 8, Scroll.class ),
+		STONE   	( 1, 1, Runestone.class),
 		
-		GOLD	( 10, 10,   Gold.class ),
-
-		EVO_1   ( 0, 0, MeleeWeapon.class),     //AntimaterRifle
-		EVO_2   ( 0, 0, MeleeWeapon.class),     //MiniGun
-		EVO_3   ( 0, 0, MeleeWeapon.class),     //LargeHandgun
-		EVO_4   ( 0, 0, MeleeWeapon.class),     //RPG7
-		EVO_5   ( 0, 0, MeleeWeapon.class),     //SharpKatana
-		EVO_6   ( 0, 0, MeleeWeapon.class),     //Lance
-		EVO_7   ( 0, 0, MeleeWeapon.class),     //ObsidianShield
-		EVO_8   ( 0, 0, MeleeWeapon.class),     //TrueRunicBlade
-
-		GUN_1   ( 0, 0, MeleeWeapon.class),
-		GUN_2   ( 0, 0, MeleeWeapon.class),
-		GUN_3   ( 0, 0, MeleeWeapon.class),
-		GUN_4   ( 0, 0, MeleeWeapon.class),
-
-		EVO_9   ( 0, 0, MeleeWeapon.class),
-		GUN_5   ( 0, 0, MeleeWeapon.class),
-
-		SHO		( 0, 0, MeleeWeapon.class),
-
-		EVO_10   ( 0, 0, MeleeWeapon.class),		//HugeSword
-		EVO_11   ( 0, 0, MeleeWeapon.class),		//IronHammer
-		EVO_12   ( 0, 0, MeleeWeapon.class);		//BeamSaber
-		
+		GOLD		( 10, 10,   Gold.class );
 		public Class<?>[] classes;
 
 		//some item types use a deck-based system, where the probs decrement as items are picked
@@ -455,212 +431,6 @@ public class Generator {
 			};
 			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 4, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
 
-			//see AdvancedEvolution.changeWeapon
-			EVO_1.classes = new Class<?>[]{
-					AntimaterRifle.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class,
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class
-			};
-			EVO_1.probs = new float[]{70, 6, 5, 5, 4 ,3 ,3 ,1 ,1 ,2}; //70% Success
-
-			EVO_2.classes = new Class<?>[]{
-					MiniGun.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class,
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class
-			};
-			EVO_2.probs = new float[]{70, 6, 5, 5, 4 ,3 ,3 ,1 ,1 ,2}; //70% Success
-
-			EVO_3.classes = new Class<?>[]{
-					LargeHandgun.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class,
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class
-			};
-			EVO_3.probs = new float[]{70, 6, 5, 5, 4 ,3 ,3 ,1 ,1 ,2}; //70% Success
-
-			EVO_4.classes = new Class<?>[]{
-					RPG7.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class,
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class,
-			};
-			EVO_4.probs = new float[]{70, 6, 5, 5, 4 ,3 ,3 ,1 ,1 ,2}; //70% Success
-
-			EVO_5.classes = new Class<?>[]{
-					SharpKatana.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class,
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class,
-			};
-			EVO_5.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
-
-			EVO_6.classes = new Class<?>[]{
-					Lance.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class,
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class,
-			};
-			EVO_6.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
-
-			EVO_7.classes = new Class<?>[]{
-					ObsidianShield.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class,
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class,
-			};
-			EVO_7.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
-
-			EVO_8.classes = new Class<?>[]{
-					TrueRunicBlade.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class, //not contains
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class,
-			};
-			EVO_8.probs = new float[]{90, 2, 2, 1, 0 ,1 ,1 ,1 ,1 ,1}; //90% Success
-
-
-
-			GUN_1.classes = new Class<?>[]{
-					AntimaterRifle.class,
-					SniperRifle.class
-			};
-			GUN_1.probs = new float[]{1, 0}; //100% Success For Gunner
-
-			GUN_2.classes = new Class<?>[]{
-					MiniGun.class,
-					HeavyMachinegun.class
-			};
-			GUN_2.probs = new float[]{1, 0}; //100% Success For Gunner
-
-			GUN_3.classes = new Class<?>[]{
-					LargeHandgun.class,
-					Magnum.class
-			};
-			GUN_3.probs = new float[]{1, 0}; //100% Success For Gunner
-
-			GUN_4.classes = new Class<?>[]{
-					RPG7.class,
-					RocketLauncher.class
-			};
-			GUN_4.probs = new float[]{1, 0}; //100% Success For Gunner
-
-			EVO_9.classes = new Class<?>[]{
-					SPAS.class,
-					Shortsword.class,
-					HandAxe.class,
-					Spear.class,
-					Quarterstaff.class,
-					Dirk.class,
-					Pistol.class,
-					DualPistol.class,
-					ShortKatana.class,
-			};
-			EVO_9.probs = new float[]{70, 6, 6, 5, 5, 4 ,1 ,1 ,2}; //70% Success
-
-			GUN_5.classes = new Class<?>[]{
-					SPAS.class,
-					ShotGun.class
-			};
-			GUN_5.probs = new float[]{1, 0}; //100% Success For Gunner
-
-			SHO.classes = new Class<?>[]{
-					Spade.class,
-					WornShortsword.class
-			};
-			SHO.probs = new float[]{1, 0}; //100% Success For Shovel
-
-			EVO_10.classes = new Class<?>[]{
-					HugeSword.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class,
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class,
-			};
-			EVO_10.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
-
-			EVO_11.classes = new Class<?>[]{
-					IronHammer.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class,
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class,
-			};
-			EVO_11.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
-
-			EVO_12.classes = new Class<?>[]{
-					BeamSaber.class,
-					Longsword.class,
-					BattleAxe.class,
-					Flail.class,
-					RunicBlade.class,
-					AssassinsBlade.class,
-					Crossbow.class,
-					Handgun.class,
-					AssultRifle.class,
-					LongKatana.class,
-			};
-			EVO_12.probs = new float[]{90, 2, 1, 1, 1 ,1 ,1 ,1 ,1 ,1}; //90% Success
-
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
 					ClothArmor.class,
@@ -843,32 +613,7 @@ public class Generator {
 			Category.WEP_T2,
 			Category.WEP_T3,
 			Category.WEP_T4,
-			Category.WEP_T5,
-	};
-
-	public static final Category[] evoTiers = new Category[]{
-			Category.EVO_1,
-			Category.EVO_2,
-			Category.EVO_3,
-			Category.EVO_4,
-			Category.EVO_5,
-			Category.EVO_6,
-			Category.EVO_7,
-			Category.EVO_8,
-
-			Category.GUN_1,
-			Category.GUN_2,
-			Category.GUN_3,
-			Category.GUN_4,
-
-			Category.EVO_9,
-			Category.GUN_5,
-
-			Category.SHO,
-
-			Category.EVO_10,
-			Category.EVO_11,
-			Category.EVO_12,
+			Category.WEP_T5
 	};
 
 	public static MeleeWeapon randomWeapon(){

@@ -47,7 +47,7 @@ public class Lance extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        return  4*(tier+1) +    //28 base
-                lvl*(tier);     //scaling +6 per +1
+        return  4*(tier-1) +    //20 base
+                lvl*(tier-1);     //scaling +5 per +1
     }
 }

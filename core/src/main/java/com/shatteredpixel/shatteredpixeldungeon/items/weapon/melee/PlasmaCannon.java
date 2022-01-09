@@ -398,7 +398,7 @@ public class PlasmaCannon extends MeleeWeapon {
         protected void onThrow(int cell) {
             Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP); //Always Projecting and no distance limit, see MissileWeapon.throwPos
             ArrayList<Char> chars = new ArrayList<>();
-            int maxDist = 8+buffedLvl();
+            int maxDist = 8+PlasmaCannon.curItem.buffedLvl();
             int dist = Math.min(aim.dist, maxDist);
             int cells = aim.path.get(Math.min(aim.dist, dist));
             boolean terrainAffected = false;

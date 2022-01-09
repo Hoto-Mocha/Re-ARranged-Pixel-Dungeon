@@ -31,9 +31,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
+
+import java.util.HashSet;
 
 public class LanceNShield extends MeleeWeapon {
 
@@ -43,6 +46,12 @@ public class LanceNShield extends MeleeWeapon {
         hitSoundPitch = 1.1f;
 
         tier = 6;
+    }
+
+    public static final HashSet<Class> RESISTS = new HashSet<>();
+
+    static {
+        RESISTS.addAll(AntiMagic.RESISTS);
     }
 
     @Override
@@ -68,11 +77,12 @@ public class LanceNShield extends MeleeWeapon {
         }
     }
 
+    //see Hero.damage for antimagic effects
     public String statsInfo(){
         if (isIdentified()){
-            return Messages.get(this, "stats_desc", 2*buffedLvl(), 6+3*buffedLvl());
+            return Messages.get(this, "stats_desc", 4+2*buffedLvl(), 2+buffedLvl());
         } else {
-            return Messages.get(this, "typical_stats_desc", 0, 6);
+            return Messages.get(this, "typical_stats_desc", 4, 2);
         }
     }
 

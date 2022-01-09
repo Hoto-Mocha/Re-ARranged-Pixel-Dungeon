@@ -58,6 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
@@ -170,6 +171,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
@@ -199,6 +202,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
@@ -901,12 +905,12 @@ public class Hero extends Char {
 			dr += Random.NormalIntRange(0, 2*pointsInTalent(Talent.HOLD_FAST));
 		}
 
-		if (buff(LanceGuard.class) != null){
-			dr += Random.NormalIntRange(hero.belongings.weapon.buffedLvl()*2, 6+hero.belongings.weapon.buffedLvl()*3);
+		if (buff(LanceGuard.class) != null && hero.belongings.weapon instanceof LanceNShield){
+			dr += 4+hero.belongings.weapon.buffedLvl()*2;
 		}
 
-		if (buff(SpearGuard.class) != null){
-			dr += Random.NormalIntRange(hero.belongings.weapon.buffedLvl(), 4+hero.belongings.weapon.buffedLvl()*2);
+		if (buff(SpearGuard.class) != null && hero.belongings.weapon instanceof SpearNShield){
+			dr += 4+hero.belongings.weapon.buffedLvl()*2;
 		}
 
 		if (buff(Lead.class) != null) {
@@ -1743,6 +1747,11 @@ public class Hero extends Char {
 			dmg -= ObsidianShield.drRoll(belongings.weapon().buffedLvl());
 		}
 
+		if (buff(LanceGuard.class) != null && hero.belongings.weapon() instanceof LanceNShield && LanceNShield.RESISTS.contains(src.getClass())){
+			dmg -= 2+hero.belongings.weapon.buffedLvl();
+		}
+
+
 		if (buff(Talent.WarriorFoodImmunity.class) != null){
 			if (pointsInTalent(Talent.IRON_STOMACH) == 1)       dmg = Math.round(dmg*0.25f);
 			else if (pointsInTalent(Talent.IRON_STOMACH) == 2)  dmg = Math.round(dmg*0.00f);
@@ -1914,6 +1923,10 @@ public class Hero extends Char {
 
 			if (subClass == HeroSubClass.FREERUNNER){
 				Buff.affect(this, Momentum.class).gainStack();
+			}
+
+			if (hero.belongings.weapon instanceof Lance) {
+				Buff.affect(this, LanceBuff.class).setDamageFactor(1+(hero.speed()));
 			}
 
 			if (Dungeon.hero.subClass == HeroSubClass.RANGER && Random.Int(50) == 0){
@@ -2505,7 +2518,7 @@ public class Hero extends Char {
 		}
 
 		if (hero.belongings.weapon instanceof TestWeapon) {
-			Buff.affect(hero, Awareness.class, 1000f);
+			Buff.affect(hero, Awareness.class, 10f);
 		}
 
 		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER) {

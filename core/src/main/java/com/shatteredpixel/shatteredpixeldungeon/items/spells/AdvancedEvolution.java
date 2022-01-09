@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
@@ -46,6 +47,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
@@ -60,8 +63,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
@@ -70,6 +77,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -164,79 +173,146 @@ public class AdvancedEvolution extends InventorySpell {
         //Gus Success Rate for Gunner: 100%
 
         Weapon n;
-        Generator.Category c;
 
         if (w instanceof SniperRifle
                 || w instanceof SniperRifleHP
                 || w instanceof SniperRifleAP) {
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                c = Generator.evoTiers[8];
-            } else {
-                c = Generator.evoTiers[0];
+            if (w instanceof SniperRifle) {
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new AntimaterRifle();
+                } else {
+                    n = Generator.randomWeapon();
+                }
+            } else if (w instanceof SniperRifleAP) {
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new AntimaterRifleAP();
+                } else {
+                    n = Generator.randomWeapon();
+                }
+            } else { //w instanceof SniperRifleHP
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new AntimaterRifleHP();
+                } else {
+                    n = Generator.randomWeapon();
+                }
             }
-        }
-        else if (w instanceof HeavyMachinegun
-                || w instanceof HeavyMachinegunHP
-                || w instanceof HeavyMachinegunAP) {
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                c = Generator.evoTiers[9];
-            } else {
-                c = Generator.evoTiers[1];
+        } else if (w instanceof HeavyMachinegun
+                || w instanceof HeavyMachinegunAP
+                || w instanceof HeavyMachinegunHP) {
+            if (w instanceof HeavyMachinegun) {
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new MiniGun();
+                } else {
+                    n = Generator.randomWeapon();
+                }
+            } else if (w instanceof HeavyMachinegunAP) {
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new MiniGunAP();
+                } else {
+                    n = Generator.randomWeapon();
+                }
+            } else { //w instanceof HeavyMachinegunHP
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new MiniGunHP();
+                } else {
+                    n = Generator.randomWeapon();
+                }
             }
-        }
-        else if (w instanceof Magnum
+        } else if (w instanceof Magnum
                 || w instanceof MagnumAP
                 || w instanceof MagnumHP) {
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                c = Generator.evoTiers[10];
-            } else {
-                c = Generator.evoTiers[2];
+            if (w instanceof Magnum) {
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new LargeHandgun();
+                } else {
+                    n = Generator.randomWeapon();
+                }
+            } else if (w instanceof MagnumAP) {
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new LargeHandgunAP();
+                } else {
+                    n = Generator.randomWeapon();
+                }
+            } else { //w instanceof MagnumHP
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new LargeHandgunHP();
+                } else {
+                    n = Generator.randomWeapon();
+                }
             }
-        }
-        else if (w instanceof ShotGun
+        } else if (w instanceof ShotGun
                 || w instanceof ShotGunAP
                 || w instanceof ShotGunHP) {
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                c = Generator.evoTiers[13];
+            if (w instanceof ShotGun) {
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new SPAS();
+                } else {
+                    n = Generator.randomWeapon();
+                }
+            } else if (w instanceof ShotGunAP) {
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new SPASAP();
+                } else {
+                    n = Generator.randomWeapon();
+                }
+            } else { //w instanceof ShotGunHP
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new SPASHP();
+                } else {
+                    n = Generator.randomWeapon();
+                }
+            }
+        } else if (w instanceof RocketLauncher) {
+            if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                n = new RPG7();
             } else {
-                c = Generator.evoTiers[12];
+                n = Generator.randomWeapon();
+            }
+        } else if (w instanceof LargeKatana) {
+            if (Random.Int(10) < 9) {
+                n = new SharpKatana();
+            } else {
+                n = Generator.randomWeapon();
+            }
+        } else if (w instanceof Glaive) {
+            if (Random.Int(10) < 9) {
+                n = new Lance();
+            } else {
+                n = Generator.randomWeapon();
+            }
+        } else if (w instanceof Greatshield) {
+            if (Random.Int(10) < 9) {
+                n = new ObsidianShield();
+            } else {
+                n = Generator.randomWeapon();
+            }
+        } else if (w instanceof RunicBlade){
+            if (Random.Int(10) < 9) {
+                n = new TrueRunicBlade();
+            } else {
+                n = Generator.randomWeapon();
+            }
+        } else if (w instanceof Shovel) {
+            n = new Spade();
+        } else if (w instanceof Greataxe) {
+            if (Random.Int(10) < 9) {
+                n = new HugeSword();
+            } else {
+                n = Generator.randomWeapon();
+            }
+        } else if (w instanceof WarHammer) {
+            if (Random.Int(10) < 9) {
+                n = new IronHammer();
+            } else {
+                n = Generator.randomWeapon();
+            }
+        } else { //w instanceof Gauntlet
+            if (Random.Int(10) < 9) {
+                n = new BeamSaber();
+            } else {
+                n = Generator.randomWeapon();
             }
         }
-        else if (w instanceof RocketLauncher) {
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
-                c = Generator.evoTiers[11];
-            } else {
-                c = Generator.evoTiers[3];
-            }
-        }
-        else if (w instanceof LargeKatana) {
-            c = Generator.evoTiers[4];
-        }
-        else if (w instanceof Glaive) {
-            c = Generator.evoTiers[5];
-        }
-        else if (w instanceof Greatshield) {
-            c = Generator.evoTiers[6];
-        }
-        else  if (w instanceof RunicBlade){
-            c = Generator.evoTiers[7];
-        }
-        else if (w instanceof Shovel) {
-            c = Generator.evoTiers[14];
-        }
-        else if (w instanceof Greataxe) {
-            c = Generator.evoTiers[15];
-        }
-        else if (w instanceof WarHammer) {
-            c = Generator.evoTiers[16];
-        }
-        else { //w instanceof Gauntlet
-            c = Generator.evoTiers[17];
-        }
-
-        do {
-            n = (Weapon) Reflection.newInstance(c.classes[Random.chances(c.probs)]);
-        } while (Challenges.isItemBlocked(n) || n.getClass() == w.getClass());
 
         int level = w.level();
         if (w.curseInfusionBonus) level--;
