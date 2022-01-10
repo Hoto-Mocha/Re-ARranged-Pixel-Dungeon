@@ -55,6 +55,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
@@ -115,6 +116,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
@@ -260,56 +264,18 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
-		//new TengusMask().collect();
-		//new KingsCrown().collect();
-
-		//new SniperRifle().identify()		.upgrade(5).collect();
-		//new SniperRifleAP().identify()		.upgrade(5).collect();
-		//new SniperRifleHP().identify()		.upgrade(5).collect();
-
-		//new HeavyMachinegun().identify()	.upgrade(5).collect();
-		//new HeavyMachinegunAP().identify()	.upgrade(5).collect();
-		//new HeavyMachinegunHP().identify()	.upgrade(5).collect();
-
-		//new Magnum().identify()				.upgrade(5).collect();
-		//new MagnumAP().identify()			.upgrade(5).collect();
-		//new MagnumHP().identify()			.upgrade(5).collect();
-
-		//new RocketLauncher().identify()		.upgrade(5).collect();
-
-		//new ShotGun().identify()			.upgrade(5).collect();
-		//new ShotGunAP().identify()			.upgrade(5).collect();
-		//new ShotGunHP().identify()			.upgrade(5).collect();
-
-		//new LargeKatana().identify().collect();
-		//new RunicBlade().identify().collect();
-		//new Glaive().identify().collect();
-		//new Greatshield().identify().collect();
-		//new Greataxe().identify().collect();
-		//new WarHammer().identify().collect();
-		//new Gauntlet().identify().collect();
-		//new Shovel().identify().collect();
-		//new Lance().identify().collect();
-		//new SpearNShield().identify().collect();
-		//new LanceNShield().identify().collect();
-		//new ObsidianShield().identify().collect();
-		//new RingOfHaste().identify().collect();
-		//new PotionOfHaste().identify().collect();
-
-		//new FlameThrower().identify().collect();
 		//new PlasmaCannon().identify().collect();
 		//new PlasmaCannonAP().identify().collect();
 		//new PlasmaCannonHP().identify().collect();
 
-		//new StoneOfAugmentation().quantity(99).collect();
-		//new MissileButton().identify().collect();
-		//new MissileButton().identify().collect();
-		//new MissileButton().identify().collect();
-		//new MissileButton().identify().collect();
-		//new AlchemistsToolkit().upgrade(10).identify().collect();
+		//new FlameThrower().identify().collect();
+		//new FlameThrowerAP().identify().collect();
+		//new FlameThrowerHP().identify().collect();
+
+		//new TengusMask().collect();
+		//new KingsCrown().collect();
 
 		//new ScrollOfUpgrade().identify().quantity(99).collect();
-		//new ScrollOfTransmutation().identify().quantity(99).collect();
 		//new Evolution().quantity(50).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new PotionOfInvisibility().identify().quantity(30).collect();
@@ -324,6 +290,7 @@ public enum HeroClass {
 		//new ScrollOfPsionicBlast().identify().quantity(30).collect();
 		//new PotionOfMindVision().identify().quantity(30).collect();
 		//new PotionOfCleansing().identify().quantity(30).collect();
+		//new Bomb().quantity(500).collect();
 		//new PotionOfHealing().identify().quantity(30).collect();
 		//new FeatherFall().identify().quantity(30).collect();
 		//new TestWeapon().identify().collect();

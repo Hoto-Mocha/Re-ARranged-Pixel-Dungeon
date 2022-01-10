@@ -655,11 +655,12 @@ public class Hero extends Char {
 						|| wep instanceof MiniGun.Bullet
 						|| wep instanceof MiniGunAP.Bullet
 						|| wep instanceof MiniGunHP.Bullet
-						|| wep instanceof LargeHandgun.Bullet
-						|| wep instanceof LargeHandgunAP.Bullet
-						|| wep instanceof LargeHandgunHP.Bullet
 				) {
 					accuracy *= 1f;
+				} else if (wep instanceof LargeHandgun.Bullet
+						|| wep instanceof LargeHandgunAP.Bullet
+						|| wep instanceof LargeHandgunHP.Bullet) {
+					accuracy *= 1.3f;
 				} else {
 					accuracy *= 1.5f;
 				}

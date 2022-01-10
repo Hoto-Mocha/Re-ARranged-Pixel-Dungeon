@@ -183,6 +183,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
@@ -611,6 +612,17 @@ public abstract class Char extends Actor {
 					dmg *= 1.25f;
 				}
 			}
+
+			if (this instanceof Hero) {
+				float heroHPPercent = ((float)hero.HP / (float)hero.HT);
+				if (Dungeon.hero.belongings.weapon() instanceof LargeHandgun.Bullet
+						||Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP.Bullet
+						||Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP.Bullet ) {
+					dmg *= GameMath.gate(0.125f, 2*heroHPPercent, 1.5f); //0%~6.25% HP : 0.125x, scales defend on Hero health, 75%~100% HP : 1.5x
+				}
+			}
+
+
 			if (this instanceof Hero) {
 				if (Dungeon.hero.buff(ExtraBullet.class) != null) {
 					if (Dungeon.hero.belongings.weapon() instanceof CrudePistolAP.Bullet

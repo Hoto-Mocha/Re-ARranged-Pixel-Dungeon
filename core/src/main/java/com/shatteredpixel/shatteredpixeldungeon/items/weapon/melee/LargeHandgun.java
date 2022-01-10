@@ -139,7 +139,7 @@ public class LargeHandgun extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 6;
+            max_round = 4;
             if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
                 max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
             }
@@ -154,7 +154,7 @@ public class LargeHandgun extends MeleeWeapon {
     }
 
     public void quickReload(Char owner) {
-        max_round = 6;
+        max_round = 4;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -166,7 +166,7 @@ public class LargeHandgun extends MeleeWeapon {
         Buff.detach(hero, FrostBullet.class);
         Buff.detach(hero, FireBullet.class);
         Buff.detach(hero, ElectroBullet.class);
-        max_round = 6;
+        max_round = 4;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -190,7 +190,7 @@ public class LargeHandgun extends MeleeWeapon {
         Buff.detach(hero, FrostBullet.class);
         Buff.detach(hero, FireBullet.class);
         Buff.detach(hero, ElectroBullet.class);
-        max_round = 6;
+        max_round = 4;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -226,7 +226,7 @@ public class LargeHandgun extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 6;
+        max_round = 4;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -253,8 +253,8 @@ public class LargeHandgun extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-            return 4 * (tier+1)   +
-                    lvl * (tier+1)  +
+            return 4 * (tier)   +
+                    lvl * (tier)  +
                     RingOfSharpshooting.levelDamageBonus(hero) +
                     5 * hero.pointsInTalent(Talent.HANDGUN_MASTER);
     }
@@ -262,11 +262,11 @@ public class LargeHandgun extends MeleeWeapon {
     @Override
     public String info() {
 
-        max_round = 6;
+        max_round = 4;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
-        reload_time = 1f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
@@ -362,7 +362,16 @@ public class LargeHandgun extends MeleeWeapon {
     public class Bullet extends MissileWeapon {
 
         {
-            image = ItemSpriteSheet.SINGLE_BULLET;
+            float heroHPPercent = ((float)hero.HP / (float)hero.HT);
+            if (heroHPPercent < 0.25f) {
+                image = ItemSpriteSheet.ENERGY_BULLET_1;
+            }
+            if (heroHPPercent >= 0.75f) {
+                image = ItemSpriteSheet.ENERGY_BULLET_3;
+            }
+            if (heroHPPercent >= 0.25f && heroHPPercent < 0.75f){
+                image = ItemSpriteSheet.ENERGY_BULLET_2;
+            }
 
             hitSound = Assets.Sounds.PUFF;
             tier = 6;
@@ -436,13 +445,35 @@ public class LargeHandgun extends MeleeWeapon {
         protected void onThrow( int cell ) {
             Char enemy = Actor.findChar( cell );
             if (enemy == null || enemy == curUser) {
+                float heroHPPercent = ((float)hero.HP / (float)hero.HT);
                 parent = null;
-                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-            } else {
-                if (!curUser.shoot( enemy, this )) {
+                if (heroHPPercent < 0.25f) {
+                    CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 1);
+                    CellEmitter.center(cell).burst(BlastParticle.FACTORY, 1);
+                }
+                if (heroHPPercent >= 0.75f) {
+                    CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 3);
+                    CellEmitter.center(cell).burst(BlastParticle.FACTORY, 3);
+                }
+                if (heroHPPercent >= 0.25f && heroHPPercent < 0.75f){
                     CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                     CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                }
+            } else {
+                if (!curUser.shoot( enemy, this )) {
+                    float heroHPPercent = ((float)hero.HP / (float)hero.HT);
+                    if (heroHPPercent < 0.25f) {
+                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 1);
+                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 1);
+                    }
+                    if (heroHPPercent >= 0.75f) {
+                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 3);
+                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 3);
+                    }
+                    if (heroHPPercent >= 0.25f && heroHPPercent < 0.75f){
+                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                    }
                 }
             }
             if (hero.buff(InfiniteBullet.class) != null) {

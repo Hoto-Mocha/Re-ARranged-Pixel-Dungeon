@@ -432,6 +432,7 @@ public class FlameThrower extends MeleeWeapon {
                     round --;
                 }
             }
+            Invisibility.dispel();
             updateQuickslot();
         }
 

@@ -440,6 +440,7 @@ public class PlasmaCannon extends MeleeWeapon {
                     round --;
                 }
             }
+            Invisibility.dispel();
             updateQuickslot();
         }
 
