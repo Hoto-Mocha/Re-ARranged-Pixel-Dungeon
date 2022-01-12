@@ -95,6 +95,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfPrismaticLight
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
@@ -258,6 +263,12 @@ public enum Catalog {
 
 		WEAPONS.seen.put( ShotGun.class,                    false);
 		WEAPONS.seen.put( SPAS.class,                       false);
+
+		WEAPONS.seen.put( SpiritBow.class,                  false);
+		WEAPONS.seen.put( WindBow.class,                    false);
+		WEAPONS.seen.put( NaturesBow.class,                 false);
+		WEAPONS.seen.put( GoldenBow.class,                  false);
+		WEAPONS.seen.put( PoisonBow.class,                  false);
 
 		WEAPONS.seen.put( RocketLauncher.class,             false);
 		WEAPONS.seen.put( RPG7.class,                       false);

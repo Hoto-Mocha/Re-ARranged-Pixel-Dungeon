@@ -51,7 +51,7 @@ public class Cartridge extends Item {
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe{
         {
             inputs =  new Class[]{LiquidMetal.class};
-            inQuantity = new int[]{60};
+            inQuantity = new int[]{40};
 
             cost = 3;
 

@@ -120,7 +120,6 @@ public class PlasmaCannonHP extends MeleeWeapon {
         super.execute(hero, action);
 
         if (action.equals(AC_SHOOT)) {
-
             if (!isEquipped( hero )) {
                 usesTargeting = false;
                 GLog.w(Messages.get(this, "not_equipped"));
@@ -129,11 +128,16 @@ public class PlasmaCannonHP extends MeleeWeapon {
                     reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
-                    usesTargeting = true;
-                    curUser = hero;
-                    curItem = this;
-                    GameScene.selectCell(shooter);
+                    if (hero.STR < this.STRReq(this.buffedLvl())) {
+                        usesTargeting = false;
+                        GLog.w(Messages.get(this, "heavy_to_shoot"));
+                    } else {
+                        reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                        usesTargeting = true;
+                        curUser = hero;
+                        curItem = this;
+                        GameScene.selectCell(shooter);
+                    }
                 }
             }
         }

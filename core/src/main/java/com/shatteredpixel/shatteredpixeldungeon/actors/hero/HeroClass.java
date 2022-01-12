@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
@@ -283,10 +284,13 @@ public enum HeroClass {
 		//new CurseInfusion().quantity(50).collect();
 		//new Bomb().quantity(50).collect();
 		//new ScrollOfMysticalEnergy().quantity(50).collect();
+		//new ScrollOfTransmutation().identify().quantity(30).collect();
+		//new ChaliceOfBlood().identify().collect();
 
 		//new DriedRose().upgrade(10).identify().collect();
 		//new PlasmaCannonAP().identify().upgrade(100).collect();
 		//new ScrollOfMagicMapping().identify().quantity(30).collect();
+		//new ScrollOfMetamorphosis().identify().quantity(30).collect();
 		//new ScrollOfPsionicBlast().identify().quantity(30).collect();
 		//new PotionOfMindVision().identify().quantity(30).collect();
 		//new PotionOfCleansing().identify().quantity(30).collect();
@@ -415,6 +419,7 @@ public enum HeroClass {
 		//new Amulet().collect();
 		//new TengusMask().collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
+		//new AdvancedEvolution().quantity(100).collect();
 		//new TestWeapon().identify().collect();
 		//new PotionOfHealing().identify().quantity(50).collect();
 		//new DriedRose().identify().collect();
@@ -529,6 +534,8 @@ public enum HeroClass {
 		Dungeon.quickslot.setSlot(0, stones);
 
 		SandalsOfNature sandals = new SandalsOfNature();
+		Generator.Category cat = Generator.Category.ARTIFACT;
+		cat.probs[5]--; //removes SandalsOfNature in pool
 		(hero.belongings.artifact = sandals).identify();
 		hero.belongings.artifact.activate( hero );
 

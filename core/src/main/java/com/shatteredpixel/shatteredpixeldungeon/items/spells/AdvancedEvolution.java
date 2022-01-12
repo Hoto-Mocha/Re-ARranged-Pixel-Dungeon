@@ -30,11 +30,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.APBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
@@ -125,7 +131,13 @@ public class AdvancedEvolution extends InventorySpell {
             || item instanceof Shovel
             || item instanceof Greataxe
             || item instanceof WarHammer
-            || item instanceof Gauntlet;
+            || item instanceof Gauntlet
+            || item instanceof SpiritBow
+            || item instanceof WindBow
+            || item instanceof NaturesBow
+            || item instanceof GoldenBow
+            || item instanceof PoisonBow;
+
     }
 
     @Override
@@ -159,7 +171,12 @@ public class AdvancedEvolution extends InventorySpell {
     }
 
     public static Item changeItem( Item item ){
-        if (item instanceof MeleeWeapon) {
+        if (item instanceof MeleeWeapon
+                || item instanceof SpiritBow
+                || item instanceof WindBow
+                || item instanceof NaturesBow
+                || item instanceof GoldenBow
+                || item instanceof PoisonBow ) {
             return changeWeapon((Weapon) item);
         } else {
             return null;
@@ -306,12 +323,34 @@ public class AdvancedEvolution extends InventorySpell {
             } else {
                 n = Generator.randomWeapon();
             }
-        } else { //w instanceof Gauntlet
+        } else if (w instanceof Gauntlet) {
             if (Random.Int(10) < 9) {
                 n = new BeamSaber();
             } else {
                 n = Generator.randomWeapon();
             }
+        } else { //w instanceof SpiritBow || w instanceof WindBow || w instanceof NaturesBow || w instanceof GoldenBow || w instanceof PoisonBow
+            int proc = Random.Int(8);
+            if (proc == 0) {
+                n = new WindBow();
+            } else if (proc == 1) {
+                n = new NaturesBow();
+            } else if (proc == 2) {
+                n = new GoldenBow();
+            } else if (proc == 3) {
+                n = new PoisonBow();
+            } else {
+                n = new SpiritBow();
+            }
+            n.enchantment = w.enchantment;
+            n.curseInfusionBonus = w.curseInfusionBonus;
+            n.masteryPotionBonus = w.masteryPotionBonus;
+            n.levelKnown = w.levelKnown;
+            n.cursedKnown = w.cursedKnown;
+            n.cursed = w.cursed;
+            n.augment = w.augment;
+
+            return n;
         }
 
         int level = w.level();

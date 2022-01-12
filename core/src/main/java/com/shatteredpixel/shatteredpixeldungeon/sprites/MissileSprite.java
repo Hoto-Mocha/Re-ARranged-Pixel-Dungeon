@@ -22,8 +22,13 @@
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
@@ -154,6 +159,10 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(Trident.class,       0);
 		
 		ANGULAR_SPEEDS.put(SpiritBow.SpiritArrow.class,       0);
+		ANGULAR_SPEEDS.put(WindBow.SpiritArrow.class,         0);
+		ANGULAR_SPEEDS.put(NaturesBow.SpiritArrow.class,      0);
+		ANGULAR_SPEEDS.put(GoldenBow.SpiritArrow.class,       0);
+		ANGULAR_SPEEDS.put(PoisonBow.SpiritArrow.class,       0);
 		ANGULAR_SPEEDS.put(ScorpioSprite.ScorpioShot.class,   0);
 
 		ANGULAR_SPEEDS.put(CrudePistol.Bullet.class,          0);
@@ -268,6 +277,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 			speed *= 3f;
 			
 		} else if (item instanceof SpiritBow.SpiritArrow
+				|| item instanceof NaturesBow.SpiritArrow
+				|| item instanceof GoldenBow.SpiritArrow
+				|| item instanceof PoisonBow.SpiritArrow
 				|| item instanceof ScorpioSprite.ScorpioShot
 				|| item instanceof TenguSprite.TenguShuriken){
 			speed *= 1.5f;
@@ -320,6 +332,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				||item instanceof AntimaterRifleAP.Bullet
 				||item instanceof AntimaterRifleHP.Bullet
 				||item instanceof RPG7.Rocket
+				||item instanceof WindBow.SpiritArrow
 		) {
 			speed *= 3f;
 		} else if (item instanceof RocketLauncher.Rocket) {
