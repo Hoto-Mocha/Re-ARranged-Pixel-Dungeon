@@ -1,0 +1,262 @@
+/*
+ * Pixel Dungeon
+ * Copyright (C) 2012-2015 Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2021 Evan Debenham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
+package com.shatteredpixel.shatteredpixeldungeon.items.spells;
+
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
+import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+
+public class APBullet extends InventorySpell {
+
+    {
+        image = ItemSpriteSheet.AP_BULLET;
+
+        unique = true;
+        bones = false;
+    }
+
+    @Override
+    protected boolean usableOnItem(Item item) {
+        return item instanceof CrudePistol
+            || item instanceof CrudePistolHP
+            || item instanceof Pistol
+            || item instanceof PistolHP
+            || item instanceof GoldenPistol
+            || item instanceof GoldenPistolHP
+            || item instanceof Handgun
+            || item instanceof HandgunHP
+            || item instanceof Magnum
+            || item instanceof MagnumHP
+            || item instanceof LargeHandgun
+            || item instanceof LargeHandgunHP
+
+            || item instanceof DualPistol
+            || item instanceof DualPistolHP
+            || item instanceof SubMachinegun
+            || item instanceof SubMachinegunHP
+            || item instanceof AssultRifle
+            || item instanceof AssultRifleHP
+            || item instanceof HeavyMachinegun
+            || item instanceof HeavyMachinegunHP
+            || item instanceof MiniGun
+            || item instanceof MiniGunHP
+
+            || item instanceof HuntingRifle
+            || item instanceof HuntingRifleHP
+            || item instanceof SniperRifle
+            || item instanceof SniperRifleHP
+            || item instanceof AntimaterRifle
+            || item instanceof AntimaterRifleHP
+
+            || item instanceof ShotGun
+            || item instanceof ShotGunHP
+            || item instanceof SPAS
+            || item instanceof SPASHP
+
+            || item instanceof FlameThrower
+            || item instanceof FlameThrowerHP
+            || item instanceof PlasmaCannon
+            || item instanceof PlasmaCannonHP;
+    }
+
+    @Override
+    protected void onItemSelected(Item item) {
+
+        Item result = changeItem(item);
+
+        if (result == null){
+            //This shouldn't ever trigger
+            GLog.n( Messages.get(this, "nothing") );
+            curItem.collect( curUser.belongings.backpack );
+        } else {
+            if (item.isEquipped(Dungeon.hero)){
+                item.cursed = false; //to allow it to be unequipped
+                ((EquipableItem)item).doUnequip(Dungeon.hero, false);
+                ((EquipableItem)result).doEquip(Dungeon.hero);
+            } else {
+                item.detach(Dungeon.hero.belongings.backpack);
+                if (!result.collect()){
+                    Dungeon.level.drop(result, curUser.pos).sprite.drop();
+                }
+            }
+            if (result.isIdentified()){
+                Catalog.setSeen(result.getClass());
+            }
+            hero.sprite.emitter().start( Speck.factory( Speck.UP ), 0.2f, 3 );
+            GLog.p( Messages.get(this, "load") );
+        }
+
+    }
+
+    public static Item changeItem( Item item ){
+        if (item instanceof MeleeWeapon) {
+            return changeWeapon((Weapon) item);
+        } else {
+            return null;
+        }
+    }
+
+    private static Weapon changeWeapon( Weapon w ) {
+
+        Weapon n;
+
+        if (w instanceof CrudePistol || w instanceof CrudePistolHP) {
+            n = new CrudePistolAP();
+        } else if (w instanceof Pistol || w instanceof PistolHP) {
+            n = new PistolAP();
+        } else if (w instanceof GoldenPistol || w instanceof GoldenPistolHP) {
+            n = new GoldenPistolAP();
+        } else if (w instanceof Handgun || w instanceof HandgunHP) {
+            n = new HandgunAP();
+        } else if (w instanceof Magnum || w instanceof MagnumHP) {
+            n = new MagnumAP();
+        } else if (w instanceof LargeHandgun || w instanceof LargeHandgunHP) {
+            n = new LargeHandgunAP();
+        } else if (w instanceof DualPistol || w instanceof DualPistolHP) {
+            n = new DualPistolAP();
+        } else if (w instanceof SubMachinegun || w instanceof SubMachinegunHP) {
+            n = new SubMachinegunAP();
+        } else if (w instanceof AssultRifle || w instanceof AssultRifleHP) {
+            n = new AssultRifleAP();
+        } else if (w instanceof HeavyMachinegun || w instanceof HeavyMachinegunHP) {
+            n = new HeavyMachinegunAP();
+        } else if (w instanceof MiniGun || w instanceof MiniGunHP) {
+            n = new MiniGunAP();
+        } else if (w instanceof HuntingRifle || w instanceof HuntingRifleHP) {
+            n = new HuntingRifleAP();
+        } else if (w instanceof SniperRifle || w instanceof SniperRifleHP) {
+            n = new SniperRifleAP();
+        } else if (w instanceof AntimaterRifle || w instanceof AntimaterRifleHP) {
+            n = new AntimaterRifleAP();
+        } else if (w instanceof ShotGun || w instanceof ShotGunHP) {
+            n = new ShotGunAP();
+        } else if (w instanceof SPAS || w instanceof SPASHP) {
+            n = new SPASAP();
+        } else if (w instanceof FlameThrower || w instanceof FlameThrowerHP) {
+            n = new FlameThrowerAP();
+        } else { //(w instanceof PlasmaCannon || w instanceof PlasmaCannonHP)
+            n = new PlasmaCannonAP();
+        }
+
+        //int level = w.level();
+        //if (w.curseInfusionBonus) level--;
+        //if (level > 0) {
+        //    n.upgrade( level );
+        //} else if (level < 0) {
+        //    n.degrade( -level );
+        //}
+
+        n.enchantment = w.enchantment;
+        n.curseInfusionBonus = w.curseInfusionBonus;
+        n.masteryPotionBonus = w.masteryPotionBonus;
+        n.levelKnown = w.levelKnown;
+        n.cursedKnown = w.cursedKnown;
+        n.cursed = w.cursed;
+        n.augment = w.augment;
+
+        return n;
+    }
+
+    @Override
+    public int value() {
+        //prices of ingredients, divided by output quantity
+        return Math.round(quantity * 100);
+    }
+
+    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe{
+        {
+            inputs =  new Class[]{Cartridge.class, LiquidMetal.class, StoneOfAugmentation.class};
+            inQuantity = new int[]{1, 30, 1};
+
+            cost = 3;
+
+            output = APBullet.class;
+            outQuantity = 1;
+        }
+    }
+}

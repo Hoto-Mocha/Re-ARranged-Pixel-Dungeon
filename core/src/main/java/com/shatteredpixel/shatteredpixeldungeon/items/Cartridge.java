@@ -45,7 +45,7 @@ public class Cartridge extends Item {
 
     @Override
     public int value() {
-        return quantity * 132;
+        return quantity * 40;
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe{

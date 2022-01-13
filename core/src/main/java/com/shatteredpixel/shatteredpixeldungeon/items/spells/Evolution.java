@@ -225,15 +225,15 @@ public class Evolution extends InventorySpell {
     @Override
     public int value() {
         //prices of ingredients, divided by output quantity
-        return Math.round(quantity * ((100)));
+        return Math.round(quantity * (90));
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
-            inputs =  new Class[]{LiquidMetal.class, ArcaneResin.class};
-            inQuantity = new int[]{50, 1};
+            inputs =  new Class[]{ScrollOfTransmutation.class, ArcaneCatalyst.class};
+            inQuantity = new int[]{1, 1};
 
-            cost = 4;
+            cost = 3;
 
             output = Evolution.class;
             outQuantity = 1;

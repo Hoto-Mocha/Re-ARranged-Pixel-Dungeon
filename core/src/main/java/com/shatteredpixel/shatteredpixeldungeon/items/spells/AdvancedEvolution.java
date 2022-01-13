@@ -26,12 +26,10 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
-import com.shatteredpixel.shatteredpixeldungeon.items.APBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
-import com.shatteredpixel.shatteredpixeldungeon.items.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
@@ -100,6 +98,7 @@ public class AdvancedEvolution extends InventorySpell {
         image = ItemSpriteSheet.AD_EVOLUTION;
 
         unique = true;
+        bones = false;
     }
 
     private static final ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0xFFFFFF );
@@ -331,16 +330,14 @@ public class AdvancedEvolution extends InventorySpell {
             }
         } else { //w instanceof SpiritBow || w instanceof WindBow || w instanceof NaturesBow || w instanceof GoldenBow || w instanceof PoisonBow
             int proc = Random.Int(8);
-            if (proc == 0) {
-                n = new WindBow();
-            } else if (proc == 1) {
-                n = new NaturesBow();
-            } else if (proc == 2) {
-                n = new GoldenBow();
-            } else if (proc == 3) {
-                n = new PoisonBow();
+            if (proc <= 3) {
+                n = new WindBow(); //50%
+            } else if (proc == 4) {
+                n = new NaturesBow(); //12.5%
+            } else if (proc == 5) {
+                n = new PoisonBow(); //12.5%
             } else {
-                n = new SpiritBow();
+                n = new GoldenBow(); //25%
             }
             n.enchantment = w.enchantment;
             n.curseInfusionBonus = w.curseInfusionBonus;
@@ -376,13 +373,13 @@ public class AdvancedEvolution extends InventorySpell {
     @Override
     public int value() {
         //prices of ingredients, divided by output quantity
-        return Math.round(quantity * ((300)));
+        return Math.round(quantity * 190);
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
-                inputs =  new Class[]{Evolution.class, APBullet.class, HPBullet.class};
-                inQuantity = new int[]{1, 1, 1};
+                inputs =  new Class[]{Evolution.class, ArcaneCatalyst.class, ArcaneResin.class};
+                inQuantity = new int[]{1, 1, 2};
 
                 cost = 5;
 

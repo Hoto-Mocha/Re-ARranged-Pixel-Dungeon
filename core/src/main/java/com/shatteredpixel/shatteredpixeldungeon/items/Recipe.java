@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotio
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.APBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
@@ -59,11 +60,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalPorter;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableAPBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
@@ -279,7 +283,9 @@ public abstract class Recipe {
 		new Evolution.Recipe(),
 		new Pistol.Recipe(),
 		new GoldenPistol.Recipe(),
-		new MissileButton.Recipe()
+		new MissileButton.Recipe(),
+		new StableAPBullet.Recipe(),
+		new StableHPBullet.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
@@ -292,42 +298,6 @@ public abstract class Recipe {
 		//new BrassScrap.Recipe(),
 		new APBullet.Recipe(),
 		new HPBullet.Recipe(),
-		new CrudePistolAP.Recipe(),
-		new CrudePistolHP.Recipe(),
-		new PistolAP.Recipe(),
-		new PistolHP.Recipe(),
-		new GoldenPistolAP.Recipe(),
-		new GoldenPistolHP.Recipe(),
-		new HandgunAP.Recipe(),
-		new HandgunHP.Recipe(),
-		new MagnumAP.Recipe(),
-		new MagnumHP.Recipe(),
-		new DualPistolAP.Recipe(),
-		new DualPistolHP.Recipe(),
-		new SubMachinegunAP.Recipe(),
-		new SubMachinegunHP.Recipe(),
-		new AssultRifleAP.Recipe(),
-		new AssultRifleHP.Recipe(),
-		new HeavyMachinegunAP.Recipe(),
-		new HeavyMachinegunHP.Recipe(),
-		new HuntingRifleAP.Recipe(),
-		new HuntingRifleHP.Recipe(),
-		new SniperRifleAP.Recipe(),
-		new SniperRifleHP.Recipe(),
-		new ShotGunAP.Recipe(),
-		new ShotGunHP.Recipe(),
-		new SPASAP.Recipe(),
-		new SPASHP.Recipe(),
-		new MiniGunAP.Recipe(),
-		new MiniGunHP.Recipe(),
-		new LargeHandgunAP.Recipe(),
-		new LargeHandgunHP.Recipe(),
-		new AntimaterRifleAP.Recipe(),
-		new AntimaterRifleHP.Recipe(),
-		new FlameThrowerAP.Recipe(),
-		new FlameThrowerHP.Recipe(),
-		new PlasmaCannonAP.Recipe(),
-		new PlasmaCannonHP.Recipe(),
 		new AdvancedEvolution.Recipe()
 	};
 	

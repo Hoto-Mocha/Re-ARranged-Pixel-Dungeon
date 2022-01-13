@@ -30,8 +30,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -62,7 +66,13 @@ public class ScrollOfEnchantment extends ExoticScroll {
 	}
 
 	public static boolean enchantable( Item item ){
-		return ((item instanceof MeleeWeapon && !(item instanceof MissileButton))|| item instanceof SpiritBow || item instanceof Armor);
+		return ((item instanceof MeleeWeapon && !(item instanceof MissileButton))
+				|| item instanceof SpiritBow
+				|| item instanceof WindBow
+				|| item instanceof PoisonBow
+				|| item instanceof GoldenBow
+				|| item instanceof NaturesBow
+				|| item instanceof Armor);
 	}
 	
 	protected WndBag.ItemSelector itemSelector = new WndBag.ItemSelector() {
