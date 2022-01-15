@@ -480,7 +480,10 @@ public class AlchemyScene extends PixelScene {
 			ArrayList<Item> found = inventory.getAllSimilar(finding);
 			while (!found.isEmpty() && needed > 0){
 				Item detached;
-				if (finding instanceof LiquidMetal) {
+				if (finding instanceof LiquidMetal
+						|| finding instanceof ArcaneCatalyst
+						|| finding instanceof ArcaneResin
+						|| finding instanceof Cartridge) {
 					detached = found.get(0).detachAll(inventory.backpack);
 				} else {
 					detached = found.get(0).detach(inventory.backpack);

@@ -58,6 +58,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class CrudePistolAP extends MeleeWeapon {
@@ -286,7 +287,7 @@ public class CrudePistolAP extends MeleeWeapon {
             info += "\n\n" + Messages.get(CrudePistolAP.class, "stats_known",
                     Bulletmin(CrudePistolAP.this.buffedLvl()),
                     Bulletmax(CrudePistolAP.this.buffedLvl()),
-                    round, max_round, reload_time);
+                    round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > hero.STR()) {
@@ -295,7 +296,7 @@ public class CrudePistolAP extends MeleeWeapon {
             info += "\n\n" + Messages.get(CrudePistolAP.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
-                    round, max_round, reload_time);
+                    round, max_round, new DecimalFormat("#.##").format(reload_time));
         }
 
         String statsInfo = statsInfo();

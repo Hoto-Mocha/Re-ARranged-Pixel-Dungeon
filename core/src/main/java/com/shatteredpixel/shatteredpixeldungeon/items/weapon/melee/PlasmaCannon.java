@@ -49,6 +49,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
@@ -69,6 +70,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class PlasmaCannon extends MeleeWeapon {
@@ -227,9 +229,10 @@ public class PlasmaCannon extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 5 * (tier + 1) +
+        return Math.round((5 * (tier + 1) +
                 lvl * 3 +
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero))
+                * (1 + (RingOfEnergy.wandChargeMultiplier(Dungeon.hero)-1)/4));
     }
 
     @Override
@@ -252,7 +255,7 @@ public class PlasmaCannon extends MeleeWeapon {
             info += "\n\n" + Messages.get(PlasmaCannon.class, "stats_known",
                     Bulletmin(PlasmaCannon.this.buffedLvl()),
                     Bulletmax(PlasmaCannon.this.buffedLvl()),
-                    round, max_round, reload_time);
+                    round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > Dungeon.hero.STR()) {
@@ -261,7 +264,7 @@ public class PlasmaCannon extends MeleeWeapon {
             info += "\n\n" + Messages.get(PlasmaCannon.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
-                    round, max_round, reload_time);
+                    round, max_round, new DecimalFormat("#.##").format(reload_time));
         }
 
         String statsInfo = statsInfo();

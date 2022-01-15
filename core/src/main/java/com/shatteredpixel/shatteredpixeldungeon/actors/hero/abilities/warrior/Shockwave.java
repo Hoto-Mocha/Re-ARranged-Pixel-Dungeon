@@ -102,7 +102,7 @@ import com.watabou.utils.Random;
 public class Shockwave extends ArmorAbility {
 
 	{
-		baseChargeUse = 1f;
+		baseChargeUse = 35f;
 	}
 
 	@Override

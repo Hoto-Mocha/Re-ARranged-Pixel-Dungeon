@@ -418,6 +418,9 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new Pistol.Recipe()));
 				result.add(new QuickRecipe(new GoldenPistol.Recipe()));
 				result.add(null);
+				result.add(new QuickRecipe(new SpearNShield.Recipe()));
+				result.add(new QuickRecipe(new LanceNShield.Recipe()));
+				result.add(null);
 				result.add(null);
 				result.add(new QuickRecipe(new MissileButton.Recipe()));
 				return result;

@@ -26,7 +26,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -103,7 +107,26 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 	
 	@Override
 	public Image getIcon() {
-		return new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
+		Hero hero = Dungeon.hero;
+		SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
+		WindBow windBow = hero.belongings.getItem(WindBow.class);
+		PoisonBow poisonBow = hero.belongings.getItem(PoisonBow.class);
+		GoldenBow goldenBow = hero.belongings.getItem(GoldenBow.class);
+		NaturesBow naturesBow = hero.belongings.getItem(NaturesBow.class);
+
+		if (bow != null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) {
+			return new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
+		} else if (bow == null && windBow != null && poisonBow == null && goldenBow == null && naturesBow == null) {
+			return new ItemSprite(ItemSpriteSheet.WIND_BOW, null);
+		} else if (bow == null && windBow == null && poisonBow != null && goldenBow == null && naturesBow == null) {
+			return new ItemSprite(ItemSpriteSheet.POISON_BOW, null);
+		} else if (bow == null && windBow == null && poisonBow == null && goldenBow != null && naturesBow == null) {
+			return new ItemSprite(ItemSpriteSheet.GOLDEN_BOW, null);
+		} else if (bow == null && windBow == null && poisonBow == null && goldenBow == null && naturesBow != null) {
+			return new ItemSprite(ItemSpriteSheet.NATURAL_BOW, null);
+		} else { // if hero doesn't have any bow
+			return new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
+		}
 	}
 	
 	@Override
@@ -113,22 +136,88 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 		if (hero == null) return;
 		
 		SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
-		if (bow == null) return;
-		
-		SpiritBow.SpiritArrow arrow = bow.knockArrow();
-		if (arrow == null) return;
-		
-		Char ch = (Char) Actor.findById(object);
-		if (ch == null) return;
-		
-		int cell = QuickSlotButton.autoAim(ch, arrow);
-		if (cell == -1) return;
-		
-		bow.sniperSpecial = true;
-		bow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
-		
-		arrow.cast(hero, cell);
-		detach();
-		
+		WindBow windBow = hero.belongings.getItem(WindBow.class);
+		PoisonBow poisonBow = hero.belongings.getItem(PoisonBow.class);
+		GoldenBow goldenBow = hero.belongings.getItem(GoldenBow.class);
+		NaturesBow naturesBow = hero.belongings.getItem(NaturesBow.class);
+
+		if (bow == null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) return;
+
+			   if (bow != null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) {
+				   SpiritBow.SpiritArrow arrow = bow.knockArrow();
+				   if (arrow == null) return;
+
+				   Char ch = (Char) Actor.findById(object);
+				   if (ch == null) return;
+
+				   int cell = QuickSlotButton.autoAim(ch, arrow);
+				   if (cell == -1) return;
+
+				   bow.sniperSpecial = true;
+				   bow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
+
+				   arrow.cast(hero, cell);
+				   detach();
+		} else if (bow == null && windBow != null && poisonBow == null && goldenBow == null && naturesBow == null) {
+				   WindBow.SpiritArrow arrow = windBow.knockArrow();
+				   if (arrow == null) return;
+
+				   Char ch = (Char) Actor.findById(object);
+				   if (ch == null) return;
+
+				   int cell = QuickSlotButton.autoAim(ch, arrow);
+				   if (cell == -1) return;
+
+				   windBow.sniperSpecial = true;
+				   windBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
+
+				   arrow.cast(hero, cell);
+				   detach();
+		} else if (bow == null && windBow == null && poisonBow != null && goldenBow == null && naturesBow == null) {
+				   PoisonBow.SpiritArrow arrow = poisonBow.knockArrow();
+				   if (arrow == null) return;
+
+				   Char ch = (Char) Actor.findById(object);
+				   if (ch == null) return;
+
+				   int cell = QuickSlotButton.autoAim(ch, arrow);
+				   if (cell == -1) return;
+
+				   poisonBow.sniperSpecial = true;
+				   poisonBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
+
+				   arrow.cast(hero, cell);
+				   detach();
+		} else if (bow == null && windBow == null && poisonBow == null && goldenBow != null && naturesBow == null) {
+				   GoldenBow.SpiritArrow arrow = goldenBow.knockArrow();
+				   if (arrow == null) return;
+
+				   Char ch = (Char) Actor.findById(object);
+				   if (ch == null) return;
+
+				   int cell = QuickSlotButton.autoAim(ch, arrow);
+				   if (cell == -1) return;
+
+				   goldenBow.sniperSpecial = true;
+				   goldenBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
+
+				   arrow.cast(hero, cell);
+				   detach();
+		} else if (bow == null && windBow == null && poisonBow == null && goldenBow == null && naturesBow != null) {
+				   NaturesBow.SpiritArrow arrow = naturesBow.knockArrow();
+				   if (arrow == null) return;
+
+				   Char ch = (Char) Actor.findById(object);
+				   if (ch == null) return;
+
+				   int cell = QuickSlotButton.autoAim(ch, arrow);
+				   if (cell == -1) return;
+
+				   naturesBow.sniperSpecial = true;
+				   naturesBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
+
+				   arrow.cast(hero, cell);
+				   detach();
+		}
 	}
 }

@@ -75,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
@@ -105,7 +106,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
@@ -155,6 +160,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -299,12 +305,18 @@ public enum HeroClass {
 		//new PlasmaCannonAP().identify().collect();
 		//new PlasmaCannonHP().identify().collect();
 
+		//new RingOfEnergy().identify().collect();
+		//new PotionOfStrength().identify().quantity(20).collect();
+
 		//new FlameThrower().identify().collect();
 		//new FlameThrowerAP().identify().collect();
 		//new FlameThrowerHP().identify().collect();
 
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
+
+		//new AlchemistsToolkit().identify().upgrade(10).collect();
+		//new Evolution().quantity(20).collect();
 
 		//new ScrollOfUpgrade().identify().quantity(99).collect();
 		//new Evolution().quantity(50).collect();
@@ -443,6 +455,13 @@ public enum HeroClass {
 
 		new PotionOfMindVision().identify();
 		new ScrollOfLullaby().identify();
+
+		//new NaturesBow().identify().collect();
+		//new WindBow().identify().collect();
+		//new PoisonBow().identify().collect();
+		//new GoldenBow().identify().collect();
+
+		//new Shuriken().quantity(50).collect();
 
 		//new TrueRunicBlade().identify().upgrade(10).collect();
 		//new PotionOfStrength().identify().quantity(20).collect();

@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Rio
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.APBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
@@ -217,9 +218,10 @@ public class PlasmaCannonAP extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 7 * (tier + 1) +
+        return Math.round((7 * (tier + 1) +
                 lvl * 4 +
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero))
+                * (1 + (RingOfEnergy.wandChargeMultiplier(Dungeon.hero)-1)/4));
     }
 
     @Override

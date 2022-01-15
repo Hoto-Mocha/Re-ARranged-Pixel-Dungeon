@@ -57,6 +57,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class HuntingRifleAP extends MeleeWeapon {
@@ -233,7 +234,7 @@ public class HuntingRifleAP extends MeleeWeapon {
             info += "\n\n" + Messages.get(HuntingRifleAP.class, "stats_known",
                     Bulletmin(HuntingRifleAP.this.buffedLvl()),
                     Bulletmax(HuntingRifleAP.this.buffedLvl()),
-                    round, max_round, reload_time);
+                    round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > Dungeon.hero.STR()) {
@@ -242,7 +243,7 @@ public class HuntingRifleAP extends MeleeWeapon {
             info += "\n\n" + Messages.get(HuntingRifleAP.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
-                    round, max_round, reload_time);
+                    round, max_round, new DecimalFormat("#.##").format(reload_time));
         }
 
         String statsInfo = statsInfo();

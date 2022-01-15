@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -59,6 +60,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class PlasmaCannonHP extends MeleeWeapon {
@@ -217,9 +219,10 @@ public class PlasmaCannonHP extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 3 * (tier + 1) +
+        return Math.round((3 * (tier + 1) +
                 lvl * 2 +
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero))
+                * (1 + (RingOfEnergy.wandChargeMultiplier(Dungeon.hero)-1)/4));
     }
 
     @Override
@@ -242,7 +245,7 @@ public class PlasmaCannonHP extends MeleeWeapon {
             info += "\n\n" + Messages.get(PlasmaCannonHP.class, "stats_known",
                     Bulletmin(PlasmaCannonHP.this.buffedLvl()),
                     Bulletmax(PlasmaCannonHP.this.buffedLvl()),
-                    round, max_round, reload_time);
+                    round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > Dungeon.hero.STR()) {
@@ -251,7 +254,7 @@ public class PlasmaCannonHP extends MeleeWeapon {
             info += "\n\n" + Messages.get(PlasmaCannonHP.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
-                    round, max_round, reload_time);
+                    round, max_round, new DecimalFormat("#.##").format(reload_time));
         }
 
         String statsInfo = statsInfo();
