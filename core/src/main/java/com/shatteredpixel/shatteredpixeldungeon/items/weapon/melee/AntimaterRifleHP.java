@@ -185,7 +185,7 @@ public class AntimaterRifleHP extends MeleeWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier, lvl); //18 base strength req, Changeable
+        return STRReq(tier, lvl)+2; //22 base
     }
 
     public int min(int lvl) {
@@ -197,19 +197,21 @@ public class AntimaterRifleHP extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        return 3 * tier +
-                lvl +
+        return 3 * (tier-1) +
+                lvl      +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
         if (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null){
-            return 6 * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
-                    lvl * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
+            return 6 * (tier+2)   +
+                    lvl * (tier+2) +
+                    RingOfSharpshooting.levelDamageBonus(Dungeon.hero) +
                     10 + 10 * hero.pointsInTalent(Talent.RIFLE_MASTER);
         } else {
-            return 6 * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) +
-                    lvl * (tier+4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero));
+            return 6 * (tier+2)   +
+                    lvl * (tier+2) +
+                    RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
     }
 

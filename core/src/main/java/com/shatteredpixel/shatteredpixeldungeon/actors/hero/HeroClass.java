@@ -75,6 +75,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
@@ -463,11 +465,16 @@ public enum HeroClass {
 
 		//new Shuriken().quantity(50).collect();
 
+		new PotionOfMagicalSight().identify().quantity(20).collect();
+		new TengusMask().collect();
+		new ScrollOfMetamorphosis().identify().quantity(20).collect();
+
 		//new TrueRunicBlade().identify().upgrade(10).collect();
 		//new PotionOfStrength().identify().quantity(20).collect();
 		//new Amulet().collect();
 		//new TengusMask().collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
+		new PotionOfExperience().identify().quantity(30).collect();
+		new PotionOfDivineInspiration().identify().quantity(30).collect();
 		//new AdvancedEvolution().quantity(100).collect();
 		//new TestWeapon().identify().collect();
 		//new PotionOfHealing().identify().quantity(50).collect();

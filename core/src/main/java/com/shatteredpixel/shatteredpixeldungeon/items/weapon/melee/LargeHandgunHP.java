@@ -235,7 +235,7 @@ public class LargeHandgunHP extends MeleeWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier, lvl); //18 base strength req, Changeable
+        return STRReq(tier, lvl)+2; //22 base
     }
 
     public int min(int lvl) {

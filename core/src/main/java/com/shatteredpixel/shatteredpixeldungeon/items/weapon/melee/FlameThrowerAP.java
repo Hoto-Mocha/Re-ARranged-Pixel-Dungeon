@@ -128,7 +128,7 @@ public class FlameThrowerAP extends MeleeWeapon {
                     reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    if (hero.STR < this.STRReq(this.buffedLvl())) {
+                    if (hero.STR() < this.STRReq(this.buffedLvl())) {
                         usesTargeting = false;
                         GLog.w(Messages.get(this, "heavy_to_shoot"));
                     } else {

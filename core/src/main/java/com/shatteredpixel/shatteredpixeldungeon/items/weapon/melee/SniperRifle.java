@@ -139,7 +139,7 @@ public class SniperRifle extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 1;                                                                  //if you make something different guns, you should change this
+            max_round = 1;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
@@ -155,7 +155,7 @@ public class SniperRifle extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 1;                                                                      //if you make something different guns, you should change this
+        max_round = 1;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -177,7 +177,7 @@ public class SniperRifle extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 1;                                                                      //if you make something different guns, you should change this
+        max_round = 1;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -187,18 +187,18 @@ public class SniperRifle extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return tier +                                                                      //if you make something different guns, you should change this
-                lvl;                                                                        //if you make something different guns, you should change this
+        return tier +
+                lvl;
     }
 
     public int max(int lvl) {
-        return 3 * (tier + 1) +                                                            //if you make something different guns, you should change this
-                lvl;                                                           //if you make something different guns, you should change this
+        return 3 * (tier + 1) +
+                lvl;
     }
 
     public int Bulletmin(int lvl) {
-        return 3 * tier +                                                                  //if you make something different guns, you should change this
-                lvl      +                                                                  //if you make something different guns, you should change this
+        return 3 * tier +
+                lvl      +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
@@ -318,7 +318,7 @@ public class SniperRifle extends MeleeWeapon {
             image = ItemSpriteSheet.SNIPER_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 5;                                                                          //if you make something different guns, you should change this
+            tier = 5;
         }
 
         @Override

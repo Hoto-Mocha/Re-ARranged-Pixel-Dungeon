@@ -194,7 +194,7 @@ public class MiniGunHP extends MeleeWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier, lvl); //18 base strength req, Changeable
+        return STRReq(tier, lvl)+2; //22 base
     }
 
     public int min(int lvl) {
@@ -213,7 +213,7 @@ public class MiniGunHP extends MeleeWeapon {
 
     public int Bulletmax(int lvl) {
         return 2 * (tier-1)   +
-                lvl * (tier-1) +
+                lvl * (tier-3) +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
@@ -369,6 +369,7 @@ public class MiniGunHP extends MeleeWeapon {
             if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
                 accFactor += 0.1f * Dungeon.hero.pointsInTalent(Talent.ENHANCED_FOCUSING);
             }
+            accFactor += (hero.STR() - 10)*0.05f;
             return accFactor;
         }
 

@@ -708,7 +708,7 @@ public class Dungeon {
 		int dist = Math.max(Dungeon.hero.viewDistance, 8);
 		dist *= 1f + 0.25f*Dungeon.hero.pointsInTalent(Talent.FARSIGHT);
 
-		if (!Dungeon.isChallenged( Challenges.DARKNESS )) {
+		if (!Dungeon.isChallenged( Challenges.DARKNESS ) && Dungeon.hero.buff(MagicalSight.class) == null) {
 			dist -= 1f * Dungeon.hero.pointsInTalent(Talent.CHOICE_N_FOCUS);
 		}
 

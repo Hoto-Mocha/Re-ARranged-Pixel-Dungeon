@@ -496,6 +496,14 @@ public abstract class Char extends Actor {
 				dmg *= 3f;
 			}
 
+			if (this instanceof Hero) {
+				if (Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet) {
+					int distance = Dungeon.level.distance(hero.pos, enemy.pos) - 1;
+					float multiplier = Math.min(3f, 1.2f * (float)Math.pow(1.125f, distance));
+					dmg = Math.round(dmg * multiplier);
+				}
+			}
+
 			if (this instanceof Hero && hero.buff(Swing.class) != null) {
 				dmg += 2;
 			}
