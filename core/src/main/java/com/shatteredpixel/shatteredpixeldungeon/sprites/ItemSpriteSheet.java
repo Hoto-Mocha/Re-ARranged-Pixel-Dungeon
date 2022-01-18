@@ -367,6 +367,7 @@ public class ItemSpriteSheet {
 	public static final int FLAMETHORWER     = SPECIALGUNS+3;
 	public static final int PLASMA_CANNON    = SPECIALGUNS+4;
 	public static final int SPAS             = SPECIALGUNS+5;
+
 	static{
 		assignItemRect(SHOTGUN              ,14, 16);
 		assignItemRect(ROCKET_LAUNCHER      ,15, 15);
@@ -398,12 +399,18 @@ public class ItemSpriteSheet {
 	public static final int NATURAL_BOW   	= ETC+2;
 	public static final int GOLDEN_BOW    	= ETC+3;
 	public static final int POISON_BOW    	= ETC+4;
+	public static final int GRENADE_LAUNCHER= ETC+5;
+	public static final int SMOKE_LAUNCHER  = ETC+6;
+	public static final int HE_LAUNCHER    	= ETC+7;
 	static{
 		assignItemRect(MISSILE_BUTTON      ,14, 14);
 		assignItemRect(WIND_BOW            ,16, 16);
 		assignItemRect(NATURAL_BOW         ,16, 16);
 		assignItemRect(GOLDEN_BOW          ,16, 16);
 		assignItemRect(POISON_BOW          ,16, 16);
+		assignItemRect(GRENADE_LAUNCHER    ,15, 15);
+		assignItemRect(SMOKE_LAUNCHER      ,15, 15);
+		assignItemRect(HE_LAUNCHER    	   ,15, 15);
 	}
 
 	private static final int MISSILE_WEP    =                               xy(1, 10);  //16 slots. 3 per tier + boomerang
@@ -841,10 +848,10 @@ public class ItemSpriteSheet {
 	public static final int NATURAL_ARROW	= BULLETS+9;
 	public static final int GOLDEN_ARROW	= BULLETS+10;
 	public static final int	POISON_ARROW	= BULLETS+11;
-	public static final int BULLET_13 		= BULLETS+12;
-	public static final int BULLET_14 		= BULLETS+13;
-	public static final int BULLET_15 		= BULLETS+13;
-	public static final int BULLET_16 		= BULLETS+13;
+	public static final int GRENADE 		= BULLETS+12;
+	public static final int HE_GRENADE 		= BULLETS+13;
+	public static final int SMOKE_GRENADE 	= BULLETS+14;
+	public static final int BULLET_16 		= BULLETS+15;
 	static{
 		assignItemRect(SINGLE_BULLET,   8,  8 );
 		assignItemRect(DUAL_BULLET,     11, 10);
@@ -858,9 +865,9 @@ public class ItemSpriteSheet {
 		assignItemRect(NATURAL_ARROW,	11, 11);
 		assignItemRect(GOLDEN_ARROW,	11, 11);
 		assignItemRect(POISON_ARROW,	11, 11);
-		assignItemRect(BULLET_13,		16, 16);
-		assignItemRect(BULLET_14,		16, 16);
-		assignItemRect(BULLET_15,		16, 16);
+		assignItemRect(GRENADE,			7,  7 );
+		assignItemRect(HE_GRENADE,		7,  7 );
+		assignItemRect(SMOKE_GRENADE,	7,  7 );
 		assignItemRect(BULLET_16,		16, 16);
 	}
 

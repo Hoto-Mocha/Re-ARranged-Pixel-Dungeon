@@ -174,7 +174,7 @@ public class SandalsOfNature extends Artifact {
 			int maxCharge = (Dungeon.hero.pointsInTalent(Talent.BIO_ENERGY) > 1) ? Math.round(1.5f * target.HT) : target.HT;
 			if (level() > 0 && charge < maxCharge){
 				//gain 1+(1*level)% of the difference between current charge and max HP.
-				float chargeGain = (Dungeon.hero.hasTalent(Talent.BIO_ENERGY)) ? (maxCharge-charge) * (.15f+ level()*0.15f) : (maxCharge-charge) * (.01f+ level()*0.01f);
+				float chargeGain = (Dungeon.hero.hasTalent(Talent.BIO_ENERGY)) ? (maxCharge-charge) * (.015f+ level()*0.015f) : (maxCharge-charge) * (.01f+ level()*0.01f);
 				chargeGain *= amount;
 				chargeGain *= RingOfEnergy.artifactChargeMultiplier(target);
 				partialCharge += Math.max(0, chargeGain);

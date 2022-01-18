@@ -47,6 +47,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
@@ -161,6 +164,9 @@ public class StoneOfAugmentation extends InventoryStone {
 		  ||item instanceof PlasmaCannonAP
 		  ||item instanceof PlasmaCannonHP
 		  ||item instanceof MissileButton
+		  ||item instanceof GrenadeLauncher
+		  ||item instanceof GrenadeLauncherAP
+		  ||item instanceof GrenadeLauncherHP
 		) {
 			return false;
 		} else {

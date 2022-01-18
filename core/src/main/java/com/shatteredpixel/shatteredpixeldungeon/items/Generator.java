@@ -350,6 +350,7 @@ public class Generator {
 					ShotGun.class,
 					HuntingRifle.class,
 					Katana.class,
+					GrenadeLauncher.class,
 
 					//alchemical weapons
 					SpearNShield.class,
@@ -363,7 +364,7 @@ public class Generator {
 					HuntingRifleHP.class,
 					Spade.class
 			};
-			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,5 ,4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,5 ,4, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			
 			WEP_T4.classes = new Class<?>[]{
 					Longsword.class,
@@ -431,7 +432,7 @@ public class Generator {
 					PlasmaCannonHP.class,
 					MissileButton.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 4, 4, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 3, 3, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
 
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{

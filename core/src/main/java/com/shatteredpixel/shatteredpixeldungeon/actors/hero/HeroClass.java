@@ -127,6 +127,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
@@ -465,16 +468,16 @@ public enum HeroClass {
 
 		//new Shuriken().quantity(50).collect();
 
-		new PotionOfMagicalSight().identify().quantity(20).collect();
-		new TengusMask().collect();
-		new ScrollOfMetamorphosis().identify().quantity(20).collect();
+		//new PotionOfMagicalSight().identify().quantity(20).collect();
+		//new TengusMask().collect();
+		//new ScrollOfMetamorphosis().identify().quantity(20).collect();
 
 		//new TrueRunicBlade().identify().upgrade(10).collect();
 		//new PotionOfStrength().identify().quantity(20).collect();
 		//new Amulet().collect();
 		//new TengusMask().collect();
-		new PotionOfExperience().identify().quantity(30).collect();
-		new PotionOfDivineInspiration().identify().quantity(30).collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
+		//new PotionOfDivineInspiration().identify().quantity(30).collect();
 		//new AdvancedEvolution().quantity(100).collect();
 		//new TestWeapon().identify().collect();
 		//new PotionOfHealing().identify().quantity(50).collect();
@@ -498,6 +501,14 @@ public enum HeroClass {
 
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
+
+		//new GrenadeLauncher().identify().collect();
+		//new GrenadeLauncherAP().identify().collect();
+		//new GrenadeLauncherHP().identify().collect();
+
+		//new ScrollOfUpgrade().identify().quantity(100).collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
+		//new PotionOfInvisibility().identify().quantity(30).collect();
 
 		//new RocketLauncher().identify().upgrade(15).collect();
 		//new AlchemistsToolkit().identify().collect();

@@ -26,6 +26,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
@@ -43,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -56,7 +59,7 @@ import com.watabou.utils.Random;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class RPG7 extends MeleeWeapon {
+public class GrenadeLauncherHP extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
@@ -71,11 +74,11 @@ public class RPG7 extends MeleeWeapon {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.RPG7;
+        image = ItemSpriteSheet.HE_LAUNCHER;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 6;
+        tier = 3;
     }
 
     private static final String ROUND = "round";
@@ -98,9 +101,6 @@ public class RPG7 extends MeleeWeapon {
         reload_time = bundle.getFloat(RELOAD_TIME);
     }
 
-
-
-
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
@@ -110,8 +110,6 @@ public class RPG7 extends MeleeWeapon {
         }
         return actions;
     }
-
-
 
     @Override
     public void execute(Hero hero, String action) {
@@ -125,10 +123,10 @@ public class RPG7 extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -180,26 +178,28 @@ public class RPG7 extends MeleeWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier, lvl)+2; //22 base
+        return STRReq(tier, lvl);
     }
 
     public int min(int lvl) {
-        return 0;
+        return tier +
+                lvl;
     }
 
     public int max(int lvl) {
-        return 10;
+        return 2 * (tier-1) +
+                lvl * (tier-1);
     }
 
     public int Bulletmin(int lvl) {
-        return (tier+5) +
+        return (tier) +
                 lvl      +
                 RingOfSharpshooting.levelDamageBonus(hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 8 * (tier+6)   +
-                lvl * (tier+6) +
+        return 3 * (tier)   +
+                lvl * (tier) +
                 RingOfSharpshooting.levelDamageBonus(hero);
     }
 
@@ -207,7 +207,7 @@ public class RPG7 extends MeleeWeapon {
     public String info() {
 
         max_round = 1;
-        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
@@ -217,16 +217,16 @@ public class RPG7 extends MeleeWeapon {
             } else if (hero.STR() > STRReq()){
                 info += " " + Messages.get(Weapon.class, "excess_str", hero.STR() - STRReq());
             }
-            info += "\n\n" + Messages.get(RPG7.class, "stats_known",
-                    Bulletmin(RPG7.this.buffedLvl()),
-                    Bulletmax(RPG7.this.buffedLvl()),
+            info += "\n\n" + Messages.get(GrenadeLauncherHP.class, "stats_known",
+                    Bulletmin(GrenadeLauncherHP.this.buffedLvl()),
+                    Bulletmax(GrenadeLauncherHP.this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
-            info += "\n\n" + Messages.get(RPG7.class, "stats_unknown",
+            info += "\n\n" + Messages.get(GrenadeLauncherHP.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
@@ -297,24 +297,24 @@ public class RPG7 extends MeleeWeapon {
         return delay;
     }                   //공격 속도
 
-    public RPG7.Rocket knockBullet(){
-        return new RPG7.Rocket();
+    public GrenadeLauncherHP.Rocket knockBullet(){
+        return new GrenadeLauncherHP.Rocket();
     }
     public class Rocket extends MissileWeapon {
 
         {
-            image = ItemSpriteSheet.ROCKET;
+            image = ItemSpriteSheet.HE_GRENADE;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 6;                                                                            //if you make something different guns, you should change this
+            tier = 3;
         }
 
         @Override
         public int damageRoll(Char owner) {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
-            int bulletdamage = Random.NormalIntRange(Bulletmin(RPG7.this.buffedLvl()),
-                    Bulletmax(RPG7.this.buffedLvl()));
+            int bulletdamage = Random.NormalIntRange(Bulletmin(GrenadeLauncherHP.this.buffedLvl()),
+                    Bulletmax(GrenadeLauncherHP.this.buffedLvl()));
 
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
@@ -328,29 +328,29 @@ public class RPG7 extends MeleeWeapon {
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-            return RPG7.this.hasEnchant(type, owner);
+            return GrenadeLauncherHP.this.hasEnchant(type, owner);
         }
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
-            return RPG7.this.proc(attacker, defender, damage);
+            return GrenadeLauncherHP.this.proc(attacker, defender, damage);
         }
 
         @Override
         public float delayFactor(Char user) {
             if (hero.buff(Riot.riotTracker.class) != null) {
-                return RPG7.this.delayFactor(user)/2f;
+                return GrenadeLauncherHP.this.delayFactor(user)/2f;
             } else {
-                return RPG7.this.delayFactor(user);
+                return GrenadeLauncherHP.this.delayFactor(user);
             }
         }
 
         @Override
         public int STRReq(int lvl) {
-            if (RPG7.this.masteryPotionBonus) {
-                return STRReq(tier, RPG7.this.buffedLvl()) - 2;
+            if (GrenadeLauncherHP.this.masteryPotionBonus) {
+                return STRReq(tier, GrenadeLauncherHP.this.buffedLvl()) - 2;
             }
-            return STRReq(tier, RPG7.this.buffedLvl());
+            return STRReq(tier, GrenadeLauncherHP.this.buffedLvl());
         }
 
         @Override
@@ -358,23 +358,30 @@ public class RPG7 extends MeleeWeapon {
             Char enemy = Actor.findChar( cell );
             ArrayList<Char> targets = new ArrayList<>();
             if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
-            for (int i : PathFinder.NEIGHBOURS8){
+            for (int i : PathFinder.NEIGHBOURS26){
                 if (Actor.findChar(cell + i) != null) targets.add(Actor.findChar(cell + i));
             }
             for (Char target : targets){
                 curUser.shoot(target, this);
                 if (target == hero && !target.isAlive()){
                     Dungeon.fail(getClass());
-                    GLog.n(Messages.get(RPG7.class, "ondeath"));
+                    GLog.n(Messages.get(GrenadeLauncherHP.class, "ondeath"));
                 }
             }
-            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 6);
+            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 6);
             boolean terrainAffected = false;
             ArrayList<Char> affected = new ArrayList<>();
-            for (int n : PathFinder.NEIGHBOURS9) {
+            for (int n : PathFinder.NEIGHBOURS27) {
                 int c = cell + n;
                 if (c >= 0 && c < Dungeon.level.length()) {
+                    if (Dungeon.level.map[c] != Terrain.WALL) {
+                        if (Dungeon.level.pit[c]) {
+                            GameScene.add(Blob.seed(c, 1, Fire.class));
+                        } else {
+                            GameScene.add(Blob.seed(c, 5, Fire.class));
+                        }
+                    }
                     if (Dungeon.level.heroFOV[c]) {
                         CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
                         CellEmitter.center(cell).burst(BlastParticle.FACTORY, 4);
@@ -407,7 +414,7 @@ public class RPG7 extends MeleeWeapon {
 
         @Override
         public void throwSound() {
-            Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f) );
+            Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.17f, 0.33f) );
         }
 
         @Override

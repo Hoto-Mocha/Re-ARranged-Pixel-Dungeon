@@ -127,6 +127,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
@@ -497,7 +500,7 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero) {
-				if (Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet) {
+				if (Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet ) {
 					int distance = Dungeon.level.distance(hero.pos, enemy.pos) - 1;
 					float multiplier = Math.min(3f, 1.2f * (float)Math.pow(1.125f, distance));
 					dmg = Math.round(dmg * multiplier);
@@ -858,6 +861,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof SPAS.Bullet
 							|| Dungeon.hero.belongings.weapon() instanceof SPASAP.Bullet
 							|| Dungeon.hero.belongings.weapon() instanceof SPASHP.Bullet
+							|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher.Rocket
+							|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherAP.Rocket
+							|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP.Rocket
 					) {
 						dmg *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.HEAVY_ENHANCE);
 					}

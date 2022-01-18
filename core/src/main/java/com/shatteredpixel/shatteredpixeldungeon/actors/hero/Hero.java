@@ -166,6 +166,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
@@ -1020,7 +1023,9 @@ public class Hero extends Char {
 		if (belongings.weapon() instanceof SPAS.Bullet)				             	 	return false;
 		//if (belongings.weapon() instanceof SPASAP.Bullet)				         	 	return false;
 		if (belongings.weapon() instanceof SPASHP.Bullet)				        	  	return false;
-
+		if (belongings.weapon() instanceof GrenadeLauncher.Rocket)						return false;
+		if (belongings.weapon() instanceof GrenadeLauncherAP.Rocket)					return false;
+		if (belongings.weapon() instanceof GrenadeLauncherHP.Rocket)					return false;
 
 		return true;
 	}
@@ -2361,12 +2366,14 @@ public class Hero extends Char {
 		}
 
 		if (hit && hero.hasTalent(Talent.MIND_FOCUS)) {
-			int healAmt = hero.pointsInTalent(Talent.MIND_FOCUS);
-			healAmt = Math.min( healAmt, hero.HT - hero.HP );
-			if (healAmt > 0 && hero.isAlive()) {
-				hero.HP += healAmt;
-				hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-				hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+			if (Random.Int(3) < hero.pointsInTalent(Talent.MIND_FOCUS)) {
+				int healAmt = 1;
+				healAmt = Math.min( healAmt, hero.HT - hero.HP );
+				if (healAmt > 0 && hero.isAlive()) {
+					hero.HP += healAmt;
+					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
 			}
 		}
 

@@ -119,6 +119,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
@@ -272,6 +275,9 @@ public enum Catalog {
 
 		WEAPONS.seen.put( RocketLauncher.class,             false);
 		WEAPONS.seen.put( RPG7.class,                       false);
+		WEAPONS.seen.put( GrenadeLauncher.class,            false);
+		WEAPONS.seen.put( GrenadeLauncherAP.class,          false);
+		WEAPONS.seen.put( GrenadeLauncherHP.class,          false);
 		WEAPONS.seen.put( FlameThrower.class,               false);
 		WEAPONS.seen.put( PlasmaCannon.class,               false);
 		WEAPONS.seen.put( MissileButton.class,              false);

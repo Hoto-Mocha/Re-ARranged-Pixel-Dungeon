@@ -49,6 +49,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
@@ -150,7 +153,10 @@ public class StableAPBullet extends InventorySpell {
             || item instanceof FlameThrower
             || item instanceof FlameThrowerHP
             || item instanceof PlasmaCannon
-            || item instanceof PlasmaCannonHP;
+            || item instanceof PlasmaCannonHP
+
+            || item instanceof GrenadeLauncher
+            || item instanceof GrenadeLauncherHP;
     }
 
     @Override
@@ -228,8 +234,10 @@ public class StableAPBullet extends InventorySpell {
             n = new SPASAP();
         } else if (w instanceof FlameThrower || w instanceof FlameThrowerHP) {
             n = new FlameThrowerAP();
-        } else { //(w instanceof PlasmaCannon || w instanceof PlasmaCannonHP)
+        } else if (w instanceof PlasmaCannon || w instanceof PlasmaCannonHP) {
             n = new PlasmaCannonAP();
+        } else { //(w instanceof GrenadeLauncher || w instanceof GrenadeLauncherHP)
+            n = new GrenadeLauncherAP();
         }
 
         int level = w.level();

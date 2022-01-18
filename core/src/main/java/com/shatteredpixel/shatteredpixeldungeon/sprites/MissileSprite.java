@@ -48,6 +48,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
@@ -223,6 +226,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(PlasmaCannonAP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(PlasmaCannonHP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(MissileButton.Rocket.class,        0);
+		ANGULAR_SPEEDS.put(GrenadeLauncher.Rocket.class,      0);
+		ANGULAR_SPEEDS.put(GrenadeLauncherAP.Rocket.class,      0);
+		ANGULAR_SPEEDS.put(GrenadeLauncherHP.Rocket.class,      0);
 		//720 is default
 		
 		ANGULAR_SPEEDS.put(HeavyBoomerang.class,1440);
@@ -335,7 +341,11 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				||item instanceof WindBow.SpiritArrow
 		) {
 			speed *= 3f;
-		} else if (item instanceof RocketLauncher.Rocket) {
+		} else if (item instanceof RocketLauncher.Rocket
+				|| item instanceof GrenadeLauncher.Rocket
+				|| item instanceof GrenadeLauncherAP.Rocket
+				|| item instanceof GrenadeLauncherHP.Rocket
+		) {
 			speed *= 1.2f;
 		} else if (item instanceof FlameThrower.Bullet
 				|| item instanceof FlameThrowerAP.Bullet
