@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -178,13 +179,18 @@ public class MissileButton extends MeleeWeapon {
 
     @Override
     public String info() {
-
-        max_round = 1;
-        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         String statsInfo = statsInfo();
         if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
+
+        if (cursed && isEquipped( hero )) {
+            info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
+        } else if (cursedKnown && cursed) {
+            info += "\n\n" + Messages.get(Weapon.class, "cursed");
+        } else if (!isIdentified() && cursedKnown){
+            info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
+        }
 
         return info;
     }

@@ -588,6 +588,15 @@ public abstract class Char extends Actor {
 				}
 			}
 
+			if (this instanceof Hero) {
+				if (Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher.Rocket) {
+					Buff.prolong(enemy, Vulnerable.class, 5f);
+				}
+				if (Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP.Rocket) {
+					Buff.prolong(enemy, Paralysis.class, 3f);
+				}
+			}
+
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
 				if (h.belongings.weapon() instanceof CrudePistolAP.Bullet
@@ -912,9 +921,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof SPAS.Bullet
 							|| Dungeon.hero.belongings.weapon() instanceof SPASAP.Bullet
 							|| Dungeon.hero.belongings.weapon() instanceof SPASHP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher.Rocket
-							|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherAP.Rocket
-							|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP.Rocket
+							//|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher.Rocket see GrenadeLauncher for effect
+							//|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherAP.Rocket see GrenadeLauncherAP for effect
+							//|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP.Rocket see GrenadeLauncherHP for effect
 					) {
 						dmg *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.HEAVY_ENHANCE);
 					}

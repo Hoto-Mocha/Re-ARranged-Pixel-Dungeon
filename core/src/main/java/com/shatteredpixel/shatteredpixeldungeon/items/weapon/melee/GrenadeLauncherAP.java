@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SmokeScreen;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GrenadeCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -107,6 +108,7 @@ public class GrenadeLauncherAP extends MeleeWeapon {
         ArrayList<String> actions = super.actions(hero);
         actions.add(AC_SHOOT);
         actions.add(AC_RELOAD);
+        actions.remove(AC_EQUIP);
         return actions;
     }
 
@@ -117,10 +119,15 @@ public class GrenadeLauncherAP extends MeleeWeapon {
 
         if (action.equals(AC_SHOOT)) {
             if (round <= 0) {
-                reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : (!isEquipped(hero)) ? 5f* RingOfReload.reloadMultiplier(Dungeon.hero) : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
-                reload();
+                reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 1f;
+                if (hero.buff(GrenadeCoolDown.class) != null) {
+                    usesTargeting = false;
+                    GLog.w(Messages.get(GrenadeLauncherAP.class, "cannot_reload"));
+                } else {
+                    reload();
+                }
             } else {
-                reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : (!isEquipped(hero)) ? 5f* RingOfReload.reloadMultiplier(Dungeon.hero) : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 1f;
                 usesTargeting = true;
                 curUser = hero;
                 curItem = this;
@@ -128,11 +135,15 @@ public class GrenadeLauncherAP extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 1;
-            if (round == max_round){
-                GLog.w(Messages.get(this, "already_loaded"));
+            if (hero.buff(GrenadeCoolDown.class) != null) {
+                GLog.w(Messages.get(GrenadeLauncherAP.class, "cannot_reload"));
             } else {
-                reload();
+                max_round = 1;
+                if (round == max_round){
+                    GLog.w(Messages.get(this, "already_loaded"));
+                } else {
+                    reload();
+                }
             }
         }
     }
@@ -185,55 +196,46 @@ public class GrenadeLauncherAP extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        return lvl;
+        int dmg = 1 + 
+                + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
+                + (curseInfusionBonus ? 1 : 0);
+        if (hero.hasTalent(Talent.HEAVY_ENHANCE)) {
+            dmg *= 1 + 0.1f*hero.pointsInTalent(Talent.HEAVY_ENHANCE);
+        }
+        return Math.max(0, dmg);
     }
 
     public int Bulletmax(int lvl) {
-        return 10 +
-                lvl;
+        int dmg = 10
+                + 2 * RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
+                + (curseInfusionBonus ? 2 : 0);
+        if (hero.hasTalent(Talent.HEAVY_ENHANCE)) {
+            dmg *= 1 + 0.1f*hero.pointsInTalent(Talent.HEAVY_ENHANCE);
+        }
+        return Math.max(0, dmg);
     }
 
     @Override
     public String info() {
 
         max_round = 1;
-        reload_time = (!isEquipped(hero)) ? 5f* RingOfReload.reloadMultiplier(Dungeon.hero) : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = 1f;
         String info = desc();
 
         if (levelKnown) {
-            info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
-            if (STRReq() > hero.STR()) {
-                info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (hero.STR() > STRReq()){
-                info += " " + Messages.get(Weapon.class, "excess_str", hero.STR() - STRReq());
-            }
             info += "\n\n" + Messages.get(GrenadeLauncherAP.class, "stats_known",
                     Bulletmin(GrenadeLauncherAP.this.buffedLvl()),
                     Bulletmax(GrenadeLauncherAP.this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
-            info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-            if (STRReq(0) > hero.STR()) {
-                info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
-            }
             info += "\n\n" + Messages.get(GrenadeLauncherAP.class, "stats_unknown",
-                    Bulletmin(0),
-                    Bulletmax(0),
+                    Bulletmin(GrenadeLauncherAP.this.buffedLvl()),
+                    Bulletmax(GrenadeLauncherAP.this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         }
 
         String statsInfo = statsInfo();
         if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
-
-        switch (augment) {
-            case SPEED:
-                info += " " + Messages.get(Weapon.class, "faster");
-                break;
-            case DAMAGE:
-                info += " " + Messages.get(Weapon.class, "stronger");
-                break;
-            case NONE:
-        }
 
         if (enchantment != null && (cursedKnown || !enchantment.curse())){
             info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
@@ -287,6 +289,22 @@ public class GrenadeLauncherAP extends MeleeWeapon {
         return delay;
     }                   //공격 속도
 
+    @Override
+    public int level() {
+        return (Dungeon.hero == null ? 0 : Dungeon.hero.lvl/5) + (curseInfusionBonus ? 1 : 0);
+    }
+
+    @Override
+    public int buffedLvl() {
+        //level isn't affected by buffs/debuffs
+        return level();
+    }
+
+    @Override
+    public boolean isUpgradable() {
+        return false;
+    }
+
     public GrenadeLauncherAP.Rocket knockBullet(){
         return new GrenadeLauncherAP.Rocket();
     }
@@ -312,10 +330,6 @@ public class GrenadeLauncherAP extends MeleeWeapon {
 
             if (owner.buff(Focusing.class) != null) {
                 bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
-            }
-
-            if (!isEquipped(hero)) {
-                bulletdamage *= 0.7f;
             }
             return bulletdamage;
         }
@@ -349,6 +363,7 @@ public class GrenadeLauncherAP extends MeleeWeapon {
 
         @Override
         protected void onThrow(int cell) {
+            Buff.prolong(hero, GrenadeCoolDown.class, 30f);
             Char enemy = Actor.findChar( cell );
             ArrayList<Char> targets = new ArrayList<>();
             if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
@@ -370,7 +385,7 @@ public class GrenadeLauncherAP extends MeleeWeapon {
                 int c = cell + n;
                 if (c >= 0 && c < Dungeon.level.length()) {
                     if (Dungeon.level.map[c] != Terrain.WALL) {
-                        GameScene.add(Blob.seed(c, 25, SmokeScreen.class));
+                        GameScene.add(Blob.seed(c, 40, SmokeScreen.class));
                     }
                     if (Dungeon.level.heroFOV[c]) {
                         CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
@@ -418,7 +433,11 @@ public class GrenadeLauncherAP extends MeleeWeapon {
         public void onSelect( Integer target ) {
             if (target != null) {
                 if (target == curUser.pos) {
-                    reload();
+                    if (hero.buff(GrenadeCoolDown.class) != null) {
+                        GLog.w(Messages.get(GrenadeLauncherAP.class, "cannot_reload"));
+                    } else {
+                        reload();
+                    }
                 } else {
                     knockBullet().cast(curUser, target);
                 }
