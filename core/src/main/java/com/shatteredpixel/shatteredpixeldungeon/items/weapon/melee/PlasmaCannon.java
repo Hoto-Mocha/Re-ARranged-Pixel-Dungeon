@@ -329,6 +329,9 @@ public class PlasmaCannon extends MeleeWeapon {
         if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
             delay -= 0.1f * Dungeon.hero.pointsInTalent(Talent.MARTIAL_ARTS);
         }
+        if (hero.buff(Riot.riotTracker.class) != null) {
+            delay *= 0.5f;
+        }
         return delay;
     }
 
@@ -369,6 +372,10 @@ public class PlasmaCannon extends MeleeWeapon {
 
             if (hero.buff(ArtifactRecharge.class) != null) {
                 bulletdamage *= 1.5f;
+            }
+
+            if (hero.buff(Riot.riotTracker.class) != null) {
+                bulletdamage *= 0.5f;
             }
 
             return bulletdamage;

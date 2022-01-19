@@ -534,6 +534,7 @@ public enum HeroClass {
 		//new Evolution().quantity(50).collect();
 		//new ScrollOfTransmutation().identify().quantity(50).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
+		//new ScrollOfUpgrade().identify().quantity(50).collect();
 		//new PotionOfInvisibility().identify().quantity(30).collect();
 		//new PotionOfStrength().identify().quantity(50).collect();
 		//new ScrollOfIdentify().identify().quantity(50).collect();

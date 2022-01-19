@@ -105,10 +105,8 @@ public class GrenadeLauncherAP extends MeleeWeapon {
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
-        if (isEquipped( hero )) {
-            actions.add(AC_SHOOT);
-            actions.add(AC_RELOAD);
-        }
+        actions.add(AC_SHOOT);
+        actions.add(AC_RELOAD);
         return actions;
     }
 
@@ -315,6 +313,10 @@ public class GrenadeLauncherAP extends MeleeWeapon {
             if (owner.buff(Focusing.class) != null) {
                 bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
+
+            if (!isEquipped(hero)) {
+                bulletdamage *= 0.7f;
+            }
             return bulletdamage;
         }
 
@@ -368,7 +370,7 @@ public class GrenadeLauncherAP extends MeleeWeapon {
                 int c = cell + n;
                 if (c >= 0 && c < Dungeon.level.length()) {
                     if (Dungeon.level.map[c] != Terrain.WALL) {
-                        GameScene.add(Blob.seed(c, 20, SmokeScreen.class));
+                        GameScene.add(Blob.seed(c, 25, SmokeScreen.class));
                     }
                     if (Dungeon.level.heroFOV[c]) {
                         CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);

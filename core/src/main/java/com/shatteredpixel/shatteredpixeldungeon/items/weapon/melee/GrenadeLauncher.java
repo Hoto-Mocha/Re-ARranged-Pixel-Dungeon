@@ -101,10 +101,8 @@ public class GrenadeLauncher extends MeleeWeapon {
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
-        if (isEquipped( hero )) {
-            actions.add(AC_SHOOT);
-            actions.add(AC_RELOAD);
-        }
+        actions.add(AC_SHOOT);
+        actions.add(AC_RELOAD);
         return actions;
     }
 
@@ -114,21 +112,15 @@ public class GrenadeLauncher extends MeleeWeapon {
         super.execute(hero, action);
 
         if (action.equals(AC_SHOOT)) {
-
-            if (!isEquipped( hero )) {
-                usesTargeting = false;
-                GLog.w(Messages.get(this, "not_equipped"));
+            if (round <= 0) {
+                reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : (!isEquipped(hero)) ? 5f* RingOfReload.reloadMultiplier(Dungeon.hero) : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                reload();
             } else {
-                if (round <= 0) {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
-                    reload();
-                } else {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
-                    usesTargeting = true;
-                    curUser = hero;
-                    curItem = this;
-                    GameScene.selectCell(shooter);
-                }
+                reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : (!isEquipped(hero)) ? 5f* RingOfReload.reloadMultiplier(Dungeon.hero) : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                usesTargeting = true;
+                curUser = hero;
+                curItem = this;
+                GameScene.selectCell(shooter);
             }
         }
         if (action.equals(AC_RELOAD)) {
@@ -189,14 +181,14 @@ public class GrenadeLauncher extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        return (tier+2) +
-                lvl      +
+        return (tier+1) +
+                lvl +
                 RingOfSharpshooting.levelDamageBonus(hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 5 * (tier+2)   +
-                lvl * (tier+2) +
+        return 3 * (tier+1)   +
+                lvl * (tier+1) +
                 RingOfSharpshooting.levelDamageBonus(hero);
     }
 
@@ -204,7 +196,7 @@ public class GrenadeLauncher extends MeleeWeapon {
     public String info() {
 
         max_round = 1;
-        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = (!isEquipped(hero)) ? 5f* RingOfReload.reloadMultiplier(Dungeon.hero) : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
@@ -320,6 +312,10 @@ public class GrenadeLauncher extends MeleeWeapon {
             if (owner.buff(Focusing.class) != null) {
                 bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
+
+            if (!isEquipped(hero)) {
+                bulletdamage *= 0.7f;
+            }
             return bulletdamage;
         }
 
@@ -355,7 +351,7 @@ public class GrenadeLauncher extends MeleeWeapon {
             Char enemy = Actor.findChar( cell );
             ArrayList<Char> targets = new ArrayList<>();
             if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
-            for (int i : PathFinder.NEIGHBOURS8){
+            for (int i : PathFinder.NEIGHBOURS26){
                 if (Actor.findChar(cell + i) != null) targets.add(Actor.findChar(cell + i));
             }
             for (Char target : targets){
@@ -369,7 +365,7 @@ public class GrenadeLauncher extends MeleeWeapon {
             CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
             boolean terrainAffected = false;
             ArrayList<Char> affected = new ArrayList<>();
-            for (int n : PathFinder.NEIGHBOURS9) {
+            for (int n : PathFinder.NEIGHBOURS27) {
                 int c = cell + n;
                 if (c >= 0 && c < Dungeon.level.length()) {
                     if (Dungeon.level.heroFOV[c]) {

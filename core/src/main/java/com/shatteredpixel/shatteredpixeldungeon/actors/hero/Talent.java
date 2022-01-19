@@ -85,6 +85,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
@@ -227,7 +230,7 @@ public enum Talent {
 	//Gunner T1
 	REARRANGE(160), GUNNERS_INTUITION(161), SPEEDY_MOVE(162), SAFE_RELOAD(163),
 	//Gunner T2
-	IN_THE_GUNFIRE(164), ANOTHER_CHANCE(165), CHOICE_N_FOCUS(166), CAMOUFLAGE(167), LARGER_MAGAZINE(168),
+	IN_THE_GUNFIRE(164), ANOTHER_CHANCE(165), BULLET_FOCUS(166), CAMOUFLAGE(167), LARGER_MAGAZINE(168),
 	//Gunner T3
 	MELEE_ENHANCE(169, 3), HEAVY_ENHANCE(170, 3),
 	//Launcher T3
@@ -638,7 +641,7 @@ public enum Talent {
 				||item instanceof RPG7
 				||item instanceof RocketLauncher
 		) {
-			factor *= 1f + hero.pointsInTalent(GUNNERS_INTUITION);
+			factor *= 2f + hero.pointsInTalent(GUNNERS_INTUITION);
 		}
 		return factor;
 	}
@@ -691,7 +694,11 @@ public enum Talent {
 		}
 	}
 
+	private static int upgradeUsed = 0;
 	public static void onUpgradeScrollUsed( Hero hero ){
+		if (hero.pointsInTalent(ANOTHER_CHANCE) == 2) {
+			upgradeUsed ++;
+		}
 		if (hero.hasTalent(ENERGIZING_UPGRADE)){
 			MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
 			if (staff != null){
@@ -718,12 +725,13 @@ public enum Talent {
 					Dungeon.level.drop( enchantment, Dungeon.hero.pos ).sprite.drop();
 				}
 			}
-			if (hero.pointsInTalent(ANOTHER_CHANCE) == 2 && Random.Int(10) == 0) {
+			if (hero.pointsInTalent(ANOTHER_CHANCE) == 2 && (Random.Int(10) == 0 || upgradeUsed == 10)) {
 				if (scl.doPickUp( Dungeon.hero )) {
 					GLog.i( Messages.get(Dungeon.hero, "you_now_have", scl.name() ));
 				} else {
 					Dungeon.level.drop( scl, Dungeon.hero.pos ).sprite.drop();
 				}
+				upgradeUsed = 0;
 			}
 		}
 
@@ -806,6 +814,9 @@ public enum Talent {
 						||item instanceof PlasmaCannon
 						||item instanceof PlasmaCannonAP
 						||item instanceof PlasmaCannonHP
+						||item instanceof GrenadeLauncher
+						||item instanceof GrenadeLauncherAP
+						||item instanceof GrenadeLauncherHP
 				)
 		){
 			item.identify();
@@ -962,7 +973,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, INVIGORATING_MEAL, RESTORED_NATURE, REJUVENATING_STEPS, HEIGHTENED_SENSES, DURABLE_PROJECTILES);
 				break;
 			case GUNNER:
-				Collections.addAll(tierTalents,	IN_THE_GUNFIRE, ANOTHER_CHANCE, CHOICE_N_FOCUS, CAMOUFLAGE, LARGER_MAGAZINE);
+				Collections.addAll(tierTalents,	IN_THE_GUNFIRE, ANOTHER_CHANCE, BULLET_FOCUS, CAMOUFLAGE, LARGER_MAGAZINE);
 				break;
 			case SAMURAI:
 				Collections.addAll(tierTalents,	FOCUSING_MEAL, CRITICAL_UPGRADE, MAGICAL_TRANSFERENCE, PARRY, DETECTION);

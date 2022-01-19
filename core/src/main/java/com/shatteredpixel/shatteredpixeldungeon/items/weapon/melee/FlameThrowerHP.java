@@ -317,6 +317,9 @@ public class FlameThrowerHP extends MeleeWeapon {
         if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
             delay -= 0.1f * Dungeon.hero.pointsInTalent(Talent.MARTIAL_ARTS);
         }
+        if (hero.buff(Riot.riotTracker.class) != null) {
+            delay *= 0.5f;
+        }
         return delay;
     }
 
@@ -350,6 +353,11 @@ public class FlameThrowerHP extends MeleeWeapon {
             if (Dungeon.hero.hasTalent(Talent.HEAVY_ENHANCE)) {
                 bulletdamage *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.HEAVY_ENHANCE);
             }
+
+            if (hero.buff(Riot.riotTracker.class) != null) {
+                bulletdamage *= 0.5f;
+            }
+
             return bulletdamage;
         }
 
