@@ -323,7 +323,7 @@ public class MiniGunHP extends MeleeWeapon {
             image = ItemSpriteSheet.TRIPLE_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 6;
+            tier = 7;
             ACC = 0.5f;
         }
 
@@ -339,7 +339,7 @@ public class MiniGunHP extends MeleeWeapon {
             }
 
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }

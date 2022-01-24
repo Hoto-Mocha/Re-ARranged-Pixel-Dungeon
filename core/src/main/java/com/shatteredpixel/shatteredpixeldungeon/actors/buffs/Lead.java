@@ -60,7 +60,7 @@ public class Lead extends Buff {
 
 	@Override
 	public void tintIcon(Image icon) {
-		icon.hardlight(1.9f, 2.4f, 3.25f);
+		icon.hardlight(0xB862B8);
 	}
 
 	@Override

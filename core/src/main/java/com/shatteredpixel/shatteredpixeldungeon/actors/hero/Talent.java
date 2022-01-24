@@ -256,8 +256,8 @@ public enum Talent {
 	CONTINUOUS_ATTACK(203, 3), SLASHING_PRACTICE(204, 3), SERIAL_MOMENTUM(205, 3),
 	//Master T3
 	DONG_MIND_EYES(206, 3), JUNG_DETECTION(207, 3), MIND_FOCUS(208, 3),
-	//Gunslinger T3
-	HOLSTER(143, 3), DESTRUCTIVE_BULLET(144, 3), CLOSE_SHOOTING(145, 3),
+	//Slayer T3
+	AFTERIMAGE(143, 3), ENERGY_DRAIN(144, 3), FTL(145, 3),
 	//Awake T4
 	AWAKE_LIMIT(209, 4), AWAKE_DURATION(210, 4), INSURANCE(211, 4),
 	//ShadowBlade T4
@@ -1092,8 +1092,8 @@ public enum Talent {
 			case MASTER:
 				Collections.addAll(tierTalents, BETTER_CHOICE, DONG_MIND_EYES, JUNG_DETECTION, MIND_FOCUS);
 				break;
-			case GUNSLINGER:
-				Collections.addAll(tierTalents, BETTER_CHOICE, HOLSTER, DESTRUCTIVE_BULLET, CLOSE_SHOOTING);
+			case SLAYER:
+				Collections.addAll(tierTalents, BETTER_CHOICE, AFTERIMAGE, ENERGY_DRAIN, FTL);
 				break;
 			case TREASUREHUNTER:
 				Collections.addAll(tierTalents, BETTER_CHOICE, TAKEDOWN, DETECTOR, GOLD_SHIELD);

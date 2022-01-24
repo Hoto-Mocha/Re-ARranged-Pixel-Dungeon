@@ -45,10 +45,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ExtraBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
@@ -324,6 +326,15 @@ public abstract class Char extends Actor {
 
 			Dungeon.hero.busy();
 		}
+
+		if (c == Dungeon.hero){
+			if (hero.subClass == HeroSubClass.SLAYER && hero.buff(Demonization.class) == null) {
+				Buff.affect(hero, Demonization.class).indicate();
+			}
+
+			Dungeon.hero.busy();
+		}
+
 		
 		return true;
 	}
@@ -474,8 +485,11 @@ public abstract class Char extends Actor {
 				) {
 					dr *= 3;
 				} else if (h.belongings.weapon instanceof ShotGunHP.Bullet
-						 ||h.belongings.weapon instanceof SPASHP.Bullet) {
-					dr *= 2;
+						|| h.belongings.weapon instanceof SPASHP.Bullet) {
+					dr *= 2.5;
+				} else if (h.belongings.weapon instanceof ShotGun.Bullet
+						|| h.belongings.weapon instanceof SPAS.Bullet) {
+					dr *= 1.5;
 				}
 			}
 			
@@ -557,33 +571,6 @@ public abstract class Char extends Actor {
 					} else {
 						dmg *= 1f;
 						Buff.affect(hero, SerialAttack.class).hit(enemy);
-					}
-				}
-			}
-
-			if (this instanceof Hero) {
-				if (Random.Int(3) < hero.pointsInTalent(Talent.DESTRUCTIVE_BULLET) && hero.buff(Talent.DestructiveCooldown.class) == null) {
-					if (Dungeon.hero.belongings.weapon() instanceof CrudePistol.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof CrudePistolAP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof CrudePistolHP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof Pistol.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof PistolAP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof PistolHP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof GoldenPistol.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof GoldenPistolAP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof GoldenPistolHP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof Handgun.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof HandgunAP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof HandgunHP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof Magnum.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof MagnumAP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof MagnumHP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof LargeHandgun.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP.Bullet
-					) {
-						Buff.prolong(enemy, Vulnerable.class, 5f);
-						Buff.affect(hero, Talent.DestructiveCooldown.class, 20f);
 					}
 				}
 			}
@@ -1024,6 +1011,16 @@ public abstract class Char extends Actor {
 			return true;
 			
 		} else {
+
+			if (enemy instanceof Hero) {
+				Demonization demonization = hero.buff(Demonization.class);
+				if (demonization != null
+						&& demonization.isDemonated()
+						&& Random.Int(5) == 0
+				) {
+					Buff.prolong(hero, Flurry.class, Flurry.DURATION);
+				}
+			}
 
 			enemy.sprite.showStatus( CharSprite.NEUTRAL, enemy.defenseVerb() );
 			if (visibleFight) {

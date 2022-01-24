@@ -347,7 +347,7 @@ public class AssultRifle extends MeleeWeapon {
             }
 
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }

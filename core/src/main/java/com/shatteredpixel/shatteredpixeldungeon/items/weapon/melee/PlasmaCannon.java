@@ -359,7 +359,7 @@ public class PlasmaCannon extends MeleeWeapon {
             }
 
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
 
             if (Dungeon.hero.hasTalent(Talent.HEAVY_ENHANCE)) {
@@ -367,11 +367,11 @@ public class PlasmaCannon extends MeleeWeapon {
             }
 
             if (hero.buff(Recharging.class) != null) {
-                bulletdamage *= 1.5f;
+                bulletdamage *= 1.2f;
             }
 
             if (hero.buff(ArtifactRecharge.class) != null) {
-                bulletdamage *= 1.5f;
+                bulletdamage *= 1.2f;
             }
 
             if (hero.buff(Riot.riotTracker.class) != null) {

@@ -81,6 +81,8 @@ public class GrenadeLauncherAP extends MeleeWeapon {
         hitSoundPitch = 0.8f;
 
         tier = 3;
+        bones = false;
+        unique = true;
     }
 
     private static final String ROUND = "round";
@@ -329,7 +331,7 @@ public class GrenadeLauncherAP extends MeleeWeapon {
             }
 
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }
@@ -385,7 +387,8 @@ public class GrenadeLauncherAP extends MeleeWeapon {
                 int c = cell + n;
                 if (c >= 0 && c < Dungeon.level.length()) {
                     if (Dungeon.level.map[c] != Terrain.WALL) {
-                        GameScene.add(Blob.seed(c, 40, SmokeScreen.class));
+                        int amount = 20 + GrenadeLauncherAP.curItem.buffedLvl() * 5;
+                        GameScene.add(Blob.seed(c, amount, SmokeScreen.class));
                     }
                     if (Dungeon.level.heroFOV[c]) {
                         CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);

@@ -78,6 +78,8 @@ public class GrenadeLauncher extends MeleeWeapon {
         hitSoundPitch = 0.8f;
 
         tier = 3;
+        bones = false;
+        unique = true;
     }
 
     private static final String ROUND = "round";
@@ -326,7 +328,7 @@ public class GrenadeLauncher extends MeleeWeapon {
             }
 
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }

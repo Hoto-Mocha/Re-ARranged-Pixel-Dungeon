@@ -353,7 +353,7 @@ public class FlameThrower extends MeleeWeapon {
             }
 
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
 
             if (Dungeon.hero.hasTalent(Talent.HEAVY_ENHANCE)) {
@@ -402,7 +402,7 @@ public class FlameThrower extends MeleeWeapon {
             ConeAOE cone = new ConeAOE(aim,
                     dist,
                     30,
-                    Ballistica.STOP_SOLID | Ballistica.STOP_TARGET);
+                    Ballistica.STOP_TARGET | Ballistica.STOP_SOLID | Ballistica.IGNORE_SOFT_SOLID);
             //cast to cells at the tip, rather than all cells, better performance.
             for (Ballistica ray : cone.outerRays){
                 ((MagicMissile)hero.sprite.parent.recycle( MagicMissile.class )).reset(
@@ -412,10 +412,17 @@ public class FlameThrower extends MeleeWeapon {
                         null
                 );
             }
-
             for (int cells : cone.cells){
+                //knock doors open
+                if (Dungeon.level.map[cells] == Terrain.DOOR){
+                    Level.set(cells, Terrain.OPEN_DOOR);
+                    GameScene.updateMap(cells);
+                }
 
-                GameScene.add(Blob.seed(cells, 4, Fire.class));
+                //only ignite cells directly near caster if they are flammable
+                if (!(Dungeon.level.adjacent(hero.pos, cells) && !Dungeon.level.flamable[cells])) {
+                    GameScene.add(Blob.seed(cells, 2, Fire.class));
+                }
 
                 Char ch = Actor.findChar(cells);
                 if (ch != null && ch.alignment != hero.alignment){

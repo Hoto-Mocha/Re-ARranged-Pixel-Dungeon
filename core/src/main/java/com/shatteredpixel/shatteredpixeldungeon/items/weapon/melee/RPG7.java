@@ -180,7 +180,7 @@ public class RPG7 extends MeleeWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier, lvl)+2; //22 base
+        return STRReq(tier, lvl); //20 base
     }
 
     public int min(int lvl) {
@@ -321,7 +321,7 @@ public class RPG7 extends MeleeWeapon {
             }
 
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }

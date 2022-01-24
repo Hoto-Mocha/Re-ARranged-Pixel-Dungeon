@@ -49,6 +49,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
@@ -586,27 +587,6 @@ public class Hero extends Char {
 						|| wep instanceof AntimaterRifleHP.Bullet
 				){
 					accuracy *= 0;
-				} else if (hero.hasTalent(Talent.CLOSE_SHOOTING)) {
-					if (wep instanceof CrudePistol.Bullet
-							|| wep instanceof CrudePistolAP.Bullet
-							|| wep instanceof CrudePistolHP.Bullet
-							|| wep instanceof Pistol.Bullet
-							|| wep instanceof PistolAP.Bullet
-							|| wep instanceof PistolHP.Bullet
-							|| wep instanceof GoldenPistol.Bullet
-							|| wep instanceof GoldenPistolAP.Bullet
-							|| wep instanceof GoldenPistolHP.Bullet
-							|| wep instanceof Handgun.Bullet
-							|| wep instanceof HandgunAP.Bullet
-							|| wep instanceof HandgunHP.Bullet
-							|| wep instanceof Magnum.Bullet
-							|| wep instanceof MagnumAP.Bullet
-							|| wep instanceof MagnumHP.Bullet
-							|| wep instanceof LargeHandgun.Bullet
-							|| wep instanceof LargeHandgunAP.Bullet
-							|| wep instanceof LargeHandgunHP.Bullet) {
-						accuracy *= 1f + 0.5f * hero.pointsInTalent((Talent.CLOSE_SHOOTING));
-					}
 				} else {
 					accuracy *= (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				}
@@ -986,6 +966,9 @@ public class Hero extends Char {
 			 || hero.belongings.weapon instanceof LargeHandgun
 			 || hero.belongings.weapon instanceof LargeHandgunAP
 			 || hero.belongings.weapon instanceof LargeHandgunHP
+			 || hero.belongings.weapon instanceof DualPistol
+			 || hero.belongings.weapon instanceof DualPistolAP
+			 || hero.belongings.weapon instanceof DualPistolHP
 			) {
 				speed *= 1.1f;
 			}
@@ -1957,6 +1940,10 @@ public class Hero extends Char {
 
 			if (Dungeon.hero.subClass == HeroSubClass.RANGER && Random.Int(50) == 0){
 				Buff.affect(Dungeon.hero, Haste.class,5);
+			}
+
+			if (hero.subClass == HeroSubClass.SLAYER && hero.buff(Demonization.class) == null) {
+				Buff.affect(hero, Demonization.class).indicate();
 			}
 
 			float speed = speed();

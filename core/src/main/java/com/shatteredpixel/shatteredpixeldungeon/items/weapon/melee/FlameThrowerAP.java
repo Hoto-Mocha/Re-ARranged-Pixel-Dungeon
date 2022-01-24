@@ -46,6 +46,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -346,7 +348,7 @@ public class FlameThrowerAP extends MeleeWeapon {
             }
 
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
 
             if (Dungeon.hero.hasTalent(Talent.HEAVY_ENHANCE)) {
@@ -405,10 +407,17 @@ public class FlameThrowerAP extends MeleeWeapon {
                         null
                 );
             }
-
             for (int cells : cone.cells){
+                //knock doors open
+                if (Dungeon.level.map[cells] == Terrain.DOOR){
+                    Level.set(cells, Terrain.OPEN_DOOR);
+                    GameScene.updateMap(cells);
+                }
 
-                GameScene.add(Blob.seed(cells, 6, Fire.class));
+                //only ignite cells directly near caster if they are flammable
+                if (!(Dungeon.level.adjacent(hero.pos, cells) && !Dungeon.level.flamable[cells])) {
+                    GameScene.add(Blob.seed(cells, 2, Fire.class));
+                }
 
                 Char ch = Actor.findChar(cells);
                 if (ch != null && ch.alignment != hero.alignment){

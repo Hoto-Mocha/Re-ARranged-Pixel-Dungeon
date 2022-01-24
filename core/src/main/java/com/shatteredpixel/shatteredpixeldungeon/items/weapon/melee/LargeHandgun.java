@@ -103,7 +103,7 @@ public class LargeHandgun extends MeleeWeapon {
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
-        if (isEquipped( hero ) || hero.subClass == HeroSubClass.GUNSLINGER) {
+        if (isEquipped( hero )) {
             actions.add(AC_SHOOT);
             actions.add(AC_RELOAD);
         }
@@ -117,7 +117,7 @@ public class LargeHandgun extends MeleeWeapon {
 
         if (action.equals(AC_SHOOT)) {
 
-            if (!isEquipped( hero ) && hero.subClass != HeroSubClass.GUNSLINGER) {
+            if (!isEquipped( hero )) {
                 usesTargeting = false;
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
@@ -371,7 +371,7 @@ public class LargeHandgun extends MeleeWeapon {
             }
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 6;
+            tier = 7;
         }
 
         @Override
@@ -386,7 +386,7 @@ public class LargeHandgun extends MeleeWeapon {
             }
 
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }
@@ -413,9 +413,6 @@ public class LargeHandgun extends MeleeWeapon {
                 if (hero.buff(Riot.riotTracker.class) != null) {
                     return LargeHandgun.this.delayFactor(user)/2f;
                 } else {
-                    if (hero.hasTalent(Talent.HOLSTER) && round == max_round) {
-                        return LargeHandgun.this.delayFactor(user)/(1f+hero.pointsInTalent(Talent.HOLSTER));
-                    } else
                         return LargeHandgun.this.delayFactor(user);
                 }
             }

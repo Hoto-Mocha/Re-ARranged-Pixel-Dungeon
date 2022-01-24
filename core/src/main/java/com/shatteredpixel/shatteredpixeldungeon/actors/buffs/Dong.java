@@ -109,7 +109,7 @@ public class Dong extends Buff implements ActionIndicator.Action {
 	public Image getIcon() {
 		if (Dungeon.hero.buff(Lead.class) != null) {
 			Image actionIco = Effects.get(Effects.Type.WOUND);
-			tintIcon(actionIco);
+			actionIco.tint(0xFFFF0000);
 			return actionIco;
 		} else {
 			Image actionIco = new ItemSprite(new Item(){ {image = ItemSpriteSheet.SHEATH; }});

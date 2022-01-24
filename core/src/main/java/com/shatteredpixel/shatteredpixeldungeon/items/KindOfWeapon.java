@@ -27,14 +27,20 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CertainCrit;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CritBonus;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Lead;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -119,6 +125,12 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 	public int damageRoll(Char owner) {
 		int critChance = 0;
+
+		Demonization demonization = owner.buff(Demonization.class);
+		if (demonization != null && demonization.isDemonated()) {
+			critChance += (int)((hero.defenseSkill(owner) - (hero.lvl+5))/2);
+		}
+
 		if (Dungeon.hero.heroClass == HeroClass.SAMURAI && Dungeon.hero.belongings.weapon != null) {
 			critChance += 2 * (Dungeon.hero.STR - Dungeon.hero.belongings.weapon.STRReq());
 			critChance += Dungeon.hero.lvl;
@@ -147,6 +159,23 @@ abstract public class KindOfWeapon extends EquipableItem {
 		if (owner == hero && Dungeon.hero.heroClass == HeroClass.SAMURAI && Random.Int(100) < critChance && Dungeon.hero.belongings.weapon instanceof MeleeWeapon) {
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 			hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
+			if (hero.hasTalent(Talent.ENERGY_DRAIN)) {
+				int pointUsed = hero.pointsInTalent(Talent.ENERGY_DRAIN);
+				if (hero.buff(Barrier.class) == null || hero.buff(Barrier.class).shielding() < (15*pointUsed - 3*pointUsed)) {
+					Buff.affect(hero, Barrier.class).incShield(3*pointUsed);
+				} else {
+					Buff.affect(hero, Barrier.class).setShield(15*pointUsed);
+				}
+			}
+			if (hero.buff(Flurry.class) != null) {
+				int healAmt = 2;
+				healAmt = Math.min( healAmt, hero.HT - hero.HP );
+				if (healAmt > 0 && hero.isAlive()) {
+					hero.HP += healAmt;
+					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 2 );
+					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
+			}
 			return Random.NormalIntRange( Math.round(0.75f*max()), max());
 		} else {
 			return Random.NormalIntRange( min(), max() );

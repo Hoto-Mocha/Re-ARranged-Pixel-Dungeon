@@ -100,11 +100,6 @@ public class MissileButton extends MeleeWeapon {
     }
 
     @Override
-    public boolean isIdentified() {
-        return true;
-    }
-
-    @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
         actions.remove(AC_EQUIP);

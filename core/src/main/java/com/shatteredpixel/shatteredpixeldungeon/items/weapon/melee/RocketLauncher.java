@@ -221,11 +221,13 @@ public class RocketLauncher extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return 0;
+        return tier +
+                lvl;
     }
 
     public int max(int lvl) {
-        return 10;
+        return 3 * (tier + 1) +
+                lvl;
     }
 
     public int Bulletmin(int lvl) {
@@ -361,7 +363,7 @@ public class RocketLauncher extends MeleeWeapon {
             }
 
             if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.2f + 0.1f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
+                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }
