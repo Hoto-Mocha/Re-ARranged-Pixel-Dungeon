@@ -34,8 +34,8 @@ import com.watabou.utils.DeviceCompat;
 
 public class WndSupportPrompt extends Window {
 
-	protected static final int WIDTH_P    = 120;
-	protected static final int WIDTH_L    = 200;
+	protected static final int WIDTH_P    = 180;
+	protected static final int WIDTH_L    = 250;
 
 	public WndSupportPrompt(){
 
@@ -61,11 +61,11 @@ public class WndSupportPrompt extends Window {
 			@Override
 			protected void onClick() {
 				super.onClick();
-				String link = "https://www.patreon.com/ShatteredPixel";
+				String link = "https://github.com/Hoto-Mocha/ARranged-Pixel-Dungeon";
 				//tracking codes, so that the website knows where this pageview came from
-				link += "?utm_source=shatteredpd";
-				link += "&utm_medium=supporter_prompt";
-				link += "&utm_campaign=ingame_link";
+				//link += "?utm_source=shatteredpd";
+				//link += "&utm_medium=supporter_prompt";
+				//link += "&utm_campaign=ingame_link";
 				DeviceCompat.openURI(link);
 				SPDSettings.supportNagged(true);
 				WndSupportPrompt.super.hide();

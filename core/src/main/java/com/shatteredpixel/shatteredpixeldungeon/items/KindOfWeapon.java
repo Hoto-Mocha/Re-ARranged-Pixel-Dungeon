@@ -159,7 +159,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 		if (owner == hero && Dungeon.hero.heroClass == HeroClass.SAMURAI && Random.Int(100) < critChance && Dungeon.hero.belongings.weapon instanceof MeleeWeapon) {
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 			hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
-			if (hero.hasTalent(Talent.ENERGY_DRAIN)) {
+			if (demonization != null && demonization.isDemonated() && hero.hasTalent(Talent.ENERGY_DRAIN)) {
 				int pointUsed = hero.pointsInTalent(Talent.ENERGY_DRAIN);
 				if (hero.buff(Barrier.class) == null || hero.buff(Barrier.class).shielding() < (15*pointUsed - 3*pointUsed)) {
 					Buff.affect(hero, Barrier.class).incShield(3*pointUsed);

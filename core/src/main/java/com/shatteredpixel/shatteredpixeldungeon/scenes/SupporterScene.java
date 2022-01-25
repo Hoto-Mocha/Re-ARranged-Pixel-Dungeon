@@ -50,7 +50,7 @@ public class SupporterScene extends PixelScene {
 		int w = Camera.main.width;
 		int h = Camera.main.height;
 
-		int elementWidth = PixelScene.landscape() ? 202 : 120;
+		int elementWidth = PixelScene.landscape() ? 250 : 120;
 
 		Archs archs = new Archs();
 		archs.setSize(w, h);
@@ -77,15 +77,15 @@ public class SupporterScene extends PixelScene {
 			@Override
 			protected void onClick() {
 				super.onClick();
-				String link = "https://www.patreon.com/ShatteredPixel";
+				String link = "https://github.com/Hoto-Mocha/ARranged-Pixel-Dungeon";
 				//tracking codes, so that the website knows where this pageview came from
-				link += "?utm_source=shatteredpd";
-				link += "&utm_medium=supporter_page";
-				link += "&utm_campaign=ingame_link";
+				//link += "?utm_source=shatteredpd";
+				//link += "&utm_medium=supporter_page";
+				//link += "&utm_campaign=ingame_link";
 				DeviceCompat.openURI(link);
 			}
 		};
-		link.icon(Icons.get(Icons.GOLD));
+		link.icon(Icons.get(Icons.WARNING));
 		link.textColor(Window.TITLE_COLOR);
 		link.setSize(elementWidth, BTN_HEIGHT);
 		add(link);

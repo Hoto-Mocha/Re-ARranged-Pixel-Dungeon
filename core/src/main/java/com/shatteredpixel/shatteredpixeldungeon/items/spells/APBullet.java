@@ -71,6 +71,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
@@ -83,6 +84,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
@@ -147,7 +149,10 @@ public class APBullet extends InventorySpell {
             || item instanceof PlasmaCannonHP
 
             || item instanceof GrenadeLauncher
-            || item instanceof GrenadeLauncherHP;
+            || item instanceof GrenadeLauncherHP
+
+            || item instanceof SleepGun
+            || item instanceof ParalysisGun;
     }
 
     @Override
@@ -227,8 +232,10 @@ public class APBullet extends InventorySpell {
             n = new FlameThrowerAP();
         } else if (w instanceof PlasmaCannon || w instanceof PlasmaCannonHP) {
             n = new PlasmaCannonAP();
-        } else { //(w instanceof GrenadeLauncher || w instanceof GrenadeLauncherHP)
+        } else if (w instanceof GrenadeLauncher || w instanceof GrenadeLauncherHP) {
             n = new GrenadeLauncherAP();
+        } else { //(w instanceof SleepGun || w instanceof FrostGun)
+            n = new ParalysisGun();
         }
 
         //int level = w.level();

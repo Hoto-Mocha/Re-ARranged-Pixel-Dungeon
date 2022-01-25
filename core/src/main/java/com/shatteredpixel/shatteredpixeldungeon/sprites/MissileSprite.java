@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
@@ -45,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
@@ -70,6 +72,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
@@ -84,6 +87,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
@@ -227,8 +231,11 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(PlasmaCannonHP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(MissileButton.Rocket.class,        0);
 		ANGULAR_SPEEDS.put(GrenadeLauncher.Rocket.class,      0);
-		ANGULAR_SPEEDS.put(GrenadeLauncherAP.Rocket.class,      0);
-		ANGULAR_SPEEDS.put(GrenadeLauncherHP.Rocket.class,      0);
+		ANGULAR_SPEEDS.put(GrenadeLauncherAP.Rocket.class,    0);
+		ANGULAR_SPEEDS.put(GrenadeLauncherHP.Rocket.class,    0);
+		ANGULAR_SPEEDS.put(SleepGun.Dart.class,     		  0);
+		ANGULAR_SPEEDS.put(FrostGun.Dart.class,     		  0);
+		ANGULAR_SPEEDS.put(ParalysisGun.Dart.class,      	  0);
 		//720 is default
 		
 		ANGULAR_SPEEDS.put(HeavyBoomerang.class,1440);
@@ -339,6 +346,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				||item instanceof AntimaterRifleHP.Bullet
 				||item instanceof RPG7.Rocket
 				||item instanceof WindBow.SpiritArrow
+				||item instanceof SleepGun.Dart
+				||item instanceof FrostGun.Dart
+				||item instanceof ParalysisGun.Dart
 		) {
 			speed *= 3f;
 		} else if (item instanceof RocketLauncher.Rocket

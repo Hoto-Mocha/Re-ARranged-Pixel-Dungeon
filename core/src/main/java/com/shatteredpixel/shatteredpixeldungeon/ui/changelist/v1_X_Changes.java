@@ -1,6 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.ui.changelist;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -24,32 +25,110 @@ import java.util.ArrayList;
 public class v1_X_Changes {
 
 	public static void addAllChanges( ArrayList<ChangeInfo> changeInfos ){
-		add_Coming_Soon(changeInfos);
+		//add_Coming_Soon(changeInfos);
+		add_v1_31_Changes(changeInfos);
 		add_v1_1_Changes(changeInfos);
 		add_v1_0_Changes(changeInfos);
 	}
 
-	public static void add_Coming_Soon( ArrayList<ChangeInfo> changeInfos ) {
+	//public static void add_Coming_Soon( ArrayList<ChangeInfo> changeInfos ) {
 
-		ChangeInfo changes = new ChangeInfo("Coming Soon", true, "");
-		changes.hardlight(0xCCCCCC);
+	//	ChangeInfo changes = new ChangeInfo("Coming Soon", true, "");
+	//	changes.hardlight(0xCCCCCC);
+	//	changeInfos.add(changes);
+
+	//	changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Overview",
+	//		"The next Shattered update will be v1.2.0, and will focus on a variety of smaller improvements, including working on proper support for desktop users in anticipation of the game's upcoming Steam release. Unfortunately I'm spread a bit thin right now with Steam and real-life obligations, so v1.2.0 will be light on content additions. I do hope to release it in less than 4 months though!\n\n" +
+	//		"Expect to hear more details about v1.2.0 in a future news post, likely in January."));
+
+	//	changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.ENERGY), "Further Alchemy Tweaks",
+	//			"v1.1.0 focused pretty heavily on the alchemy system itself and exotic potions/scrolls, but there are definitely improvements to be made to other alchemy items too! Once the dust has settled a bit from 1.1.0 I intend to do a full evaluation and balance pass on alchemy produce. That may mean some nerfs, but I expect the majority of item changes from this will be buffs."));
+
+	//	changes.addButton( new ChangeButton(Icons.get(Icons.DISPLAY), "Desktop Enhancements",
+	//			"The other major focus for v1.2.0 will be new and enhanced features for desktop users! I wrote a blog post about this in detail already, but in summary I want to make it easier to install and run the desktop game, and improve the interface to better take advantage of mice, controllers, and larger screens."));
+
+	//	changes.addButton( new ChangeButton(Icons.get(Icons.AUDIO), "Boss Music",
+	//			"v1.1.0 includes a bunch of new music, but Kristjan and I aren't finished yet! We're currently working on a boss track for Yog-Dzewa, and might add some music for the other bosses too."));
+
+	//	changes.addButton( new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+	//			"Lastly, there will be some smaller miscellaneous changes in v1.2.0 as well. Alchemy items will get the most adjustments, but I also plan to look into improvements to a few other items, such as the master thieves' armband. There will be the usual round of balance improvements too."));
+
+	//}
+
+	public static void add_v1_31_Changes( ArrayList<ChangeInfo> changeInfos ) {
+
+		ChangeInfo changes = new ChangeInfo("ARranged v1.31", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Overview",
-			"The next Shattered update will be v1.2.0, and will focus on a variety of smaller improvements, including working on proper support for desktop users in anticipation of the game's upcoming Steam release. Unfortunately I'm spread a bit thin right now with Steam and real-life obligations, so v1.2.0 will be light on content additions. I do hope to release it in less than 4 months though!\n\n" +
-			"Expect to hear more details about v1.2.0 in a future news post, likely in January."));
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "new"), false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
 
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.ENERGY), "Further Alchemy Tweaks",
-				"v1.1.0 focused pretty heavily on the alchemy system itself and exotic potions/scrolls, but there are definitely improvements to be made to other alchemy items too! Once the dust has settled a bit from 1.1.0 I intend to do a full evaluation and balance pass on alchemy produce. That may mean some nerfs, but I expect the majority of item changes from this will be buffs."));
+		changes.addButton( new ChangeButton(Icons.get(Icons.ARRANGED), "Developer Commentary",
+				"_-_ Released January 26th, 2022\n" +
+						"_-_ First Release After Addition of the Changelog\n" +
+						"Expect dev commentary here in the future."));
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.DISPLAY), "Desktop Enhancements",
-				"The other major focus for v1.2.0 will be new and enhanced features for desktop users! I wrote a blog post about this in detail already, but in summary I want to make it easier to install and run the desktop game, and improve the interface to better take advantage of mice, controllers, and larger screens."));
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.LARGEHANDGUN), "Added Guns",
+				"_The Guns Added in ARPD!_\n\n" +
+						"- _HandGuns:_ Standard Guns.\n" +
+						"- _Snipers:_ High Damage, but Long Reload Time.\n" +
+						"- _MachineGuns:_ Low Damage, but Lots of Bullets in A SHOT.\n" +
+						"- _Rockets:_ Large Explosion Damage, but It's DANGEROUS.\n" +
+						"- _Heavy Arms:_ Unique Attacking Mechanism, and Powerful."));
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.AUDIO), "Boss Music",
-				"v1.1.0 includes a bunch of new music, but Kristjan and I aren't finished yet! We're currently working on a boss track for Yog-Dzewa, and might add some music for the other bosses too."));
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.LANCE), "Added Weapons",
+				"_Another unique Weapons Added in ARPD too!_\n\n" +
+						"- _Katanas:_ High Max Damage, but min damage is fixed at 1.\n" +
+						"- _6 Tier Weapons:_ You can EVOLVE your Weapons to Special Weapons!\n" +
+						"- _Alchemy Weapons:_ You can also create special weapons by splicing specific weapons and some of Liquid Metal!\n" +
+						"- _Bows:_ The Huntress can also evolve her Spirit Bow to Special Bows!\n" +
+						"- _SubWeapons:_ Assists Combat, Can be used without Equipping."));
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
-				"Lastly, there will be some smaller miscellaneous changes in v1.2.0 as well. Alchemy items will get the most adjustments, but I also plan to look into improvements to a few other items, such as the master thieves' armband. There will be the usual round of balance improvements too."));
+		changes.addButton( new ChangeButton(new Image(Assets.Sprites.GUNNER, 0, 90, 12, 15), HeroClass.GUNNER.title(),
+				"- _Gunner: Specialist of Guns_\n\n" +
+						"- Gunner has the ability to attack enemies from a long distance with a gun.\n" +
+						"- Subclasses have specialized abilities in each gun classification, and can increase performance of guns.\n" +
+						"- _1st_ of New Classes of ARPD\n" +
+						"- You can play Gunner _after you clear the game once._"));
+
+		changes.addButton( new ChangeButton(new Image(Assets.Sprites.SAMURAI, 0, 90, 12, 15), HeroClass.SAMURAI.title(),
+				"- _Samurai: Specialist of Weapon_\n\n" +
+						"- Samurai has the ability to attack enemies with critical chance.\n" +
+						"- If you rest 1 turn, then she will sheath her weapon and waits enemies' approach.\n" +
+						"- While sheathing, the next attack's critical chance will be increased and it will cause weak bleeding to the enemy.\n" +
+						"- Subclasses have specialized abilities in melee combats, each subclasses has unique abilities. Try it!\n" +
+						"- _2nd_ of New Classes of ARPD\n" +
+						"- You can play Samurai _after you clear the game once._"));
+
+		changes.addButton( new ChangeButton(new Image(Assets.Sprites.PLANTER, 0, 90, 12, 15), HeroClass.PLANTER.title(),
+				"- _Planter: Specialist of Plants_\n\n" +
+						"- Planter mainly has the ability to get additional effects from nature.\n" +
+						"- Shovel is an unique weapon of Planter, it can plant furrowed grasses around him!\n" +
+						"- Subclasses have unique abilities each, and all of them is powerful.\n" +
+						"- _3rd_ of New Classes of ARPD\n" +
+						"- You can play Planter _after you clear the game once._"));
+
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.EVOLUTION), "Added Alchemy Recipes",
+				"_A Few of Alchemy Recipe Added in ARPD!_\n\n" +
+						"- _Bullets:_ You can augment your guns or subweapons with AP & HP bullets.\n" +
+						"- _Evolution:_ You can transmute your Weapons, but also increases its TIER too!\n" +
+						"- _Advanced Evolution:_ You can evolve specific weapon to more powerful form! Try it!"));
+
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.ARTIFACT_BEACON), "Added Deleted Artifacts",
+				"_2 of Deleted Artifact in SPD are Added in ARPD!_\n\n" +
+						"- _Lloyd's Beacon:_ It has the ability as it was when it is deleted.\n" +
+						"- _Cape of Thorns:_ Is is Buffed in ARPD, Check it at 'Changes' Tab."));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "changes"), false, null);
+		changes.hardlight(CharSprite.WARNING);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton( new ItemSprite(ItemSpriteSheet.ARTIFACT_CAPE), "Exotic Reworks",
+				"Several Artifacts are Buffed in ARPD:\n\n" +
+						"_Dried Rose:_ Apart from the equipments he's equipped with, The ghost also has the 50% power of hero's weapon and armor.\n" +
+						"_Cape of Thorns:_ Extended duration of Thorns and significantly increased Damage Reduction when the cape is on."));
 
 	}
 

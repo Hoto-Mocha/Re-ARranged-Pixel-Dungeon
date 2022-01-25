@@ -399,18 +399,28 @@ public class ItemSpriteSheet {
 	public static final int NATURAL_BOW   	= ETC+2;
 	public static final int GOLDEN_BOW    	= ETC+3;
 	public static final int POISON_BOW    	= ETC+4;
-	public static final int GRENADE_LAUNCHER= ETC+5;
-	public static final int SMOKE_LAUNCHER  = ETC+6;
-	public static final int HE_LAUNCHER    	= ETC+7;
 	static{
 		assignItemRect(MISSILE_BUTTON      ,14, 14);
 		assignItemRect(WIND_BOW            ,16, 16);
 		assignItemRect(NATURAL_BOW         ,16, 16);
 		assignItemRect(GOLDEN_BOW          ,16, 16);
 		assignItemRect(POISON_BOW          ,16, 16);
-		assignItemRect(GRENADE_LAUNCHER    ,15, 15);
-		assignItemRect(SMOKE_LAUNCHER      ,15, 15);
-		assignItemRect(HE_LAUNCHER    	   ,15, 15);
+	}
+
+	private static final int SUBWEAPONS         =                               xy(1, 35);
+	public static final int GRENADE_LAUNCHER 	= SUBWEAPONS+0;
+	public static final int SMOKE_LAUNCHER   	= SUBWEAPONS+1;
+	public static final int HE_LAUNCHER    	 	= SUBWEAPONS+2;
+	public static final int SLEEP_GUN 			= SUBWEAPONS+3;
+	public static final int FROST_GUN 			= SUBWEAPONS+4;
+	public static final int PARALYSIS_GUN 		= SUBWEAPONS+5;
+	static{
+		assignItemRect(GRENADE_LAUNCHER ,15, 15);
+		assignItemRect(SMOKE_LAUNCHER   ,15, 15);
+		assignItemRect(HE_LAUNCHER    	,15, 15);
+		assignItemRect(SLEEP_GUN 	   	,12, 15);
+		assignItemRect(FROST_GUN 	   	,12, 15);
+		assignItemRect(PARALYSIS_GUN   	,12, 15);
 	}
 
 	private static final int MISSILE_WEP    =                               xy(1, 10);  //16 slots. 3 per tier + boomerang

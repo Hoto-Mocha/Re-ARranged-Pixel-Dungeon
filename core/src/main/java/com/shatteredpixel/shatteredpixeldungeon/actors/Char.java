@@ -126,6 +126,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
@@ -153,6 +154,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
@@ -168,6 +170,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
@@ -582,6 +585,19 @@ public abstract class Char extends Actor {
 				if (Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP.Rocket) {
 					Buff.prolong(enemy, Paralysis.class, 3f);
 				}
+				//if (Dungeon.hero.belongings.weapon() instanceof SleepGun.Dart) {
+				//	{actPriority = VFX_PRIO;}
+				//	Buff.affect(enemy, MagicalSleep.class);
+				//}
+				//if (Dungeon.hero.belongings.weapon() instanceof FrostGun.Dart) {
+				//	{actPriority = VFX_PRIO;}
+				//	Buff.affect(enemy, Frost.class, 20f);
+				//}
+				//ParalysisGun paralysisGun = new ParalysisGun();
+				//if (Dungeon.hero.belongings.weapon() instanceof ParalysisGun.Dart) {
+				//	{actPriority = VFX_PRIO;}
+				//	Buff.affect(enemy, Paralysis.class, 5f + paralysisGun.buffedLvl());
+				//}
 			}
 
 			if (this instanceof Hero){
