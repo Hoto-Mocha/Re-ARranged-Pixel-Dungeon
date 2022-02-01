@@ -43,6 +43,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
@@ -135,7 +137,8 @@ public class AdvancedEvolution extends InventorySpell {
             || item instanceof WindBow
             || item instanceof NaturesBow
             || item instanceof GoldenBow
-            || item instanceof PoisonBow;
+            || item instanceof PoisonBow
+            || item instanceof Crossbow;
 
     }
 
@@ -328,7 +331,7 @@ public class AdvancedEvolution extends InventorySpell {
             } else {
                 n = Generator.randomWeapon();
             }
-        } else { //w instanceof SpiritBow || w instanceof WindBow || w instanceof NaturesBow || w instanceof GoldenBow || w instanceof PoisonBow
+        } else if (w instanceof SpiritBow || w instanceof WindBow || w instanceof NaturesBow || w instanceof GoldenBow || w instanceof PoisonBow) {
             int proc = Random.Int(8);
             if (proc <= 3) {
                 n = new WindBow(); //50%
@@ -348,6 +351,12 @@ public class AdvancedEvolution extends InventorySpell {
             n.augment = w.augment;
 
             return n;
+        } else { //w instanceof Crossbow
+            if (Random.Int(10) < 9) {
+                n = new ExplosiveCrossbow();
+            } else {
+                n = Generator.randomWeapon();
+            }
         }
 
         int level = w.level();

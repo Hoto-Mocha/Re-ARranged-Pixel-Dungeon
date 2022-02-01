@@ -121,7 +121,7 @@ public class SupporterScene extends PixelScene {
 
 			String message = Messages.get(SupporterScene.class, "intro");
 			message += "\n\n" + Messages.get(SupporterScene.class, "patreon_msg");
-			message += "\n\n- Hoto-Mocha";
+			message += "\n\n- Cocoa";
 
 			text = PixelScene.renderTextBlock(message, 6);
 			add(text);

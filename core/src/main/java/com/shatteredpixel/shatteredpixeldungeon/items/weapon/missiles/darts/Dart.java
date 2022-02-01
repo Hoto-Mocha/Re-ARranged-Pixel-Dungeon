@@ -21,24 +21,36 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -75,9 +87,14 @@ public class Dart extends MissileWeapon {
 	
 	@Override
 	public int min(int lvl) {
-		if (bow != null){
-			return  4 +                    //4 base
-					bow.buffedLvl() + lvl; //+1 per level or bow level
+		if (bow != null || exbow != null){
+			if (bow != null) {
+				return  4 +                    //4 base
+						bow.buffedLvl() + lvl; //+1 per level or bow level
+			} else {
+				return  4 +                    //4 base
+						exbow.buffedLvl() + lvl; //+1 per level or bow level
+			}
 		} else {
 			return  1 +     //1 base, down from 2
 					lvl;    //scaling unchanged
@@ -86,9 +103,14 @@ public class Dart extends MissileWeapon {
 
 	@Override
 	public int max(int lvl) {
-		if (bow != null){
-			return  12 +                       //12 base
-					3*bow.buffedLvl() + 2*lvl; //+3 per bow level, +2 per level (default scaling +2)
+		if (bow != null || exbow != null){
+			if (bow != null) {
+				return  12 +                       //12 base
+						3*bow.buffedLvl() + 2*lvl; //+3 per bow level, +2 per level (default scaling +2)
+			} else {
+				return  12 +                       //12 base
+						3*exbow.buffedLvl() + 2*lvl; //+3 per bow level, +2 per level (default scaling +2)
+			}
 		} else {
 			return  2 +     //2 base, down from 5
 					2*lvl;  //scaling unchanged
@@ -96,6 +118,7 @@ public class Dart extends MissileWeapon {
 	}
 	
 	private static Crossbow bow;
+	private static ExplosiveCrossbow exbow;
 	
 	private void updateCrossbow(){
 		if (Dungeon.hero.belongings.weapon() instanceof Crossbow){
@@ -105,13 +128,23 @@ public class Dart extends MissileWeapon {
 		}
 	}
 
+	private void updateExplosiveCrossbow(){
+		if (Dungeon.hero.belongings.weapon() instanceof ExplosiveCrossbow){
+			exbow = (ExplosiveCrossbow) Dungeon.hero.belongings.weapon();
+		} else {
+			exbow = null;
+		}
+	}
+
 	public boolean crossbowHasEnchant( Char owner ){
-		return bow != null && bow.enchantment != null && owner.buff(MagicImmune.class) == null;
+		return (bow != null && bow.enchantment != null && owner.buff(MagicImmune.class) == null) || (exbow != null && exbow.enchantment != null && owner.buff(MagicImmune.class) == null);
 	}
 	
 	@Override
 	public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
 		if (bow != null && bow.hasEnchant(type, owner)){
+			return true;
+		} else if (exbow != null && exbow.hasEnchant(type, owner)){
 			return true;
 		} else {
 			return super.hasEnchant(type, owner);
@@ -123,6 +156,9 @@ public class Dart extends MissileWeapon {
 		if (bow != null){
 			damage = bow.proc(attacker, defender, damage);
 		}
+		if (exbow != null) {
+			damage = exbow.proc(attacker, defender, damage);
+		}
 
 		return super.proc(attacker, defender, damage);
 	}
@@ -130,19 +166,60 @@ public class Dart extends MissileWeapon {
 	@Override
 	public int throwPos(Hero user, int dst) {
 		updateCrossbow();
+		updateExplosiveCrossbow();
 		return super.throwPos(user, dst);
 	}
 
 	@Override
 	protected void onThrow(int cell) {
 		updateCrossbow();
-		super.onThrow(cell);
+		updateExplosiveCrossbow();
+		if (exbow != null) {
+			Char enemy = Actor.findChar( cell );
+			ArrayList<Char> targets = new ArrayList<>();
+			if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
+			for (int i : PathFinder.NEIGHBOURS8){
+				if (Actor.findChar(cell + i) != null) targets.add(Actor.findChar(cell + i));
+			}
+			for (Char target : targets){
+				curUser.shoot(target, this);
+				if (target == hero && !target.isAlive()){
+					Dungeon.fail(getClass());
+					GLog.n(Messages.get(ExplosiveCrossbow.class, "ondeath"));
+				}
+			}
+			CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+			CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+			for (int n : PathFinder.NEIGHBOURS9) {
+				int c = cell + n;
+				if (c >= 0 && c < Dungeon.level.length()) {
+					if (Dungeon.level.heroFOV[c]) {
+						CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
+						CellEmitter.center(cell).burst(BlastParticle.FACTORY, 4);
+					}
+					if (Dungeon.level.flamable[c]) {
+						Dungeon.level.destroy(c);
+						GameScene.updateMap(c);
+					}
+				}
+			}
+			Sample.INSTANCE.play( Assets.Sounds.BLAST );
+			if (enemy == null || enemy == curUser) {
+				decrementDurability();
+				if (durability > 0){
+					super.onThrow(cell);
+				} else {
+					Dungeon.level.drop(new Dart(), cell).sprite.drop();
+				}
+			}
+		}
 	}
 
 	@Override
 	public void throwSound() {
 		updateCrossbow();
-		if (bow != null) {
+		updateExplosiveCrossbow();
+		if (bow != null || exbow != null) {
 			Sample.INSTANCE.play(Assets.Sounds.ATK_CROSSBOW, 1, Random.Float(0.87f, 1.15f));
 		} else {
 			super.throwSound();
@@ -152,12 +229,20 @@ public class Dart extends MissileWeapon {
 	@Override
 	public String info() {
 		updateCrossbow();
+		updateExplosiveCrossbow();
 		if (bow != null && !bow.isIdentified()){
 			int level = bow.level();
 			//temporarily sets the level of the bow to 0 for IDing purposes
 			bow.level(0);
 			String info = super.info();
 			bow.level(level);
+			return info;
+		} else if (exbow != null && !exbow.isIdentified()) {
+			int level = exbow.level();
+			//temporarily sets the level of the bow to 0 for IDing purposes
+			exbow.level(0);
+			String info = super.info();
+			exbow.level(level);
 			return info;
 		} else {
 			return super.info();

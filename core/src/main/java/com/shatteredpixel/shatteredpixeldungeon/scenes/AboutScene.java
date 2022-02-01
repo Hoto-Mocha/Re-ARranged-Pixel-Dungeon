@@ -66,7 +66,7 @@ public class AboutScene extends PixelScene {
 		CreditsBlock arranged = new CreditsBlock(true, Window.WHITE,
 				"ARranged Pixel Dungeon",
 				Icons.ARRANGED.get(),
-				"Developed by: _Hoto-Mocha_\nBased on Shattered Pixel Dungeon's open source",
+				"Developed by: _Cocoa_\nBased on Shattered Pixel Dungeon's open source",
 				"github repository",
 				"https://github.com/Hoto-Mocha/shattered-pixel-dungeon-modding");
 		arranged.setRect((w - fullWidth)/2f, 6, 120, 0);

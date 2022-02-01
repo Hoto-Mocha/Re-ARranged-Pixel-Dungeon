@@ -86,6 +86,13 @@ public class v1_X_Changes {
 						"- _Bows:_ The Huntress can also evolve her Spirit Bow to Special Bows!\n" +
 						"- _SubWeapons:_ Assists Combat, Can be used without Equipping."));
 
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.MASTERY), "3rd Subclasses",
+				"All Characters has 3rd Subclass in ARPD!\n\n" +
+						"- _Veteran:_ Melee gunfighting specialist\n" +
+						"- _Engineer:_ Melee & Ranged combat hybrid class\n" +
+						"- _Chaser:_ Surprise Attack specialist\n" +
+						"- _Fighter:_ Specialist of no-weapon fighting"));
+
 		changes.addButton( new ChangeButton(new Image(Assets.Sprites.GUNNER, 0, 90, 12, 15), HeroClass.GUNNER.title(),
 				"- _Gunner: Specialist of Guns_\n\n" +
 						"- Gunner has the ability to attack enemies from a long distance with a gun.\n" +
@@ -94,7 +101,7 @@ public class v1_X_Changes {
 						"- You can play Gunner _after you clear the game once._"));
 
 		changes.addButton( new ChangeButton(new Image(Assets.Sprites.SAMURAI, 0, 90, 12, 15), HeroClass.SAMURAI.title(),
-				"- _Samurai: Specialist of Weapon_\n\n" +
+				"- _Samurai: Specialist of Weapons_\n\n" +
 						"- Samurai has the ability to attack enemies with critical chance.\n" +
 						"- If you rest 1 turn, then she will sheath her weapon and waits enemies' approach.\n" +
 						"- While sheathing, the next attack's critical chance will be increased and it will cause weak bleeding to the enemy.\n" +
@@ -121,11 +128,11 @@ public class v1_X_Changes {
 						"- _Lloyd's Beacon:_ It has the ability as it was when it is deleted.\n" +
 						"- _Cape of Thorns:_ Is is Buffed in ARPD, Check it at 'Changes' Tab."));
 
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "changes"), false, null);
-		changes.hardlight(CharSprite.WARNING);
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
+		changes.hardlight(CharSprite.POSITIVE);
 		changeInfos.add(changes);
 
-		changes.addButton( new ChangeButton( new ItemSprite(ItemSpriteSheet.ARTIFACT_CAPE), "Exotic Reworks",
+		changes.addButton( new ChangeButton( new ItemSprite(ItemSpriteSheet.ARTIFACT_CAPE), "Artifact Buffs",
 				"Several Artifacts are Buffed in ARPD:\n\n" +
 						"_Dried Rose:_ Apart from the equipments he's equipped with, The ghost also has the 50% power of hero's weapon and armor.\n" +
 						"_Cape of Thorns:_ Extended duration of Thorns and significantly increased Damage Reduction when the cape is on."));

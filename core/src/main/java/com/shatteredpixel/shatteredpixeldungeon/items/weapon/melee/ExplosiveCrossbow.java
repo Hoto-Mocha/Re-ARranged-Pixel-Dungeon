@@ -22,33 +22,23 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
-import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class
-Lance extends MeleeWeapon {
-
-    {
-        image = ItemSpriteSheet.LANCE;
-        hitSound = Assets.Sounds.HIT_STAB;
-        hitSoundPitch = 1.2f;
-
-        tier = 6;
-        RCH = 2;
-    }
-
-    @Override
-    public int STRReq(int lvl) {
-        return STRReq(tier-1, lvl); //18 base strength req
-    }
-
-    @Override
-    public int max(int lvl) {
-        return  4*(tier-1) +    //20 base
-                lvl*(tier-1);     //scaling +5 per +1
-    }
+public class ExplosiveCrossbow extends MeleeWeapon {
+	
+	{
+		image = ItemSpriteSheet.EXCROSSBOW;
+		hitSound = Assets.Sounds.HIT;
+		hitSoundPitch = 1f;
+		
+		//check Dart.class for additional properties
+		
+		tier = 5;
+	}
+	
+	@Override
+	public int max(int lvl) {
+		return  4*(tier) +    //20 base, down from 30
+				lvl*(tier-1);     //+4 per level, down from +6
+	}
 }
