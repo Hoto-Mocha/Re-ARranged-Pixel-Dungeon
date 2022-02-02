@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainWhip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
@@ -86,6 +87,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -138,7 +141,8 @@ public class AdvancedEvolution extends InventorySpell {
             || item instanceof NaturesBow
             || item instanceof GoldenBow
             || item instanceof PoisonBow
-            || item instanceof Crossbow;
+            || item instanceof Crossbow
+            || item instanceof Whip;
 
     }
 
@@ -178,7 +182,8 @@ public class AdvancedEvolution extends InventorySpell {
                 || item instanceof WindBow
                 || item instanceof NaturesBow
                 || item instanceof GoldenBow
-                || item instanceof PoisonBow ) {
+                || item instanceof PoisonBow
+                || item instanceof MissileWeapon ) {
             return changeWeapon((Weapon) item);
         } else {
             return null;
@@ -192,7 +197,6 @@ public class AdvancedEvolution extends InventorySpell {
         //Gus Success Rate for Gunner: 100%
 
         Weapon n;
-
         if (w instanceof SniperRifle
                 || w instanceof SniperRifleHP
                 || w instanceof SniperRifleAP) {
@@ -351,9 +355,15 @@ public class AdvancedEvolution extends InventorySpell {
             n.augment = w.augment;
 
             return n;
-        } else { //w instanceof Crossbow
+        } else if (w instanceof Crossbow) {
             if (Random.Int(10) < 9) {
                 n = new ExplosiveCrossbow();
+            } else {
+                n = Generator.randomWeapon();
+            }
+        } else { //w instanceof Whip
+            if (Random.Int(10) < 9) {
+                n = new ChainWhip();
             } else {
                 n = Generator.randomWeapon();
             }

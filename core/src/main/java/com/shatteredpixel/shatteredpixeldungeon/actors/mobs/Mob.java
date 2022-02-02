@@ -59,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -721,6 +722,33 @@ public abstract class Mob extends Char {
 				if (Dungeon.level.heroFOV[pos]) {
 					CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
 					Sample.INSTANCE.play(Assets.Sounds.CURSED);
+				}
+			}
+		}
+
+		if (!(this instanceof Wraith) && Dungeon.hero.belongings.weapon instanceof CursedSword){
+			if (Dungeon.hero.belongings.weapon.cursed) {
+				if (Random.Int(10) <= Dungeon.hero.belongings.weapon.buffedLvl()) {
+					Wraith w = Wraith.spawnAt(pos);
+					if (w != null) {
+						Buff.affect(w, Corruption.class);
+						Buff.affect(w, Adrenaline.class, 30f);
+						if (Dungeon.level.heroFOV[pos]) {
+							CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
+							Sample.INSTANCE.play(Assets.Sounds.CURSED);
+						}
+					}
+				}
+			} else {
+				if (Random.Int(20) <= Dungeon.hero.belongings.weapon.buffedLvl()) {
+					Wraith w = Wraith.spawnAt(pos);
+					if (w != null) {
+						Buff.affect(w, Corruption.class);
+						if (Dungeon.level.heroFOV[pos]) {
+							CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
+							Sample.INSTANCE.play(Assets.Sounds.CURSED);
+						}
+					}
 				}
 			}
 		}

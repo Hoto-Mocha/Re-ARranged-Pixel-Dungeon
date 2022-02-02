@@ -105,15 +105,22 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlad
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainWhip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dirk;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ElectroScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
@@ -146,6 +153,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShiel
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
@@ -167,6 +175,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
@@ -210,8 +219,8 @@ public enum Catalog {
 		WEAPONS.seen.put( Dagger.class,                     false);
 		WEAPONS.seen.put( MagesStaff.class,                 false);
 		WEAPONS.seen.put( WornKatana.class,                 false);
-		WEAPONS.seen.put( Shortsword.class,                 false);
 		WEAPONS.seen.put( Shovel.class,         	        false);
+		WEAPONS.seen.put( Shortsword.class,                 false);
 		WEAPONS.seen.put( HandAxe.class,                    false);
 		WEAPONS.seen.put( Spear.class,                      false);
 		WEAPONS.seen.put( Quarterstaff.class,               false);
@@ -224,14 +233,13 @@ public enum Catalog {
 		WEAPONS.seen.put( Sai.class,                        false);
 		WEAPONS.seen.put( Whip.class,                       false);
 		WEAPONS.seen.put( Katana.class,                     false);
-		WEAPONS.seen.put( Spade.class,             		    false);
+		WEAPONS.seen.put( Bible.class,          			false);
 		WEAPONS.seen.put( Longsword.class,                  false);
 		WEAPONS.seen.put( BattleAxe.class,                  false);
 		WEAPONS.seen.put( Flail.class,                      false);
 		WEAPONS.seen.put( RunicBlade.class,                 false);
 		WEAPONS.seen.put( AssassinsBlade.class,             false);
 		WEAPONS.seen.put( Crossbow.class,                   false);
-		WEAPONS.seen.put( ExplosiveCrossbow.class,          false);
 		WEAPONS.seen.put( LongKatana.class,                 false);
 		WEAPONS.seen.put( Greatsword.class,                 false);
 		WEAPONS.seen.put( WarHammer.class,                  false);
@@ -240,18 +248,30 @@ public enum Catalog {
 		WEAPONS.seen.put( Greatshield.class,                false);
 		WEAPONS.seen.put( Gauntlet.class,                   false);
 		WEAPONS.seen.put( LargeKatana.class,                false);
+		//advanced tier 5
+		WEAPONS.seen.put( Spade.class,             		    false);
+		WEAPONS.seen.put( ExplosiveCrossbow.class,          false);
+		WEAPONS.seen.put( ChainWhip.class,        			false);
+		WEAPONS.seen.put( TrueRunicBlade.class,             false);
+		//advanced tier 6
 		WEAPONS.seen.put( SharpKatana.class,                false);
 		WEAPONS.seen.put( HugeSword.class,             		false);
 		WEAPONS.seen.put( IronHammer.class,             	false);
 		WEAPONS.seen.put( BeamSaber.class,             		false);
-
-		WEAPONS.seen.put( TrueRunicBlade.class,             false);
 		WEAPONS.seen.put( Lance.class,                      false);
-
 		WEAPONS.seen.put( ObsidianShield.class,             false);
+		//alchemy weapons
 		WEAPONS.seen.put( LanceNShield.class,               false);
 		WEAPONS.seen.put( SpearNShield.class,               false);
+		WEAPONS.seen.put( CursedSword.class,         	    false);
+		WEAPONS.seen.put( UnholyBible.class,         	    false);
+		WEAPONS.seen.put( ChainFlail.class,         	    false);
+		WEAPONS.seen.put( FlameScimitar.class,              false);
+		WEAPONS.seen.put( FrostScimitar.class,              false);
+		WEAPONS.seen.put( PoisonScimitar.class,             false);
+		WEAPONS.seen.put( ElectroScimitar.class,            false);
 
+		//guns
 		WEAPONS.seen.put( CrudePistol.class,                false);
 		WEAPONS.seen.put( Pistol.class,                     false);
 		WEAPONS.seen.put( GoldenPistol.class,               false);

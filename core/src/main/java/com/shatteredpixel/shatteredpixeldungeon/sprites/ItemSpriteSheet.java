@@ -202,14 +202,12 @@ public class ItemSpriteSheet {
 	public static final int RAPIER          = WEP_TIER1+3;
 	public static final int DAGGER          = WEP_TIER1+4;
 	public static final int MAGES_STAFF     = WEP_TIER1+5;
-	public static final int WORN_KATANA     = WEP_TIER1+6;
-	public static final int SHOVEL			= WEP_TIER1+7;
+	public static final int SHOVEL			= WEP_TIER1+6;
 	static{
 		assignItemRect(WORN_SHORTSWORD,13, 13);
 		assignItemRect(GLOVES,         12, 16);
 		assignItemRect(DAGGER,         12, 13);
 		assignItemRect(MAGES_STAFF,    15, 16);
-		assignItemRect(WORN_KATANA,    13, 13);
 		assignItemRect(SHOVEL,   	   16, 16);
 	}
 
@@ -219,7 +217,6 @@ public class ItemSpriteSheet {
 	public static final int SPEAR           = WEP_TIER2+2;
 	public static final int QUARTERSTAFF    = WEP_TIER2+3;
 	public static final int DIRK            = WEP_TIER2+4;
-	public static final int SHORT_KATANA    = WEP_TIER2+5;
 
 	static{
 		assignItemRect(SHORTSWORD,      13, 13);
@@ -227,7 +224,6 @@ public class ItemSpriteSheet {
 		assignItemRect(SPEAR,           16, 16);
 		assignItemRect(QUARTERSTAFF,    16, 16);
 		assignItemRect(DIRK,            13, 14);
-		assignItemRect(SHORT_KATANA,    14, 14);
 	}
 
 	private static final int WEP_TIER3      =                               xy(1, 8);   //8 slots
@@ -237,8 +233,7 @@ public class ItemSpriteSheet {
 	public static final int ROUND_SHIELD    = WEP_TIER3+3;
 	public static final int SAI             = WEP_TIER3+4;
 	public static final int WHIP            = WEP_TIER3+5;
-	public static final int SPEAR_N_SHIELD  = WEP_TIER3+6;
-	public static final int KATANA          = WEP_TIER3+7;
+	public static final int BIBLE           = WEP_TIER3+6;
 
 	static{
 		assignItemRect(SWORD,           14, 14);
@@ -247,8 +242,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ROUND_SHIELD,    16, 16);
 		assignItemRect(SAI,             16, 16);
 		assignItemRect(WHIP,            14, 14);
-		assignItemRect(SPEAR_N_SHIELD,  16, 15);
-		assignItemRect(KATANA,          14, 15);
+		assignItemRect(BIBLE,           13, 16);
 	}
 
 	private static final int WEP_TIER4      =                               xy(9, 8);   //8 slots
@@ -258,8 +252,6 @@ public class ItemSpriteSheet {
 	public static final int RUNIC_BLADE     = WEP_TIER4+3;
 	public static final int ASSASSINS_BLADE = WEP_TIER4+4;
 	public static final int CROSSBOW        = WEP_TIER4+5;
-	public static final int TRUE_RUNIC_BLADE= WEP_TIER4+6;
-	public static final int LONG_KATANA     = WEP_TIER4+7;
 
 	static{
 		assignItemRect(LONGSWORD,       15, 15);
@@ -268,8 +260,6 @@ public class ItemSpriteSheet {
 		assignItemRect(RUNIC_BLADE,     14, 14);
 		assignItemRect(ASSASSINS_BLADE, 14, 15);
 		assignItemRect(CROSSBOW,        15, 15);
-		assignItemRect(TRUE_RUNIC_BLADE,14, 14);
-		assignItemRect(LONG_KATANA,     15, 16);
 	}
 
 	private static final int WEP_TIER5      =                               xy(1, 9);   //8 slots
@@ -279,8 +269,6 @@ public class ItemSpriteSheet {
 	public static final int GREATAXE        = WEP_TIER5+3;
 	public static final int GREATSHIELD     = WEP_TIER5+4;
 	public static final int GAUNTLETS       = WEP_TIER5+5;
-	public static final int LARGE_KATANA    = WEP_TIER5+6;
-	public static final int EXCROSSBOW      = WEP_TIER5+7;
 
 	static{
 		assignItemRect(GREATSWORD,  16, 16);
@@ -289,29 +277,6 @@ public class ItemSpriteSheet {
 		assignItemRect(GREATAXE,    12, 16);
 		assignItemRect(GREATSHIELD, 12, 16);
 		assignItemRect(GAUNTLETS,   13, 15);
-		assignItemRect(LARGE_KATANA,12, 16);
-		assignItemRect(EXCROSSBOW,  15, 16);
-	}
-
-	private static final int WEP_TIER6      =                               xy(9, 9);   //8 slots
-	public static final int LANCE           = WEP_TIER6+0;
-	public static final int OBSIDIAN_SHIELD	= WEP_TIER6+1;
-	public static final int LANCE_N_SHIELD  = WEP_TIER6+2;
-	public static final int SHARP_KATANA    = WEP_TIER6+3;
-	public static final int SPADE           = WEP_TIER6+4;
-	public static final int HUGE_SWORD      = WEP_TIER6+5;
-	public static final int IRON_HAMMER     = WEP_TIER6+6;
-	public static final int BEAM_SABER      = WEP_TIER6+7;
-
-	static{
-		assignItemRect(LANCE,             15, 15);
-		assignItemRect(OBSIDIAN_SHIELD,   12, 16);
-		assignItemRect(LANCE_N_SHIELD,    16, 15);
-		assignItemRect(SHARP_KATANA,      12, 16);
-		assignItemRect(SPADE,             16, 16);
-		assignItemRect(HUGE_SWORD,        16, 16);
-		assignItemRect(IRON_HAMMER,       16, 16);
-		assignItemRect(BEAM_SABER,        15, 15);
 	}
 
 	private static final int HANDGUNS         =                               xy(1, 32);
@@ -423,6 +388,74 @@ public class ItemSpriteSheet {
 		assignItemRect(SLEEP_GUN 	   	,12, 15);
 		assignItemRect(FROST_GUN 	   	,12, 15);
 		assignItemRect(PARALYSIS_GUN   	,12, 15);
+	}
+
+	private static final int KATANAS         =                               xy(1, 36);
+	public static final int WORN_KATANA     = KATANAS+0;
+	public static final int SHORT_KATANA    = KATANAS+1;
+	public static final int KATANA          = KATANAS+2;
+	public static final int LONG_KATANA     = KATANAS+3;
+	public static final int LARGE_KATANA    = KATANAS+4;
+
+	static{
+		assignItemRect(WORN_KATANA,    	13, 13);
+		assignItemRect(SHORT_KATANA,    14, 14);
+		assignItemRect(KATANA,          14, 15);
+		assignItemRect(LONG_KATANA,     15, 16);
+		assignItemRect(LARGE_KATANA,	12, 16);
+	}
+
+	private static final int ALCHEMYWEAPONS         =            	           xy(1, 37);
+	public static final int SPEAR_N_SHIELD  = ALCHEMYWEAPONS+0;
+	public static final int LANCE_N_SHIELD  = ALCHEMYWEAPONS+1;
+	public static final int	CHAIN_FLAIL		= ALCHEMYWEAPONS+2;
+	public static final int FLAME_SCIMITAR	= ALCHEMYWEAPONS+3;
+	public static final int FROST_SCIMITAR	= ALCHEMYWEAPONS+4;
+	public static final int POISON_SCIMITAR	= ALCHEMYWEAPONS+5;
+	public static final int ELECTRO_SCIMITAR= ALCHEMYWEAPONS+6;
+	public static final int CURSED_SWORD	= ALCHEMYWEAPONS+7;
+	public static final int UNHOLY_BIBLE    = ALCHEMYWEAPONS+8;
+
+	static{
+		assignItemRect(SPEAR_N_SHIELD,  	16, 15);
+		assignItemRect(LANCE_N_SHIELD,   	16, 15);
+		assignItemRect(CHAIN_FLAIL,   		16, 16);
+		assignItemRect(FLAME_SCIMITAR,   	13, 16);
+		assignItemRect(FROST_SCIMITAR,   	13, 16);
+		assignItemRect(POISON_SCIMITAR,   	13, 16);
+		assignItemRect(ELECTRO_SCIMITAR,   	13, 16);
+		assignItemRect(CURSED_SWORD,   		14, 14);
+		assignItemRect(UNHOLY_BIBLE, 	  	13, 16);
+	}
+
+	private static final int ADVANCED_TIER5 = 								xy(1, 38);
+	public static final int SPADE           = ADVANCED_TIER5+0;
+	public static final int EXCROSSBOW      = ADVANCED_TIER5+1;
+	public static final int TRUE_RUNIC_BLADE= ADVANCED_TIER5+2;
+	public static final int CHAIN_WHIP		= ADVANCED_TIER5+3;
+
+	static{
+		assignItemRect(SPADE,           	16, 16);
+		assignItemRect(EXCROSSBOW,  		15, 16);
+		assignItemRect(TRUE_RUNIC_BLADE,	14, 14);
+		assignItemRect(CHAIN_WHIP,			14, 14);
+	}
+
+	private static final int ADVANCED_TIER6 = 								xy(1, 39);
+	public static final int HUGE_SWORD      = ADVANCED_TIER6+0;
+	public static final int IRON_HAMMER     = ADVANCED_TIER6+1;
+	public static final int BEAM_SABER      = ADVANCED_TIER6+2;
+	public static final int LANCE           = ADVANCED_TIER6+3;
+	public static final int OBSIDIAN_SHIELD	= ADVANCED_TIER6+4;
+	public static final int SHARP_KATANA    = ADVANCED_TIER6+5;
+
+	static{
+		assignItemRect(HUGE_SWORD,       	 16, 16);
+		assignItemRect(IRON_HAMMER,      	 16, 16);
+		assignItemRect(BEAM_SABER,       	 15, 15);
+		assignItemRect(LANCE,            	 15, 15);
+		assignItemRect(OBSIDIAN_SHIELD,  	 12, 16);
+		assignItemRect(SHARP_KATANA,     	 12, 16);
 	}
 
 	private static final int MISSILE_WEP    =                               xy(1, 10);  //16 slots. 3 per tier + boomerang

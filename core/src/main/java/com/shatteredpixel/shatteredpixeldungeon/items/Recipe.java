@@ -77,13 +77,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ElectroScimitar;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
@@ -114,6 +119,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
@@ -128,6 +134,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.watabou.utils.Reflection;
 
@@ -298,7 +305,14 @@ public abstract class Recipe {
 		//new BrassScrap.Recipe(),
 		new APBullet.Recipe(),
 		new HPBullet.Recipe(),
-		new AdvancedEvolution.Recipe()
+		new AdvancedEvolution.Recipe(),
+		new ChainFlail.Recipe(),
+		new FlameScimitar.Recipe(),
+		new FrostScimitar.Recipe(),
+		new PoisonScimitar.Recipe(),
+		new ElectroScimitar.Recipe(),
+		new UnholyBible.Recipe(),
+		new CursedSword.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){

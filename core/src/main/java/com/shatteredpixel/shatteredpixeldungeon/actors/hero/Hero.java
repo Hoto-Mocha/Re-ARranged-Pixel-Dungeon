@@ -46,11 +46,15 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
@@ -58,6 +62,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
@@ -72,14 +77,17 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StanceCooldown;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
@@ -95,6 +103,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
@@ -128,6 +137,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
@@ -154,16 +164,22 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainWhip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ElectroScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
@@ -199,6 +215,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
@@ -215,6 +232,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
@@ -1007,6 +1025,7 @@ public class Hero extends Char {
 		if (belongings.weapon() == null || !(belongings.weapon() instanceof Weapon))    return true;
 		if (STR() < ((Weapon)belongings.weapon()).STRReq())                             return false;
 		if (belongings.weapon() instanceof Flail)                                       return false;
+		if (belongings.weapon() instanceof ChainFlail)                                  return false;
 		//if (belongings.weapon() instanceof RocketLauncher.Rocket)					    return false;
 		//if (belongings.weapon() instanceof RPG7.Rocket)				          	    return false;
 		if (belongings.weapon() instanceof MiniGun.Bullet)				          	    return false;
@@ -2540,6 +2559,105 @@ public class Hero extends Char {
 
 		if (hero.belongings.weapon instanceof TestWeapon) {
 			Buff.affect(hero, Awareness.class, 10f);
+		}
+
+		if (hit && hero.belongings.weapon instanceof ChainWhip && Random.Int(100) < 10+2*hero.belongings.weapon.buffedLvl()) {
+			Buff.affect( enemy, Paralysis.class, 3f);
+		}
+
+		if (hit && (hero.belongings.weapon instanceof FlameScimitar
+				 || hero.belongings.weapon instanceof FrostScimitar
+				 || hero.belongings.weapon instanceof PoisonScimitar
+				 || hero.belongings.weapon instanceof ElectroScimitar)){
+			if (hero.belongings.weapon instanceof FlameScimitar && Random.Int(2) == 0) {
+				if (enemy.buff(Burning.class) != null){
+					Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
+					int burnDamage = Random.NormalIntRange( 1, 3 + Dungeon.depth/4 );
+					enemy.damage( Math.round(burnDamage * 0.67f), this );
+				} else {
+					Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
+				}
+			}
+
+			if (hero.belongings.weapon instanceof FrostScimitar && Random.Int(2) == 0) {
+				//adds 3 turns of chill per proc, with a cap of 6 turns
+				float durationToAdd = 3f;
+				Chill existing = enemy.buff(Chill.class);
+				if (existing != null){
+					durationToAdd = Math.min(durationToAdd, 6f-existing.cooldown());
+				}
+
+				Buff.affect( enemy, Chill.class, durationToAdd );
+				Splash.at( enemy.sprite.center(), 0xFFB2D6FF, 5);
+			}
+
+			if (hero.belongings.weapon instanceof PoisonScimitar && Random.Int(4) <= Math.floor(hero.belongings.weapon.buffedLvl()/4f)) {
+				if (enemy.buff(Poison.class) != null) {
+					Buff.affect( enemy, Poison.class).extend(2);
+				} else {
+					Buff.affect( enemy, Poison.class).set(2);
+				}
+			}
+
+			if (hero.belongings.weapon instanceof ElectroScimitar && Random.Int(10) <= Math.floor(hero.belongings.weapon.buffedLvl()/4f)) {
+				Buff.affect(enemy, Paralysis.class, 2f);
+				enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+				enemy.sprite.flash();
+				Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+			}
+		}
+
+		if (hit && hero.belongings.weapon instanceof Bible) {
+			if (hero.buff(Bless.class) == null) {
+				Buff.affect( this, Bless.class, 2f);
+			} else if (hero.buff(PotionOfCleansing.Cleanse.class) == null) {
+				Buff.affect( this, PotionOfCleansing.Cleanse.class, 2f);
+			} else if (hero.buff(Adrenaline.class) == null) {
+				Buff.affect( this, Adrenaline.class, 2f);
+			} else {
+				int healAmt = 1;
+				healAmt = Math.min( healAmt, hero.HT - hero.HP );
+				if (healAmt > 0 && hero.isAlive()) {
+					hero.HP += healAmt;
+					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
+			}
+		}
+
+		if (hit && hero.belongings.weapon instanceof UnholyBible) {
+			switch (Random.Int(15)) {
+				case 0: case 1: default:
+					Buff.affect( enemy, Weakness.class, 3f );
+					break;
+				case 2: case 3:
+					Buff.affect( enemy, Vulnerable.class, 3f );
+					break;
+				case 4:
+					Buff.affect( enemy, Cripple.class, 3f );
+					break;
+				case 5:
+					Buff.affect( enemy, Blindness.class, 3f );
+					break;
+				case 6:
+					Buff.affect( enemy, Terror.class, 3f );
+					break;
+				case 7: case 8: case 9:
+					Buff.affect( enemy, Amok.class, 3f );
+					break;
+				case 10: case 11:
+					Buff.affect( enemy, Slow.class, 3f );
+					break;
+				case 12: case 13:
+					Buff.affect( enemy, Hex.class, 3f );
+					break;
+				case 14:
+					Buff.affect( enemy, Paralysis.class, 3f );
+					break;
+			}
+			if (Random.Int(100) <= Math.min(hero.belongings.weapon.buffedLvl(), 9)) {					//1% base, +1% per lvl, max 10%
+				Buff.affect( enemy, com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom.class);
+			}
 		}
 
 		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER) {

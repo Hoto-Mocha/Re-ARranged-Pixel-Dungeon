@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
@@ -316,7 +317,9 @@ public class AlchemyScene extends PixelScene {
 							if (item instanceof LiquidMetal
 									|| item instanceof ArcaneCatalyst
 									|| item instanceof ArcaneResin
-									|| item instanceof Cartridge){
+									|| item instanceof Cartridge
+									|| item instanceof MetalShard
+							){
 								inputs[i].item(item.detachAll(Dungeon.hero.belongings.backpack));
 							} else {
 								inputs[i].item(item.detach(Dungeon.hero.belongings.backpack));
@@ -483,7 +486,8 @@ public class AlchemyScene extends PixelScene {
 				if (finding instanceof LiquidMetal
 						|| finding instanceof ArcaneCatalyst
 						|| finding instanceof ArcaneResin
-						|| finding instanceof Cartridge) {
+						|| finding instanceof Cartridge
+						|| finding instanceof MetalShard) {
 					detached = found.get(0).detachAll(inventory.backpack);
 				} else {
 					detached = found.get(0).detach(inventory.backpack);

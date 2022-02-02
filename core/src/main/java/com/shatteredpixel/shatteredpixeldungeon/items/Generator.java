@@ -350,6 +350,7 @@ public class Generator {
 					ShotGun.class,
 					HuntingRifle.class,
 					Katana.class,
+					Bible.class,
 
 					//alchemical weapons
 					SpearNShield.class,
@@ -369,7 +370,7 @@ public class Generator {
 					FrostGun.class,
 					ParalysisGun.class
 			};
-			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,5 ,4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,5 ,4, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 			
 			WEP_T4.classes = new Class<?>[]{
 					Longsword.class,

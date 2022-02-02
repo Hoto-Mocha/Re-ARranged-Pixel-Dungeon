@@ -92,7 +92,7 @@ public class SpearNShield extends MeleeWeapon {
             inputs =  new Class[]{Spear.class, RoundShield.class, LiquidMetal.class};
             inQuantity = new int[]{1, 1, 30};
 
-            cost = 10;
+            cost = 5;
 
             output = SpearNShield.class;
             outQuantity = 1;
