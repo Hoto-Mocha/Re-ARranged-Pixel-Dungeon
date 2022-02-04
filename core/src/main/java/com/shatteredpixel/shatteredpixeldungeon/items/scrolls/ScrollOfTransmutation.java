@@ -43,10 +43,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
@@ -65,6 +68,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.TippedDart;
@@ -191,7 +195,10 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		Weapon n;
 		Generator.Category c;
 		if (w instanceof MeleeWeapon) {
-			if (w instanceof MissileButton) {
+			if (w instanceof MissileButton
+			 || w instanceof TacticalShield
+			 || w instanceof HolySword
+			) {
 				c = Generator.wepTiers[((MeleeWeapon) w).tier - 3];
 			} else if (
 				w instanceof LargeHandgun
@@ -211,6 +218,8 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			 || w instanceof HugeSword
 			 || w instanceof IronHammer
 			 || w instanceof BeamSaber
+			 || w instanceof ChainFlail
+			 || w instanceof ForceGlove
 			) {
 				c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
 			} else {

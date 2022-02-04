@@ -23,37 +23,37 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.ShockingBrew;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class ChainFlail extends MeleeWeapon {
-
+public class Ballista extends MeleeWeapon {
+	
 	{
-		image = ItemSpriteSheet.CHAIN_FLAIL;
-		hitSound = Assets.Sounds.HIT_CRUSH;
-		hitSoundPitch = 0.8f;
-
-		tier = 6;
-		RCH = 2;
-		ACC = 0.8f; //0.8x accuracy
-		//also cannot surprise attack, see Hero.canSurpriseAttack
+		image = ItemSpriteSheet.BALLISTA;
+		hitSound = Assets.Sounds.HIT;
+		hitSoundPitch = 1f;
+		
+		//check FishingSpear.class and other spear missiles for additional properties
+		
+		tier = 5;
 		alchemy = true;
 	}
-
+	
 	@Override
 	public int max(int lvl) {
-		return  Math.round(7*(tier)) +        //42 base
-				lvl*(tier+3);  //+9 per level
+		return  4*(tier) +    	//20 base
+				lvl*(tier-1);   //+4 per level
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{ChainWhip.class, Flail.class, LiquidMetal.class};
-			inQuantity = new int[]{1, 1, 60};
+			inputs =  new Class[]{Crossbow.class, LiquidMetal.class};
+			inQuantity = new int[]{2, 50};
 
-			cost = 5;
+			cost = 8;
 
-			output = ChainFlail.class;
+			output = Ballista.class;
 			outQuantity = 1;
 		}
 	}

@@ -23,37 +23,38 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ForceCube;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class ChainFlail extends MeleeWeapon {
-
+public class ForceGlove extends MeleeWeapon {
+	
 	{
-		image = ItemSpriteSheet.CHAIN_FLAIL;
+		image = ItemSpriteSheet.FORCE_GLOVE;
 		hitSound = Assets.Sounds.HIT_CRUSH;
-		hitSoundPitch = 0.8f;
-
+		hitSoundPitch = 1.2f;
+		
 		tier = 6;
 		RCH = 2;
-		ACC = 0.8f; //0.8x accuracy
-		//also cannot surprise attack, see Hero.canSurpriseAttack
+		// see Char.attack() for additional effects
 		alchemy = true;
 	}
-
+	
 	@Override
 	public int max(int lvl) {
-		return  Math.round(7*(tier)) +        //42 base
-				lvl*(tier+3);  //+9 per level
+		return  5*(tier) +    //base
+				lvl*(tier);   //level scaling
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{ChainWhip.class, Flail.class, LiquidMetal.class};
+			inputs =  new Class[]{Gauntlet.class, ForceCube.class, LiquidMetal.class};
 			inQuantity = new int[]{1, 1, 60};
 
-			cost = 5;
+			cost = 10;
 
-			output = ChainFlail.class;
+			output = ForceGlove.class;
 			outQuantity = 1;
 		}
 	}

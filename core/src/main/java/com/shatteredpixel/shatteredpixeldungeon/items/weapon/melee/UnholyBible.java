@@ -36,6 +36,7 @@ public class UnholyBible extends MeleeWeapon {
 
 		tier = 4;
 		//also affects enemy lots of debuffs, see Hero.onAttackComplete
+		alchemy = true;
 	}
 
 	@Override

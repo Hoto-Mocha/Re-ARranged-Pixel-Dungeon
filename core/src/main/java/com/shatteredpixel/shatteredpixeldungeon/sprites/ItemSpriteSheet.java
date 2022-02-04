@@ -405,16 +405,21 @@ public class ItemSpriteSheet {
 		assignItemRect(LARGE_KATANA,	12, 16);
 	}
 
-	private static final int ALCHEMYWEAPONS         =            	           xy(1, 37);
-	public static final int SPEAR_N_SHIELD  = ALCHEMYWEAPONS+0;
-	public static final int LANCE_N_SHIELD  = ALCHEMYWEAPONS+1;
-	public static final int	CHAIN_FLAIL		= ALCHEMYWEAPONS+2;
-	public static final int FLAME_SCIMITAR	= ALCHEMYWEAPONS+3;
-	public static final int FROST_SCIMITAR	= ALCHEMYWEAPONS+4;
-	public static final int POISON_SCIMITAR	= ALCHEMYWEAPONS+5;
-	public static final int ELECTRO_SCIMITAR= ALCHEMYWEAPONS+6;
-	public static final int CURSED_SWORD	= ALCHEMYWEAPONS+7;
-	public static final int UNHOLY_BIBLE    = ALCHEMYWEAPONS+8;
+	private static final int ALCHEMYWEAPONS 	        =            	           xy(1, 37);
+	public static final int SPEAR_N_SHIELD  	= ALCHEMYWEAPONS+0;
+	public static final int LANCE_N_SHIELD  	= ALCHEMYWEAPONS+1;
+	public static final int	CHAIN_FLAIL			= ALCHEMYWEAPONS+2;
+	public static final int FLAME_SCIMITAR		= ALCHEMYWEAPONS+3;
+	public static final int FROST_SCIMITAR		= ALCHEMYWEAPONS+4;
+	public static final int POISON_SCIMITAR		= ALCHEMYWEAPONS+5;
+	public static final int ELECTRO_SCIMITAR	= ALCHEMYWEAPONS+6;
+	public static final int CURSED_SWORD		= ALCHEMYWEAPONS+7;
+	public static final int UNHOLY_BIBLE    	= ALCHEMYWEAPONS+8;
+	public static final int TACTICAL_SHIELD 	= ALCHEMYWEAPONS+9;
+	public static final int BALLISTA  			= ALCHEMYWEAPONS+10;
+	public static final int FORCE_GLOVE  		= ALCHEMYWEAPONS+11;
+	public static final int HOLY_SWORD  		= ALCHEMYWEAPONS+12;
+	public static final int CROSS  				= ALCHEMYWEAPONS+13;
 
 	static{
 		assignItemRect(SPEAR_N_SHIELD,  	16, 15);
@@ -426,6 +431,11 @@ public class ItemSpriteSheet {
 		assignItemRect(ELECTRO_SCIMITAR,   	13, 16);
 		assignItemRect(CURSED_SWORD,   		14, 14);
 		assignItemRect(UNHOLY_BIBLE, 	  	13, 16);
+		assignItemRect(TACTICAL_SHIELD, 	12, 16);
+		assignItemRect(BALLISTA, 	  		16, 16);
+		assignItemRect(FORCE_GLOVE, 	  	13, 15);
+		assignItemRect(HOLY_SWORD, 	  		16, 16);
+		assignItemRect(CROSS, 	  			14, 14 );
 	}
 
 	private static final int ADVANCED_TIER5 = 								xy(1, 38);
@@ -586,7 +596,8 @@ public class ItemSpriteSheet {
 	public static final int RING_QUARTZ     = RINGS+9;
 	public static final int RING_AGATE      = RINGS+10;
 	public static final int RING_DIAMOND    = RINGS+11;
-	public static final int RING_OBSIDIAN    = RINGS+12;
+	public static final int RING_OBSIDIAN   = RINGS+12;
+	public static final int RING_PEARL   = RINGS+13;
 	static {
 		for (int i = RINGS; i < RINGS+16; i++)
 			assignItemRect(i, 8, 10);
@@ -657,12 +668,13 @@ public class ItemSpriteSheet {
 	public static final int SCROLL_BERKANAN = SCROLLS+9;
 	public static final int SCROLL_ODAL     = SCROLLS+10;
 	public static final int SCROLL_TIWAZ    = SCROLLS+11;
-	
+	public static final int SCROLL_PLUS   	= SCROLLS+12;
 	public static final int SCROLL_CATALYST = SCROLLS+13;
 	public static final int ARCANE_RESIN    = SCROLLS+14;
 	static {
 		for (int i = SCROLLS; i < SCROLLS+16; i++)
 			assignItemRect(i, 15, 14);
+		assignItemRect(SCROLL_PLUS,		15, 14);
 		assignItemRect(SCROLL_CATALYST, 12, 11);
 		assignItemRect(ARCANE_RESIN   , 12, 11);
 	}
@@ -680,6 +692,7 @@ public class ItemSpriteSheet {
 	public static final int EXOTIC_BERKANAN = EXOTIC_SCROLLS+9;
 	public static final int EXOTIC_ODAL     = EXOTIC_SCROLLS+10;
 	public static final int EXOTIC_TIWAZ    = EXOTIC_SCROLLS+11;
+	public static final int EXOTIC_PLUS     = EXOTIC_SCROLLS+12;
 	static {
 		for (int i = EXOTIC_SCROLLS; i < EXOTIC_SCROLLS+16; i++)
 			assignItemRect(i, 15, 14);
@@ -967,6 +980,7 @@ public class ItemSpriteSheet {
 		public static final int RING_SHARPSHOOT = RINGS+8;
 		public static final int RING_TENACITY   = RINGS+9;
 		public static final int RING_WEALTH     = RINGS+10;
+		public static final int RING_RUSH    	= RINGS+11;
 		static {
 			assignIconRect( RING_ACCURACY,      7, 7 );
 			assignIconRect( RING_ELEMENTS,      7, 7 );
@@ -979,6 +993,7 @@ public class ItemSpriteSheet {
 			assignIconRect( RING_SHARPSHOOT,    7, 7 );
 			assignIconRect( RING_TENACITY,      6, 6 );
 			assignIconRect( RING_WEALTH,        7, 6 );
+			assignIconRect( RING_RUSH,       	7, 6 );
 		}
 
 		                                                                                //16 free slots

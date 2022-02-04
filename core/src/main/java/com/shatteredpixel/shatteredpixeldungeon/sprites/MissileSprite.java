@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
@@ -95,7 +96,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Bolas;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.FishingSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.HeavyBoomerang;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Javelin;
@@ -237,9 +240,11 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(SleepGun.Dart.class,     		  0);
 		ANGULAR_SPEEDS.put(FrostGun.Dart.class,     		  0);
 		ANGULAR_SPEEDS.put(ParalysisGun.Dart.class,      	  0);
+		ANGULAR_SPEEDS.put(TacticalShield.Bullet.class,       0);
 		//720 is default
 		
 		ANGULAR_SPEEDS.put(HeavyBoomerang.class,1440);
+		ANGULAR_SPEEDS.put(Cross.class,			1440);
 		ANGULAR_SPEEDS.put(Bolas.class,         1440);
 		
 		ANGULAR_SPEEDS.put(Shuriken.class,      2160);
@@ -287,9 +292,13 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		}
 		
 		float speed = SPEED;
-		if (item instanceof Dart && (Dungeon.hero.belongings.weapon() instanceof Crossbow || Dungeon.hero.belongings.weapon() instanceof ExplosiveCrossbow)){
+		if (item instanceof Dart && (Dungeon.hero.belongings.weapon() instanceof Crossbow || Dungeon.hero.belongings.weapon() instanceof ExplosiveCrossbow)) {
 			speed *= 3f;
-			
+		} else if ((item instanceof FishingSpear
+				|| item instanceof ThrowingSpear
+				|| item instanceof Javelin
+				|| item instanceof Trident) && Dungeon.hero.belongings.weapon() instanceof Ballista) {
+			speed *= 3f;
 		} else if (item instanceof SpiritBow.SpiritArrow
 				|| item instanceof NaturesBow.SpiritArrow
 				|| item instanceof GoldenBow.SpiritArrow
@@ -350,6 +359,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				||item instanceof SleepGun.Dart
 				||item instanceof FrostGun.Dart
 				||item instanceof ParalysisGun.Dart
+				||item instanceof TacticalShield.Bullet
 		) {
 			speed *= 3f;
 		} else if (item instanceof RocketLauncher.Rocket

@@ -46,6 +46,7 @@ public class LanceNShield extends MeleeWeapon {
         hitSoundPitch = 1.1f;
 
         tier = 6;
+        alchemy = true;
     }
 
     public static final HashSet<Class> RESISTS = new HashSet<>();

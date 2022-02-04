@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -33,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -88,6 +91,9 @@ public class Item implements Bundlable {
 
 	// These items are preserved even if the hero's inventory is lost via unblessed ankh
 	public boolean keptThoughLostInvent = false;
+
+	// Alchemy items takes advantage for upgrading them
+	public boolean alchemy = false;
 
 	// whether an item can be included in heroes remains
 	public boolean bones = false;

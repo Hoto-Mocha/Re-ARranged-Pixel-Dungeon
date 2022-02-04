@@ -166,9 +166,15 @@ abstract public class MissileWeapon extends Weapon {
 		||	this instanceof MissileButton.Rocket) {
 			projecting = true;
 		}
-		if (!projecting && Random.Int(3) < user.pointsInTalent(Talent.SHARED_ENCHANTMENT)){
-			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(Dungeon.hero)){
+		if (!projecting && Random.Int(3) < user.pointsInTalent(Talent.SHARED_ENCHANTMENT)) {
+			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(Dungeon.hero)) {
 				//do nothing
+			} else if ((this instanceof FishingSpear
+					|| this instanceof ThrowingSpear
+					|| this instanceof Javelin
+					|| this instanceof Trident) && ((FishingSpear) this).ballistaHasEnchant(Dungeon.hero)) {
+
+
 			} else {
 				SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
 				if (bow != null && bow.hasEnchant(Projecting.class, user)) {

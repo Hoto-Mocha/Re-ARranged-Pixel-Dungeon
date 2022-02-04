@@ -204,14 +204,14 @@ public class Dart extends MissileWeapon {
 				}
 			}
 			Sample.INSTANCE.play( Assets.Sounds.BLAST );
-			if (enemy == null || enemy == curUser) {
-				decrementDurability();
-				if (durability > 0){
-					super.onThrow(cell);
-				} else {
-					Dungeon.level.drop(new Dart(), cell).sprite.drop();
-				}
+			decrementDurability();
+			if (((!curUser.shoot( enemy, this ) || !enemy.isAlive()) && durability <= 0)){
+				Dungeon.level.drop(new Dart(), cell).sprite.drop();
+			} else {
+				super.onThrow(cell);
 			}
+		} else {
+			super.onThrow(cell);
 		}
 	}
 

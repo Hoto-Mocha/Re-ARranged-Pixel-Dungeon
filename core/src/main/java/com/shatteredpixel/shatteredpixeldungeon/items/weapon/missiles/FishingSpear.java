@@ -22,9 +22,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Random;
 
 public class FishingSpear extends MissileWeapon {
 	
@@ -35,9 +41,96 @@ public class FishingSpear extends MissileWeapon {
 		
 		tier = 2;
 	}
+
+	private static Ballista bow;
+
+	@Override
+	public int min(int lvl) {
+		if (bow != null) {
+			return  4 * tier +
+					bow.buffedLvl() +
+					2*lvl;
+		} else {
+			return  2 * tier +
+					2*lvl;
+		}
+	}
+
+	@Override
+	public int max(int lvl) {
+		if (bow != null) {
+			return  7 * tier +
+					bow.buffedLvl()*(tier+1) +
+					tier*lvl;
+		} else {
+			return  5 * tier +
+					tier*lvl;
+		}
+	}
+
+	private void updateBallista(){
+		if (Dungeon.hero.belongings.weapon() instanceof Ballista){
+			bow = (Ballista) Dungeon.hero.belongings.weapon();
+		} else {
+			bow = null;
+		}
+	}
+
+	public boolean ballistaHasEnchant( Char owner ){
+		return (bow != null && bow.enchantment != null && owner.buff(MagicImmune.class) == null);
+	}
+
+	@Override
+	public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
+		if (bow != null && bow.hasEnchant(type, owner)){
+			return true;
+		} else {
+			return super.hasEnchant(type, owner);
+		}
+	}
+
+	@Override
+	public int throwPos(Hero user, int dst) {
+		updateBallista();
+		return super.throwPos(user, dst);
+	}
+
+	@Override
+	protected void onThrow(int cell) {
+		updateBallista();
+		super.onThrow(cell);
+	}
+
+	@Override
+	public void throwSound() {
+		updateBallista();
+		if (bow != null) {
+			Sample.INSTANCE.play(Assets.Sounds.ATK_CROSSBOW, 1, Random.Float(0.87f, 1.15f));
+		} else {
+			super.throwSound();
+		}
+	}
+
+	@Override
+	public String info() {
+		updateBallista();
+		if (bow != null && !bow.isIdentified()){
+			int level = bow.level();
+			//temporarily sets the level of the bow to 0 for IDing purposes
+			bow.level(0);
+			String info = super.info();
+			bow.level(level);
+			return info;
+		} else {
+			return super.info();
+		}
+	}
 	
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
+		if (bow != null){
+			damage = bow.proc(attacker, defender, damage);
+		}
 		if (defender instanceof Piranha){
 			damage = Math.max(damage, defender.HP/2);
 		}

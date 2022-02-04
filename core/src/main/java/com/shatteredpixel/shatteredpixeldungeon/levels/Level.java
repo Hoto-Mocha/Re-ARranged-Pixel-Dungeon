@@ -65,12 +65,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourg
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.HeavyBoomerang;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
@@ -227,6 +229,12 @@ public abstract class Level implements Bundlable {
 					addItemToSpawn( new GrenadeLauncher().identify() );
 				} else {
 					addItemToSpawn( new SleepGun().identify() );
+				}
+			}
+			//one extractor is 50% chance to spawn somewhere on chapter 4-5
+			if ( Dungeon.depth / 5 >= 3 && Dungeon.seed % 4 + 1 == Dungeon.depth % 5) {
+				if (Random.Int(2) == 0) {
+					addItemToSpawn(new ScrollOfExtract());
 				}
 			}
 			
@@ -570,6 +578,9 @@ public abstract class Level implements Bundlable {
 			}
 		}
 		for (HeavyBoomerang.CircleBack b : Dungeon.hero.buffs(HeavyBoomerang.CircleBack.class)){
+			if (b.activeDepth() == Dungeon.depth) items.add(b.cancel());
+		}
+		for (Cross.CircleBack b : Dungeon.hero.buffs(Cross.CircleBack.class)){
 			if (b.activeDepth() == Dungeon.depth) items.add(b.cancel());
 		}
 		return items;

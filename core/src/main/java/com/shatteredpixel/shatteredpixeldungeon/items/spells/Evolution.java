@@ -38,10 +38,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainWhip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
@@ -50,6 +54,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
@@ -79,6 +84,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
@@ -143,8 +149,10 @@ public class Evolution extends InventorySpell {
 
         Weapon n;
         Generator.Category c;
-        if (w instanceof MissileButton)
-        {
+        if (w instanceof MissileButton
+         || w instanceof TacticalShield
+         || w instanceof HolySword
+        ) {
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 3];
         } else if (w instanceof LargeHandgun
                 || w instanceof LargeHandgunAP
@@ -163,6 +171,8 @@ public class Evolution extends InventorySpell {
                 || w instanceof HugeSword
                 || w instanceof IronHammer
                 || w instanceof BeamSaber
+                || w instanceof ChainFlail
+                || w instanceof ForceGlove
         ) {
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
         } else if (w instanceof Greatsword
@@ -192,6 +202,8 @@ public class Evolution extends InventorySpell {
                 || w instanceof PlasmaCannon
                 || w instanceof PlasmaCannonAP
                 || w instanceof PlasmaCannonHP
+                || w instanceof Ballista
+                || w instanceof ChainWhip
         ){
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
         } else {

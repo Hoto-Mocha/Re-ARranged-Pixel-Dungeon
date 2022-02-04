@@ -22,9 +22,14 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -54,7 +59,7 @@ public class Elastic extends Weapon.Enchantment {
 			//trim it to just be the part that goes past them
 			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
 			//knock them back along that ballistica
-			WandOfBlastWave.throwChar(defender, trajectory, 2, !(weapon instanceof MissileWeapon || weapon instanceof SpiritBow));
+			WandOfBlastWave.throwChar(defender, trajectory, 2, !(weapon instanceof MissileWeapon || weapon instanceof SpiritBow || weapon instanceof WindBow || weapon instanceof GoldenBow || weapon instanceof PoisonBow || weapon instanceof NaturesBow));
 		}
 		
 		return damage;

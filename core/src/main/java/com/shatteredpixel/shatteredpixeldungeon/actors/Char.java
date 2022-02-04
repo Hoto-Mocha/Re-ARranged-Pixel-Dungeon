@@ -92,20 +92,27 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Sh
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfRush;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFrost;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLightning;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
@@ -126,6 +133,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
@@ -178,12 +186,15 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrimTrap;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -512,8 +523,19 @@ public abstract class Char extends Actor {
 			Berserk berserk = buff(Berserk.class);
 			if (berserk != null) dmg = berserk.damageFactor(dmg);
 
+			dmg *= RingOfRush.damageMultiplier(hero);
+
 			if (Dungeon.isChallenged(Challenges.SUPERMAN) && this instanceof Hero) {
 				dmg *= 3f;
+			}
+
+			if (this instanceof Hero && hero.belongings.weapon instanceof Cross) {
+				if (enemy.properties().contains(Char.Property.DEMONIC) || enemy.properties().contains(Char.Property.UNDEAD)){
+					enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
+					Sample.INSTANCE.play(Assets.Sounds.BURNING);
+
+					dmg *= 1.3333f;
+				}
 			}
 
 			if (this instanceof Hero) {
@@ -521,6 +543,18 @@ public abstract class Char extends Actor {
 					int distance = Dungeon.level.distance(hero.pos, enemy.pos) - 1;
 					float multiplier = Math.min(3f, 1.2f * (float)Math.pow(1.125f, distance));
 					dmg = Math.round(dmg * multiplier);
+				}
+			}
+
+			if (this instanceof Hero && hero.belongings.weapon instanceof ForceGlove) {
+				if (Dungeon.level.adjacent( pos, enemy.pos )) {
+					dmg *= 0.5f;
+					//trace a ballistica to our target (which will also extend past them
+					Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
+					//trim it to just be the part that goes past them
+					trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
+					//knock them back along that ballistica
+					WandOfBlastWave.throwChar(enemy, trajectory, 20, true);
 				}
 			}
 
@@ -641,7 +675,8 @@ public abstract class Char extends Actor {
 				float heroHPPercent = ((float)hero.HP / (float)hero.HT);
 				if (Dungeon.hero.belongings.weapon() instanceof LargeHandgun.Bullet
 						||Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP.Bullet
-						||Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP.Bullet ) {
+						||Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP.Bullet
+						||Dungeon.hero.belongings.weapon() instanceof TacticalShield.Bullet ) {
 					dmg *= GameMath.gate(0.125f, 2*heroHPPercent, 1.5f); //0%~6.25% HP : 0.125x, scales defend on Hero health, 75%~100% HP : 1.5x
 				}
 			}

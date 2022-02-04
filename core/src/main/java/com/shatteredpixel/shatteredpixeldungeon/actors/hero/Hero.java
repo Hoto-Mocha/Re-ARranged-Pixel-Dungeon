@@ -192,6 +192,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
@@ -231,6 +232,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -567,7 +569,7 @@ public class Hero extends Char {
 
 		return hit;
 	}
-	
+
 	@Override
 	public int attackSkill( Char target ) {
 		KindOfWeapon wep = belongings.weapon();
@@ -666,6 +668,8 @@ public class Hero extends Char {
 						|| wep instanceof LargeHandgunAP.Bullet
 						|| wep instanceof LargeHandgunHP.Bullet) {
 					accuracy *= 1.3f;
+				} else if (wep instanceof TacticalShield.Bullet) {
+					accuracy *= 0.7f;
 				} else {
 					accuracy *= 1.5f;
 				}
@@ -718,6 +722,7 @@ public class Hero extends Char {
 					|| wep instanceof GrenadeLauncher.Rocket
 					|| wep instanceof GrenadeLauncherAP.Rocket
 					|| wep instanceof GrenadeLauncherHP.Rocket
+					|| wep instanceof TacticalShield.Bullet
 				) {
 					accuracy *= 1.05f + 0.05f * hero.pointsInTalent(Talent.BULLET_FOCUS);
 				}
@@ -992,6 +997,10 @@ public class Hero extends Char {
 			}
 		}
 
+		if (hero.belongings.weapon instanceof TacticalShield) {
+			speed *= 0.5f;
+		}
+
 		if (hero.buff(Riot.riotTracker.class) != null && hero.hasTalent(Talent.HASTE_MOVE)) {
 			speed *= 1f + 0.25f * hero.pointsInTalent(Talent.HASTE_MOVE);
 		}
@@ -1049,7 +1058,7 @@ public class Hero extends Char {
 			return false;
 		}
 
-		//can always attack adjacent enemies
+		//can always attack adjaceadjacent enemies
 		if (Dungeon.level.adjacent(pos, enemy.pos)) {
 			return true;
 		}
@@ -2616,6 +2625,18 @@ public class Hero extends Char {
 				Buff.affect( this, Adrenaline.class, 2f);
 			} else {
 				int healAmt = 1;
+				healAmt = Math.min( healAmt, hero.HT - hero.HP );
+				if (healAmt > 0 && hero.isAlive()) {
+					hero.HP += healAmt;
+					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
+			}
+		}
+
+		if (hit && hero.belongings.weapon instanceof HolySword) {
+			if (hero.STR() >= ((HolySword) hero.belongings.weapon).STRReq()) {
+				int healAmt = 5+hero.belongings.weapon.buffedLvl();
 				healAmt = Math.min( healAmt, hero.HT - hero.HP );
 				if (healAmt > 0 && hero.isAlive()) {
 					hero.HP += healAmt;

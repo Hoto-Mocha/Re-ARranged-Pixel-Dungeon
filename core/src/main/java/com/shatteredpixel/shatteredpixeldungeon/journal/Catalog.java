@@ -67,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfRush;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
@@ -103,6 +104,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
@@ -119,6 +121,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCros
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
@@ -134,6 +137,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLaunch
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
@@ -174,6 +178,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
@@ -270,6 +275,10 @@ public enum Catalog {
 		WEAPONS.seen.put( FrostScimitar.class,              false);
 		WEAPONS.seen.put( PoisonScimitar.class,             false);
 		WEAPONS.seen.put( ElectroScimitar.class,            false);
+		WEAPONS.seen.put( Ballista.class,       	 	    false);
+		WEAPONS.seen.put( TacticalShield.class,       	 	false);
+		WEAPONS.seen.put( ForceGlove.class,     	  	 	false);
+		WEAPONS.seen.put( HolySword.class,     	  	 		false);
 
 		//guns
 		WEAPONS.seen.put( CrudePistol.class,                false);
@@ -347,7 +356,8 @@ public enum Catalog {
 		RINGS.seen.put( RingOfTenacity.class,               false);
 		RINGS.seen.put( RingOfWealth.class,                 false);
 		RINGS.seen.put( RingOfReload.class,                 false);
-	
+		RINGS.seen.put( RingOfRush.class,           	    false);
+
 		ARTIFACTS.seen.put( AlchemistsToolkit.class,        false);
 		ARTIFACTS.seen.put( CapeOfThorns.class,             false);
 		ARTIFACTS.seen.put( ChaliceOfBlood.class,           false);

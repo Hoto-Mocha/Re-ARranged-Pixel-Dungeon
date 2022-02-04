@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
@@ -33,37 +31,33 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 import java.text.DecimalFormat;
 
-public class RingOfFuror extends Ring {
+public class RingOfRush extends Ring {
 
 	{
-		icon = ItemSpriteSheet.Icons.RING_FUROR;
+		icon = ItemSpriteSheet.Icons.RING_RUSH;
 	}
 
 	public String statsInfo() {
 		if (isIdentified()){
-			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100f * (Math.pow(1.105f, soloBuffedBonus()) - 1f)));
+			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100f * (Math.pow(1.3f, soloBuffedBonus()) - 1f)), new DecimalFormat("#.##").format(100f * (1f - Math.pow(0.85f, soloBuffedBonus()))));
 		} else {
-			return Messages.get(this, "typical_stats", new DecimalFormat("#.##").format(10.5f));
+			return Messages.get(this, "typical_stats", new DecimalFormat("#.##").format(30f), new DecimalFormat("#.##").format(15f));
 		}
 	}
 
 	@Override
 	protected RingBuff buff( ) {
-		return new Furor();
+		return new Rush();
 	}
 	
-	public static float attackSpeedMultiplier(Char target ){
-		float speedBonus = (float)Math.pow(1.105, getBuffedBonus(target, Furor.class));
-		if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null) {
-			speedBonus *= 2f + 0.05f * hero.pointsInTalent(Talent.DOUBLE_BLADE_PRACTICE);
-		}
-		if (hero.buff(Flurry.class) != null) {
-			speedBonus *= 2f;
-		}
-		speedBonus *= RingOfRush.rushSpeedMultiplier(hero);
-		return speedBonus;
+	public static float rushSpeedMultiplier(Char target ){
+		return (float)Math.pow(1.3, getBuffedBonus(target, Rush.class));
 	}
 
-	public class Furor extends RingBuff {
+	public static float damageMultiplier(Char target ){
+		return (float)Math.pow(0.85, getBuffedBonus(target, Rush.class));
+	}
+
+	public class Rush extends RingBuff {
 	}
 }

@@ -36,6 +36,7 @@ public class CursedSword extends MeleeWeapon {
 		hitSoundPitch = 1f;
 
 		tier = 3;
+		alchemy = true;
 	}
 
 	@Override

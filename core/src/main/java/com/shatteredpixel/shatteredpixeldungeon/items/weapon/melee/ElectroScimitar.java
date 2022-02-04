@@ -37,12 +37,13 @@ public class ElectroScimitar extends MeleeWeapon {
 		tier = 4;
 		DLY = 0.67f; //1.5x speed
 		//also affects paralysis, see Hero.onAttackComplete
+		alchemy = true;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  4*(tier) +    //16 base
-				lvl*(tier);   //scaling unchanged
+		return  4*(tier+1) +    //base
+				lvl*(tier+1);   //level scaling
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
