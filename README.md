@@ -10,8 +10,8 @@ ARPD supports only KOREAN language yet.
 - many of new Melee Weapons
 - 4 of new Subclasses for Warrior, Mage, Rouge, Huntress
 - Added 2 artifacts what is deleted in SPD
-- 2 artifact buffed
-- 1 of New ring : Ring of Reload
+- 2 artifacts buffed
+- 2 of New rings : Ring of Reload, Ring of Rush
 - 3 of New Playable Class : Gunner, Samurai, Planter!
 - 12 of New SubClasses of Gunner, Samurai, Planter
 - 12 of New Armor Abilities of Gunner, Samurai, Planter
