@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArcaneArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
@@ -67,6 +68,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PrismaticGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
@@ -91,7 +93,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Aw
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.PrismaticImage;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.RainbowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -115,6 +123,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
@@ -183,10 +192,22 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Blast;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Earth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Fire;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Frost;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Lightning;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Prismatic;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Regrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Transfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Warding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
@@ -196,6 +217,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
@@ -207,6 +229,7 @@ import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -529,12 +552,191 @@ public abstract class Char extends Actor {
 				dmg *= 3f;
 			}
 
+			if (this instanceof Hero) {
+				float procChance; //chance to be activated
+				int lvl = hero.belongings.weapon.buffedLvl();
+				if (hero.belongings.weapon instanceof SpellBook_Corrosion) {
+					procChance = (lvl+1f)/(lvl+5f);
+					if (Random.Float() < procChance) {
+						Buff.affect(enemy, Ooze.class).set(3+lvl);
+					}
+				} else if (hero.belongings.weapon instanceof SpellBook_Corruption) {
+					int procBonus = 0; //used for adding chances to corrupt
+					if (enemy.buff(Weakness.class) != null) {
+						procBonus += 1;
+					}
+					if (enemy.buff(Vulnerable.class) != null) {
+						procBonus += 1;
+					}
+					if (enemy.buff(Cripple.class) != null) {
+						procBonus += 1;
+					}
+					if (enemy.buff(Blindness.class) != null) {
+						procBonus += 1;
+					}
+					if (enemy.buff(Terror.class) != null) {
+						procBonus += 1;
+					}
+					if (enemy.buff(Amok.class) != null) {
+						procBonus += 2;
+					}
+					if (enemy.buff(Slow.class) != null) {
+						procBonus += 2;
+					}
+					if (enemy.buff(Hex.class) != null) {
+						procBonus += 2;
+					}
+					if (enemy.buff(Paralysis.class) != null) {
+						procBonus += 2;
+					}
+					if (enemy.buff(com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom.class) != null) {
+						procChance = 1; //100% chance when enemy has a Doom debuff
+					} else {
+						procChance = (lvl+5f+procBonus)/(lvl+25f);
+					}
+					if (dmg >= enemy.HP
+							&& Random.Float() < procChance
+							&& !enemy.isImmune(Corruption.class)
+							&& enemy.buff(Corruption.class) == null
+							&& enemy instanceof Mob
+							&& enemy.isAlive()){
+						Mob mob = (Mob) enemy;
+						Corruption.corruptionHeal(mob);
+						AllyBuff.affectAndLoot(mob, hero, Corruption.class);
+						dmg = 0;
+					}
+				} else if (hero.belongings.weapon instanceof SpellBook_Blast) {
+					procChance = (lvl+1f)/(lvl+5f);
+					if (Random.Float() < procChance) {
+						Buff.affect(enemy, Paralysis.class, (lvl >= 10) ? 1f : 2f);
+					}
+				} else if (hero.belongings.weapon instanceof SpellBook_Earth) {
+					procChance = 1/4f; //fixed at 1/4 regardless of lvl
+					if (Random.Float() < procChance) {
+						Buff.affect(hero, Earthroot.Armor.class).level(5+lvl);
+					}
+				} else if (hero.belongings.weapon instanceof SpellBook_Fire) {
+					procChance = (lvl+1f)/(lvl+3f);
+					if (Random.Float() < procChance) {
+						if (enemy.buff(Burning.class) != null){
+							Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
+							int burnDamage = Random.NormalIntRange( 1, 3 + Dungeon.depth/4 );
+							enemy.damage( Math.round(burnDamage * 0.67f), this );
+						} else {
+							Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
+						}
+						enemy.sprite.emitter().burst( FlameParticle.FACTORY, lvl + 1 );
+					}
+				} else if (hero.belongings.weapon instanceof SpellBook_Frost) {
+					procChance = (lvl+1f)/(lvl+4f);
+					if (Random.Float() < procChance) {
+						//adds 3 turns of chill per proc, with a cap of 6 turns
+						float durationToAdd = 3f;
+						Chill existing = enemy.buff(Chill.class);
+						if (existing != null){
+							durationToAdd = Math.min(durationToAdd, 6f-existing.cooldown());
+						}
+
+						Buff.affect( enemy, Chill.class, durationToAdd );
+						Splash.at( enemy.sprite.center(), 0xFFB2D6FF, 5);
+					}
+				} else if (hero.belongings.weapon instanceof SpellBook_Lightning) {
+					ArrayList<Lightning.Arc> arcs = new ArrayList<>();
+					ArrayList<Char> affected = new ArrayList<>();
+					procChance = (lvl+1f)/(lvl+4f);
+					if (Random.Float() < procChance) {
+						affected.clear();
+						arcs.clear();
+
+						Shocking.arc(hero, enemy, 2, affected, arcs);
+
+						affected.remove(enemy); //defender isn't hurt by lightning
+						for (Char ch : affected) {
+							if (ch.alignment != hero.alignment) {
+								ch.damage(Math.round(dmg * 0.4f), this);
+							}
+						}
+
+						hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
+						Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+					}
+				} else if (hero.belongings.weapon instanceof SpellBook_Warding) {
+					procChance = (lvl+1f)/(lvl+3f);
+					if (Random.Float() < procChance) {
+						boolean found = false;
+						for (Mob m : Dungeon.level.mobs.toArray(new Mob[0])){
+							if (m instanceof PrismaticImage){ //if the prismatic image is existing in the floor
+								found = true;
+								m.HP += dmg/2; //heals the prismatic image
+								m.sprite.emitter().burst(Speck.factory(Speck.HEALING), 4);
+								m.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( dmg/2 ) );
+							}
+						}
+
+						if (!found) {
+							if (hero.buff(PrismaticGuard.class) != null) {
+								Buff.affect(hero, PrismaticGuard.class).extend( dmg/2 ); //heals the buff's hp
+							} else {
+								Buff.affect(hero, PrismaticGuard.class).set( dmg/2 ); //affects a new buff to hero
+							}
+						}
+					}
+				} else if (hero.belongings.weapon instanceof SpellBook_Regrowth) {
+					procChance = (lvl+1f)/(lvl+3f);
+					if (Random.Float() < procChance) {
+						boolean secondPlant = Random.Int(3) == 0;
+						ArrayList<Integer> positions = new ArrayList<>();
+						Blooming blooming = new Blooming();
+						for (int i : PathFinder.NEIGHBOURS8) {
+							positions.add(i);
+						}
+						Random.shuffle(positions);
+						for (int i : positions) {
+							if (blooming.plantGrass(enemy.pos + i)) {
+								if (secondPlant) secondPlant = false;
+								else break;
+							}
+						}
+					}
+				} else if (hero.belongings.weapon instanceof SpellBook_Transfusion) {
+					//chance to heal scales from 5%-30% based on missing HP
+					float missingPercent = (hero.HT - hero.HP) / (float)hero.HT;
+					procChance = 0.05f + 0.25f*missingPercent;
+					if (Random.Float() < procChance) {
+
+						//heals for 50% of damage dealt
+						int healAmt = Math.round(dmg * 0.5f);
+						healAmt = Math.min( healAmt, hero.HT - hero.HP );
+
+						if (healAmt > 0 && hero.isAlive()) {
+
+							hero.HP += healAmt;
+							hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+							hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+
+						}
+
+					}
+				} else if (hero.belongings.weapon instanceof SpellBook_Prismatic) {
+					procChance = (lvl+1f)/(lvl+3f);
+					if (Random.Float() < procChance) {
+						Buff.affect(enemy, Blindness.class, 2+lvl);
+					}
+					if (enemy.properties().contains(Char.Property.DEMONIC) || enemy.properties().contains(Char.Property.UNDEAD)){
+						enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10+lvl );
+						Sample.INSTANCE.play(Assets.Sounds.BURNING);
+
+						dmg *= 1.3333f; //deals more damage to the demons and the undeads
+					}
+				}
+			}
+
 			if (this instanceof Hero && hero.belongings.weapon instanceof Cross) {
 				if (enemy.properties().contains(Char.Property.DEMONIC) || enemy.properties().contains(Char.Property.UNDEAD)){
 					enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
 					Sample.INSTANCE.play(Assets.Sounds.BURNING);
 
-					dmg *= 1.3333f;
+					dmg *= 1.3333f; //deals more damage to the demons and the undeads
 				}
 			}
 

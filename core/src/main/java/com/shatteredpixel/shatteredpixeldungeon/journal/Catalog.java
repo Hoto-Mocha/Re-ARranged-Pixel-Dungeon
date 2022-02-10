@@ -176,6 +176,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Blast;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Disintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Earth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Empty;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Fire;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Frost;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Lightning;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Prismatic;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Regrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Transfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Warding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
@@ -279,6 +292,21 @@ public enum Catalog {
 		WEAPONS.seen.put( TacticalShield.class,       	 	false);
 		WEAPONS.seen.put( ForceGlove.class,     	  	 	false);
 		WEAPONS.seen.put( HolySword.class,     	  	 		false);
+
+		//spellbooks
+		WEAPONS.seen.put( SpellBook_Empty.class,     	  	false);
+		WEAPONS.seen.put( SpellBook_Fire.class,     	  	false);
+		WEAPONS.seen.put( SpellBook_Frost.class,     	  	false);
+		WEAPONS.seen.put( SpellBook_Lightning.class,     	false);
+		WEAPONS.seen.put( SpellBook_Disintegration.class,   false);
+		WEAPONS.seen.put( SpellBook_Blast.class,     	  	false);
+		WEAPONS.seen.put( SpellBook_Corrosion.class,     	false);
+		WEAPONS.seen.put( SpellBook_Prismatic.class,     	false);
+		WEAPONS.seen.put( SpellBook_Regrowth.class,     	false);
+		WEAPONS.seen.put( SpellBook_Transfusion.class,     	false);
+		WEAPONS.seen.put( SpellBook_Corruption.class,     	false);
+		WEAPONS.seen.put( SpellBook_Warding.class,     	  	false);
+		WEAPONS.seen.put( SpellBook_Earth.class,     	  	false);
 
 		//guns
 		WEAPONS.seen.put( CrudePistol.class,                false);

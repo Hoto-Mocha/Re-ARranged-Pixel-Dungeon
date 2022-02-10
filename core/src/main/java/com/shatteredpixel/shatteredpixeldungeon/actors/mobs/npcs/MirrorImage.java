@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -119,11 +120,15 @@ public class MirrorImage extends NPC {
 	@Override
 	public int defenseSkill(Char enemy) {
 		if (hero != null) {
-			int baseEvasion = 4 + hero.lvl;
-			int heroEvasion = hero.defenseSkill(enemy);
-			
-			//if the hero has more/less evasion, 50% of it is applied
-			return super.defenseSkill(enemy) * (baseEvasion + heroEvasion) / 2;
+			if (this.buff(EvasiveMove.class) != null) {
+				return INFINITE_EVASION;
+			} else {
+				int baseEvasion = 4 + hero.lvl;
+				int heroEvasion = hero.defenseSkill(enemy);
+
+				//if the hero has more/less evasion, 50% of it is applied
+				return super.defenseSkill(enemy) * (baseEvasion + heroEvasion) / 2;
+			}
 		} else {
 			return 0;
 		}

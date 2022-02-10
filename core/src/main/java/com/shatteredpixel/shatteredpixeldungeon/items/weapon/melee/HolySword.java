@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Bundle;
 
 public class HolySword extends MeleeWeapon {
 
@@ -42,7 +43,6 @@ public class HolySword extends MeleeWeapon {
         //also heals player, see Hero.onAttackComplete
         alchemy = true;
     }
-
     @Override
     public int max(int lvl) {
         if (Dungeon.hero.STR() >= this.STRReq()) {
@@ -80,9 +80,11 @@ public class HolySword extends MeleeWeapon {
     @Override
     public String name() {
         if (Dungeon.hero.STR() >= this.STRReq()) {
-            return Messages.get(this, "true_name");
+            String trueName = Messages.get(this, "true_name");
+            return enchantment != null && (cursedKnown || !enchantment.curse()) ? enchantment.name( trueName ) : trueName;
         } else {
-            return trueName();
+            String name = Messages.get(this, "name");
+            return enchantment != null && (cursedKnown || !enchantment.curse()) ? enchantment.name( name ) : name;
         }
     }
 

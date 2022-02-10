@@ -66,6 +66,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalPorter;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableAPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
@@ -133,6 +134,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Blast;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Disintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Earth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Empty;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Fire;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Frost;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Lightning;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Prismatic;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Regrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Transfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Warding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
@@ -297,7 +311,21 @@ public abstract class Recipe {
 		new GoldenPistol.Recipe(),
 		new MissileButton.Recipe(),
 		new StableAPBullet.Recipe(),
-		new StableHPBullet.Recipe()
+		new StableHPBullet.Recipe(),
+		new SpellBook_Empty.Recipe(),
+		new SpellBook_Blast.Recipe(),
+		new SpellBook_Corrosion.Recipe(),
+		new SpellBook_Corruption.Recipe(),
+		new SpellBook_Disintegration.Recipe(),
+		new SpellBook_Earth.Recipe(),
+		new SpellBook_Fire.Recipe(),
+		new SpellBook_Frost.Recipe(),
+		new SpellBook_Lightning.Recipe(),
+		new SpellBook_Prismatic.Recipe(),
+		new SpellBook_Regrowth.Recipe(),
+		new SpellBook_Transfusion.Recipe(),
+		new SpellBook_Warding.Recipe(),
+		new ScrollOfExtract.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{

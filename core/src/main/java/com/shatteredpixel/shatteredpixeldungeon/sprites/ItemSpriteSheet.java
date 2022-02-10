@@ -435,10 +435,29 @@ public class ItemSpriteSheet {
 		assignItemRect(BALLISTA, 	  		16, 16);
 		assignItemRect(FORCE_GLOVE, 	  	13, 15);
 		assignItemRect(HOLY_SWORD, 	  		16, 16);
-		assignItemRect(CROSS, 	  			14, 14 );
+		assignItemRect(CROSS, 	  			14, 14);
 	}
 
-	private static final int ADVANCED_TIER5 = 								xy(1, 38);
+	private static final int SPELLBOOKS 	        =            	           xy(1, 38);
+	public static final int EMPTY_SPELLBOOK  		= SPELLBOOKS+0;
+	public static final int FIRE_SPELLBOOK  		= SPELLBOOKS+1;
+	public static final int FROST_SPELLBOOK  		= SPELLBOOKS+2;
+	public static final int LIGHTNING_SPELLBOOK 	= SPELLBOOKS+3;
+	public static final int DISTRIBUTION_SPELLBOOK  = SPELLBOOKS+4;
+	public static final int PRISMATIC_SPELLBOOK  	= SPELLBOOKS+5;
+	public static final int CORROSION_SPELLBOOK  	= SPELLBOOKS+6;
+	public static final int EARTH_SPELLBOOK  		= SPELLBOOKS+7;
+	public static final int BLAST_SPELLBOOK  		= SPELLBOOKS+8;
+	public static final int CORRUPTION_SPELLBOOK  	= SPELLBOOKS+9;
+	public static final int WARDING_SPELLBOOK  		= SPELLBOOKS+10;
+	public static final int REGROWTH_SPELLBOOK  	= SPELLBOOKS+11;
+	public static final int TRANSFUSION_SPELLBOOK  	= SPELLBOOKS+12;
+	static{
+		for (int i = SPELLBOOKS; i < SPELLBOOKS+16; i++)
+			assignItemRect(i, 12, 16);
+	}
+
+	private static final int ADVANCED_TIER5 = 								xy(1, 39);
 	public static final int SPADE           = ADVANCED_TIER5+0;
 	public static final int EXCROSSBOW      = ADVANCED_TIER5+1;
 	public static final int TRUE_RUNIC_BLADE= ADVANCED_TIER5+2;
@@ -451,7 +470,7 @@ public class ItemSpriteSheet {
 		assignItemRect(CHAIN_WHIP,			14, 14);
 	}
 
-	private static final int ADVANCED_TIER6 = 								xy(1, 39);
+	private static final int ADVANCED_TIER6 = 								xy(1, 40);
 	public static final int HUGE_SWORD      = ADVANCED_TIER6+0;
 	public static final int IRON_HAMMER     = ADVANCED_TIER6+1;
 	public static final int BEAM_SABER      = ADVANCED_TIER6+2;

@@ -96,6 +96,10 @@ public class PrismaticGuard extends Buff {
 	public void set( int HP ){
 		this.HP = HP;
 	}
+
+	public void extend( int HP ){
+		this.HP += HP;
+	}
 	
 	public int maxHP(){
 		return maxHP((Hero)target);
