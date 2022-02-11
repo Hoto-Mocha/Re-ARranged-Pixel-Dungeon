@@ -79,6 +79,7 @@ public class SpellBook_Warding extends MeleeWeapon {
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
+		alchemy = true;
 	}
 
 	@Override

@@ -37,6 +37,7 @@ public class SpellBook_Disintegration extends MeleeWeapon {
 
 		tier = 3;
 		RCH = 2;
+		alchemy = true;
 	}
 
 	@Override

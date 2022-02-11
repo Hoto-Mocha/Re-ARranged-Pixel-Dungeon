@@ -552,7 +552,7 @@ public abstract class Char extends Actor {
 				dmg *= 3f;
 			}
 
-			if (this instanceof Hero) {
+			if (this instanceof Hero && hero.belongings.weapon != null) {
 				float procChance; //chance to be activated
 				int lvl = hero.belongings.weapon.buffedLvl();
 				if (hero.belongings.weapon instanceof SpellBook_Corrosion) {

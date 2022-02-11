@@ -66,6 +66,7 @@ public class SpellBook_Empty extends MeleeWeapon {
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
+		alchemy = true;
 	}
 
 	@Override

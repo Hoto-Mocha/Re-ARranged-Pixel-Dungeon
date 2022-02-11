@@ -123,7 +123,7 @@ public class SupporterScene extends PixelScene {
 			message += "\n\n" + Messages.get(SupporterScene.class, "patreon_msg");
 			message += "\n\n- Cocoa";
 
-			text = PixelScene.renderTextBlock(message, 6);
+			text = PixelScene.renderTextBlock(message, 6); //text size
 			add(text);
 
 			icon = Icons.get(Icons.ARRANGED);
@@ -140,7 +140,7 @@ public class SupporterScene extends PixelScene {
 			text.setPos(x + bg.marginLeft(), y + bg.marginTop() + 1);
 
 			icon.y = text.bottom() - icon.height() + 4;
-			icon.x = x + 42;
+			icon.x = x + 26; //developer icon position
 
 			height = (text.bottom() + 3) - y;
 

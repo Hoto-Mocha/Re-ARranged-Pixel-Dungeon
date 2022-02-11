@@ -85,6 +85,7 @@ public class SpellBook_Corruption extends MeleeWeapon {
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
+		alchemy = true;
 	}
 
 	@Override

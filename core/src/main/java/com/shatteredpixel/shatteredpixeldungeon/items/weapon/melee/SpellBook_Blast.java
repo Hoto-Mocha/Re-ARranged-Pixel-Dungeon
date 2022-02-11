@@ -75,6 +75,7 @@ public class SpellBook_Blast extends MeleeWeapon {
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
+		alchemy = true;
 	}
 
 	@Override

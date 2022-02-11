@@ -75,6 +75,7 @@ public class SpellBook_Prismatic extends MeleeWeapon {
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
+		alchemy = true;
 	}
 
 	@Override
