@@ -101,15 +101,15 @@ public class TalentButton extends Button {
 
 		super.layout();
 
-		fill.x = x+2;
-		fill.y = y + WIDTH - 1;
-		fill.size( pointsInTalent/(float)talent.maxPoints() * (WIDTH-4), 5);
+		fill.x = x+2; //특성을 찍으면 생기는 노란색 그것의 가로 위치
+		fill.y = y + WIDTH - 1; //특성을 찍으면 생기는 노란색 그것의 세로 위치
+		fill.size( pointsInTalent/(float)talent.maxPoints() * (WIDTH-4), 5); //노란색 그것의 가로 세로 길이
 
-		bg.x = x;
-		bg.y = y;
+		bg.x = x; //특성 윤곽의 가로 위치
+		bg.y = y; //특성 윤곽의 세로 위치
 
-		icon.x = x + 2;
-		icon.y = y + 2;
+		icon.x = x + 2; //버튼에 있는 특성 아이콘의 가로 위치
+		icon.y = y + 2; //버튼에 있는 특성 아이콘의 세로 위치
 		PixelScene.align(icon);
 	}
 

@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Random;
 
 public class Dewdrop extends Item {
 	
@@ -73,7 +74,11 @@ public class Dewdrop extends Item {
 	public static boolean consumeDew(int quantity, Hero hero, boolean force){
 		//20 drops for a full heal
 		int heal = Math.round( hero.HT * 0.05f * quantity );
-
+		if (hero.hasTalent(Talent.DEW_ENHANCE)) {
+			if (Random.Int(20) < hero.pointsInTalent(Talent.DEW_ENHANCE)) {
+				heal *= 2;
+			}
+		}
 		int effect = Math.min( hero.HT - hero.HP, heal );
 		int shield = 0;
 		if (hero.hasTalent(Talent.SHIELDING_DEW)){

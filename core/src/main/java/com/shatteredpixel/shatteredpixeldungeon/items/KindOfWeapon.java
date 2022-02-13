@@ -161,10 +161,10 @@ abstract public class KindOfWeapon extends EquipableItem {
 			hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
 			if (demonization != null && demonization.isDemonated() && hero.hasTalent(Talent.ENERGY_DRAIN)) {
 				int pointUsed = hero.pointsInTalent(Talent.ENERGY_DRAIN);
-				if (hero.buff(Barrier.class) == null || hero.buff(Barrier.class).shielding() < (15*pointUsed - 3*pointUsed)) {
-					Buff.affect(hero, Barrier.class).incShield(3*pointUsed);
+				if (hero.buff(Barrier.class) == null || hero.buff(Barrier.class).shielding() < (10*pointUsed - pointUsed)) {
+					Buff.affect(hero, Barrier.class).incShield(pointUsed);
 				} else {
-					Buff.affect(hero, Barrier.class).setShield(15*pointUsed);
+					Buff.affect(hero, Barrier.class).setShield(10*pointUsed);
 				}
 			}
 			if (hero.buff(Flurry.class) != null) {

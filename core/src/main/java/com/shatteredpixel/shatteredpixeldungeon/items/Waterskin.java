@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -31,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.GameMath;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -162,7 +164,15 @@ public class Waterskin extends Item {
 	public void collectDew( Dewdrop dew ) {
 
 		GLog.i( Messages.get(this, "collected") );
-		volume += dew.quantity;
+		if (Dungeon.hero.hasTalent(Talent.DEW_ENHANCE)) {
+			if (Random.Int(20) < Dungeon.hero.pointsInTalent(Talent.DEW_ENHANCE)) {
+				volume += 2 * dew.quantity;
+			} else {
+				volume += dew.quantity;
+			}
+		} else {
+			volume += dew.quantity;
+		}
 		if (volume >= MAX_VOLUME) {
 			volume = MAX_VOLUME;
 			GLog.p( Messages.get(this, "full") );

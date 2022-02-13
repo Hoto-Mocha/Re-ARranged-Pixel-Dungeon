@@ -581,6 +581,10 @@ public class Hero extends Char {
 			accuracy *= 2;
 		}
 
+		if (hero.hasTalent(Talent.ACC_ENHANCE)) {
+			accuracy *= 1 + 0.2f * hero.pointsInTalent(Talent.ACC_ENHANCE);
+		}
+
 		if (hero.buff(Lead.class) != null) {
 			accuracy *= 1.2f;
 		}
@@ -873,6 +877,10 @@ public class Hero extends Char {
 
 		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
 			evasion *= 3;
+		}
+
+		if (hero.hasTalent(Talent.EVA_ENHANCE)) {
+			evasion *= 1 + 0.1f * hero.pointsInTalent(Talent.EVA_ENHANCE);
 		}
 		
 		if (paralysed > 0) {
@@ -1765,6 +1773,10 @@ public class Hero extends Char {
 			if (buff(ScrollOfChallenge.ChallengeArena.class) != null){
 				dmg *= 0.67f;
 			}
+		}
+
+		if (Dungeon.hero.hasTalent(Talent.DEF_ENHANCE)) {
+			dmg *= 1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.DEF_ENHANCE);
 		}
 
 		CapeOfThorns.Thorns thorns = buff( CapeOfThorns.Thorns.class );

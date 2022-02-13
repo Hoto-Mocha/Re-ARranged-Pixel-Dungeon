@@ -60,6 +60,9 @@ public class RingOfFuror extends Ring {
 		if (hero.buff(Flurry.class) != null) {
 			speedBonus *= 2f;
 		}
+		if( hero.hasTalent(Talent.ATK_SPEED_ENHANCE)) {
+			speedBonus *= 1 + 0.1f * hero.pointsInTalent(Talent.ATK_SPEED_ENHANCE);
+		}
 		speedBonus *= RingOfRush.rushSpeedMultiplier(hero);
 		return speedBonus;
 	}

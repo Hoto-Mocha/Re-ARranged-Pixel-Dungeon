@@ -90,7 +90,7 @@ public class HolySword extends MeleeWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return 21;
+        return 22;
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
