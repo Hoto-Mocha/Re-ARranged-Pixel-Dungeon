@@ -739,7 +739,7 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon instanceof ForceGlove) {
+			if (this instanceof Hero && hero.belongings.weapon() instanceof ForceGlove) {
 				if (Dungeon.level.adjacent( pos, enemy.pos )) {
 					dmg *= 0.5f;
 					//trace a ballistica to our target (which will also extend past them

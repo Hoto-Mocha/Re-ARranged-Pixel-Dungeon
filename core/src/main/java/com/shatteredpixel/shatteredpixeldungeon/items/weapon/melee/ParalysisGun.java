@@ -41,6 +41,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ParalysisDartCoolDo
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM300;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DwarfKing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Goo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tengu;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.YogDzewa;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -366,7 +371,12 @@ public class ParalysisGun extends MeleeWeapon {
                     CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
                 }
             }
-            if (enemy != null) {
+            if (enemy != null
+                    && !(enemy instanceof Goo)
+                    && !(enemy instanceof Tengu)
+                    && !(enemy instanceof DM300)
+                    && !(enemy instanceof DwarfKing)
+                    && !(enemy instanceof YogDzewa)) {
                 new FlavourBuff(){
                     {actPriority = VFX_PRIO;}
                     public boolean act() {

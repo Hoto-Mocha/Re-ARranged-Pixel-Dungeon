@@ -137,6 +137,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
@@ -488,16 +489,19 @@ public class Hero extends Char {
 	}
 
 	public int bonusTalentPoints(int tier){
+		int bonusPoints = 0;
 		if (lvl < (Talent.tierLevelThresholds[tier]-1)
 				|| (tier == 3 && subClass == HeroSubClass.NONE)
 				|| (tier == 4 && armorAbility == null)) {
 			return 0;
 		} else if (buff(PotionOfDivineInspiration.DivineInspirationTracker.class) != null
 					&& buff(PotionOfDivineInspiration.DivineInspirationTracker.class).isBoosted(tier)) {
-			return 2;
-		} else {
-			return 0;
+			bonusPoints += 2;
 		}
+		if (tier == 3 && buff(ElixirOfTalent.BonusTalentTracker.class) != null) {
+			bonusPoints += 4;
+		}
+		return bonusPoints;
 	}
 	
 	public String className() {
@@ -582,7 +586,7 @@ public class Hero extends Char {
 		}
 
 		if (hero.hasTalent(Talent.ACC_ENHANCE)) {
-			accuracy *= 1 + 0.2f * hero.pointsInTalent(Talent.ACC_ENHANCE);
+			accuracy *= 1 + 0.15f * hero.pointsInTalent(Talent.ACC_ENHANCE);
 		}
 
 		if (hero.buff(Lead.class) != null) {

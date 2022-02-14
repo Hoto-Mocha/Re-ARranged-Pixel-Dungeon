@@ -79,6 +79,12 @@ public class DwarfKing extends Mob {
 		properties.add(Property.UNDEAD);
 	}
 
+	public boolean isDied = false;
+
+	public boolean isDied() {
+		return isDied;
+	}
+
 	@Override
 	public int damageRoll() {
 		return Random.NormalIntRange( 15, 25 );
@@ -522,6 +528,8 @@ public class DwarfKing extends Mob {
 		}
 
 		yell( Messages.get(this, "defeated") );
+
+		isDied = true;
 	}
 
 	@Override

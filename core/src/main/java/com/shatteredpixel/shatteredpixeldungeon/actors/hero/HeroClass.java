@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -69,8 +70,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlam
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
@@ -99,10 +105,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Blast;
@@ -119,6 +127,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Reg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Transfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Warding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
@@ -255,6 +264,8 @@ public enum HeroClass {
 		//new RingOfRush().identify().collect();
 		//new AlchemistsToolkit().identify().upgrade(10).collect();
 		//new ScrollOfMysticalEnergy().identify().quantity(50).collect();
+		//new PotionOfStrength().identify().quantity(50).collect();
+		//new ArcaneCatalyst().quantity(20).collect();
 		//new LiquidMetal().quantity(1000).collect();
 		//new ScrollOfUpgrade().identify().quantity(100).collect();
 		//new Cross().quantity(2).collect();
@@ -305,19 +316,6 @@ public enum HeroClass {
 		//new ThrowingSpear().quantity(20).collect();
 		//new Javelin().quantity(20).collect();
 		//new Trident().quantity(20).collect();
-
-		//new Crossbow().identify().collect();
-		//new Crossbow().identify().collect();
-		//new ObsidianShield().identify().collect();
-		//new ObsidianShield().identify().collect();
-		//new ObsidianShield().identify().collect();
-		//new LargeHandgun().identify().collect();
-		//new LargeHandgunHP().identify().collect();
-		//new LargeHandgunAP().identify().collect();
-		//new Gauntlet().identify().collect();
-		//new ForceCube().collect();
-		//new Bible().identify().collect();
-		//new Greatsword().identify().collect();
 		//TODO:삭제필요
 	}
 
@@ -340,10 +338,23 @@ public enum HeroClass {
 		new ScrollOfUpgrade().identify();
 		new PotionOfLiquidFlame().identify();
 
-		//new CrudePistol().identify().collect();
+
+
+		//new TestWeapon().identify().collect();
+		//new ScrollOfMetamorphosis().identify().quantity(20).collect();
+		//new PotionOfDivineInspiration().identify().quantity(4).collect();
+		//new ElixirOfTalent().quantity(3).collect();
+		//new KingsCrown().collect();
+		//new PotionOfStrength().identify().quantity(20).collect();
+		//new ScrollOfMagicMapping().identify().quantity(25).collect();
+		//new PotionOfHealing().identify().quantity(150).collect();
+		//new RingOfHaste().identify().upgrade(200).collect();
 		//new TengusMask().collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
-		//new WandOfFireblast().identify().upgrade(1).collect();
+		//new SleepGun().identify().collect();
+		//new FrostGun().identify().collect();
+		//new ParalysisGun().identify().collect();
+		//new ForceGlove().identify().collect();
 	}
 
 	private static void initRogue( Hero hero ) {
@@ -435,6 +446,12 @@ public enum HeroClass {
 		//new TengusMask().collect();
 		//new ScrollOfMetamorphosis().identify().quantity(20).collect();
 
+		//new RingOfSharpshooting().identify().collect();
+		//new ScrollOfUpgrade().identify().quantity(50).collect();
+		//new FishingSpear().quantity(10).collect();
+		//new ThrowingSpear().quantity(10).collect();
+		//new Javelin().quantity(10).collect();
+		//new Trident().quantity(10).collect();
 		//new TrueRunicBlade().identify().upgrade(10).collect();
 		//new PotionOfStrength().identify().quantity(20).collect();
 		//new Amulet().collect();
