@@ -176,7 +176,11 @@ abstract public class KindOfWeapon extends EquipableItem {
 					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 				}
 			}
-			return Random.NormalIntRange( Math.round(0.75f*max()), max());
+			if (hero.hasTalent(Talent.POWERFUL_CRIT)) {
+				return Random.NormalIntRange( Math.round(0.75f*max()), max()) + 1+2*hero.pointsInTalent(Talent.POWERFUL_CRIT);
+			} else {
+				return Random.NormalIntRange( Math.round(0.75f*max()), max());
+			}
 		} else {
 			return Random.NormalIntRange( min(), max() );
 		}

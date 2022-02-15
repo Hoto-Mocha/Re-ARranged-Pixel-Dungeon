@@ -755,6 +755,11 @@ public abstract class Char extends Actor {
 				dmg += 2;
 			}
 
+			if (this instanceof Hero && Dungeon.level.map[hero.pos] == Terrain.WATER && Random.Int(10) < hero.pointsInTalent(Talent.WATER_FRIENDLY)) {
+				dmg += 3;
+				Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+			}
+
 			if (this instanceof Hero && hero.buff(TreasureMap.GoldTracker.class) != null) {
 				dmg *= 1 + 0.1f * hero.pointsInTalent(Talent.GOLD_HUNTER);
 			}

@@ -106,6 +106,9 @@ public class Food extends Item {
 	}
 	
 	protected void satisfy( Hero hero ){
+		if (hero.hasTalent(Talent.ADDED_MEAL)) {
+			energy *= 1.05 + 0.1 * hero.pointsInTalent(Talent.ADDED_MEAL);
+		}
 		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
 			Buff.affect(hero, Hunger.class).satisfy(energy/3f);
 		} else {

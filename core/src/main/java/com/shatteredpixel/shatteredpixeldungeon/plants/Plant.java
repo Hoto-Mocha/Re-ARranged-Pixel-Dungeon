@@ -29,6 +29,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -74,6 +76,10 @@ public abstract class Plant implements Bundlable {
 
 		if (ch instanceof Mob && Dungeon.hero.hasTalent(Talent.VINE)) {
 			Buff.affect(ch, Roots.class, 2+3*Dungeon.hero.pointsInTalent(Talent.VINE));
+		}
+
+		if (ch instanceof Mob && Dungeon.hero.hasTalent(Talent.NEUROTOXIN)) {
+			Buff.affect(ch, Paralysis.class, 2+Dungeon.hero.pointsInTalent(Talent.VINE));
 		}
 
 		if (Dungeon.level.heroFOV[pos] && Dungeon.hero.hasTalent(Talent.NATURES_AID)){
@@ -198,6 +204,10 @@ public abstract class Plant implements Bundlable {
 				hero.spend( TIME_TO_PLANT );
 
 				hero.sprite.operate( hero.pos );
+
+				if (hero.hasTalent(Talent.SEED_EATING)) {
+					hero.buff( Hunger.class ).satisfy( 5*hero.pointsInTalent(Talent.SEED_EATING));
+				}
 				
 			}
 		}

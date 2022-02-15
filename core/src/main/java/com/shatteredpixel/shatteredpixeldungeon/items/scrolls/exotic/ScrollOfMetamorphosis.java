@@ -71,6 +71,8 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 		Sample.INSTANCE.play( Assets.Sounds.READ );
 		curUser.sprite.emitter().start(Speck.factory(Speck.CHANGE), 0.2f, 10);
 		Transmuting.show(curUser, oldTalent, newTalent);
+		Dungeon.hero.updateHT(false);
+		updateQuickslot();
 	}
 
 	private void confirmCancelation( Window chooseWindow ) {
@@ -181,6 +183,7 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 			restrictedTalents.put(Talent.CRITICAL_UPGRADE, HeroClass.SAMURAI);
 			restrictedTalents.put(Talent.PARRY, HeroClass.SAMURAI);
 			restrictedTalents.put(Talent.DETECTION, HeroClass.SAMURAI);
+			restrictedTalents.put(Talent.POWERFUL_CRIT, HeroClass.SAMURAI);
 			restrictedTalents.put(Talent.DEEP_SCAR, HeroClass.SAMURAI);
 			restrictedTalents.put(Talent.FAST_LEAD, HeroClass.SAMURAI);
 

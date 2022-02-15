@@ -62,6 +62,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HolyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.RegrowthBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.FrozenCarpaccio;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
@@ -139,6 +140,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSp
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.utils.DeviceCompat;
 
@@ -339,9 +341,11 @@ public enum HeroClass {
 		new PotionOfLiquidFlame().identify();
 
 
-
+		//new Sungrass.Seed().quantity(50).collect();
+		//new CrudePistol().identify().collect();
+		//new FrozenCarpaccio().quantity(100).collect();
 		//new TestWeapon().identify().collect();
-		//new ScrollOfMetamorphosis().identify().quantity(20).collect();
+		//new ScrollOfMetamorphosis().identify().quantity(150).collect();
 		//new PotionOfDivineInspiration().identify().quantity(4).collect();
 		//new ElixirOfTalent().quantity(3).collect();
 		//new KingsCrown().collect();

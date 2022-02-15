@@ -151,6 +151,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
@@ -243,6 +244,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
@@ -346,7 +348,7 @@ public class Hero extends Char {
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
 		
-		HT = (Dungeon.isChallenged(Challenges.SUPERMAN)) ? 10 : 20 + 5*(lvl-1) + HTBoost;
+		HT = (Dungeon.isChallenged(Challenges.SUPERMAN)) ? 10 + 5*hero.pointsInTalent(Talent.MAX_HEALTH): 20 + 5*(lvl-1) + HTBoost + 5*hero.pointsInTalent(Talent.MAX_HEALTH);
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -1007,6 +1009,10 @@ public class Hero extends Char {
 			) {
 				speed *= 1.1f;
 			}
+		}
+
+		if (hero.hasTalent(Talent.MOVESPEED_ENHANCE)) {
+			speed *= 1 + 0.05*hero.pointsInTalent(Talent.MOVESPEED_ENHANCE);
 		}
 
 		if (hero.belongings.weapon instanceof TacticalShield) {
@@ -1748,6 +1754,10 @@ public class Hero extends Char {
 				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
 			}
 		}
+
+		if (hero.hasTalent(Talent.EMERGENCY_ESCAPE) && Random.Int(50) < hero.pointsInTalent(Talent.EMERGENCY_ESCAPE)) {
+			Buff.prolong(this, Invisibility.class, 3f);
+		}
 		
 		return damage;
 	}
@@ -1983,11 +1993,15 @@ public class Hero extends Char {
 			}
 
 			if (Dungeon.hero.subClass == HeroSubClass.RANGER && Random.Int(50) == 0){
-				Buff.affect(Dungeon.hero, Haste.class,5);
+				Buff.affect(this, Haste.class,5);
 			}
 
 			if (hero.subClass == HeroSubClass.SLAYER && hero.buff(Demonization.class) == null) {
-				Buff.affect(hero, Demonization.class).indicate();
+				Buff.affect(this, Demonization.class).indicate();
+			}
+
+			if (hero.hasTalent(Talent.MIND_VISION) && Random.Int(100) < hero.pointsInTalent(Talent.MIND_VISION)) {
+				Buff.affect(this, MindVision.class, 2f);
 			}
 
 			float speed = speed();
@@ -2481,11 +2495,78 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannon
 					|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannonAP
 					|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannonHP
+			) {
+				Buff.affect( this, Focusing.class ).hit( enemy );
+			}
+		}
+
+		if (hit && hero.hasTalent(Talent.ELASTIC_WEAPON) && Random.Int(10) < hero.pointsInTalent(Talent.ELASTIC_WEAPON)) {
+			if (Dungeon.hero.belongings.weapon() instanceof CrudePistol
+					|| Dungeon.hero.belongings.weapon() instanceof CrudePistolAP
+					|| Dungeon.hero.belongings.weapon() instanceof CrudePistolHP
+					|| Dungeon.hero.belongings.weapon() instanceof Pistol
+					|| Dungeon.hero.belongings.weapon() instanceof PistolAP
+					|| Dungeon.hero.belongings.weapon() instanceof PistolHP
+					|| Dungeon.hero.belongings.weapon() instanceof GoldenPistol
+					|| Dungeon.hero.belongings.weapon() instanceof GoldenPistolAP
+					|| Dungeon.hero.belongings.weapon() instanceof GoldenPistolHP
+					|| Dungeon.hero.belongings.weapon() instanceof Handgun
+					|| Dungeon.hero.belongings.weapon() instanceof HandgunAP
+					|| Dungeon.hero.belongings.weapon() instanceof HandgunHP
+					|| Dungeon.hero.belongings.weapon() instanceof Magnum
+					|| Dungeon.hero.belongings.weapon() instanceof MagnumAP
+					|| Dungeon.hero.belongings.weapon() instanceof MagnumHP
+					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgun
+					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP
+					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP
+					|| Dungeon.hero.belongings.weapon() instanceof DualPistol
+					|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP
+					|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP
+					|| Dungeon.hero.belongings.weapon() instanceof SubMachinegun
+					|| Dungeon.hero.belongings.weapon() instanceof SubMachinegunAP
+					|| Dungeon.hero.belongings.weapon() instanceof SubMachinegunHP
+					|| Dungeon.hero.belongings.weapon() instanceof AssultRifle
+					|| Dungeon.hero.belongings.weapon() instanceof AssultRifleAP
+					|| Dungeon.hero.belongings.weapon() instanceof AssultRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof HeavyMachinegun
+					|| Dungeon.hero.belongings.weapon() instanceof HeavyMachinegunAP
+					|| Dungeon.hero.belongings.weapon() instanceof HeavyMachinegunHP
+					|| Dungeon.hero.belongings.weapon() instanceof MiniGun
+					|| Dungeon.hero.belongings.weapon() instanceof MiniGunAP
+					|| Dungeon.hero.belongings.weapon() instanceof MiniGunHP
+					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle
+					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP
+					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof SniperRifle
+					|| Dungeon.hero.belongings.weapon() instanceof SniperRifleAP
+					|| Dungeon.hero.belongings.weapon() instanceof SniperRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifle
+					|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP
+					|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof ShotGun
+					|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
+					|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
+					|| Dungeon.hero.belongings.weapon() instanceof SPAS
+					|| Dungeon.hero.belongings.weapon() instanceof SPASAP
+					|| Dungeon.hero.belongings.weapon() instanceof SPASHP
+					|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
+					|| Dungeon.hero.belongings.weapon() instanceof RPG7
+					|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
+					|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerAP
+					|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerHP
+					|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannon
+					|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannonAP
+					|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannonHP
 					|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher
 					|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherAP
 					|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP
 			) {
-				Buff.affect( this, Focusing.class ).hit( enemy );
+				//trace a ballistica to our target (which will also extend past them
+				Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
+				//trim it to just be the part that goes past them
+				trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
+				//knock them back along that ballistica
+				WandOfBlastWave.throwChar(enemy, trajectory, 3, true);
 			}
 		}
 
@@ -2697,6 +2778,12 @@ public class Hero extends Char {
 			}
 		}
 
+		if (hit && hero.hasTalent(Talent.DESTRUCTIVE_ATK)) {
+			if (Random.Int(40) < hero.pointsInTalent(Talent.DESTRUCTIVE_ATK))
+			Buff.affect(enemy, Vulnerable.class, 20f );
+			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+		}
+
 		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER) {
 			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) >= 1 && Random.Int(5) == 0){
 				Buff.affect( enemy, Weakness.class, 3f );
@@ -2794,7 +2881,7 @@ public class Hero extends Char {
 				}
 				if (Random.Int(5) == 0) {
 					if (Random.Int(1) == 0) {
-						Buff.affect(enemy, Paralysis.class, 2f);
+						Buff.affect(enemy, Paralysis.class, 2f + hero.pointsInTalent(Talent.HIGH_VOLT));
 						enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
 						enemy.sprite.flash();
 						Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );

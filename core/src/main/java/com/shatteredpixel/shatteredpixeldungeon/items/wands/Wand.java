@@ -385,8 +385,14 @@ public abstract class Wand extends Item {
 				Badges.validateItemLevelAquired( this );
 			}
 		}
-		
-		curCharges -= cursed ? 1 : chargesPerCast();
+
+		if (Dungeon.hero.hasTalent(Talent.CHARGE_PRESERVE) && Random.Int(20) < Dungeon.hero.pointsInTalent(Talent.CHARGE_PRESERVE)) {
+			//charge preserves
+		} else if (cursed) {
+			curCharges -= 1;
+		} else {
+			curCharges -= chargesPerCast();
+		}
 
 		//remove magic charge at a higher priority, if we are benefiting from it are and not the
 		//wand that just applied it
