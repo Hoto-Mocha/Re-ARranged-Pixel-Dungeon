@@ -8,7 +8,7 @@ ARPD supports only KOREAN language yet. ENGLISH is also supported, but it's inco
 _______
 - Various Firearms
 > - Guns: Handgun, Machinegun, Sniper Rifle, Shotguns
-> - Heavy Firearms: Firethorwer, Plasma Cannon
+> - Heavy Firearms: FlameThrower, Plasma Cannon
 > - Rockets: Commando Rocket Launcher, Anti-Tank Rocket Launcher
 > - Sidearms: SleepGun, Grenade Launcher, Remote Explosion Control Device
 ________
