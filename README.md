@@ -2,17 +2,36 @@
 
 This is an mod project of the SPD.
 
-ARPD supports only KOREAN language yet.
+ARPD supports only KOREAN language yet. ENGLISH is also supported, but it's incomplete.
 
-• New Contents
-- Various Guns & Even ROCKET
+### New Contents
+_______
+- Various Firearms
+> - Guns: Handgun, Machinegun, Sniper Rifle, Shotguns
+> - Heavy Firearms: Firethorwer, Plasma Cannon
+> - Rockets: Commando Rocket Launcher, Anti-Tank Rocket Launcher
+> - Sidearms: SleepGun, Grenade Launcher, Remote Explosion Control Device
+________
+- Many of new Melee Weapons:
+> - Advanced Evolution Weapons
+> - Alchemy Weapons
+> - Normal New Weapons
+________
+- Added 2 artifacts what is deleted in SPD:
+> - Loyid's Beacon
+> - Cape of Thorns
+________
+- 2 artifacts buffed:
+> - Dried Rose
+> - Cape of Thorns
+________
+- New rings:
+> - Ring of Reload
+> - Ring of Rush
+________
 - Normal & AP & HP Bullets for Firearms
-- many of new Melee Weapons
 - 4 of new Subclasses for Warrior, Mage, Rouge, Huntress
-- Added 2 artifacts what is deleted in SPD
-- 2 artifacts buffed
-- 2 of New rings : Ring of Reload, Ring of Rush
-- 3 of New Playable Class : Gunner, Samurai, Planter!
+- 3 of New Playable Class: Gunner, Samurai, Planter!
 - 12 of New SubClasses of Gunner, Samurai, Planter
 - 12 of New Armor Abilities of Gunner, Samurai, Planter
 
