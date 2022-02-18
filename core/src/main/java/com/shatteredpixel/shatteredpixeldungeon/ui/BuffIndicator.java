@@ -108,6 +108,7 @@ public class BuffIndicator extends Component {
 	public static final int AWAKE		= 59;
 	public static final int LUCK		= 60;
 	public static final int FLURRY		= 61;
+	public static final int KNIGHTSHIELD= 62;
 
 	public static final int SIZE    = 7;
 	

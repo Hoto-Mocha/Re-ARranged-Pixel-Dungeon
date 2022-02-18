@@ -318,6 +318,8 @@ public enum Icons {
 			return get( SAMURAI );
 		case PLANTER:
 			return get( PLANTER );
+		case KNIGHT:
+			return get( KNIGHT );
 		default:
 			return null;
 		}

@@ -111,6 +111,9 @@ abstract public class ClassArmor extends Armor {
 		case PLANTER:
 			classArmor = new PlanterArmor();
 			break;
+		case KNIGHT:
+			classArmor = new KnightArmor();
+			break;
 		}
 
 		classArmor.level(armor.level() - (armor.curseInfusionBonus ? 1 : 0));

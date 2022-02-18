@@ -30,7 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Fir
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpectralBlades;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.SteamPack;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.StimPack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.Armor_2;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.RocketThruster;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Sh
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -85,6 +86,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -103,7 +105,7 @@ public enum HeroClass {
 	GUNNER( HeroSubClass.LAUNCHER , HeroSubClass.RANGER , HeroSubClass.RIFLEMAN ),
 	SAMURAI( HeroSubClass.SLASHER , HeroSubClass.MASTER , HeroSubClass.SLAYER ),
 	PLANTER( HeroSubClass.TREASUREHUNTER, HeroSubClass.ADVENTURER, HeroSubClass.RESEARCHER),
-	KNIGHT( HeroSubClass.WEAPONMASTER, HeroSubClass.FORTRESS, HeroSubClass.PRIEST);
+	KNIGHT( HeroSubClass.WEAPONMASTER, HeroSubClass.FORTRESS, HeroSubClass.CRUSADER);
 
 	private HeroSubClass[] subClasses;
 
@@ -579,12 +581,15 @@ public enum HeroClass {
 	}
 
 	private static void initKnight( Hero hero ) {
-		Shovel shovel = new Shovel();
-		(hero.belongings.weapon = shovel).identify();
+		Saber saber = new Saber();
+		(hero.belongings.weapon = saber).identify();
 		hero.belongings.weapon.activate(hero);
+		KnightsShield shield = new KnightsShield();
+		shield.collect();
+		Dungeon.quickslot.setSlot(0, shield);
 		ThrowingStone stones = new ThrowingStone();
 		stones.quantity(3).collect();
-		Dungeon.quickslot.setSlot(0, stones);
+		Dungeon.quickslot.setSlot(1, stones);
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
@@ -594,7 +599,6 @@ public enum HeroClass {
 
 		new ScrollOfRemoveCurse().identify();
 		new PotionOfParalyticGas().identify();
-
 	}
 
 	public String title() {
@@ -626,7 +630,7 @@ public enum HeroClass {
 			case PLANTER:
 				return new ArmorAbility[]{new Sprout(), new TreasureMap(), new Root()};
 			case KNIGHT:
-				return new ArmorAbility[]{new RocketThruster(), new SteamPack(), new Armor_2()};
+				return new ArmorAbility[]{new RocketThruster(), new StimPack(), new Armor_2()};
 		}
 	}
 

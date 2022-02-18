@@ -40,7 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 
-public class SteamPack extends ArmorAbility {
+public class StimPack extends ArmorAbility {
 
 	{
 		baseChargeUse = 50f;

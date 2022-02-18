@@ -19,33 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items;
+package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Scrap extends Item {
+public class KnightArmor extends ClassArmor {
 
-    {
-        image = ItemSpriteSheet.BLAND_CHUNKS;
-        stackable = true;
-    }
-
-    @Override
-    public boolean isUpgradable() {
-        return false;
-    }
-
-    @Override
-    public boolean isIdentified() {
-        return true;
-    }
-
-    @Override
-    public int value() {
-        return quantity * 5;
-    }
+	{
+		image = ItemSpriteSheet.ARMOR_KNIGHT;
+	}
 
 }

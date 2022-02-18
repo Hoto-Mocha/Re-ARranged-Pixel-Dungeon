@@ -82,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
@@ -1740,8 +1741,6 @@ public class Hero extends Char {
 					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 				}
 			}
-
-
 		}
 
 		WandOfLivingEarth.RockArmor rockArmor = buff(WandOfLivingEarth.RockArmor.class);
@@ -1757,6 +1756,24 @@ public class Hero extends Char {
 
 		if (hero.hasTalent(Talent.EMERGENCY_ESCAPE) && Random.Int(50) < hero.pointsInTalent(Talent.EMERGENCY_ESCAPE)) {
 			Buff.prolong(this, Invisibility.class, 3f);
+		}
+
+		if (hero.hasTalent(Talent.BATTLE_STIM) && Random.Int(10) < hero.pointsInTalent(Talent.BATTLE_STIM)) {
+			int healAmt = 1;
+			healAmt = Math.min( healAmt, hero.HT - hero.HP );
+			if (healAmt > 0 && hero.isAlive()) {
+				hero.HP += healAmt;
+				hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+				hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+			}
+		}
+
+		if (hero.hasTalent(Talent.ACTIVE_BARRIER) && Random.Int(10) < hero.pointsInTalent(Talent.ACTIVE_BARRIER)) {
+			Buff.affect(this, Barrier.class).setShield(5);
+		}
+
+		if (hero.hasTalent(Talent.DEFENCE_STANCE) && Random.Int(20) < hero.pointsInTalent(Talent.DEFENCE_STANCE) && hero.buff(ShieldCoolDown.class) != null) {
+			Buff.detach(this, ShieldCoolDown.class);
 		}
 		
 		return damage;
@@ -1791,6 +1808,10 @@ public class Hero extends Char {
 
 		if (Dungeon.hero.hasTalent(Talent.DEF_ENHANCE)) {
 			dmg *= 1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.DEF_ENHANCE);
+		}
+
+		if (Dungeon.hero.hasTalent(Talent.ENDURING)) {
+			dmg *= 1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.ENDURING);
 		}
 
 		CapeOfThorns.Thorns thorns = buff( CapeOfThorns.Thorns.class );
@@ -2891,28 +2912,9 @@ public class Hero extends Char {
 			}
 		}
 
-		//if (hit && hero.subClass == HeroSubClass.RANGER) {
-		//	if (hero.belongings.weapon instanceof CrudePistol
-		//		|| hero.belongings.weapon instanceof CrudePistolAP
-		//		|| hero.belongings.weapon instanceof CrudePistolHP
-		//		|| hero.belongings.weapon instanceof Pistol
-		//		|| hero.belongings.weapon instanceof PistolAP
-		//		|| hero.belongings.weapon instanceof PistolHP
-		//		|| hero.belongings.weapon instanceof GoldenPistol
-		//		|| hero.belongings.weapon instanceof GoldenPistolAP
-		//		|| hero.belongings.weapon instanceof GoldenPistolHP
-		//		|| hero.belongings.weapon instanceof Handgun
-		//		|| hero.belongings.weapon instanceof HandgunAP
-		//		|| hero.belongings.weapon instanceof HandgunHP
-		//		|| hero.belongings.weapon instanceof Magnum
-		//		|| hero.belongings.weapon instanceof MagnumAP
-		//		|| hero.belongings.weapon instanceof MagnumHP
-		//		|| hero.belongings.weapon instanceof LargeHandgun
-		//		|| hero.belongings.weapon instanceof LargeHandgunAP
-		//		|| hero.belongings.weapon instanceof LargeHandgunHP) {
-
-		//	}
-		//}
+		if (hero.heroClass == HeroClass.KNIGHT && hero.buff(ShieldCoolDown.class) != null) {
+			hero.buff(ShieldCoolDown.class).hit(hero.belongings.armor.buffedLvl());
+		}
 
 		curAction = null;
 

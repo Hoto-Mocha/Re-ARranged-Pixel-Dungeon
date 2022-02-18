@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
@@ -293,10 +294,14 @@ public class Armor extends EquipableItem {
 		if (Dungeon.isChallenged(Challenges.NO_ARMOR)){
 			return 1 + tier + lvl + augment.defenseFactor(lvl);
 		}
-
-		int max = tier * (2 + lvl) + augment.defenseFactor(lvl);
-		if (lvl > max){
-			return ((lvl - max)+1)/2;
+		int max;
+		if (Dungeon.hero.hasTalent(Talent.CRAFTMANS_SKILLS) && tier <= 2+Dungeon.hero.pointsInTalent(Talent.CRAFTMANS_SKILLS)) {
+			max = (tier+1) * (2 + lvl) + augment.defenseFactor(lvl);
+		} else {
+			max = tier * (2 + lvl) + augment.defenseFactor(lvl);
+		}
+		if (lvl > max) {
+			return ((lvl - max) + 1) / 2;
 		} else {
 			return max;
 		}
@@ -391,11 +396,18 @@ public class Armor extends EquipableItem {
 	//other things can equip these, for now we assume only the hero can be affected by levelling debuffs
 	@Override
 	public int buffedLvl() {
+		int lvl;
 		if (isEquipped( Dungeon.hero ) || Dungeon.hero.belongings.contains( this )){
-			return super.buffedLvl();
+			lvl = super.buffedLvl();
 		} else {
-			return level();
+			lvl = level();
 		}
+		ArmorEmpower armorEmpower = Dungeon.hero.buff(ArmorEmpower.class);
+		if (armorEmpower != null && isEquipped( Dungeon.hero )) {
+			lvl += armorEmpower.getLvl();
+			updateQuickslot();
+		}
+		return lvl;
 	}
 	
 	@Override

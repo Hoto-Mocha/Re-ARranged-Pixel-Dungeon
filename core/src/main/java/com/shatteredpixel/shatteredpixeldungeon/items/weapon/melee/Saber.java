@@ -19,33 +19,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
-public class Scrap extends Item {
+public class Saber extends MeleeWeapon {
+	
+	{
+		image = ItemSpriteSheet.SABER;
+		hitSound = Assets.Sounds.HIT_SLASH;
+		hitSoundPitch = 1.1f;
 
-    {
-        image = ItemSpriteSheet.BLAND_CHUNKS;
-        stackable = true;
-    }
+		tier = 1;
+		
+		bones = false;
+	}
 
-    @Override
-    public boolean isUpgradable() {
-        return false;
-    }
+	@Override
+	public int max(int lvl) {
+		return  4*(tier+1) +    //8 base, down from 10
+				lvl*(tier+1);   //scaling unchanged
+	}
 
-    @Override
-    public boolean isIdentified() {
-        return true;
-    }
-
-    @Override
-    public int value() {
-        return quantity * 5;
-    }
-
+	@Override
+	public int defenseFactor( Char owner ) {
+		return 2;	//2 extra defence
+	}
 }

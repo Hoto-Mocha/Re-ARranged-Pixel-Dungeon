@@ -38,9 +38,9 @@ public class HeroIcon extends Image {
 	public static final int TREASUREHUNTER	= 37;
 	public static final int ADVENTURER		= 38;
 	public static final int RESEARCHER		= 39;
-	public static final int WEAPONMASTER	= 40;
-	public static final int FORTRESS		= 41;
-	public static final int PRIEST		= 42;
+	public static final int WEAPONMASTER	= 43;
+	public static final int FORTRESS		= 44;
+	public static final int CRUSADER		= 45;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;
@@ -65,6 +65,9 @@ public class HeroIcon extends Image {
 	public static final int SPROUT			= 40;
 	public static final int TREASUREMAP		= 41;
 	public static final int ROOT			= 42;
+	public static final int ROCKETTHRUSTER	= 46;
+	public static final int STIMPACK		= 47;
+	public static final int ARMOR_2			= 48;
 
 
 	public HeroIcon(HeroSubClass subCls){

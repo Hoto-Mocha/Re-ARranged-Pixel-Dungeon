@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.challenges;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
@@ -1183,6 +1184,10 @@ public abstract class Char extends Actor {
 
 			if ((Dungeon.hero.buff(SpearGuard.class) != null) || (Dungeon.hero.buff(LanceGuard.class) != null)) {
 				dmg *= 0.4f;
+			}
+
+			if (this instanceof Hero && hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos)) {
+				dmg += hero.belongings.armor.DRMax()*0.1f*hero.pointsInTalent(Talent.TACKLE);
 			}
 
 			dmg += dmgBonus;

@@ -29,9 +29,12 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CertainCrit;
@@ -290,23 +293,23 @@ public enum Talent {
 	POISONOUS_ROOT(220, 4), ROOT_SPREAD(221, 4), ROOT_ARMOR(222, 4),
 
 	//Knight T1
-
+	ON_ALERT(224), KNIGHTS_INTUITION(225), BATTLE_STIM(226), ACTIVE_BARRIER(227), WAR_CRY(228),
 	//Knight T2
-
+	IMPREGNABLE_MEAL(229), SAFE_HEALING(230), DEFENCE_STANCE(231), CROSS_SLASH(232), ENDURING(233), BLOCKING(234),
 	//Knight T3
-
+	CRAFTMANS_SKILLS(235, 3), TACKLE(236, 3),
 	//Weaponmaster T3
-
+	WEAPON_AUGMENT(237, 3), SWORD_N_SHIELD(238, 3), FIRE_WEAPON(239, 3),
 	//Fortress T3
-
-	//Priest T3
-
+	IMPREGNABLE_WALL(240, 3), CHARGE_ATTACK(241, 3), SHIELD_SLAM(242, 3),
+	//Crusader T3
+	NAME_OF_LIGHT(243, 3), HOLY_SHIELD(244, 3), DEADS_BLESS(245, 3),
 	//RocketThruster T4
-
-	//Armor_2 T4
-
+	BUFFER_BARRIER(246, 4), THRUSTER_ENHANCE(247, 4), JETPACK(248, 4),
 	//SteamPack T4
-
+	BURDEN_RELIEF(249, 4), STIMPACK_2(250, 4), STIMPACK_3(251, 4),
+	//Armor T4
+	ARMOR2_1(252, 4), ARMOR2_2(253, 4), ARMOR2_3(254, 4),
 	//universal T4
 	HEROIC_ENERGY(31, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -371,13 +374,6 @@ public enum Talent {
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
-	public static class DestructiveCooldown extends FlavourBuff{
-		public int icon() { return BuffIndicator.TIME; }
-		public void tintIcon(Image icon) { icon.hardlight(1.9f, 2.4f, 3.25f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
-		public String toString() { return Messages.get(this, "name"); }
-		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
-	};
 	public static class TakeDownCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
@@ -422,6 +418,8 @@ public enum Talent {
 					return 191;
 				case PLANTER:
 					return 223;
+				case KNIGHT:
+					return 255;
 			}
 		} else {
 			return icon;
@@ -598,6 +596,9 @@ public enum Talent {
 			}
 
 		}
+		if (hero.hasTalent(Talent.IMPREGNABLE_MEAL)) {
+			Buff.affect(hero, ArmorEmpower.class).set(hero.pointsInTalent(Talent.IMPREGNABLE_MEAL));
+		}
 	}
 
 	public static class WarriorFoodImmunity extends FlavourBuff{
@@ -621,6 +622,7 @@ public enum Talent {
 			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
 		}
 
+		// 3x/instant for Gunner (see onItemEquipped)
 		if (item instanceof CrudePistol
 				||item instanceof CrudePistolAP
 				||item instanceof CrudePistolHP
@@ -670,9 +672,13 @@ public enum Talent {
 				||item instanceof AntimaterRifleAP
 				||item instanceof AntimaterRifleHP
 				||item instanceof RPG7
-				||item instanceof RocketLauncher
-		) {
-			factor *= 2f + hero.pointsInTalent(GUNNERS_INTUITION);
+				||item instanceof RocketLauncher) {
+			factor *= 1f + 2f*hero.pointsInTalent(GUNNERS_INTUITION);
+		}
+
+		// 3x/instant for Knight (see onItemEquipped)
+		if (item instanceof Armor) {
+			factor *= 1f + 2f*hero.pointsInTalent(KNIGHTS_INTUITION);
 		}
 		return factor;
 	}
@@ -722,6 +728,9 @@ public enum Talent {
 		}
 		if (hero.hasTalent(Talent.HERBAL_HEALING)) {
 			Buff.affect(hero, Sungrass.Health.class).boost(10*hero.pointsInTalent(Talent.HERBAL_HEALING));
+		}
+		if (hero.hasTalent(Talent.SAFE_HEALING)) {
+			Buff.affect(hero, Barrier.class).setShield(10*hero.pointsInTalent(Talent.SAFE_HEALING));
 		}
 	}
 
@@ -858,6 +867,9 @@ public enum Talent {
 		if (hero.pointsInTalent(MASTERS_INTUITION) >= 1 && item instanceof Weapon) {
 			item.identify();
 		}
+		if (hero.pointsInTalent(KNIGHTS_INTUITION) == 2 && (item instanceof Armor)){
+			item.identify();
+		}
 	}
 
 	public static void onItemCollected( Hero hero, Item item ){
@@ -934,6 +946,10 @@ public enum Talent {
 			Buff.prolong(hero, Haste.class, 1f + hero.pointsInTalent(Talent.SPEEDY_MOVE));
 		}
 
+		if (hero.hasTalent(Talent.WAR_CRY) && enemy instanceof Mob && enemy.buff(WarCryTracker.class) == null) {
+			Buff.affect(enemy, WarCryTracker.class);
+			Buff.prolong(hero, Adrenaline.class, 1+hero.pointsInTalent(Talent.WAR_CRY));
+		}
 
 		return dmg;
 	}
@@ -942,6 +958,7 @@ public enum Talent {
 	public static class FollowupStrikeTracker extends Buff{};
 	public static class UnexpectedSlashTracker extends Buff{};
 	public static class ShootTheHeartTracker extends Buff{};
+	public static class WarCryTracker extends Buff{};
 
 	public static final int MAX_TALENT_TIERS = 4;
 
