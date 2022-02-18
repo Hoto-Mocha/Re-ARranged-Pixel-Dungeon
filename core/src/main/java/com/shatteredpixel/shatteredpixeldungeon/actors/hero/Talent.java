@@ -288,13 +288,32 @@ public enum Talent {
 	LONG_LUCK(217, 4), FORESIGHT(218, 4), GOLD_HUNTER(219, 4),
 	//Root T4
 	POISONOUS_ROOT(220, 4), ROOT_SPREAD(221, 4), ROOT_ARMOR(222, 4),
+
+	//Knight T1
+
+	//Knight T2
+
+	//Knight T3
+
+	//Weaponmaster T3
+
+	//Fortress T3
+
+	//Priest T3
+
+	//RocketThruster T4
+
+	//Armor_2 T4
+
+	//SteamPack T4
+
 	//universal T4
 	HEROIC_ENERGY(31, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
-	RATSISTANCE(230, 4), RATLOMACY(231, 4), RATFORCEMENTS(232, 4),
+	RATSISTANCE(262, 4), RATLOMACY(263, 4), RATFORCEMENTS(264, 4),
 	//universal T3
-	ATK_SPEED_ENHANCE(224, 4), DEF_ENHANCE(225, 4), ACC_ENHANCE(226, 4), EVA_ENHANCE(227, 4), DEW_ENHANCE(228, 4),
-	BETTER_CHOICE(229, 3);
+	ATK_SPEED_ENHANCE(256, 4), DEF_ENHANCE(257, 4), ACC_ENHANCE(258, 4), EVA_ENHANCE(259, 4), DEW_ENHANCE(260, 4),
+	BETTER_CHOICE(261, 3);
 
 	public static class ImprovisedProjectileCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }

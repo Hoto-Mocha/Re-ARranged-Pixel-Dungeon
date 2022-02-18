@@ -75,6 +75,7 @@ public enum Icons {
 	GUNNER,
 	SAMURAI,
 	PLANTER,
+	KNIGHT,
 	
 	//main menu icons
 	ENTER,
@@ -293,6 +294,9 @@ public enum Icons {
 			break;
 		case PLANTER:
 			icon.frame( icon.texture.uvRect( 32, 128, 48, 144 ) );
+			break;
+		case KNIGHT:
+			icon.frame( icon.texture.uvRect( 48, 128, 64, 143 ) );
 			break;
 		}
 		return icon;

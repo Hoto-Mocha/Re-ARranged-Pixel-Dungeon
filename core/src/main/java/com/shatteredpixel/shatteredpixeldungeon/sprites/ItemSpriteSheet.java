@@ -192,8 +192,13 @@ public class ItemSpriteSheet {
 		assignItemRect(SHRAPNEL_BOMB,   10, 13);
 	}
 
-	
-	                                                                                    //16 free slots
+
+	private static final int SPECIAL_ITEMS      =                               xy(1, 6);   //8 slots
+	public static final int KNIGHT_SHIELD 	= SPECIAL_ITEMS+0;
+
+	static{
+		assignItemRect(KNIGHT_SHIELD,		16, 15);
+	}
 
 	private static final int WEP_TIER1      =                               xy(1, 7);   //8 slots
 	public static final int WORN_SHORTSWORD = WEP_TIER1+0;

@@ -225,6 +225,7 @@ public class Assets {
 		public static final String GUNNER	= "splashes/gunner.jpg";
 		public static final String SAMURAI  = "splashes/samurai.jpg";
 		public static final String PLANTER	= "splashes/planter.jpg";
+		public static final String KNIGHT	= "splashes/knight.jpg";
 	}
 
 	public static class Sprites {
@@ -238,6 +239,7 @@ public class Assets {
 		public static final String GUNNER	= "sprites/gunner.png";
 		public static final String SAMURAI	= "sprites/samurai.png";
 		public static final String PLANTER	= "sprites/planter.png";
+		public static final String KNIGHT	= "sprites/knight.png";
 		public static final String AVATARS	= "sprites/avatars.png";
 		public static final String PET		= "sprites/pet.png";
 		public static final String AMULET	= "sprites/amulet.png";
