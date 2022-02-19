@@ -31,6 +31,8 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
@@ -78,6 +80,9 @@ public class WndHeroInfo extends WndTabbed {
 				break;
 			case PLANTER:
 				tabIcon = new ItemSprite(ItemSpriteSheet.SPADE, null);
+				break;
+			case KNIGHT:
+				tabIcon = new ItemSprite(ItemSpriteSheet.KNIGHT_SHIELD, null);
 				break;
 		}
 
@@ -208,6 +213,12 @@ public class WndHeroInfo extends WndTabbed {
 					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.ARTIFACT_GREAVES),
 							new Image(Assets.Environment.TILES_SEWERS, 112, 96, 16, 16),
 							new ItemSprite(ItemSpriteSheet.SHOVEL),
+							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
+				case KNIGHT:
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.KNIGHT_SHIELD),
+							new Image(Assets.Interfaces.BUFFS_LARGE, 112, 0, 16, 16),
+							new ItemSprite(ItemSpriteSheet.SABER),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 			}

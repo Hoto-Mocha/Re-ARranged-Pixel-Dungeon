@@ -167,6 +167,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLaunche
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
@@ -241,6 +242,7 @@ public enum Catalog {
 		WEAPONS.seen.put( MagesStaff.class,                 false);
 		WEAPONS.seen.put( WornKatana.class,                 false);
 		WEAPONS.seen.put( Shovel.class,         	        false);
+		WEAPONS.seen.put( Saber.class,         	   	 	  	false);
 		WEAPONS.seen.put( Shortsword.class,                 false);
 		WEAPONS.seen.put( HandAxe.class,                    false);
 		WEAPONS.seen.put( Spear.class,                      false);

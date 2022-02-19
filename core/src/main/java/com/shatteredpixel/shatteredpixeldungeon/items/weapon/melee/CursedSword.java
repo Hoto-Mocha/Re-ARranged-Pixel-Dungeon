@@ -37,6 +37,7 @@ public class CursedSword extends MeleeWeapon {
 
 		tier = 3;
 		alchemy = true;
+		//also summons wraith when hero killed enemy, see Mob.die()
 	}
 
 	@Override

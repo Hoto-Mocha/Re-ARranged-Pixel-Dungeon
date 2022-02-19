@@ -83,9 +83,9 @@ public class ShieldCoolDown extends Buff {
 
     public void hit( int upgrade ) {
         if (hero.hasTalent(Talent.CROSS_SLASH) && Random.Int(10) < hero.pointsInTalent(Talent.CROSS_SLASH)) {
-            coolDown -= 2*upgrade + 2;
+            coolDown -= 2*upgrade;
         } else {
-            coolDown -= upgrade + 1;
+            coolDown -= upgrade;
         }
         BuffIndicator.refreshHero(); //refresh the buff visually on-hit
     }

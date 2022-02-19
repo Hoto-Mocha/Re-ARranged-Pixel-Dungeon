@@ -306,7 +306,7 @@ public enum Talent {
 	NAME_OF_LIGHT(243, 3), HOLY_SHIELD(244, 3), DEADS_BLESS(245, 3),
 	//RocketThruster T4
 	BUFFER_BARRIER(246, 4), THRUSTER_ENHANCE(247, 4), JETPACK(248, 4),
-	//SteamPack T4
+	//StimPack T4
 	BURDEN_RELIEF(249, 4), STIMPACK_2(250, 4), STIMPACK_3(251, 4),
 	//Armor T4
 	ARMOR2_1(252, 4), ARMOR2_2(253, 4), ARMOR2_3(254, 4),
@@ -1000,6 +1000,9 @@ public enum Talent {
 			case PLANTER:
 				Collections.addAll(tierTalents,	FLOWER_BERRY, ADVENTURERS_INTUITION, SWING, NATURES_PROTECTION, SEED_EATING);
 				break;
+			case KNIGHT:
+				Collections.addAll(tierTalents,	ON_ALERT, KNIGHTS_INTUITION, BATTLE_STIM, ACTIVE_BARRIER, WAR_CRY);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1032,6 +1035,9 @@ public enum Talent {
 			case PLANTER:
 				Collections.addAll(tierTalents,	NATURAL_MEAL, HERBAL_HEALING, SPROUT, VINE, MASS_PRODUCTION, NEUROTOXIN);
 				break;
+			case KNIGHT:
+				Collections.addAll(tierTalents,	IMPREGNABLE_MEAL, SAFE_HEALING, DEFENCE_STANCE, CROSS_SLASH, ENDURING, BLOCKING);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1063,6 +1069,9 @@ public enum Talent {
 				break;
 			case PLANTER:
 				Collections.addAll(tierTalents,	BLOOMING_WEAPON, FARMER);
+				break;
+			case KNIGHT:
+				Collections.addAll(tierTalents,	CRAFTMANS_SKILLS, TACKLE);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1107,7 +1116,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, BETTER_CHOICE, SOUL_EATER, SOUL_SIPHON, NECROMANCERS_MINIONS, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
 				break;
 			case ENGINEER:
-				Collections.addAll(tierTalents, BETTER_CHOICE, AMMO_PRESERVE, CONNECTING_CHARGER, FASTER_CHARGER, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
+				Collections.addAll(tierTalents, BETTER_CHOICE, AMMO_PRESERVE, CONNECTING_CHARGER, HIGH_VOLT, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
 				break;
 			case ASSASSIN:
 				Collections.addAll(tierTalents, BETTER_CHOICE, ENHANCED_LETHALITY, ASSASSINS_REACH, BOUNTY_HUNTER, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
@@ -1153,6 +1162,15 @@ public enum Talent {
 				break;
 			case RESEARCHER:
 				Collections.addAll(tierTalents, BETTER_CHOICE, SHOCK_DRAIN, DEW_MAKING, BIO_ENERGY, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
+				break;
+			case WEAPONMASTER:
+				Collections.addAll(tierTalents, BETTER_CHOICE, WEAPON_AUGMENT, SWORD_N_SHIELD, FIRE_WEAPON, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
+				break;
+			case FORTRESS:
+				Collections.addAll(tierTalents, BETTER_CHOICE, IMPREGNABLE_WALL, CHARGE_ATTACK, SHIELD_SLAM, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
+				break;
+			case CRUSADER:
+				Collections.addAll(tierTalents, BETTER_CHOICE, NAME_OF_LIGHT, HOLY_SHIELD, DEADS_BLESS, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
 				break;
 
 		}

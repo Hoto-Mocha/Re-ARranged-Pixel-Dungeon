@@ -21,98 +21,97 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 import com.watabou.utils.Bundle;
 
-public class WeaponEmpower extends Buff {
-
-	{
-		type = buffType.POSITIVE;
-	}
-
-	private int lvl;
-	private float time;
-	private float maxTime = 5;
-
-	public void set( int level ) {
-		time = maxTime;
-		lvl = level;
-	}
-
-	public void set( int level, float duration ) {
-		time = duration;
-		lvl = level;
-	}
-
-	public void extend ( float duration ) {
-		time += duration;
-	}
-
-	@Override
-	public void detach() {
-		super.detach();
-		Item.updateQuickslot();
-	}
+public class AttackSpeedBuff extends Buff {
+	
+	private int count = 0;
+	private int maxCount = 1+Dungeon.hero.belongings.weapon.buffedLvl();
+	private boolean lastAttacked = false;
 
 	@Override
 	public int icon() {
-		return BuffIndicator.UPGRADE;
+		return BuffIndicator.FLURRY;
+	}
+	
+	@Override
+	public void tintIcon(Image icon) {
+		icon.hardlight(0xDFFF40);
 	}
 
 	@Override
-	public void tintIcon(Image icon) {
-		icon.hardlight(1, 0, 0);
+	public float iconFadePercent() {
+		return Math.max(0, (maxCount - count)/ maxCount);
+	}
+
+	public int getCount() {
+		return count;
 	}
 
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");
 	}
-
-	@Override
-	public String desc() {
-		return Messages.get(this, "desc", lvl, time);
+	
+	public void attack( Char enemy ) {
+		if (count < maxCount) {
+			count++;
+		} else {
+			count = maxCount;
+		}
+		lastAttacked = true;
+		BuffIndicator.refreshHero(); //refresh the buff visually on-hit
 	}
 
 	@Override
-	public float iconFadePercent() {
-		return (maxTime - time)/maxTime;
+	public void detach() {
+		super.detach();
 	}
 
 	@Override
 	public boolean act() {
-		time-=TICK;
+		if (!lastAttacked) {
+			count-=TICK;
+		} else {
+			lastAttacked = false;
+		}
+
 		spend(TICK);
-		if (time <= 0) {
+		if (count <= 0) {
 			detach();
 		}
 		return true;
 	}
 
-	public int getLvl() {
-		return lvl;
+	@Override
+	public String desc() {
+		return Messages.get(this, "desc", count, 5*count, maxCount);
 	}
 
-	private static final String TIME = "time";
-	private static final String MAXTIME = "maxTime";
-	private static final String LVL = "lvl";
+	private static final String COUNT = "count";
+	private static final String MAXCOUNT = "maxCount";
+	private static final String LASTATTACKED = "lastAttacked";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
-		bundle.put(TIME, time);
-		bundle.put(MAXTIME, maxTime);
-		bundle.put(LVL, lvl);
+		bundle.put(COUNT, count);
+		bundle.put(MAXCOUNT, maxCount);
+		bundle.put(LASTATTACKED, lastAttacked);
 	}
 
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-		time = bundle.getInt(TIME);
-		maxTime = bundle.getInt(MAXTIME);
-		lvl = bundle.getInt(LVL);
+		count = bundle.getInt( COUNT );
+		maxCount = bundle.getInt( MAXCOUNT );
+		lastAttacked = bundle.getBoolean( LASTATTACKED );
 	}
+
 }

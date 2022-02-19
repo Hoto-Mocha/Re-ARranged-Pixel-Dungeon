@@ -58,7 +58,7 @@ public class SerialAttack extends Buff {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.COMBO;
+		return BuffIndicator.WEAPON;
 	}
 	
 	@Override

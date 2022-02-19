@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
@@ -43,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -728,7 +731,7 @@ public abstract class Mob extends Char {
 
 		if (!(this instanceof Wraith) && Dungeon.hero.belongings.weapon instanceof CursedSword){
 			if (Dungeon.hero.belongings.weapon.cursed) {
-				if (Random.Int(10) <= Dungeon.hero.belongings.weapon.buffedLvl()) {
+				if (Random.Int(20) <= Dungeon.hero.belongings.weapon.buffedLvl()) {
 					Wraith w = Wraith.spawnAt(pos);
 					if (w != null) {
 						Buff.affect(w, Corruption.class);
@@ -737,16 +740,34 @@ public abstract class Mob extends Char {
 							CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
 							Sample.INSTANCE.play(Assets.Sounds.CURSED);
 						}
+						if (Dungeon.hero.subClass == HeroSubClass.WEAPONMASTER) {
+							int healAmt = Math.round((this.HT/40f) * Math.min(hero.belongings.weapon.buffedLvl()+1, 10));
+							healAmt = Math.min( healAmt, hero.HT - hero.HP );
+							if (healAmt > 0 && hero.isAlive()) {
+								hero.HP += healAmt;
+								hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+								hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+							}
+						}
 					}
 				}
 			} else {
-				if (Random.Int(20) <= Dungeon.hero.belongings.weapon.buffedLvl()) {
+				if (Random.Int(40) <= Dungeon.hero.belongings.weapon.buffedLvl()) {
 					Wraith w = Wraith.spawnAt(pos);
 					if (w != null) {
 						Buff.affect(w, Corruption.class);
 						if (Dungeon.level.heroFOV[pos]) {
 							CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
 							Sample.INSTANCE.play(Assets.Sounds.CURSED);
+						}
+					}
+					if (Dungeon.hero.subClass == HeroSubClass.WEAPONMASTER) {
+						int healAmt = Math.round((this.HT/80f) * Math.min(hero.belongings.weapon.buffedLvl()+1, 10));
+						healAmt = Math.min( healAmt, hero.HT - hero.HP );
+						if (healAmt > 0 && hero.isAlive()) {
+							hero.HP += healAmt;
+							hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+							hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 						}
 					}
 				}

@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
 import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -34,7 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Alchemy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AccuracyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
@@ -54,19 +55,19 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.KnightsBlocking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
@@ -77,17 +78,20 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ParalysisTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StanceCooldown;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AttackSpeedBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
@@ -96,7 +100,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbili
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
@@ -110,7 +113,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
-import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -160,84 +162,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainWhip;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ElectroScimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameScimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostScimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
@@ -256,7 +182,6 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.SurfaceScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
@@ -276,13 +201,9 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-
-import sun.jvm.hotspot.opto.Block;
 
 public class Hero extends Char {
 
@@ -530,7 +451,7 @@ public class Hero extends Char {
 
 	@Override
 	public boolean blockSound(float pitch) {
-		if ( belongings.weapon() != null && belongings.weapon().defenseFactor(this) >= 4 ){
+		if ( (belongings.weapon() != null && belongings.weapon().defenseFactor(this) >= 4) || (hero.buff(KnightsBlocking.class) != null && hero.buff(KnightsBlocking.class).level() >= 4) ){
 			Sample.INSTANCE.play( Assets.Sounds.HIT_PARRY, 1, pitch);
 			return true;
 		}
@@ -598,6 +519,10 @@ public class Hero extends Char {
 
 		if (hero.buff(Jung.class) != null && hero.buff(Lead.class) != null && wep instanceof MeleeWeapon) {
 			accuracy = INFINITE_ACCURACY;
+		}
+
+		if (hero.buff(AccuracyBuff.class) != null) {
+			accuracy *= 1 + 0.05f * hero.buff(AccuracyBuff.class).getCount();
 		}
 		
 		if (wep instanceof MissileWeapon){
@@ -1106,19 +1031,12 @@ public class Hero extends Char {
 		}
 
 		if (belongings.weapon() != null) {
-
-				return belongings.weapon().delayFactor( this );
-
+			return belongings.weapon().delayFactor( this );
 		} else {
-			if (hero.hasTalent(Talent.SLASHING_PRACTICE) && hero.buff(SerialAttack.class) != null) {
-				return 1f / RingOfFuror.attackSpeedMultiplier(this) / (1f + 0.05f * buff(SerialAttack.class).getCount());
-			} else {
-				//Normally putting furor speed on unarmed attacks would be unnecessary
-				//But there's going to be that one guy who gets a furor+force ring combo
-				//This is for that one guy, you shall get your fists of fury!
-				return 1f / RingOfFuror.attackSpeedMultiplier(this);
-			}
-
+			//Normally putting furor speed on unarmed attacks would be unnecessary
+			//But there's going to be that one guy who gets a furor+force ring combo
+			//This is for that one guy, you shall get your fists of fury!
+			return 1f / RingOfFuror.attackSpeedMultiplier(this);
 		}
 	}
 
@@ -1775,6 +1693,13 @@ public class Hero extends Char {
 		if (hero.hasTalent(Talent.DEFENCE_STANCE) && Random.Int(20) < hero.pointsInTalent(Talent.DEFENCE_STANCE) && hero.buff(ShieldCoolDown.class) != null) {
 			Buff.detach(this, ShieldCoolDown.class);
 		}
+
+		if (subClass == HeroSubClass.FORTRESS && Random.Int(10) == 0) {
+			int counterDamage = belongings.armor.DRMax();
+			enemy.damage(Math.round(counterDamage / 6f * (3 + hero.pointsInTalent(Talent.CHARGE_ATTACK))), this);
+			Sample.INSTANCE.playDelayed(Assets.Sounds.HIT, 0.4f);
+			hero.sprite.attack(enemy.pos);
+		}
 		
 		return damage;
 	}
@@ -1812,6 +1737,15 @@ public class Hero extends Char {
 
 		if (Dungeon.hero.hasTalent(Talent.ENDURING)) {
 			dmg *= 1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.ENDURING);
+		}
+
+		if (subClass == HeroSubClass.WEAPONMASTER) {
+			if (belongings.weapon instanceof RoundShield
+					|| belongings.weapon instanceof Greatsword
+					|| belongings.weapon instanceof ObsidianShield
+					|| belongings.weapon instanceof TacticalShield ) {
+				dmg *= 1 - 0.03f * Math.min(belongings.weapon.buffedLvl()+1, 10);
+			}
 		}
 
 		CapeOfThorns.Thorns thorns = buff( CapeOfThorns.Thorns.class );
@@ -2443,6 +2377,12 @@ public class Hero extends Char {
 			}
 		}
 
+		if (hit && !enemy.isAlive() && hasTalent(Talent.DEADS_BLESS) && Random.Int(10) < pointsInTalent(Talent.DEADS_BLESS)) {
+			HT++;
+			this.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
+			updateHT(false);
+		}
+
 		if (hit && hero.hasTalent(Talent.MIND_FOCUS)) {
 			if (Random.Int(3) < hero.pointsInTalent(Talent.MIND_FOCUS)) {
 				int healAmt = 1;
@@ -2458,6 +2398,154 @@ public class Hero extends Char {
 		if (hit && subClass == HeroSubClass.GLADIATOR){
 			Buff.affect( this, Combo.class ).hit( enemy );
 		}
+
+		if (hit && hasTalent(Talent.FIRE_WEAPON) && Random.Int(20) < pointsInTalent(Talent.FIRE_WEAPON)) {
+			Buff.affect(this, FireImbue.class).set(5f);
+		}
+
+		if (hit && buff(ParalysisTracker.class) != null) {
+			Buff.affect(enemy, Paralysis.class, 2f);
+			Buff.detach(this, ParalysisTracker.class);
+		}
+
+		if (hit && subClass == HeroSubClass.CRUSADER && Random.Int(10) == 0) {
+			Buff.affect(this, Bless.class, 5f);
+		}
+
+		if (hit && subClass == HeroSubClass.WEAPONMASTER) {
+			if (belongings.weapon() instanceof WornShortsword
+				|| belongings.weapon() instanceof Shortsword
+				|| belongings.weapon() instanceof Sword
+				|| belongings.weapon() instanceof Longsword
+				|| belongings.weapon() instanceof Greatsword
+				|| belongings.weapon() instanceof HugeSword
+				|| belongings.weapon() instanceof HolySword
+				|| belongings.weapon() instanceof Greataxe
+				|| belongings.weapon() instanceof Quarterstaff
+				|| belongings.weapon() instanceof Saber
+				|| belongings.weapon() instanceof RunicBlade
+				|| belongings.weapon() instanceof TrueRunicBlade
+				|| belongings.weapon() instanceof Bible
+				|| belongings.weapon() instanceof UnholyBible
+				|| belongings.weapon() instanceof SpellBook_Earth
+				|| belongings.weapon() instanceof SpellBook_Warding
+				|| belongings.weapon() instanceof SpellBook_Transfusion
+				|| belongings.weapon() instanceof SpellBook_Regrowth
+				|| belongings.weapon() instanceof SpellBook_Blast
+				|| belongings.weapon() instanceof SpellBook_Prismatic
+				|| belongings.weapon() instanceof SpellBook_Disintegration
+				|| belongings.weapon() instanceof SpellBook_Corrosion
+				|| belongings.weapon() instanceof SpellBook_Corruption
+				|| belongings.weapon() instanceof SpellBook_Lightning
+				|| belongings.weapon() instanceof SpellBook_Frost
+				|| belongings.weapon() instanceof SpellBook_Fire
+				|| belongings.weapon() instanceof SpellBook_Empty
+				) {
+				Buff.affect(this, AttackSpeedBuff.class).attack(enemy);
+			}
+
+			if (belongings.weapon() instanceof Gloves
+					|| belongings.weapon() instanceof Sai
+					|| belongings.weapon() instanceof Gauntlet
+					|| belongings.weapon() instanceof BeamSaber
+			) {
+				Buff.affect(this, AccuracyBuff.class).attack(enemy);
+			}
+
+			if ((belongings.weapon() instanceof HandAxe
+					|| belongings.weapon() instanceof Mace
+					|| belongings.weapon() instanceof BattleAxe
+					|| belongings.weapon() instanceof WarHammer
+					|| belongings.weapon() instanceof IronHammer)
+			) {
+				if (Random.Int(10) < 1+belongings.weapon.buffedLvl()){
+					Buff.affect(enemy, Vulnerable.class, 20f);
+				}
+			}
+
+			if ((belongings.weapon() instanceof Scimitar
+					|| belongings.weapon() instanceof FlameScimitar
+					|| belongings.weapon() instanceof FrostScimitar
+					|| belongings.weapon() instanceof PoisonScimitar
+					|| belongings.weapon() instanceof ElectroScimitar)
+			) {
+				Buff.affect(enemy, Bleeding.class).set(Math.min(1+belongings.weapon.buffedLvl(), 10));
+			}
+
+			if ((belongings.weapon() instanceof Whip || belongings.weapon() instanceof ChainWhip) && Random.Int(20) < Math.min(belongings.weapon.buffedLvl()+1, 10)) {
+				Buff.affect(enemy, Roots.class, 2f);
+			}
+
+			if ((belongings.weapon() instanceof Flail || belongings.weapon() instanceof ChainFlail) && Random.Int(40) < Math.min(belongings.weapon.buffedLvl()+1, 10)) {
+				Buff.affect(enemy, Paralysis.class, 2f);
+			}
+
+			if ((belongings.weapon() instanceof Crossbow
+						|| belongings.weapon instanceof ExplosiveCrossbow
+						|| belongings.weapon() instanceof CrudePistol
+					  	|| belongings.weapon() instanceof CrudePistolAP
+					  	|| belongings.weapon() instanceof CrudePistolHP
+					  	|| belongings.weapon() instanceof Pistol
+					  	|| belongings.weapon() instanceof PistolAP
+					  	|| belongings.weapon() instanceof PistolHP
+					  	|| belongings.weapon() instanceof GoldenPistol
+					  	|| belongings.weapon() instanceof GoldenPistolAP
+					  	|| belongings.weapon() instanceof GoldenPistolHP
+					  	|| belongings.weapon() instanceof Handgun
+					  	|| belongings.weapon() instanceof HandgunAP
+					  	|| belongings.weapon() instanceof HandgunHP
+					  	|| belongings.weapon() instanceof Magnum
+					  	|| belongings.weapon() instanceof MagnumAP
+					  	|| belongings.weapon() instanceof MagnumHP
+					  	|| belongings.weapon() instanceof LargeHandgun
+					  	|| belongings.weapon() instanceof LargeHandgunAP
+					  	|| belongings.weapon() instanceof LargeHandgunHP
+					  	|| belongings.weapon() instanceof DualPistol
+					  	|| belongings.weapon() instanceof DualPistolAP
+					  	|| belongings.weapon() instanceof DualPistolHP
+					  	|| belongings.weapon() instanceof SubMachinegun
+					  	|| belongings.weapon() instanceof SubMachinegunAP
+					  	|| belongings.weapon() instanceof SubMachinegunHP
+					  	|| belongings.weapon() instanceof AssultRifle
+					  	|| belongings.weapon() instanceof AssultRifleAP
+					  	|| belongings.weapon() instanceof AssultRifleHP
+					  	|| belongings.weapon() instanceof HeavyMachinegun
+					  	|| belongings.weapon() instanceof HeavyMachinegunAP
+					  	|| belongings.weapon() instanceof HeavyMachinegunHP
+					  	|| belongings.weapon() instanceof MiniGun
+					  	|| belongings.weapon() instanceof MiniGunAP
+					  	|| belongings.weapon() instanceof MiniGunHP
+					  	|| belongings.weapon() instanceof HuntingRifle
+					  	|| belongings.weapon() instanceof HuntingRifleAP
+					  	|| belongings.weapon() instanceof HuntingRifleHP
+					  	|| belongings.weapon() instanceof SniperRifle
+					  	|| belongings.weapon() instanceof SniperRifleAP
+					  	|| belongings.weapon() instanceof SniperRifleHP
+					  	|| belongings.weapon() instanceof AntimaterRifle
+					  	|| belongings.weapon() instanceof AntimaterRifleAP
+					  	|| belongings.weapon() instanceof AntimaterRifleHP
+					  	|| belongings.weapon() instanceof ShotGun
+					  	|| belongings.weapon() instanceof ShotGunAP
+					  	|| belongings.weapon() instanceof ShotGunHP
+					  	|| belongings.weapon() instanceof SPAS
+					  	|| belongings.weapon() instanceof SPASAP
+					  	|| belongings.weapon() instanceof SPASHP
+					  	|| belongings.weapon() instanceof RocketLauncher
+					  	|| belongings.weapon() instanceof RPG7
+					  	|| belongings.weapon() instanceof FlameThrower
+					  	|| belongings.weapon() instanceof FlameThrowerAP
+					  	|| belongings.weapon() instanceof FlameThrowerHP
+					  	|| belongings.weapon() instanceof PlasmaCannon
+					  	|| belongings.weapon() instanceof PlasmaCannonAP
+					  	|| belongings.weapon() instanceof PlasmaCannonHP)
+					&& level.adjacent(enemy.pos, this.pos)
+					&& Random.Int(10) < 1+belongings.weapon.buffedLvl() ) {
+				Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
+				trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
+				WandOfBlastWave.throwChar(enemy, trajectory, 3, true);
+			}
+		}
+
 
 		if (hit && subClass == HeroSubClass.VETERAN){
 			if (Dungeon.hero.belongings.weapon() instanceof CrudePistol
@@ -2912,7 +3000,7 @@ public class Hero extends Char {
 			}
 		}
 
-		if (hero.heroClass == HeroClass.KNIGHT && hero.buff(ShieldCoolDown.class) != null) {
+		if (hit && hero.heroClass == HeroClass.KNIGHT && hero.buff(ShieldCoolDown.class) != null) {
 			hero.buff(ShieldCoolDown.class).hit(hero.belongings.armor.buffedLvl());
 		}
 

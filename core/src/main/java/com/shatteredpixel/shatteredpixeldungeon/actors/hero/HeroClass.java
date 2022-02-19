@@ -53,13 +53,16 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Sh
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
@@ -599,6 +602,14 @@ public enum HeroClass {
 
 		new ScrollOfRemoveCurse().identify();
 		new PotionOfParalyticGas().identify();
+
+		new PotionOfExperience().identify().quantity(29).collect();
+		new PotionOfStrength().identify().quantity(20).collect();
+		new ScrollOfUpgrade().identify().quantity(500).collect();
+		new TengusMask().collect();
+		new KingsCrown().collect();
+		new Gloves().identify().collect();
+		new Dagger().identify().collect();
 	}
 
 	public String title() {

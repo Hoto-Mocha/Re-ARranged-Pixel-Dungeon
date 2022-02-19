@@ -139,6 +139,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
@@ -155,10 +156,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Katana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LongKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
@@ -177,6 +181,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLaunche
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShortKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -185,6 +191,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Blast;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corruption;
@@ -200,6 +207,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
@@ -456,6 +464,14 @@ public abstract class Char extends Actor {
 
 			ReinforcedArmor.reinforcedArmorTracker rearmor = enemy.buff(ReinforcedArmor.reinforcedArmorTracker.class);
 			if (rearmor != null)  dr += rearmor.blockingRoll();
+
+			if (this instanceof Hero) {
+				if ( hero.belongings.weapon() instanceof Spear
+					|| hero.belongings.weapon() instanceof Glaive
+					|| hero.belongings.weapon() instanceof Lance ) {
+					dr *= 1 - 0.1f*(Math.min(hero.belongings.weapon.buffedLvl(), 10));
+				}
+			}
 			
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
@@ -542,6 +558,25 @@ public abstract class Char extends Actor {
 
 			if (Dungeon.isChallenged(Challenges.SUPERMAN) && this instanceof Hero) {
 				dmg *= 3f;
+			}
+
+			if (this instanceof Hero && hero.subClass == HeroSubClass.WEAPONMASTER) {
+				if (Random.Int(100) < Math.min(hero.belongings.weapon.buffedLvl()+1, 10) && (hero.belongings.weapon() instanceof WornKatana
+				 || hero.belongings.weapon() instanceof ShortKatana
+				 || hero.belongings.weapon() instanceof Katana
+				 || hero.belongings.weapon() instanceof LongKatana
+				 || hero.belongings.weapon() instanceof LargeKatana
+				 || hero.belongings.weapon() instanceof SharpKatana)) {
+					dmg *= 2f;
+					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+					hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
+				}
+			}
+
+			if (hero.hasTalent(Talent.WEAPON_AUGMENT)) {
+				if (hero.pointsInTalent(Talent.WEAPON_AUGMENT) == 1) dmg *= 0.01f*Random.NormalIntRange(90, 110); // 90%-110% damage
+				if (hero.pointsInTalent(Talent.WEAPON_AUGMENT) == 2) dmg *= 0.01f*Random.NormalIntRange(75, 125); // 75%-125% damage
+				if (hero.pointsInTalent(Talent.WEAPON_AUGMENT) == 3) dmg *= 0.01f*Random.NormalIntRange(50, 150); // 50%-150% damage
 			}
 
 			if (this instanceof Hero && hero.belongings.weapon != null) {
@@ -720,6 +755,15 @@ public abstract class Char extends Actor {
 
 						dmg *= 1.3333f; //deals more damage to the demons and the undeads
 					}
+				}
+			}
+
+			if (this instanceof Hero && hero.hasTalent(Talent.NAME_OF_LIGHT) && hero.buff(Bless.class) != null) {
+				if (enemy.properties().contains(Char.Property.DEMONIC) || enemy.properties().contains(Char.Property.UNDEAD)) {
+					enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
+					Sample.INSTANCE.play(Assets.Sounds.BURNING);
+
+					dmg *= 1 + hero.pointsInTalent(Talent.NAME_OF_LIGHT)/3f; //deals more damage to the demons and the undeads
 				}
 			}
 

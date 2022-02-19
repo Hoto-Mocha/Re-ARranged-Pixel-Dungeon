@@ -21,6 +21,10 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 
@@ -31,6 +35,24 @@ public class Bless extends FlavourBuff {
 	{
 		type = buffType.POSITIVE;
 		announced = true;
+	}
+
+	@Override
+	public boolean act() {
+		if (Dungeon.hero.subClass == HeroSubClass.CRUSADER) {
+
+			target.HP += 1;
+			target.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
+
+			if (target.HP >= target.HT) {
+				target.HP = target.HT;
+			}
+
+			spend( TICK );
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
