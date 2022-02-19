@@ -108,6 +108,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EnergyParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
@@ -194,6 +195,7 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndTradeItem;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
@@ -270,7 +272,7 @@ public class Hero extends Char {
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
 		
-		HT = (Dungeon.isChallenged(Challenges.SUPERMAN)) ? 10 + 5*hero.pointsInTalent(Talent.MAX_HEALTH): 20 + 5*(lvl-1) + HTBoost + 5*hero.pointsInTalent(Talent.MAX_HEALTH);
+		HT = (Dungeon.isChallenged(Challenges.SUPERMAN)) ? 10 + 5*hero.pointsInTalent(Talent.MAX_HEALTH): 20 + 5*(lvl-1) + HTBoost + 5*hero.pointsInTalent(Talent.MAX_HEALTH) ;
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -1690,15 +1692,14 @@ public class Hero extends Char {
 			Buff.affect(this, Barrier.class).setShield(5);
 		}
 
-		if (hero.hasTalent(Talent.DEFENCE_STANCE) && Random.Int(20) < hero.pointsInTalent(Talent.DEFENCE_STANCE) && hero.buff(ShieldCoolDown.class) != null) {
+		if (hero.hasTalent(Talent.DEFENSE_STANCE) && Random.Int(20) < hero.pointsInTalent(Talent.DEFENSE_STANCE) && hero.buff(ShieldCoolDown.class) != null) {
 			Buff.detach(this, ShieldCoolDown.class);
 		}
 
-		if (subClass == HeroSubClass.FORTRESS && Random.Int(10) == 0) {
+		if (subClass == HeroSubClass.FORTRESS && Random.Int(10) == 0 && hero.belongings.armor != null && level.adjacent(enemy.pos, hero.pos)) {
 			int counterDamage = belongings.armor.DRMax();
 			enemy.damage(Math.round(counterDamage / 6f * (3 + hero.pointsInTalent(Talent.CHARGE_ATTACK))), this);
-			Sample.INSTANCE.playDelayed(Assets.Sounds.HIT, 0.4f);
-			hero.sprite.attack(enemy.pos);
+			Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY);
 		}
 		
 		return damage;
@@ -1728,23 +1729,6 @@ public class Hero extends Char {
 			//the same also applies to challenge scroll damage reduction
 			if (buff(ScrollOfChallenge.ChallengeArena.class) != null){
 				dmg *= 0.67f;
-			}
-		}
-
-		if (Dungeon.hero.hasTalent(Talent.DEF_ENHANCE)) {
-			dmg *= 1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.DEF_ENHANCE);
-		}
-
-		if (Dungeon.hero.hasTalent(Talent.ENDURING)) {
-			dmg *= 1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.ENDURING);
-		}
-
-		if (subClass == HeroSubClass.WEAPONMASTER) {
-			if (belongings.weapon instanceof RoundShield
-					|| belongings.weapon instanceof Greatsword
-					|| belongings.weapon instanceof ObsidianShield
-					|| belongings.weapon instanceof TacticalShield ) {
-				dmg *= 1 - 0.03f * Math.min(belongings.weapon.buffedLvl()+1, 10);
 			}
 		}
 
@@ -2378,9 +2362,11 @@ public class Hero extends Char {
 		}
 
 		if (hit && !enemy.isAlive() && hasTalent(Talent.DEADS_BLESS) && Random.Int(10) < pointsInTalent(Talent.DEADS_BLESS)) {
-			HT++;
 			this.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
-			updateHT(false);
+			Emitter e = hero.sprite.centerEmitter();
+			if (e != null) e.burst( EnergyParticle.FACTORY, 15 );
+			hero.HTBoost++;
+			updateHT(true);
 		}
 
 		if (hit && hero.hasTalent(Talent.MIND_FOCUS)) {
@@ -2448,6 +2434,7 @@ public class Hero extends Char {
 					|| belongings.weapon() instanceof Sai
 					|| belongings.weapon() instanceof Gauntlet
 					|| belongings.weapon() instanceof BeamSaber
+					|| belongings.weapon() instanceof ForceGlove
 			) {
 				Buff.affect(this, AccuracyBuff.class).attack(enemy);
 			}
@@ -2458,7 +2445,7 @@ public class Hero extends Char {
 					|| belongings.weapon() instanceof WarHammer
 					|| belongings.weapon() instanceof IronHammer)
 			) {
-				if (Random.Int(10) < 1+belongings.weapon.buffedLvl()){
+				if (Random.Int(40) < Math.min(1+belongings.weapon.buffedLvl(), 10)){
 					Buff.affect(enemy, Vulnerable.class, 20f);
 				}
 			}
@@ -2482,6 +2469,7 @@ public class Hero extends Char {
 
 			if ((belongings.weapon() instanceof Crossbow
 						|| belongings.weapon instanceof ExplosiveCrossbow
+						|| belongings.weapon instanceof Ballista
 						|| belongings.weapon() instanceof CrudePistol
 					  	|| belongings.weapon() instanceof CrudePistolAP
 					  	|| belongings.weapon() instanceof CrudePistolHP
@@ -2539,7 +2527,7 @@ public class Hero extends Char {
 					  	|| belongings.weapon() instanceof PlasmaCannonAP
 					  	|| belongings.weapon() instanceof PlasmaCannonHP)
 					&& level.adjacent(enemy.pos, this.pos)
-					&& Random.Int(10) < 1+belongings.weapon.buffedLvl() ) {
+					&& Random.Int(40) < Math.min(1+belongings.weapon.buffedLvl(), 10) ) {
 				Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
 				trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
 				WandOfBlastWave.throwChar(enemy, trajectory, 3, true);

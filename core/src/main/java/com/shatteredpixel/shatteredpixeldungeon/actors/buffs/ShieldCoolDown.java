@@ -55,7 +55,7 @@ import com.watabou.utils.Random;
 public class ShieldCoolDown extends Buff {
 
     private float coolDown = 0f;
-    private float maxCoolDown = hero.lvl*10f;
+    private float maxCoolDown = 0f;
 
     @Override
     public int icon() {
@@ -91,7 +91,8 @@ public class ShieldCoolDown extends Buff {
     }
 
     public void set() {
-        coolDown = maxCoolDown * (1 - 0.1f * hero.pointsInTalent(Talent.ON_ALERT));
+        maxCoolDown = 10f * hero.lvl;
+        coolDown = 10f * hero.lvl * (1 - 0.1f * hero.pointsInTalent(Talent.ON_ALERT));
     }
 
     public void extend(float amount) {

@@ -27,28 +27,22 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 import com.watabou.utils.Bundle;
 
+import java.text.DecimalFormat;
+
 public class WeaponEmpower extends Buff {
 
 	{
 		type = buffType.POSITIVE;
 	}
 
-	private int lvl;
-	private float time;
-	private float maxTime = 5;
-
-	public void set( int level ) {
-		time = maxTime;
-		lvl = level;
-	}
+	private int lvl = 0;
+	private float duration = 0f;
+	private float maxTime = 0f;
 
 	public void set( int level, float duration ) {
-		time = duration;
+		this.duration = duration+1f;
+		maxTime = this.duration-1f;
 		lvl = level;
-	}
-
-	public void extend ( float duration ) {
-		time += duration;
 	}
 
 	@Override
@@ -74,19 +68,19 @@ public class WeaponEmpower extends Buff {
 
 	@Override
 	public String desc() {
-		return Messages.get(this, "desc", lvl, time);
+		return Messages.get(this, "desc", lvl, new DecimalFormat("#").format(duration));
 	}
 
 	@Override
 	public float iconFadePercent() {
-		return (maxTime - time)/maxTime;
+		return Math.max((maxTime - duration)/maxTime, 0);
 	}
 
 	@Override
 	public boolean act() {
-		time-=TICK;
-		spend(TICK);
-		if (time <= 0) {
+		duration-=1f;
+		spend(1f);
+		if (duration <= 0) {
 			detach();
 		}
 		return true;
@@ -96,14 +90,14 @@ public class WeaponEmpower extends Buff {
 		return lvl;
 	}
 
-	private static final String TIME = "time";
+	private static final String DURATION = "duration";
 	private static final String MAXTIME = "maxTime";
 	private static final String LVL = "lvl";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
-		bundle.put(TIME, time);
+		bundle.put(DURATION, duration);
 		bundle.put(MAXTIME, maxTime);
 		bundle.put(LVL, lvl);
 	}
@@ -111,8 +105,8 @@ public class WeaponEmpower extends Buff {
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-		time = bundle.getInt(TIME);
-		maxTime = bundle.getInt(MAXTIME);
+		duration = bundle.getFloat(DURATION);
+		maxTime = bundle.getFloat(MAXTIME);
 		lvl = bundle.getInt(LVL);
 	}
 }

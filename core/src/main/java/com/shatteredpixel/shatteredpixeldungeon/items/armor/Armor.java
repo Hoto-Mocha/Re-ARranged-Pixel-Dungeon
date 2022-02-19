@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -32,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
@@ -59,6 +62,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Swiftness;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Thorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -248,8 +257,8 @@ public class Armor extends EquipableItem {
 		if (seal.getGlyph() != null){
 			inscribe(seal.getGlyph());
 		}
-		if (isEquipped(Dungeon.hero)){
-			Buff.affect(Dungeon.hero, BrokenSeal.WarriorShield.class).setArmor(this);
+		if (isEquipped(hero)){
+			Buff.affect(hero, BrokenSeal.WarriorShield.class).setArmor(this);
 		}
 	}
 
@@ -295,7 +304,7 @@ public class Armor extends EquipableItem {
 			return 1 + tier + lvl + augment.defenseFactor(lvl);
 		}
 		int max;
-		if (Dungeon.hero.hasTalent(Talent.CRAFTMANS_SKILLS) && tier <= 2+Dungeon.hero.pointsInTalent(Talent.CRAFTMANS_SKILLS)) {
+		if (hero.hasTalent(Talent.CRAFTMANS_SKILLS) && tier <= 2+ hero.pointsInTalent(Talent.CRAFTMANS_SKILLS)) {
 			max = (tier+1) * (2 + lvl) + augment.defenseFactor(lvl);
 		} else {
 			max = tier * (2 + lvl) + augment.defenseFactor(lvl);
@@ -397,13 +406,13 @@ public class Armor extends EquipableItem {
 	@Override
 	public int buffedLvl() {
 		int lvl;
-		if (isEquipped( Dungeon.hero ) || Dungeon.hero.belongings.contains( this )){
+		if (isEquipped( hero ) || hero.belongings.contains( this )){
 			lvl = super.buffedLvl();
 		} else {
 			lvl = level();
 		}
-		ArmorEmpower armorEmpower = Dungeon.hero.buff(ArmorEmpower.class);
-		if (armorEmpower != null && isEquipped( Dungeon.hero )) {
+		ArmorEmpower armorEmpower = hero.buff(ArmorEmpower.class);
+		if (armorEmpower != null && isEquipped( hero )) {
 			lvl += armorEmpower.getLvl();
 			updateQuickslot();
 		}
@@ -442,9 +451,28 @@ public class Armor extends EquipableItem {
 		if (glyph != null && defender.buff(MagicImmune.class) == null) {
 			damage = glyph.proc( this, attacker, defender, damage );
 		}
+
+		if (hero.hasTalent(Talent.DEF_ENHANCE)) {
+			damage *= 1 - 0.05f * hero.pointsInTalent(Talent.DEF_ENHANCE);
+		}
+
+		if (hero.hasTalent(Talent.ENDURING)) {
+			damage *= 1 - 0.05f * hero.pointsInTalent(Talent.ENDURING);
+		}
+
+		if (hero.subClass == HeroSubClass.WEAPONMASTER) {
+			if (hero.belongings.weapon instanceof RoundShield
+					|| hero.belongings.weapon instanceof Greatsword
+					|| hero.belongings.weapon instanceof ObsidianShield
+					|| hero.belongings.weapon instanceof TacticalShield
+					|| hero.belongings.weapon instanceof SpearNShield
+					|| hero.belongings.weapon instanceof LanceNShield) {
+				damage *= 1 - 0.03f * Math.min(hero.belongings.weapon.buffedLvl()+1, 10);
+			}
+		}
 		
-		if (!levelKnown && defender == Dungeon.hero) {
-			float uses = Math.min( availableUsesToID, Talent.itemIDSpeedFactor(Dungeon.hero, this) );
+		if (!levelKnown && defender == hero) {
+			float uses = Math.min( availableUsesToID, Talent.itemIDSpeedFactor(hero, this) );
 			availableUsesToID -= uses;
 			usesLeftToID -= uses;
 			if (usesLeftToID <= 0) {
@@ -478,13 +506,13 @@ public class Armor extends EquipableItem {
 		if (levelKnown) {
 			info += "\n\n" + Messages.get(Armor.class, "curr_absorb", DRMin(), DRMax(), STRReq());
 			
-			if (STRReq() > Dungeon.hero.STR()) {
+			if (STRReq() > hero.STR()) {
 				info += " " + Messages.get(Armor.class, "too_heavy");
 			}
 		} else {
 			info += "\n\n" + Messages.get(Armor.class, "avg_absorb", DRMin(0), DRMax(0), STRReq(0));
 
-			if (STRReq(0) > Dungeon.hero.STR()) {
+			if (STRReq(0) > hero.STR()) {
 				info += " " + Messages.get(Armor.class, "probably_too_heavy");
 			}
 		}
@@ -504,7 +532,7 @@ public class Armor extends EquipableItem {
 			info += " " + glyph.desc();
 		}
 		
-		if (cursed && isEquipped( Dungeon.hero )) {
+		if (cursed && isEquipped( hero )) {
 			info += "\n\n" + Messages.get(Armor.class, "cursed_worn");
 		} else if (cursedKnown && cursed) {
 			info += "\n\n" + Messages.get(Armor.class, "cursed");

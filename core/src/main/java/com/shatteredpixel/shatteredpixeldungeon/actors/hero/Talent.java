@@ -295,7 +295,7 @@ public enum Talent {
 	//Knight T1
 	ON_ALERT(224), KNIGHTS_INTUITION(225), BATTLE_STIM(226), ACTIVE_BARRIER(227), WAR_CRY(228),
 	//Knight T2
-	IMPREGNABLE_MEAL(229), SAFE_HEALING(230), DEFENCE_STANCE(231), CROSS_SLASH(232), ENDURING(233), BLOCKING(234),
+	IMPREGNABLE_MEAL(229), SAFE_HEALING(230), DEFENSE_STANCE(231), CROSS_SLASH(232), ENDURING(233), BLOCKING(234),
 	//Knight T3
 	CRAFTMANS_SKILLS(235, 3), TACKLE(236, 3),
 	//Weaponmaster T3
@@ -445,7 +445,7 @@ public enum Talent {
 
 	public static void onTalentUpgraded( Hero hero, Talent talent){
 		if (talent == MAX_HEALTH) {
-			hero.updateHT(false);
+			hero.updateHT(true);
 		}
 		if (talent == ADRENALINE_SURGE) {
 			if (hero.pointsInTalent(ADRENALINE_SURGE) == 1) Buff.affect(hero, AdrenalineSurge.class).reset(1, AdrenalineSurge.DURATION);
@@ -597,7 +597,7 @@ public enum Talent {
 
 		}
 		if (hero.hasTalent(Talent.IMPREGNABLE_MEAL)) {
-			Buff.affect(hero, ArmorEmpower.class).set(hero.pointsInTalent(Talent.IMPREGNABLE_MEAL));
+			Buff.affect(hero, ArmorEmpower.class).set(hero.pointsInTalent(Talent.IMPREGNABLE_MEAL), 5f);
 		}
 	}
 
@@ -1036,7 +1036,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	NATURAL_MEAL, HERBAL_HEALING, SPROUT, VINE, MASS_PRODUCTION, NEUROTOXIN);
 				break;
 			case KNIGHT:
-				Collections.addAll(tierTalents,	IMPREGNABLE_MEAL, SAFE_HEALING, DEFENCE_STANCE, CROSS_SLASH, ENDURING, BLOCKING);
+				Collections.addAll(tierTalents,	IMPREGNABLE_MEAL, SAFE_HEALING, DEFENSE_STANCE, CROSS_SLASH, ENDURING, BLOCKING);
 				break;
 		}
 		for (Talent talent : tierTalents){

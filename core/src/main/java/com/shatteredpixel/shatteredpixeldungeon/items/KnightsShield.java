@@ -58,6 +58,8 @@ public class KnightsShield extends Item {
 		if (action.equals(AC_SHIELD)) {
 			if (hero.buff(ShieldCoolDown.class) != null) {
 				GLog.w(Messages.get(this, "cooldown"));
+			} else if (hero.belongings.armor == null) {
+				GLog.w(Messages.get(this, "no_armor"));
 			} else {
 				hero.sprite.operate(hero.pos);
 				hero.spendAndNext(Actor.TICK);
@@ -79,7 +81,7 @@ public class KnightsShield extends Item {
 				if (hero.hasTalent(Talent.HOLY_SHIELD)) {
 					Buff.affect(hero, Bless.class, 3*hero.pointsInTalent(Talent.HOLY_SHIELD));
 				}
-				GLog.w(Messages.get(this, "shield"));
+				GLog.p(Messages.get(this, "shield"));
 			}
 		}
 	}

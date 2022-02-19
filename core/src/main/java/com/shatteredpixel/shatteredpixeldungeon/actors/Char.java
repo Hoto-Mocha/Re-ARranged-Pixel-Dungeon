@@ -573,10 +573,17 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (hero.hasTalent(Talent.WEAPON_AUGMENT)) {
+			if (hero.hasTalent(Talent.WEAPON_AUGMENT) && hero.belongings.weapon != null) {
 				if (hero.pointsInTalent(Talent.WEAPON_AUGMENT) == 1) dmg *= 0.01f*Random.NormalIntRange(90, 110); // 90%-110% damage
 				if (hero.pointsInTalent(Talent.WEAPON_AUGMENT) == 2) dmg *= 0.01f*Random.NormalIntRange(75, 125); // 75%-125% damage
 				if (hero.pointsInTalent(Talent.WEAPON_AUGMENT) == 3) dmg *= 0.01f*Random.NormalIntRange(50, 150); // 50%-150% damage
+			}
+
+			if (this instanceof Hero && hero.buff(Bless.class) != null && hero.subClass == HeroSubClass.CRUSADER) {
+				int healAmt = Math.max(Math.round(0.4f*dmg), 1);
+					hero.HP = Math.min(hero.HT, hero.HP+healAmt);
+					sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
+					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 			}
 
 			if (this instanceof Hero && hero.belongings.weapon != null) {
@@ -1230,7 +1237,7 @@ public abstract class Char extends Actor {
 				dmg *= 0.4f;
 			}
 
-			if (this instanceof Hero && hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos)) {
+			if (this instanceof Hero && hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos) && hero.belongings.armor != null) {
 				dmg += hero.belongings.armor.DRMax()*0.1f*hero.pointsInTalent(Talent.TACKLE);
 			}
 

@@ -91,6 +91,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
@@ -603,13 +604,15 @@ public enum HeroClass {
 		new ScrollOfRemoveCurse().identify();
 		new PotionOfParalyticGas().identify();
 
-		new PotionOfExperience().identify().quantity(29).collect();
-		new PotionOfStrength().identify().quantity(20).collect();
-		new ScrollOfUpgrade().identify().quantity(500).collect();
-		new TengusMask().collect();
-		new KingsCrown().collect();
-		new Gloves().identify().collect();
-		new Dagger().identify().collect();
+		//new TestWeapon().identify().collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
+		//new PotionOfHealing().identify().quantity(29).collect();
+		//new PotionOfStrength().identify().quantity(20).collect();
+		//new ScrollOfUpgrade().identify().quantity(500).collect();
+		//new TengusMask().collect();
+		//new KingsCrown().collect();
+		//new Gloves().identify().collect();
+		//new Dagger().identify().collect();
 	}
 
 	public String title() {

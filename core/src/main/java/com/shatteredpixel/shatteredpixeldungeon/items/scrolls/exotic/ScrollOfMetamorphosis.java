@@ -71,7 +71,7 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 		Sample.INSTANCE.play( Assets.Sounds.READ );
 		curUser.sprite.emitter().start(Speck.factory(Speck.CHANGE), 0.2f, 10);
 		Transmuting.show(curUser, oldTalent, newTalent);
-		Dungeon.hero.updateHT(false);
+		Dungeon.hero.updateHT(true);
 		updateQuickslot();
 	}
 
@@ -190,7 +190,7 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 			restrictedTalents.put(Talent.FARMER, HeroClass.PLANTER);
 
 			restrictedTalents.put(Talent.ON_ALERT, HeroClass.KNIGHT);
-			restrictedTalents.put(Talent.DEFENCE_STANCE, HeroClass.KNIGHT);
+			restrictedTalents.put(Talent.DEFENSE_STANCE, HeroClass.KNIGHT);
 			restrictedTalents.put(Talent.CROSS_SLASH, HeroClass.KNIGHT);
 			restrictedTalents.put(Talent.BLOCKING, HeroClass.KNIGHT);
 			restrictedTalents.put(Talent.CRAFTMANS_SKILLS, HeroClass.KNIGHT);
