@@ -753,7 +753,7 @@ public class Badges {
 	}
 
 	public static void validateKnightUnlock(){
-		if ((Statistics.amuletObtained = true) && !global.contains(Badge.UNLOCK_PLANTER))
+		if ((Statistics.amuletObtained = true) && !global.contains(Badge.UNLOCK_KNIGHT))
 			displayBadge( Badge.UNLOCK_KNIGHT );
 	}
 	

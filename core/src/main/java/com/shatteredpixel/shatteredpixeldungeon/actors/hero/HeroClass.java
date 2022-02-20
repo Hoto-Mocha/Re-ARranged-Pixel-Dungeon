@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.En
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
+import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -583,6 +584,7 @@ public enum HeroClass {
 		//new Shovel().identify().collect();
 		//new ScrollOfUpgrade().identify().quantity(50).collect();
 		//new ScrollOfTransmutation().identify().quantity(50).collect();
+		//new Amulet().collect();
 	}
 
 	private static void initKnight( Hero hero ) {
