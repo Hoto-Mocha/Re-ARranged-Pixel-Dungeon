@@ -605,16 +605,16 @@ public enum HeroClass {
 		new ScrollOfRemoveCurse().identify();
 		new PotionOfParalyticGas().identify();
 
-		new TestWeapon().identify().collect();
-		new PotionOfExperience().identify().quantity(29).collect();
-		new PotionOfHealing().identify().quantity(29).collect();
-		new PotionOfStrength().identify().quantity(20).collect();
-		new ScrollOfUpgrade().identify().quantity(500).collect();
-		new TengusMask().collect();
-		new KingsCrown().collect();
-		new Gloves().identify().collect();
-		new Dagger().identify().collect();
-		new SpellBook_Warding().identify().collect();
+		//new TestWeapon().identify().collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
+		//new PotionOfHealing().identify().quantity(29).collect();
+		//new PotionOfStrength().identify().quantity(20).collect();
+		//new ScrollOfUpgrade().identify().quantity(500).collect();
+		//new TengusMask().collect();
+		//new KingsCrown().collect();
+		//new Gloves().identify().collect();
+		//new Dagger().identify().collect();
+		//new SpellBook_Warding().identify().collect();
 	}
 
 	public String title() {
