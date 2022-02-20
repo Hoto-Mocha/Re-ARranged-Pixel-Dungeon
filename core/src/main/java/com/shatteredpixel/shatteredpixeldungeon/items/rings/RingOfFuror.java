@@ -62,7 +62,7 @@ public class RingOfFuror extends Ring {
 			speedBonus *= 2f;
 		}
 		if( hero.hasTalent(Talent.ATK_SPEED_ENHANCE)) {
-			speedBonus *= 1f + 0.1f * hero.pointsInTalent(Talent.ATK_SPEED_ENHANCE);
+			speedBonus *= 1f + 0.05f * hero.pointsInTalent(Talent.ATK_SPEED_ENHANCE);
 		}
 		if (hero.buff(AttackSpeedBuff.class) != null) {
 			speedBonus *= 1f + 0.05f * hero.buff(AttackSpeedBuff.class).getCount();

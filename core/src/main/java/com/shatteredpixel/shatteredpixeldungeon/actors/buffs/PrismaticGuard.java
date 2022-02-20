@@ -98,7 +98,11 @@ public class PrismaticGuard extends Buff {
 	}
 
 	public void extend( int HP ){
-		this.HP += HP;
+		if (this.HP+HP < this.maxHP()) {
+			this.HP += HP;
+		} else {
+			this.HP = this.maxHP();
+		}
 	}
 	
 	public int maxHP(){

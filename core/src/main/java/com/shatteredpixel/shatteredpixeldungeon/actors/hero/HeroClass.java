@@ -31,8 +31,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.N
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpectralBlades;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.StimPack;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.Armor_2;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.RocketThruster;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.UnstableAnkh;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.HolyShield;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WildMagic;
@@ -91,6 +91,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Warding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -604,15 +605,16 @@ public enum HeroClass {
 		new ScrollOfRemoveCurse().identify();
 		new PotionOfParalyticGas().identify();
 
-		//new TestWeapon().identify().collect();
-		//new PotionOfExperience().identify().quantity(29).collect();
-		//new PotionOfHealing().identify().quantity(29).collect();
-		//new PotionOfStrength().identify().quantity(20).collect();
-		//new ScrollOfUpgrade().identify().quantity(500).collect();
-		//new TengusMask().collect();
-		//new KingsCrown().collect();
-		//new Gloves().identify().collect();
-		//new Dagger().identify().collect();
+		new TestWeapon().identify().collect();
+		new PotionOfExperience().identify().quantity(29).collect();
+		new PotionOfHealing().identify().quantity(29).collect();
+		new PotionOfStrength().identify().quantity(20).collect();
+		new ScrollOfUpgrade().identify().quantity(500).collect();
+		new TengusMask().collect();
+		new KingsCrown().collect();
+		new Gloves().identify().collect();
+		new Dagger().identify().collect();
+		new SpellBook_Warding().identify().collect();
 	}
 
 	public String title() {
@@ -644,7 +646,7 @@ public enum HeroClass {
 			case PLANTER:
 				return new ArmorAbility[]{new Sprout(), new TreasureMap(), new Root()};
 			case KNIGHT:
-				return new ArmorAbility[]{new RocketThruster(), new StimPack(), new Armor_2()};
+				return new ArmorAbility[]{new HolyShield(), new StimPack(), new UnstableAnkh()};
 		}
 	}
 

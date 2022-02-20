@@ -27,7 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -46,10 +45,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
@@ -57,42 +54,43 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
-public class StimPack extends ArmorAbility {
+public class HolyShield extends ArmorAbility {
 
 	{
-		baseChargeUse = 50f;
+		baseChargeUse = 35f;
 	}
 
 	@Override
 	protected void activate(ClassArmor armor, Hero hero, Integer target) {
-		int damage = Math.round(hero.HT*(0.3f - 0.05f*(hero.pointsInTalent(Talent.BURDEN_RELIEF))));
-		if (hero.HP <= damage) {
-			GLog.w(Messages.get(this, "cannot_use"));
-		} else {
-			hero.damage(damage, hero);
-			hero.sprite.operate(hero.pos);
-			Sample.INSTANCE.play(Assets.Sounds.DRINK);
-			int duration = 20;
-			if (hero.hasTalent(Talent.LASTING_PACK)) {
-				duration += 5*hero.pointsInTalent(Talent.LASTING_PACK);
-			}
-			Buff.prolong(hero, Adrenaline.class, duration);
-			if (hero.hasTalent(Talent.TIME_STOP)) {
-				Buff.affect(hero, Swiftthistle.TimeBubble.class).set(hero.pointsInTalent(Talent.TIME_STOP)+1);
-			}
-			armor.charge -= chargeUse(hero);
-			armor.updateQuickslot();
-			hero.spendAndNext(Actor.TICK);
+
+		int shieldAmount = 25;
+		if (hero.hasTalent(Talent.BUFFER_BARRIER)) {
+			shieldAmount += 5*hero.pointsInTalent(Talent.BUFFER_BARRIER);
 		}
+		Buff.affect(hero, Barrier.class).setShield(shieldAmount);
+		if (hero.hasTalent(Talent.HOLY_LIGHT)) {
+			Buff.affect(hero, Light.class, 25*hero.pointsInTalent(Talent.HOLY_LIGHT));
+		}
+		if (hero.hasTalent(Talent.BLESS)) {
+			Buff.affect(hero, Bless.class, 5*hero.pointsInTalent(Talent.BLESS));
+		}
+		hero.sprite.operate(hero.pos);
+		Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
+		Emitter e = hero.sprite.centerEmitter();
+		if (e != null) e.burst( EnergyParticle.FACTORY, 15 );
+
+		armor.charge -= chargeUse(hero);
+		armor.updateQuickslot();
+		hero.spendAndNext(Actor.TICK);
 	}
 
 	@Override
 	public int icon() {
-		return HeroIcon.STIMPACK;
+		return HeroIcon.HOLY_SHIELD;
 	}
 
 	@Override
 	public Talent[] talents() {
-		return new Talent[]{Talent.BURDEN_RELIEF, Talent.LASTING_PACK, Talent.TIME_STOP, Talent.HEROIC_ENERGY};
+		return new Talent[]{Talent.BUFFER_BARRIER, Talent.HOLY_LIGHT, Talent.BLESS, Talent.HEROIC_ENERGY};
 	}
 }

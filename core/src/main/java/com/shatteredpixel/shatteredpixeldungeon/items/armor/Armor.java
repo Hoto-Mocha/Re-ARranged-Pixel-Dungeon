@@ -453,7 +453,7 @@ public class Armor extends EquipableItem {
 		}
 
 		if (hero.hasTalent(Talent.DEF_ENHANCE)) {
-			damage *= 1 - 0.05f * hero.pointsInTalent(Talent.DEF_ENHANCE);
+			damage *= 1 - 0.025f * hero.pointsInTalent(Talent.DEF_ENHANCE);
 		}
 
 		if (hero.hasTalent(Talent.ENDURING)) {

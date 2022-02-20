@@ -65,9 +65,9 @@ public class HeroIcon extends Image {
 	public static final int SPROUT			= 40;
 	public static final int TREASUREMAP		= 41;
 	public static final int ROOT			= 42;
-	public static final int ROCKETTHRUSTER	= 46;
+	public static final int HOLY_SHIELD		= 46;
 	public static final int STIMPACK		= 47;
-	public static final int ARMOR_2			= 48;
+	public static final int UNSTABLE_ANKH	= 48;
 
 
 	public HeroIcon(HeroSubClass subCls){

@@ -512,7 +512,7 @@ public class Hero extends Char {
 		}
 
 		if (hero.hasTalent(Talent.ACC_ENHANCE)) {
-			accuracy *= 1 + 0.15f * hero.pointsInTalent(Talent.ACC_ENHANCE);
+			accuracy *= 1 + 0.05f * hero.pointsInTalent(Talent.ACC_ENHANCE);
 		}
 
 		if (hero.buff(Lead.class) != null) {
@@ -814,7 +814,7 @@ public class Hero extends Char {
 		}
 
 		if (hero.hasTalent(Talent.EVA_ENHANCE)) {
-			evasion *= 1 + 0.1f * hero.pointsInTalent(Talent.EVA_ENHANCE);
+			evasion *= 1 + 0.05f * hero.pointsInTalent(Talent.EVA_ENHANCE);
 		}
 		
 		if (paralysed > 0) {

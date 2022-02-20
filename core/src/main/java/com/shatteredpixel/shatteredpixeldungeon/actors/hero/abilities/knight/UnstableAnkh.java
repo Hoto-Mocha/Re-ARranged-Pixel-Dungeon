@@ -21,9 +21,13 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
@@ -34,9 +38,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
@@ -90,6 +98,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Camera;
@@ -97,165 +106,58 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
-public class Armor_2 extends ArmorAbility {
+public class UnstableAnkh extends ArmorAbility {
 
 	{
-		baseChargeUse = 35f;
-	}
-
-	@Override
-	public String targetingPrompt() {
-		return Messages.get(this, "prompt");
+		baseChargeUse = 100f;
 	}
 
 	@Override
 	protected void activate(ClassArmor armor, Hero hero, Integer target) {
-		if (target == null){
-			return;
+
+		int duration = 1;
+		if (hero.hasTalent(Talent.ANKH_ENHANCE)) {
+			int points = hero.pointsInTalent(Talent.ANKH_ENHANCE);
+			if (points == 1) duration = (Random.Int(2) == 0) ? 1 : 2;
+			if (points == 2) duration = 2;
+			if (points == 3) duration = (Random.Int(2) == 0) ? 2 : 3;
+			if (points == 4) duration = 3;
 		}
-		if (target == hero.pos){
-			GLog.w(Messages.get(this, "self_target"));
-			return;
+
+		Buff.affect(hero, AnkhInvulnerability.class, duration);
+
+		if (hero.hasTalent(Talent.COMPLETE_ANKH) && Random.Int(100) < hero.pointsInTalent(Talent.COMPLETE_ANKH)) {
+			Ankh ankh = new Ankh();
+			Dungeon.level.drop(ankh, Dungeon.hero.pos ).sprite.drop();
+			new Flare(6, 32).color(0xFFAA00, true).show(hero.sprite, 4f);
+			GLog.p(Messages.get(this, "ankh_dropped"));
 		}
-		hero.busy();
+
+		if (hero.hasTalent(Talent.BLESSED_ANKH)) {
+			int healAmt = 5*hero.pointsInTalent(Talent.BLESSED_ANKH);
+			healAmt = Math.min( healAmt, hero.HT - hero.HP );
+			if (healAmt > 0 && hero.isAlive()) {
+				hero.HP += healAmt;
+				hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), hero.pointsInTalent(Talent.BLESSED_ANKH) );
+				hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+			}
+		}
+		hero.sprite.operate(hero.pos);
+		Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
 
 		armor.charge -= chargeUse(hero);
-		Item.updateQuickslot();
-
-		Ballistica aim = new Ballistica(hero.pos, target, Ballistica.WONT_STOP);
-
-		int maxDist = 5 + hero.pointsInTalent(Talent.EXPANDING_WAVE);
-		int dist = Math.min(aim.dist, maxDist);
-
-		ConeAOE cone = new ConeAOE(aim,
-				dist,
-				60 + 15*hero.pointsInTalent(Talent.EXPANDING_WAVE),
-				Ballistica.STOP_SOLID | Ballistica.STOP_TARGET);
-
-		//cast to cells at the tip, rather than all cells, better performance.
-		for (Ballistica ray : cone.outerRays){
-			((MagicMissile)hero.sprite.parent.recycle( MagicMissile.class )).reset(
-					MagicMissile.FORCE_CONE,
-					hero.sprite,
-					ray.path.get(ray.dist),
-					null
-			);
-		}
-
-		hero.sprite.zap(target);
-		Sample.INSTANCE.play(Assets.Sounds.BLAST, 1f, 0.5f);
-		Camera.main.shake(2, 0.5f);
-		//final zap at 2/3 distance, for timing of the actual effect
-		MagicMissile.boltFromChar(hero.sprite.parent,
-				MagicMissile.FORCE_CONE,
-				hero.sprite,
-				cone.coreRay.path.get(dist * 2 / 3),
-				new Callback() {
-					@Override
-					public void call() {
-
-						for (int cell : cone.cells){
-
-							Char ch = Actor.findChar(cell);
-							if (ch != null && ch.alignment != hero.alignment){
-								int scalingStr = hero.STR()-10;
-								int damage = Random.NormalIntRange(5 + scalingStr, 10 + 2*scalingStr);
-								damage = Math.round(damage * (1f + 0.2f*hero.pointsInTalent(Talent.SHOCK_FORCE)));
-								damage -= ch.drRoll();
-
-								if (hero.pointsInTalent(Talent.STRIKING_WAVE) == 4){
-									Buff.affect(hero, Talent.StrikingWaveTracker.class, 0f);
-								}
-
-								if (Random.Int(10) < 3*hero.pointsInTalent(Talent.STRIKING_WAVE)){
-									damage = hero.attackProc(ch, damage);
-									ch.damage(damage, hero);
-									if (hero.subClass == HeroSubClass.GLADIATOR){
-										Buff.affect( hero, Combo.class ).hit( ch );
-									}
-									if (hero.subClass == HeroSubClass.VETERAN){
-										if (hero.belongings.weapon instanceof CrudePistol
-												|| hero.belongings.weapon instanceof CrudePistolAP
-												|| hero.belongings.weapon instanceof CrudePistolHP
-												|| hero.belongings.weapon instanceof Pistol
-												|| hero.belongings.weapon instanceof PistolAP
-												|| hero.belongings.weapon instanceof PistolHP
-												|| hero.belongings.weapon instanceof GoldenPistol
-												|| hero.belongings.weapon instanceof GoldenPistolAP
-												|| hero.belongings.weapon instanceof GoldenPistolHP
-												|| hero.belongings.weapon instanceof Handgun
-												|| hero.belongings.weapon instanceof HandgunAP
-												|| hero.belongings.weapon instanceof HandgunHP
-												|| hero.belongings.weapon instanceof Magnum
-												|| hero.belongings.weapon instanceof MagnumAP
-												|| hero.belongings.weapon instanceof MagnumHP
-												|| hero.belongings.weapon instanceof DualPistol
-												|| hero.belongings.weapon instanceof DualPistolAP
-												|| hero.belongings.weapon instanceof DualPistolHP
-												|| hero.belongings.weapon instanceof SubMachinegun
-												|| hero.belongings.weapon instanceof SubMachinegunAP
-												|| hero.belongings.weapon instanceof SubMachinegunHP
-												|| hero.belongings.weapon instanceof AssultRifle
-												|| hero.belongings.weapon instanceof AssultRifleAP
-												|| hero.belongings.weapon instanceof AssultRifleHP
-												|| hero.belongings.weapon instanceof HeavyMachinegun
-												|| hero.belongings.weapon instanceof HeavyMachinegunAP
-												|| hero.belongings.weapon instanceof HeavyMachinegunHP
-												|| hero.belongings.weapon instanceof HuntingRifle
-												|| hero.belongings.weapon instanceof HuntingRifleAP
-												|| hero.belongings.weapon instanceof HuntingRifleHP
-												|| hero.belongings.weapon instanceof SniperRifle
-												|| hero.belongings.weapon instanceof SniperRifleAP
-												|| hero.belongings.weapon instanceof SniperRifleHP
-												|| hero.belongings.weapon instanceof ShotGun
-												|| hero.belongings.weapon instanceof ShotGunAP
-												|| hero.belongings.weapon instanceof ShotGunHP
-												|| hero.belongings.weapon instanceof SPAS
-												|| hero.belongings.weapon instanceof SPASAP
-												|| hero.belongings.weapon instanceof SPASHP
-												|| hero.belongings.weapon instanceof RocketLauncher
-												|| hero.belongings.weapon instanceof MiniGun
-												|| hero.belongings.weapon instanceof MiniGunAP
-												|| hero.belongings.weapon instanceof MiniGunHP
-												|| hero.belongings.weapon instanceof LargeHandgun
-												|| hero.belongings.weapon instanceof LargeHandgunAP
-												|| hero.belongings.weapon instanceof LargeHandgunHP
-												|| hero.belongings.weapon instanceof AntimaterRifle
-												|| hero.belongings.weapon instanceof AntimaterRifleAP
-												|| hero.belongings.weapon instanceof AntimaterRifleHP
-												|| hero.belongings.weapon instanceof RPG7
-										) {
-											Buff.affect( hero, Focusing.class ).hit( ch );
-										}
-									}
-								} else {
-									ch.damage(damage, hero);
-								}
-								if (ch.isAlive()){
-									if (Random.Int(4) < hero.pointsInTalent(Talent.SHOCK_FORCE)){
-										Buff.affect(ch, Paralysis.class, 5f);
-									} else {
-										Buff.affect(ch, Cripple.class, 5f);
-									}
-								}
-
-							}
-						}
-
-						Invisibility.dispel();
-						hero.spendAndNext(Actor.TICK);
-
-					}
-				});
+		armor.updateQuickslot();
+		Invisibility.dispel();
+		hero.spendAndNext(Actor.TICK);
 	}
 
 	@Override
 	public int icon() {
-		return HeroIcon.SHOCKWAVE;
+		return HeroIcon.UNSTABLE_ANKH;
 	}
 
 	@Override
 	public Talent[] talents() {
-		return new Talent[]{Talent.EXPANDING_WAVE, Talent.STRIKING_WAVE, Talent.SHOCK_FORCE, Talent.HEROIC_ENERGY};
+		return new Talent[]{Talent.BLESSED_ANKH, Talent.ANKH_ENHANCE, Talent.COMPLETE_ANKH, Talent.HEROIC_ENERGY};
 	}
 }

@@ -104,6 +104,10 @@ public class Swiftthistle extends Plant {
 			left = 1f;
 		}
 
+		public void set(float duration) {
+			left = duration;
+		}
+
 
 		@Override
 		public String toString() {

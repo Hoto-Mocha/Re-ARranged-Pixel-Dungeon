@@ -701,9 +701,11 @@ public abstract class Char extends Actor {
 						for (Mob m : Dungeon.level.mobs.toArray(new Mob[0])){
 							if (m instanceof PrismaticImage){ //if the prismatic image is existing in the floor
 								found = true;
-								m.HP += dmg/2; //heals the prismatic image
-								m.sprite.emitter().burst(Speck.factory(Speck.HEALING), 4);
-								m.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( dmg/2 ) );
+								if (m.HP < m.HT) {
+									m.HP = Math.min(m.HP+dmg/2, m.HT); //heals the prismatic image
+									m.sprite.emitter().burst(Speck.factory(Speck.HEALING), 4);
+									m.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( Math.min(dmg/2, m.HT-m.HP) ) );
+								}
 							}
 						}
 
