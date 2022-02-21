@@ -33,7 +33,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfWeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfArmorUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
@@ -282,7 +284,7 @@ public class RingOfWealth extends Ring {
 	private static Item genHighValueConsumable(){
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
-				switch (Random.Int(10)){
+				switch (Random.Int(12)){
 					case 0: case 1: default:
 						Item i = genMidValueConsumable();
 						if (i instanceof Bomb){
@@ -300,9 +302,13 @@ public class RingOfWealth extends Ring {
 						return new ScrollOfUpgrade();
 					case 9:
 						return new ScrollOfEnchantment();
+					case 10:
+						return new PotionOfArmorUpgrade();
+					case 11:
+						return new PotionOfWeaponEnhance();
 				}
 			} else {
-				switch (Random.Int(5)){
+				switch (Random.Int(7)){
 					case 0: default:
 						Item i = genMidValueConsumable();
 						if (i instanceof Bomb){
@@ -318,10 +324,14 @@ public class RingOfWealth extends Ring {
 						return new ScrollOfTransmutation();
 					case 4:
 						return new ScrollOfUpgrade();
+					case 5:
+						return new PotionOfArmorUpgrade();
+					case 6:
+						return new PotionOfWeaponEnhance();
 				}
 			}
 		} else {
-			switch (Random.Int(4)){
+			switch (Random.Int(6)){
 				case 0: default:
 					Item i = genMidValueConsumable();
 					if (i instanceof Bomb){
@@ -335,6 +345,10 @@ public class RingOfWealth extends Ring {
 					return new PotionOfExperience();
 				case 3:
 					return new ScrollOfTransmutation();
+				case 4:
+					return new PotionOfArmorUpgrade();
+				case 5:
+					return new PotionOfWeaponEnhance();
 			}
 		}
 	}

@@ -765,6 +765,15 @@ public class ItemSpriteSheet {
 		assignItemRect(POTION_CATALYST, 6, 15);
 		assignItemRect(LIQUID_METAL,    8, 15);
 	}
+
+	private static final int NEW_POTIONS = 								xy(1, 41);  //16 slots
+	public static final int POTION_FLUORESCENT      = NEW_POTIONS+0;
+	public static final int POTION_ASH     	 		= NEW_POTIONS+1;
+
+	static{
+		for (int i = NEW_POTIONS; i < NEW_POTIONS+16; i++)
+			assignItemRect(i, 12, 14);
+	}
 	
 	private static final int EXOTIC_POTIONS =                               xy(1, 23);  //16 slots
 	public static final int EXOTIC_CRIMSON  = EXOTIC_POTIONS+0;
@@ -782,6 +791,15 @@ public class ItemSpriteSheet {
 	static {
 		for (int i = EXOTIC_POTIONS; i < EXOTIC_POTIONS+16; i++)
 			assignItemRect(i, 12, 13);
+	}
+
+	private static final int NEW_EXOTIC_POTIONS = 						xy(1, 42);  //16 slots
+	public static final int EXOTIC_FLUORESCENT      = NEW_EXOTIC_POTIONS+0;
+	public static final int EXOTIC_ASH     			= NEW_EXOTIC_POTIONS+1;
+
+	static{
+		for (int i = NEW_EXOTIC_POTIONS; i < NEW_EXOTIC_POTIONS+16; i++)
+			assignItemRect(i, 12, 14);
 	}
 
 	private static final int SEEDS              =                           xy(1, 24);  //16 slots
@@ -821,8 +839,14 @@ public class ItemSpriteSheet {
 		for (int i = BREWS; i < BREWS+16; i++)
 			assignItemRect(i, 12, 14);
 	}
-	
-	                                                                                    //16 free slots
+
+	private static final int NEW_ELIXIRS = 								xy(1, 43);  //16 slots
+	public static final int ELIXIR_HEALTH      = NEW_ELIXIRS+0;
+
+	static{
+		for (int i = NEW_ELIXIRS; i < NEW_ELIXIRS+16; i++)
+			assignItemRect(i, 12, 14);
+	}
 	
 	private static final int SPELLS         =                               xy(1, 27);  //16 slots
 	public static final int MAGIC_PORTER    = SPELLS+0;
@@ -1098,6 +1122,8 @@ public class ItemSpriteSheet {
 		public static final int POTION_PARAGAS  = POTIONS+9;
 		public static final int POTION_PURITY   = POTIONS+10;
 		public static final int POTION_EXP      = POTIONS+11;
+		public static final int POTION_WEAPON   = POTIONS+12;
+		public static final int POTION_ARMOR    = POTIONS+13;
 		static {
 			assignIconRect( POTION_STRENGTH,    7, 7 );
 			assignIconRect( POTION_HEALING,     6, 7 );
@@ -1111,6 +1137,8 @@ public class ItemSpriteSheet {
 			assignIconRect( POTION_PARAGAS,     7, 7 );
 			assignIconRect( POTION_PURITY,      5, 7 );
 			assignIconRect( POTION_EXP,         7, 7 );
+			assignIconRect( POTION_WEAPON,      7, 6 );
+			assignIconRect( POTION_ARMOR,       8, 7 );
 		}
 
 		private static final int EXOTIC_POTIONS =                            xy(1, 7);  //16 slots
@@ -1126,6 +1154,8 @@ public class ItemSpriteSheet {
 		public static final int POTION_EARTHARMR= EXOTIC_POTIONS+9;
 		public static final int POTION_CLEANSE  = EXOTIC_POTIONS+10;
 		public static final int POTION_DIVINE   = EXOTIC_POTIONS+11;
+		public static final int POTION_W_UPGRADE= EXOTIC_POTIONS+12;
+		public static final int POTION_A_UPGRADE= EXOTIC_POTIONS+13;
 		static {
 			assignIconRect( POTION_MASTERY,     7, 7 );
 			assignIconRect( POTION_SHIELDING,   6, 6 );
@@ -1139,6 +1169,8 @@ public class ItemSpriteSheet {
 			assignIconRect( POTION_EARTHARMR,   6, 6 );
 			assignIconRect( POTION_CLEANSE,     7, 7 );
 			assignIconRect( POTION_DIVINE,      7, 7 );
+			assignIconRect( POTION_W_UPGRADE,   7, 7 );
+			assignIconRect( POTION_A_UPGRADE,   7, 7 );
 		}
 
 		                                                                                //16 free slots

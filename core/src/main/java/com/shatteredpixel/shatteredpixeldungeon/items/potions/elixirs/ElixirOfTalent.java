@@ -120,10 +120,10 @@ public class ElixirOfTalent extends Elixir {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
-			inputs =  new Class[]{PotionOfStrength.class, PotionOfMastery.class, AlchemicalCatalyst.class};
+			inputs =  new Class[]{PotionOfStrength.class, ElixirOfHealth.class, AlchemicalCatalyst.class};
 			inQuantity = new int[]{1, 1, 1};
 			
-			cost = 10;
+			cost = 8;
 			
 			output = ElixirOfTalent.class;
 			outQuantity = 1;
