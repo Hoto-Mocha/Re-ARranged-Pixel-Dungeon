@@ -26,7 +26,7 @@ public class v1_X_Changes {
 
 	public static void addAllChanges( ArrayList<ChangeInfo> changeInfos ){
 		//add_Coming_Soon(changeInfos);
-		add_v1_31_Changes(changeInfos);
+		add_v1_41_Changes(changeInfos);
 		add_v1_1_Changes(changeInfos);
 		add_v1_0_Changes(changeInfos);
 	}
@@ -55,9 +55,9 @@ public class v1_X_Changes {
 
 	//}
 
-	public static void add_v1_31_Changes( ArrayList<ChangeInfo> changeInfos ) {
+	public static void add_v1_41_Changes( ArrayList<ChangeInfo> changeInfos ) {
 
-		ChangeInfo changes = new ChangeInfo("ARranged v1.31", true, "");
+		ChangeInfo changes = new ChangeInfo("ARranged v1.41", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
@@ -66,12 +66,12 @@ public class v1_X_Changes {
 		changeInfos.add(changes);
 
 		changes.addButton( new ChangeButton(Icons.get(Icons.ARRANGED), "Developer Commentary",
-				"_-_ Released January 26th, 2022\n" +
+				"_-_ Released February 22nd, 2022\n" +
 						"_-_ First Release After Addition of the Changelog\n" +
 						"Expect dev commentary here in the future."));
 
 		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.LARGEHANDGUN), "Added Guns",
-				"_The Guns Added in ARPD!_\n\n" +
+				"_The Guns Are Added in ARPD!_\n\n" +
 						"- _HandGuns:_ Standard Guns.\n" +
 						"- _Snipers:_ High Damage, but Long Reload Time.\n" +
 						"- _MachineGuns:_ Low Damage, but Lots of Bullets in A SHOT.\n" +
@@ -81,9 +81,10 @@ public class v1_X_Changes {
 		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.LANCE), "Added Weapons",
 				"_Another unique Weapons Added in ARPD too!_\n\n" +
 						"- _Katanas:_ High Max Damage, but min damage is fixed at 1.\n" +
-						"- _6 Tier Weapons:_ You can EVOLVE your Weapons to Special Weapons!\n" +
+						"- _Advanced Evolution Weapons:_ You can EVOLVE your Weapons to Special Weapons!\n" +
 						"- _Alchemy Weapons:_ You can also create special weapons by splicing specific weapons and some of Liquid Metal!\n" +
 						"- _Bows:_ The Huntress can also evolve her Spirit Bow to Special Bows!\n" +
+						"- _SpellBooks:_ You can also make some spellbooks with your Wands!\n" +
 						"- _SubWeapons:_ Assists Combat, Can be used without Equipping."));
 
 		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.MASTERY), "3rd Subclasses",
@@ -117,6 +118,14 @@ public class v1_X_Changes {
 						"- _3rd_ of New Classes of ARPD\n" +
 						"- You can play Planter _after you clear the game once._"));
 
+		changes.addButton( new ChangeButton(new Image(Assets.Sprites.KNIGHT, 0, 90, 12, 15), HeroClass.KNIGHT.title(),
+				"- _Knight: Specialist of Defense_\n\n" +
+						"- Most of the Knights' abilities are focused on defense.\n" +
+						"- Knight's Shield is the Knight's unique item, which grants hero some additional defense.\n" +
+						"- Subclasses have unique abilities each, and all of them is powerful.\n" +
+						"- _4th_ of New Classes of ARPD\n" +
+						"- You can play Knight _after you clear the game once._"));
+
 		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.EVOLUTION), "Added Alchemy Recipes",
 				"_A Few of Alchemy Recipe Added in ARPD!_\n\n" +
 						"- _Bullets:_ You can augment your guns or subweapons with AP & HP bullets.\n" +
@@ -128,6 +137,18 @@ public class v1_X_Changes {
 						"- _Lloyd's Beacon:_ It has the ability as it was when it is deleted.\n" +
 						"- _Cape of Thorns:_ Is is Buffed in ARPD, Check it at 'Changes' Tab."));
 
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.POTION_FLUORESCENT), "New Potions & Elixirs",
+				"_2 Potions, 2 Exotic Potions, and 2 Elixirs are added ARPD!_\n\n" +
+						"- _Potion of Sharpness:_ Upgrades the hero's weapon for a while.\n" +
+						"- _Potion of Iron Wall:_ Upgrades the hero's armor for a while.\n" +
+						"- _Elixir of Talent:_ Grants hero 4 of 3 tier talent points, but drinking it has a bad side effects.\n" +
+						"- _Elixir of Satisfying:_ Increases the hero's max heath by 5, but its ingredient needs the _Potion of Strength._"));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.CHALLENGE_ON), "New Challenges",
+				"_2 of brand new Challenges are Added in ARPD!_\n\n" +
+						"- _Gambler:_ No longer Scroll of Upgrades in Dungeon, but You can get it from the _Ring of Wealth_.\n" +
+						"- _Superman:_ Your Damage Dealt increases by 3x, Evasion increases by 3x, Accuracy increases by 2x, but your _Max Health will fixed at 10._"));
+
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
 		changes.hardlight(CharSprite.POSITIVE);
 		changeInfos.add(changes);
@@ -137,6 +158,30 @@ public class v1_X_Changes {
 						"_Dried Rose:_ Apart from the equipments he's equipped with, The ghost also has the 50% power of hero's weapon and armor.\n" +
 						"_Cape of Thorns:_ Extended duration of Thorns and significantly increased Damage Reduction when the cape is on."));
 
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "changes"), false, null);
+		changes.hardlight(CharSprite.WARNING);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton( Icons.get(Icons.PREFS), "Wider QuickSlots",
+				"_The QuickSlot is Expanded in ARPD!_\n\n" +
+						"_Portrait:_ 6 Slots, but it can be trimmed because of other UIs. So i recommend the\n" +
+						"_Landscape:_ 8 Slots."));
+
+		changes.addButton( new ChangeButton( Icons.get(Icons.DISPLAY), "Dark UI",
+				"_The UI Color is Changed in ARPD!_\n\n" +
+						"Black is my favorite color, and dark colors will make your eyes less tired, maybe."));
+
+		changes.addButton( new ChangeButton( Icons.get(Icons.CHALLENGE_OFF), "Difficulty",
+				"Let me talk about the difficulty of ARPD.\n\n" +
+						"Overall, the ARPD is easier than the SPD, I know, it is intended.\n\n" +
+						"I think the difficulty of the game as the rougelike is important, but I think the fun of the game is also important, too.\n\n" +
+						"Because of it, I made the ARPD a little more fun for the player to play. From farming, crafting, getting what you want, things like that. In the process, the game became easier.\n\n" +
+						"So I wish you won't be disappointed that ARPD is too easy as a rougelike game."));
+
+		changes.addButton( new ChangeButton( Icons.get(Icons.CHANGES), "Other Changes",
+				"Main Menu's Buttons are Arranged in ARPD:\n\n" +
+						"_Support/Feedback:_ You can contact me here, the ARPD's GitHub page.\n\n" +
+						"you can check the details of update log(check the Release) and source code, and you can make any questions/suggestions to me here(issues)."));
 	}
 
 	public static void add_v1_1_Changes( ArrayList<ChangeInfo> changeInfos ) {

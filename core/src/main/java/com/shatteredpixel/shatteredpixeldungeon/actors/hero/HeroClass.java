@@ -633,8 +633,8 @@ public enum HeroClass {
 		new PotionOfParalyticGas().identify();
 
 		//new ChainFlail().identify().upgrade(13).collect();
-		new PlateArmor().identify().upgrade(200).collect();
-		new PotionOfArmorEnhance().identify().quantity(20).collect();
+		//new PlateArmor().identify().upgrade(200).collect();
+		//new PotionOfArmorEnhance().identify().quantity(20).collect();
 		//new DriedRose().identify().upgrade(10).collect();
 		//new SandalsOfNature().identify().upgrade(3).collect();
 		//new RingOfAccuracy().identify().upgrade(3).collect();
@@ -642,14 +642,14 @@ public enum HeroClass {
 		//new EtherealChains().identify().upgrade(5).collect();
 		//new RingOfAccuracy().identify().upgrade(3).collect();
 		//new RingOfHaste().identify().upgrade(200).collect();
-		new TestWeapon().identify().collect();
-		new PotionOfExperience().identify().quantity(29).collect();
-		new PotionOfStrength().identify().quantity(20).collect();
+		//new TestWeapon().identify().collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
+		//new PotionOfStrength().identify().quantity(20).collect();
 		//new ScrollOfUpgrade().identify().quantity(500).collect();
-		new TengusMask().collect();
-		new KingsCrown().collect();
-		new ScrollOfMagicMapping().identify().quantity(30).collect();
-		new PotionOfHealing().identify().quantity(100).collect();
+		//new TengusMask().collect();
+		//new KingsCrown().collect();
+		//new ScrollOfMagicMapping().identify().quantity(30).collect();
+		//new PotionOfHealing().identify().quantity(100).collect();
 		//new Gloves().identify().collect();
 		//new Dagger().identify().collect();
 		//new SpellBook_Warding().identify().collect();
