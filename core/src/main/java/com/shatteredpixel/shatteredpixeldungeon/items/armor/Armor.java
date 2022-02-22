@@ -414,7 +414,6 @@ public class Armor extends EquipableItem {
 		ArmorEmpower armorEmpower = hero.buff(ArmorEmpower.class);
 		if (armorEmpower != null && isEquipped( hero )) {
 			lvl += armorEmpower.getLvl();
-			updateQuickslot();
 		}
 		return lvl;
 	}

@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -141,11 +142,17 @@ public class MagesStaff extends MeleeWeapon {
 
 	@Override
 	public int buffedLvl() {
+		int lvl;
 		if (wand != null){
-			return Math.max(super.buffedLvl(), wand.buffedLvl());
+			lvl = Math.max(super.buffedLvl(), wand.buffedLvl());
 		} else {
-			return super.buffedLvl();
+			lvl = super.buffedLvl();
 		}
+		WeaponEmpower weaponEmpower = Dungeon.hero.buff(WeaponEmpower.class);
+		if (weaponEmpower != null && this.isEquipped( Dungeon.hero )) {
+			lvl += weaponEmpower.getLvl();
+		}
+		return lvl;
 	}
 
 	@Override

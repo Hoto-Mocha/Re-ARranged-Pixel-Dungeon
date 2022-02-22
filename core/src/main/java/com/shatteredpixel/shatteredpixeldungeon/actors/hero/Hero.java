@@ -52,6 +52,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterAttack;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterAttackDef;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
@@ -519,6 +521,10 @@ public class Hero extends Char {
 			accuracy *= 1.2f;
 		}
 
+		if (buff(CounterAttackDef.class) != null) {
+			accuracy = INFINITE_ACCURACY;
+		}
+
 		if (hero.buff(Jung.class) != null && hero.buff(Lead.class) != null && wep instanceof MeleeWeapon) {
 			accuracy = INFINITE_ACCURACY;
 		}
@@ -797,6 +803,14 @@ public class Hero extends Char {
 			return INFINITE_EVASION;
 		}
 
+		if (buff(CounterAttack.class) != null){
+			if (canAttack(enemy)){
+				Buff.affect(this, CounterAttackDef.class).enemy = enemy;
+				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY);
+			}
+			return INFINITE_EVASION;
+		}
+
 		if (buff(EvasiveMove.class) != null) {
 			return INFINITE_EVASION;
 		}
@@ -835,15 +849,29 @@ public class Hero extends Char {
 	@Override
 	public String defenseVerb() {
 		Combo.ParryTracker parry = buff(Combo.ParryTracker.class);
-		if (parry == null){
-			return super.defenseVerb();
-		} else {
-			parry.parried = true;
-			if (buff(Combo.class).getComboCount() < 9 || pointsInTalent(Talent.ENHANCED_COMBO) < 2) {
-				parry.detach();
+		if (subClass ==HeroSubClass.GLADIATOR) {
+			if (parry == null){
+				return super.defenseVerb();
+			} else {
+				parry.parried = true;
+				if (buff(Combo.class).getComboCount() < 9 || pointsInTalent(Talent.ENHANCED_COMBO) < 2) {
+					parry.detach();
+				}
+				return Messages.get(Monk.class, "parried");
 			}
-			return Messages.get(Monk.class, "parried");
 		}
+
+		CounterAttack counter = buff(CounterAttack.class);
+		if (subClass == HeroSubClass.FORTRESS) {
+			if (counter == null) {
+				return super.defenseVerb();
+			} else {
+				counter.detach();
+				return Messages.get(Monk.class, "parried");
+			}
+		}
+
+		return super.defenseVerb();
 	}
 
 
@@ -1695,12 +1723,6 @@ public class Hero extends Char {
 		if (hero.hasTalent(Talent.DEFENSE_STANCE) && Random.Int(20) < hero.pointsInTalent(Talent.DEFENSE_STANCE) && hero.buff(ShieldCoolDown.class) != null) {
 			Buff.detach(this, ShieldCoolDown.class);
 		}
-
-		if (subClass == HeroSubClass.FORTRESS && Random.Int(10) == 0 && hero.belongings.armor != null && level.adjacent(enemy.pos, hero.pos)) {
-			int counterDamage = belongings.armor.DRMax();
-			enemy.damage(Math.round(counterDamage / 6f * (3 + hero.pointsInTalent(Talent.CHARGE_ATTACK))), this);
-			Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY);
-		}
 		
 		return damage;
 	}
@@ -2367,6 +2389,14 @@ public class Hero extends Char {
 			if (e != null) e.burst( EnergyParticle.FACTORY, 15 );
 			hero.HTBoost++;
 			updateHT(true);
+		}
+
+		if (hit
+		 && subClass == HeroSubClass.FORTRESS
+		 &&	Random.Int(20) < 1+belongings.armor.buffedLvl()+pointsInTalent(Talent.FIND_WEAKNESS) //base 5%, +5%*armor lvl, +5%*talent lvl
+		 && hero.belongings.armor != null
+		 && buff(KnightsBlocking.class) != null) {
+			Buff.affect(this, CounterAttack.class, Actor.TICK);
 		}
 
 		if (hit && hero.hasTalent(Talent.MIND_FOCUS)) {

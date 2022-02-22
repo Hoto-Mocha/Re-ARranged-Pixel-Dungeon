@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projec
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -305,9 +306,8 @@ abstract public class Weapon extends KindOfWeapon {
 			lvl = level();
 		}
 		WeaponEmpower weaponEmpower = Dungeon.hero.buff(WeaponEmpower.class);
-		if (weaponEmpower != null && isEquipped( Dungeon.hero )) {
+		if (weaponEmpower != null && isEquipped( Dungeon.hero ) && !(this instanceof MagesStaff)) {
 			lvl += weaponEmpower.getLvl();
-			updateQuickslot();
 		}
 		return lvl;
 	}

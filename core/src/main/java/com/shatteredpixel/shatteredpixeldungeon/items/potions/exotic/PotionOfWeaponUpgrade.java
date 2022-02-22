@@ -50,6 +50,7 @@ public class PotionOfWeaponUpgrade extends ExoticPotion {
 		GLog.p( Messages.get(this, "empower") );
 		Sample.INSTANCE.play( Assets.Sounds.EVOKE );
 		CellEmitter.center( hero.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+		updateQuickslot();
 	}
 
 }

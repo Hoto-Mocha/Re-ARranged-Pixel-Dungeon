@@ -580,7 +580,7 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero && hero.buff(Bless.class) != null && hero.subClass == HeroSubClass.CRUSADER) {
-				int healAmt = Math.max(Math.round(0.4f*dmg), 1);
+				int healAmt = Math.max(Math.round(0.2f*dmg), 1);
 					hero.HP = Math.min(hero.HT, hero.HP+healAmt);
 					sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
 					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
@@ -1240,7 +1240,7 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero && hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos) && hero.belongings.armor != null) {
-				dmg += hero.belongings.armor.DRMax()*0.1f*hero.pointsInTalent(Talent.TACKLE);
+				dmg += hero.belongings.armor.DRMax()*0.05f*hero.pointsInTalent(Talent.TACKLE);
 			}
 
 			dmg += dmgBonus;
