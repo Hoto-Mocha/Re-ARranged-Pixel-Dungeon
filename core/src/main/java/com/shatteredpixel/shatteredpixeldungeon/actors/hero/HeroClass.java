@@ -394,6 +394,9 @@ public enum HeroClass {
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
 
+		//new PotionOfWeaponEnhance().identify().quantity(99).collect();
+		//new PotionOfArmorEnhance().identify().quantity(99).collect();
+
 		//new ScrollOfUpgrade().identify().quantity(99).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new PotionOfInvisibility().identify().quantity(30).collect();

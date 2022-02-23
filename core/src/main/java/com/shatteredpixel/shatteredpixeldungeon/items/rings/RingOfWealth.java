@@ -284,7 +284,7 @@ public class RingOfWealth extends Ring {
 	private static Item genHighValueConsumable(){
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
-				switch (Random.Int(12)){
+				switch (Random.Int(10)){
 					case 0: case 1: default:
 						Item i = genMidValueConsumable();
 						if (i instanceof Bomb){
@@ -302,13 +302,9 @@ public class RingOfWealth extends Ring {
 						return new ScrollOfUpgrade();
 					case 9:
 						return new ScrollOfEnchantment();
-					case 10:
-						return new PotionOfArmorUpgrade();
-					case 11:
-						return new PotionOfWeaponEnhance();
 				}
 			} else {
-				switch (Random.Int(7)){
+				switch (Random.Int(5)){
 					case 0: default:
 						Item i = genMidValueConsumable();
 						if (i instanceof Bomb){
@@ -324,14 +320,10 @@ public class RingOfWealth extends Ring {
 						return new ScrollOfTransmutation();
 					case 4:
 						return new ScrollOfUpgrade();
-					case 5:
-						return new PotionOfArmorUpgrade();
-					case 6:
-						return new PotionOfWeaponEnhance();
 				}
 			}
 		} else {
-			switch (Random.Int(6)){
+			switch (Random.Int(4)){
 				case 0: default:
 					Item i = genMidValueConsumable();
 					if (i instanceof Bomb){
@@ -345,10 +337,6 @@ public class RingOfWealth extends Ring {
 					return new PotionOfExperience();
 				case 3:
 					return new ScrollOfTransmutation();
-				case 4:
-					return new PotionOfArmorUpgrade();
-				case 5:
-					return new PotionOfWeaponEnhance();
 			}
 		}
 	}
