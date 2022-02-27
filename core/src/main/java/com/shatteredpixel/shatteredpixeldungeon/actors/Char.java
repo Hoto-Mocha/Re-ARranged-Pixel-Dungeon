@@ -560,7 +560,7 @@ public abstract class Char extends Actor {
 				dmg *= 3f;
 			}
 
-			if (this instanceof Hero && hero.subClass == HeroSubClass.WEAPONMASTER) {
+			if (this instanceof Hero && hero.subClass == HeroSubClass.WEAPONMASTER && hero.belongings.weapon != null) {
 				if (Random.Int(100) < Math.min(hero.belongings.weapon.buffedLvl()+1, 10) && (hero.belongings.weapon() instanceof WornKatana
 				 || hero.belongings.weapon() instanceof ShortKatana
 				 || hero.belongings.weapon() instanceof Katana
