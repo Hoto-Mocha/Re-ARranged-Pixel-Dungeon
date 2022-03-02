@@ -96,6 +96,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurs
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
@@ -239,6 +240,7 @@ public enum HeroClass {
 		new ScrollOfRage().identify();
 
 		//test
+		new ScrollOfEnchantment().identify().quantity(100).collect();
 		//new Amulet().collect();
 		//new ElixirOfDragonsBlood().identify().collect();
 		//new PotionOfWeaponEnhance().identify().quantity(20).collect();

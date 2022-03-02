@@ -717,12 +717,12 @@ public class WndSettings extends WndTabbed {
 				chkIgnoreSilent.checked(SPDSettings.ignoreSilentMode());
 				add(chkIgnoreSilent);
 			}
+
 			chkOldMusic = new CheckBox( Messages.get(this, "old_music") ) {
 				@Override
 				protected void onClick() {
 					super.onClick();
 					SPDSettings.oldMusic(!checked());
-					Sample.INSTANCE.play( Assets.Sounds.CLICK );
 				}
 			};
 			chkOldMusic.checked(!SPDSettings.oldMusic());
@@ -745,7 +745,7 @@ public class WndSettings extends WndTabbed {
 				optSFX.setRect(optMusic.right()+2, sep2.y + 1 + GAP, width/2-1, SLIDER_HEIGHT);
 				chkMuteSFX.setRect(chkMusicMute.right()+2, optSFX.bottom() + GAP, width/2-1, BTN_HEIGHT);
 
-				chkOldMusic.setRect(0, chkMusicMute.bottom() + GAP, width/2-1, BTN_HEIGHT);
+				chkOldMusic.setRect(0, chkMusicMute.bottom() + GAP, width, BTN_HEIGHT);
 
 			} else {
 				optMusic.setRect(0, sep1.y + 1 + GAP, width, SLIDER_HEIGHT);
