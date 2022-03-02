@@ -756,6 +756,7 @@ public class WndSettings extends WndTabbed {
 
 				optSFX.setRect(0, sep2.y + 1 + GAP, width, SLIDER_HEIGHT);
 				chkMuteSFX.setRect(0, optSFX.bottom() + GAP, width, BTN_HEIGHT);
+				chkOldMusic.setRect(0, chkMuteSFX.bottom() + GAP, width, BTN_HEIGHT);
 			}
 
 			height = chkMuteSFX.bottom();
