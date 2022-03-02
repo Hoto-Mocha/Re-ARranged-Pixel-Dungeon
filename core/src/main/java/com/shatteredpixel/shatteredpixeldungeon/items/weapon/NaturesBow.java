@@ -59,7 +59,7 @@ import java.util.ArrayList;
 public class NaturesBow extends Weapon {
 	
 	public static final String AC_SHOOT		= "SHOOT";
-	//데미지 감소 없음, 적 명중 시 5% 확률로 부정적 식물 효과 및 속박 3턴
+	//데미지 감소 없음, 적 명중 시 20% 확률로 부정적 식물 효과 및 속박 3턴
 	{
 		image = ItemSpriteSheet.NATURAL_BOW;
 		
