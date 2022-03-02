@@ -115,6 +115,10 @@ public class Assets {
 		public static final String THEME_1  	= "music/theme_1.ogg";
 		public static final String THEME_2	    = "music/theme_2.ogg";
 
+		public static final String OLD_MAIN  	= "music/old_main.ogg";
+		public static final String OLD_SURFACE	= "music/old_surface.ogg";
+		public static final String OLD_THEME	= "music/old_theme.ogg";
+
 		public static final String SEWERS_1		= "music/sewers_1.ogg";
 		public static final String SEWERS_2		= "music/sewers_2.ogg";
 

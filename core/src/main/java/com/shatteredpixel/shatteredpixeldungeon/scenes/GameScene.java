@@ -187,32 +187,38 @@ public class GameScene extends PixelScene {
 			ShatteredPixelDungeon.switchNoFade(TitleScene.class);
 			return;
 		}
-
-		if (Dungeon.depth <= 5) {
+		if (!SPDSettings.oldMusic()) {
 			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.SEWERS_1, Assets.Music.SEWERS_2, Assets.Music.SEWERS_2},
-					new float[]{1, 1, 0.5f},
-					false);
-		} else if (Dungeon.depth <= 10) {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.PRISON_1, Assets.Music.PRISON_2, Assets.Music.PRISON_2},
-					new float[]{1, 1, 0.5f},
-					false);
-		} else if (Dungeon.depth <= 15) {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.CAVES_1, Assets.Music.CAVES_2, Assets.Music.CAVES_2},
-					new float[]{1, 1, 0.5f},
-					false);
-		} else if (Dungeon.depth <= 20) {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.CITY_1, Assets.Music.CITY_2, Assets.Music.CITY_2},
-					new float[]{1, 1, 0.5f},
+					new String[]{Assets.Music.OLD_THEME},
+					new float[]{1},
 					false);
 		} else {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.HALLS_1, Assets.Music.HALLS_2, Assets.Music.HALLS_2},
-					new float[]{1, 1, 0.5f},
-					false);
+			if (Dungeon.depth <= 5) {
+				Music.INSTANCE.playTracks(
+						new String[]{Assets.Music.SEWERS_1, Assets.Music.SEWERS_2, Assets.Music.SEWERS_2},
+						new float[]{1, 1, 0.5f},
+						false);
+			} else if (Dungeon.depth <= 10) {
+				Music.INSTANCE.playTracks(
+						new String[]{Assets.Music.PRISON_1, Assets.Music.PRISON_2, Assets.Music.PRISON_2},
+						new float[]{1, 1, 0.5f},
+						false);
+			} else if (Dungeon.depth <= 15) {
+				Music.INSTANCE.playTracks(
+						new String[]{Assets.Music.CAVES_1, Assets.Music.CAVES_2, Assets.Music.CAVES_2},
+						new float[]{1, 1, 0.5f},
+						false);
+			} else if (Dungeon.depth <= 20) {
+				Music.INSTANCE.playTracks(
+						new String[]{Assets.Music.CITY_1, Assets.Music.CITY_2, Assets.Music.CITY_2},
+						new float[]{1, 1, 0.5f},
+						false);
+			} else {
+				Music.INSTANCE.playTracks(
+						new String[]{Assets.Music.HALLS_1, Assets.Music.HALLS_2, Assets.Music.HALLS_2},
+						new float[]{1, 1, 0.5f},
+						false);
+			}
 		}
 
 		SPDSettings.lastClass(Dungeon.hero.heroClass.ordinal());

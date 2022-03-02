@@ -77,6 +77,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticG
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfWeaponEnhance;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfArmorUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfWeaponUpgrade;
@@ -238,6 +239,8 @@ public enum HeroClass {
 		new ScrollOfRage().identify();
 
 		//test
+		//new Amulet().collect();
+		//new ElixirOfDragonsBlood().identify().collect();
 		//new PotionOfWeaponEnhance().identify().quantity(20).collect();
 		//new PotionOfWeaponUpgrade().identify().quantity(20).collect();
 		//new PotionOfArmorEnhance().identify().quantity(20).collect();

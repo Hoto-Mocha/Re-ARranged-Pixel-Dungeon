@@ -40,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Toolbar;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.sun.tools.javac.comp.Check;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
@@ -636,6 +637,8 @@ public class WndSettings extends WndTabbed {
 		CheckBox chkMuteSFX;
 		ColorBlock sep3;
 		CheckBox chkIgnoreSilent;
+		ColorBlock sep4;
+		CheckBox chkOldMusic;
 
 		@Override
 		protected void createChildren() {
@@ -714,6 +717,16 @@ public class WndSettings extends WndTabbed {
 				chkIgnoreSilent.checked(SPDSettings.ignoreSilentMode());
 				add(chkIgnoreSilent);
 			}
+			chkOldMusic = new CheckBox( Messages.get(this, "old_music") ) {
+				@Override
+				protected void onClick() {
+					super.onClick();
+					SPDSettings.oldMusic(!checked());
+					Sample.INSTANCE.play( Assets.Sounds.CLICK );
+				}
+			};
+			chkOldMusic.checked(!SPDSettings.oldMusic());
+			add( chkOldMusic );
 		}
 
 		@Override
@@ -731,6 +744,8 @@ public class WndSettings extends WndTabbed {
 
 				optSFX.setRect(optMusic.right()+2, sep2.y + 1 + GAP, width/2-1, SLIDER_HEIGHT);
 				chkMuteSFX.setRect(chkMusicMute.right()+2, optSFX.bottom() + GAP, width/2-1, BTN_HEIGHT);
+
+				chkOldMusic.setRect(0, chkMusicMute.bottom() + GAP, width/2-1, BTN_HEIGHT);
 
 			} else {
 				optMusic.setRect(0, sep1.y + 1 + GAP, width, SLIDER_HEIGHT);

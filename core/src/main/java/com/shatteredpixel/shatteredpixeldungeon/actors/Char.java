@@ -472,6 +472,10 @@ public abstract class Char extends Actor {
 					dr *= 1 - 0.1f*(Math.min(hero.belongings.weapon.buffedLvl(), 10));
 				}
 			}
+
+			if (this instanceof Hero && Dungeon.isChallenged(Challenges.PYRO)) {
+				Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
+			}
 			
 			if (this instanceof Hero){
 				Hero h = (Hero)this;

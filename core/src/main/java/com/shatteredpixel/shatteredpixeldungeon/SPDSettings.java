@@ -200,6 +200,7 @@ public class SPDSettings extends GameSettings {
 	public static final String KEY_MUSIC		= "music";
 	public static final String KEY_MUSIC_VOL    = "music_vol";
 	public static final String KEY_SOUND_FX		= "soundfx";
+	public static final String KEY_OLD_MUSIC	= "oldmusic";
 	public static final String KEY_SFX_VOL      = "sfx_vol";
 	public static final String KEY_IGNORE_SILENT= "ignore_silent";
 	
@@ -246,6 +247,15 @@ public class SPDSettings extends GameSettings {
 
 	public static boolean ignoreSilentMode(){
 		return getBoolean( KEY_IGNORE_SILENT, false);
+	}
+
+	public static void oldMusic( boolean value ) {
+		Sample.INSTANCE.enable( value );
+		put( KEY_OLD_MUSIC, value );
+	}
+
+	public static boolean oldMusic() {
+		return getBoolean( KEY_OLD_MUSIC, true );
 	}
 	
 	//Languages and Font

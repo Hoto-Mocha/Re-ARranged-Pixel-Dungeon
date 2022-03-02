@@ -58,10 +58,17 @@ public class TitleScene extends PixelScene {
 		
 		super.create();
 
-		Music.INSTANCE.playTracks(
-				new String[]{Assets.Music.THEME_1, Assets.Music.THEME_2},
-				new float[]{1, 1},
-				false);
+		if (!SPDSettings.oldMusic()) {
+			Music.INSTANCE.playTracks(
+					new String[]{Assets.Music.OLD_MAIN},
+					new float[]{1},
+					false);
+		} else {
+			Music.INSTANCE.playTracks(
+					new String[]{Assets.Music.THEME_1, Assets.Music.THEME_2},
+					new float[]{1, 1},
+					false);
+		}
 
 		uiCamera.visible = false;
 		
