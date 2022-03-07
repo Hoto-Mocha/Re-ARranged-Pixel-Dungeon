@@ -66,6 +66,9 @@ public class DungeonTileSheet {
 	public static final int WELL            = GROUND +18;
 	public static final int EMPTY_WELL      = GROUND +19;
 	public static final int PEDESTAL        = GROUND +20;
+	public static final int CUSTOM_TILE_1   = GROUND +21;
+	public static final int CUSTOM_TILE_2   = GROUND +22;
+	public static final int CUSTOM_TILE_3   = GROUND +23;
 
 
 
@@ -134,6 +137,9 @@ public class DungeonTileSheet {
 		chasmStitcheable.put( Terrain.BOOKSHELF,    CHASM_FLOOR );
 		chasmStitcheable.put( Terrain.BARRICADE,    CHASM_FLOOR );
 		chasmStitcheable.put( Terrain.PEDESTAL,     CHASM_FLOOR );
+		chasmStitcheable.put( Terrain.CUSTOM_TILE_1,CHASM_FLOOR );
+		chasmStitcheable.put( Terrain.CUSTOM_TILE_2,CHASM_FLOOR );
+		chasmStitcheable.put( Terrain.CUSTOM_TILE_3,CHASM_FLOOR );
 
 		//special floor
 		chasmStitcheable.put( Terrain.EMPTY_SP,     CHASM_FLOOR_SP );
@@ -352,6 +358,9 @@ public class DungeonTileSheet {
 		directVisuals.put(Terrain.EMBERS,           EMBERS);
 		directVisuals.put(Terrain.PEDESTAL,         PEDESTAL);
 		directVisuals.put(Terrain.EMPTY_SP,         FLOOR_SP);
+		directVisuals.put(Terrain.CUSTOM_TILE_1,    CUSTOM_TILE_1);
+		directVisuals.put(Terrain.CUSTOM_TILE_2,    CUSTOM_TILE_2);
+		directVisuals.put(Terrain.CUSTOM_TILE_3,    CUSTOM_TILE_3);
 
 		directVisuals.put(Terrain.SECRET_TRAP,      directVisuals.get(Terrain.EMPTY));
 		directVisuals.put(Terrain.TRAP,             directVisuals.get(Terrain.EMPTY));

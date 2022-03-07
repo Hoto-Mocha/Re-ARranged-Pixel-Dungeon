@@ -37,7 +37,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Wandmaker;
-import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -52,12 +51,13 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.CavesLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.CityLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.DeadEndLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.HallsLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.LastLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.LastShopLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.CavesBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.CityBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.HallsBossLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.LabsBossLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.LabsLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.NewLastLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.SewerBossLevel;
@@ -101,6 +101,7 @@ public class Dungeon {
 		//Demon spawners are already limited in their spawnrate, no need to limit their health drops
 		//alchemy
 		COOKING_HP,
+		MEDIC_HP,
 		BLANDFRUIT_SEED,
 
 		//Other limited enemy drops
@@ -111,6 +112,7 @@ public class Dungeon {
 		SHAMAN_WAND,
 		DM200_EQUIP,
 		GOLEM_EQUIP,
+		SOLDIER_WEP,
 
 		//containers
 		VELVET_POUCH,
@@ -296,14 +298,23 @@ public class Dungeon {
 			level = new HallsBossLevel();
 			break;
 		case 26:
-			level = new LastLevel();
+		case 27:
+		case 28:
+		case 29:
+			level = new LabsLevel();
+			break;
+		case 30:
+			level = new LabsBossLevel();
+			break;
+		case 31:
+			level = new NewLastLevel();
 			break;
 		default:
 			level = new DeadEndLevel();
 			Statistics.deepestFloor--;
 		}
 		
-		level.create();
+		level. create();
 		
 		Statistics.qualifiedForNoKilling = !bossLevel();
 		
@@ -335,7 +346,7 @@ public class Dungeon {
 	}
 	
 	public static boolean shopOnLevel() {
-		return depth == 6 || depth == 11 || depth == 16;
+		return depth == 6 || depth == 11 || depth == 16 || depth == 26;
 	}
 	
 	public static boolean bossLevel() {
@@ -343,7 +354,7 @@ public class Dungeon {
 	}
 	
 	public static boolean bossLevel( int depth ) {
-		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25;
+		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25 || depth == 30;
 	}
 	
 	public static void switchLevel( final Level level, int pos ) {

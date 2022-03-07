@@ -426,6 +426,9 @@ public class GameScene extends PixelScene {
 				case 21:
 					WndStory.showChapter( WndStory.ID_HALLS );
 					break;
+				case 26:
+					WndStory.showChapter( WndStory.ID_LABS );
+					break;
 				}
 				if (Dungeon.hero.isAlive()) {
 					Badges.validateNoKilling();

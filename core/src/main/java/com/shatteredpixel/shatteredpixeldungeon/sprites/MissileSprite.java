@@ -175,6 +175,10 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(GoldenBow.SpiritArrow.class,       0);
 		ANGULAR_SPEEDS.put(PoisonBow.SpiritArrow.class,       0);
 		ANGULAR_SPEEDS.put(ScorpioSprite.ScorpioShot.class,   0);
+		ANGULAR_SPEEDS.put(SoldierSprite.SoldierShot.class,   0);
+		ANGULAR_SPEEDS.put(TankSprite.TankShot.class, 		  0);
+		ANGULAR_SPEEDS.put(SWATSprite.SWATShot.class, 		  0);
+		ANGULAR_SPEEDS.put(RebelSprite.RebelShot.class, 	  0);
 
 		ANGULAR_SPEEDS.put(CrudePistol.Bullet.class,          0);
 		ANGULAR_SPEEDS.put(CrudePistolAP.Bullet.class,        0);
@@ -360,6 +364,10 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				||item instanceof FrostGun.Dart
 				||item instanceof ParalysisGun.Dart
 				||item instanceof TacticalShield.Bullet
+				||item instanceof SoldierSprite.SoldierShot
+				||item instanceof TankSprite.TankShot
+				||item instanceof SWATSprite.SWATShot
+				||item instanceof RebelSprite.RebelShot
 		) {
 			speed *= 3f;
 		} else if (item instanceof RocketLauncher.Rocket

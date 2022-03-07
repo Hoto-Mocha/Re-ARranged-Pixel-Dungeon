@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.Teleporter;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -80,6 +81,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfWeaponEnha
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfArmorUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMagicalSight;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfStormClouds;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfWeaponUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
@@ -97,15 +100,20 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetributio
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPassage;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Empty;
@@ -240,7 +248,8 @@ public enum HeroClass {
 		new ScrollOfRage().identify();
 
 		//test
-		new ScrollOfEnchantment().identify().quantity(100).collect();
+
+		//new ScrollOfEnchantment().identify().quantity(100).collect();
 		//new Amulet().collect();
 		//new ElixirOfDragonsBlood().identify().collect();
 		//new PotionOfWeaponEnhance().identify().quantity(20).collect();
@@ -435,6 +444,20 @@ public enum HeroClass {
 
 		new PotionOfMindVision().identify();
 		new ScrollOfLullaby().identify();
+
+
+		//test
+		//new Teleporter().collect();
+		//new MissileButton().collect();
+		//new PlateArmor().identify().upgrade(10).collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
+		//new PotionOfHealing().identify().quantity(100).collect();
+		//new Longsword().identify().upgrade(10).collect();
+		//new ScrollOfTeleportation().identify().quantity(50).collect();
+		//new ScrollOfPassage().identify().quantity(50).collect();
+		//new WandOfRegrowth().identify().collect();
+		//new AquaBlast().collect();
+		//new PotionOfStormClouds().identify().collect();
 
 		//new NaturesBow().identify().collect();
 		//new WindBow().identify().collect();

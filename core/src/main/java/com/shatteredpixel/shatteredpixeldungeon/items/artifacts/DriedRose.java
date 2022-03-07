@@ -781,8 +781,11 @@ public class DriedRose extends Artifact {
 				case 3:
 					yell( Messages.get( this, "dialogue_city_" + variant ));
 					break;
-				case 4: default:
+				case 4:
 					yell( Messages.get( this, "dialogue_halls_" + variant ));
+					break;
+				case 5: default:
+					yell( Messages.get( this, "dialogue_labs_" + variant ));
 					break;
 			}
 			if (ShatteredPixelDungeon.scene() instanceof GameScene) {
@@ -806,8 +809,11 @@ public class DriedRose extends Artifact {
 				case 3:
 					yell( Messages.get( this, "seen_king_" + Random.IntRange(1, 3) ));
 					break;
-				case 4: default:
+				case 4:
 					yell( Messages.get( this, "seen_yog_" + Random.IntRange(1, 3) ));
+					break;
+				case 5: default:
+					yell( Messages.get( this, "seen_rebel_" + Random.IntRange(1, 3) ));
 					break;
 			}
 			Sample.INSTANCE.play( Assets.Sounds.GHOST );

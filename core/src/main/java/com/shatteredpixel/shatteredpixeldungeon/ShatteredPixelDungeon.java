@@ -133,6 +133,9 @@ public class ShatteredPixelDungeon extends Game {
 		com.watabou.utils.Bundle.addAlias(
 				com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown.class,
 				"com.shatteredpixel.shatteredpixeldungeon.items.ArmorKit" );
+		//com.watabou.utils.Bundle.addAlias(
+		//		com.shatteredpixel.shatteredpixeldungeon.levels.LabsBossLevel.LabArenaVisuals.class,
+		//		"com.shatteredpixel.shatteredpixeldungeon.levels.NewLabsBossLevel$LabArenaVisuals" );
 		
 	}
 	
