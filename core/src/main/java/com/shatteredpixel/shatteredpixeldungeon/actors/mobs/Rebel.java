@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.levels.CityBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.LabsBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonBossLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -238,7 +239,9 @@ public class Rebel extends Mob {
 		if (Dungeon.level instanceof LabsBossLevel) {
 			if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) {
 				if (Random.Int(2) > 0) {
-					newPos = level.randomCellPos();
+					do {
+						newPos = level.randomCellPos();
+					} while (level.map[newPos] == Terrain.BARRICADE || Actor.findChar(newPos) != null);
 
 					if (level.heroFOV[pos]) CellEmitter.get( pos ).burst( Speck.factory( Speck.WOOL ), 6 );
 
@@ -253,7 +256,9 @@ public class Rebel extends Mob {
 				}
 			} else {
 				if (Random.Int(4) > 0) {
-					newPos = level.randomCellPos();
+					do {
+						newPos = level.randomCellPos();
+					} while (level.map[newPos] == Terrain.BARRICADE || Actor.findChar(newPos) != null);
 
 					if (level.heroFOV[pos]) CellEmitter.get( pos ).burst( Speck.factory( Speck.WOOL ), 6 );
 

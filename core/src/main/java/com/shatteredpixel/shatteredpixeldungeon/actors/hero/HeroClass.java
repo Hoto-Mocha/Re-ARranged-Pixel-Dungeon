@@ -102,6 +102,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPassage;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.HandyBarricade;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
@@ -248,7 +249,15 @@ public enum HeroClass {
 		new ScrollOfRage().identify();
 
 		//test
-
+		//new Teleporter().collect();
+		//new TestWeapon().identify().collect();
+		//new PotionOfHealing().quantity(100).collect();
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new RingOfMight().identify().upgrade(100).collect();
+		//new RingOfAccuracy().identify().upgrade(100).collect();
+		//new Longsword().identify().upgrade(10).collect();
+		//new PotionOfMagicalSight().identify().quantity(100).collect();
+		//new HandyBarricade().quantity(100).collect();
 		//new ScrollOfEnchantment().identify().quantity(100).collect();
 		//new Amulet().collect();
 		//new ElixirOfDragonsBlood().identify().collect();

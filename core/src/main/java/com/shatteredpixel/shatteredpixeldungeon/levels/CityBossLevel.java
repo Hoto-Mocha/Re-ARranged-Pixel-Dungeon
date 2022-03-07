@@ -78,6 +78,8 @@ public class CityBossLevel extends Level {
 		pedestals[3] = c.x-3 + (c.y+3) * WIDTH;
 	}
 
+	private ImpShopRoom impShop;
+
 	@Override
 	public String tilesTex() {
 		return Assets.Environment.TILES_CITY;
@@ -86,6 +88,23 @@ public class CityBossLevel extends Level {
 	@Override
 	public String waterTex() {
 		return Assets.Environment.WATER_CITY;
+	}
+
+	private static final String IMP_SHOP = "imp_shop";
+
+	@Override
+	public void storeInBundle( Bundle bundle ) {
+		super.storeInBundle( bundle );
+		bundle.put( IMP_SHOP, impShop );
+	}
+
+	@Override
+	public void restoreFromBundle( Bundle bundle ) {
+		super.restoreFromBundle( bundle );
+		impShop = (ImpShopRoom) bundle.get( IMP_SHOP );
+		if (map[topDoor] != Terrain.LOCKED_DOOR && Imp.Quest.isCompleted() && !impShop.shopSpawned()){
+			spawnShop();
+		}
 	}
 
 	@Override
@@ -137,6 +156,13 @@ public class CityBossLevel extends Level {
 		Painter.fill(this, end.left+4, end.top+5, 7, 18, Terrain.EMPTY);
 		Painter.fill(this, end.left+4, end.top+5, 7, 4, Terrain.EXIT);
 		exit = end.left+7 + (end.top+8)*width();
+
+		impShop = new ImpShopRoom();
+		impShop.set(end.left+3, end.top+12, end.left+11, end.top+20);
+		Painter.set(this, impShop.center(), Terrain.PEDESTAL);
+
+		Painter.set(this, impShop.left+2, impShop.top, Terrain.STATUE);
+		Painter.set(this, impShop.left+6, impShop.top, Terrain.STATUE);
 
 		Painter.fill(this, end.left+5, end.bottom+1, 5, 1, Terrain.EMPTY);
 		Painter.fill(this, end.left+6, end.bottom+2, 3, 1, Terrain.EMPTY);
@@ -270,12 +296,23 @@ public class CityBossLevel extends Level {
 	public void unseal() {
 		super.unseal();
 
-		set(bottomDoor, Terrain.DOOR);
-		GameScene.updateMap(bottomDoor);
+		set( bottomDoor, Terrain.DOOR );
+		GameScene.updateMap( bottomDoor );
 
-		set(topDoor, Terrain.DOOR);
-		GameScene.updateMap(topDoor);
+		set( topDoor, Terrain.DOOR );
+		GameScene.updateMap( topDoor );
+
+		if (Imp.Quest.isCompleted()) {
+			spawnShop();
+		}
 		Dungeon.observe();
+	}
+
+	private void spawnShop(){
+		while (impShop.itemCount() >= 7*(impShop.height()-2)){
+			impShop.bottom++;
+		}
+		impShop.spawnShop(this);
 	}
 
 	@Override
@@ -356,15 +393,15 @@ public class CityBossLevel extends Level {
 					data[i] = 15*8 + 6;
 					data[++i] = 15*8 + 7;
 
-				//imp's pedestal
+					//imp's pedestal
 				} else if (map[i] == Terrain.PEDESTAL) {
 					data[i] = 12*8 + 5;
 
-				//skull piles
+					//skull piles
 				} else if (map[i] == Terrain.STATUE) {
 					data[i] = 15*8 + 5;
 
-				//ground tiles
+					//ground tiles
 				} else if (map[i] == Terrain.EMPTY || map[i] == Terrain.EMPTY_DECO
 						|| map[i] == Terrain.EMBERS || map[i] == Terrain.GRASS
 						|| map[i] == Terrain.HIGH_GRASS || map[i] == Terrain.FURROWED_GRASS){
@@ -413,11 +450,11 @@ public class CityBossLevel extends Level {
 				if (map[i] == Terrain.PEDESTAL){
 					data[i] = 13*8 + 4;
 
-				//statues that should face left instead of right
+					//statues that should face left instead of right
 				} else if (map[i] == Terrain.STATUE && i%tileW > 7) {
 					data[i] = 15 * 8 + 4;
 
-				//carpet tiles
+					//carpet tiles
 				} else if (map[i] == Terrain.EMPTY_SP) {
 					//top row of DK's throne
 					if (map[i + 1] == Terrain.EMPTY_SP && map[i + tileW] == Terrain.EMPTY_SP) {
@@ -437,7 +474,7 @@ public class CityBossLevel extends Level {
 						data[++i] = 15*8 + 2;
 						data[++i] = 15*8 + 3;
 
-					//otherwise entrance carpet
+						//otherwise entrance carpet
 					} else if (map[i-tileW] != Terrain.EMPTY_SP){
 						data[i] = 13*8 + 0;
 					} else if (map[i+tileW] != Terrain.EMPTY_SP){
@@ -492,7 +529,7 @@ public class CityBossLevel extends Level {
 					return "";
 				}
 
-			//DK arena tiles
+				//DK arena tiles
 			} else {
 				if (Dungeon.level.map[cell] == Terrain.SIGN){
 					return Messages.get(CityBossLevel.class, "throne_desc");
@@ -536,11 +573,11 @@ public class CityBossLevel extends Level {
 					data[i] = 13 * 8 + 6;
 					data[++i] = 13 * 8 + 7;
 
-				//skull tops
+					//skull tops
 				} else if (map[i+tileW] == Terrain.STATUE) {
 					data[i] = 14*8 + 5;
 
-				//otherwise no tile here
+					//otherwise no tile here
 				} else {
 					data[i] = -1;
 				}
