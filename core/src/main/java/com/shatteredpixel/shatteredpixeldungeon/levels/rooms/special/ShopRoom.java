@@ -65,12 +65,12 @@ import java.util.HashMap;
 public class ShopRoom extends SpecialRoom {
 
 	private ArrayList<Item> itemsToSpawn;
-	
+
 	@Override
 	public int minWidth() {
 		return Math.max(7, (int)(Math.sqrt(itemCount())+3));
 	}
-	
+
 	@Override
 	public int minHeight() {
 		return Math.max(7, (int)(Math.sqrt(itemCount())+3));
@@ -80,16 +80,16 @@ public class ShopRoom extends SpecialRoom {
 		if (itemsToSpawn == null) itemsToSpawn = generateItems();
 		return itemsToSpawn.size();
 	}
-	
+
 	public void paint( Level level ) {
-		
+
 		Painter.fill( level, this, Terrain.WALL );
 		Painter.fill( level, this, 1, Terrain.EMPTY_SP );
 
 		placeShopkeeper( level );
 
 		placeItems( level );
-		
+
 		for (Door door : connected.values()) {
 			door.set( Door.Type.REGULAR );
 		}
@@ -147,46 +147,51 @@ public class ShopRoom extends SpecialRoom {
 		}
 
 	}
-	
+
 	protected static ArrayList<Item> generateItems() {
 
 		ArrayList<Item> itemsToSpawn = new ArrayList<>();
 
 		MeleeWeapon w;
 		switch (Dungeon.depth) {
-		case 6: default:
-			w = (MeleeWeapon) Generator.random(Generator.wepTiers[1]);
-			itemsToSpawn.add( Generator.random(Generator.misTiers[1]).quantity(2).identify() );
-			itemsToSpawn.add( new LeatherArmor().identify() );
-			break;
-			
-		case 11:
-			w = (MeleeWeapon) Generator.random(Generator.wepTiers[2]);
-			itemsToSpawn.add( Generator.random(Generator.misTiers[2]).quantity(2).identify() );
-			itemsToSpawn.add( new MailArmor().identify() );
-			break;
-			
-		case 16:
-			w = (MeleeWeapon) Generator.random(Generator.wepTiers[3]);
-			itemsToSpawn.add( Generator.random(Generator.misTiers[3]).quantity(2).identify() );
-			itemsToSpawn.add( new ScaleArmor().identify() );
-			break;
+			case 6: default:
+				w = (MeleeWeapon) Generator.random(Generator.wepTiers[1]);
+				itemsToSpawn.add( Generator.random(Generator.misTiers[1]).quantity(2).identify() );
+				itemsToSpawn.add( new LeatherArmor().identify() );
+				break;
 
-		case 20: case 21:
-			w = (MeleeWeapon) Generator.random(Generator.wepTiers[4]);
-			itemsToSpawn.add( Generator.random(Generator.misTiers[4]).quantity(2).identify() );
-			itemsToSpawn.add( new PlateArmor().identify() );
-			itemsToSpawn.add( new Torch() );
-			itemsToSpawn.add( new Torch() );
-			itemsToSpawn.add( new Torch() );
-			break;
+			case 11:
+				w = (MeleeWeapon) Generator.random(Generator.wepTiers[2]);
+				itemsToSpawn.add( Generator.random(Generator.misTiers[2]).quantity(2).identify() );
+				itemsToSpawn.add( new MailArmor().identify() );
+				break;
+
+			case 16:
+				w = (MeleeWeapon) Generator.random(Generator.wepTiers[3]);
+				itemsToSpawn.add( Generator.random(Generator.misTiers[3]).quantity(2).identify() );
+				itemsToSpawn.add( new ScaleArmor().identify() );
+				break;
+
+			case 20: case 21:
+				w = (MeleeWeapon) Generator.random(Generator.wepTiers[4]);
+				itemsToSpawn.add( Generator.random(Generator.misTiers[4]).quantity(2).identify() );
+				itemsToSpawn.add( new PlateArmor().identify() );
+				itemsToSpawn.add( new Torch() );
+				itemsToSpawn.add( new Torch() );
+				itemsToSpawn.add( new Torch() );
+				break;
+			case 26:
+				w = (MeleeWeapon) Generator.random(Generator.wepTiers[4]);
+				itemsToSpawn.add( Generator.random(Generator.misTiers[4]).quantity(2).identify() );
+				itemsToSpawn.add( new PlateArmor().identify() );
+				break;
 		}
 		w.enchant(null);
 		w.cursed = false;
 		w.level(0);
 		w.identify();
 		itemsToSpawn.add(w);
-		
+
 		itemsToSpawn.add( TippedDart.randomTipped(2) );
 
 		itemsToSpawn.add( new Alchemize().quantity(Random.IntRange(3, 4)));
@@ -210,7 +215,7 @@ public class ShopRoom extends SpecialRoom {
 
 		itemsToSpawn.add( new SmallRation() );
 		itemsToSpawn.add( new SmallRation() );
-		
+
 		switch (Random.Int(4)){
 			case 0:
 				itemsToSpawn.add( new Bomb() );
@@ -275,7 +280,7 @@ public class ShopRoom extends SpecialRoom {
 
 		//use a new generator here to prevent items in shop stock affecting levelgen RNG (e.g. sandbags)
 		Random.pushGenerator(Random.Long());
-			Random.shuffle(itemsToSpawn);
+		Random.shuffle(itemsToSpawn);
 		Random.popGenerator();
 
 		return itemsToSpawn;

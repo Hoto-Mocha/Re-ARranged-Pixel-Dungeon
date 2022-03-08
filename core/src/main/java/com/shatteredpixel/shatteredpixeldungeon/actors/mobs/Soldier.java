@@ -93,6 +93,11 @@ public class Soldier extends Mob {
 			return super.getCloser( target );
 		}
 	}
+
+	@Override
+	public float speed() {
+		return super.speed()*(5/6f); //5/6 movespeed
+	}
 	
 	@Override
 	public void aggro(Char ch) {

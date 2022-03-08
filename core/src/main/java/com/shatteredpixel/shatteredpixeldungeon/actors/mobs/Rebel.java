@@ -68,7 +68,7 @@ public class Rebel extends Mob {
 	{
 		spriteClass = RebelSprite.class;
 		
-		HP = HT = (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) ? 1800 : 1500;
+		HP = HT = (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) ? 1500 : 1200;
 		defenseSkill = 30;
 		viewDistance = 10;
 		
@@ -163,20 +163,20 @@ public class Rebel extends Mob {
 		}
 
 		if (summonCooldown <= 0 && Dungeon.level instanceof LabsBossLevel) {
-			Soldier soldier1 = new Soldier();
-			soldier1.state = soldier1.HUNTING;
-			soldier1.pos = 3+16*33;
-			GameScene.add( soldier1 );
-			soldier1.beckon(Dungeon.hero.pos);
+			Soldier soldier = new Soldier();
+			soldier.state = soldier.HUNTING;
+			soldier.pos = 3+16*33;
+			GameScene.add( soldier );
+			soldier.beckon(Dungeon.hero.pos);
 
-			Soldier soldier2 = new Soldier();
-			soldier2.state = soldier1.HUNTING;
-			soldier2.pos = 29+16*33;
-			GameScene.add( soldier2 );
-			soldier2.beckon(Dungeon.hero.pos);
+			Researcher researcher = new Researcher();
+			researcher.state = researcher.HUNTING;
+			researcher.pos = 29+16*33;
+			GameScene.add( researcher );
+			researcher.beckon(Dungeon.hero.pos);
 
 			Medic medic = new Medic();
-			medic.state = soldier1.HUNTING;
+			medic.state = medic.HUNTING;
 			medic.pos = 16+3*33;
 			GameScene.add( medic );
 			medic.beckon(Dungeon.hero.pos);
@@ -226,19 +226,19 @@ public class Rebel extends Mob {
 	@Override
 	public int defenseProc( Char enemy, int damage ) {
 		damage = super.defenseProc( enemy, damage );
-		if (damage >= 50) {
-			damage = 50;
+		if (damage >= 150) {
+			damage = 150;
 		}
 		damageTaken += damage;
 		if (damageTaken >= 250) {
-			Buff.affect(this, Barrier.class).setShield(200);
+			Buff.affect(this, Barrier.class).setShield(100);
 			damageTaken = 0;
 		}
 		int newPos;
 		LabsBossLevel level = (LabsBossLevel) Dungeon.level;
 		if (Dungeon.level instanceof LabsBossLevel) {
 			if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) {
-				if (Random.Int(2) > 0) {
+				if (Random.Int(2) == 0) {
 					do {
 						newPos = level.randomCellPos();
 					} while (level.map[newPos] == Terrain.BARRICADE || Actor.findChar(newPos) != null);
@@ -255,7 +255,7 @@ public class Rebel extends Mob {
 					Buff.affect(Dungeon.hero, Blindness.class, 5f);
 				}
 			} else {
-				if (Random.Int(4) > 0) {
+				if (Random.Int(4) == 0) {
 					do {
 						newPos = level.randomCellPos();
 					} while (level.map[newPos] == Terrain.BARRICADE || Actor.findChar(newPos) != null);

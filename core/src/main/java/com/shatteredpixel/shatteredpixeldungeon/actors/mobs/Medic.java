@@ -65,7 +65,7 @@ public class Medic extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 10, 30 );
+		return Random.NormalIntRange( 10, 20 );
 	}
 
 	@Override
@@ -83,10 +83,6 @@ public class Medic extends Mob {
 				}
 			}
 		} //heals nearby enemies and herself per every attack
-
-		if (Random.Int(4) == 0) {
-			Buff.affect(this, EvasiveMove.class, 1.0001f);
-		}
 
 		return damage;
 	}
