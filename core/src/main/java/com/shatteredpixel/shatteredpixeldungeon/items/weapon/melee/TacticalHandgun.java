@@ -34,20 +34,22 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -61,7 +63,7 @@ import com.watabou.utils.Random;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class LargeHandgunHP extends MeleeWeapon {
+public class TacticalHandgun extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
@@ -221,7 +223,6 @@ public class LargeHandgunHP extends MeleeWeapon {
     }
 
 
-
     public int getRound() { return this.round; }
 
     @Override
@@ -253,8 +254,8 @@ public class LargeHandgunHP extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-            return 4 * (tier+1)   +
-                    lvl * (tier+1)  +
+            return 4 * (tier)   +
+                    lvl * (tier)  +
                     RingOfSharpshooting.levelDamageBonus(hero) +
                     5 * hero.pointsInTalent(Talent.HANDGUN_MASTER);
     }
@@ -276,16 +277,16 @@ public class LargeHandgunHP extends MeleeWeapon {
             } else if (hero.STR() > STRReq()){
                 info += " " + Messages.get(Weapon.class, "excess_str", hero.STR() - STRReq());
             }
-            info += "\n\n" + Messages.get(LargeHandgunHP.class, "stats_known",
-                    Bulletmin(LargeHandgunHP.this.buffedLvl()),
-                    Bulletmax(LargeHandgunHP.this.buffedLvl()),
+            info += "\n\n" + Messages.get(TacticalHandgun.class, "stats_known",
+                    Bulletmin(TacticalHandgun.this.buffedLvl()),
+                    Bulletmax(TacticalHandgun.this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
-            info += "\n\n" + Messages.get(LargeHandgunHP.class, "stats_unknown",
+            info += "\n\n" + Messages.get(TacticalHandgun.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
@@ -356,8 +357,8 @@ public class LargeHandgunHP extends MeleeWeapon {
         return delay;
     }
 
-    public LargeHandgunHP.Bullet knockBullet(){
-        return new LargeHandgunHP.Bullet();
+    public TacticalHandgun.Bullet knockBullet(){
+        return new TacticalHandgun.Bullet();
     }
     public class Bullet extends MissileWeapon {
 
@@ -378,11 +379,16 @@ public class LargeHandgunHP extends MeleeWeapon {
         }
 
         @Override
+        public int buffedLvl(){
+            return TacticalHandgun.this.buffedLvl();
+        }
+
+        @Override
         public int damageRoll(Char owner) {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
-            int bulletdamage = Random.NormalIntRange(Bulletmin(LargeHandgunHP.this.buffedLvl()),
-                    Bulletmax(LargeHandgunHP.this.buffedLvl()));
+            int bulletdamage = Random.NormalIntRange(Bulletmin(TacticalHandgun.this.buffedLvl()),
+                    Bulletmax(TacticalHandgun.this.buffedLvl()));
 
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
@@ -396,27 +402,64 @@ public class LargeHandgunHP extends MeleeWeapon {
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-            return LargeHandgunHP.this.hasEnchant(type, owner);
+            return TacticalHandgun.this.hasEnchant(type, owner);
         }
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
-            return LargeHandgunHP.this.proc(attacker, defender, damage);
+            SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
+            WindBow bow2 = hero.belongings.getItem(WindBow.class);
+            GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
+            NaturesBow bow4 = hero.belongings.getItem(NaturesBow.class);
+            PoisonBow bow5 = hero.belongings.getItem(PoisonBow.class);
+            if (TacticalHandgun.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow != null
+                    && bow.enchantment != null) {
+                return bow.enchantment.proc(this, attacker, defender, damage);
+            } else if (TacticalHandgun.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow2 != null
+                    && bow2.enchantment != null) {
+                return bow2.enchantment.proc(this, attacker, defender, damage);
+            } else if (TacticalHandgun.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow3 != null
+                    && bow3.enchantment != null) {
+                return bow3.enchantment.proc(this, attacker, defender, damage);
+            } else if (TacticalHandgun.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow4 != null
+                    && bow4.enchantment != null) {
+                return bow4.enchantment.proc(this, attacker, defender, damage);
+            } else if (TacticalHandgun.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow5 != null
+                    && bow5.enchantment != null) {
+                return bow5.enchantment.proc(this, attacker, defender, damage);
+            } else {
+                return TacticalHandgun.this.proc(attacker, defender, damage);
+            }
         }
 
         @Override
         public float delayFactor(Char user) {
             if (hero.hasTalent(Talent.RECOIL_CONTROL)) {
                 if (hero.buff(Riot.riotTracker.class) != null) {
-                    return LargeHandgunHP.this.delayFactor(user)/(2f + 2f * hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
+                    return TacticalHandgun.this.delayFactor(user)/(2f + 2f * hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
                 } else {
-                    return LargeHandgunHP.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
+                    return TacticalHandgun.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
                 }
             } else {
                 if (hero.buff(Riot.riotTracker.class) != null) {
-                    return LargeHandgunHP.this.delayFactor(user)/2f;
+                    return TacticalHandgun.this.delayFactor(user)/2f;
                 } else {
-                        return LargeHandgunHP.this.delayFactor(user);
+                        return TacticalHandgun.this.delayFactor(user);
                 }
             }
         }
@@ -432,10 +475,10 @@ public class LargeHandgunHP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (LargeHandgunHP.this.masteryPotionBonus) {
-                return STRReq(tier, LargeHandgunHP.this.buffedLvl()) - 2;
+            if (TacticalHandgun.this.masteryPotionBonus) {
+                return STRReq(tier, TacticalHandgun.this.buffedLvl()) - 2;
             }
-            return STRReq(tier, LargeHandgunHP.this.buffedLvl());
+            return STRReq(tier, TacticalHandgun.this.buffedLvl());
         }
 
         @Override

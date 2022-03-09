@@ -22,8 +22,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
-import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
@@ -64,9 +62,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
@@ -224,9 +222,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(MiniGun.Bullet.class,              0);
 		ANGULAR_SPEEDS.put(MiniGunAP.Bullet.class,            0);
 		ANGULAR_SPEEDS.put(MiniGunHP.Bullet.class,            0);
-		ANGULAR_SPEEDS.put(LargeHandgun.Bullet.class,         0);
-		ANGULAR_SPEEDS.put(LargeHandgunAP.Bullet.class,       0);
-		ANGULAR_SPEEDS.put(LargeHandgunHP.Bullet.class,       0);
+		ANGULAR_SPEEDS.put(TacticalHandgun.Bullet.class,         0);
+		ANGULAR_SPEEDS.put(TacticalHandgunAP.Bullet.class,       0);
+		ANGULAR_SPEEDS.put(TacticalHandgunHP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(AntimaterRifle.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(AntimaterRifleAP.Bullet.class,     0);
 		ANGULAR_SPEEDS.put(AntimaterRifleHP.Bullet.class,     0);
@@ -352,9 +350,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				||item instanceof MiniGun.Bullet
 				||item instanceof MiniGunAP.Bullet
 				||item instanceof MiniGunHP.Bullet
-				||item instanceof LargeHandgun.Bullet
-				||item instanceof LargeHandgunAP.Bullet
-				||item instanceof LargeHandgunHP.Bullet
+				||item instanceof TacticalHandgun.Bullet
+				||item instanceof TacticalHandgunAP.Bullet
+				||item instanceof TacticalHandgunHP.Bullet
 				||item instanceof AntimaterRifle.Bullet
 				||item instanceof AntimaterRifleAP.Bullet
 				||item instanceof AntimaterRifleHP.Bullet

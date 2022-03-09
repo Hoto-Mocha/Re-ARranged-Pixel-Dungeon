@@ -21,9 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.stones;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
@@ -61,9 +58,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
@@ -152,9 +149,9 @@ public class StoneOfAugmentation extends InventoryStone {
 		  ||item instanceof SPASHP
 		  ||item instanceof RocketLauncher
 		  ||item instanceof RPG7
-		  ||item instanceof LargeHandgun
-		  ||item instanceof LargeHandgunAP
-		  ||item instanceof LargeHandgunHP
+		  ||item instanceof TacticalHandgun
+		  ||item instanceof TacticalHandgunAP
+		  ||item instanceof TacticalHandgunHP
 		  ||item instanceof AntimaterRifle
 		  ||item instanceof AntimaterRifleAP
 		  ||item instanceof AntimaterRifleHP

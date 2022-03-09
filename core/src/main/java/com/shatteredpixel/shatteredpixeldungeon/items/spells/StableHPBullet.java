@@ -25,11 +25,8 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
@@ -62,9 +59,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
@@ -127,8 +124,8 @@ public class StableHPBullet extends InventorySpell {
                 || item instanceof HandgunAP
                 || item instanceof Magnum
                 || item instanceof MagnumAP
-                || item instanceof LargeHandgun
-                || item instanceof LargeHandgunAP
+                || item instanceof TacticalHandgun
+                || item instanceof TacticalHandgunAP
 
                 || item instanceof DualPistol
                 || item instanceof DualPistolAP
@@ -216,8 +213,8 @@ public class StableHPBullet extends InventorySpell {
             n = new HandgunHP();
         } else if (w instanceof Magnum || w instanceof MagnumAP) {
             n = new MagnumHP();
-        } else if (w instanceof LargeHandgun || w instanceof LargeHandgunAP) {
-            n = new LargeHandgunHP();
+        } else if (w instanceof TacticalHandgun || w instanceof TacticalHandgunAP) {
+            n = new TacticalHandgunHP();
         } else if (w instanceof DualPistol || w instanceof DualPistolAP) {
             n = new DualPistolHP();
         } else if (w instanceof SubMachinegun || w instanceof SubMachinegunAP) {

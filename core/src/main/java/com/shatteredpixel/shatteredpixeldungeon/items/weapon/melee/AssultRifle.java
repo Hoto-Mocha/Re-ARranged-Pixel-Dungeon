@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
@@ -44,8 +45,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BrassScrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -336,6 +341,11 @@ public class AssultRifle extends MeleeWeapon {
         }
 
         @Override
+        public int buffedLvl(){
+            return AssultRifle.this.buffedLvl();
+        }
+
+        @Override
         public int damageRoll(Char owner) {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
@@ -359,7 +369,44 @@ public class AssultRifle extends MeleeWeapon {
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
-            return AssultRifle.this.proc(attacker, defender, damage);
+            SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
+            WindBow bow2 = hero.belongings.getItem(WindBow.class);
+            GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
+            NaturesBow bow4 = hero.belongings.getItem(NaturesBow.class);
+            PoisonBow bow5 = hero.belongings.getItem(PoisonBow.class);
+            if (AssultRifle.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow != null
+                    && bow.enchantment != null) {
+                return bow.enchantment.proc(this, attacker, defender, damage);
+            } else if (AssultRifle.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow2 != null
+                    && bow2.enchantment != null) {
+                return bow2.enchantment.proc(this, attacker, defender, damage);
+            } else if (AssultRifle.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow3 != null
+                    && bow3.enchantment != null) {
+                return bow3.enchantment.proc(this, attacker, defender, damage);
+            } else if (AssultRifle.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow4 != null
+                    && bow4.enchantment != null) {
+                return bow4.enchantment.proc(this, attacker, defender, damage);
+            } else if (AssultRifle.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow5 != null
+                    && bow5.enchantment != null) {
+                return bow5.enchantment.proc(this, attacker, defender, damage);
+            } else {
+                return AssultRifle.this.proc(attacker, defender, damage);
+            }
         }
 
         @Override

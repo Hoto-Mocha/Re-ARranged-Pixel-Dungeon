@@ -21,18 +21,13 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
@@ -59,9 +54,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
@@ -154,9 +149,9 @@ public class Evolution extends InventorySpell {
          || w instanceof HolySword
         ) {
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 3];
-        } else if (w instanceof LargeHandgun
-                || w instanceof LargeHandgunAP
-                || w instanceof LargeHandgunHP
+        } else if (w instanceof TacticalHandgun
+                || w instanceof TacticalHandgunAP
+                || w instanceof TacticalHandgunHP
                 || w instanceof MiniGun
                 || w instanceof MiniGunAP
                 || w instanceof MiniGunHP

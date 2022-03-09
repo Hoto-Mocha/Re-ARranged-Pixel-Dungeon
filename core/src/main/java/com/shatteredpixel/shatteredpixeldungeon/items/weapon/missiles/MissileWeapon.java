@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -34,9 +36,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
@@ -80,7 +87,7 @@ abstract public class MissileWeapon extends Weapon {
 	
 	@Override
 	public int min() {
-		return Math.max(0, min( buffedLvl() + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) ));
+		return Math.max(0, min( buffedLvl() + RingOfSharpshooting.levelDamageBonus(hero) ));
 	}
 	
 	@Override
@@ -91,7 +98,7 @@ abstract public class MissileWeapon extends Weapon {
 	
 	@Override
 	public int max() {
-		return Math.max(0, max( buffedLvl() + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) ));
+		return Math.max(0, max( buffedLvl() + RingOfSharpshooting.levelDamageBonus(hero) ));
 	}
 	
 	@Override
@@ -117,16 +124,16 @@ abstract public class MissileWeapon extends Weapon {
 				
 				//try to put the upgraded into inventory, if it didn't already merge
 				if (upgraded.quantity() == 1 && !upgraded.collect()) {
-					Dungeon.level.drop(upgraded, Dungeon.hero.pos);
+					Dungeon.level.drop(upgraded, hero.pos);
 				}
 				updateQuickslot();
 				return upgraded;
 			} else {
 				super.upgrade();
 				
-				Item similar = Dungeon.hero.belongings.getSimilar(this);
+				Item similar = hero.belongings.getSimilar(this);
 				if (similar != null){
-					detach(Dungeon.hero.belongings.backpack);
+					detach(hero.belongings.backpack);
 					Item result = similar.merge(this);
 					updateQuickslot();
 					return result;
@@ -167,19 +174,35 @@ abstract public class MissileWeapon extends Weapon {
 			projecting = true;
 		}
 		if (!projecting && Random.Int(3) < user.pointsInTalent(Talent.SHARED_ENCHANTMENT)) {
-			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(Dungeon.hero)) {
+			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(hero)) {
 				//do nothing
-			} else if (this instanceof FishingSpear && ((FishingSpear) this).ballistaHasEnchant(Dungeon.hero)) {
+			} else if (this instanceof FishingSpear && ((FishingSpear) this).ballistaHasEnchant(hero)) {
 				//do nothing
-			} else if (this instanceof ThrowingSpear && ((ThrowingSpear) this).ballistaHasEnchant(Dungeon.hero)) {
+			} else if (this instanceof ThrowingSpear && ((ThrowingSpear) this).ballistaHasEnchant(hero)) {
 				//do nothing
-			} else if (this instanceof Javelin && ((Javelin) this).ballistaHasEnchant(Dungeon.hero)) {
+			} else if (this instanceof Javelin && ((Javelin) this).ballistaHasEnchant(hero)) {
 				//do nothing
-			} else if (this instanceof Trident && ((Trident) this).ballistaHasEnchant(Dungeon.hero)) {
+			} else if (this instanceof Trident && ((Trident) this).ballistaHasEnchant(hero)) {
 				//do nothing
 			} else {
-				SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
+				SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
+				WindBow	bow2 = hero.belongings.getItem(WindBow.class);
+				GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
+				NaturesBow bow4 = hero.belongings.getItem(NaturesBow.class);
+				PoisonBow bow5 = hero.belongings.getItem(PoisonBow.class);
 				if (bow != null && bow.hasEnchant(Projecting.class, user)) {
+					projecting = true;
+				}
+				if (bow2 != null && bow2.hasEnchant(Projecting.class, user)) {
+					projecting = true;
+				}
+				if (bow3 != null && bow3.hasEnchant(Projecting.class, user)) {
+					projecting = true;
+				}
+				if (bow4 != null && bow4.hasEnchant(Projecting.class, user)) {
+					projecting = true;
+				}
+				if (bow5 != null && bow5.hasEnchant(Projecting.class, user)) {
 					projecting = true;
 				}
 			}
@@ -235,13 +258,37 @@ abstract public class MissileWeapon extends Weapon {
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
-		if (attacker == Dungeon.hero && Random.Int(3) < Dungeon.hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)){
-			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(Dungeon.hero)){
+		if (attacker == hero && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)) {
+			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(hero)) {
+				//do nothing
+			} else if (this instanceof FishingSpear && ((FishingSpear) this).ballistaHasEnchant(hero)) {
+				//do nothing
+			} else if (this instanceof ThrowingSpear && ((ThrowingSpear) this).ballistaHasEnchant(hero)) {
+				//do nothing
+			} else if (this instanceof Javelin && ((Javelin) this).ballistaHasEnchant(hero)) {
+				//do nothing
+			} else if (this instanceof Trident && ((Trident) this).ballistaHasEnchant(hero)) {
 				//do nothing
 			} else {
-				SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
-				if (bow != null && bow.enchantment != null && Dungeon.hero.buff(MagicImmune.class) == null) {
+				SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
+				WindBow	bow2 = hero.belongings.getItem(WindBow.class);
+				GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
+				NaturesBow bow4 = hero.belongings.getItem(NaturesBow.class);
+				PoisonBow bow5 = hero.belongings.getItem(PoisonBow.class);
+				if (bow != null && bow.enchantment != null && hero.buff(MagicImmune.class) == null) {
 					damage = bow.enchantment.proc(this, attacker, defender, damage);
+				}
+				if (bow2 != null && bow2.enchantment != null && hero.buff(MagicImmune.class) == null) {
+					damage = bow2.enchantment.proc(this, attacker, defender, damage);
+				}
+				if (bow3 != null && bow3.enchantment != null && hero.buff(MagicImmune.class) == null) {
+					damage = bow3.enchantment.proc(this, attacker, defender, damage);
+				}
+				if (bow4 != null && bow4.enchantment != null && hero.buff(MagicImmune.class) == null) {
+					damage = bow4.enchantment.proc(this, attacker, defender, damage);
+				}
+				if (bow5 != null && bow5.enchantment != null && hero.buff(MagicImmune.class) == null) {
+					damage = bow5.enchantment.proc(this, attacker, defender, damage);
 				}
 			}
 		}
@@ -304,14 +351,14 @@ abstract public class MissileWeapon extends Weapon {
 		float usages = baseUses * (float)(Math.pow(3, level()));
 
 		//+50%/75% durability
-		if (Dungeon.hero.hasTalent(Talent.DURABLE_PROJECTILES)){
-			usages *= 1.25f + (0.25f*Dungeon.hero.pointsInTalent(Talent.DURABLE_PROJECTILES));
+		if (hero.hasTalent(Talent.DURABLE_PROJECTILES)){
+			usages *= 1.25f + (0.25f* hero.pointsInTalent(Talent.DURABLE_PROJECTILES));
 		}
 		if (holster) {
 			usages *= MagicalHolster.HOLSTER_DURABILITY_FACTOR;
 		}
 		
-		usages *= RingOfSharpshooting.durabilityMultiplier( Dungeon.hero );
+		usages *= RingOfSharpshooting.durabilityMultiplier( hero );
 		
 		//at 100 uses, items just last forever.
 		if (usages >= 100f) return 0;
@@ -422,10 +469,10 @@ abstract public class MissileWeapon extends Weapon {
 				Math.round(augment.damageFactor(max())),
 				STRReq());
 
-		if (STRReq() > Dungeon.hero.STR()) {
+		if (STRReq() > hero.STR()) {
 			info += " " + Messages.get(Weapon.class, "too_heavy");
-		} else if (Dungeon.hero.STR() > STRReq()){
-			info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
+		} else if (hero.STR() > STRReq()){
+			info += " " + Messages.get(Weapon.class, "excess_str", hero.STR() - STRReq());
 		}
 
 		if (enchantment != null && (cursedKnown || !enchantment.curse())){
@@ -433,7 +480,7 @@ abstract public class MissileWeapon extends Weapon {
 			info += " " + Messages.get(enchantment, "desc");
 		}
 
-		if (cursed && isEquipped( Dungeon.hero )) {
+		if (cursed && isEquipped( hero )) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
 		} else if (cursedKnown && cursed) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed");

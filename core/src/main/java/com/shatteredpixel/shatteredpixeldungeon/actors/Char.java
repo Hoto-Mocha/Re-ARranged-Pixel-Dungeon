@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.challenges;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
 
@@ -100,9 +99,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.RainbowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
@@ -158,9 +155,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Katana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LongKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
@@ -513,7 +510,7 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof ShotGunAP.Bullet
 						|| h.belongings.weapon() instanceof SPASAP.Bullet
 						|| h.belongings.weapon() instanceof MiniGunAP.Bullet
-						|| h.belongings.weapon() instanceof LargeHandgunAP.Bullet
+						|| h.belongings.weapon() instanceof TacticalHandgunAP.Bullet
 						|| h.belongings.weapon() instanceof AntimaterRifleAP.Bullet
 				) {
 					dr = 0;
@@ -529,7 +526,7 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof AssultRifleHP.Bullet
 						|| h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
 						|| h.belongings.weapon() instanceof MiniGunHP.Bullet
-						|| h.belongings.weapon() instanceof LargeHandgunHP.Bullet
+						|| h.belongings.weapon() instanceof TacticalHandgunHP.Bullet
 						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
 				) {
 					dr *= 3;
@@ -904,7 +901,7 @@ public abstract class Char extends Actor {
 				 || h.belongings.weapon() instanceof AssultRifleAP.Bullet
 				 || h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
 				 || h.belongings.weapon() instanceof MiniGunAP.Bullet
-				 || h.belongings.weapon() instanceof LargeHandgunAP.Bullet
+				 || h.belongings.weapon() instanceof TacticalHandgunAP.Bullet
 				 || h.belongings.weapon() instanceof AntimaterRifleAP.Bullet
 				) {
 					dmg *= 0.90f;
@@ -920,7 +917,7 @@ public abstract class Char extends Actor {
 					    || h.belongings.weapon() instanceof AssultRifleHP.Bullet
 					    || h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
 						|| h.belongings.weapon() instanceof MiniGunHP.Bullet
-						|| h.belongings.weapon() instanceof LargeHandgunHP.Bullet
+						|| h.belongings.weapon() instanceof TacticalHandgunHP.Bullet
 						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
 				) {
 					dmg *= 1.25f;
@@ -929,9 +926,9 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero) {
 				float heroHPPercent = ((float)hero.HP / (float)hero.HT);
-				if (Dungeon.hero.belongings.weapon() instanceof LargeHandgun.Bullet
-						||Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP.Bullet
-						||Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP.Bullet
+				if (Dungeon.hero.belongings.weapon() instanceof TacticalHandgun.Bullet
+						||Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP.Bullet
+						||Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP.Bullet
 						||Dungeon.hero.belongings.weapon() instanceof TacticalShield.Bullet ) {
 					dmg *= GameMath.gate(0.125f, 2*heroHPPercent, 1.5f); //0%~6.25% HP : 0.125x, scales defend on Hero health, 75%~100% HP : 1.5x
 				}
@@ -955,9 +952,9 @@ public abstract class Char extends Actor {
 					 || Dungeon.hero.belongings.weapon() instanceof Magnum
 					 || Dungeon.hero.belongings.weapon() instanceof MagnumAP
 					 || Dungeon.hero.belongings.weapon() instanceof MagnumHP
-					 || Dungeon.hero.belongings.weapon() instanceof LargeHandgun
-					 || Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP
-					 || Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP
+					 || Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
+					 || Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP
+					 || Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP
 					 || Dungeon.hero.belongings.weapon() instanceof DualPistol
 					 || Dungeon.hero.belongings.weapon() instanceof DualPistolAP
 					 || Dungeon.hero.belongings.weapon() instanceof DualPistolHP
@@ -1022,9 +1019,9 @@ public abstract class Char extends Actor {
 						|| Dungeon.hero.belongings.weapon() instanceof Magnum.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof MagnumAP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof MagnumHP.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof LargeHandgun.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof DualPistol.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP.Bullet
@@ -1088,9 +1085,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof Magnum
 							|| Dungeon.hero.belongings.weapon() instanceof MagnumAP
 							|| Dungeon.hero.belongings.weapon() instanceof MagnumHP
-							|| Dungeon.hero.belongings.weapon() instanceof LargeHandgun
-							|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP
-							|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP
+							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
+							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP
+							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP
 							|| Dungeon.hero.belongings.weapon() instanceof DualPistol
 							|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP
 							|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP
@@ -1155,9 +1152,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof Magnum
 							|| Dungeon.hero.belongings.weapon() instanceof MagnumAP
 							|| Dungeon.hero.belongings.weapon() instanceof MagnumHP
-							|| Dungeon.hero.belongings.weapon() instanceof LargeHandgun
-							|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP
-							|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP
+							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
+							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP
+							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP
 							|| Dungeon.hero.belongings.weapon() instanceof DualPistol
 							|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP
 							|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP
@@ -1243,7 +1240,7 @@ public abstract class Char extends Actor {
 				dmg *= 0.4f;
 			}
 
-			if (this instanceof Hero && hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos) && hero.belongings.armor != null) {
+			if (this instanceof Hero && hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos) && hero.belongings.armor != null && hero.belongings.weapon() instanceof MeleeWeapon) {
 				dmg += hero.belongings.armor.DRMax()*0.05f*hero.pointsInTalent(Talent.TACKLE);
 			}
 

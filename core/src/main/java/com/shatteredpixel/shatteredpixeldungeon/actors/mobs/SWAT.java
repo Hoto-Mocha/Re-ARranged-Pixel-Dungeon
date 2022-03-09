@@ -24,25 +24,14 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
-import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SWATSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.SoldierSprite;
 import com.watabou.utils.Random;
-import com.watabou.utils.Reflection;
 
 public class SWAT extends Mob {
 	
@@ -147,7 +136,7 @@ public class SWAT extends Mob {
 		if (swatWeapon == SWATWeapon.SNIPER) {
 			return new AntimaterRifle().upgrade(1+Random.Int(3)).identify();
 		} else if (swatWeapon == SWATWeapon.HANDGUN) {
-			return new LargeHandgun().upgrade(1+Random.Int(3)).identify();
+			return new TacticalHandgun().upgrade(1+Random.Int(3)).identify();
 		} else {
 			return new MiniGun().upgrade(1+Random.Int(3)).identify();
 		}

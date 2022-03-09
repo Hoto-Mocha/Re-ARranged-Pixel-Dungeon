@@ -74,6 +74,8 @@ public class Rebel extends Mob {
 		
 		EXP = 100;
 		maxLvl = 30;
+
+		properties.add(Property.BOSS);
 	}
 
 	int summonCooldown = (Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 20 : 30);

@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -29,10 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
-import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
@@ -50,17 +46,15 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
@@ -95,7 +89,6 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Random;
-import com.watabou.utils.Reflection;
 
 public class AdvancedEvolution extends InventorySpell {
 
@@ -246,19 +239,19 @@ public class AdvancedEvolution extends InventorySpell {
                 || w instanceof MagnumHP) {
             if (w instanceof Magnum) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
-                    n = new LargeHandgun();
+                    n = new TacticalHandgun();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else if (w instanceof MagnumAP) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
-                    n = new LargeHandgunAP();
+                    n = new TacticalHandgunAP();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else { //w instanceof MagnumHP
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
-                    n = new LargeHandgunHP();
+                    n = new TacticalHandgunHP();
                 } else {
                     n = Generator.randomWeapon();
                 }

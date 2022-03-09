@@ -87,7 +87,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
@@ -166,7 +165,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
@@ -608,9 +606,9 @@ public class Hero extends Char {
 						|| wep instanceof MiniGunHP.Bullet
 				) {
 					accuracy *= 1f;
-				} else if (wep instanceof LargeHandgun.Bullet
-						|| wep instanceof LargeHandgunAP.Bullet
-						|| wep instanceof LargeHandgunHP.Bullet) {
+				} else if (wep instanceof TacticalHandgun.Bullet
+						|| wep instanceof TacticalHandgunAP.Bullet
+						|| wep instanceof TacticalHandgunHP.Bullet) {
 					accuracy *= 1.3f;
 				} else if (wep instanceof TacticalShield.Bullet) {
 					accuracy *= 0.7f;
@@ -631,7 +629,7 @@ public class Hero extends Char {
 					|| wep instanceof AssultRifleAP.Bullet
 					|| wep instanceof HeavyMachinegunAP.Bullet
 					|| wep instanceof MiniGunAP.Bullet
-					|| wep instanceof LargeHandgunAP.Bullet
+					|| wep instanceof TacticalHandgunAP.Bullet
 					|| wep instanceof AntimaterRifleAP.Bullet
 					|| wep instanceof CrudePistolHP.Bullet
 					|| wep instanceof PistolHP.Bullet
@@ -645,7 +643,7 @@ public class Hero extends Char {
 					|| wep instanceof AssultRifleHP.Bullet
 					|| wep instanceof HeavyMachinegunHP.Bullet
 					|| wep instanceof MiniGunHP.Bullet
-					|| wep instanceof LargeHandgunHP.Bullet
+					|| wep instanceof TacticalHandgunHP.Bullet
 					|| wep instanceof AntimaterRifleHP.Bullet
 					|| wep instanceof CrudePistol.Bullet
 					|| wep instanceof Pistol.Bullet
@@ -659,7 +657,7 @@ public class Hero extends Char {
 					|| wep instanceof AssultRifle.Bullet
 					|| wep instanceof HeavyMachinegun.Bullet
 					|| wep instanceof MiniGun.Bullet
-					|| wep instanceof LargeHandgun.Bullet
+					|| wep instanceof TacticalHandgun.Bullet
 					|| wep instanceof AntimaterRifle.Bullet
 					|| wep instanceof RocketLauncher.Rocket
 					|| wep instanceof RPG7.Rocket
@@ -709,9 +707,9 @@ public class Hero extends Char {
 				|| wep instanceof Magnum.Bullet
 				|| wep instanceof MagnumAP.Bullet
 				|| wep instanceof MagnumHP.Bullet
-				|| wep instanceof LargeHandgun.Bullet
-				|| wep instanceof LargeHandgunAP.Bullet
-				|| wep instanceof LargeHandgunHP.Bullet
+				|| wep instanceof TacticalHandgun.Bullet
+				|| wep instanceof TacticalHandgunAP.Bullet
+				|| wep instanceof TacticalHandgunHP.Bullet
 		) {
 			if (buff(FireBullet.class) != null) buff(FireBullet.class).proc(enemy);
 			if (buff(FrostBullet.class) != null) buff(FrostBullet.class).proc(enemy);
@@ -734,9 +732,9 @@ public class Hero extends Char {
 			 || wep instanceof Magnum.Bullet
 			 || wep instanceof MagnumAP.Bullet
 			 || wep instanceof MagnumHP.Bullet
-			 || wep instanceof LargeHandgun.Bullet
-			 || wep instanceof LargeHandgunAP.Bullet
-			 || wep instanceof LargeHandgunHP.Bullet
+			 || wep instanceof TacticalHandgun.Bullet
+			 || wep instanceof TacticalHandgunAP.Bullet
+			 || wep instanceof TacticalHandgunHP.Bullet
 			 || wep instanceof DualPistol.Bullet
 			 || wep instanceof DualPistolAP.Bullet
 			 || wep instanceof DualPistolHP.Bullet
@@ -956,9 +954,9 @@ public class Hero extends Char {
 			 || hero.belongings.weapon instanceof Magnum
 			 || hero.belongings.weapon instanceof MagnumAP
 			 || hero.belongings.weapon instanceof MagnumHP
-			 || hero.belongings.weapon instanceof LargeHandgun
-			 || hero.belongings.weapon instanceof LargeHandgunAP
-			 || hero.belongings.weapon instanceof LargeHandgunHP
+			 || hero.belongings.weapon instanceof TacticalHandgun
+			 || hero.belongings.weapon instanceof TacticalHandgunAP
+			 || hero.belongings.weapon instanceof TacticalHandgunHP
 			 || hero.belongings.weapon instanceof DualPistol
 			 || hero.belongings.weapon instanceof DualPistolAP
 			 || hero.belongings.weapon instanceof DualPistolHP
@@ -2515,9 +2513,9 @@ public class Hero extends Char {
 					  	|| belongings.weapon() instanceof Magnum
 					  	|| belongings.weapon() instanceof MagnumAP
 					  	|| belongings.weapon() instanceof MagnumHP
-					  	|| belongings.weapon() instanceof LargeHandgun
-					  	|| belongings.weapon() instanceof LargeHandgunAP
-					  	|| belongings.weapon() instanceof LargeHandgunHP
+					  	|| belongings.weapon() instanceof TacticalHandgun
+					  	|| belongings.weapon() instanceof TacticalHandgunAP
+					  	|| belongings.weapon() instanceof TacticalHandgunHP
 					  	|| belongings.weapon() instanceof DualPistol
 					  	|| belongings.weapon() instanceof DualPistolAP
 					  	|| belongings.weapon() instanceof DualPistolHP
@@ -2581,9 +2579,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof Magnum
 					|| Dungeon.hero.belongings.weapon() instanceof MagnumAP
 					|| Dungeon.hero.belongings.weapon() instanceof MagnumHP
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgun
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistol
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP
@@ -2643,9 +2641,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof Magnum
 					|| Dungeon.hero.belongings.weapon() instanceof MagnumAP
 					|| Dungeon.hero.belongings.weapon() instanceof MagnumHP
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgun
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistol
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP
@@ -2713,9 +2711,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof Magnum
 					|| Dungeon.hero.belongings.weapon() instanceof MagnumAP
 					|| Dungeon.hero.belongings.weapon() instanceof MagnumHP
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgun
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistol
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP
@@ -2947,9 +2945,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof Magnum
 					|| Dungeon.hero.belongings.weapon() instanceof MagnumAP
 					|| Dungeon.hero.belongings.weapon() instanceof MagnumHP
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgun
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunAP
-					|| Dungeon.hero.belongings.weapon() instanceof LargeHandgunHP
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP
+					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistol
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP
 					|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP

@@ -149,7 +149,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Katana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LongKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
@@ -321,7 +321,7 @@ public enum Catalog {
 		WEAPONS.seen.put( GoldenPistol.class,               false);
 		WEAPONS.seen.put( Handgun.class,                    false);
 		WEAPONS.seen.put( Magnum.class,                     false);
-		WEAPONS.seen.put( LargeHandgun.class,               false);
+		WEAPONS.seen.put( TacticalHandgun.class,               false);
 
 		WEAPONS.seen.put( HuntingRifle.class,               false);
 		WEAPONS.seen.put( SniperRifle.class,                false);

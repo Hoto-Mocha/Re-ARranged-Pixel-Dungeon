@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -63,9 +61,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
@@ -219,9 +217,9 @@ public class Shockwave extends ArmorAbility {
 												|| hero.belongings.weapon instanceof MiniGun
 												|| hero.belongings.weapon instanceof MiniGunAP
 												|| hero.belongings.weapon instanceof MiniGunHP
-												|| hero.belongings.weapon instanceof LargeHandgun
-												|| hero.belongings.weapon instanceof LargeHandgunAP
-												|| hero.belongings.weapon instanceof LargeHandgunHP
+												|| hero.belongings.weapon instanceof TacticalHandgun
+												|| hero.belongings.weapon instanceof TacticalHandgunAP
+												|| hero.belongings.weapon instanceof TacticalHandgunHP
 												|| hero.belongings.weapon instanceof AntimaterRifle
 												|| hero.belongings.weapon instanceof AntimaterRifleAP
 												|| hero.belongings.weapon instanceof AntimaterRifleHP

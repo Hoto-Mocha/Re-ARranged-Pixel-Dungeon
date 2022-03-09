@@ -29,11 +29,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -42,11 +40,14 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -342,6 +343,11 @@ public class TacticalShield extends MeleeWeapon {
         }
 
         @Override
+        public int buffedLvl(){
+            return TacticalShield.this.buffedLvl();
+        }
+
+        @Override
         public int damageRoll(Char owner) {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
@@ -365,7 +371,44 @@ public class TacticalShield extends MeleeWeapon {
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
-            return TacticalShield.this.proc(attacker, defender, damage);
+            SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
+            WindBow bow2 = hero.belongings.getItem(WindBow.class);
+            GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
+            NaturesBow bow4 = hero.belongings.getItem(NaturesBow.class);
+            PoisonBow bow5 = hero.belongings.getItem(PoisonBow.class);
+            if (TacticalShield.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow != null
+                    && bow.enchantment != null) {
+                return bow.enchantment.proc(this, attacker, defender, damage);
+            } else if (TacticalShield.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow2 != null
+                    && bow2.enchantment != null) {
+                return bow2.enchantment.proc(this, attacker, defender, damage);
+            } else if (TacticalShield.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow3 != null
+                    && bow3.enchantment != null) {
+                return bow3.enchantment.proc(this, attacker, defender, damage);
+            } else if (TacticalShield.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow4 != null
+                    && bow4.enchantment != null) {
+                return bow4.enchantment.proc(this, attacker, defender, damage);
+            } else if (TacticalShield.this.enchantment == null
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
+                    && hero.buff(MagicImmune.class) == null
+                    && bow5 != null
+                    && bow5.enchantment != null) {
+                return bow5.enchantment.proc(this, attacker, defender, damage);
+            } else {
+                return TacticalShield.this.proc(attacker, defender, damage);
+            }
         }
 
         @Override
@@ -469,7 +512,7 @@ public class TacticalShield extends MeleeWeapon {
 
     public static class Recipe1 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
-            inputs =  new Class[]{ObsidianShield.class, LargeHandgun.class, LiquidMetal.class};
+            inputs =  new Class[]{ObsidianShield.class, TacticalHandgun.class, LiquidMetal.class};
             inQuantity = new int[]{1, 1, 70};
 
             cost = 15;
@@ -481,7 +524,7 @@ public class TacticalShield extends MeleeWeapon {
 
     public static class Recipe2 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
-            inputs =  new Class[]{ObsidianShield.class, LargeHandgunAP.class, LiquidMetal.class};
+            inputs =  new Class[]{ObsidianShield.class, TacticalHandgunAP.class, LiquidMetal.class};
             inQuantity = new int[]{1, 1, 30};
 
             cost = 5;
@@ -493,7 +536,7 @@ public class TacticalShield extends MeleeWeapon {
 
     public static class Recipe3 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
-            inputs =  new Class[]{ObsidianShield.class, LargeHandgunHP.class, LiquidMetal.class};
+            inputs =  new Class[]{ObsidianShield.class, TacticalHandgunHP.class, LiquidMetal.class};
             inQuantity = new int[]{1, 1, 30};
 
             cost = 5;

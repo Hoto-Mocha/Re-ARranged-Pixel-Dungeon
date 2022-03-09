@@ -54,9 +54,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
@@ -201,9 +201,9 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			) {
 				c = Generator.wepTiers[((MeleeWeapon) w).tier - 3];
 			} else if (
-				w instanceof LargeHandgun
-			 || w instanceof LargeHandgunAP
-			 || w instanceof LargeHandgunHP
+				w instanceof TacticalHandgun
+			 || w instanceof TacticalHandgunAP
+			 || w instanceof TacticalHandgunHP
 			 || w instanceof MiniGun
 			 || w instanceof MiniGunAP
 			 || w instanceof MiniGunHP
