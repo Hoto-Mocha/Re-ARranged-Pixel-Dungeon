@@ -49,8 +49,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.levels.CityBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.LabsBossLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -58,6 +60,8 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.RebelSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SoldierSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BossHealthBar;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Bundle;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
@@ -78,8 +82,9 @@ public class Rebel extends Mob {
 		properties.add(Property.BOSS);
 	}
 
-	int summonCooldown = (Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 20 : 30);
+	int summonCooldown = Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 20 : 30;
 	int damageTaken = 0;
+	int cleanCooldown = (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) ? 200 : 300;
 
 	public boolean isDied = false;
 	private static boolean telling_1 = false;
@@ -87,6 +92,44 @@ public class Rebel extends Mob {
 	private static boolean telling_3 = false;
 	private static boolean telling_4 = false;
 	private static boolean telling_5 = false;
+
+	private static final String ISDIED = "isdied";
+	private static final String TELLING_1 = "telling_1";
+	private static final String TELLING_2 = "telling_2";
+	private static final String TELLING_3 = "telling_3";
+	private static final String TELLING_4 = "telling_4";
+	private static final String TELLING_5 = "telling_5";
+	private static final String SUMMON_COOLDOWN = "summoncooldown";
+	private static final String DMGTAKEN = "damagetaken";
+	private static final String CLEAN_COOLDOWN = "cleancooldown";
+
+	@Override
+	public void storeInBundle( Bundle bundle ) {
+		super.storeInBundle(bundle);
+		bundle.put(ISDIED, isDied);
+		bundle.put(TELLING_1, telling_1);
+		bundle.put(TELLING_2, telling_2);
+		bundle.put(TELLING_3, telling_3);
+		bundle.put(TELLING_4, telling_4);
+		bundle.put(TELLING_5, telling_5);
+		bundle.put(SUMMON_COOLDOWN, summonCooldown);
+		bundle.put(DMGTAKEN, damageTaken);
+		bundle.put(CLEAN_COOLDOWN, cleanCooldown);
+	}
+
+	@Override
+	public void restoreFromBundle( Bundle bundle ) {
+		super.restoreFromBundle( bundle );
+		isDied = bundle.getBoolean( ISDIED );
+		telling_1 = bundle.getBoolean( TELLING_1 );
+		telling_2 = bundle.getBoolean( TELLING_2 );
+		telling_3 = bundle.getBoolean( TELLING_3 );
+		telling_4 = bundle.getBoolean( TELLING_4 );
+		telling_5 = bundle.getBoolean( TELLING_5 );
+		summonCooldown = bundle.getInt( SUMMON_COOLDOWN );
+		damageTaken = bundle.getInt( DMGTAKEN );
+		cleanCooldown = bundle.getInt( CLEAN_COOLDOWN );
+	}
 
 	public boolean isDied() {
 		return isDied;
@@ -142,6 +185,7 @@ public class Rebel extends Mob {
 	protected boolean act() {
 
 		summonCooldown--;
+		cleanCooldown--;
 
 		if (this.HP < 5*this.HT/6 && !telling_1) {
 			yell(Messages.get(this, "telling_1"));
@@ -186,6 +230,25 @@ public class Rebel extends Mob {
 
 			sprite.centerEmitter().start(Speck.factory(Speck.SCREAM), 0.4f, 2);
 			Sample.INSTANCE.play(Assets.Sounds.CHALLENGE);
+		}
+
+		if (cleanCooldown <= 0) {
+			Sample.INSTANCE.play(Assets.Sounds.BLAST, 1, 1);
+			GameScene.flash(0x80FFFFFF);
+			yell(Messages.get(this, "cleaning"));
+			for (int i = 0; i < 1122; i++) {
+				if (Dungeon.level.map[i] == Terrain.BARRICADE
+						|| Dungeon.level.map[i] == Terrain.HIGH_GRASS
+						|| Dungeon.level.map[i] == Terrain.GRASS
+						|| Dungeon.level.map[i] == Terrain.FURROWED_GRASS
+						|| Dungeon.level.map[i] == Terrain.EMBERS
+						|| Dungeon.level.map[i] == Terrain.WATER  ) {
+					Level.set(i, Terrain.EMPTY);
+					GameScene.updateMap(i);
+				}
+			}
+
+			cleanCooldown = (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) ? 200 : 300;
 		}
 		return super.act();
 	}

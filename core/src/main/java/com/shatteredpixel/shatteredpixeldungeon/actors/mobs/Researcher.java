@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.depth;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -76,12 +78,16 @@ public class Researcher extends Mob {
 
 	@Override
 	protected Item createLoot() {
-		Class<?extends Potion> loot;
-		do{
-			loot = (Class<? extends Potion>) Random.oneOf(Generator.Category.POTION.classes);
-		} while (loot == PotionOfHealing.class || loot == PotionOfStrength.class);
+		if (depth == 30) {
+			return null;
+		} else {
+			Class<?extends Potion> loot;
+			do{
+				loot = (Class<? extends Potion>) Random.oneOf(Generator.Category.POTION.classes);
+			} while (loot == PotionOfHealing.class || loot == PotionOfStrength.class);
 
-		return Reflection.newInstance(loot);
+			return Reflection.newInstance(loot);
+		}
 	}
 
 	@Override

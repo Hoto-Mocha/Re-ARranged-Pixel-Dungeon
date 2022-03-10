@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.depth;
+
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -117,11 +119,15 @@ public class Soldier extends Mob {
 
 	@Override
 	protected Item createLoot() {
-		Dungeon.LimitedDrops.SOLDIER_WEP.count++;
-		Class<?extends MeleeWeapon> loot;
-		loot = (Class<? extends MeleeWeapon>) Random.oneOf(Handgun.class, Magnum.class, AssultRifle.class, HeavyMachinegun.class, SniperRifle.class, RocketLauncher.class, ShotGun.class);
+		if (depth == 30) {
+			return null;
+		} else {
+			Dungeon.LimitedDrops.SOLDIER_WEP.count++;
+			Class<?extends MeleeWeapon> loot;
+			loot = Random.oneOf(Handgun.class, Magnum.class, AssultRifle.class, HeavyMachinegun.class, SniperRifle.class, RocketLauncher.class, ShotGun.class);
 
-		return Reflection.newInstance(loot);
+			return Reflection.newInstance(loot);
+		}
 	}
 	
 }

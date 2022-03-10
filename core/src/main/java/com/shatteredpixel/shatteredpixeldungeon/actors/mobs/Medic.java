@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.depth;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -95,8 +96,12 @@ public class Medic extends Mob {
 
 	@Override
 	protected Item createLoot(){
-		Dungeon.LimitedDrops.MEDIC_HP.count++;
-		return super.createLoot();
+		if (depth == 30) {
+			return null;
+		} else {
+			Dungeon.LimitedDrops.MEDIC_HP.count++;
+			return super.createLoot();
+		}
 	}
 
 	@Override

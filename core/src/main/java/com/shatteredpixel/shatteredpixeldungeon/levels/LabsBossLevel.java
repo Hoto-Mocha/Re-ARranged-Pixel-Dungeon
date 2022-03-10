@@ -218,7 +218,6 @@ public class LabsBossLevel extends Level {
 		return randomEmptyCell;
 	}
 
-
 	@Override
 	public void seal() {
 		super.seal();
