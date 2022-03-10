@@ -26,7 +26,7 @@ public class v1_X_Changes {
 
 	public static void addAllChanges( ArrayList<ChangeInfo> changeInfos ){
 		//add_Coming_Soon(changeInfos);
-		add_v1_41_Changes(changeInfos);
+		add_v2_2_Changes(changeInfos);
 		add_v1_1_Changes(changeInfos);
 		add_v1_0_Changes(changeInfos);
 	}
@@ -55,9 +55,9 @@ public class v1_X_Changes {
 
 	//}
 
-	public static void add_v1_41_Changes( ArrayList<ChangeInfo> changeInfos ) {
+	public static void add_v2_2_Changes( ArrayList<ChangeInfo> changeInfos ) {
 
-		ChangeInfo changes = new ChangeInfo("ARranged v1.41", true, "");
+		ChangeInfo changes = new ChangeInfo("ARranged v2.2", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
@@ -66,8 +66,9 @@ public class v1_X_Changes {
 		changeInfos.add(changes);
 
 		changes.addButton( new ChangeButton(Icons.get(Icons.ARRANGED), "Developer Commentary",
-				"_-_ Released February 22nd, 2022\n" +
+				"_-_ Released March 10th, 2022\n" +
 						"_-_ First Release After Addition of the Changelog\n" +
+						"_-_ You can Check the Changelog details in the ARranged Pixel Dungeon Github website.\n" +
 						"Expect dev commentary here in the future."));
 
 		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.LARGEHANDGUN), "Added Guns",
@@ -145,9 +146,15 @@ public class v1_X_Changes {
 						"- _Elixir of Satisfying:_ Increases the hero's max heath by 5, but its ingredient needs the _Potion of Strength._"));
 
 		changes.addButton(new ChangeButton(Icons.get(Icons.CHALLENGE_ON), "New Challenges",
-				"_2 of brand new Challenges are Added in ARPD!_\n\n" +
+				"_3 of brand new Challenges are Added in ARPD!_\n\n" +
 						"- _Gambler:_ No longer Scroll of Upgrades in Dungeon, but You can get it from the _Ring of Wealth_.\n" +
-						"- _Superman:_ Your Damage Dealt increases by 3x, Evasion increases by 3x, Accuracy increases by 2x, but your _Max Health will fixed at 10._"));
+						"- _Superman:_ Your Damage Dealt increases by 3x, Evasion increases by 3x, Accuracy increases by 2x, but you will start with _Max Health 10_, and it cannot be increased by leveling up or several means.\n" +
+						"- _Pyromaniac:_ All your Physical attack _ignites enemy_, and the Elixir of Dragon Blood's effect duration halves."));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.DEPTH), "New Chapter",
+				"_The 6th Chapter is added ARPD!_\n\n" +
+						"You can explore the 6th Chapter which contains 5 of new mobs, and brand new boss on floor _26-30_, and according to these changes, the amulet has moved to 31F.\n" +
+						"And you can also find some unique spell that summons _Some Solid Tiles_, and can be used on 30F's boss fighting."));
 
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
 		changes.hardlight(CharSprite.POSITIVE);
@@ -175,7 +182,7 @@ public class v1_X_Changes {
 				"Let me talk about the difficulty of ARPD.\n\n" +
 						"Overall, the ARPD is easier than the SPD, I know, it is intended.\n\n" +
 						"I think the difficulty of the game as the rougelike is important, but I think the fun of the game is also important, too.\n\n" +
-						"Because of it, I made the ARPD a little more fun for the player to play. From farming, crafting, getting what you want, things like that. In the process, the game became easier.\n\n" +
+						"Because of it, I made the ARPD a little funnier for the player to play. From farming, crafting, getting what you want, things like that. In that process, the game has become easier.\n\n" +
 						"So I wish you won't be disappointed that ARPD is too easy as a rougelike game."));
 
 		changes.addButton( new ChangeButton( Icons.get(Icons.CHANGES), "Other Changes",
