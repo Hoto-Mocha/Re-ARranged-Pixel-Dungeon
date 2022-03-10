@@ -64,6 +64,10 @@ ________
 - Universal 3 tier talents
 > - Better Choice
 > - 4 of Stat up talents
+________
+- New Chapter - The Lab
+- 5 of New Enemies
+- New Boss : He's very powerful...
 
 # Shattered Pixel Dungeon
 
