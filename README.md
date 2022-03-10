@@ -31,9 +31,9 @@ ________
 ________
 - Normal & AP & HP Bullets for Firearms
 - 4 of new Subclasses for Warrior, Mage, Rouge, Huntress
-- 3 of New Playable Class: Gunner, Samurai, Planter!
-- 12 of New SubClasses of Gunner, Samurai, Planter
-- 12 of New Armor Abilities of Gunner, Samurai, Planter
+- 4 of New Playable Class: Gunner, Samurai, Planter, Knight
+- 12 of New SubClasses of Gunner, Samurai, Planter, Knight
+- 12 of New Armor Abilities of Gunner, Samurai, Planter, Knight
 ________
 - New Consumables
 - Potions
@@ -58,7 +58,10 @@ ________
 > - Superman
 > - Pyromaniac
 ________
-- New Universal 3 tier Talents
+- New Talents
+- 5th 1 tier talent for each class
+- 6th 2 tier talent for each class
+- Universal 3 tier talents
 > - Better Choice
 > - 4 of Stat up talents
 
