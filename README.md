@@ -34,8 +34,33 @@ ________
 - 3 of New Playable Class: Gunner, Samurai, Planter!
 - 12 of New SubClasses of Gunner, Samurai, Planter
 - 12 of New Armor Abilities of Gunner, Samurai, Planter
-
-
+________
+- New Consumables
+- Potions
+> - Potion of Sharpness
+> - Potion of Iron Wall
+> - Exotic Potions of above items
+- Elixirs
+> - Elixir of Talent
+> - Elixir of Satisfying
+- Spells
+> - Scroll of Extraction
+> - Scroll of Alchemy
+> - Evolution
+> - Advanced Evolution
+> - Handy Barricade
+- Bullets
+> - AP Bullet
+> - HP Bullet
+________
+- New Challenges
+> - Gambler
+> - Superman
+> - Pyromaniac
+________
+- New Universal 3 tier Talents
+> - Better Choice
+> - 4 of Stat up talents
 
 # Shattered Pixel Dungeon
 
