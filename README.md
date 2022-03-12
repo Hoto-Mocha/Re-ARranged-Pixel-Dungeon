@@ -68,6 +68,9 @@ ________
 - New Chapter - The Lab
 - 5 of New Enemies
 - New Boss : He's very powerful...
+________
+- New System
+> - When a bookshelf is destroyed, Random Scroll or Spellbook can be dropped
 
 # Shattered Pixel Dungeon
 
