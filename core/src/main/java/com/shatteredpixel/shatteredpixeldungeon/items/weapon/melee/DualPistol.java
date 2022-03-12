@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -70,9 +71,9 @@ public class DualPistol extends MeleeWeapon {
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
 
-    private int max_round;
-    private int round;
-    private float reload_time;
+    public static int max_round;
+    public static int round;
+    public float reload_time;
     private static final String TXT_STATUS = "%d/%d";
 
     {
@@ -80,11 +81,11 @@ public class DualPistol extends MeleeWeapon {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.DUAL_PISTOL;                                  //if you make something different guns, you should change this
+        image = ItemSpriteSheet.DUAL_PISTOL;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 2;                                                               //if you make something different guns, you should change this
+        tier = 2;
     }
 
     private static final String ROUND = "round";
@@ -153,7 +154,7 @@ public class DualPistol extends MeleeWeapon {
             max_round = 8;
             if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 2f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }//if you make something different guns, you should change this
+        }
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             } else if (round == 0 && hero.hasTalent(Talent.ELEMENTAL_BULLET)){
@@ -164,20 +165,11 @@ public class DualPistol extends MeleeWeapon {
         }
     }
 
-    public void quickReload() {
-        max_round = 8;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 2f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        round = Math.max(max_round, round);
-        updateQuickslot();
-    }
-
     public void reload() {
         max_round = 8;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 2f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }//if you make something different guns, you should change this
+        }
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -236,7 +228,7 @@ public class DualPistol extends MeleeWeapon {
         max_round = 8;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 2f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }//if you make something different guns, you should change this
+        }
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -246,26 +238,25 @@ public class DualPistol extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return tier +                                                                      //if you make something different guns, you should change this
-               lvl;                                                                        //if you make something different guns, you should change this
+        return tier +
+               lvl;
     }
 
     public int max(int lvl) {
-        return 3 * (tier + 1) +                                                            //if you make something different guns, you should change this
-               lvl;                                                           //if you make something different guns, you should change this
+        return 3 * (tier + 1) +
+               lvl;
     }
 
     public int Bulletmin(int lvl) {
-        return tier +                                                                  //if you make something different guns, you should change this
-                lvl +                                                                  //if you make something different guns, you should change this
+        return tier +
+                lvl +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 2 * (tier)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier) +                                                           //if you make something different guns, you should change this
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero) +
-                5 * hero.pointsInTalent(Talent.HANDGUN_MASTER);
+        return 2 * (tier)   +
+                lvl * (tier) +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
@@ -274,7 +265,7 @@ public class DualPistol extends MeleeWeapon {
         max_round = 8;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 2f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }//if you make something different guns, you should change this
+        }
         reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
@@ -374,7 +365,7 @@ public class DualPistol extends MeleeWeapon {
             image = ItemSpriteSheet.DUAL_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 2;                                                                            //if you make something different guns, you should change this
+            tier = 2;
         }
 
         @Override
@@ -537,6 +528,9 @@ public class DualPistol extends MeleeWeapon {
                         } else {
                             round --;
                         }
+                    }
+                    for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                        mob.beckon( curUser.pos );
                     }
                     updateQuickslot();
                 }

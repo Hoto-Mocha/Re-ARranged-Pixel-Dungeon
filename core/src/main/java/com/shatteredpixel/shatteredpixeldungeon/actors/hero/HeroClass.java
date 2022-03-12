@@ -556,6 +556,18 @@ public enum HeroClass {
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
 
+		//new Teleporter().collect();
+		//new TestWeapon().identify().collect();
+		//new PotionOfHealing().quantity(100).collect();
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new RingOfMight().identify().upgrade(100).collect();
+		//new RingOfAccuracy().identify().upgrade(100).collect();
+		//new PotionOfMagicalSight().identify().quantity(100).collect();
+		//new HandyBarricade().quantity(100).collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
+		//new ScrollOfMagicMapping().identify().quantity(50).collect();
+		//new TengusMask().collect();
+		//new PotionOfDragonsBreath().identify().quantity(100).collect();
 		//new GrenadeLauncher().identify().collect();
 		//new GrenadeLauncherAP().identify().collect();
 		//new GrenadeLauncherHP().identify().collect();

@@ -1959,6 +1959,95 @@ public class Hero extends Char {
 				Buff.affect(this, Demonization.class).indicate();
 			}
 
+			if (hero.hasTalent(Talent.QUICK_RELOAD) && Random.Int(100) < hero.pointsInTalent(Talent.QUICK_RELOAD)*hero.speed()) {
+				if (hero.belongings.weapon() instanceof CrudePistol && CrudePistol.round < CrudePistol.max_round) {
+
+					CrudePistol.round = Math.min(CrudePistol.round+1, CrudePistol.max_round);
+
+				} else if (hero.belongings.weapon instanceof CrudePistolAP && CrudePistolAP.round < CrudePistolAP.max_round) {
+
+					CrudePistolAP.round = Math.min(CrudePistolAP.round+1, CrudePistolAP.max_round);
+
+				} else if (hero.belongings.weapon instanceof CrudePistolHP && CrudePistolHP.round < CrudePistolHP.max_round) {
+
+					CrudePistolHP.round = Math.min(CrudePistolHP.round+1, CrudePistolHP.max_round);
+
+				} else if (hero.belongings.weapon instanceof Pistol && Pistol.round < Pistol.max_round) {
+
+					Pistol.round = Math.min(Pistol.round+1, Pistol.max_round);
+
+				} else if (hero.belongings.weapon instanceof PistolAP && PistolAP.round < PistolAP.max_round) {
+
+					PistolAP.round = Math.min(PistolAP.round+1, PistolAP.max_round);
+
+				} else if (hero.belongings.weapon instanceof PistolHP && PistolHP.round < PistolHP.max_round) {
+
+					PistolHP.round = Math.min(PistolHP.round+1, PistolHP.max_round);
+
+				} else if (hero.belongings.weapon instanceof GoldenPistol && GoldenPistol.round < GoldenPistol.max_round) {
+
+					GoldenPistol.round = Math.min(GoldenPistol.round+1, GoldenPistol.max_round);
+
+				} else if (hero.belongings.weapon instanceof GoldenPistolAP && GoldenPistolAP.round < GoldenPistolAP.max_round) {
+
+					GoldenPistolAP.round = Math.min(GoldenPistolAP.round+1, GoldenPistolAP.max_round);
+
+				} else if (hero.belongings.weapon instanceof GoldenPistolHP && GoldenPistolHP.round < GoldenPistolHP.max_round) {
+
+					GoldenPistolHP.round = Math.min(GoldenPistolHP.round+1, GoldenPistolHP.max_round);
+
+				} else if (hero.belongings.weapon instanceof Handgun && Handgun.round < Handgun.max_round) {
+
+					Handgun.round = Math.min(Handgun.round+1, Handgun.max_round);
+
+				} else if (hero.belongings.weapon instanceof HandgunAP && HandgunAP.round < HandgunAP.max_round) {
+
+					HandgunAP.round = Math.min(HandgunAP.round+1, HandgunAP.max_round);
+
+				} else if (hero.belongings.weapon instanceof HandgunHP && HandgunHP.round < HandgunHP.max_round) {
+
+					HandgunHP.round = Math.min(HandgunHP.round+1, HandgunHP.max_round);
+
+				} else if (hero.belongings.weapon instanceof Magnum && Magnum.round < Magnum.max_round) {
+
+					Magnum.round = Math.min(Magnum.round+1, Magnum.max_round);
+
+				} else if (hero.belongings.weapon instanceof MagnumAP && MagnumAP.round < MagnumAP.max_round) {
+
+					MagnumAP.round = Math.min(MagnumAP.round+1, MagnumAP.max_round);
+
+				} else if (hero.belongings.weapon instanceof MagnumHP && MagnumHP.round < MagnumHP.max_round) {
+
+					MagnumHP.round = Math.min(MagnumHP.round+1, MagnumHP.max_round);
+
+				} else if (hero.belongings.weapon instanceof TacticalHandgun && TacticalHandgun.round < TacticalHandgun.max_round) {
+
+					TacticalHandgun.round = Math.min(TacticalHandgun.round+1, TacticalHandgun.max_round);
+
+				} else if (hero.belongings.weapon instanceof TacticalHandgunAP && TacticalHandgunAP.round < TacticalHandgunAP.max_round) {
+
+					TacticalHandgunAP.round = Math.min(TacticalHandgunAP.round+1, TacticalHandgunAP.max_round);
+
+				} else if (hero.belongings.weapon instanceof TacticalHandgunHP && TacticalHandgunHP.round < TacticalHandgunHP.max_round) {
+
+					TacticalHandgunHP.round = Math.min(TacticalHandgunHP.round+1, TacticalHandgunHP.max_round);
+
+				} else if (hero.belongings.weapon instanceof DualPistol && DualPistol.round < DualPistol.max_round) {
+
+					DualPistol.round = Math.min(DualPistol.round+1, DualPistol.max_round);
+
+				} else if (hero.belongings.weapon instanceof DualPistolAP && DualPistolAP.round < DualPistolAP.max_round) {
+
+					DualPistolAP.round = Math.min(DualPistolAP.round+1, DualPistolAP.max_round);
+
+				} else if (hero.belongings.weapon instanceof DualPistolHP && DualPistolHP.round < DualPistolHP.max_round) {
+
+					DualPistolHP.round = Math.min(DualPistolHP.round+1, DualPistolHP.max_round);
+
+				}
+				updateQuickslot();
+			}
+
 			if (hero.hasTalent(Talent.MIND_VISION) && Random.Int(100) < hero.pointsInTalent(Talent.MIND_VISION)) {
 				Buff.affect(this, MindVision.class, 2f);
 			}

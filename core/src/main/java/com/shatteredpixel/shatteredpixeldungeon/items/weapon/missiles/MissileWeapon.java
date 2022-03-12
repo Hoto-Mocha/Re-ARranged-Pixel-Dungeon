@@ -26,12 +26,14 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
@@ -43,14 +45,69 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -173,6 +230,7 @@ abstract public class MissileWeapon extends Weapon {
 		||	this instanceof MissileButton.Rocket) {
 			projecting = true;
 		}
+
 		if (!projecting && Random.Int(3) < user.pointsInTalent(Talent.SHARED_ENCHANTMENT)) {
 			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(hero)) {
 				//do nothing
@@ -207,6 +265,73 @@ abstract public class MissileWeapon extends Weapon {
 				}
 			}
 		}
+		if (this instanceof CrudePistol.Bullet
+				|| this instanceof CrudePistolAP.Bullet
+				|| this instanceof CrudePistolHP.Bullet
+				|| this instanceof Pistol.Bullet
+				|| this instanceof PistolAP.Bullet
+				|| this instanceof PistolHP.Bullet
+				|| this instanceof GoldenPistol.Bullet
+				|| this instanceof GoldenPistolAP.Bullet
+				|| this instanceof GoldenPistolHP.Bullet
+				|| this instanceof Handgun.Bullet
+				|| this instanceof HandgunAP.Bullet
+				|| this instanceof HandgunHP.Bullet
+				|| this instanceof Magnum.Bullet
+				|| this instanceof MagnumAP.Bullet
+				|| this instanceof MagnumHP.Bullet
+				|| this instanceof TacticalHandgun.Bullet
+				|| this instanceof TacticalHandgunAP.Bullet
+				|| this instanceof TacticalHandgunHP.Bullet
+				|| this instanceof DualPistol.Bullet
+				|| this instanceof DualPistolAP.Bullet
+				|| this instanceof DualPistolHP.Bullet
+				|| this instanceof SubMachinegun.Bullet
+				|| this instanceof SubMachinegunAP.Bullet
+				|| this instanceof SubMachinegunHP.Bullet
+				|| this instanceof AssultRifle.Bullet
+				|| this instanceof AssultRifleAP.Bullet
+				|| this instanceof AssultRifleHP.Bullet
+				|| this instanceof HeavyMachinegun.Bullet
+				|| this instanceof HeavyMachinegunAP.Bullet
+				|| this instanceof HeavyMachinegunHP.Bullet
+				|| this instanceof MiniGun.Bullet
+				|| this instanceof MiniGunAP.Bullet
+				|| this instanceof MiniGunHP.Bullet
+				|| this instanceof HuntingRifle.Bullet
+				|| this instanceof HuntingRifleAP.Bullet
+				|| this instanceof HuntingRifleHP.Bullet
+				|| this instanceof SniperRifle.Bullet
+				|| this instanceof SniperRifleAP.Bullet
+				|| this instanceof SniperRifleHP.Bullet
+				|| this instanceof AntimaterRifle.Bullet
+				|| this instanceof AntimaterRifleAP.Bullet
+				|| this instanceof AntimaterRifleHP.Bullet
+				|| this instanceof ShotGun.Bullet
+				|| this instanceof ShotGunAP.Bullet
+				|| this instanceof ShotGunHP.Bullet
+				|| this instanceof SPAS.Bullet
+				|| this instanceof SPASAP.Bullet
+				|| this instanceof SPASHP.Bullet
+				|| this instanceof RocketLauncher.Rocket
+				|| this instanceof RPG7.Rocket
+				|| this instanceof GrenadeLauncher.Rocket
+				|| this instanceof GrenadeLauncherAP.Rocket
+				|| this instanceof GrenadeLauncherHP.Rocket
+				|| this instanceof SleepGun.Dart
+				|| this instanceof ParalysisGun.Dart
+				|| this instanceof FrostGun.Dart) {
+			if (hero.hasTalent(Talent.STREET_BATTLE)
+					&& !Dungeon.level.solid[dst]
+					&& Dungeon.level.distance(user.pos, dst) <= ((projecting) ? 4+hero.pointsInTalent(Talent.STREET_BATTLE) : 1+hero.pointsInTalent(Talent.STREET_BATTLE))
+					&& hero.buff(Talent.StreetBattleCooldown.class) == null){
+				Buff.affect(hero, Talent.StreetBattleCooldown.class, 40-10*hero.pointsInTalent(Talent.STREET_BATTLE));
+				return dst;
+			} else {
+				return super.throwPos(user, dst);
+			}
+		}
+
 		if (this instanceof PlasmaCannon.Bullet
 		||	this instanceof PlasmaCannonAP.Bullet
 		||	this instanceof PlasmaCannonHP.Bullet

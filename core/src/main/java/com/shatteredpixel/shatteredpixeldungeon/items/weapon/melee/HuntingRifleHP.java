@@ -39,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -53,6 +54,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -70,9 +72,9 @@ public class HuntingRifleHP extends MeleeWeapon {
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
 
-    private int max_round;
-    private int round;
-    private float reload_time;
+    public int max_round;
+    public int round;
+    public float reload_time;
     private static final String TXT_STATUS = "%d/%d";
 
     {
@@ -134,10 +136,10 @@ public class HuntingRifleHP extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT))* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    reload_time = (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT))* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -153,12 +155,6 @@ public class HuntingRifleHP extends MeleeWeapon {
                 reload();
             }
         }
-    }
-
-    public void quickReload() {
-        max_round = 1;
-        round = Math.max(max_round, round);
-        updateQuickslot();
     }
 
     public void reload() {
@@ -210,23 +206,16 @@ public class HuntingRifleHP extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        if (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null){
-            return 6 * (tier+3)   +
-                    lvl * (tier+3) +
-                    RingOfSharpshooting.levelDamageBonus(Dungeon.hero) +
-                    10 + 10 * hero.pointsInTalent(Talent.RIFLE_MASTER);
-        } else {
-            return 6 * (tier+3)   +
-                    lvl * (tier+3) +
-                    RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-        }
+        return 6 * (tier+3)   +
+                lvl * (tier+3) +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public String info() {
 
         max_round = 1;
-        reload_time = (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT))* RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
@@ -445,6 +434,15 @@ public class HuntingRifleHP extends MeleeWeapon {
                 //round preserves
             } else {
                 round --;
+            }
+            if (hero.hasTalent(Talent.SILENCER)
+                    && (Dungeon.level.map[hero.pos] == Terrain.FURROWED_GRASS || Dungeon.level.map[hero.pos] == Terrain.HIGH_GRASS)
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SILENCER)){
+                //no aggro
+            } else {
+                for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                    mob.beckon( curUser.pos );
+                }
             }
             updateQuickslot();
         }

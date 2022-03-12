@@ -73,9 +73,9 @@ public class FlameThrowerAP extends MeleeWeapon {
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
 
-    private int max_round;
-    private int round;
-    private float reload_time;
+    public int max_round;
+    public int round;
+    public float reload_time;
     private static final String TXT_STATUS = "%d/%d";
 
     {
@@ -159,15 +159,6 @@ public class FlameThrowerAP extends MeleeWeapon {
                 reload();
             }
         }
-    }
-
-    public void quickReload() {
-        max_round = 2;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        round = Math.max(max_round, round);
-        updateQuickslot();
     }
 
     public void reload() {

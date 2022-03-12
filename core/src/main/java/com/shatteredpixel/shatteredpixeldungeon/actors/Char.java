@@ -21,8 +21,10 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.gold;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
+import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
@@ -136,6 +138,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
@@ -155,6 +158,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Katana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
@@ -359,6 +364,95 @@ public abstract class Char extends Actor {
 			}
 
 			Dungeon.hero.busy();
+		}
+
+		if (c == hero && hero.subClass == HeroSubClass.RANGER && Random.Int(100) < hero.pointsInTalent(Talent.QUICK_RELOAD)*hero.speed()) {
+			if (hero.belongings.weapon() instanceof CrudePistol && CrudePistol.round < CrudePistol.max_round) {
+
+				CrudePistol.round = Math.min(CrudePistol.round+1, CrudePistol.max_round);
+
+			} else if (hero.belongings.weapon instanceof CrudePistolAP && CrudePistolAP.round < CrudePistolAP.max_round) {
+
+				CrudePistolAP.round = Math.min(CrudePistolAP.round+1, CrudePistolAP.max_round);
+
+			} else if (hero.belongings.weapon instanceof CrudePistolHP && CrudePistolHP.round < CrudePistolHP.max_round) {
+
+				CrudePistolHP.round = Math.min(CrudePistolHP.round+1, CrudePistolHP.max_round);
+
+			} else if (hero.belongings.weapon instanceof Pistol && Pistol.round < Pistol.max_round) {
+
+				Pistol.round = Math.min(Pistol.round+1, Pistol.max_round);
+
+			} else if (hero.belongings.weapon instanceof PistolAP && PistolAP.round < PistolAP.max_round) {
+
+				PistolAP.round = Math.min(PistolAP.round+1, PistolAP.max_round);
+
+			} else if (hero.belongings.weapon instanceof PistolHP && PistolHP.round < PistolHP.max_round) {
+
+				PistolHP.round = Math.min(PistolHP.round+1, PistolHP.max_round);
+
+			} else if (hero.belongings.weapon instanceof GoldenPistol && GoldenPistol.round < GoldenPistol.max_round) {
+
+				GoldenPistol.round = Math.min(GoldenPistol.round+1, GoldenPistol.max_round);
+
+			} else if (hero.belongings.weapon instanceof GoldenPistolAP && GoldenPistolAP.round < GoldenPistolAP.max_round) {
+
+				GoldenPistolAP.round = Math.min(GoldenPistolAP.round+1, GoldenPistolAP.max_round);
+
+			} else if (hero.belongings.weapon instanceof GoldenPistolHP && GoldenPistolHP.round < GoldenPistolHP.max_round) {
+
+				GoldenPistolHP.round = Math.min(GoldenPistolHP.round+1, GoldenPistolHP.max_round);
+
+			} else if (hero.belongings.weapon instanceof Handgun && Handgun.round < Handgun.max_round) {
+
+				Handgun.round = Math.min(Handgun.round+1, Handgun.max_round);
+
+			} else if (hero.belongings.weapon instanceof HandgunAP && HandgunAP.round < HandgunAP.max_round) {
+
+				HandgunAP.round = Math.min(HandgunAP.round+1, HandgunAP.max_round);
+
+			} else if (hero.belongings.weapon instanceof HandgunHP && HandgunHP.round < HandgunHP.max_round) {
+
+				HandgunHP.round = Math.min(HandgunHP.round+1, HandgunHP.max_round);
+
+			} else if (hero.belongings.weapon instanceof Magnum && Magnum.round < Magnum.max_round) {
+
+				Magnum.round = Math.min(Magnum.round+1, Magnum.max_round);
+
+			} else if (hero.belongings.weapon instanceof MagnumAP && MagnumAP.round < MagnumAP.max_round) {
+
+				MagnumAP.round = Math.min(MagnumAP.round+1, MagnumAP.max_round);
+
+			} else if (hero.belongings.weapon instanceof MagnumHP && MagnumHP.round < MagnumHP.max_round) {
+
+				MagnumHP.round = Math.min(MagnumHP.round+1, MagnumHP.max_round);
+
+			} else if (hero.belongings.weapon instanceof TacticalHandgun && TacticalHandgun.round < TacticalHandgun.max_round) {
+
+				TacticalHandgun.round = Math.min(TacticalHandgun.round+1, TacticalHandgun.max_round);
+
+			} else if (hero.belongings.weapon instanceof TacticalHandgunAP && TacticalHandgunAP.round < TacticalHandgunAP.max_round) {
+
+				TacticalHandgunAP.round = Math.min(TacticalHandgunAP.round+1, TacticalHandgunAP.max_round);
+
+			} else if (hero.belongings.weapon instanceof TacticalHandgunHP && TacticalHandgunHP.round < TacticalHandgunHP.max_round) {
+
+				TacticalHandgunHP.round = Math.min(TacticalHandgunHP.round+1, TacticalHandgunHP.max_round);
+
+			} else if (hero.belongings.weapon instanceof DualPistol && DualPistol.round < DualPistol.max_round) {
+
+				DualPistol.round = Math.min(DualPistol.round+1, DualPistol.max_round);
+
+			} else if (hero.belongings.weapon instanceof DualPistolAP && DualPistolAP.round < DualPistolAP.max_round) {
+
+				DualPistolAP.round = Math.min(DualPistolAP.round+1, DualPistolAP.max_round);
+
+			} else if (hero.belongings.weapon instanceof DualPistolHP && DualPistolHP.round < DualPistolHP.max_round) {
+
+				DualPistolHP.round = Math.min(DualPistolHP.round+1, DualPistolHP.max_round);
+
+			}
+			updateQuickslot();
 		}
 
 		if (c == Dungeon.hero){
@@ -787,7 +881,9 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero) {
-				if (Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet ) {
+				if (Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet) {
 					int distance = Dungeon.level.distance(hero.pos, enemy.pos) - 1;
 					float multiplier = Math.min(3f, 1.2f * (float)Math.pow(1.125f, distance));
 					dmg = Math.round(dmg * multiplier);
@@ -904,7 +1000,7 @@ public abstract class Char extends Actor {
 				 || h.belongings.weapon() instanceof TacticalHandgunAP.Bullet
 				 || h.belongings.weapon() instanceof AntimaterRifleAP.Bullet
 				) {
-					dmg *= 0.90f;
+					dmg *= 0.80f;
 				} else if (h.belongings.weapon() instanceof CrudePistolHP.Bullet
 					    || h.belongings.weapon() instanceof PistolHP.Bullet
 					    || h.belongings.weapon() instanceof GoldenPistolHP.Bullet
@@ -920,7 +1016,7 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof TacticalHandgunHP.Bullet
 						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
 				) {
-					dmg *= 1.25f;
+					dmg *= 1.3f;
 				}
 			}
 
@@ -1067,72 +1163,6 @@ public abstract class Char extends Actor {
 					dmg *= 0.5f;
 				}
 
-			}
-			if (this instanceof Hero) {
-				if (Dungeon.hero.hasTalent(Talent.MELEE_ENHANCE)) {
-					if (Dungeon.hero.belongings.weapon() instanceof CrudePistol
-							|| Dungeon.hero.belongings.weapon() instanceof CrudePistolAP
-							|| Dungeon.hero.belongings.weapon() instanceof CrudePistolHP
-							|| Dungeon.hero.belongings.weapon() instanceof Pistol
-							|| Dungeon.hero.belongings.weapon() instanceof PistolAP
-							|| Dungeon.hero.belongings.weapon() instanceof PistolHP
-							|| Dungeon.hero.belongings.weapon() instanceof GoldenPistol
-							|| Dungeon.hero.belongings.weapon() instanceof GoldenPistolAP
-							|| Dungeon.hero.belongings.weapon() instanceof GoldenPistolHP
-							|| Dungeon.hero.belongings.weapon() instanceof Handgun
-							|| Dungeon.hero.belongings.weapon() instanceof HandgunAP
-							|| Dungeon.hero.belongings.weapon() instanceof HandgunHP
-							|| Dungeon.hero.belongings.weapon() instanceof Magnum
-							|| Dungeon.hero.belongings.weapon() instanceof MagnumAP
-							|| Dungeon.hero.belongings.weapon() instanceof MagnumHP
-							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
-							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP
-							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP
-							|| Dungeon.hero.belongings.weapon() instanceof DualPistol
-							|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP
-							|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP
-							|| Dungeon.hero.belongings.weapon() instanceof SubMachinegun
-							|| Dungeon.hero.belongings.weapon() instanceof SubMachinegunAP
-							|| Dungeon.hero.belongings.weapon() instanceof SubMachinegunHP
-							|| Dungeon.hero.belongings.weapon() instanceof AssultRifle
-							|| Dungeon.hero.belongings.weapon() instanceof AssultRifleAP
-							|| Dungeon.hero.belongings.weapon() instanceof AssultRifleHP
-							|| Dungeon.hero.belongings.weapon() instanceof HeavyMachinegun
-							|| Dungeon.hero.belongings.weapon() instanceof HeavyMachinegunAP
-							|| Dungeon.hero.belongings.weapon() instanceof HeavyMachinegunHP
-							|| Dungeon.hero.belongings.weapon() instanceof MiniGun
-							|| Dungeon.hero.belongings.weapon() instanceof MiniGunAP
-							|| Dungeon.hero.belongings.weapon() instanceof MiniGunHP
-							|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle
-							|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP
-							|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP
-							|| Dungeon.hero.belongings.weapon() instanceof SniperRifle
-							|| Dungeon.hero.belongings.weapon() instanceof SniperRifleAP
-							|| Dungeon.hero.belongings.weapon() instanceof SniperRifleHP
-							|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifle
-							|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP
-							|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP
-							|| Dungeon.hero.belongings.weapon() instanceof ShotGun
-							|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
-							|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
-							|| Dungeon.hero.belongings.weapon() instanceof SPAS
-							|| Dungeon.hero.belongings.weapon() instanceof SPASAP
-							|| Dungeon.hero.belongings.weapon() instanceof SPASHP
-							|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
-							|| Dungeon.hero.belongings.weapon() instanceof RPG7
-							|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
-							|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerAP
-							|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerHP
-							|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannon
-							|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannonAP
-							|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannonHP
-							|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher
-							|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherAP
-							|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP
-					) {
-						dmg += 5*Dungeon.hero.pointsInTalent(Talent.MELEE_ENHANCE);
-					}
-				}
 			}
 
 			if (this instanceof Hero) {

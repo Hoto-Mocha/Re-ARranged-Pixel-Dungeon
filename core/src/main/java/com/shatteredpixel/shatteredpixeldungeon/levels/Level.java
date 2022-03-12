@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
@@ -822,7 +823,8 @@ public abstract class Level implements Bundlable {
 							 new SpellBook_Lightning(),
 							 new SpellBook_Regrowth(),
 							 new SpellBook_Transfusion(),
-							 new SpellBook_Prismatic())
+							 new SpellBook_Prismatic(),
+							 new Bible())
 		);
 		int terr = map[pos];
 		if (terr == Terrain.EMPTY || terr == Terrain.EMPTY_DECO

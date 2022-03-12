@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -67,9 +68,9 @@ public class RocketLauncher extends MeleeWeapon {
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
 
-    private int max_round;
-    private int round;
-    private float reload_time;
+    public int max_round;
+    public int round;
+    public float reload_time;
     private static final String TXT_STATUS = "%d/%d";
 
     {
@@ -153,15 +154,6 @@ public class RocketLauncher extends MeleeWeapon {
                 fullReload();
             }
         }
-    }
-
-    public void quickReload() {
-        max_round = 4;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        round = Math.max(max_round, round);
-        updateQuickslot();
     }
 
     public void fullReload() {
@@ -353,7 +345,7 @@ public class RocketLauncher extends MeleeWeapon {
             image = ItemSpriteSheet.ROCKET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 5;                                                                            //if you make something different guns, you should change this
+            tier = 5;
         }
 
         @Override
@@ -490,6 +482,9 @@ public class RocketLauncher extends MeleeWeapon {
                 } else {
                     round --;
                 }
+            }
+            for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                mob.beckon( curUser.pos );
             }
             updateQuickslot();
         }

@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -69,9 +70,9 @@ public class AssultRifle extends MeleeWeapon {
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
 
-    private int max_round;
-    private int round;
-    private float reload_time;
+    public int max_round;
+    public int round;
+    public float reload_time;
     private static final String TXT_STATUS = "%d/%d";
 
     {
@@ -79,11 +80,11 @@ public class AssultRifle extends MeleeWeapon {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.ASSULT_RIFLE;                                  //if you make something different guns, you should change this
+        image = ItemSpriteSheet.ASSULT_RIFLE;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 4;                                                               //if you make something different guns, you should change this
+        tier = 4;
     }
 
     private static final String ROUND = "round";
@@ -149,7 +150,7 @@ public class AssultRifle extends MeleeWeapon {
             if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
                 max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
             }
-            //if you make something different guns, you should change this
+
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
@@ -158,22 +159,12 @@ public class AssultRifle extends MeleeWeapon {
         }
     }
 
-    public void quickReload() {
-        max_round = 12;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-
-        round = Math.max(max_round, round);
-        updateQuickslot();
-    }
-
     public void reload() {
         max_round = 12;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
-        //if you make something different guns, you should change this
+
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -199,7 +190,7 @@ public class AssultRifle extends MeleeWeapon {
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
-        //if you make something different guns, you should change this
+
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -209,24 +200,24 @@ public class AssultRifle extends MeleeWeapon {
     }
 
     public int min(int lvl) {
-        return tier +                                                                      //if you make something different guns, you should change this
-                lvl;                                                                        //if you make something different guns, you should change this
+        return tier +
+                lvl;
     }
 
     public int max(int lvl) {
-        return 3 * (tier + 1) +                                                            //if you make something different guns, you should change this
-                lvl * (tier + 1);                                                           //if you make something different guns, you should change this
+        return 3 * (tier + 1) +
+                lvl * (tier + 1);
     }
 
     public int Bulletmin(int lvl) {
-        return tier +                                                                  //if you make something different guns, you should change this
-                lvl +                                                                  //if you make something different guns, you should change this
+        return tier +
+                lvl +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 2 * (tier)   +                                                           //if you make something different guns, you should change this
-                lvl * (tier-2) +                                                           //if you make something different guns, you should change this
+        return 2 * (tier)   +
+                lvl * (tier-2) +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
@@ -336,7 +327,7 @@ public class AssultRifle extends MeleeWeapon {
             image = ItemSpriteSheet.TRIPLE_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 4;                                                                            //if you make something different guns, you should change this
+            tier = 4;
             ACC = 0.7f;
         }
 
@@ -492,6 +483,9 @@ public class AssultRifle extends MeleeWeapon {
                         } else {
                             round --;
                         }
+                    }
+                    for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                        mob.beckon( curUser.pos );
                     }
                     updateQuickslot();
                 }

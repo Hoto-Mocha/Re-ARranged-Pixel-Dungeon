@@ -234,13 +234,13 @@ public enum Talent {
 	//Gunner T2
 	IN_THE_GUNFIRE(133), ANOTHER_CHANCE(134), BULLET_FOCUS(135), CAMOUFLAGE(136), LARGER_MAGAZINE(137), ELASTIC_WEAPON(138),
 	//Gunner T3
-	MELEE_ENHANCE(139, 3), HEAVY_ENHANCE(140, 3),
+	STREET_BATTLE(139, 3), HEAVY_ENHANCE(140, 3),
 	//Launcher T3
 	HEAVY_GUNNER(141, 3), ACC_PRACTICE(142, 3), RECOIL_PRACTICE(143, 3),
 	//Ranger T3
-	HANDGUN_MASTER(144, 3), RECOIL_CONTROL(145, 3), ELEMENTAL_BULLET(146, 3),
+	QUICK_RELOAD(144, 3), RECOIL_CONTROL(145, 3), ELEMENTAL_BULLET(146, 3),
 	//RifleMan T3
-	RIFLE_MASTER(147, 3), ONLY_ONE_SHOT(148, 3), EVASIVE_MOVE(149, 3),
+	SILENCER(147, 3), ONLY_ONE_SHOT(148, 3), EVASIVE_MOVE(149, 3),
 	//Riot T4
 	HASTE_MOVE(150, 4), SHOT_CONCENTRATION(151,4), ROUND_PRESERVE(152, 4),
 	//ReinforcedArmor T4
@@ -372,6 +372,13 @@ public enum Talent {
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class StreetBattleCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight( 0xB3B3B3 ); }
+		public float iconFadePercent() { return Math.max(0, 1-visualcooldown() / (40-10*Dungeon.hero.pointsInTalent(Talent.STREET_BATTLE))); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
@@ -1056,7 +1063,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);
 				break;
 			case GUNNER:
-				Collections.addAll(tierTalents, MELEE_ENHANCE, HEAVY_ENHANCE);
+				Collections.addAll(tierTalents, STREET_BATTLE, HEAVY_ENHANCE);
 				break;
 			case SAMURAI:
 				Collections.addAll(tierTalents,	DEEP_SCAR, FAST_LEAD);
@@ -1134,10 +1141,10 @@ public enum Talent {
 				Collections.addAll(tierTalents, BETTER_CHOICE, HEAVY_GUNNER, ACC_PRACTICE, RECOIL_PRACTICE, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
 				break;
 			case RANGER:
-				Collections.addAll(tierTalents, BETTER_CHOICE, HANDGUN_MASTER, RECOIL_CONTROL, ELEMENTAL_BULLET, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
+				Collections.addAll(tierTalents, BETTER_CHOICE, QUICK_RELOAD, RECOIL_CONTROL, ELEMENTAL_BULLET, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
 				break;
 			case RIFLEMAN:
-				Collections.addAll(tierTalents, BETTER_CHOICE, RIFLE_MASTER, ONLY_ONE_SHOT, EVASIVE_MOVE, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
+				Collections.addAll(tierTalents, BETTER_CHOICE, SILENCER, ONLY_ONE_SHOT, EVASIVE_MOVE, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
 				break;
 			case SLASHER:
 				Collections.addAll(tierTalents, BETTER_CHOICE, CONTINUOUS_ATTACK, SLASHING_PRACTICE, SERIAL_MOMENTUM, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE);
