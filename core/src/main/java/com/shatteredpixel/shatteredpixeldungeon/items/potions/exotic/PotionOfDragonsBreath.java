@@ -110,6 +110,7 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 			} else if (cell != null) {
 				identifiedByUse = false;
 				curUser.busy();
+				detach( Dungeon.hero.belongings.backpack );
 				Sample.INSTANCE.play( Assets.Sounds.DRINK );
 				curUser.sprite.operate(curUser.pos, new Callback() {
 					@Override

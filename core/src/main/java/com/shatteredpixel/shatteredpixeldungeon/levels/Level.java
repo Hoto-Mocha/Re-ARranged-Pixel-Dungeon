@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bestiary;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.YogFist;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.WindParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
@@ -63,6 +64,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
@@ -71,8 +74,21 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Blast;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Disintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Earth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Empty;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Fire;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Frost;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Lightning;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Prismatic;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Regrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Transfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Warding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.HeavyBoomerang;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -789,9 +805,31 @@ public abstract class Level implements Bundlable {
 
 	public void destroy( int pos ) {
 		//if raw tile type is flammable or empty
+		Item prize = Random.oneOf(
+				Generator.random(Generator.Category.SCROLL),
+				Generator.random(Generator.Category.SCROLL),
+				Generator.random(Generator.Category.SCROLL),
+				new ScrollOfTransmutation(),
+				Random.oneOf(new SpellBook_Empty(),
+							 new SpellBook_Fire(),
+							 new SpellBook_Frost(),
+							 new SpellBook_Earth(),
+							 new SpellBook_Warding(),
+							 new SpellBook_Disintegration(),
+							 new SpellBook_Corrosion(),
+							 new SpellBook_Corruption(),
+							 new SpellBook_Blast(),
+							 new SpellBook_Lightning(),
+							 new SpellBook_Regrowth(),
+							 new SpellBook_Transfusion(),
+							 new SpellBook_Prismatic())
+		);
 		int terr = map[pos];
 		if (terr == Terrain.EMPTY || terr == Terrain.EMPTY_DECO
 				|| (Terrain.flags[map[pos]] & Terrain.FLAMABLE) != 0) {
+			if (terr == Terrain.BOOKSHELF && Random.Int(10) == Math.min(5, Math.round(0.5f*RingOfWealth.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class)))) {
+				Dungeon.level.drop(prize, pos);
+			} //generates prize for 10% chance when a bookshelf has destroyed
 			set(pos, Terrain.EMBERS);
 		}
 		Blob web = blobs.get(Web.class);

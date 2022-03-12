@@ -106,7 +106,7 @@ public class SpellBook_Earth extends MeleeWeapon {
 			} else if (!isIdentified()) {
 				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
 			} else {
-				GLog.w( Messages.get(this, "barksikn") );
+				GLog.w( Messages.get(this, "barkskin") );
 				Buff.affect(hero, Barkskin.class).set(Dungeon.depth/2+buffedLvl(), 1);
 				if (buffedLvl() >= 10) {
 					Buff.affect(hero, ArcaneArmor.class).set(Dungeon.depth/2+buffedLvl(), 1);
