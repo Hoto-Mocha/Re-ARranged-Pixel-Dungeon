@@ -440,7 +440,11 @@ public class AntimaterRifleHP extends MeleeWeapon {
                 //no aggro
             } else {
                 for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-                    mob.beckon( curUser.pos );
+                    if (mob.paralysed <= 0
+                            && Dungeon.level.distance(curUser.pos, mob.pos) <= 8
+                            && mob.state != mob.HUNTING) {
+                        mob.beckon( curUser.pos );
+                    }
                 }
             }
             updateQuickslot();
