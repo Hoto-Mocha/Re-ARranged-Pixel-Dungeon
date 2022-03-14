@@ -108,6 +108,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPsi
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfSirensSong;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HandyBarricade;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
@@ -123,6 +125,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
@@ -263,6 +266,7 @@ public enum HeroClass {
 		new ScrollOfRage().identify();
 
 		//test
+		//new StoneOfAugmentation().collect();
 		//new TacticalHandgun().identify().collect();
 		//new TacticalHandgunAP().identify().collect();
 		//new TacticalHandgunHP().identify().collect();
@@ -556,6 +560,10 @@ public enum HeroClass {
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
 
+		//new GunSmithingTool().quantity(50).collect();
+		//new Pistol().collect();
+		//new StoneOfAugmentation().collect();
+		//new HPBullet().collect();
 		//new Teleporter().collect();
 		//new TestWeapon().identify().collect();
 		//new PotionOfHealing().quantity(100).collect();

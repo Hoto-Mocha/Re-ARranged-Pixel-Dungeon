@@ -75,7 +75,7 @@ public class PlasmaCannonHP extends MeleeWeapon {
     public static final String AC_RELOAD = "RELOAD";
 
     public int max_round;
-    public int round;
+    public int round = 0;
     public float reload_time;
     private static final String TXT_STATUS = "%d/%d";
 
@@ -196,7 +196,7 @@ public class PlasmaCannonHP extends MeleeWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier, lvl); //18 base strength req, Changeable
+        return STRReq(tier, lvl);
     }
 
     public int min(int lvl) {

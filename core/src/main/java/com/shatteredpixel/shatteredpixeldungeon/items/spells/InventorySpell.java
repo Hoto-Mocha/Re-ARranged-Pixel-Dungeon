@@ -78,15 +78,15 @@ public abstract class InventorySpell extends Spell {
 			}
 			
 			if (item != null) {
-				
 				((InventorySpell)curItem).onItemSelected( item );
-				curUser.spend( 1f );
-				curUser.busy();
-				(curUser.sprite).operate( curUser.pos );
-				
-				Sample.INSTANCE.play( Assets.Sounds.READ );
-				Invisibility.dispel();
-				
+				if (!(InventorySpell.this instanceof GunSmithingTool)) {
+					curUser.spend( 1f );
+					curUser.busy();
+					(curUser.sprite).operate( curUser.pos );
+
+					Sample.INSTANCE.play( Assets.Sounds.READ );
+					Invisibility.dispel();
+				}
 			} else {
 				curItem.collect( curUser.belongings.backpack );
 			}

@@ -532,6 +532,276 @@ public class Hero extends Char {
 		}
 		
 		if (wep instanceof MissileWeapon){
+			if ((wep instanceof CrudePistol.Bullet && ((CrudePistol)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof CrudePistolAP.Bullet && ((CrudePistolAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof CrudePistolHP.Bullet && ((CrudePistolHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof Pistol.Bullet && ((Pistol)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof PistolAP.Bullet && ((PistolAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof PistolHP.Bullet && ((PistolHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof GoldenPistol.Bullet && ((GoldenPistol)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof GoldenPistolAP.Bullet && ((GoldenPistolAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof GoldenPistolHP.Bullet && ((GoldenPistolHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof Handgun.Bullet && ((Handgun)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof HandgunAP.Bullet && ((HandgunAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof HandgunHP.Bullet && ((HandgunHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof Magnum.Bullet && ((Magnum)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof MagnumAP.Bullet && ((MagnumAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof MagnumHP.Bullet && ((MagnumHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof TacticalHandgun.Bullet && ((TacticalHandgun)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof TacticalHandgunAP.Bullet && ((TacticalHandgunAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof TacticalHandgunHP.Bullet && ((TacticalHandgunHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof DualPistol.Bullet && ((DualPistol)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof DualPistolAP.Bullet && ((DualPistolAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof DualPistolHP.Bullet && ((DualPistolHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof SubMachinegun.Bullet && ((SubMachinegun)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof SubMachinegunAP.Bullet && ((SubMachinegunAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof SubMachinegunHP.Bullet && ((SubMachinegunHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof AssultRifle.Bullet && ((AssultRifle)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof AssultRifleAP.Bullet && ((AssultRifleAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof AssultRifleHP.Bullet && ((AssultRifleHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof HeavyMachinegun.Bullet && ((HeavyMachinegun)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof HeavyMachinegunAP.Bullet && ((HeavyMachinegunAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof HeavyMachinegunHP.Bullet && ((HeavyMachinegunHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof SniperRifleAP.Bullet && ((SniperRifleAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof SniperRifleHP.Bullet && ((SniperRifleHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).short_barrel)
+			) {
+				if (Dungeon.level.adjacent( pos, target.pos )) {
+					accuracy *= 1.25f;
+				} else {
+					accuracy *= 0.75f;
+				}
+			}
+
+			if ((wep instanceof CrudePistol.Bullet && ((CrudePistol)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof CrudePistolAP.Bullet && ((CrudePistolAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof CrudePistolHP.Bullet && ((CrudePistolHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof Pistol.Bullet && ((Pistol)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof PistolAP.Bullet && ((PistolAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof PistolHP.Bullet && ((PistolHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof GoldenPistol.Bullet && ((GoldenPistol)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof GoldenPistolAP.Bullet && ((GoldenPistolAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof GoldenPistolHP.Bullet && ((GoldenPistolHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof Handgun.Bullet && ((Handgun)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof HandgunAP.Bullet && ((HandgunAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof HandgunHP.Bullet && ((HandgunHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof Magnum.Bullet && ((Magnum)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof MagnumAP.Bullet && ((MagnumAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof MagnumHP.Bullet && ((MagnumHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof TacticalHandgun.Bullet && ((TacticalHandgun)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof TacticalHandgunAP.Bullet && ((TacticalHandgunAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof TacticalHandgunHP.Bullet && ((TacticalHandgunHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof DualPistol.Bullet && ((DualPistol)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof DualPistolAP.Bullet && ((DualPistolAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof DualPistolHP.Bullet && ((DualPistolHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof SubMachinegun.Bullet && ((SubMachinegun)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof SubMachinegunAP.Bullet && ((SubMachinegunAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof SubMachinegunHP.Bullet && ((SubMachinegunHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof AssultRifle.Bullet && ((AssultRifle)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof AssultRifleAP.Bullet && ((AssultRifleAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof AssultRifleHP.Bullet && ((AssultRifleHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof HeavyMachinegun.Bullet && ((HeavyMachinegun)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof HeavyMachinegunAP.Bullet && ((HeavyMachinegunAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof HeavyMachinegunHP.Bullet && ((HeavyMachinegunHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof SniperRifleAP.Bullet && ((SniperRifleAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof SniperRifleHP.Bullet && ((SniperRifleHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).long_barrel)
+			) {
+				if (Dungeon.level.adjacent( pos, target.pos )) {
+					accuracy *= 0.75f;
+				} else {
+					accuracy *= 1.1f;
+				}
+			}
+
+			if ((wep instanceof CrudePistol.Bullet && ((CrudePistol)hero.belongings.weapon).magazine)
+					|| (wep instanceof CrudePistolAP.Bullet && ((CrudePistolAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof CrudePistolHP.Bullet && ((CrudePistolHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof Pistol.Bullet && ((Pistol)hero.belongings.weapon).magazine)
+					|| (wep instanceof PistolAP.Bullet && ((PistolAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof PistolHP.Bullet && ((PistolHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof GoldenPistol.Bullet && ((GoldenPistol)hero.belongings.weapon).magazine)
+					|| (wep instanceof GoldenPistolAP.Bullet && ((GoldenPistolAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof GoldenPistolHP.Bullet && ((GoldenPistolHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof Handgun.Bullet && ((Handgun)hero.belongings.weapon).magazine)
+					|| (wep instanceof HandgunAP.Bullet && ((HandgunAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof HandgunHP.Bullet && ((HandgunHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof Magnum.Bullet && ((Magnum)hero.belongings.weapon).magazine)
+					|| (wep instanceof MagnumAP.Bullet && ((MagnumAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof MagnumHP.Bullet && ((MagnumHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof TacticalHandgun.Bullet && ((TacticalHandgun)hero.belongings.weapon).magazine)
+					|| (wep instanceof TacticalHandgunAP.Bullet && ((TacticalHandgunAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof TacticalHandgunHP.Bullet && ((TacticalHandgunHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof DualPistol.Bullet && ((DualPistol)hero.belongings.weapon).magazine)
+					|| (wep instanceof DualPistolAP.Bullet && ((DualPistolAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof DualPistolHP.Bullet && ((DualPistolHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof SubMachinegun.Bullet && ((SubMachinegun)hero.belongings.weapon).magazine)
+					|| (wep instanceof SubMachinegunAP.Bullet && ((SubMachinegunAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof SubMachinegunHP.Bullet && ((SubMachinegunHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof AssultRifle.Bullet && ((AssultRifle)hero.belongings.weapon).magazine)
+					|| (wep instanceof AssultRifleAP.Bullet && ((AssultRifleAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof AssultRifleHP.Bullet && ((AssultRifleHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof HeavyMachinegun.Bullet && ((HeavyMachinegun)hero.belongings.weapon).magazine)
+					|| (wep instanceof HeavyMachinegunAP.Bullet && ((HeavyMachinegunAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof HeavyMachinegunHP.Bullet && ((HeavyMachinegunHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).magazine)
+					|| (wep instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).magazine)
+					|| (wep instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).magazine)
+					|| (wep instanceof SniperRifleAP.Bullet && ((SniperRifleAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof SniperRifleHP.Bullet && ((SniperRifleHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).magazine)
+					|| (wep instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).magazine)
+					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).magazine)
+					|| (wep instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).magazine)
+			) {
+				if (!(Dungeon.level.adjacent( pos, target.pos ))) {
+					accuracy *= 0.75f;
+				}
+			}
+
+			if ((wep instanceof CrudePistol.Bullet && ((CrudePistol)hero.belongings.weapon).light)
+					|| (wep instanceof CrudePistolAP.Bullet && ((CrudePistolAP)hero.belongings.weapon).light)
+					|| (wep instanceof CrudePistolHP.Bullet && ((CrudePistolHP)hero.belongings.weapon).light)
+					|| (wep instanceof Pistol.Bullet && ((Pistol)hero.belongings.weapon).light)
+					|| (wep instanceof PistolAP.Bullet && ((PistolAP)hero.belongings.weapon).light)
+					|| (wep instanceof PistolHP.Bullet && ((PistolHP)hero.belongings.weapon).light)
+					|| (wep instanceof GoldenPistol.Bullet && ((GoldenPistol)hero.belongings.weapon).light)
+					|| (wep instanceof GoldenPistolAP.Bullet && ((GoldenPistolAP)hero.belongings.weapon).light)
+					|| (wep instanceof GoldenPistolHP.Bullet && ((GoldenPistolHP)hero.belongings.weapon).light)
+					|| (wep instanceof Handgun.Bullet && ((Handgun)hero.belongings.weapon).light)
+					|| (wep instanceof HandgunAP.Bullet && ((HandgunAP)hero.belongings.weapon).light)
+					|| (wep instanceof HandgunHP.Bullet && ((HandgunHP)hero.belongings.weapon).light)
+					|| (wep instanceof Magnum.Bullet && ((Magnum)hero.belongings.weapon).light)
+					|| (wep instanceof MagnumAP.Bullet && ((MagnumAP)hero.belongings.weapon).light)
+					|| (wep instanceof MagnumHP.Bullet && ((MagnumHP)hero.belongings.weapon).light)
+					|| (wep instanceof TacticalHandgun.Bullet && ((TacticalHandgun)hero.belongings.weapon).light)
+					|| (wep instanceof TacticalHandgunAP.Bullet && ((TacticalHandgunAP)hero.belongings.weapon).light)
+					|| (wep instanceof TacticalHandgunHP.Bullet && ((TacticalHandgunHP)hero.belongings.weapon).light)
+					|| (wep instanceof DualPistol.Bullet && ((DualPistol)hero.belongings.weapon).light)
+					|| (wep instanceof DualPistolAP.Bullet && ((DualPistolAP)hero.belongings.weapon).light)
+					|| (wep instanceof DualPistolHP.Bullet && ((DualPistolHP)hero.belongings.weapon).light)
+					|| (wep instanceof SubMachinegun.Bullet && ((SubMachinegun)hero.belongings.weapon).light)
+					|| (wep instanceof SubMachinegunAP.Bullet && ((SubMachinegunAP)hero.belongings.weapon).light)
+					|| (wep instanceof SubMachinegunHP.Bullet && ((SubMachinegunHP)hero.belongings.weapon).light)
+					|| (wep instanceof AssultRifle.Bullet && ((AssultRifle)hero.belongings.weapon).light)
+					|| (wep instanceof AssultRifleAP.Bullet && ((AssultRifleAP)hero.belongings.weapon).light)
+					|| (wep instanceof AssultRifleHP.Bullet && ((AssultRifleHP)hero.belongings.weapon).light)
+					|| (wep instanceof HeavyMachinegun.Bullet && ((HeavyMachinegun)hero.belongings.weapon).light)
+					|| (wep instanceof HeavyMachinegunAP.Bullet && ((HeavyMachinegunAP)hero.belongings.weapon).light)
+					|| (wep instanceof HeavyMachinegunHP.Bullet && ((HeavyMachinegunHP)hero.belongings.weapon).light)
+					|| (wep instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).light)
+					|| (wep instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).light)
+					|| (wep instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).light)
+					|| (wep instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).light)
+					|| (wep instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).light)
+					|| (wep instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).light)
+					|| (wep instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).light)
+					|| (wep instanceof SniperRifleAP.Bullet && ((SniperRifleAP)hero.belongings.weapon).light)
+					|| (wep instanceof SniperRifleHP.Bullet && ((SniperRifleHP)hero.belongings.weapon).light)
+					|| (wep instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).light)
+					|| (wep instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).light)
+					|| (wep instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).light)
+					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).light)
+					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).light)
+					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).light)
+					|| (wep instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).light)
+					|| (wep instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).light)
+					|| (wep instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).light)
+			) {
+				accuracy *= 0.9f;
+			}
+
+			if ((wep instanceof CrudePistol.Bullet && ((CrudePistol)hero.belongings.weapon).heavy)
+					|| (wep instanceof CrudePistolAP.Bullet && ((CrudePistolAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof CrudePistolHP.Bullet && ((CrudePistolHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof Pistol.Bullet && ((Pistol)hero.belongings.weapon).heavy)
+					|| (wep instanceof PistolAP.Bullet && ((PistolAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof PistolHP.Bullet && ((PistolHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof GoldenPistol.Bullet && ((GoldenPistol)hero.belongings.weapon).heavy)
+					|| (wep instanceof GoldenPistolAP.Bullet && ((GoldenPistolAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof GoldenPistolHP.Bullet && ((GoldenPistolHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof Handgun.Bullet && ((Handgun)hero.belongings.weapon).heavy)
+					|| (wep instanceof HandgunAP.Bullet && ((HandgunAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof HandgunHP.Bullet && ((HandgunHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof Magnum.Bullet && ((Magnum)hero.belongings.weapon).heavy)
+					|| (wep instanceof MagnumAP.Bullet && ((MagnumAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof MagnumHP.Bullet && ((MagnumHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof TacticalHandgun.Bullet && ((TacticalHandgun)hero.belongings.weapon).heavy)
+					|| (wep instanceof TacticalHandgunAP.Bullet && ((TacticalHandgunAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof TacticalHandgunHP.Bullet && ((TacticalHandgunHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof DualPistol.Bullet && ((DualPistol)hero.belongings.weapon).heavy)
+					|| (wep instanceof DualPistolAP.Bullet && ((DualPistolAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof DualPistolHP.Bullet && ((DualPistolHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof SubMachinegun.Bullet && ((SubMachinegun)hero.belongings.weapon).heavy)
+					|| (wep instanceof SubMachinegunAP.Bullet && ((SubMachinegunAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof SubMachinegunHP.Bullet && ((SubMachinegunHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof AssultRifle.Bullet && ((AssultRifle)hero.belongings.weapon).heavy)
+					|| (wep instanceof AssultRifleAP.Bullet && ((AssultRifleAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof AssultRifleHP.Bullet && ((AssultRifleHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof HeavyMachinegun.Bullet && ((HeavyMachinegun)hero.belongings.weapon).heavy)
+					|| (wep instanceof HeavyMachinegunAP.Bullet && ((HeavyMachinegunAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof HeavyMachinegunHP.Bullet && ((HeavyMachinegunHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).heavy)
+					|| (wep instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).heavy)
+					|| (wep instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).heavy)
+					|| (wep instanceof SniperRifleAP.Bullet && ((SniperRifleAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof SniperRifleHP.Bullet && ((SniperRifleHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).heavy)
+					|| (wep instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).heavy)
+					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).heavy)
+					|| (wep instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).heavy)
+			) {
+				accuracy *= 1.1f;
+			}
+
 			if (Dungeon.level.adjacent( pos, target.pos )) {
 				if (wep instanceof ShotGun.Bullet
 				 || wep instanceof SPAS.Bullet
@@ -1960,89 +2230,89 @@ public class Hero extends Char {
 			}
 
 			if (hero.hasTalent(Talent.QUICK_RELOAD) && Random.Int(100) < hero.pointsInTalent(Talent.QUICK_RELOAD)*hero.speed()) {
-				if (hero.belongings.weapon() instanceof CrudePistol && CrudePistol.round < CrudePistol.max_round) {
+				if (hero.belongings.weapon() instanceof CrudePistol && ((CrudePistol)hero.belongings.weapon).round < ((CrudePistol)hero.belongings.weapon).max_round) {
 
-					CrudePistol.round = Math.min(CrudePistol.round+1, CrudePistol.max_round);
+					((CrudePistol)hero.belongings.weapon).round = Math.min(((CrudePistol)hero.belongings.weapon).round+1, ((CrudePistol)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof CrudePistolAP && CrudePistolAP.round < CrudePistolAP.max_round) {
+				} else if (hero.belongings.weapon() instanceof CrudePistolAP && ((CrudePistolAP)hero.belongings.weapon).round < ((CrudePistolAP)hero.belongings.weapon).max_round) {
 
-					CrudePistolAP.round = Math.min(CrudePistolAP.round+1, CrudePistolAP.max_round);
+					((CrudePistolAP)hero.belongings.weapon).round = Math.min(((CrudePistolAP)hero.belongings.weapon).round+1, ((CrudePistolAP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof CrudePistolHP && CrudePistolHP.round < CrudePistolHP.max_round) {
+				} else if (hero.belongings.weapon() instanceof CrudePistolHP && ((CrudePistolHP)hero.belongings.weapon).round < ((CrudePistolHP)hero.belongings.weapon).max_round) {
 
-					CrudePistolHP.round = Math.min(CrudePistolHP.round+1, CrudePistolHP.max_round);
+					((CrudePistolHP)hero.belongings.weapon).round = Math.min(((CrudePistolHP)hero.belongings.weapon).round+1, ((CrudePistolHP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof Pistol && Pistol.round < Pistol.max_round) {
+				} else if (hero.belongings.weapon() instanceof Pistol && ((Pistol)hero.belongings.weapon).round < ((Pistol)hero.belongings.weapon).max_round) {
 
-					Pistol.round = Math.min(Pistol.round+1, Pistol.max_round);
+					((Pistol)hero.belongings.weapon).round = Math.min(((Pistol)hero.belongings.weapon).round+1, ((Pistol)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof PistolAP && PistolAP.round < PistolAP.max_round) {
+				} else if (hero.belongings.weapon() instanceof PistolAP && ((PistolAP)hero.belongings.weapon).round < ((PistolAP)hero.belongings.weapon).max_round) {
 
-					PistolAP.round = Math.min(PistolAP.round+1, PistolAP.max_round);
+					((PistolAP)hero.belongings.weapon).round = Math.min(((PistolAP)hero.belongings.weapon).round+1, ((PistolAP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof PistolHP && PistolHP.round < PistolHP.max_round) {
+				} else if (hero.belongings.weapon() instanceof PistolHP && ((PistolHP)hero.belongings.weapon).round < ((PistolHP)hero.belongings.weapon).max_round) {
 
-					PistolHP.round = Math.min(PistolHP.round+1, PistolHP.max_round);
+					((PistolHP)hero.belongings.weapon).round = Math.min(((PistolHP)hero.belongings.weapon).round+1, ((PistolHP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof GoldenPistol && GoldenPistol.round < GoldenPistol.max_round) {
+				} else if (hero.belongings.weapon() instanceof GoldenPistol && ((GoldenPistol)hero.belongings.weapon).round < ((GoldenPistol)hero.belongings.weapon).max_round) {
 
-					GoldenPistol.round = Math.min(GoldenPistol.round+1, GoldenPistol.max_round);
+					((GoldenPistol)hero.belongings.weapon).round = Math.min(((GoldenPistol)hero.belongings.weapon).round+1, ((GoldenPistol)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof GoldenPistolAP && GoldenPistolAP.round < GoldenPistolAP.max_round) {
+				} else if (hero.belongings.weapon() instanceof GoldenPistolAP && ((GoldenPistolAP)hero.belongings.weapon).round < ((GoldenPistolAP)hero.belongings.weapon).max_round) {
 
-					GoldenPistolAP.round = Math.min(GoldenPistolAP.round+1, GoldenPistolAP.max_round);
+					((GoldenPistolAP)hero.belongings.weapon).round = Math.min(((GoldenPistolAP)hero.belongings.weapon).round+1, ((GoldenPistolAP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof GoldenPistolHP && GoldenPistolHP.round < GoldenPistolHP.max_round) {
+				} else if (hero.belongings.weapon() instanceof GoldenPistolHP && ((GoldenPistolHP)hero.belongings.weapon).round < ((GoldenPistolHP)hero.belongings.weapon).max_round) {
 
-					GoldenPistolHP.round = Math.min(GoldenPistolHP.round+1, GoldenPistolHP.max_round);
+					((GoldenPistolHP)hero.belongings.weapon).round = Math.min(((GoldenPistolHP)hero.belongings.weapon).round+1, ((GoldenPistolHP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof Handgun && Handgun.round < Handgun.max_round) {
+				} else if (hero.belongings.weapon() instanceof Handgun && ((Handgun)hero.belongings.weapon).round < ((Handgun)hero.belongings.weapon).max_round) {
 
-					Handgun.round = Math.min(Handgun.round+1, Handgun.max_round);
+					((Handgun)hero.belongings.weapon).round = Math.min(((Handgun)hero.belongings.weapon).round+1, ((Handgun)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof HandgunAP && HandgunAP.round < HandgunAP.max_round) {
+				} else if (hero.belongings.weapon() instanceof HandgunAP && ((HandgunAP)hero.belongings.weapon).round < ((HandgunAP)hero.belongings.weapon).max_round) {
 
-					HandgunAP.round = Math.min(HandgunAP.round+1, HandgunAP.max_round);
+					((HandgunAP)hero.belongings.weapon).round = Math.min(((HandgunAP)hero.belongings.weapon).round+1, ((HandgunAP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof HandgunHP && HandgunHP.round < HandgunHP.max_round) {
+				} else if (hero.belongings.weapon() instanceof HandgunHP && ((HandgunHP)hero.belongings.weapon).round < ((HandgunHP)hero.belongings.weapon).max_round) {
 
-					HandgunHP.round = Math.min(HandgunHP.round+1, HandgunHP.max_round);
+					((HandgunHP)hero.belongings.weapon).round = Math.min(((HandgunHP)hero.belongings.weapon).round+1, ((HandgunHP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof Magnum && Magnum.round < Magnum.max_round) {
+				} else if (hero.belongings.weapon() instanceof Magnum && ((Magnum)hero.belongings.weapon).round < ((Magnum)hero.belongings.weapon).max_round) {
 
-					Magnum.round = Math.min(Magnum.round+1, Magnum.max_round);
+					((Magnum)hero.belongings.weapon).round = Math.min(((Magnum)hero.belongings.weapon).round+1, ((Magnum)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof MagnumAP && MagnumAP.round < MagnumAP.max_round) {
+				} else if (hero.belongings.weapon() instanceof MagnumAP && ((MagnumAP)hero.belongings.weapon).round < ((MagnumAP)hero.belongings.weapon).max_round) {
 
-					MagnumAP.round = Math.min(MagnumAP.round+1, MagnumAP.max_round);
+					((MagnumAP)hero.belongings.weapon).round = Math.min(((MagnumAP)hero.belongings.weapon).round+1, ((MagnumAP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof MagnumHP && MagnumHP.round < MagnumHP.max_round) {
+				} else if (hero.belongings.weapon() instanceof MagnumHP && ((MagnumHP)hero.belongings.weapon).round < ((MagnumHP)hero.belongings.weapon).max_round) {
 
-					MagnumHP.round = Math.min(MagnumHP.round+1, MagnumHP.max_round);
+					((MagnumHP)hero.belongings.weapon).round = Math.min(((MagnumHP)hero.belongings.weapon).round+1, ((MagnumHP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof TacticalHandgun && TacticalHandgun.round < TacticalHandgun.max_round) {
+				} else if (hero.belongings.weapon() instanceof TacticalHandgun && ((TacticalHandgun)hero.belongings.weapon).round < ((TacticalHandgun)hero.belongings.weapon).max_round) {
 
-					TacticalHandgun.round = Math.min(TacticalHandgun.round+1, TacticalHandgun.max_round);
+					((TacticalHandgun)hero.belongings.weapon).round = Math.min(((TacticalHandgun)hero.belongings.weapon).round+1, ((TacticalHandgun)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof TacticalHandgunAP && TacticalHandgunAP.round < TacticalHandgunAP.max_round) {
+				} else if (hero.belongings.weapon() instanceof TacticalHandgunAP && ((TacticalHandgunAP)hero.belongings.weapon).round < ((TacticalHandgunAP)hero.belongings.weapon).max_round) {
 
-					TacticalHandgunAP.round = Math.min(TacticalHandgunAP.round+1, TacticalHandgunAP.max_round);
+					((TacticalHandgunAP)hero.belongings.weapon).round = Math.min(((TacticalHandgunAP)hero.belongings.weapon).round+1, ((TacticalHandgunAP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof TacticalHandgunHP && TacticalHandgunHP.round < TacticalHandgunHP.max_round) {
+				} else if (hero.belongings.weapon() instanceof TacticalHandgunHP && ((TacticalHandgunHP)hero.belongings.weapon).round < ((TacticalHandgunHP)hero.belongings.weapon).max_round) {
 
-					TacticalHandgunHP.round = Math.min(TacticalHandgunHP.round+1, TacticalHandgunHP.max_round);
+					((TacticalHandgunHP)hero.belongings.weapon).round = Math.min(((TacticalHandgunHP)hero.belongings.weapon).round+1, ((TacticalHandgunHP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof DualPistol && DualPistol.round < DualPistol.max_round) {
+				} else if (hero.belongings.weapon() instanceof DualPistol && ((DualPistol)hero.belongings.weapon).round < ((DualPistol)hero.belongings.weapon).max_round) {
 
-					DualPistol.round = Math.min(DualPistol.round+1, DualPistol.max_round);
+					((DualPistol)hero.belongings.weapon).round = Math.min(((DualPistol)hero.belongings.weapon).round+1, ((DualPistol)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof DualPistolAP && DualPistolAP.round < DualPistolAP.max_round) {
+				} else if (hero.belongings.weapon() instanceof DualPistolAP && ((DualPistolAP)hero.belongings.weapon).round < ((DualPistolAP)hero.belongings.weapon).max_round) {
 
-					DualPistolAP.round = Math.min(DualPistolAP.round+1, DualPistolAP.max_round);
+					((DualPistolAP)hero.belongings.weapon).round = Math.min(((DualPistolAP)hero.belongings.weapon).round+1, ((DualPistolAP)hero.belongings.weapon).max_round);
 
-				} else if (hero.belongings.weapon instanceof DualPistolHP && DualPistolHP.round < DualPistolHP.max_round) {
+				} else if (hero.belongings.weapon() instanceof DualPistolHP && ((DualPistolHP)hero.belongings.weapon).round < ((DualPistolHP)hero.belongings.weapon).max_round) {
 
-					DualPistolHP.round = Math.min(DualPistolHP.round+1, DualPistolHP.max_round);
+					((DualPistolHP)hero.belongings.weapon).round = Math.min(((DualPistolHP)hero.belongings.weapon).round+1, ((DualPistolHP)hero.belongings.weapon).max_round);
 
 				}
 				updateQuickslot();

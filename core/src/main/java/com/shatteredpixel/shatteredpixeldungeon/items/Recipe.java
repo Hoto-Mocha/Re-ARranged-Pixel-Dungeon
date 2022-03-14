@@ -60,6 +60,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalPorter;
@@ -275,7 +276,8 @@ public abstract class Recipe {
 		new SpellBook_Warding.Recipe(),
 		new ScrollOfExtract.Recipe(),
 		new PotionOfWeaponEnhance.Recipe(),
-		new PotionOfArmorEnhance.Recipe()
+		new PotionOfArmorEnhance.Recipe(),
+		new GunSmithingTool.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{

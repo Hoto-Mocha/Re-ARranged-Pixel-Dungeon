@@ -69,8 +69,15 @@ public class MiniGunAP extends MeleeWeapon {
     public static final String AC_RELOAD = "RELOAD";
 
     public int max_round;
-    public int round;
+    public int round = 0;
     public float reload_time;
+    public boolean silencer = false;
+    public boolean short_barrel = false;
+    public boolean long_barrel = false;
+    public boolean magazine = false;
+    public boolean light = false;
+    public boolean heavy = false;
+    public boolean flash = false;
     private static final String TXT_STATUS = "%d/%d";
 
     {
@@ -88,6 +95,13 @@ public class MiniGunAP extends MeleeWeapon {
     private static final String ROUND = "round";
     private static final String MAX_ROUND = "max_round";
     private static final String RELOAD_TIME = "reload_time";
+    private static final String SILENCER = "silencer";
+    private static final String SHORT_BARREL = "short_barrel";
+    private static final String LONG_BARREL = "long_barrel";
+    private static final String MAGAZINE = "magazine";
+    private static final String LIGHT = "light";
+    private static final String HEAVY = "heavy";
+    private static final String FLASH = "flash";
 
     @Override
     public void storeInBundle(Bundle bundle) {
@@ -95,6 +109,13 @@ public class MiniGunAP extends MeleeWeapon {
         bundle.put(MAX_ROUND, max_round);
         bundle.put(ROUND, round);
         bundle.put(RELOAD_TIME, reload_time);
+        bundle.put(SILENCER, silencer);
+        bundle.put(SHORT_BARREL, short_barrel);
+        bundle.put(LONG_BARREL, long_barrel);
+        bundle.put(MAGAZINE, magazine);
+        bundle.put(LIGHT, light);
+        bundle.put(HEAVY, heavy);
+        bundle.put(FLASH, flash);
     }
 
     @Override
@@ -103,6 +124,13 @@ public class MiniGunAP extends MeleeWeapon {
         max_round = bundle.getInt(MAX_ROUND);
         round = bundle.getInt(ROUND);
         reload_time = bundle.getFloat(RELOAD_TIME);
+        silencer = bundle.getBoolean(SILENCER);
+        short_barrel = bundle.getBoolean(SHORT_BARREL);
+        long_barrel = bundle.getBoolean(LONG_BARREL);
+        magazine = bundle.getBoolean(MAGAZINE);
+        light = bundle.getBoolean(LIGHT);
+        heavy = bundle.getBoolean(HEAVY);
+        flash = bundle.getBoolean(FLASH);
     }
 
 
@@ -144,7 +172,7 @@ public class MiniGunAP extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 30;
+            max_round = (magazine) ? 36 : 30;
             if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -157,7 +185,7 @@ public class MiniGunAP extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 30;
+        max_round = (magazine) ? 36 : 30;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -182,7 +210,7 @@ public class MiniGunAP extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 30;
+        max_round = (magazine) ? 36 : 30;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -191,7 +219,14 @@ public class MiniGunAP extends MeleeWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier, lvl)+2; //22 base
+        int needSTR = STRReq(tier, lvl)+2;
+        if (heavy) {
+            needSTR += 2;
+        }
+        if (light) {
+            needSTR -= 2;
+        }
+        return needSTR;
     }
 
     public int min(int lvl) {
@@ -217,7 +252,7 @@ public class MiniGunAP extends MeleeWeapon {
     @Override
     public String info() {
 
-        max_round = 30;
+        max_round = (magazine) ? 36 : 30;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -270,6 +305,28 @@ public class MiniGunAP extends MeleeWeapon {
             info += "\n\n" + Messages.get(Weapon.class, "cursed");
         } else if (!isIdentified() && cursedKnown){
             info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
+        }
+
+        if (silencer) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "silencer");
+        }
+        if (short_barrel) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "short_barrel");
+        }
+        if (long_barrel) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "long_barrel");
+        }
+        if (magazine) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "magazine");
+        }
+        if (light) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "light");
+        }
+        if (heavy) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "heavy");
+        }
+        if (flash) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "flash");
         }
 
         return info;
@@ -481,7 +538,8 @@ public class MiniGunAP extends MeleeWeapon {
                     for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
                         if (mob.paralysed <= 0
                                 && Dungeon.level.distance(curUser.pos, mob.pos) <= 8
-                                && mob.state != mob.HUNTING) {
+                                && mob.state != mob.HUNTING
+                                && !silencer) {
                             mob.beckon( curUser.pos );
                         }
                     }

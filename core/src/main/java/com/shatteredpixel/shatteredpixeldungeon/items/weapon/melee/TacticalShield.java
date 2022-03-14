@@ -68,8 +68,15 @@ public class TacticalShield extends MeleeWeapon {
     public static final String AC_RELOAD = "RELOAD";
 
     public int max_round;
-    public int round;
+    public int round = 0;
     public float reload_time;
+    public boolean silencer = false;
+    public boolean short_barrel = false;
+    public boolean long_barrel = false;
+    public boolean magazine = false;
+    public boolean light = false;
+    public boolean heavy = false;
+    public boolean flash = false;
     private static final String TXT_STATUS = "%d/%d";
 
     {
@@ -478,6 +485,7 @@ public class TacticalShield extends MeleeWeapon {
                     mob.beckon( curUser.pos );
                 }
             }
+        }
 
         @Override
         public void throwSound() {
