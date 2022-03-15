@@ -52,6 +52,14 @@ ________
 - Bullets
 > - AP Bullet
 > - HP Bullet
+- Gun Modification Tool
+> - Silencer
+> - Short Barrel
+> - Long Barrel
+> - Extended Magazine
+> - Lighter Mod
+> - Heavier Mod
+> - Flashlight
 ________
 - New Challenges
 > - Gambler
