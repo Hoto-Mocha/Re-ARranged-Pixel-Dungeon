@@ -37,6 +37,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
@@ -62,6 +66,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
@@ -120,6 +126,8 @@ public class HPBullet extends InventorySpell {
                 || item instanceof MagnumAP
                 || item instanceof TacticalHandgun
                 || item instanceof TacticalHandgunAP
+                || item instanceof AutoHandgun
+                || item instanceof AutoHandgunAP
 
                 || item instanceof DualPistol
                 || item instanceof DualPistolAP
@@ -131,6 +139,8 @@ public class HPBullet extends InventorySpell {
                 || item instanceof HeavyMachinegunAP
                 || item instanceof MiniGun
                 || item instanceof MiniGunAP
+                || item instanceof AutoRifle
+                || item instanceof AutoRifleAP
 
                 || item instanceof HuntingRifle
                 || item instanceof HuntingRifleAP
@@ -138,6 +148,8 @@ public class HPBullet extends InventorySpell {
                 || item instanceof SniperRifleAP
                 || item instanceof AntimaterRifle
                 || item instanceof AntimaterRifleAP
+                || item instanceof MarksmanRifle
+                || item instanceof MarksmanRifleAP
 
                 || item instanceof ShotGun
                 || item instanceof ShotGunAP
@@ -228,6 +240,12 @@ public class HPBullet extends InventorySpell {
         } else if (w instanceof ShotGun || w instanceof ShotGunAP) {
             n = new ShotGunHP();
         } else if (w instanceof SPAS || w instanceof SPASAP) {
+            n = new SPASHP();
+        } else if (w instanceof AutoHandgun || w instanceof AutoHandgunAP) {
+            n = new SPASHP();
+        } else if (w instanceof AutoRifle || w instanceof AutoRifleAP) {
+            n = new SPASHP();
+        } else if (w instanceof MarksmanRifle || w instanceof MarksmanRifleAP) {
             n = new SPASHP();
         } else if (w instanceof FlameThrower || w instanceof FlameThrowerAP) {
             n = new FlameThrowerHP();

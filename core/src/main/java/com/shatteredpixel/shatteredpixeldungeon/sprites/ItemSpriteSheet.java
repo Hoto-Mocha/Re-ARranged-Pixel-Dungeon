@@ -292,27 +292,27 @@ public class ItemSpriteSheet {
 	public static final int GOLDEN_PISTOL = HANDGUNS+2;
 	public static final int HANDGUN       = HANDGUNS+3;
 	public static final int MAGNUM        = HANDGUNS+4;
-	public static final int HANDGUNS_6        = HANDGUNS+5;
+	public static final int AUTOHANDGUN   = HANDGUNS+5;
 	static{
 		assignItemRect(CRUDE_PISTOL   ,10, 13);
 		assignItemRect(PISTOL		  ,11, 15);
 		assignItemRect(GOLDEN_PISTOL  ,13, 15);
 		assignItemRect(HANDGUN        ,13, 16);
 		assignItemRect(MAGNUM         ,12, 16);
-		assignItemRect(HANDGUNS_6     ,16, 16);
+		assignItemRect(AUTOHANDGUN    ,12, 15);
 	}
 
 	private static final int SNIPERS         =                               xy(9, 32);
 	public static final int HUNTING_RIFLE = SNIPERS+0;
 	public static final int SNIPER_RIFLE  = SNIPERS+1;
-	public static final int SNIPERS_3     = SNIPERS+2;
+	public static final int MARKSMAN      = SNIPERS+2;
 	public static final int SNIPERS_4     = SNIPERS+3;
 	public static final int SNIPERS_5     = SNIPERS+4;
 	public static final int SNIPERS_6     = SNIPERS+5;
 	static{
 		assignItemRect(HUNTING_RIFLE  ,13, 16);
 		assignItemRect(SNIPER_RIFLE   ,14, 16);
-		assignItemRect(SNIPERS_3      ,16, 16);
+		assignItemRect(MARKSMAN       ,15, 16);
 		assignItemRect(SNIPERS_4      ,16, 16);
 		assignItemRect(SNIPERS_5      ,16, 16);
 		assignItemRect(SNIPERS_6      ,16, 16);
@@ -323,14 +323,14 @@ public class ItemSpriteSheet {
 	public static final int SUBMACHINEGUN     = MACHINEGUNS+1;
 	public static final int ASSULT_RIFLE      = MACHINEGUNS+2;
 	public static final int HEAVY_MACHINEGUN  = MACHINEGUNS+3;
-	public static final int MACHINEGUNS_5     = MACHINEGUNS+4;
+	public static final int AUTO_RIFLE        = MACHINEGUNS+4;
 	public static final int MACHINEGUNS_6     = MACHINEGUNS+5;
 	static{
 		assignItemRect(DUAL_PISTOL        ,15, 16);
 		assignItemRect(SUBMACHINEGUN     ,15, 15);
 		assignItemRect(ASSULT_RIFLE      ,15, 16);
 		assignItemRect(HEAVY_MACHINEGUN  ,13, 15);
-		assignItemRect(MACHINEGUNS_5     ,16, 16);
+		assignItemRect(AUTO_RIFLE	     ,15, 16);
 		assignItemRect(MACHINEGUNS_6     ,16, 16);
 	}
 

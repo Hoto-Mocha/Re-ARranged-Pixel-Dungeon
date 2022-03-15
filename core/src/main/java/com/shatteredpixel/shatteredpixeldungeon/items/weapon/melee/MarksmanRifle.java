@@ -20,6 +20,7 @@
  */
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -28,8 +29,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -40,10 +43,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.APBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
@@ -51,6 +54,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -63,7 +67,7 @@ import com.watabou.utils.Random;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class HeavyMachinegunAP extends MeleeWeapon {
+public class MarksmanRifle extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
@@ -85,7 +89,7 @@ public class HeavyMachinegunAP extends MeleeWeapon {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.HEAVY_MACHINEGUN;
+        image = ItemSpriteSheet.MARKSMAN;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
@@ -160,10 +164,10 @@ public class HeavyMachinegunAP extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -172,10 +176,7 @@ public class HeavyMachinegunAP extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = (magazine) ? 18 : 15;
-            if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
+            max_round = (magazine) ? 4 : 3;
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
@@ -185,10 +186,7 @@ public class HeavyMachinegunAP extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = (magazine) ? 18 : 15;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
+        max_round = (magazine) ? 4 : 3;
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -210,10 +208,7 @@ public class HeavyMachinegunAP extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = (magazine) ? 18 : 15;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
+        max_round = (magazine) ? 4 : 3;
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
@@ -240,25 +235,22 @@ public class HeavyMachinegunAP extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        return tier +
-                lvl +
+        return 3 * tier +
+                lvl      +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return 2 * (tier)   +
-                lvl * (tier-2) +
+        return 5 * (tier+2)   +
+                lvl * (tier+2) +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public String info() {
 
-        max_round = (magazine) ? 18 : 15;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+        max_round = (magazine) ? 4 : 3;
+        reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
@@ -268,16 +260,16 @@ public class HeavyMachinegunAP extends MeleeWeapon {
             } else if (Dungeon.hero.STR() > STRReq()){
                 info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
             }
-            info += "\n\n" + Messages.get(HeavyMachinegunAP.class, "stats_known",
-                    Bulletmin(HeavyMachinegunAP.this.buffedLvl()),
-                    Bulletmax(HeavyMachinegunAP.this.buffedLvl()),
+            info += "\n\n" + Messages.get(MarksmanRifle.class, "stats_known",
+                    Bulletmin(MarksmanRifle.this.buffedLvl()),
+                    Bulletmax(MarksmanRifle.this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > Dungeon.hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
-            info += "\n\n" + Messages.get(HeavyMachinegunAP.class, "stats_unknown",
+            info += "\n\n" + Messages.get(MarksmanRifle.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
@@ -370,30 +362,29 @@ public class HeavyMachinegunAP extends MeleeWeapon {
         return delay;
     }
 
-    public HeavyMachinegunAP.Bullet knockBullet(){
-        return new HeavyMachinegunAP.Bullet();
+    public MarksmanRifle.Bullet knockBullet(){
+        return new MarksmanRifle.Bullet();
     }
     public class Bullet extends MissileWeapon {
 
         {
-            image = ItemSpriteSheet.TRIPLE_BULLET;
+            image = ItemSpriteSheet.SNIPER_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
             tier = 5;
-            ACC = 0.7f;
         }
 
         @Override
         public int buffedLvl(){
-            return HeavyMachinegunAP.this.buffedLvl();
+            return MarksmanRifle.this.buffedLvl();
         }
 
         @Override
         public int damageRoll(Char owner) {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
-            int bulletdamage = Random.NormalIntRange(Bulletmin(HeavyMachinegunAP.this.buffedLvl()),
-                    Bulletmax(HeavyMachinegunAP.this.buffedLvl()));
+            int bulletdamage = Random.NormalIntRange(Bulletmin(MarksmanRifle.this.buffedLvl()),
+                    Bulletmax(MarksmanRifle.this.buffedLvl()));
 
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
@@ -407,7 +398,7 @@ public class HeavyMachinegunAP extends MeleeWeapon {
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-            return HeavyMachinegunAP.this.hasEnchant(type, owner);
+            return MarksmanRifle.this.hasEnchant(type, owner);
         }
 
         @Override
@@ -417,47 +408,47 @@ public class HeavyMachinegunAP extends MeleeWeapon {
             GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
             NaturesBow bow4 = hero.belongings.getItem(NaturesBow.class);
             PoisonBow bow5 = hero.belongings.getItem(PoisonBow.class);
-            if (HeavyMachinegunAP.this.enchantment == null
+            if (MarksmanRifle.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow != null
                     && bow.enchantment != null) {
                 return bow.enchantment.proc(this, attacker, defender, damage);
-            } else if (HeavyMachinegunAP.this.enchantment == null
+            } else if (MarksmanRifle.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow2 != null
                     && bow2.enchantment != null) {
                 return bow2.enchantment.proc(this, attacker, defender, damage);
-            } else if (HeavyMachinegunAP.this.enchantment == null
+            } else if (MarksmanRifle.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow3 != null
                     && bow3.enchantment != null) {
                 return bow3.enchantment.proc(this, attacker, defender, damage);
-            } else if (HeavyMachinegunAP.this.enchantment == null
+            } else if (MarksmanRifle.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow4 != null
                     && bow4.enchantment != null) {
                 return bow4.enchantment.proc(this, attacker, defender, damage);
-            } else if (HeavyMachinegunAP.this.enchantment == null
+            } else if (MarksmanRifle.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow5 != null
                     && bow5.enchantment != null) {
                 return bow5.enchantment.proc(this, attacker, defender, damage);
             } else {
-                return HeavyMachinegunAP.this.proc(attacker, defender, damage);
+                return MarksmanRifle.this.proc(attacker, defender, damage);
             }
         }
 
         @Override
         public float delayFactor(Char user) {
             if (hero.buff(Riot.riotTracker.class) != null) {
-                return HeavyMachinegunAP.this.delayFactor(user)/2f;
+                return MarksmanRifle.this.delayFactor(user)/2f;
             } else {
-                return HeavyMachinegunAP.this.delayFactor(user);
+                return MarksmanRifle.this.delayFactor(user);
             }
         }
 
@@ -472,77 +463,47 @@ public class HeavyMachinegunAP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (HeavyMachinegunAP.this.masteryPotionBonus) {
-                return STRReq(tier, HeavyMachinegunAP.this.buffedLvl()) - 2;
+            if (MarksmanRifle.this.masteryPotionBonus) {
+                return STRReq(tier, MarksmanRifle.this.buffedLvl()) - 2;
             }
-            return STRReq(tier, HeavyMachinegunAP.this.buffedLvl());
+            return STRReq(tier, MarksmanRifle.this.buffedLvl());
         }
 
         @Override
         protected void onThrow( int cell ) {
-            if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3) <= hero.pointsInTalent(Talent.RECOIL_PRACTICE)-1) {
-                for (int i=1; i<=4; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
-                    if (round <= 0) {
-                        break;
-                    }
-                    Char enemy = Actor.findChar(cell);
-                    if (enemy == null || enemy == curUser) {
-                        parent = null;
-                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                    } else {
-                        if (!curUser.shoot(enemy, this)) {
-                            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                        }
-                    }
-                    if (hero.buff(InfiniteBullet.class) != null) {
-                        //round preserves
-                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
-                        //round preserves
-                    } else {
-                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
-                            //round preserves
-                        } else {
-                            round --;
-                        }
-                    }
-                }
+            if (Random.Int(3) <= hero.pointsInTalent(Talent.EVASIVE_MOVE)-1) {
+                Buff.affect(hero, EvasiveMove.class, 0.9999f);
+            }
+            Char enemy = Actor.findChar( cell );
+            if (enemy == null || enemy == curUser) {
+                parent = null;
+                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
             } else {
-                for (int i=1; i<=3; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
-                    if (round <= 0) {
-                        break;
-                    }
-                    Char enemy = Actor.findChar(cell);
-                    if (enemy == null || enemy == curUser) {
-                        parent = null;
-                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                    } else {
-                        if (!curUser.shoot(enemy, this)) {
-                            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                        }
-                    }
-                    if (hero.buff(InfiniteBullet.class) != null) {
-                        //round preserves
-                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
-                        //round preserves
-                    } else {
-                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
-                            //round preserves
-                        } else {
-                            round --;
-                        }
-                    }
+                if (!curUser.shoot( enemy, this )) {
+                    CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                    CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
                 }
             }
-            for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-                if (mob.paralysed <= 0
-                        && Dungeon.level.distance(curUser.pos, mob.pos) <= 8
-                        && mob.state != mob.HUNTING
-                        && !silencer) {
-                    mob.beckon( curUser.pos );
+            if (hero.buff(InfiniteBullet.class) != null) {
+                //round preserves
+            } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
+                //round preserves
+            } else {
+                round --;
+            }
+            if (hero.hasTalent(Talent.SILENCER)
+                    && (Dungeon.level.map[hero.pos] == Terrain.FURROWED_GRASS || Dungeon.level.map[hero.pos] == Terrain.HIGH_GRASS)
+                    && Random.Int(3) < hero.pointsInTalent(Talent.SILENCER)){
+                //no aggro
+            } else {
+                for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                    if (mob.paralysed <= 0
+                            && Dungeon.level.distance(curUser.pos, mob.pos) <= 8
+                            && mob.state != mob.HUNTING
+                            && !silencer) {
+                        mob.beckon( curUser.pos );
+                    }
                 }
             }
             updateQuickslot();
@@ -575,4 +536,44 @@ public class HeavyMachinegunAP extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
+
+    public static class Recipe1 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+        {
+            inputs =  new Class[]{SniperRifle.class, GunSmithingTool.class, LiquidMetal.class};
+            inQuantity = new int[]{1, 2, 40};
+
+            cost = 0;
+
+            output = MarksmanRifle.class;
+            outQuantity = 1;
+        }
+    }
+
+    public static class Recipe2 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+        {
+            inputs =  new Class[]{SniperRifleAP.class, GunSmithingTool.class, LiquidMetal.class};
+            inQuantity = new int[]{1, 2, 40};
+
+            cost = 0;
+
+            output = MarksmanRifle.class;
+            outQuantity = 1;
+        }
+    }
+
+    public static class Recipe3 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+        {
+            inputs =  new Class[]{SniperRifleHP.class, GunSmithingTool.class, LiquidMetal.class};
+            inQuantity = new int[]{1, 2, 40};
+
+            cost = 0;
+
+            output = MarksmanRifle.class;
+            outQuantity = 1;
+        }
+    }
+
 }

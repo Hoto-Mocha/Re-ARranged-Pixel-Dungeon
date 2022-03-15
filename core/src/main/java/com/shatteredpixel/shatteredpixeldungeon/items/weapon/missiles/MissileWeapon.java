@@ -51,6 +51,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
@@ -79,6 +85,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
@@ -313,6 +322,15 @@ abstract public class MissileWeapon extends Weapon {
 				|| this instanceof SPAS.Bullet
 				|| this instanceof SPASAP.Bullet
 				|| this instanceof SPASHP.Bullet
+				|| this instanceof AutoHandgun.Bullet
+				|| this instanceof AutoHandgunAP.Bullet
+				|| this instanceof AutoHandgunHP.Bullet
+				|| this instanceof AutoRifle.Bullet
+				|| this instanceof AutoRifleAP.Bullet
+				|| this instanceof AutoRifleHP.Bullet
+				|| this instanceof MarksmanRifle.Bullet
+				|| this instanceof MarksmanRifleAP.Bullet
+				|| this instanceof MarksmanRifleHP.Bullet
 				|| this instanceof RocketLauncher.Rocket
 				|| this instanceof RPG7.Rocket
 				|| this instanceof GrenadeLauncher.Rocket

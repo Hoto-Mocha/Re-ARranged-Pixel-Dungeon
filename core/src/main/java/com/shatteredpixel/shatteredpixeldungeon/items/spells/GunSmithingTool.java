@@ -27,7 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
@@ -76,6 +75,15 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -117,6 +125,10 @@ public class GunSmithingTool extends InventorySpell {
                 || item instanceof TacticalHandgunAP
                 || item instanceof TacticalHandgunHP
 
+                || item instanceof AutoHandgun
+                || item instanceof AutoHandgunAP
+                || item instanceof AutoHandgunHP
+
                 || item instanceof DualPistol
                 || item instanceof DualPistolAP
                 || item instanceof DualPistolHP
@@ -133,6 +145,10 @@ public class GunSmithingTool extends InventorySpell {
                 || item instanceof MiniGunAP
                 || item instanceof MiniGunHP
 
+                || item instanceof AutoRifle
+                || item instanceof AutoRifleAP
+                || item instanceof AutoRifleHP
+
                 || item instanceof HuntingRifle
                 || item instanceof HuntingRifleAP
                 || item instanceof HuntingRifleHP
@@ -142,6 +158,10 @@ public class GunSmithingTool extends InventorySpell {
                 || item instanceof AntimaterRifle
                 || item instanceof AntimaterRifleAP
                 || item instanceof AntimaterRifleHP
+
+                || item instanceof MarksmanRifle
+                || item instanceof MarksmanRifleAP
+                || item instanceof MarksmanRifleHP
 
                 || item instanceof ShotGun
                 || item instanceof ShotGunAP
@@ -163,7 +183,7 @@ public class GunSmithingTool extends InventorySpell {
         private static final int WIDTH			= 120;
         private static final int MARGIN 		= 2;
         private static final int BUTTON_WIDTH	= WIDTH - MARGIN * 2;
-        private static final int BUTTON_HEIGHT	= 20;
+        private static final int BUTTON_HEIGHT	= 15;
 
         public WndSmithing( final Item toSmith ) {
             super();
@@ -8901,6 +8921,1653 @@ public class GunSmithingTool extends InventorySpell {
                         ((SPASHP)toSmith).light = false;
                         ((SPASHP)toSmith).heavy = false;
                         ((SPASHP)toSmith).flash = true;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                        updateQuickslot();
+                    }
+                };
+                btnFlash.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnFlash );
+
+                pos = btnFlash.bottom();
+                //End of button
+            } else if (toSmith instanceof AutoHandgun){
+                RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgun)toSmith).silencer = true;
+                        ((AutoHandgun)toSmith).short_barrel = false;
+                        ((AutoHandgun)toSmith).long_barrel = false;
+                        ((AutoHandgun)toSmith).magazine = false;
+                        ((AutoHandgun)toSmith).light = false;
+                        ((AutoHandgun)toSmith).heavy = false;
+                        ((AutoHandgun)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnSilencer.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnSilencer );
+
+                pos = btnSilencer.bottom();
+                //End of button
+
+                RedButton btnShortBarrel = new RedButton( Messages.get(this, "short_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgun)toSmith).silencer = false;
+                        ((AutoHandgun)toSmith).short_barrel = true;
+                        ((AutoHandgun)toSmith).long_barrel = false;
+                        ((AutoHandgun)toSmith).magazine = false;
+                        ((AutoHandgun)toSmith).light = false;
+                        ((AutoHandgun)toSmith).heavy = false;
+                        ((AutoHandgun)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnShortBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnShortBarrel );
+
+                pos = btnShortBarrel.bottom();
+                //End of button
+
+                RedButton btnLongBarrel = new RedButton( Messages.get(this, "long_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgun)toSmith).silencer = false;
+                        ((AutoHandgun)toSmith).short_barrel = false;
+                        ((AutoHandgun)toSmith).long_barrel = true;
+                        ((AutoHandgun)toSmith).magazine = false;
+                        ((AutoHandgun)toSmith).light = false;
+                        ((AutoHandgun)toSmith).heavy = false;
+                        ((AutoHandgun)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLongBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLongBarrel );
+
+                pos = btnLongBarrel.bottom();
+                //End of button
+
+                RedButton btnMagazine = new RedButton( Messages.get(this, "magazine") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgun)toSmith).silencer = false;
+                        ((AutoHandgun)toSmith).short_barrel = false;
+                        ((AutoHandgun)toSmith).long_barrel = false;
+                        ((AutoHandgun)toSmith).magazine = true;
+                        ((AutoHandgun)toSmith).light = false;
+                        ((AutoHandgun)toSmith).heavy = false;
+                        ((AutoHandgun)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnMagazine.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnMagazine );
+
+                pos = btnMagazine.bottom();
+                //End of button
+
+                RedButton btnLight = new RedButton( Messages.get(this, "light") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgun)toSmith).silencer = false;
+                        ((AutoHandgun)toSmith).short_barrel = false;
+                        ((AutoHandgun)toSmith).long_barrel = false;
+                        ((AutoHandgun)toSmith).magazine = false;
+                        ((AutoHandgun)toSmith).light = true;
+                        ((AutoHandgun)toSmith).heavy = false;
+                        ((AutoHandgun)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLight.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLight );
+
+                pos = btnLight.bottom();
+                //End of button
+
+                RedButton btnHeavy = new RedButton( Messages.get(this, "heavy") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgun)toSmith).silencer = false;
+                        ((AutoHandgun)toSmith).short_barrel = false;
+                        ((AutoHandgun)toSmith).long_barrel = false;
+                        ((AutoHandgun)toSmith).magazine = false;
+                        ((AutoHandgun)toSmith).light = false;
+                        ((AutoHandgun)toSmith).heavy = true;
+                        ((AutoHandgun)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnHeavy.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnHeavy );
+
+                pos = btnHeavy.bottom();
+                //End of button
+
+                RedButton btnFlash = new RedButton( Messages.get(this, "flash") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgun)toSmith).silencer = false;
+                        ((AutoHandgun)toSmith).short_barrel = false;
+                        ((AutoHandgun)toSmith).long_barrel = false;
+                        ((AutoHandgun)toSmith).magazine = false;
+                        ((AutoHandgun)toSmith).light = false;
+                        ((AutoHandgun)toSmith).heavy = false;
+                        ((AutoHandgun)toSmith).flash = true;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                        updateQuickslot();
+                    }
+                };
+                btnFlash.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnFlash );
+
+                pos = btnFlash.bottom();
+                //End of button
+            } else if (toSmith instanceof AutoHandgunAP){
+                RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunAP)toSmith).silencer = true;
+                        ((AutoHandgunAP)toSmith).short_barrel = false;
+                        ((AutoHandgunAP)toSmith).long_barrel = false;
+                        ((AutoHandgunAP)toSmith).magazine = false;
+                        ((AutoHandgunAP)toSmith).light = false;
+                        ((AutoHandgunAP)toSmith).heavy = false;
+                        ((AutoHandgunAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnSilencer.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnSilencer );
+
+                pos = btnSilencer.bottom();
+                //End of button
+
+                RedButton btnShortBarrel = new RedButton( Messages.get(this, "short_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunAP)toSmith).silencer = false;
+                        ((AutoHandgunAP)toSmith).short_barrel = true;
+                        ((AutoHandgunAP)toSmith).long_barrel = false;
+                        ((AutoHandgunAP)toSmith).magazine = false;
+                        ((AutoHandgunAP)toSmith).light = false;
+                        ((AutoHandgunAP)toSmith).heavy = false;
+                        ((AutoHandgunAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnShortBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnShortBarrel );
+
+                pos = btnShortBarrel.bottom();
+                //End of button
+
+                RedButton btnLongBarrel = new RedButton( Messages.get(this, "long_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunAP)toSmith).silencer = false;
+                        ((AutoHandgunAP)toSmith).short_barrel = false;
+                        ((AutoHandgunAP)toSmith).long_barrel = true;
+                        ((AutoHandgunAP)toSmith).magazine = false;
+                        ((AutoHandgunAP)toSmith).light = false;
+                        ((AutoHandgunAP)toSmith).heavy = false;
+                        ((AutoHandgunAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLongBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLongBarrel );
+
+                pos = btnLongBarrel.bottom();
+                //End of button
+
+                RedButton btnMagazine = new RedButton( Messages.get(this, "magazine") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunAP)toSmith).silencer = false;
+                        ((AutoHandgunAP)toSmith).short_barrel = false;
+                        ((AutoHandgunAP)toSmith).long_barrel = false;
+                        ((AutoHandgunAP)toSmith).magazine = true;
+                        ((AutoHandgunAP)toSmith).light = false;
+                        ((AutoHandgunAP)toSmith).heavy = false;
+                        ((AutoHandgunAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnMagazine.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnMagazine );
+
+                pos = btnMagazine.bottom();
+                //End of button
+
+                RedButton btnLight = new RedButton( Messages.get(this, "light") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunAP)toSmith).silencer = false;
+                        ((AutoHandgunAP)toSmith).short_barrel = false;
+                        ((AutoHandgunAP)toSmith).long_barrel = false;
+                        ((AutoHandgunAP)toSmith).magazine = false;
+                        ((AutoHandgunAP)toSmith).light = true;
+                        ((AutoHandgunAP)toSmith).heavy = false;
+                        ((AutoHandgunAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLight.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLight );
+
+                pos = btnLight.bottom();
+                //End of button
+
+                RedButton btnHeavy = new RedButton( Messages.get(this, "heavy") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunAP)toSmith).silencer = false;
+                        ((AutoHandgunAP)toSmith).short_barrel = false;
+                        ((AutoHandgunAP)toSmith).long_barrel = false;
+                        ((AutoHandgunAP)toSmith).magazine = false;
+                        ((AutoHandgunAP)toSmith).light = false;
+                        ((AutoHandgunAP)toSmith).heavy = true;
+                        ((AutoHandgunAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnHeavy.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnHeavy );
+
+                pos = btnHeavy.bottom();
+                //End of button
+
+                RedButton btnFlash = new RedButton( Messages.get(this, "flash") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunAP)toSmith).silencer = false;
+                        ((AutoHandgunAP)toSmith).short_barrel = false;
+                        ((AutoHandgunAP)toSmith).long_barrel = false;
+                        ((AutoHandgunAP)toSmith).magazine = false;
+                        ((AutoHandgunAP)toSmith).light = false;
+                        ((AutoHandgunAP)toSmith).heavy = false;
+                        ((AutoHandgunAP)toSmith).flash = true;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                        updateQuickslot();
+                    }
+                };
+                btnFlash.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnFlash );
+
+                pos = btnFlash.bottom();
+                //End of button
+            } else if (toSmith instanceof AutoHandgunHP){
+                RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunHP)toSmith).silencer = true;
+                        ((AutoHandgunHP)toSmith).short_barrel = false;
+                        ((AutoHandgunHP)toSmith).long_barrel = false;
+                        ((AutoHandgunHP)toSmith).magazine = false;
+                        ((AutoHandgunHP)toSmith).light = false;
+                        ((AutoHandgunHP)toSmith).heavy = false;
+                        ((AutoHandgunHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnSilencer.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnSilencer );
+
+                pos = btnSilencer.bottom();
+                //End of button
+
+                RedButton btnShortBarrel = new RedButton( Messages.get(this, "short_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunHP)toSmith).silencer = false;
+                        ((AutoHandgunHP)toSmith).short_barrel = true;
+                        ((AutoHandgunHP)toSmith).long_barrel = false;
+                        ((AutoHandgunHP)toSmith).magazine = false;
+                        ((AutoHandgunHP)toSmith).light = false;
+                        ((AutoHandgunHP)toSmith).heavy = false;
+                        ((AutoHandgunHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnShortBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnShortBarrel );
+
+                pos = btnShortBarrel.bottom();
+                //End of button
+
+                RedButton btnLongBarrel = new RedButton( Messages.get(this, "long_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunHP)toSmith).silencer = false;
+                        ((AutoHandgunHP)toSmith).short_barrel = false;
+                        ((AutoHandgunHP)toSmith).long_barrel = true;
+                        ((AutoHandgunHP)toSmith).magazine = false;
+                        ((AutoHandgunHP)toSmith).light = false;
+                        ((AutoHandgunHP)toSmith).heavy = false;
+                        ((AutoHandgunHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLongBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLongBarrel );
+
+                pos = btnLongBarrel.bottom();
+                //End of button
+
+                RedButton btnMagazine = new RedButton( Messages.get(this, "magazine") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunHP)toSmith).silencer = false;
+                        ((AutoHandgunHP)toSmith).short_barrel = false;
+                        ((AutoHandgunHP)toSmith).long_barrel = false;
+                        ((AutoHandgunHP)toSmith).magazine = true;
+                        ((AutoHandgunHP)toSmith).light = false;
+                        ((AutoHandgunHP)toSmith).heavy = false;
+                        ((AutoHandgunHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnMagazine.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnMagazine );
+
+                pos = btnMagazine.bottom();
+                //End of button
+
+                RedButton btnLight = new RedButton( Messages.get(this, "light") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunHP)toSmith).silencer = false;
+                        ((AutoHandgunHP)toSmith).short_barrel = false;
+                        ((AutoHandgunHP)toSmith).long_barrel = false;
+                        ((AutoHandgunHP)toSmith).magazine = false;
+                        ((AutoHandgunHP)toSmith).light = true;
+                        ((AutoHandgunHP)toSmith).heavy = false;
+                        ((AutoHandgunHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLight.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLight );
+
+                pos = btnLight.bottom();
+                //End of button
+
+                RedButton btnHeavy = new RedButton( Messages.get(this, "heavy") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunHP)toSmith).silencer = false;
+                        ((AutoHandgunHP)toSmith).short_barrel = false;
+                        ((AutoHandgunHP)toSmith).long_barrel = false;
+                        ((AutoHandgunHP)toSmith).magazine = false;
+                        ((AutoHandgunHP)toSmith).light = false;
+                        ((AutoHandgunHP)toSmith).heavy = true;
+                        ((AutoHandgunHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnHeavy.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnHeavy );
+
+                pos = btnHeavy.bottom();
+                //End of button
+
+                RedButton btnFlash = new RedButton( Messages.get(this, "flash") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoHandgunHP)toSmith).silencer = false;
+                        ((AutoHandgunHP)toSmith).short_barrel = false;
+                        ((AutoHandgunHP)toSmith).long_barrel = false;
+                        ((AutoHandgunHP)toSmith).magazine = false;
+                        ((AutoHandgunHP)toSmith).light = false;
+                        ((AutoHandgunHP)toSmith).heavy = false;
+                        ((AutoHandgunHP)toSmith).flash = true;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                        updateQuickslot();
+                    }
+                };
+                btnFlash.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnFlash );
+
+                pos = btnFlash.bottom();
+                //End of button
+            } else if (toSmith instanceof AutoRifle){
+                RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifle)toSmith).silencer = true;
+                        ((AutoRifle)toSmith).short_barrel = false;
+                        ((AutoRifle)toSmith).long_barrel = false;
+                        ((AutoRifle)toSmith).magazine = false;
+                        ((AutoRifle)toSmith).light = false;
+                        ((AutoRifle)toSmith).heavy = false;
+                        ((AutoRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnSilencer.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnSilencer );
+
+                pos = btnSilencer.bottom();
+                //End of button
+
+                RedButton btnShortBarrel = new RedButton( Messages.get(this, "short_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifle)toSmith).silencer = false;
+                        ((AutoRifle)toSmith).short_barrel = true;
+                        ((AutoRifle)toSmith).long_barrel = false;
+                        ((AutoRifle)toSmith).magazine = false;
+                        ((AutoRifle)toSmith).light = false;
+                        ((AutoRifle)toSmith).heavy = false;
+                        ((AutoRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnShortBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnShortBarrel );
+
+                pos = btnShortBarrel.bottom();
+                //End of button
+
+                RedButton btnLongBarrel = new RedButton( Messages.get(this, "long_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifle)toSmith).silencer = false;
+                        ((AutoRifle)toSmith).short_barrel = false;
+                        ((AutoRifle)toSmith).long_barrel = true;
+                        ((AutoRifle)toSmith).magazine = false;
+                        ((AutoRifle)toSmith).light = false;
+                        ((AutoRifle)toSmith).heavy = false;
+                        ((AutoRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLongBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLongBarrel );
+
+                pos = btnLongBarrel.bottom();
+                //End of button
+
+                RedButton btnMagazine = new RedButton( Messages.get(this, "magazine") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifle)toSmith).silencer = false;
+                        ((AutoRifle)toSmith).short_barrel = false;
+                        ((AutoRifle)toSmith).long_barrel = false;
+                        ((AutoRifle)toSmith).magazine = true;
+                        ((AutoRifle)toSmith).light = false;
+                        ((AutoRifle)toSmith).heavy = false;
+                        ((AutoRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnMagazine.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnMagazine );
+
+                pos = btnMagazine.bottom();
+                //End of button
+
+                RedButton btnLight = new RedButton( Messages.get(this, "light") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifle)toSmith).silencer = false;
+                        ((AutoRifle)toSmith).short_barrel = false;
+                        ((AutoRifle)toSmith).long_barrel = false;
+                        ((AutoRifle)toSmith).magazine = false;
+                        ((AutoRifle)toSmith).light = true;
+                        ((AutoRifle)toSmith).heavy = false;
+                        ((AutoRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLight.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLight );
+
+                pos = btnLight.bottom();
+                //End of button
+
+                RedButton btnHeavy = new RedButton( Messages.get(this, "heavy") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifle)toSmith).silencer = false;
+                        ((AutoRifle)toSmith).short_barrel = false;
+                        ((AutoRifle)toSmith).long_barrel = false;
+                        ((AutoRifle)toSmith).magazine = false;
+                        ((AutoRifle)toSmith).light = false;
+                        ((AutoRifle)toSmith).heavy = true;
+                        ((AutoRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnHeavy.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnHeavy );
+
+                pos = btnHeavy.bottom();
+                //End of button
+
+                RedButton btnFlash = new RedButton( Messages.get(this, "flash") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifle)toSmith).silencer = false;
+                        ((AutoRifle)toSmith).short_barrel = false;
+                        ((AutoRifle)toSmith).long_barrel = false;
+                        ((AutoRifle)toSmith).magazine = false;
+                        ((AutoRifle)toSmith).light = false;
+                        ((AutoRifle)toSmith).heavy = false;
+                        ((AutoRifle)toSmith).flash = true;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                        updateQuickslot();
+                    }
+                };
+                btnFlash.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnFlash );
+
+                pos = btnFlash.bottom();
+                //End of button
+            } else if (toSmith instanceof AutoRifleAP){
+                RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleAP)toSmith).silencer = true;
+                        ((AutoRifleAP)toSmith).short_barrel = false;
+                        ((AutoRifleAP)toSmith).long_barrel = false;
+                        ((AutoRifleAP)toSmith).magazine = false;
+                        ((AutoRifleAP)toSmith).light = false;
+                        ((AutoRifleAP)toSmith).heavy = false;
+                        ((AutoRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnSilencer.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnSilencer );
+
+                pos = btnSilencer.bottom();
+                //End of button
+
+                RedButton btnShortBarrel = new RedButton( Messages.get(this, "short_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleAP)toSmith).silencer = false;
+                        ((AutoRifleAP)toSmith).short_barrel = true;
+                        ((AutoRifleAP)toSmith).long_barrel = false;
+                        ((AutoRifleAP)toSmith).magazine = false;
+                        ((AutoRifleAP)toSmith).light = false;
+                        ((AutoRifleAP)toSmith).heavy = false;
+                        ((AutoRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnShortBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnShortBarrel );
+
+                pos = btnShortBarrel.bottom();
+                //End of button
+
+                RedButton btnLongBarrel = new RedButton( Messages.get(this, "long_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleAP)toSmith).silencer = false;
+                        ((AutoRifleAP)toSmith).short_barrel = false;
+                        ((AutoRifleAP)toSmith).long_barrel = true;
+                        ((AutoRifleAP)toSmith).magazine = false;
+                        ((AutoRifleAP)toSmith).light = false;
+                        ((AutoRifleAP)toSmith).heavy = false;
+                        ((AutoRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLongBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLongBarrel );
+
+                pos = btnLongBarrel.bottom();
+                //End of button
+
+                RedButton btnMagazine = new RedButton( Messages.get(this, "magazine") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleAP)toSmith).silencer = false;
+                        ((AutoRifleAP)toSmith).short_barrel = false;
+                        ((AutoRifleAP)toSmith).long_barrel = false;
+                        ((AutoRifleAP)toSmith).magazine = true;
+                        ((AutoRifleAP)toSmith).light = false;
+                        ((AutoRifleAP)toSmith).heavy = false;
+                        ((AutoRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnMagazine.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnMagazine );
+
+                pos = btnMagazine.bottom();
+                //End of button
+
+                RedButton btnLight = new RedButton( Messages.get(this, "light") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleAP)toSmith).silencer = false;
+                        ((AutoRifleAP)toSmith).short_barrel = false;
+                        ((AutoRifleAP)toSmith).long_barrel = false;
+                        ((AutoRifleAP)toSmith).magazine = false;
+                        ((AutoRifleAP)toSmith).light = true;
+                        ((AutoRifleAP)toSmith).heavy = false;
+                        ((AutoRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLight.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLight );
+
+                pos = btnLight.bottom();
+                //End of button
+
+                RedButton btnHeavy = new RedButton( Messages.get(this, "heavy") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleAP)toSmith).silencer = false;
+                        ((AutoRifleAP)toSmith).short_barrel = false;
+                        ((AutoRifleAP)toSmith).long_barrel = false;
+                        ((AutoRifleAP)toSmith).magazine = false;
+                        ((AutoRifleAP)toSmith).light = false;
+                        ((AutoRifleAP)toSmith).heavy = true;
+                        ((AutoRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnHeavy.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnHeavy );
+
+                pos = btnHeavy.bottom();
+                //End of button
+
+                RedButton btnFlash = new RedButton( Messages.get(this, "flash") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleAP)toSmith).silencer = false;
+                        ((AutoRifleAP)toSmith).short_barrel = false;
+                        ((AutoRifleAP)toSmith).long_barrel = false;
+                        ((AutoRifleAP)toSmith).magazine = false;
+                        ((AutoRifleAP)toSmith).light = false;
+                        ((AutoRifleAP)toSmith).heavy = false;
+                        ((AutoRifleAP)toSmith).flash = true;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                        updateQuickslot();
+                    }
+                };
+                btnFlash.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnFlash );
+
+                pos = btnFlash.bottom();
+                //End of button
+            } else if (toSmith instanceof AutoRifleHP){
+                RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleHP)toSmith).silencer = true;
+                        ((AutoRifleHP)toSmith).short_barrel = false;
+                        ((AutoRifleHP)toSmith).long_barrel = false;
+                        ((AutoRifleHP)toSmith).magazine = false;
+                        ((AutoRifleHP)toSmith).light = false;
+                        ((AutoRifleHP)toSmith).heavy = false;
+                        ((AutoRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnSilencer.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnSilencer );
+
+                pos = btnSilencer.bottom();
+                //End of button
+
+                RedButton btnShortBarrel = new RedButton( Messages.get(this, "short_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleHP)toSmith).silencer = false;
+                        ((AutoRifleHP)toSmith).short_barrel = true;
+                        ((AutoRifleHP)toSmith).long_barrel = false;
+                        ((AutoRifleHP)toSmith).magazine = false;
+                        ((AutoRifleHP)toSmith).light = false;
+                        ((AutoRifleHP)toSmith).heavy = false;
+                        ((AutoRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnShortBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnShortBarrel );
+
+                pos = btnShortBarrel.bottom();
+                //End of button
+
+                RedButton btnLongBarrel = new RedButton( Messages.get(this, "long_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleHP)toSmith).silencer = false;
+                        ((AutoRifleHP)toSmith).short_barrel = false;
+                        ((AutoRifleHP)toSmith).long_barrel = true;
+                        ((AutoRifleHP)toSmith).magazine = false;
+                        ((AutoRifleHP)toSmith).light = false;
+                        ((AutoRifleHP)toSmith).heavy = false;
+                        ((AutoRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLongBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLongBarrel );
+
+                pos = btnLongBarrel.bottom();
+                //End of button
+
+                RedButton btnMagazine = new RedButton( Messages.get(this, "magazine") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleHP)toSmith).silencer = false;
+                        ((AutoRifleHP)toSmith).short_barrel = false;
+                        ((AutoRifleHP)toSmith).long_barrel = false;
+                        ((AutoRifleHP)toSmith).magazine = true;
+                        ((AutoRifleHP)toSmith).light = false;
+                        ((AutoRifleHP)toSmith).heavy = false;
+                        ((AutoRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnMagazine.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnMagazine );
+
+                pos = btnMagazine.bottom();
+                //End of button
+
+                RedButton btnLight = new RedButton( Messages.get(this, "light") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleHP)toSmith).silencer = false;
+                        ((AutoRifleHP)toSmith).short_barrel = false;
+                        ((AutoRifleHP)toSmith).long_barrel = false;
+                        ((AutoRifleHP)toSmith).magazine = false;
+                        ((AutoRifleHP)toSmith).light = true;
+                        ((AutoRifleHP)toSmith).heavy = false;
+                        ((AutoRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLight.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLight );
+
+                pos = btnLight.bottom();
+                //End of button
+
+                RedButton btnHeavy = new RedButton( Messages.get(this, "heavy") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleHP)toSmith).silencer = false;
+                        ((AutoRifleHP)toSmith).short_barrel = false;
+                        ((AutoRifleHP)toSmith).long_barrel = false;
+                        ((AutoRifleHP)toSmith).magazine = false;
+                        ((AutoRifleHP)toSmith).light = false;
+                        ((AutoRifleHP)toSmith).heavy = true;
+                        ((AutoRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnHeavy.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnHeavy );
+
+                pos = btnHeavy.bottom();
+                //End of button
+
+                RedButton btnFlash = new RedButton( Messages.get(this, "flash") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((AutoRifleHP)toSmith).silencer = false;
+                        ((AutoRifleHP)toSmith).short_barrel = false;
+                        ((AutoRifleHP)toSmith).long_barrel = false;
+                        ((AutoRifleHP)toSmith).magazine = false;
+                        ((AutoRifleHP)toSmith).light = false;
+                        ((AutoRifleHP)toSmith).heavy = false;
+                        ((AutoRifleHP)toSmith).flash = true;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                        updateQuickslot();
+                    }
+                };
+                btnFlash.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnFlash );
+
+                pos = btnFlash.bottom();
+                //End of button
+            } else if (toSmith instanceof MarksmanRifle){
+                RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifle)toSmith).silencer = true;
+                        ((MarksmanRifle)toSmith).short_barrel = false;
+                        ((MarksmanRifle)toSmith).long_barrel = false;
+                        ((MarksmanRifle)toSmith).magazine = false;
+                        ((MarksmanRifle)toSmith).light = false;
+                        ((MarksmanRifle)toSmith).heavy = false;
+                        ((MarksmanRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnSilencer.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnSilencer );
+
+                pos = btnSilencer.bottom();
+                //End of button
+
+                RedButton btnShortBarrel = new RedButton( Messages.get(this, "short_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifle)toSmith).silencer = false;
+                        ((MarksmanRifle)toSmith).short_barrel = true;
+                        ((MarksmanRifle)toSmith).long_barrel = false;
+                        ((MarksmanRifle)toSmith).magazine = false;
+                        ((MarksmanRifle)toSmith).light = false;
+                        ((MarksmanRifle)toSmith).heavy = false;
+                        ((MarksmanRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnShortBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnShortBarrel );
+
+                pos = btnShortBarrel.bottom();
+                //End of button
+
+                RedButton btnLongBarrel = new RedButton( Messages.get(this, "long_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifle)toSmith).silencer = false;
+                        ((MarksmanRifle)toSmith).short_barrel = false;
+                        ((MarksmanRifle)toSmith).long_barrel = true;
+                        ((MarksmanRifle)toSmith).magazine = false;
+                        ((MarksmanRifle)toSmith).light = false;
+                        ((MarksmanRifle)toSmith).heavy = false;
+                        ((MarksmanRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLongBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLongBarrel );
+
+                pos = btnLongBarrel.bottom();
+                //End of button
+
+                RedButton btnMagazine = new RedButton( Messages.get(this, "magazine") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifle)toSmith).silencer = false;
+                        ((MarksmanRifle)toSmith).short_barrel = false;
+                        ((MarksmanRifle)toSmith).long_barrel = false;
+                        ((MarksmanRifle)toSmith).magazine = true;
+                        ((MarksmanRifle)toSmith).light = false;
+                        ((MarksmanRifle)toSmith).heavy = false;
+                        ((MarksmanRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnMagazine.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnMagazine );
+
+                pos = btnMagazine.bottom();
+                //End of button
+
+                RedButton btnLight = new RedButton( Messages.get(this, "light") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifle)toSmith).silencer = false;
+                        ((MarksmanRifle)toSmith).short_barrel = false;
+                        ((MarksmanRifle)toSmith).long_barrel = false;
+                        ((MarksmanRifle)toSmith).magazine = false;
+                        ((MarksmanRifle)toSmith).light = true;
+                        ((MarksmanRifle)toSmith).heavy = false;
+                        ((MarksmanRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLight.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLight );
+
+                pos = btnLight.bottom();
+                //End of button
+
+                RedButton btnHeavy = new RedButton( Messages.get(this, "heavy") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifle)toSmith).silencer = false;
+                        ((MarksmanRifle)toSmith).short_barrel = false;
+                        ((MarksmanRifle)toSmith).long_barrel = false;
+                        ((MarksmanRifle)toSmith).magazine = false;
+                        ((MarksmanRifle)toSmith).light = false;
+                        ((MarksmanRifle)toSmith).heavy = true;
+                        ((MarksmanRifle)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnHeavy.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnHeavy );
+
+                pos = btnHeavy.bottom();
+                //End of button
+
+                RedButton btnFlash = new RedButton( Messages.get(this, "flash") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifle)toSmith).silencer = false;
+                        ((MarksmanRifle)toSmith).short_barrel = false;
+                        ((MarksmanRifle)toSmith).long_barrel = false;
+                        ((MarksmanRifle)toSmith).magazine = false;
+                        ((MarksmanRifle)toSmith).light = false;
+                        ((MarksmanRifle)toSmith).heavy = false;
+                        ((MarksmanRifle)toSmith).flash = true;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                        updateQuickslot();
+                    }
+                };
+                btnFlash.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnFlash );
+
+                pos = btnFlash.bottom();
+                //End of button
+            } else if (toSmith instanceof MarksmanRifleAP){
+                RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleAP)toSmith).silencer = true;
+                        ((MarksmanRifleAP)toSmith).short_barrel = false;
+                        ((MarksmanRifleAP)toSmith).long_barrel = false;
+                        ((MarksmanRifleAP)toSmith).magazine = false;
+                        ((MarksmanRifleAP)toSmith).light = false;
+                        ((MarksmanRifleAP)toSmith).heavy = false;
+                        ((MarksmanRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnSilencer.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnSilencer );
+
+                pos = btnSilencer.bottom();
+                //End of button
+
+                RedButton btnShortBarrel = new RedButton( Messages.get(this, "short_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleAP)toSmith).silencer = false;
+                        ((MarksmanRifleAP)toSmith).short_barrel = true;
+                        ((MarksmanRifleAP)toSmith).long_barrel = false;
+                        ((MarksmanRifleAP)toSmith).magazine = false;
+                        ((MarksmanRifleAP)toSmith).light = false;
+                        ((MarksmanRifleAP)toSmith).heavy = false;
+                        ((MarksmanRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnShortBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnShortBarrel );
+
+                pos = btnShortBarrel.bottom();
+                //End of button
+
+                RedButton btnLongBarrel = new RedButton( Messages.get(this, "long_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleAP)toSmith).silencer = false;
+                        ((MarksmanRifleAP)toSmith).short_barrel = false;
+                        ((MarksmanRifleAP)toSmith).long_barrel = true;
+                        ((MarksmanRifleAP)toSmith).magazine = false;
+                        ((MarksmanRifleAP)toSmith).light = false;
+                        ((MarksmanRifleAP)toSmith).heavy = false;
+                        ((MarksmanRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLongBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLongBarrel );
+
+                pos = btnLongBarrel.bottom();
+                //End of button
+
+                RedButton btnMagazine = new RedButton( Messages.get(this, "magazine") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleAP)toSmith).silencer = false;
+                        ((MarksmanRifleAP)toSmith).short_barrel = false;
+                        ((MarksmanRifleAP)toSmith).long_barrel = false;
+                        ((MarksmanRifleAP)toSmith).magazine = true;
+                        ((MarksmanRifleAP)toSmith).light = false;
+                        ((MarksmanRifleAP)toSmith).heavy = false;
+                        ((MarksmanRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnMagazine.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnMagazine );
+
+                pos = btnMagazine.bottom();
+                //End of button
+
+                RedButton btnLight = new RedButton( Messages.get(this, "light") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleAP)toSmith).silencer = false;
+                        ((MarksmanRifleAP)toSmith).short_barrel = false;
+                        ((MarksmanRifleAP)toSmith).long_barrel = false;
+                        ((MarksmanRifleAP)toSmith).magazine = false;
+                        ((MarksmanRifleAP)toSmith).light = true;
+                        ((MarksmanRifleAP)toSmith).heavy = false;
+                        ((MarksmanRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLight.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLight );
+
+                pos = btnLight.bottom();
+                //End of button
+
+                RedButton btnHeavy = new RedButton( Messages.get(this, "heavy") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleAP)toSmith).silencer = false;
+                        ((MarksmanRifleAP)toSmith).short_barrel = false;
+                        ((MarksmanRifleAP)toSmith).long_barrel = false;
+                        ((MarksmanRifleAP)toSmith).magazine = false;
+                        ((MarksmanRifleAP)toSmith).light = false;
+                        ((MarksmanRifleAP)toSmith).heavy = true;
+                        ((MarksmanRifleAP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnHeavy.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnHeavy );
+
+                pos = btnHeavy.bottom();
+                //End of button
+
+                RedButton btnFlash = new RedButton( Messages.get(this, "flash") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleAP)toSmith).silencer = false;
+                        ((MarksmanRifleAP)toSmith).short_barrel = false;
+                        ((MarksmanRifleAP)toSmith).long_barrel = false;
+                        ((MarksmanRifleAP)toSmith).magazine = false;
+                        ((MarksmanRifleAP)toSmith).light = false;
+                        ((MarksmanRifleAP)toSmith).heavy = false;
+                        ((MarksmanRifleAP)toSmith).flash = true;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                        updateQuickslot();
+                    }
+                };
+                btnFlash.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnFlash );
+
+                pos = btnFlash.bottom();
+                //End of button
+            } else if (toSmith instanceof MarksmanRifleHP){
+                RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleHP)toSmith).silencer = true;
+                        ((MarksmanRifleHP)toSmith).short_barrel = false;
+                        ((MarksmanRifleHP)toSmith).long_barrel = false;
+                        ((MarksmanRifleHP)toSmith).magazine = false;
+                        ((MarksmanRifleHP)toSmith).light = false;
+                        ((MarksmanRifleHP)toSmith).heavy = false;
+                        ((MarksmanRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnSilencer.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnSilencer );
+
+                pos = btnSilencer.bottom();
+                //End of button
+
+                RedButton btnShortBarrel = new RedButton( Messages.get(this, "short_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleHP)toSmith).silencer = false;
+                        ((MarksmanRifleHP)toSmith).short_barrel = true;
+                        ((MarksmanRifleHP)toSmith).long_barrel = false;
+                        ((MarksmanRifleHP)toSmith).magazine = false;
+                        ((MarksmanRifleHP)toSmith).light = false;
+                        ((MarksmanRifleHP)toSmith).heavy = false;
+                        ((MarksmanRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnShortBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnShortBarrel );
+
+                pos = btnShortBarrel.bottom();
+                //End of button
+
+                RedButton btnLongBarrel = new RedButton( Messages.get(this, "long_barrel") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleHP)toSmith).silencer = false;
+                        ((MarksmanRifleHP)toSmith).short_barrel = false;
+                        ((MarksmanRifleHP)toSmith).long_barrel = true;
+                        ((MarksmanRifleHP)toSmith).magazine = false;
+                        ((MarksmanRifleHP)toSmith).light = false;
+                        ((MarksmanRifleHP)toSmith).heavy = false;
+                        ((MarksmanRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLongBarrel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLongBarrel );
+
+                pos = btnLongBarrel.bottom();
+                //End of button
+
+                RedButton btnMagazine = new RedButton( Messages.get(this, "magazine") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleHP)toSmith).silencer = false;
+                        ((MarksmanRifleHP)toSmith).short_barrel = false;
+                        ((MarksmanRifleHP)toSmith).long_barrel = false;
+                        ((MarksmanRifleHP)toSmith).magazine = true;
+                        ((MarksmanRifleHP)toSmith).light = false;
+                        ((MarksmanRifleHP)toSmith).heavy = false;
+                        ((MarksmanRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnMagazine.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnMagazine );
+
+                pos = btnMagazine.bottom();
+                //End of button
+
+                RedButton btnLight = new RedButton( Messages.get(this, "light") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleHP)toSmith).silencer = false;
+                        ((MarksmanRifleHP)toSmith).short_barrel = false;
+                        ((MarksmanRifleHP)toSmith).long_barrel = false;
+                        ((MarksmanRifleHP)toSmith).magazine = false;
+                        ((MarksmanRifleHP)toSmith).light = true;
+                        ((MarksmanRifleHP)toSmith).heavy = false;
+                        ((MarksmanRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnLight.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnLight );
+
+                pos = btnLight.bottom();
+                //End of button
+
+                RedButton btnHeavy = new RedButton( Messages.get(this, "heavy") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleHP)toSmith).silencer = false;
+                        ((MarksmanRifleHP)toSmith).short_barrel = false;
+                        ((MarksmanRifleHP)toSmith).long_barrel = false;
+                        ((MarksmanRifleHP)toSmith).magazine = false;
+                        ((MarksmanRifleHP)toSmith).light = false;
+                        ((MarksmanRifleHP)toSmith).heavy = true;
+                        ((MarksmanRifleHP)toSmith).flash = false;
+                        GLog.p(Messages.get(GunSmithingTool.class, "modification"));
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+                        curUser.spend( 1f );
+                        curUser.busy();
+                        (curUser.sprite).operate( curUser.pos );
+                        CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                        updateQuickslot();
+                    }
+                };
+                btnHeavy.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                add( btnHeavy );
+
+                pos = btnHeavy.bottom();
+                //End of button
+
+                RedButton btnFlash = new RedButton( Messages.get(this, "flash") ) {
+                    @Override
+                    protected void onClick() {
+                        hide();
+                        ((MarksmanRifleHP)toSmith).silencer = false;
+                        ((MarksmanRifleHP)toSmith).short_barrel = false;
+                        ((MarksmanRifleHP)toSmith).long_barrel = false;
+                        ((MarksmanRifleHP)toSmith).magazine = false;
+                        ((MarksmanRifleHP)toSmith).light = false;
+                        ((MarksmanRifleHP)toSmith).heavy = false;
+                        ((MarksmanRifleHP)toSmith).flash = true;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );

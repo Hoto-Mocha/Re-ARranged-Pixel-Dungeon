@@ -128,6 +128,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
@@ -159,6 +165,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Katana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
@@ -452,6 +461,18 @@ public abstract class Char extends Actor {
 
 				((DualPistolHP)hero.belongings.weapon).round = Math.min(((DualPistolHP)hero.belongings.weapon).round+1, ((DualPistolHP)hero.belongings.weapon).max_round);
 
+			} else if (hero.belongings.weapon() instanceof AutoHandgun && ((AutoHandgun)hero.belongings.weapon).round < ((AutoHandgun)hero.belongings.weapon).max_round) {
+
+				((AutoHandgun)hero.belongings.weapon).round = Math.min(((AutoHandgun)hero.belongings.weapon).round+1, ((AutoHandgun)hero.belongings.weapon).max_round);
+
+			} else if (hero.belongings.weapon() instanceof AutoHandgunAP && ((AutoHandgunAP)hero.belongings.weapon).round < ((AutoHandgunAP)hero.belongings.weapon).max_round) {
+
+				((AutoHandgunAP)hero.belongings.weapon).round = Math.min(((AutoHandgunAP)hero.belongings.weapon).round+1, ((AutoHandgunAP)hero.belongings.weapon).max_round);
+
+			} else if (hero.belongings.weapon() instanceof AutoHandgunHP && ((AutoHandgunHP)hero.belongings.weapon).round < ((AutoHandgunHP)hero.belongings.weapon).max_round) {
+
+				((AutoHandgunHP)hero.belongings.weapon).round = Math.min(((AutoHandgunHP)hero.belongings.weapon).round+1, ((AutoHandgunHP)hero.belongings.weapon).max_round);
+
 			}
 			updateQuickslot();
 		}
@@ -596,12 +617,15 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof GoldenPistolAP.Bullet
 						|| h.belongings.weapon() instanceof HandgunAP.Bullet
 						|| h.belongings.weapon() instanceof MagnumAP.Bullet
+						|| h.belongings.weapon() instanceof AutoHandgunAP.Bullet
 						|| h.belongings.weapon() instanceof HuntingRifleAP.Bullet
 						|| h.belongings.weapon() instanceof SniperRifleAP.Bullet
+						|| h.belongings.weapon() instanceof MarksmanRifleAP.Bullet
 						|| h.belongings.weapon() instanceof DualPistolAP.Bullet
 						|| h.belongings.weapon() instanceof SubMachinegunAP.Bullet
 						|| h.belongings.weapon() instanceof AssultRifleAP.Bullet
 						|| h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
+						|| h.belongings.weapon() instanceof AutoRifleAP.Bullet
 						|| h.belongings.weapon() instanceof ShotGunAP.Bullet
 						|| h.belongings.weapon() instanceof SPASAP.Bullet
 						|| h.belongings.weapon() instanceof MiniGunAP.Bullet
@@ -614,12 +638,15 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof GoldenPistolHP.Bullet
 						|| h.belongings.weapon() instanceof HandgunHP.Bullet
 						|| h.belongings.weapon() instanceof MagnumHP.Bullet
+						|| h.belongings.weapon() instanceof AutoHandgunHP.Bullet
 						|| h.belongings.weapon() instanceof HuntingRifleHP.Bullet
 						|| h.belongings.weapon() instanceof SniperRifleHP.Bullet
+						|| h.belongings.weapon() instanceof MarksmanRifleHP.Bullet
 						|| h.belongings.weapon() instanceof DualPistolHP.Bullet
 						|| h.belongings.weapon() instanceof SubMachinegunHP.Bullet
 						|| h.belongings.weapon() instanceof AssultRifleHP.Bullet
 						|| h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
+						|| h.belongings.weapon() instanceof AutoRifleHP.Bullet
 						|| h.belongings.weapon() instanceof MiniGunHP.Bullet
 						|| h.belongings.weapon() instanceof TacticalHandgunHP.Bullet
 						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
@@ -991,6 +1018,7 @@ public abstract class Char extends Actor {
 				 || h.belongings.weapon() instanceof GoldenPistolAP.Bullet
 				 || h.belongings.weapon() instanceof HandgunAP.Bullet
 				 || h.belongings.weapon() instanceof MagnumAP.Bullet
+				 || h.belongings.weapon() instanceof AutoHandgunAP.Bullet
 				 || h.belongings.weapon() instanceof HuntingRifleAP.Bullet
 				 || h.belongings.weapon() instanceof SniperRifleAP.Bullet
 				 || h.belongings.weapon() instanceof DualPistolAP.Bullet
@@ -1007,6 +1035,7 @@ public abstract class Char extends Actor {
 					    || h.belongings.weapon() instanceof GoldenPistolHP.Bullet
 					    || h.belongings.weapon() instanceof HandgunHP.Bullet
 					    || h.belongings.weapon() instanceof MagnumHP.Bullet
+					    || h.belongings.weapon() instanceof AutoHandgunHP.Bullet
 					    || h.belongings.weapon() instanceof HuntingRifleHP.Bullet
 					    || h.belongings.weapon() instanceof SniperRifleHP.Bullet
 					    || h.belongings.weapon() instanceof DualPistolHP.Bullet
@@ -1040,6 +1069,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof TacticalHandgun.Bullet && ((TacticalHandgun)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof TacticalHandgunAP.Bullet && ((TacticalHandgunAP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof TacticalHandgunHP.Bullet && ((TacticalHandgunHP)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof AutoHandgunAP.Bullet && ((AutoHandgunAP)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof AutoHandgunHP.Bullet && ((AutoHandgunHP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof DualPistol.Bullet && ((DualPistol)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof DualPistolAP.Bullet && ((DualPistolAP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof DualPistolHP.Bullet && ((DualPistolHP)hero.belongings.weapon).silencer)
@@ -1052,6 +1084,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof HeavyMachinegun.Bullet && ((HeavyMachinegun)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof HeavyMachinegunAP.Bullet && ((HeavyMachinegunAP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof HeavyMachinegunHP.Bullet && ((HeavyMachinegunHP)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof AutoRifle.Bullet && ((AutoRifle)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof AutoRifleAP.Bullet && ((AutoRifleAP)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof AutoRifleHP.Bullet && ((AutoRifleHP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).silencer)
@@ -1064,6 +1099,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof MarksmanRifle.Bullet && ((MarksmanRifle)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof MarksmanRifleAP.Bullet && ((MarksmanRifleAP)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof MarksmanRifleHP.Bullet && ((MarksmanRifleHP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).silencer)
@@ -1071,7 +1109,7 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).silencer)
 				) {
-					dmg -= 0.5f;
+					dmg *= 0.75f;
 				}
 
 				if ((hero.belongings.weapon() instanceof CrudePistol && ((CrudePistol)hero.belongings.weapon).light)
@@ -1092,6 +1130,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof TacticalHandgun && ((TacticalHandgun)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof TacticalHandgunAP && ((TacticalHandgunAP)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof TacticalHandgunHP && ((TacticalHandgunHP)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof AutoHandgun && ((AutoHandgun)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof AutoHandgunAP && ((AutoHandgunAP)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof AutoHandgunHP && ((AutoHandgunHP)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof DualPistol && ((DualPistol)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof DualPistolAP && ((DualPistolAP)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof DualPistolHP && ((DualPistolHP)hero.belongings.weapon).light)
@@ -1107,6 +1148,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof MiniGun && ((MiniGun)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof MiniGunAP && ((MiniGunAP)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof MiniGunHP && ((MiniGunHP)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof AutoRifle && ((AutoRifle)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof AutoRifleAP && ((AutoRifleAP)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof AutoRifleHP && ((AutoRifleHP)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof HuntingRifle && ((HuntingRifle)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof HuntingRifleAP && ((HuntingRifleAP)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof HuntingRifleHP && ((HuntingRifleHP)hero.belongings.weapon).light)
@@ -1116,6 +1160,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof AntimaterRifle && ((AntimaterRifle)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof AntimaterRifleAP && ((AntimaterRifleAP)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof AntimaterRifleHP && ((AntimaterRifleHP)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof MarksmanRifle && ((MarksmanRifle)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof MarksmanRifleAP && ((MarksmanRifleAP)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof MarksmanRifleHP && ((MarksmanRifleHP)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof ShotGun && ((ShotGun)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof ShotGunAP && ((ShotGunAP)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof ShotGunHP && ((ShotGunHP)hero.belongings.weapon).light)
@@ -1144,6 +1191,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof TacticalHandgun && ((TacticalHandgun)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof TacticalHandgunAP && ((TacticalHandgunAP)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof TacticalHandgunHP && ((TacticalHandgunHP)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof AutoHandgun && ((AutoHandgun)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof AutoHandgunAP && ((AutoHandgunAP)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof AutoHandgunHP && ((AutoHandgunHP)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof DualPistol && ((DualPistol)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof DualPistolAP && ((DualPistolAP)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof DualPistolHP && ((DualPistolHP)hero.belongings.weapon).heavy)
@@ -1159,6 +1209,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof MiniGun && ((MiniGun)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof MiniGunAP && ((MiniGunAP)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof MiniGunHP && ((MiniGunHP)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof AutoRifle && ((AutoRifle)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof AutoRifleAP && ((AutoRifleAP)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof AutoRifleHP && ((AutoRifleHP)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof HuntingRifle && ((HuntingRifle)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof HuntingRifleAP && ((HuntingRifleAP)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof HuntingRifleHP && ((HuntingRifleHP)hero.belongings.weapon).heavy)
@@ -1168,6 +1221,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof AntimaterRifle && ((AntimaterRifle)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof AntimaterRifleAP && ((AntimaterRifleAP)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof AntimaterRifleHP && ((AntimaterRifleHP)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof MarksmanRifle && ((MarksmanRifle)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof MarksmanRifleAP && ((MarksmanRifleAP)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof MarksmanRifleHP && ((MarksmanRifleHP)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof ShotGun && ((ShotGun)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof ShotGunAP && ((ShotGunAP)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof ShotGunHP && ((ShotGunHP)hero.belongings.weapon).heavy)
@@ -1196,6 +1252,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof TacticalHandgun.Bullet && ((TacticalHandgun)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof TacticalHandgunAP.Bullet && ((TacticalHandgunAP)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof TacticalHandgunHP.Bullet && ((TacticalHandgunHP)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof AutoHandgunAP.Bullet && ((AutoHandgunAP)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof AutoHandgunHP.Bullet && ((AutoHandgunHP)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof DualPistol.Bullet && ((DualPistol)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof DualPistolAP.Bullet && ((DualPistolAP)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof DualPistolHP.Bullet && ((DualPistolHP)hero.belongings.weapon).flash)
@@ -1211,6 +1270,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof AutoRifle.Bullet && ((AutoRifle)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof AutoRifleAP.Bullet && ((AutoRifleAP)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof AutoRifleHP.Bullet && ((AutoRifleHP)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).flash)
@@ -1220,6 +1282,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof AutoRifle.Bullet && ((AutoRifle)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof AutoRifleAP.Bullet && ((AutoRifleAP)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof AutoRifleHP.Bullet && ((AutoRifleHP)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).flash)
@@ -1263,6 +1328,9 @@ public abstract class Char extends Actor {
 					 || Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
 					 || Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP
 					 || Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP
+					 || Dungeon.hero.belongings.weapon() instanceof AutoHandgun
+					 || Dungeon.hero.belongings.weapon() instanceof AutoHandgunAP
+					 || Dungeon.hero.belongings.weapon() instanceof AutoHandgunHP
 					 || Dungeon.hero.belongings.weapon() instanceof DualPistol
 					 || Dungeon.hero.belongings.weapon() instanceof DualPistolAP
 					 || Dungeon.hero.belongings.weapon() instanceof DualPistolHP
@@ -1278,6 +1346,9 @@ public abstract class Char extends Actor {
 					 || Dungeon.hero.belongings.weapon() instanceof MiniGun
 					 || Dungeon.hero.belongings.weapon() instanceof MiniGunAP
 					 || Dungeon.hero.belongings.weapon() instanceof MiniGunHP
+					 || Dungeon.hero.belongings.weapon() instanceof AutoRifle
+					 || Dungeon.hero.belongings.weapon() instanceof AutoRifleAP
+					 || Dungeon.hero.belongings.weapon() instanceof AutoRifleHP
 					 || Dungeon.hero.belongings.weapon() instanceof HuntingRifle
 					 || Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP
 					 || Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP
@@ -1287,6 +1358,9 @@ public abstract class Char extends Actor {
 					 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifle
 					 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP
 					 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP
+					 || Dungeon.hero.belongings.weapon() instanceof MarksmanRifle
+					 || Dungeon.hero.belongings.weapon() instanceof MarksmanRifleAP
+					 || Dungeon.hero.belongings.weapon() instanceof MarksmanRifleHP
 					 || Dungeon.hero.belongings.weapon() instanceof ShotGun
 					 || Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 					 || Dungeon.hero.belongings.weapon() instanceof ShotGunHP
@@ -1330,6 +1404,9 @@ public abstract class Char extends Actor {
 						|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof AutoHandgun.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof AutoHandgunAP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof AutoHandgunHP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof DualPistol.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP.Bullet
@@ -1345,6 +1422,9 @@ public abstract class Char extends Actor {
 						|| Dungeon.hero.belongings.weapon() instanceof MiniGun.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof MiniGunAP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof MiniGunHP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof AutoRifle.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof AutoRifleAP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof AutoRifleHP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP.Bullet
@@ -1354,6 +1434,9 @@ public abstract class Char extends Actor {
 						|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifle.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleAP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleHP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof ShotGun.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP.Bullet
@@ -1397,6 +1480,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
 							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP
 							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP
+							|| Dungeon.hero.belongings.weapon() instanceof AutoHandgun
+							|| Dungeon.hero.belongings.weapon() instanceof AutoHandgunAP
+							|| Dungeon.hero.belongings.weapon() instanceof AutoHandgunHP
 							|| Dungeon.hero.belongings.weapon() instanceof DualPistol
 							|| Dungeon.hero.belongings.weapon() instanceof DualPistolAP
 							|| Dungeon.hero.belongings.weapon() instanceof DualPistolHP
@@ -1412,6 +1498,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof MiniGun
 							|| Dungeon.hero.belongings.weapon() instanceof MiniGunAP
 							|| Dungeon.hero.belongings.weapon() instanceof MiniGunHP
+							|| Dungeon.hero.belongings.weapon() instanceof AutoRifle
+							|| Dungeon.hero.belongings.weapon() instanceof AutoRifleAP
+							|| Dungeon.hero.belongings.weapon() instanceof AutoRifleHP
 							|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle
 							|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP
 							|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP
@@ -1421,6 +1510,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifle
 							|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP
 							|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP
+							|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifle
+							|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleAP
+							|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleHP
 							|| Dungeon.hero.belongings.weapon() instanceof ShotGun
 							|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 							|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
@@ -1473,6 +1565,9 @@ public abstract class Char extends Actor {
 				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet
 				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
 				 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof MarksmanRifle.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof MarksmanRifleAP.Bullet
+				 || Dungeon.hero.belongings.weapon() instanceof MarksmanRifleHP.Bullet
 				) {
 					dmg *= 1f + 0.1f*Dungeon.hero.pointsInTalent(Talent.ONLY_ONE_SHOT);
 				}

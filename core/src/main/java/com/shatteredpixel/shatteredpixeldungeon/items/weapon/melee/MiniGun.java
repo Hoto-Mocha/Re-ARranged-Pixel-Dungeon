@@ -475,9 +475,9 @@ public class MiniGun extends MeleeWeapon {
         }
 
         @Override
-        protected void onThrow(int cell) {
-            if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3) <= hero.pointsInTalent(Talent.RECOIL_PRACTICE) - 1) {
-                for (int i = 1; i <= 7; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+        protected void onThrow( int cell ) {
+            if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3) <= hero.pointsInTalent(Talent.RECOIL_PRACTICE)-1) {
+                for (int i=1; i<=7; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                     if (round <= 0) {
                         break;
                     }
@@ -494,19 +494,18 @@ public class MiniGun extends MeleeWeapon {
                     }
                     if (hero.buff(InfiniteBullet.class) != null) {
                         //round preserves
-                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE) - 1) {
+                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                         //round preserves
                     } else {
                         if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
                             //round preserves
                         } else {
-                            round--;
+                            round --;
                         }
                     }
-                    updateQuickslot();
                 }
             } else {
-                for (int i = 1; i <= 6; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+                for (int i=1; i<=6; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                     if (round <= 0) {
                         break;
                     }
@@ -523,26 +522,26 @@ public class MiniGun extends MeleeWeapon {
                     }
                     if (hero.buff(InfiniteBullet.class) != null) {
                         //round preserves
-                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE) - 1) {
+                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                         //round preserves
                     } else {
                         if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
                             //round preserves
                         } else {
-                            round--;
+                            round --;
                         }
                     }
-                    for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-                        if (mob.paralysed <= 0
-                                && Dungeon.level.distance(curUser.pos, mob.pos) <= 8
-                                && mob.state != mob.HUNTING
-                                && !silencer) {
-                            mob.beckon( curUser.pos );
-                        }
-                    }
-                    updateQuickslot();
                 }
             }
+            for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                if (mob.paralysed <= 0
+                        && Dungeon.level.distance(curUser.pos, mob.pos) <= 8
+                        && mob.state != mob.HUNTING
+                        && !silencer) {
+                    mob.beckon( curUser.pos );
+                }
+            }
+            updateQuickslot();
         }
 
         @Override

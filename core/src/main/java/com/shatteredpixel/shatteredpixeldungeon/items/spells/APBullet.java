@@ -37,6 +37,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
@@ -62,6 +68,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
@@ -109,51 +118,57 @@ public class APBullet extends InventorySpell {
     @Override
     protected boolean usableOnItem(Item item) {
         return item instanceof CrudePistol
-            || item instanceof CrudePistolHP
-            || item instanceof Pistol
-            || item instanceof PistolHP
-            || item instanceof GoldenPistol
-            || item instanceof GoldenPistolHP
-            || item instanceof Handgun
-            || item instanceof HandgunHP
-            || item instanceof Magnum
-            || item instanceof MagnumHP
-            || item instanceof TacticalHandgun
-            || item instanceof TacticalHandgunHP
+                || item instanceof CrudePistolHP
+                || item instanceof Pistol
+                || item instanceof PistolHP
+                || item instanceof GoldenPistol
+                || item instanceof GoldenPistolHP
+                || item instanceof Handgun
+                || item instanceof HandgunHP
+                || item instanceof Magnum
+                || item instanceof MagnumHP
+                || item instanceof TacticalHandgun
+                || item instanceof TacticalHandgunHP
+                || item instanceof AutoHandgun
+                || item instanceof AutoHandgunHP
 
-            || item instanceof DualPistol
-            || item instanceof DualPistolHP
-            || item instanceof SubMachinegun
-            || item instanceof SubMachinegunHP
-            || item instanceof AssultRifle
-            || item instanceof AssultRifleHP
-            || item instanceof HeavyMachinegun
-            || item instanceof HeavyMachinegunHP
-            || item instanceof MiniGun
-            || item instanceof MiniGunHP
+                || item instanceof DualPistol
+                || item instanceof DualPistolHP
+                || item instanceof SubMachinegun
+                || item instanceof SubMachinegunHP
+                || item instanceof AssultRifle
+                || item instanceof AssultRifleHP
+                || item instanceof HeavyMachinegun
+                || item instanceof HeavyMachinegunHP
+                || item instanceof MiniGun
+                || item instanceof MiniGunHP
+                || item instanceof AutoRifle
+                || item instanceof AutoRifleHP
 
-            || item instanceof HuntingRifle
-            || item instanceof HuntingRifleHP
-            || item instanceof SniperRifle
-            || item instanceof SniperRifleHP
-            || item instanceof AntimaterRifle
-            || item instanceof AntimaterRifleHP
+                || item instanceof HuntingRifle
+                || item instanceof HuntingRifleHP
+                || item instanceof SniperRifle
+                || item instanceof SniperRifleHP
+                || item instanceof AntimaterRifle
+                || item instanceof AntimaterRifleHP
+                || item instanceof MarksmanRifle
+                || item instanceof MarksmanRifleHP
 
-            || item instanceof ShotGun
-            || item instanceof ShotGunHP
-            || item instanceof SPAS
-            || item instanceof SPASHP
+                || item instanceof ShotGun
+                || item instanceof ShotGunHP
+                || item instanceof SPAS
+                || item instanceof SPASHP
 
-            || item instanceof FlameThrower
-            || item instanceof FlameThrowerHP
-            || item instanceof PlasmaCannon
-            || item instanceof PlasmaCannonHP
+                || item instanceof FlameThrower
+                || item instanceof FlameThrowerHP
+                || item instanceof PlasmaCannon
+                || item instanceof PlasmaCannonHP
 
-            || item instanceof GrenadeLauncher
-            || item instanceof GrenadeLauncherHP
+                || item instanceof GrenadeLauncher
+                || item instanceof GrenadeLauncherHP
 
-            || item instanceof SleepGun
-            || item instanceof FrostGun;
+                || item instanceof SleepGun
+                || item instanceof ParalysisGun;
     }
 
     @Override
@@ -229,14 +244,20 @@ public class APBullet extends InventorySpell {
             n = new ShotGunAP();
         } else if (w instanceof SPAS || w instanceof SPASHP) {
             n = new SPASAP();
+        } else if (w instanceof AutoHandgun || w instanceof AutoHandgunHP) {
+            n = new AutoHandgunAP();
+        } else if (w instanceof AutoRifle || w instanceof AutoRifleHP) {
+            n = new AutoRifleAP();
+        } else if (w instanceof MarksmanRifle || w instanceof MarksmanRifleHP) {
+            n = new MarksmanRifleAP();
         } else if (w instanceof FlameThrower || w instanceof FlameThrowerHP) {
             n = new FlameThrowerAP();
         } else if (w instanceof PlasmaCannon || w instanceof PlasmaCannonHP) {
             n = new PlasmaCannonAP();
-        } else if (w instanceof GrenadeLauncher || w instanceof GrenadeLauncherHP) {
+        } else if (w instanceof GrenadeLauncher || w instanceof GrenadeLauncherHP){
             n = new GrenadeLauncherAP();
-        } else { //(w instanceof SleepGun || w instanceof FrostGun)
-            n = new ParalysisGun();
+        } else { //(w instanceof SleepGun || w instanceof ParalysisGun)
+            n = new FrostGun();
         }
 
         //int level = w.level();

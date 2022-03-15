@@ -73,6 +73,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedSword;
@@ -83,6 +85,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostScimitar
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
@@ -306,7 +309,16 @@ public abstract class Recipe {
 		new ForceGlove.Recipe(),
 		new HolySword.Recipe(),
 		new Cross.Recipe(),
-		new ElixirOfHealth.Recipe()
+		new ElixirOfHealth.Recipe(),
+		new AutoHandgun.Recipe1(),
+		new AutoHandgun.Recipe2(),
+		new AutoHandgun.Recipe3(),
+		new AutoRifle.Recipe1(),
+		new AutoRifle.Recipe2(),
+		new AutoRifle.Recipe3(),
+		new MarksmanRifle.Recipe1(),
+		new MarksmanRifle.Recipe2(),
+		new MarksmanRifle.Recipe3()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){

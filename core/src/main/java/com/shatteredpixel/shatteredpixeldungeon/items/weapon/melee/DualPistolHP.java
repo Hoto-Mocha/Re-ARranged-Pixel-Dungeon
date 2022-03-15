@@ -558,7 +558,6 @@ public class DualPistolHP extends MeleeWeapon {
                             round --;
                         }
                     }
-                    updateQuickslot();
                 }
             } else {
                 for (int i=1; i<=2; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
@@ -587,17 +586,17 @@ public class DualPistolHP extends MeleeWeapon {
                             round --;
                         }
                     }
-                    for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-                        if (mob.paralysed <= 0
-                                && Dungeon.level.distance(curUser.pos, mob.pos) <= 8
-                                && mob.state != mob.HUNTING
-                                && !silencer) {
-                            mob.beckon( curUser.pos );
-                        }
-                    }
-                    updateQuickslot();
                 }
             }
+            for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                if (mob.paralysed <= 0
+                        && Dungeon.level.distance(curUser.pos, mob.pos) <= 8
+                        && mob.state != mob.HUNTING
+                        && !silencer) {
+                    mob.beckon( curUser.pos );
+                }
+            }
+            updateQuickslot();
         }
 
         @Override

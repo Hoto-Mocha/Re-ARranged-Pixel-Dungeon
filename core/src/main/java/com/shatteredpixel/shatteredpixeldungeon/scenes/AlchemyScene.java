@@ -39,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolki
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -319,6 +320,7 @@ public class AlchemyScene extends PixelScene {
 									|| item instanceof ArcaneResin
 									|| item instanceof Cartridge
 									|| item instanceof MetalShard
+									|| item instanceof GunSmithingTool
 							){
 								inputs[i].item(item.detachAll(Dungeon.hero.belongings.backpack));
 							} else {
