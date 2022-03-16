@@ -39,8 +39,9 @@ public class Challenges {
 	public static final int GAMBLER			 	= 512;
 	public static final int SUPERMAN			= 1024;
 	public static final int PYRO				= 2048;
+	public static final int CURSED_DUNGEON		= 4096;
 
-	public static final int MAX_VALUE           = 4095;
+	public static final int MAX_VALUE           = 8191;
 
 	public static final String[] NAME_IDS = {
 			"champion_enemies",
@@ -54,11 +55,12 @@ public class Challenges {
 			"no_scrolls",
 			"gambler",
 			"superman",
-			"pyro"
+			"pyro",
+			"cursed_dungeon"
 	};
 
 	public static final int[] MASKS = {
-			CHAMPION_ENEMIES, STRONGER_BOSSES, NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, GAMBLER, SUPERMAN, PYRO
+			CHAMPION_ENEMIES, STRONGER_BOSSES, NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, GAMBLER, SUPERMAN, PYRO, CURSED_DUNGEON
 	};
 
 	public static int activeChallenges(){

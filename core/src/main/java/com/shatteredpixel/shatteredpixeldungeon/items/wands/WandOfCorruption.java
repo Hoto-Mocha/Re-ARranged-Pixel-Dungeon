@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.wands;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -141,6 +142,9 @@ public class WandOfCorruption extends Wand {
 			} else if (ch instanceof Wraith) {
 				//divide by 5 as wraiths are always at full HP and are therefore ~5x harder to corrupt
 				enemyResist = (1f + Dungeon.depth/3f) / 5f;
+				if (Dungeon.isChallenged(Challenges.CURSED_DUNGEON)) {
+					enemyResist *= 5f; //increases resist 5x when the challenge is on
+				}
 			} else if (ch instanceof Swarm){
 				//child swarms don't give exp, so we force this here.
 				enemyResist = 1 + 3;

@@ -92,6 +92,7 @@ public class MarksmanRifleHP extends MeleeWeapon {
         hitSoundPitch = 0.8f;
 
         tier = 5;
+        alchemy = true;
     }
 
     private static final String ROUND = "round";
