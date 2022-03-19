@@ -21,9 +21,11 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Random;
@@ -98,7 +100,16 @@ public class MeleeWeapon extends Weapon {
 		} else if (!isIdentified() && cursedKnown) {
 			info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
 		}
+
+		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+			info += "\n\n" + Messages.get(Item.class, "durability_weapon", durability(), maxDurability());
+		}
 		return info;
+	}
+
+	@Override
+	public int maxDurability( int lvl ) {
+		return 5 * (lvl < 16 ? 16 - lvl : 1);
 	}
 	
 	public String statsInfo(){
@@ -122,5 +133,4 @@ public class MeleeWeapon extends Weapon {
 		}
 		return price;
 	}
-
 }

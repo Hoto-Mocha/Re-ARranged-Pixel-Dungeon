@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.wands;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -256,6 +257,10 @@ public abstract class Wand extends Item {
 			desc += "\n\n" + Messages.get(this, "bmage_desc");
 		}
 
+		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+			desc += "\n\n" + Messages.get(Item.class, "durability_wand", durability(), maxDurability());
+		}
+
 		return desc;
 	}
 
@@ -420,6 +425,10 @@ public abstract class Wand extends Item {
 			if (Dungeon.hero.hasTalent(Talent.EMPOWERED_STRIKE)){
 				Buff.prolong(Dungeon.hero, Talent.EmpoweredStrikeTracker.class, 10f);
 			}
+		}
+
+		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+			use();
 		}
 
 		Invisibility.dispel();
@@ -703,5 +712,10 @@ public abstract class Wand extends Item {
 		private void setScaleFactor(float value){
 			this.scalingFactor = value;
 		}
+	}
+
+	@Override
+	public int maxDurability( int lvl ) {
+		return 6 * (lvl < 16 ? 16 - lvl : 1);
 	}
 }

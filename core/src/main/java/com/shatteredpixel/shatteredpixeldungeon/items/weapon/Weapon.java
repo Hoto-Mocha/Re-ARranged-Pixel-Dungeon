@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
@@ -177,6 +178,10 @@ abstract public class Weapon extends KindOfWeapon {
 
 		if (hero.hasTalent(Talent.DEW_MAKING) && Random.Int(50) < hero.pointsInTalent(Talent.DEW_MAKING)) {
 			Dungeon.level.drop( new Dewdrop(), defender.pos).sprite.drop();
+		}
+
+		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+			use();
 		}
 
 		return damage;

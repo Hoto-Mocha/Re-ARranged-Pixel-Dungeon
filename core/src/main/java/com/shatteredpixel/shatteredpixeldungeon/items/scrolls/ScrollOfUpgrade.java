@@ -69,9 +69,17 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			boolean hadCursedEnchant = w.hasCurseEnchant();
 			boolean hadGoodEnchant = w.hasGoodEnchant();
 			if (w.enchantment != null && Random.Int(2) < Dungeon.hero.pointsInTalent(Talent.MAGICAL_TRANSFERENCE)) {
-				w.upgrade(true);
+				if (w.durability() <= 0) {
+					w.fix();
+				} else {
+					w.upgrade(true);
+				}
 			} else {
-				w.upgrade();
+				if (w.durability() <= 0) {
+					w.fix();
+				} else {
+					w.upgrade();
+				}
 			}
 
 			if (w.cursedKnown && hadCursedEnchant && !w.hasCurseEnchant()){
@@ -89,7 +97,11 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			boolean hadCursedGlyph = a.hasCurseGlyph();
 			boolean hadGoodGlyph = a.hasGoodGlyph();
 
-			a.upgrade();
+			if (a.durability() <= 0) {
+				a.fix();
+			} else {
+				a.upgrade();
+			}
 
 			if (a.cursedKnown && hadCursedGlyph && !a.hasCurseGlyph()){
 				removeCurse( Dungeon.hero );
@@ -103,14 +115,22 @@ public class ScrollOfUpgrade extends InventoryScroll {
 		} else if (item instanceof Wand || item instanceof Ring) {
 			boolean wasCursed = item.cursed;
 
-			item.upgrade();
+			if (item.durability() <= 0) {
+				item.fix();
+			} else {
+				item.upgrade();
+			}
 
 			if (item.cursedKnown && wasCursed && !item.cursed){
 				removeCurse( Dungeon.hero );
 			}
 
 		} else {
-			item.upgrade();
+			if (item.durability() <= 0) {
+				item.fix();
+			} else {
+				item.upgrade();
+			}
 		}
 
 		Talent.onUpgradeScrollUsed( Dungeon.hero );

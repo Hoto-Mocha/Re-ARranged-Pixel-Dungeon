@@ -33,23 +33,32 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Degradation;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.PointF;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -80,7 +89,7 @@ public class Item implements Bundlable {
 	public boolean dropsDownHeap = false;
 	
 	private int level = 0;
-
+	private int durability = maxDurability();
 	public boolean levelKnown = false;
 	
 	public boolean cursed;
@@ -318,7 +327,11 @@ public class Item implements Bundlable {
 
 	//returns the true level of the item, only affected by modifiers which are persistent (e.g. curse infusion)
 	public int level(){
-		return level;
+		if (this.durability() <= 0) {
+			return 0;
+		} else {
+			return level;
+		}
 	}
 	
 	//returns the level of the item, after it may have been modified by temporary boosts/reductions
@@ -338,7 +351,9 @@ public class Item implements Bundlable {
 	}
 	
 	public Item upgrade() {
-		
+
+		upgradeFix();
+
 		this.level++;
 
 		updateQuickslot();
@@ -425,6 +440,10 @@ public class Item implements Bundlable {
 		if (quantity > 1)
 			name = Messages.format( TXT_TO_STRING_X, name, quantity );
 
+		if (this.durability() <= 0) {
+			name = Messages.get(this, "broken_item", name);
+		}
+
 		return name;
 
 	}
@@ -502,7 +521,8 @@ public class Item implements Bundlable {
 	private static final String CURSED_KNOWN	= "cursedKnown";
 	private static final String QUICKSLOT		= "quickslotpos";
 	private static final String KEPT_LOST       = "kept_lost";
-	
+	private static final String DURABILITY      = "durability";
+
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		bundle.put( QUANTITY, quantity );
@@ -514,6 +534,7 @@ public class Item implements Bundlable {
 			bundle.put( QUICKSLOT, Dungeon.quickslot.getSlot(this) );
 		}
 		bundle.put( KEPT_LOST, keptThoughLostInvent );
+		bundle.put( DURABILITY, durability );
 	}
 	
 	@Override
@@ -539,6 +560,7 @@ public class Item implements Bundlable {
 		}
 
 		keptThoughLostInvent = bundle.getBoolean( KEPT_LOST );
+		durability = bundle.getInt( DURABILITY );
 	}
 
 	public int targetingPos( Hero user, int dst ){
@@ -629,4 +651,74 @@ public class Item implements Bundlable {
 			return Messages.get(Item.class, "prompt");
 		}
 	};
+
+	public void use() {
+		if (level > 0 && !isBroken()) {
+			durability--;
+			int warn = Math.max(1, (int)Math.ceil(maxDurability()/6f));
+			if ( warn >= durability && levelKnown) {
+				GLog.w( Messages.get(this, "break_soon", name() ));
+			}
+			if (isBroken()) {
+				getBroken();
+				if (levelKnown) {
+					GLog.n( Messages.get(this, "broken", name() ));
+					Dungeon.hero.interrupt();
+
+					CharSprite sprite = Dungeon.hero.sprite;
+					PointF point = sprite.center().offset( 0, -16 );
+					if (this instanceof Weapon) {
+						sprite.parent.add( Degradation.weapon( point ) );
+					} else if (this instanceof Armor) {
+						sprite.parent.add( Degradation.armor( point ) );
+					} else if (this instanceof Ring) {
+						sprite.parent.add( Degradation.ring( point ) );
+					} else if (this instanceof Wand) {
+						sprite.parent.add( Degradation.wand( point ) );
+					}
+					Sample.INSTANCE.play( Assets.Sounds.DEGRADE );
+				}
+			}
+		}
+	}
+
+	public boolean isBroken() {
+		return durability <= 0;
+	}
+
+	public void getBroken() {
+	}
+
+	public void fix() {
+		durability = maxDurability();
+	}
+
+	public void upgradeFix() {
+		if (level < 19) {
+			if (this instanceof MeleeWeapon) durability = maxDurability()-5;
+			if (this instanceof Armor) durability = maxDurability()-6;
+			if (this instanceof Wand) durability = maxDurability()-6;
+			if (this instanceof Ring) durability = maxDurability()-100;
+		} else {
+			durability = maxDurability();
+		}
+	}
+
+	public void polish() {
+		if (durability < maxDurability()) {
+			durability++;
+		}
+	}
+
+	public int durability() {
+		return durability;
+	}
+
+	public int maxDurability( int lvl ) {
+		return 1;
+	}
+
+	final public int maxDurability() {
+		return maxDurability( level );
+	}
 }

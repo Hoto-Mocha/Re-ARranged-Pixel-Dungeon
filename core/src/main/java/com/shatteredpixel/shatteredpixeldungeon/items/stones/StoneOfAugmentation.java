@@ -207,6 +207,7 @@ public class StoneOfAugmentation extends InventoryStone {
 		
 		weapon.augment = augment;
 		useAnimation();
+		weapon.fix();
 		ScrollOfUpgrade.upgrade(curUser);
 		
 	}
@@ -215,6 +216,7 @@ public class StoneOfAugmentation extends InventoryStone {
 		
 		armor.augment = augment;
 		useAnimation();
+		armor.fix();
 		ScrollOfUpgrade.upgrade(curUser);
 	}
 	

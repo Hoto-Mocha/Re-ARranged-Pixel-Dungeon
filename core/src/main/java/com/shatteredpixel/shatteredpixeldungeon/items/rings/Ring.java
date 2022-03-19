@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -174,6 +175,10 @@ public class Ring extends KindofMisc {
 		
 		if (isKnown()) {
 			desc += "\n\n" + statsInfo();
+		}
+
+		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+			desc += "\n\n" + Messages.get(Item.class, "durability_ring", durability(), maxDurability());
 		}
 		
 		return desc;
@@ -336,6 +341,10 @@ public class Ring extends KindofMisc {
 		public boolean act() {
 			
 			spend( TICK );
+
+			if (Dungeon.isChallenged(Challenges.DURABILITY) && Ring.this.buffedLvl() > 0) {
+				use();
+			}
 			
 			return true;
 		}
@@ -348,5 +357,10 @@ public class Ring extends KindofMisc {
 			return Ring.this.soloBuffedBonus();
 		}
 
+	}
+
+	@Override
+	public int maxDurability( int lvl ) {
+		return 100 * (lvl < 16 ? 16 - lvl : 1);
 	}
 }

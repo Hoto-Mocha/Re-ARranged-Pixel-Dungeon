@@ -63,6 +63,8 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -373,6 +375,10 @@ public class PistolHP extends MeleeWeapon {
             info += "\n\n" + Messages.get(CrudePistol.class, "flash");
         }
 
+        if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+            info += "\n\n" + Messages.get(Item.class, "durability_weapon", durability(), maxDurability());
+        }
+
         return info;
     }
 
@@ -555,6 +561,9 @@ public class PistolHP extends MeleeWeapon {
                 }
             }
             updateQuickslot();
+            if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+                PistolHP.this.use();
+            }
         }
 
         @Override

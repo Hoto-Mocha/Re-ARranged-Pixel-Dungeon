@@ -66,6 +66,8 @@ import com.watabou.utils.Random;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 
 public class PistolAP extends MeleeWeapon {
 
@@ -373,6 +375,10 @@ public class PistolAP extends MeleeWeapon {
             info += "\n\n" + Messages.get(CrudePistol.class, "flash");
         }
 
+        if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+            info += "\n\n" + Messages.get(Item.class, "durability_weapon", durability(), maxDurability());
+        }
+
         return info;
     }
 
@@ -555,6 +561,9 @@ public class PistolAP extends MeleeWeapon {
                 }
             }
             updateQuickslot();
+            if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+                PistolAP.this.use();
+            }
         }
 
         @Override

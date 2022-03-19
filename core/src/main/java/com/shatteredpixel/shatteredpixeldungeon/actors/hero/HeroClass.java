@@ -115,6 +115,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HandyBarricade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
@@ -138,6 +139,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Empty;
@@ -276,8 +278,14 @@ public enum HeroClass {
 		new ScrollOfRage().identify();
 
 		//test
-		//new StoneOfAugmentation().collect();
-		//new TacticalHandgun().identify().collect();
+		//new ScrollOfUpgrade().identify().quantity(100).collect();
+		//new ScrollOfEnchantment().identify().quantity(100).collect();
+		//new ScrollOfMagicMapping().identify().quantity(100).collect();
+		//new StoneOfAugmentation().quantity(100).collect();
+		//new MagicalInfusion().quantity(100).collect();
+		//new RingOfHaste().identify().collect();
+		//new WandOfMagicMissile().identify().collect();
+		//new TacticalHandgun().collect();
 		//new TacticalHandgunAP().identify().collect();
 		//new TacticalHandgunHP().identify().collect();
 		//new Teleporter().collect();

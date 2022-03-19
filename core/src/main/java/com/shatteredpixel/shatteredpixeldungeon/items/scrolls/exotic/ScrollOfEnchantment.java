@@ -200,6 +200,8 @@ public class ScrollOfEnchantment extends ExoticScroll {
 				//TODO if this can ever be found un-IDed, need logic for that
 				curItem.collect();
 			}
+
+			item.fix();
 		}
 	};
 }

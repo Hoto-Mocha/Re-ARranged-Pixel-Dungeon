@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -642,7 +643,10 @@ abstract public class MissileWeapon extends Weapon {
 		} else {
 			info += " " + Messages.get(this, "unlimited_uses");
 		}
-		
+
+		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+			info += "\n\n" + Messages.get(Item.class, "durability_weapon");
+		}
 		
 		return info;
 	}

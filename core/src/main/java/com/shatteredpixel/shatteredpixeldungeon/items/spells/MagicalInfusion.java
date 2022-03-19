@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
@@ -57,11 +58,23 @@ public class MagicalInfusion extends InventorySpell {
 		Degrade.detach( curUser, Degrade.class );
 
 		if (item instanceof Weapon && ((Weapon) item).enchantment != null) {
-			((Weapon) item).upgrade(true);
+			if (item.durability() <= 0) {
+				item.fix();
+			} else {
+				((Weapon) item).upgrade(true);
+			}
 		} else if (item instanceof Armor && ((Armor) item).glyph != null) {
-			((Armor) item).upgrade(true);
+			if (item.durability() <= 0) {
+				item.fix();
+			} else {
+				((Armor) item).upgrade(true);
+			}
 		} else {
-			item.upgrade();
+			if (item.durability() <= 0) {
+				item.fix();
+			} else {
+				item.upgrade();
+			}
 		}
 		
 		GLog.p( Messages.get(this, "infuse", item.name()) );

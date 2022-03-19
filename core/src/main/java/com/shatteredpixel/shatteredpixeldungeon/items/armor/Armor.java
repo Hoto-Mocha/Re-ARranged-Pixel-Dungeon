@@ -442,6 +442,8 @@ public class Armor extends EquipableItem {
 		if (seal != null && seal.level() == 0)
 			seal.upgrade();
 
+		upgradeFix();
+
 		return super.upgrade();
 	}
 	
@@ -479,6 +481,10 @@ public class Armor extends EquipableItem {
 				GLog.p( Messages.get(Armor.class, "identify") );
 				Badges.validateItemLevelAquired( this );
 			}
+		}
+
+		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+			use();
 		}
 		
 		return damage;
@@ -539,6 +545,10 @@ public class Armor extends EquipableItem {
 			info += "\n\n" + Messages.get(Armor.class, "seal_attached", seal.maxShield(tier, level()));
 		} else if (!isIdentified() && cursedKnown){
 			info += "\n\n" + Messages.get(Armor.class, "not_cursed");
+		}
+
+		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+			info += "\n\n" + Messages.get(Item.class, "durability_armor", durability(), maxDurability());
 		}
 		
 		return info;
@@ -768,5 +778,10 @@ public class Armor extends EquipableItem {
 			}
 		}
 		
+	}
+
+	@Override
+	public int maxDurability( int lvl ) {
+		return 6 * (lvl < 16 ? 16 - lvl : 1);
 	}
 }

@@ -90,6 +90,7 @@ public class Dungeon {
 		//limited world drops
 		STRENGTH_POTIONS,
 		UPGRADE_SCROLLS,
+		ENCHANT_STONES,
 		ARCANE_STYLI,
 
 		//Health potion sources
@@ -446,6 +447,20 @@ public class Dungeon {
 		int floorThisSet = (depth % 5);
 		//chance is floors left / scrolls left
 		return Random.Int(5 - floorThisSet) < souLeftThisSet;
+	}
+
+	public static boolean soeNeeded() {
+		int soeLeftThisSet;
+		if (isChallenged(Challenges.DURABILITY)){
+			soeLeftThisSet = 3 - (LimitedDrops.ENCHANT_STONES.count - (depth / 5) * 3);
+		} else {
+			soeLeftThisSet = 0;
+		}
+		if (soeLeftThisSet <= 0) return false;
+
+		int floorThisSet = (depth % 5);
+		//chance is floors left / scrolls left
+		return Random.Int(5 - floorThisSet) < soeLeftThisSet;
 	}
 	
 	public static boolean asNeeded() {

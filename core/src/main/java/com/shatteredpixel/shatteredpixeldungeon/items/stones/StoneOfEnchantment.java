@@ -67,6 +67,8 @@ public class StoneOfEnchantment extends InventoryStone {
 		} else {
 			GLog.p(Messages.get(this, "armor"));
 		}
+
+		item.fix();
 		
 		useAnimation();
 		

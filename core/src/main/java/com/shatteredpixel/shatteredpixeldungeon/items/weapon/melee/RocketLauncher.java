@@ -62,6 +62,8 @@ import com.watabou.utils.Random;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 
 public class RocketLauncher extends MeleeWeapon {
 
@@ -304,6 +306,10 @@ public class RocketLauncher extends MeleeWeapon {
             info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
         }
 
+        if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+            info += "\n\n" + Messages.get(Item.class, "durability_weapon", durability(), maxDurability());
+        }
+
         return info;
     }
 
@@ -498,6 +504,9 @@ public class RocketLauncher extends MeleeWeapon {
                 }
             }
             updateQuickslot();
+            if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+                RocketLauncher.this.use();
+            }
         }
 
         @Override
