@@ -257,7 +257,7 @@ public abstract class Wand extends Item {
 			desc += "\n\n" + Messages.get(this, "bmage_desc");
 		}
 
-		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown && this.buffedLvl() > 0) {
 			desc += "\n\n" + Messages.get(Item.class, "durability_wand", durability(), maxDurability());
 		}
 

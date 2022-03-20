@@ -101,7 +101,7 @@ public class MeleeWeapon extends Weapon {
 			info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
 		}
 
-		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown && this.buffedLvl() > 0) {
 			info += "\n\n" + Messages.get(Item.class, "durability_weapon", durability(), maxDurability());
 		}
 		return info;

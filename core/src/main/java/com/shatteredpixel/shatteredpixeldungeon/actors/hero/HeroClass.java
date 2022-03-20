@@ -294,6 +294,7 @@ public enum HeroClass {
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new RingOfMight().identify().upgrade(100).collect();
 		//new RingOfAccuracy().identify().upgrade(100).collect();
+		//new ScrollOfIdentify().quantity(100).collect();
 		//new Longsword().identify().upgrade(10).collect();
 		//new PotionOfMagicalSight().identify().quantity(100).collect();
 		//new HandyBarricade().quantity(100).collect();

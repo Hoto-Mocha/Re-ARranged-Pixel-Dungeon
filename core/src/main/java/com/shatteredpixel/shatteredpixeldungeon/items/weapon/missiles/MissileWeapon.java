@@ -643,10 +643,6 @@ abstract public class MissileWeapon extends Weapon {
 		} else {
 			info += " " + Messages.get(this, "unlimited_uses");
 		}
-
-		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-			info += "\n\n" + Messages.get(Item.class, "durability_weapon");
-		}
 		
 		return info;
 	}

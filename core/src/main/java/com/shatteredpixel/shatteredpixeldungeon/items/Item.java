@@ -90,6 +90,7 @@ public class Item implements Bundlable {
 	
 	private int level = 0;
 	private int durability = maxDurability();
+	private boolean durabilityMsg = false;
 	public boolean levelKnown = false;
 	
 	public boolean cursed;
@@ -653,11 +654,13 @@ public class Item implements Bundlable {
 	};
 
 	public void use() {
+
 		if (level > 0 && !isBroken()) {
 			durability--;
 			int warn = Math.max(1, (int)Math.ceil(maxDurability()/6f));
-			if ( warn >= durability && levelKnown) {
+			if ( warn >= durability && levelKnown && !durabilityMsg) {
 				GLog.w( Messages.get(this, "break_soon", name() ));
+				durabilityMsg = true;
 			}
 			if (isBroken()) {
 				getBroken();

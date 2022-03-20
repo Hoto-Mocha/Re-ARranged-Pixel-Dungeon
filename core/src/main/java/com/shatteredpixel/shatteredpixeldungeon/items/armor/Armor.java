@@ -547,7 +547,7 @@ public class Armor extends EquipableItem {
 			info += "\n\n" + Messages.get(Armor.class, "not_cursed");
 		}
 
-		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown && this.buffedLvl() > 0) {
 			info += "\n\n" + Messages.get(Item.class, "durability_armor", durability(), maxDurability());
 		}
 		

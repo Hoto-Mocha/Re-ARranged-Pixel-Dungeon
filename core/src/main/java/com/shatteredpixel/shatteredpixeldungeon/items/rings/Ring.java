@@ -177,7 +177,7 @@ public class Ring extends KindofMisc {
 			desc += "\n\n" + statsInfo();
 		}
 
-		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
+		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown && this.buffedLvl() > 0) {
 			desc += "\n\n" + Messages.get(Item.class, "durability_ring", durability(), maxDurability());
 		}
 		
