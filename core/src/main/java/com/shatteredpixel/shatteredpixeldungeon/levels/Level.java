@@ -834,7 +834,7 @@ public abstract class Level implements Bundlable {
 		int terr = map[pos];
 		if (terr == Terrain.EMPTY || terr == Terrain.EMPTY_DECO
 				|| (Terrain.flags[map[pos]] & Terrain.FLAMABLE) != 0) {
-			if (terr == Terrain.BOOKSHELF && Random.Int(10) == Math.min(5, Math.round(0.5f*RingOfWealth.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class)))) {
+			if (terr == Terrain.BOOKSHELF && Random.Int(10) <= Math.min(5, Math.round(0.5f*RingOfWealth.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class)))) {
 				Dungeon.level.drop(prize, pos);
 			} //generates prize for 10% chance when a bookshelf has destroyed
 			set(pos, Terrain.EMBERS);

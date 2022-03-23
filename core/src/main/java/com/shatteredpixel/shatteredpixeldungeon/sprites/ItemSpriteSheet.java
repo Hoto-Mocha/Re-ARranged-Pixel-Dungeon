@@ -962,7 +962,7 @@ public class ItemSpriteSheet {
 	public static final int GRENADE 		= BULLETS+12;
 	public static final int HE_GRENADE 		= BULLETS+13;
 	public static final int SMOKE_GRENADE 	= BULLETS+14;
-	public static final int BULLET_16 		= BULLETS+15;
+	public static final int SPIRIT_BULLET 	= BULLETS+15;
 	static{
 		assignItemRect(SINGLE_BULLET,   8,  8 );
 		assignItemRect(DUAL_BULLET,     11, 10);
@@ -979,7 +979,7 @@ public class ItemSpriteSheet {
 		assignItemRect(GRENADE,			7,  7 );
 		assignItemRect(HE_GRENADE,		7,  7 );
 		assignItemRect(SMOKE_GRENADE,	7,  7 );
-		assignItemRect(BULLET_16,		16, 16);
+		assignItemRect(SPIRIT_BULLET,	8,  8);
 	}
 
 	private static final int BAGS       =                                   xy(1, 31);  //16 slots

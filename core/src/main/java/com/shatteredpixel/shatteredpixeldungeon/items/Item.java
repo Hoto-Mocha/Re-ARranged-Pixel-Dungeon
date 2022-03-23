@@ -697,7 +697,7 @@ public class Item implements Bundlable {
 	}
 
 	public void upgradeFix() {
-		if (level < 19) {
+		if (level < 15) {
 			if (this instanceof MeleeWeapon) durability = maxDurability()-5;
 			if (this instanceof Armor) durability = maxDurability()-6;
 			if (this instanceof Wand) durability = maxDurability()-6;
