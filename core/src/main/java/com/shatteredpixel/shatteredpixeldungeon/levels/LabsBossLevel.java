@@ -57,6 +57,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.Tilemap;
+import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
@@ -72,6 +73,14 @@ public class LabsBossLevel extends Level {
 	{
 		color1 = 0x48763c;
 		color2 = 0x59994a;
+	}
+
+	@Override
+	public void playLevelMusic() {
+		Music.INSTANCE.playTracks(
+				new String[]{Assets.Music.HALLS_1, Assets.Music.HALLS_2, Assets.Music.HALLS_2},
+				new float[]{1, 1, 0.5f},
+				false);
 	}
 
 	private static int WIDTH = 33;

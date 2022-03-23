@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +38,9 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndError;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndHardNotification;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
 import com.watabou.glwrap.Blending;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.ColorBlock;
@@ -50,13 +53,28 @@ import java.util.ArrayList;
 
 public class WelcomeScene extends PixelScene {
 
-	private static final int LATEST_UPDATE = ShatteredPixelDungeon.v1_1_0;
+	private static final int LATEST_UPDATE = ShatteredPixelDungeon.v1_2_0;
 
 	@Override
 	public void create() {
 		super.create();
 
 		final int previousVersion = SPDSettings.version();
+
+		if (FileUtils.cleanTempFiles()){
+			add(new WndHardNotification(Icons.get(Icons.WARNING),
+					Messages.get(WndError.class, "title"),
+					Messages.get(this, "save_warning"),
+					Messages.get(this, "continue"),
+					5){
+				@Override
+				public void hide() {
+					super.hide();
+					ShatteredPixelDungeon.resetScene();
+				}
+			});
+			return;
+		}
 
 		if (ShatteredPixelDungeon.versionCode == previousVersion && !SPDSettings.intro()) {
 			ShatteredPixelDungeon.switchNoFade(TitleScene.class);
@@ -179,7 +197,7 @@ public class WelcomeScene extends PixelScene {
 		} else {
 			message = Messages.get(this, "what_msg");
 		}
-		text.text(message, w-20);
+		text.text(message, Math.min(w-20, 300));
 		float textSpace = okay.top() - topRegion - 4;
 		text.setPos((w - text.width()) / 2f, (topRegion + 2) + (textSpace - text.height())/2);
 		add(text);

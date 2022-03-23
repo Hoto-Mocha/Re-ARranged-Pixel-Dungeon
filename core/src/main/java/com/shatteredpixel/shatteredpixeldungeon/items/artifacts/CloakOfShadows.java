@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -227,7 +227,7 @@ public class CloakOfShadows extends Artifact {
 					turnsToCharge /= RingOfEnergy.artifactChargeMultiplier(target);
 					float chargeToGain = (1f / turnsToCharge);
 					if (!isEquipped(Dungeon.hero)){
-						chargeToGain *= 0.5f*Dungeon.hero.pointsInTalent(Talent.LIGHT_CLOAK)/3f;
+						chargeToGain *= 0.75f*Dungeon.hero.pointsInTalent(Talent.LIGHT_CLOAK)/3f;
 					}
 					partialCharge += chargeToGain;
 				}
@@ -271,6 +271,11 @@ public class CloakOfShadows extends Artifact {
 		@Override
 		public float iconFadePercent() {
 			return (4f - turnsToCost) / 4f;
+		}
+
+		@Override
+		public String iconTextDisplay() {
+			return Integer.toString(turnsToCost);
 		}
 
 		@Override

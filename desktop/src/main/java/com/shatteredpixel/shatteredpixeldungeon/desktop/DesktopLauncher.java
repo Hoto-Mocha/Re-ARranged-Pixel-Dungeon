@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -101,7 +101,7 @@ public class DesktopLauncher {
 									exceptionMsg,
 							"ok", "error", false);
 				}
-				if (Gdx.app != null) Gdx.app.exit();
+				System.exit(1);
 			}
 		});
 		
@@ -137,31 +137,38 @@ public class DesktopLauncher {
 		} else if (SharedLibraryLoader.isMac) {
 			basePath = "Library/Application Support/Shattered Pixel Dungeon/";
 		} else if (SharedLibraryLoader.isLinux) {
-			basePath = ".shatteredpixel/shattered-pixel-dungeon/";
-		}
+			String XDGHome = System.getenv().get("XDG_DATA_HOME");
+			if (XDGHome == null) XDGHome = ".local/share/";
+			basePath = XDGHome + ".shatteredpixel/shattered-pixel-dungeon/";
 
-		//copy over prefs from old file location from legacy desktop codebase
-		FileHandle oldPrefs = new Lwjgl3FileHandle(basePath + "pd-prefs", Files.FileType.External);
-		FileHandle newPrefs = new Lwjgl3FileHandle(basePath + SPDSettings.DEFAULT_PREFS_FILE, Files.FileType.External);
-		if (oldPrefs.exists() && !newPrefs.exists()){
-			oldPrefs.copyTo(newPrefs);
+			//copy over files from old linux save DIR, pre-1.2.0
+			FileHandle oldBase = new Lwjgl3FileHandle(".shatteredpixel/shattered-pixel-dungeon/", Files.FileType.External);
+			FileHandle newBase = new Lwjgl3FileHandle(XDGHome + ".shatteredpixel/shattered-pixel-dungeon/", Files.FileType.External);
+			if (oldBase.exists()){
+				if (newBase.exists()){
+					oldBase.deleteDirectory();
+				} else {
+					oldBase.moveTo(newBase);
+				}
+			}
 		}
 
 		config.setPreferencesConfig( basePath, Files.FileType.External );
 		SPDSettings.set( new Lwjgl3Preferences( SPDSettings.DEFAULT_PREFS_FILE, basePath) );
 		FileUtils.setDefaultFileProperties( Files.FileType.External, basePath );
 		
-		config.setWindowSizeLimits( 480, 320, -1, -1 );
+		config.setWindowSizeLimits( 720, 400, -1, -1 );
 		Point p = SPDSettings.windowResolution();
 		config.setWindowedMode( p.x, p.y );
 
 		config.setMaximized(SPDSettings.windowMaximized());
 
-		if (SPDSettings.fullscreen()) {
+		//going fullscreen on launch is still buggy on macOS, so game enters it slightly later
+		if (SPDSettings.fullscreen() && !SharedLibraryLoader.isMac) {
 			config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 		}
 		
-		//we set fullscreen/maximized in the listener as doing it through the config seems to be buggy
+		//records whether window is maximized or not for settings
 		DesktopWindowListener listener = new DesktopWindowListener();
 		config.setWindowListener( listener );
 		

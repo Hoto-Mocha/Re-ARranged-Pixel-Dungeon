@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -112,6 +112,13 @@ public class WndHero extends WndTabbed {
 		select( lastIdx );
 	}
 
+	@Override
+	public void offset(int xOffset, int yOffset) {
+		super.offset(xOffset, yOffset);
+		talents.layout();
+		buffs.layout();
+	}
+
 	private class StatsTab extends Group {
 		
 		private static final int GAP = 6;
@@ -136,8 +143,18 @@ public class WndHero extends WndTabbed {
 				@Override
 				protected void onClick() {
 					super.onClick();
-					ShatteredPixelDungeon.scene().addToFront(new WndHeroInfo(hero.heroClass));
+					if (ShatteredPixelDungeon.scene() instanceof GameScene){
+						GameScene.show(new WndHeroInfo(hero.heroClass));
+					} else {
+						ShatteredPixelDungeon.scene().addToFront(new WndHeroInfo(hero.heroClass));
+					}
 				}
+
+				@Override
+				protected String hoverText() {
+					return Messages.titleCase(Messages.get(WndKeyBindings.class, "hero_info"));
+				}
+
 			};
 			infoButton.setRect(title.right(), 0, 16, 16);
 			add(infoButton);

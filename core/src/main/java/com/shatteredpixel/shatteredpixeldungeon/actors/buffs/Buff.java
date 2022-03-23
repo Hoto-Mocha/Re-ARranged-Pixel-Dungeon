@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -101,6 +101,11 @@ public class Buff extends Actor {
 	//percent (0-1) to fade out out the buff icon, usually if buff is expiring
 	public float iconFadePercent(){
 		return 0;
+	}
+
+	//text to display on large buff icons in the desktop UI
+	public String iconTextDisplay(){
+		return "";
 	}
 
 	//visual effect usually attached to the sprite of the character the buff is attacked to

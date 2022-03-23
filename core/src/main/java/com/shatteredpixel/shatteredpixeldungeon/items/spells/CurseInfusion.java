@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ public class CurseInfusion extends InventorySpell {
 	@Override
 	public int value() {
 		//prices of ingredients, divided by output quantity
-		return Math.round(quantity * ((30 + 100) / 3f));
+		return Math.round(quantity * ((30 + 50) / 3f));
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
@@ -100,10 +100,10 @@ public class CurseInfusion extends InventorySpell {
 			inputs =  new Class[]{ScrollOfRemoveCurse.class, MetalShard.class};
 			inQuantity = new int[]{1, 1};
 			
-			cost = 4;
+			cost = 6;
 			
 			output = CurseInfusion.class;
-			outQuantity = 3;
+			outQuantity = 4;
 		}
 		
 	}

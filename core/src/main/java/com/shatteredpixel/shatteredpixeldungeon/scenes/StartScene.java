@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.NinePatch;
-import com.watabou.noosa.ui.Button;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Button;
 
 import java.util.ArrayList;
 
@@ -172,7 +172,7 @@ public class StartScene extends PixelScene {
 					hero = new Image(info.heroClass.spritesheet(), 0, 15*info.armorTier, 12, 15);
 					add(hero);
 					
-					steps = new Image(Icons.get(Icons.DEPTH));
+					steps = new Image(Icons.get(Icons.STAIRS));
 					add(steps);
 					depth = new BitmapText(PixelScene.pixelFont);
 					add(depth);

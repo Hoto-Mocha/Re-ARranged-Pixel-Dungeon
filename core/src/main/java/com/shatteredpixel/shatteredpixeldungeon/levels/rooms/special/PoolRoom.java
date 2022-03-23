@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -102,6 +102,7 @@ public class PoolRoom extends SpecialRoom {
 
 		Item prize;
 
+		//33% chance for prize item
 		if (Random.Int(3) == 0){
 			prize = level.findPrizeItem();
 			if (prize != null)

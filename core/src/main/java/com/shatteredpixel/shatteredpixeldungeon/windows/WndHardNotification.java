@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,15 +58,19 @@ public class WndHardNotification extends WndTitledMessage{
 		resize(width, (int) btnOkay.bottom());
 	}
 
+	float incTime = 0;
+
 	@Override
 	public void update() {
 		super.update();
 
-		timeLeft -= Game.elapsed;
-		if (timeLeft <= 0 ){
+		incTime += Game.elapsed;
+		if (timeLeft <= 0 && !btnOkay.active){
 			btnOkay.enable(true);
 			btnOkay.text(btnMessage);
-		} else {
+		} else if (timeLeft > 0 && incTime >= 1) {
+			timeLeft -= incTime;
+			incTime = 0;
 			btnOkay.text(btnMessage + " (" + (int)Math.ceil(timeLeft) + ")");
 		}
 

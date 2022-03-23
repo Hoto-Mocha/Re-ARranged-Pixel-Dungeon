@@ -143,7 +143,12 @@ public class Demonization extends Buff implements ActionIndicator.Action {
     }
 
     @Override
-    public Image getIcon() {
+    public String actionName() {
+        return Messages.get(this, "action_name");
+    }
+
+    @Override
+    public Image actionIcon() {
         Image icon;
         if (state == State.NORMAL) {
             if (((Hero)target).belongings.weapon() != null){

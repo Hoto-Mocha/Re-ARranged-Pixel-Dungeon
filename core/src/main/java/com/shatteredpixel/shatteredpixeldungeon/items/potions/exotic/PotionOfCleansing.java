@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,8 +66,12 @@ public class PotionOfCleansing extends ExoticPotion {
 			}
 		}
 	}
-	
+
 	public static void cleanse(Char ch){
+		cleanse(ch, Cleanse.DURATION);
+	}
+
+	public static void cleanse(Char ch, float duration){
 		for (Buff b : ch.buffs()){
 			if (b.type == Buff.buffType.NEGATIVE
 					&& !(b instanceof AllyBuff)
@@ -78,7 +82,7 @@ public class PotionOfCleansing extends ExoticPotion {
 				((Hunger) b).satisfy(Hunger.STARVING);
 			}
 		}
-		Buff.affect(ch, Cleanse.class, Cleanse.DURATION);
+		Buff.affect(ch, Cleanse.class, duration);
 	}
 
 	public static class Cleanse extends FlavourBuff {

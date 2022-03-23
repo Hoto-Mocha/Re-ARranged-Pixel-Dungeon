@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,10 +42,14 @@ public class WndTradeItem extends WndInfoItem {
 
 	private WndBag owner;
 
+	private boolean selling = false;
+
 	//selling
 	public WndTradeItem( final Item item, WndBag owner ) {
 
 		super(item);
+
+		selling = true;
 
 		this.owner = owner;
 
@@ -102,6 +106,8 @@ public class WndTradeItem extends WndInfoItem {
 
 		super(heap);
 
+		selling = false;
+
 		Item item = heap.peek();
 
 		float pos = height;
@@ -123,12 +129,13 @@ public class WndTradeItem extends WndInfoItem {
 		pos = btnBuy.bottom();
 
 		final MasterThievesArmband.Thievery thievery = Dungeon.hero.buff(MasterThievesArmband.Thievery.class);
-		if (thievery != null && !thievery.isCursed()) {
-			final float chance = thievery.stealChance(price);
-			RedButton btnSteal = new RedButton(Messages.get(this, "steal", Math.min(100, (int) (chance * 100)))) {
+		if (thievery != null && !thievery.isCursed() && thievery.chargesToUse(item) > 0) {
+			final float chance = thievery.stealChance(item);
+			final int chargesToUse = thievery.chargesToUse(item);
+			RedButton btnSteal = new RedButton(Messages.get(this, "steal", Math.min(100, (int) (chance * 100)), chargesToUse), 6) {
 				@Override
 				protected void onClick() {
-					if (thievery.steal(price)) {
+					if (thievery.steal(item)) {
 						Hero hero = Dungeon.hero;
 						Item item = heap.pickUp();
 						hide();
@@ -166,8 +173,8 @@ public class WndTradeItem extends WndInfoItem {
 
 		if (owner != null) {
 			owner.hide();
-			Shopkeeper.sell();
 		}
+		if (selling) Shopkeeper.sell();
 	}
 
 	public static void sell( Item item ) {

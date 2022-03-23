@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -561,7 +561,10 @@ public enum Talent {
 		}
 		if (hero.hasTalent(MYSTICAL_MEAL)){
 			//3/5 turns of recharging
-			Buff.affect( hero, ArtifactRecharge.class).set(1 + 2*(hero.pointsInTalent(MYSTICAL_MEAL))).ignoreHornOfPlenty = foodSource instanceof HornOfPlenty;
+			ArtifactRecharge buff = Buff.affect( hero, ArtifactRecharge.class);
+			if (buff.left() < 1 + 2*(hero.pointsInTalent(MYSTICAL_MEAL))){
+				Buff.affect( hero, ArtifactRecharge.class).set(1 + 2*(hero.pointsInTalent(MYSTICAL_MEAL))).ignoreHornOfPlenty = foodSource instanceof HornOfPlenty;
+			}
 			ScrollOfRecharging.charge( hero );
 		}
 		if (hero.hasTalent(INVIGORATING_MEAL)){
@@ -761,7 +764,7 @@ public enum Talent {
 		if (hero.hasTalent(ENERGIZING_UPGRADE)){
 			MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
 			if (staff != null){
-				staff.gainCharge(1 + 2*hero.pointsInTalent(ENERGIZING_UPGRADE), true);
+				staff.gainCharge(2 + 2*hero.pointsInTalent(ENERGIZING_UPGRADE), true);
 				ScrollOfRecharging.charge( Dungeon.hero );
 				SpellSprite.show( hero, SpellSprite.CHARGE );
 			}
@@ -1266,10 +1269,6 @@ public enum Talent {
 		for (int i = 0; i < MAX_TALENT_TIERS; i++){
 			LinkedHashMap<Talent, Integer> tier = hero.talents.get(i);
 			Bundle tierBundle = bundle.contains(TALENT_TIER+(i+1)) ? bundle.getBundle(TALENT_TIER+(i+1)) : null;
-			//pre-0.9.1 saves
-			if (tierBundle == null && i == 0 && bundle.contains("talents")){
-				tierBundle = bundle.getBundle("talents");
-			}
 
 			if (tierBundle != null){
 				for (Talent talent : tier.keySet()){

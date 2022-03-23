@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,8 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.GameMath;
+
+import java.text.DecimalFormat;
 
 public class Berserk extends Buff {
 
@@ -143,7 +145,7 @@ public class Berserk extends Buff {
 	
 	public void damage(int damage){
 		if (state == State.RECOVERING) return;
-		float maxPower = 1f + 0.15f*((Hero)target).pointsInTalent(Talent.ENDLESS_RAGE);
+		float maxPower = 1f + 0.1f*((Hero)target).pointsInTalent(Talent.ENDLESS_RAGE);
 		power = Math.min(maxPower, power + (damage/(float)target.HT)/3f );
 		BuffIndicator.refreshHero(); //show new power immediately
 		powerLossBuffer = 3; //2 turns until rage starts dropping
@@ -189,6 +191,15 @@ public class Berserk extends Buff {
 				return 0f;
 			case RECOVERING:
 				return 1f - levelRecovery/LEVEL_RECOVER_START;
+		}
+	}
+
+	public String iconTextDisplay(){
+		switch (state){
+			case NORMAL: case BERSERK: default:
+				return (int)(power*100) + "%";
+			case RECOVERING:
+				return new DecimalFormat("#.#").format(levelRecovery);
 		}
 	}
 

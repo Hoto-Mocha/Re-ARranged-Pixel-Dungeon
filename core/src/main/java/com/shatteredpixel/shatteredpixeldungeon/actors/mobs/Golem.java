@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.GolemSprite;
+import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
@@ -47,7 +48,7 @@ public class Golem extends Mob {
 		maxLvl = 22;
 
 		loot = Random.oneOf(Generator.Category.WEAPON, Generator.Category.ARMOR);
-		lootChance = 0.125f; //initially, see rollToDropLoot
+		lootChance = 0.125f; //initially, see lootChance()
 
 		properties.add(Property.INORGANIC);
 		properties.add(Property.LARGE);
@@ -72,16 +73,19 @@ public class Golem extends Mob {
 	}
 
 	@Override
-	public void rollToDropLoot() {
-		Imp.Quest.process( this );
-
+	public float lootChance() {
 		//each drop makes future drops 1/2 as likely
 		// so loot chance looks like: 1/8, 1/16, 1/32, 1/64, etc.
-		lootChance *= Math.pow(1/2f, Dungeon.LimitedDrops.GOLEM_EQUIP.count);
+		return super.lootChance() * (float)Math.pow(1/2f, Dungeon.LimitedDrops.GOLEM_EQUIP.count);
+	}
+
+	@Override
+	public void rollToDropLoot() {
+		Imp.Quest.process( this );
 		super.rollToDropLoot();
 	}
 
-	protected Item createLoot() {
+	public Item createLoot() {
 		Dungeon.LimitedDrops.GOLEM_EQUIP.count++;
 		//uses probability tables for demon halls
 		if (loot == Generator.Category.WEAPON){
@@ -166,6 +170,16 @@ public class Golem extends Mob {
 		enemyTeleCooldown = 20;
 	}
 
+	private boolean canTele(int target){
+		if (enemyTeleCooldown > 0) return false;
+		PathFinder.buildDistanceMap(target, BArray.not(Dungeon.level.solid, null), Dungeon.level.distance(pos, target)+1);
+		//zaps can go around blocking terrain, but not through it
+		if (PathFinder.distance[pos] == Integer.MAX_VALUE){
+			return false;
+		}
+		return true;
+	}
+
 	private class Wandering extends Mob.Wandering{
 
 		@Override
@@ -201,8 +215,8 @@ public class Golem extends Mob {
 
 				int oldPos = pos;
 
-				if (enemyTeleCooldown <= 0 && distance(enemy) >= 1 && Random.Int(100/distance(enemy)) == 0
-						&& !Char.hasProp(enemy, Property.IMMOVABLE)){
+				if (distance(enemy) >= 1 && Random.Int(100/distance(enemy)) == 0
+						&& !Char.hasProp(enemy, Property.IMMOVABLE) && canTele(target)){
 					if (sprite != null && (sprite.visible || enemy.sprite.visible)) {
 						sprite.zap( enemy.pos );
 						return false;
@@ -215,7 +229,7 @@ public class Golem extends Mob {
 					spend( 1 / speed() );
 					return moveSprite( oldPos,  pos );
 
-				} else if (enemyTeleCooldown <= 0 && !Char.hasProp(enemy, Property.IMMOVABLE)) {
+				} else if (!Char.hasProp(enemy, Property.IMMOVABLE) && canTele(target)) {
 					if (sprite != null && (sprite.visible || enemy.sprite.visible)) {
 						sprite.zap( enemy.pos );
 						return false;

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,9 +42,9 @@ public class BadgeBanner extends Image {
 	
 	private static final float DEFAULT_SCALE	= 3;
 	
-	private static final float FADE_IN_TIME		= 0.2f;
+	private static final float FADE_IN_TIME		= 0.25f;
 	private static final float STATIC_TIME		= 1f;
-	private static final float FADE_OUT_TIME	= 1.0f;
+	private static final float FADE_OUT_TIME	= 1.75f;
 	
 	private int index;
 	private float time;

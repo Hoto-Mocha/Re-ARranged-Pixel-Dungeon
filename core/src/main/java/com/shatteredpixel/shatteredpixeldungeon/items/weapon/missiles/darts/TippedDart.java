@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -173,7 +173,7 @@ public abstract class TippedDart extends Dart {
 	private static HashMap<Class<?extends Plant.Seed>, Class<?extends TippedDart>> types = new HashMap<>();
 	static {
 		types.put(Blindweed.Seed.class,     BlindingDart.class);
-		types.put(Dreamfoil.Seed.class,     SleepDart.class);
+		types.put(Dreamfoil.Seed.class,     CleansingDart.class);
 		types.put(Earthroot.Seed.class,     ParalyticDart.class);
 		types.put(Fadeleaf.Seed.class,      DisplacingDart.class);
 		types.put(Firebloom.Seed.class,     IncendiaryDart.class);

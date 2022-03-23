@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,12 +24,14 @@ package com.watabou.noosa;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.glutils.GLVersion;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.watabou.glscripts.Script;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.glwrap.Blending;
 import com.watabou.glwrap.Vertexbuffer;
+import com.watabou.input.ControllerHandler;
 import com.watabou.input.InputHandler;
 import com.watabou.input.PointerEvent;
 import com.watabou.noosa.audio.Music;
@@ -93,10 +95,16 @@ public class Game implements ApplicationListener {
 	@Override
 	public void create() {
 		density = Gdx.graphics.getDensity();
+		if (density == Float.POSITIVE_INFINITY){
+			density = 100f / 160f; //assume 100PPI if density can't be found
+		}
 		dispHeight = Gdx.graphics.getDisplayMode().height;
 		dispWidth = Gdx.graphics.getDisplayMode().width;
 
 		inputHandler = new InputHandler( Gdx.input );
+		if (ControllerHandler.controllersSupported()){
+			Controllers.addListener(new ControllerHandler());
+		}
 
 		//refreshes texture and vertex data stored on the gpu
 		versionContextRef = Gdx.graphics.getGLVersion();

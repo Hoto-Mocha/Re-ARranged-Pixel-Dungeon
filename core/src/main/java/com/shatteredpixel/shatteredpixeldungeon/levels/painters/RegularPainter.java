@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Patch;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.connection.ConnectionRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.EntranceRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.StandardRoom;
@@ -204,6 +205,38 @@ public abstract class RegularPainter extends Painter {
 				if (d.type == Room.Door.Type.REGULAR){
 					if (Random.Float() < hiddenDoorChance) {
 						d.type = Room.Door.Type.HIDDEN;
+						//all standard rooms must have an unbroken path to all other standard rooms
+						if (l.feeling != Level.Feeling.SECRETS){
+							Graph.buildDistanceMap(rooms, r);
+							if (n.distance == Integer.MAX_VALUE){
+								d.type = Room.Door.Type.UNLOCKED;
+							}
+						//on a secrets level, rooms just have to not be totally isolated
+						} else {
+							int roomsInGraph = 0;
+							Graph.buildDistanceMap(rooms, r);
+							for (Room rDest : rooms){
+								if (rDest.distance != Integer.MAX_VALUE
+										&& !(rDest instanceof ConnectionRoom)){
+									roomsInGraph++;
+								}
+							}
+							if (roomsInGraph < 2){
+								d.type = Room.Door.Type.UNLOCKED;
+							} else {
+								roomsInGraph = 0;
+								Graph.buildDistanceMap(rooms, n);
+								for (Room nDest : rooms){
+									if (nDest.distance != Integer.MAX_VALUE
+											&& !(nDest instanceof ConnectionRoom)){
+										roomsInGraph++;
+									}
+								}
+								if (roomsInGraph < 2){
+									d.type = Room.Door.Type.UNLOCKED;
+								}
+							}
+						}
 						Graph.buildDistanceMap(rooms, r);
 						//don't hide if it would make this room only accessible by hidden doors
 						//unless we're on a secrets depth
@@ -243,6 +276,9 @@ public abstract class RegularPainter extends Painter {
 						break;
 					case LOCKED:
 						l.map[door] = Terrain.LOCKED_DOOR;
+						break;
+					case CRYSTAL:
+						l.map[door] = Terrain.CRYSTAL_DOOR;
 						break;
 				}
 			}

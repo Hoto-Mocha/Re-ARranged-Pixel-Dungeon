@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,7 +106,23 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 	}
 	
 	@Override
-	public Image getIcon() {
+	public String actionName() {
+		SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
+
+		if (bow == null) return null;
+
+		switch (bow.augment){
+			case NONE: default:
+				return Messages.get(this, "action_name_snapshot");
+			case SPEED:
+				return Messages.get(this, "action_name_volley");
+			case DAMAGE:
+				return Messages.get(this, "action_name_sniper");
+		}
+	}
+
+	@Override
+	public Image actionIcon() {
 		Hero hero = Dungeon.hero;
 		SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
 		WindBow windBow = hero.belongings.getItem(WindBow.class);
@@ -128,7 +144,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 			return new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
 		}
 	}
-	
+
 	@Override
 	public void doAction() {
 		
@@ -154,7 +170,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 				   if (cell == -1) return;
 
 				   bow.sniperSpecial = true;
-				   bow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
+				   bow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/10f;
 
 				   arrow.cast(hero, cell);
 				   detach();
@@ -169,7 +185,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 				   if (cell == -1) return;
 
 				   windBow.sniperSpecial = true;
-				   windBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
+				   windBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/10f;
 
 				   arrow.cast(hero, cell);
 				   detach();
@@ -184,7 +200,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 				   if (cell == -1) return;
 
 				   poisonBow.sniperSpecial = true;
-				   poisonBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
+				   poisonBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/10f;
 
 				   arrow.cast(hero, cell);
 				   detach();
@@ -199,7 +215,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 				   if (cell == -1) return;
 
 				   goldenBow.sniperSpecial = true;
-				   goldenBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
+				   goldenBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/10f;
 
 				   arrow.cast(hero, cell);
 				   detach();
@@ -214,7 +230,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 				   if (cell == -1) return;
 
 				   naturesBow.sniperSpecial = true;
-				   naturesBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/15f;
+				   naturesBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/10f;
 
 				   arrow.cast(hero, cell);
 				   detach();

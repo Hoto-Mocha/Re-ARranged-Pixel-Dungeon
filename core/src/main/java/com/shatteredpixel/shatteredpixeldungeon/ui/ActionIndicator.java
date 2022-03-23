@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,9 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndKeyBindings;
 import com.watabou.input.GameAction;
 import com.watabou.noosa.Image;
 
@@ -96,8 +98,14 @@ public class ActionIndicator extends Tag {
 
 	@Override
 	protected void onClick() {
-		if (action != null && Dungeon.hero.ready)
+		if (action != null && Dungeon.hero.ready) {
 			action.doAction();
+		}
+	}
+
+	@Override
+	protected String hoverText() {
+		return Messages.titleCase(action.actionName());
 	}
 
 	public static void setAction(Action action){
@@ -118,7 +126,7 @@ public class ActionIndicator extends Tag {
 					instance.icon = null;
 				}
 				if (action != null) {
-					instance.icon = action.getIcon();
+					instance.icon = action.actionIcon();
 					instance.needsLayout = true;
 				}
 			}
@@ -127,7 +135,9 @@ public class ActionIndicator extends Tag {
 
 	public interface Action{
 
-		public Image getIcon();
+		public String actionName();
+
+		public Image actionIcon();
 
 		public void doAction();
 

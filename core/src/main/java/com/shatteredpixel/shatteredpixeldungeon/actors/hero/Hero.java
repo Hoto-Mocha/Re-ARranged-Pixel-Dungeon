@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,6 +106,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.En
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
@@ -130,6 +132,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
@@ -1425,7 +1428,7 @@ public class Hero extends Char {
 			hero.buff(Jung.class).detach();
 			Buff.affect(hero, Dong.class);
 			Buff.affect(hero, StanceCooldown.class, 9f);
-			buff(Dong.class).getIcon();
+			buff(Dong.class).actionIcon();
 			return 1f;
 		}
 
@@ -1796,6 +1799,11 @@ public class Hero extends Char {
 				
 				hasKey = true;
 				
+			} else if (door == Terrain.CRYSTAL_DOOR
+					&& Notes.keyCount(new CrystalKey(Dungeon.depth)) > 0) {
+
+				hasKey = true;
+
 			} else if (door == Terrain.LOCKED_EXIT
 					&& Notes.keyCount(new SkeletonKey(Dungeon.depth)) > 0) {
 
@@ -2504,7 +2512,7 @@ public class Hero extends Char {
 				curAction = new HeroAction.OpenChest( cell );
 			}
 			
-		} else if (Dungeon.level.map[cell] == Terrain.LOCKED_DOOR || Dungeon.level.map[cell] == Terrain.LOCKED_EXIT) {
+		} else if (Dungeon.level.map[cell] == Terrain.LOCKED_DOOR || Dungeon.level.map[cell] == Terrain.CRYSTAL_DOOR || Dungeon.level.map[cell] == Terrain.LOCKED_EXIT) {
 			
 			curAction = new HeroAction.Unlock( cell );
 			
@@ -2547,6 +2555,9 @@ public class Hero extends Char {
 		
 		AlchemistsToolkit.kitEnergy kit = buff(AlchemistsToolkit.kitEnergy.class);
 		if (kit != null) kit.gainCharge(percent);
+
+		MasterThievesArmband.Thievery armband = buff(MasterThievesArmband.Thievery.class);
+		if (armband != null) armband.gainCharge(percent);
 		
 		Berserk berserk = buff(Berserk.class);
 		if (berserk != null) berserk.recover(percent);
@@ -3564,6 +3575,13 @@ public class Hero extends Char {
 				if (door == Terrain.LOCKED_DOOR) {
 					hasKey = Notes.remove(new IronKey(Dungeon.depth));
 					if (hasKey) Level.set(doorCell, Terrain.DOOR);
+				} else if (door == Terrain.CRYSTAL_DOOR) {
+					hasKey = Notes.remove(new CrystalKey(Dungeon.depth));
+					if (hasKey) {
+						Level.set(doorCell, Terrain.EMPTY);
+						Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
+						CellEmitter.get( doorCell ).start( Speck.factory( Speck.DISCOVER ), 0.025f, 20 );
+					}
 				} else {
 					hasKey = Notes.remove(new SkeletonKey(Dungeon.depth));
 					if (hasKey) Level.set(doorCell, Terrain.UNLOCKED_EXIT);
@@ -3571,7 +3589,6 @@ public class Hero extends Char {
 				
 				if (hasKey) {
 					GameScene.updateKeyDisplay();
-					Level.set(doorCell, door == Terrain.LOCKED_DOOR ? Terrain.DOOR : Terrain.UNLOCKED_EXIT);
 					GameScene.updateMap(doorCell);
 					spend(Key.TIME_TO_UNLOCK);
 				}

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -304,7 +304,9 @@ abstract public class Weapon extends KindOfWeapon {
 
 	@Override
 	public int level() {
-		return super.level() + (curseInfusionBonus ? 1 : 0);
+		int level = super.level();
+		if (curseInfusionBonus) level += 1 + level/6;
+		return level;
 	}
 	
 	//overrides as other things can equip these
@@ -443,7 +445,7 @@ abstract public class Weapon extends KindOfWeapon {
 			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.ENRAGED_CATALYST)){
 				Berserk rage = attacker.buff(Berserk.class);
 				if (rage != null) {
-					multi += (rage.rageAmount() / 6f) * ((Hero) attacker).pointsInTalent(Talent.ENRAGED_CATALYST);
+					multi += (rage.rageAmount() * 0.15f) * ((Hero) attacker).pointsInTalent(Talent.ENRAGED_CATALYST);
 				}
 			}
 			if (attacker.buff(Talent.SpiritBladesTracker.class) != null

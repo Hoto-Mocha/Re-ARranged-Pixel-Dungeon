@@ -95,7 +95,7 @@ public class Medic extends Mob {
 	}
 
 	@Override
-	protected Item createLoot(){
+	public Item createLoot(){
 		if (depth == 30) {
 			return null;
 		} else {

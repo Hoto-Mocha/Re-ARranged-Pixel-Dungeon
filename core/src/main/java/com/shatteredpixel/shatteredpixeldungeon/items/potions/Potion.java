@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -515,8 +515,7 @@ public class Potion extends Item {
 			}
 
 			while (result instanceof PotionOfHealing
-					&& (Dungeon.isChallenged(Challenges.NO_HEALING)
-					|| Random.Int(10) < Dungeon.LimitedDrops.COOKING_HP.count)) {
+					&& Random.Int(10) < Dungeon.LimitedDrops.COOKING_HP.count) {
 
 				result = (Potion) Generator.randomUsingDefaults(Generator.Category.POTION);
 			}

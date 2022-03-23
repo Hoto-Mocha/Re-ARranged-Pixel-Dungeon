@@ -132,7 +132,7 @@ public class SWAT extends Mob {
 	}
 
 	@Override
-	protected Item createLoot(){
+	public Item createLoot(){
 		if (swatWeapon == SWATWeapon.SNIPER) {
 			return new AntimaterRifle().upgrade(1+Random.Int(3)).identify();
 		} else if (swatWeapon == SWATWeapon.HANDGUN) {

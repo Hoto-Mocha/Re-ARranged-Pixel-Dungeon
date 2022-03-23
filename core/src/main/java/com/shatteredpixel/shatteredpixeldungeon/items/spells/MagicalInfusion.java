@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -96,7 +96,7 @@ public class MagicalInfusion extends InventorySpell {
 			inputs =  new Class[]{ScrollOfUpgrade.class, ArcaneCatalyst.class};
 			inQuantity = new int[]{1, 1};
 			
-			cost = 3;
+			cost = 4;
 			
 			output = MagicalInfusion.class;
 			outQuantity = 1;

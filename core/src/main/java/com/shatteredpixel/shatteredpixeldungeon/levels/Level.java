@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -412,14 +412,18 @@ public abstract class Level implements Bundlable {
 		}
 		createMobs();
 	}
+
+	public void playLevelMusic(){
+		//do nothing by default
+	}
 	
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 
 		version = bundle.getInt( VERSION );
 		
-		//saves from before v0.9.0b are not supported
-		if (version < ShatteredPixelDungeon.v0_9_0b){
+		//saves from before v0.9.2b are not supported
+		if (version < ShatteredPixelDungeon.v0_9_2b){
 			throw new RuntimeException("old save");
 		}
 
@@ -627,8 +631,18 @@ public abstract class Level implements Bundlable {
 		return visuals;
 	}
 	
-	public int nMobs() {
+	public int mobLimit() {
 		return 0;
+	}
+
+	public int mobCount(){
+		int count = 0;
+		for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])){
+			if (mob.alignment == Char.Alignment.ENEMY && !mob.properties().contains(Char.Property.MINIBOSS)) {
+				count += mob.spawningWeight();
+			}
+		}
+		return count;
 	}
 
 	public Mob findMob( int pos ){
@@ -659,34 +673,16 @@ public abstract class Level implements Bundlable {
 
 		@Override
 		protected boolean act() {
-			float count = 0;
 
-			for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])){
-				if (mob.alignment == Char.Alignment.ENEMY && !mob.properties().contains(Char.Property.MINIBOSS)) {
-					count += mob.spawningWeight();
-				}
-			}
+			if (Dungeon.level.mobCount() < Dungeon.level.mobLimit()) {
 
-			if (count < Dungeon.level.nMobs()) {
-
-				PathFinder.buildDistanceMap(Dungeon.hero.pos, BArray.or(Dungeon.level.passable, Dungeon.level.avoid, null));
-
-				Mob mob = Dungeon.level.createMob();
-				mob.state = mob.WANDERING;
-				mob.pos = Dungeon.level.randomRespawnCell( mob );
-				if (Dungeon.hero.isAlive() && mob.pos != -1 && PathFinder.distance[mob.pos] >= 12) {
-					GameScene.add( mob );
-					if (Statistics.amuletObtained) {
-						mob.beckon( Dungeon.hero.pos );
-					}
-					if (!mob.buffs(ChampionEnemy.class).isEmpty()){
-						GLog.w(Messages.get(ChampionEnemy.class, "warn"));
-					}
+				if (Dungeon.level.spawnMob(12)){
 					spend(Dungeon.level.respawnCooldown());
 				} else {
 					//try again in 1 turn
 					spend(TICK);
 				}
+
 			} else {
 				spend(Dungeon.level.respawnCooldown());
 			}
@@ -702,6 +698,26 @@ public abstract class Level implements Bundlable {
 			return 2*TIME_TO_RESPAWN/3f;
 		} else {
 			return TIME_TO_RESPAWN;
+		}
+	}
+
+	public boolean spawnMob(int disLimit){
+		PathFinder.buildDistanceMap(Dungeon.hero.pos, BArray.or(Dungeon.level.passable, Dungeon.level.avoid, null));
+
+		Mob mob = Dungeon.level.createMob();
+		mob.state = mob.WANDERING;
+		mob.pos = Dungeon.level.randomRespawnCell( mob );
+		if (Dungeon.hero.isAlive() && mob.pos != -1 && PathFinder.distance[mob.pos] >= disLimit) {
+			GameScene.add( mob );
+			if (Statistics.amuletObtained) {
+				mob.beckon( Dungeon.hero.pos );
+			}
+			if (!mob.buffs(ChampionEnemy.class).isEmpty()){
+				GLog.w(Messages.get(ChampionEnemy.class, "warn"));
+			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
@@ -767,12 +783,8 @@ public abstract class Level implements Bundlable {
 			pit[i]			= (flags & Terrain.PIT) != 0;
 		}
 
-		Web w = (Web) blobs.get(Web.class);
-		if (w != null && w.volume > 0){
-			for (int i=0; i < length(); i++) {
-				solid[i] = solid[i] || w.cur[i] > 0;
-				flamable[i] = flamable[i] || w.cur[i] > 0;
-			}
+		for (Blob b : blobs.values()){
+			b.onBuildFlagMaps(this);
 		}
 		
 		int lastRow = length() - width();
@@ -790,7 +802,7 @@ public abstract class Level implements Bundlable {
 		}
 
 		//an open space is large enough to fit large mobs. A space is open when it is not solid
-		// and there is and open corner with both adjacent cells opens
+		// and there is an open corner with both adjacent cells opens
 		for (int i=0; i < length(); i++) {
 			if (solid[i]){
 				openSpace[i] = false;
@@ -1223,7 +1235,7 @@ public abstract class Level implements Bundlable {
 						blocking[i] = false;
 					}
 				}
-			} else if (c.alignment == Char.Alignment.ENEMY
+			} else if (c.alignment != Char.Alignment.ALLY
 					&& Dungeon.level.blobs.containsKey(SmokeScreen.class)
 					&& Dungeon.level.blobs.get(SmokeScreen.class).volume > 0) {
 				System.arraycopy(Dungeon.level.losBlocking, 0, modifiableBlocking, 0, modifiableBlocking.length);
@@ -1488,6 +1500,8 @@ public abstract class Level implements Bundlable {
 				return Messages.get(Level.class, "furrowed_grass_name");
 			case Terrain.LOCKED_DOOR:
 				return Messages.get(Level.class, "locked_door_name");
+			case Terrain.CRYSTAL_DOOR:
+				return Messages.get(Level.class, "crystal_door_name");
 			case Terrain.PEDESTAL:
 				return Messages.get(Level.class, "pedestal_name");
 			case Terrain.BARRICADE:
@@ -1537,6 +1551,8 @@ public abstract class Level implements Bundlable {
 				return Messages.get(Level.class, "high_grass_desc");
 			case Terrain.LOCKED_DOOR:
 				return Messages.get(Level.class, "locked_door_desc");
+			case Terrain.CRYSTAL_DOOR:
+				return Messages.get(Level.class, "crystal_door_desc");
 			case Terrain.LOCKED_EXIT:
 				return Messages.get(Level.class, "locked_exit_desc");
 			case Terrain.BARRICADE:

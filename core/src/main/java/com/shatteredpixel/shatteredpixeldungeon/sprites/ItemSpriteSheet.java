@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -549,7 +549,7 @@ public class ItemSpriteSheet {
 	public static final int CHILLING_DART   = TIPPED_DARTS+4;
 	public static final int SHOCKING_DART   = TIPPED_DARTS+5;
 	public static final int POISON_DART     = TIPPED_DARTS+6;
-	public static final int SLEEP_DART      = TIPPED_DARTS+7;
+	public static final int CLEANSING_DART  = TIPPED_DARTS+7;
 	public static final int PARALYTIC_DART  = TIPPED_DARTS+8;
 	public static final int HOLY_DART       = TIPPED_DARTS+9;
 	public static final int DISPLACING_DART = TIPPED_DARTS+10;

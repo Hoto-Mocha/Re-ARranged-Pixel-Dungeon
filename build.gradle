@@ -14,8 +14,8 @@ allprojects {
         appName = 'ARranged Pixel Dungeon'
         appPackageName = 'com.arrangedpixel.arrangedpixeldungeon'
 
-        appVersionCode = 653
-        appVersionName = '1.1.2_based_2.7.2'
+        appVersionCode = 654
+        appVersionName = '1.2.0_based_2.7.3'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
@@ -24,6 +24,7 @@ allprojects {
         appAndroidTargetSDK = 31
 
         gdxVersion = '1.10.0'
+        gdxControllersVersion = '2.2.1'
         robovmVersion = '2.3.14'
     }
     version = appVersionName

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -111,7 +111,7 @@ public class GnollTrickster extends Gnoll {
 	}
 	
 	@Override
-	protected Item createLoot() {
+	public Item createLoot() {
 		MissileWeapon drop = (MissileWeapon)super.createLoot();
 		//half quantity, rounded up
 		drop.quantity((drop.quantity()+1)/2);

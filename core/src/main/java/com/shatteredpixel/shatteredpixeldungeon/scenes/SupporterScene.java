@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -82,7 +82,8 @@ public class SupporterScene extends PixelScene {
 				//link += "?utm_source=shatteredpd";
 				//link += "&utm_medium=supporter_page";
 				//link += "&utm_campaign=ingame_link";
-				DeviceCompat.openURI(link);
+				//ShatteredPixelDungeon.platform.openURI(link);
+
 			}
 		};
 		link.icon(Icons.get(Icons.WARNING));

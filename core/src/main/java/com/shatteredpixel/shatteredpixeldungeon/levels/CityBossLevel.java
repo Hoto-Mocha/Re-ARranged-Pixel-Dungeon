@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,10 +37,13 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.ImpShopRoo
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
+import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.Tilemap;
+import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -79,6 +82,21 @@ public class CityBossLevel extends Level {
 	}
 
 	private ImpShopRoom impShop;
+
+	@Override
+	public void playLevelMusic() {
+		if (locked){
+			Music.INSTANCE.play(Assets.Music.CITY_BOSS, true);
+		//if top door isn't unlocked
+		} else if (map[topDoor] == Terrain.LOCKED_DOOR){
+			Music.INSTANCE.end();
+		} else {
+			Music.INSTANCE.playTracks(
+					new String[]{Assets.Music.CITY_1, Assets.Music.CITY_2, Assets.Music.CITY_2},
+					new float[]{1, 1, 0.5f},
+					false);
+		}
+	}
 
 	@Override
 	public String tilesTex() {
@@ -290,6 +308,13 @@ public class CityBossLevel extends Level {
 		set( bottomDoor, Terrain.LOCKED_DOOR );
 		GameScene.updateMap( bottomDoor );
 		Dungeon.observe();
+
+		Game.runOnRenderThread(new Callback() {
+			@Override
+			public void call() {
+				Music.INSTANCE.play(Assets.Music.CITY_BOSS, true);
+			}
+		});
 	}
 
 	@Override
@@ -306,6 +331,13 @@ public class CityBossLevel extends Level {
 			spawnShop();
 		}
 		Dungeon.observe();
+
+		Game.runOnRenderThread(new Callback() {
+			@Override
+			public void call() {
+				Music.INSTANCE.end();
+			}
+		});
 	}
 
 	private void spawnShop(){

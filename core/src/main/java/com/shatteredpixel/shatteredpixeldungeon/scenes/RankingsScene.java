@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Music;
-import com.watabou.noosa.ui.Button;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Button;
 import com.watabou.utils.GameMath;
 
 public class RankingsScene extends PixelScene {
@@ -212,7 +212,7 @@ public class RankingsScene extends PixelScene {
 				if (rec.depth != 0){
 					depth.text( Integer.toString(rec.depth) );
 					depth.measure();
-					steps.copy(Icons.DEPTH.get());
+					steps.copy(Icons.STAIRS.get());
 
 					add(steps);
 					add(depth);

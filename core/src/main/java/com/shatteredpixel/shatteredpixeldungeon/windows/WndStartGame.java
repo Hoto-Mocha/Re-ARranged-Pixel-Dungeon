@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
-import com.watabou.noosa.ui.Button;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Button;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.DeviceCompat;
 
@@ -325,7 +325,7 @@ public class WndStartGame extends Window {
 						case ROGUE:
 							heroItem.icon(new ItemSprite(ItemSpriteSheet.ARTIFACT_CLOAK, null));
 							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.DAGGER, null));
-							heroMisc.icon(Icons.get(Icons.DEPTH));
+							heroMisc.icon(Icons.get(Icons.STAIRS));
 							break;
 						case HUNTRESS:
 							heroItem.icon(new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null));

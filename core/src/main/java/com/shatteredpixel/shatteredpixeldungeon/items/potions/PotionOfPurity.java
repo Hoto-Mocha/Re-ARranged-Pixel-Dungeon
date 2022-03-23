@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,16 +67,7 @@ public class PotionOfPurity extends Potion {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
 				
 				for (Blob blob : blobs) {
-					
-					int value = blob.cur[i];
-					if (value > 0) {
-						
-						blob.clear(i);
-						blob.cur[i] = 0;
-						blob.volume -= value;
-						
-					}
-					
+					blob.clear(i);
 				}
 				
 				if (Dungeon.level.heroFOV[i]) {

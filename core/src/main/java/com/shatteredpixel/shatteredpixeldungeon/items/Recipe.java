@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
@@ -86,6 +87,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
@@ -355,10 +357,16 @@ public abstract class Recipe {
 		
 		return result;
 	}
-	
-	public static boolean usableInRecipe(Item item) {
-		return !item.cursed && !item.isEquipped(hero)
-				&& (!(item instanceof Armor)) && (!(item instanceof Ring)) && (!(item instanceof Artifact))
-					|| (item instanceof MissileWeapon);
+
+	public static boolean usableInRecipe(Item item){
+		if (item instanceof EquipableItem){
+			//only weapons and wands allowed among equipment items
+			return item.isIdentified() && !item.cursed && (item instanceof MissileWeapon || item instanceof MeleeWeapon);
+		} else if (item instanceof Wand) {
+			return item.isIdentified() && !item.cursed;
+		} else {
+			//other items can be unidentified, but not cursed
+			return !item.cursed;
+		}
 	}
 }

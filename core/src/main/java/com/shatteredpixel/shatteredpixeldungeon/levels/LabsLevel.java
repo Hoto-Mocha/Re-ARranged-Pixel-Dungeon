@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
+import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.particles.PixelParticle;
 import com.watabou.utils.ColorMath;
@@ -67,6 +68,14 @@ public class LabsLevel extends RegularLevel {
 	{
 		color1 = 0x48763c;
 		color2 = 0x59994a;
+	}
+
+	@Override
+	public void playLevelMusic() {
+		Music.INSTANCE.playTracks(
+				new String[]{Assets.Music.HALLS_1, Assets.Music.HALLS_2, Assets.Music.HALLS_2},
+				new float[]{1, 1, 0.5f},
+				false);
 	}
 
 	@Override

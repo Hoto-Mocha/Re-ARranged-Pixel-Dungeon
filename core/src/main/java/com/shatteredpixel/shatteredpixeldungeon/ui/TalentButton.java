@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,23 +26,16 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.InventoryScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoTalent;
-import com.watabou.gltextures.SmartTexture;
-import com.watabou.gltextures.TextureCache;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.PointerArea;
-import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
-import com.watabou.noosa.ui.Button;
-import com.watabou.utils.Callback;
 
 import java.util.LinkedHashMap;
 
@@ -117,12 +110,13 @@ public class TalentButton extends Button {
 	protected void onClick() {
 		super.onClick();
 
+		Window toAdd;
 		if (mode == Mode.UPGRADE
 				&& Dungeon.hero != null
 				&& Dungeon.hero.isAlive()
 				&& Dungeon.hero.talentPointsAvailable(tier) > 0
 				&& Dungeon.hero.pointsInTalent(talent) < talent.maxPoints()){
-			ShatteredPixelDungeon.scene().addToFront(new WndInfoTalent(talent, pointsInTalent, new WndInfoTalent.TalentButtonCallback() {
+			toAdd = new WndInfoTalent(talent, pointsInTalent, new WndInfoTalent.TalentButtonCallback() {
 
 				@Override
 				public String prompt() {
@@ -133,9 +127,9 @@ public class TalentButton extends Button {
 				public void call() {
 					upgradeTalent();
 				}
-			}));
+			});
 		} else if (mode == Mode.METAMORPH_CHOOSE && Dungeon.hero != null && Dungeon.hero.isAlive()) {
-			ShatteredPixelDungeon.scene().addToFront(new WndInfoTalent(talent, pointsInTalent, new WndInfoTalent.TalentButtonCallback() {
+			toAdd = new WndInfoTalent(talent, pointsInTalent, new WndInfoTalent.TalentButtonCallback() {
 
 				@Override
 				public String prompt() {
@@ -149,9 +143,9 @@ public class TalentButton extends Button {
 					}
 					GameScene.show(new ScrollOfMetamorphosis.WndMetamorphReplace(talent, tier));
 				}
-			}));
+			});
 		} else if (mode == Mode.METAMORPH_REPLACE && Dungeon.hero != null && Dungeon.hero.isAlive()) {
-			ShatteredPixelDungeon.scene().addToFront(new WndInfoTalent(talent, pointsInTalent, new WndInfoTalent.TalentButtonCallback() {
+			toAdd = new WndInfoTalent(talent, pointsInTalent, new WndInfoTalent.TalentButtonCallback() {
 
 				@Override
 				public String prompt() {
@@ -204,9 +198,15 @@ public class TalentButton extends Button {
 					}
 
 				}
-			}));
+			});
 		} else {
-			ShatteredPixelDungeon.scene().addToFront(new WndInfoTalent(talent, pointsInTalent, null));
+			toAdd = new WndInfoTalent(talent, pointsInTalent, null);
+		}
+
+		if (ShatteredPixelDungeon.scene() instanceof GameScene){
+			GameScene.show(toAdd);
+		} else {
+			ShatteredPixelDungeon.scene().addToFront(toAdd);
 		}
 	}
 
@@ -223,7 +223,12 @@ public class TalentButton extends Button {
 		bg.resetColor();
 	}
 
-	public void enable( boolean value ) {
+	@Override
+	protected String hoverText() {
+		return Messages.titleCase(talent.title());
+	}
+
+	public void enable(boolean value ) {
 		active = value;
 		icon.alpha( value ? 1.0f : 0.3f );
 		bg.alpha( value ? 1.0f : 0.3f );

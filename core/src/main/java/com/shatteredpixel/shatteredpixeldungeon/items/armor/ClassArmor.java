@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -116,7 +116,7 @@ abstract public class ClassArmor extends Armor {
 			break;
 		}
 
-		classArmor.level(armor.level() - (armor.curseInfusionBonus ? 1 : 0));
+		classArmor.level(armor.trueLevel());
 		classArmor.tier = armor.tier;
 		classArmor.augment = armor.augment;
 		classArmor.inscribe( armor.glyph );

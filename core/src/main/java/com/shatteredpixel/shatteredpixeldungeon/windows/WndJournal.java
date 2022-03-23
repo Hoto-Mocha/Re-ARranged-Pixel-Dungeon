@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -110,7 +110,7 @@ public class WndJournal extends WndTabbed {
 						if (value) last_index = 1;
 					}
 				},
-				new IconTab( Icons.get(Icons.DEPTH) ) {
+				new IconTab( Icons.get(Icons.STAIRS) ) {
 					protected void select( boolean value ) {
 						super.select( value );
 						notesTab.active = notesTab.visible = value;
@@ -134,7 +134,16 @@ public class WndJournal extends WndTabbed {
 		
 		select(last_index);
 	}
-	
+
+	@Override
+	public void offset(int xOffset, int yOffset) {
+		super.offset(xOffset, yOffset);
+		guideTab.layout();
+		alchemyTab.layout();
+		catalogTab.layout();
+		notesTab.layout();
+	}
+
 	private static class ListItem extends Component {
 		
 		protected RenderedTextBlock label;
@@ -541,7 +550,7 @@ public class WndJournal extends WndTabbed {
 				pos += Math.max(ITEM_HEIGHT, title.height());
 			}
 			for(Notes.Record rec : keys){
-				ListItem item = new ListItem( Icons.get(Icons.DEPTH),
+				ListItem item = new ListItem( Icons.get(Icons.STAIRS),
 						Messages.titleCase(rec.desc()), rec.depth() );
 				item.setRect( 0, pos, width(), ITEM_HEIGHT );
 				content.add( item );
@@ -566,7 +575,7 @@ public class WndJournal extends WndTabbed {
 				pos += Math.max(ITEM_HEIGHT, title.height());
 			}
 			for (Notes.Record rec : landmarks) {
-				ListItem item = new ListItem( Icons.get(Icons.DEPTH),
+				ListItem item = new ListItem( Icons.get(Icons.STAIRS),
 						Messages.titleCase(rec.desc()), rec.depth() );
 				item.setRect( 0, pos, width(), ITEM_HEIGHT );
 				content.add( item );

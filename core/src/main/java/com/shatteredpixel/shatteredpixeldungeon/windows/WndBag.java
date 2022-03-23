@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,22 +37,28 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
+import com.shatteredpixel.shatteredpixeldungeon.ui.InventorySlot;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ItemSlot;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
+import com.shatteredpixel.shatteredpixeldungeon.ui.RightClickMenu;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.watabou.gltextures.TextureCache;
+import com.watabou.input.GameAction;
 import com.watabou.input.KeyBindings;
 import com.watabou.input.KeyEvent;
+import com.watabou.input.PointerEvent;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.PointF;
 
 public class WndBag extends WndTabbed {
 	
@@ -130,9 +136,10 @@ public class WndBag extends WndTabbed {
 
 		resize( windowWidth, windowHeight );
 
+		int i = 1;
 		for (Bag b : Dungeon.hero.belongings.getBags()) {
 			if (b != null) {
-				BagTab tab = new BagTab( b );
+				BagTab tab = new BagTab( b, i++ );
 				add( tab );
 				tab.select( b == bag );
 			}
@@ -270,8 +277,75 @@ public class WndBag extends WndTabbed {
 		
 		int x = col * (slotWidth + SLOT_MARGIN);
 		int y = TITLE_HEIGHT + row * (slotHeight + SLOT_MARGIN);
-		
-		add( new ItemButton( item ).setPos( x, y ) );
+
+		InventorySlot slot = new InventorySlot( item ){
+			@Override
+			protected void onClick() {
+				if (lastBag != item && !lastBag.contains(item) && !item.isEquipped(Dungeon.hero)){
+
+					hide();
+
+				} else if (selector != null) {
+
+					hide();
+					selector.onSelect( item );
+
+				} else {
+
+					Game.scene().addToFront(new WndUseItem( WndBag.this, item ) );
+
+				}
+			}
+
+			@Override
+			protected void onRightClick() {
+				if (lastBag != item && !lastBag.contains(item) && !item.isEquipped(Dungeon.hero)){
+
+					hide();
+
+				} else if (selector != null) {
+
+					hide();
+					selector.onSelect( item );
+
+				} else {
+
+					RightClickMenu r = new RightClickMenu(item){
+						@Override
+						public void onSelect(int index) {
+							WndBag.this.hide();
+						}
+					};
+					parent.addToFront(r);
+					r.camera = camera();
+					PointF mousePos = PointerEvent.currentHoverPos();
+					mousePos = camera.screenToCamera((int)mousePos.x, (int)mousePos.y);
+					r.setPos(mousePos.x-3, mousePos.y-3);
+
+				}
+			}
+
+			@Override
+			protected boolean onLongClick() {
+				if (selector == null && item.defaultAction != null) {
+					hide();
+					Dungeon.quickslot.setSlot( 0 , item );
+					QuickSlotButton.refresh();
+					return true;
+				} else if (selector != null) {
+					Game.scene().addToFront(new WndInfoItem(item));
+					return true;
+				} else {
+					return false;
+				}
+			}
+		};
+		slot.setRect( x, y, slotWidth, slotHeight );
+		add(slot);
+
+		if (item == null || (selector != null && !selector.itemSelectable(item))){
+			slot.enable(false);
+		}
 		
 		if (++col >= nCols) {
 			col = 0;
@@ -301,7 +375,12 @@ public class WndBag extends WndTabbed {
 	@Override
 	protected void onClick( Tab tab ) {
 		hide();
-		Game.scene().addToFront(new WndBag(((BagTab) tab).bag, selector));
+		Window w = new WndBag(((BagTab) tab).bag, selector);
+		if (Game.scene() instanceof GameScene){
+			GameScene.show(w);
+		} else {
+			Game.scene().addToFront(w);
+		}
 	}
 	
 	@Override
@@ -334,13 +413,35 @@ public class WndBag extends WndTabbed {
 	private class BagTab extends IconTab {
 
 		private Bag bag;
+		private int index;
 		
-		public BagTab( Bag bag ) {
+		public BagTab( Bag bag, int index ) {
 			super( icon(bag) );
 			
 			this.bag = bag;
+			this.index = index;
 		}
-		
+
+		@Override
+		public GameAction keyAction() {
+			switch (index){
+				case 1: default:
+					return SPDAction.BAG_1;
+				case 2:
+					return SPDAction.BAG_2;
+				case 3:
+					return SPDAction.BAG_3;
+				case 4:
+					return SPDAction.BAG_4;
+				case 5:
+					return SPDAction.BAG_5;
+			}
+		}
+
+		@Override
+		protected String hoverText() {
+			return Messages.titleCase(bag.name());
+		}
 	}
 	
 	public static class Placeholder extends Item {
@@ -362,120 +463,6 @@ public class WndBag extends WndTabbed {
 		@Override
 		public boolean isEquipped( Hero hero ) {
 			return true;
-		}
-	}
-	
-	private class ItemButton extends ItemSlot {
-		
-		private static final int NORMAL		= 0xFF3C3C3C;
-		private static final int EQUIPPED	= 0xFF595959;
-		
-		private Item item;
-		private ColorBlock bg;
-		
-		public ItemButton( Item item ) {
-			
-			super( item );
-
-			this.item = item;
-			if (item instanceof Gold || item instanceof Bag) {
-				bg.visible = false;
-			}
-			
-			width = slotWidth;
-			height = slotHeight;
-		}
-		
-		@Override
-		protected void createChildren() {
-			bg = new ColorBlock( 1, 1, NORMAL );
-			add( bg );
-			
-			super.createChildren();
-		}
-		
-		@Override
-		protected void layout() {
-			bg.size(width, height);
-			bg.x = x;
-			bg.y = y;
-			
-			super.layout();
-		}
-		
-		@Override
-		public void item( Item item ) {
-			
-			super.item( item );
-			if (item != null) {
-
-				bg.texture( TextureCache.createSolid( item.isEquipped( Dungeon.hero ) ? EQUIPPED : NORMAL ) );
-				if (item.cursed && item.cursedKnown) {
-					bg.ra = +0.3f;
-					bg.ga = -0.15f;
-				} else if (!item.isIdentified()) {
-					if ((item instanceof EquipableItem || item instanceof Wand) && item.cursedKnown){
-						bg.ba = 0.3f;
-					} else {
-						bg.ra = 0.3f;
-						bg.ba = 0.3f;
-					}
-				}
-				
-				if (item.name() == null) {
-					enable( false );
-				} else if (selector != null && !selector.itemSelectable(item)) {
-					enable(false);
-				} else if (Dungeon.hero.buff(LostInventory.class) != null
-						&& !item.keptThoughLostInvent){
-					enable(false);
-				}
-			} else {
-				bg.color( NORMAL );
-			}
-		}
-		
-		@Override
-		protected void onPointerDown() {
-			bg.brightness( 1.5f );
-			Sample.INSTANCE.play( Assets.Sounds.CLICK, 0.7f, 0.7f, 1.2f );
-		}
-		
-		protected void onPointerUp() {
-			bg.brightness( 1.0f );
-		}
-		
-		@Override
-		protected void onClick() {
-			if (lastBag != item && !lastBag.contains(item) && !item.isEquipped(Dungeon.hero)){
-
-				hide();
-
-			} else if (selector != null) {
-				
-				hide();
-				selector.onSelect( item );
-				
-			} else {
-				
-				Game.scene().addToFront(new WndUseItem( WndBag.this, item ) );
-				
-			}
-		}
-		
-		@Override
-		protected boolean onLongClick() {
-			if (selector == null && item.defaultAction != null) {
-				hide();
-				Dungeon.quickslot.setSlot( 0 , item );
-				QuickSlotButton.refresh();
-				return true;
-			} else if (selector != null) {
-				Game.scene().addToFront(new WndInfoItem(item));
-				return true;
-			} else {
-				return false;
-			}
 		}
 	}
 

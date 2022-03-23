@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,8 +25,10 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndKeyBindings;
 import com.watabou.input.GameAction;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Random;
@@ -89,13 +91,15 @@ public class AttackIndicator extends Tag {
 		super.update();
 
 		if (!bg.visible){
+			if (sprite != null) sprite.visible = false;
 			enable(false);
 			if (delay > 0f) delay -= Game.elapsed;
 			if (delay <= 0f) active = false;
 		} else {
 			delay = 0.75f;
 			active = true;
-		
+			if (bg.width > 0 && sprite != null)sprite.visible = true;
+
 			if (Dungeon.hero.isAlive()) {
 
 				enable(Dungeon.hero.ready);
@@ -166,21 +170,23 @@ public class AttackIndicator extends Tag {
 	
 	private synchronized void visible( boolean value ) {
 		bg.visible = value;
-		if (sprite != null) {
-			sprite.visible = value;
-		}
 	}
 	
 	@Override
 	protected void onClick() {
-		if (enabled) {
+		if (enabled && Dungeon.hero.ready) {
 			if (Dungeon.hero.handle( lastTarget.pos )) {
 				Dungeon.hero.next();
 			}
 		}
 	}
-	
-	public static void target( Char target ) {
+
+	@Override
+	protected String hoverText() {
+		return Messages.titleCase(Messages.get(WndKeyBindings.class, "tag_attack"));
+	}
+
+	public static void target(Char target ) {
 		synchronized (instance) {
 			instance.lastTarget = (Mob) target;
 			instance.updateImage();

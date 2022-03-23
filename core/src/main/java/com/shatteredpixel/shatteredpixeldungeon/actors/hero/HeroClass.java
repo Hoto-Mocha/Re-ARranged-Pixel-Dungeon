@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -289,14 +289,14 @@ public enum HeroClass {
 		//new TacticalHandgun().collect();
 		//new TacticalHandgunAP().identify().collect();
 		//new TacticalHandgunHP().identify().collect();
-		//new Teleporter().collect();
-		//new TestWeapon().identify().collect();
-		//new PotionOfHealing().quantity(100).collect();
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new RingOfMight().identify().upgrade(100).collect();
-		//new RingOfAccuracy().identify().upgrade(100).collect();
-		//new ScrollOfIdentify().quantity(100).collect();
-		//new PotionOfMindVision().identify().quantity(100).collect();
+		new Teleporter().collect();
+		new TestWeapon().identify().collect();
+		new PotionOfHealing().quantity(100).collect();
+		new PlateArmor().identify().upgrade(100).collect();
+		new RingOfMight().identify().upgrade(100).collect();
+		new RingOfAccuracy().identify().upgrade(100).collect();
+		new ScrollOfIdentify().quantity(100).collect();
+		new PotionOfMindVision().identify().quantity(100).collect();
 		//new DriedRose().identify().upgrade(10).collect();
 		//new CrudePistol().identify().collect();
 		//new SubMachinegun().identify().collect();

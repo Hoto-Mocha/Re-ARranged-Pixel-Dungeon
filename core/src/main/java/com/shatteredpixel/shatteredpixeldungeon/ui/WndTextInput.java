@@ -1,5 +1,27 @@
+/*
+ * Pixel Dungeon
+ * Copyright (C) 2012-2015 Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2022 Evan Debenham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
 package com.shatteredpixel.shatteredpixeldungeon.ui;
 
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.noosa.TextInput;
@@ -12,6 +34,8 @@ public class WndTextInput extends Window {
 	private static final int MARGIN = 2;
 	private static final int BUTTON_HEIGHT = 16;
 
+	private TextInput textBox;
+
 	public WndTextInput(final String title, final String initialValue, final int maxLength,
 	                           final boolean multiLine, final String posTxt, final String negTxt) {
 		super();
@@ -19,9 +43,9 @@ public class WndTextInput extends Window {
 		//need to offset to give space for the soft keyboard
 		if (!DeviceCompat.isDesktop()) {
 			if (PixelScene.landscape()) {
-				offset(-45);
+				offset(0, -45);
 			} else {
-				offset(multiLine ? -60 : -45);
+				offset(0, multiLine ? -60 : -45);
 			}
 		}
 
@@ -39,7 +63,7 @@ public class WndTextInput extends Window {
 		add(txtTitle);
 
 		int textSize = (int)PixelScene.uiCamera.zoom * (multiLine ? 6 : 9);
-		final TextInput textBox = new TextInput(Chrome.get(Chrome.Type.TOAST_WHITE), multiLine, textSize){
+		textBox = new TextInput(Chrome.get(Chrome.Type.TOAST_WHITE), multiLine, textSize){
 			@Override
 			public void enterPressed() {
 				//triggers positive action on enter pressed, only with non-multiline though.
@@ -102,6 +126,14 @@ public class WndTextInput extends Window {
 
 		textBox.setRect(MARGIN, textBox.top(), width-2*MARGIN, inputHeight);
 
+	}
+
+	@Override
+	public void offset(int xOffset, int yOffset) {
+		super.offset(xOffset, yOffset);
+		if (textBox != null){
+			textBox.setRect(textBox.left(), textBox.top(), textBox.width(), textBox.height());
+		}
 	}
 
 	public void onSelect(boolean positive, String text){ }

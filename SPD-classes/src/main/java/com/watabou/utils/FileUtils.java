@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FileUtils {
 	
@@ -68,14 +70,76 @@ public class FileUtils {
 	}
 	
 	// Files
+
+	//looks to see if there is any evidence of interrupted saving
+	public static boolean cleanTempFiles(){
+		return cleanTempFiles("");
+	}
+
+	public static boolean cleanTempFiles( String dirName ){
+		FileHandle dir = getFileHandle(dirName);
+		boolean foundTemp = false;
+		for (FileHandle file : dir.list()){
+			if (file.isDirectory()){
+				foundTemp = cleanTempFiles(dirName + file.name()) || foundTemp;
+			} else {
+				if (file.name().endsWith(".tmp")){
+					FileHandle temp = file;
+					FileHandle original = getFileHandle( defaultFileType, "", temp.path().replace(".tmp", "") );
+
+					//replace the base file with the temp one if base is invalid or temp is valid and newer
+					try {
+						bundleFromStream(temp.read());
+
+						try {
+							bundleFromStream(original.read());
+
+							if (temp.lastModified() > original.lastModified()) {
+								temp.moveTo(original);
+							} else {
+								temp.delete();
+							}
+
+						} catch (Exception e) {
+							temp.moveTo(original);
+						}
+
+					} catch (Exception e) {
+						temp.delete();
+					}
+
+					foundTemp = true;
+				}
+			}
+		}
+		return foundTemp;
+	}
 	
 	public static boolean fileExists( String name ){
 		FileHandle file = getFileHandle( name );
-		return file.exists() && !file.isDirectory();
+		return file.exists() && !file.isDirectory() && file.length() > 0;
+	}
+
+	//returns length of a file in bytes, or 0 if file does not exist
+	public static long fileLength( String name ){
+		FileHandle file = getFileHandle( name );
+		if (!file.exists() || file.isDirectory()){
+			return 0;
+		} else {
+			return file.length();
+		}
 	}
 	
 	public static boolean deleteFile( String name ){
 		return getFileHandle( name ).delete();
+	}
+
+	//replaces a file with junk data, for as many bytes as given
+	//This is helpful as some cloud sync systems do not persist deleted, empty, or zeroed files
+	public static void zeroFile( String name, int bytes ){
+		byte[] data = new byte[bytes];
+		Arrays.fill(data, (byte)1);
+		getFileHandle( name ).writeBytes(data, false);
 	}
 	
 	// Directories
@@ -93,6 +157,17 @@ public class FileUtils {
 		} else {
 			return dir.deleteDirectory();
 		}
+	}
+
+	public static ArrayList<String> filesInDir( String name ){
+		FileHandle dir = getFileHandle( name );
+		ArrayList result = new ArrayList();
+		if (dir != null && dir.isDirectory()){
+			for (FileHandle file : dir.list()){
+				result.add(file.name());
+			}
+		}
+		return result;
 	}
 	
 	// bundle reading
@@ -119,7 +194,19 @@ public class FileUtils {
 	//only works for base path
 	public static void bundleToFile( String fileName, Bundle bundle ) throws IOException{
 		try {
-			bundleToStream(getFileHandle( fileName ).write(false), bundle);
+			FileHandle file = getFileHandle(fileName);
+
+			//write to a temp file, then move the files.
+			// This helps prevent save corruption if writing is interrupted
+			if (file.exists()){
+				FileHandle temp = getFileHandle(fileName + ".tmp");
+				bundleToStream(temp.write(false), bundle);
+				file.delete();
+				temp.moveTo(file);
+			} else {
+				bundleToStream(file.write(false), bundle);
+			}
+
 		} catch (GdxRuntimeException e){
 			//game classes expect an IO exception, so wrap the GDX exception in that
 			throw new IOException(e);

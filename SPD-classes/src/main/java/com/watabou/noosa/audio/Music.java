@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -183,8 +183,9 @@ public enum Music {
 		}
 	}
 	
-	public synchronized void mute() {
+	public synchronized void end() {
 		lastPlayed = null;
+		trackList = null;
 		stop();
 	}
 	
@@ -228,7 +229,7 @@ public enum Music {
 		if (!isPlaying() && value) {
 			if (trackList != null){
 				playTracks(trackList, trackChances, shuffle);
-			} else {
+			} else if (lastPlayed != null) {
 				play(lastPlayed, looping);
 			}
 		}

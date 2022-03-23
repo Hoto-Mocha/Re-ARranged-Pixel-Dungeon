@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ package com.watabou.utils;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.utils.SharedLibraryLoader;
 import com.watabou.noosa.Game;
 
 //TODO migrate to platformSupport class
@@ -44,15 +45,15 @@ public class DeviceCompat {
 	}
 
 	public static boolean isAndroid(){
-		return Gdx.app.getType() == Application.ApplicationType.Android;
+		return SharedLibraryLoader.isAndroid;
 	}
 
 	public static boolean isiOS(){
-		return Gdx.app.getType() == Application.ApplicationType.iOS;
+		return SharedLibraryLoader.isIos;
 	}
 
 	public static boolean isDesktop(){
-		return Gdx.app.getType() == Application.ApplicationType.Desktop;
+		return SharedLibraryLoader.isWindows || SharedLibraryLoader.isMac || SharedLibraryLoader.isLinux;
 	}
 
 	public static boolean hasHardKeyboard(){
@@ -61,10 +62,6 @@ public class DeviceCompat {
 	
 	public static boolean isDebug(){
 		return Game.version.contains("INDEV");
-	}
-	
-	public static void openURI( String URI ){
-		Gdx.net.openURI(URI);
 	}
 	
 	public static void log( String tag, String message ){

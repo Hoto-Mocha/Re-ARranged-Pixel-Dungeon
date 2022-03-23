@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,12 +50,15 @@ import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TargetHealthIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.watabou.noosa.Camera;
+import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.Tilemap;
+import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -83,7 +86,21 @@ public class PrisonBossLevel extends Level {
 	
 	private State state;
 	private Tengu tengu;
-	
+
+	@Override
+	public void playLevelMusic() {
+		if (state == State.START){
+			Music.INSTANCE.end();
+		} else if (state == State.WON) {
+			Music.INSTANCE.playTracks(
+					new String[]{Assets.Music.PRISON_1, Assets.Music.PRISON_2, Assets.Music.PRISON_2},
+					new float[]{1, 1, 0.5f},
+					false);
+		} else {
+			Music.INSTANCE.play(Assets.Music.PRISON_BOSS, true);
+		}
+	}
+
 	public State state(){
 		return state;
 	}
@@ -403,6 +420,13 @@ public class PrisonBossLevel extends Level {
 				tengu.notice();
 				
 				state = State.FIGHT_START;
+
+				Game.runOnRenderThread(new Callback() {
+					@Override
+					public void call() {
+						Music.INSTANCE.play(Assets.Music.PRISON_BOSS, true);
+					}
+				});
 				break;
 				
 			case FIGHT_START:
@@ -493,6 +517,12 @@ public class PrisonBossLevel extends Level {
 				Sample.INSTANCE.play(Assets.Sounds.BLAST);
 				
 				state = State.WON;
+				Game.runOnRenderThread(new Callback() {
+					@Override
+					public void call() {
+						Music.INSTANCE.end();
+					}
+				});
 				break;
 		}
 	}

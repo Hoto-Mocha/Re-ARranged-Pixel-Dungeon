@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,11 +75,16 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 	private CellSelector.Listener targeter = new CellSelector.Listener() {
 
 		private boolean showingWindow = false;
+		private boolean potionAlreadyUsed = false;
 
 		@Override
 		public void onSelect(final Integer cell) {
 
 			if (showingWindow){
+				return;
+			}
+			if (potionAlreadyUsed){
+				potionAlreadyUsed = false;
 				return;
 			}
 
@@ -108,6 +113,7 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 			} else if (cell == null && !anonymous){
 				curItem.collect( curUser.belongings.backpack );
 			} else if (cell != null) {
+				potionAlreadyUsed = true;
 				identifiedByUse = false;
 				curUser.busy();
 				detach( Dungeon.hero.belongings.backpack );

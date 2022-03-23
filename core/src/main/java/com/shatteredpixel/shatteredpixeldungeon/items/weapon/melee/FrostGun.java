@@ -299,7 +299,7 @@ public class FrostGun extends MeleeWeapon {
     public class Dart extends MissileWeapon {
 
         {
-            image = ItemSpriteSheet.SLEEP_DART;
+            image = ItemSpriteSheet.CHILLING_DART;
 
             hitSound = Assets.Sounds.HIT_ARROW;
             tier = 3;

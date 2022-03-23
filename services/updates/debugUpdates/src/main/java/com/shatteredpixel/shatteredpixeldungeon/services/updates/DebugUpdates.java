@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ public class DebugUpdates extends UpdateService {
 
 	@Override
 	public void initializeUpdate(AvailableUpdateData update) {
-		DeviceCompat.openURI( update.URL );
+		Game.platform.openURI( update.URL );
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class DebugUpdates extends UpdateService {
 
 	@Override
 	public boolean supportsReviews() {
-		return true;
+		return false; //turn on to debug review prompts
 	}
 
 	@Override
@@ -83,6 +83,6 @@ public class DebugUpdates extends UpdateService {
 
 	@Override
 	public void openReviewURI() {
-		DeviceCompat.openURI("https://www.google.com/");
+		Game.platform.openURI("https://www.google.com/");
 	}
 }

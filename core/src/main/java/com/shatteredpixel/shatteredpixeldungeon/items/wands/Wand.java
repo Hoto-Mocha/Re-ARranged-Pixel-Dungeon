@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -288,7 +288,10 @@ public abstract class Wand extends Item {
 			curseInfusionBonus = false;
 			updateLevel();
 		}
-		return super.level() + resinBonus + (curseInfusionBonus ? 1 : 0);
+		int level = super.level();
+		if (curseInfusionBonus) level += 1 + level/6;
+		level += resinBonus;
+		return level;
 	}
 	
 	@Override
@@ -338,7 +341,7 @@ public abstract class Wand extends Item {
 			}
 
 			if (charger.target.buff(ScrollEmpower.class) != null){
-				lvl += Dungeon.hero.pointsInTalent(Talent.EMPOWERING_SCROLLS);
+				lvl += 3;
 			}
 
 			WandOfMagicMissile.MagicCharge buff = charger.target.buff(WandOfMagicMissile.MagicCharge.class);
@@ -574,7 +577,7 @@ public abstract class Wand extends Item {
 				
 				if (target == curUser.pos || cell == curUser.pos) {
 					if (target == curUser.pos && curUser.hasTalent(Talent.SHIELD_BATTERY)){
-						float shield = curUser.HT * (0.05f*curWand.curCharges);
+						float shield = curUser.HT * (0.04f*curWand.curCharges);
 						if (curUser.pointsInTalent(Talent.SHIELD_BATTERY) == 2) shield *= 1.5f;
 						Buff.affect(curUser, Barrier.class).setShield(Math.round(shield));
 						if (Dungeon.hero.subClass == HeroSubClass.ENGINEER && Dungeon.hero.hasTalent(Talent.AMMO_PRESERVE)) {

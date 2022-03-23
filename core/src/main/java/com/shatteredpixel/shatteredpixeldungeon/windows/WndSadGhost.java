@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.FetidRatSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.GnollTricksterSprite;
@@ -143,7 +144,7 @@ public class WndSadGhost extends Window {
 				}
 				@Override
 				protected void onClick() {
-					ShatteredPixelDungeon.scene().addToFront(new RewardWindow(item));
+					GameScene.show(new RewardWindow(item));
 				}
 			};
 			add(slot);

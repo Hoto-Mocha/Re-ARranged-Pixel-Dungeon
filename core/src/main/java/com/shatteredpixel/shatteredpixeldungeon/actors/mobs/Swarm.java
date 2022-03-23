@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -54,7 +53,7 @@ public class Swarm extends Mob {
 		flying = true;
 
 		loot = new PotionOfHealing();
-		lootChance = 0.1667f; //by default, see rollToDropLoot()
+		lootChance = 0.1667f; //by default, see lootChance()
 	}
 	
 	private static final float SPLIT_DELAY	= 1f;
@@ -137,16 +136,15 @@ public class Swarm extends Mob {
 		}
 		return clone;
 	}
-	
+
 	@Override
-	public void rollToDropLoot() {
+	public float lootChance() {
 		lootChance = 1f/(6 * (generation+1) );
-		lootChance *= (5f - Dungeon.LimitedDrops.SWARM_HP.count) / 5f;
-		super.rollToDropLoot();
+		return super.lootChance() * (5f - Dungeon.LimitedDrops.SWARM_HP.count) / 5f;
 	}
 	
 	@Override
-	protected Item createLoot(){
+	public Item createLoot(){
 		Dungeon.LimitedDrops.SWARM_HP.count++;
 		return super.createLoot();
 	}

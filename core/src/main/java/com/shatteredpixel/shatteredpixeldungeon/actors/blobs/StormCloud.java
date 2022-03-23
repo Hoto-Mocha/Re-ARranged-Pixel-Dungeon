@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,8 @@ public class StormCloud extends Blob {
 		super.evolve();
 		
 		int cell;
-		
+
+		Fire fire = (Fire) Dungeon.level.blobs.get(Fire.class);
 		for (int i = area.left; i < area.right; i++){
 			for (int j = area.top; j < area.bottom; j++){
 				cell = i + j*Dungeon.level.width();
@@ -44,6 +45,9 @@ public class StormCloud extends Blob {
 						&& Dungeon.level.map[cell] != Terrain.CUSTOM_TILE_3 //커스텀 타일은 물로 변하지 않음
 				) {
 					Dungeon.level.setCellToWater(true, cell);
+					if (fire != null){
+						fire.clear(i);
+					}
 				}
 			}
 		}

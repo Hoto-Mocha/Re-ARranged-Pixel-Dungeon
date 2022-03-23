@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,21 +19,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.watabou.noosa.ui;
+package com.shatteredpixel.shatteredpixeldungeon.ui;
 
+import com.watabou.input.ControllerHandler;
 import com.watabou.input.GameAction;
 import com.watabou.input.KeyBindings;
 import com.watabou.input.KeyEvent;
 import com.watabou.input.PointerEvent;
+import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.PointerArea;
+import com.watabou.noosa.ui.Component;
 import com.watabou.utils.Signal;
+
+import java.util.ArrayList;
 
 public class Button extends Component {
 
 	public static float longClick = 0.5f;
 	
 	protected PointerArea hotArea;
+	protected Tooltip hoverTip;
 	
 	protected boolean pressed;
 	protected float pressTime;
@@ -57,8 +63,52 @@ public class Button extends Component {
 			@Override
 			protected void onClick( PointerEvent event ) {
 				if (!processed) {
-					Button.this.onClick();
+					killTooltip();
+					switch (event.button){
+						case PointerEvent.LEFT: default:
+							Button.this.onClick();
+							break;
+						case PointerEvent.RIGHT:
+							Button.this.onRightClick();
+							break;
+						case PointerEvent.MIDDLE:
+							Button.this.onMiddleClick();
+							break;
+					}
+
 				}
+			}
+
+			@Override
+			protected void onHoverStart(PointerEvent event) {
+				String text = hoverText();
+				if (text != null){
+					if (keyAction() != null){
+						ArrayList<Integer> bindings = KeyBindings.getBoundKeysForAction(keyAction());
+						if (!bindings.isEmpty()){
+							int key = bindings.get(0);
+							//prefer controller buttons if we are using a controller
+							if (ControllerHandler.controllerPointerActive()){
+								for (int code : bindings){
+									if (ControllerHandler.icControllerKey(code)){
+										key = code;
+										break;
+									}
+								}
+							}
+							text += " _(" + KeyBindings.getKeyName(key) + ")_";
+						}
+					}
+					hoverTip = new Tooltip(text, 80);
+					Button.this.parent.addToFront(hoverTip);
+					hoverTip.camera = camera();
+					alignTooltip(hoverTip);
+				}
+			}
+
+			@Override
+			protected void onHoverEnd(PointerEvent event) {
+				killTooltip();
 			}
 		};
 		add( hotArea );
@@ -66,8 +116,17 @@ public class Button extends Component {
 		KeyEvent.addKeyListener( keyListener = new Signal.Listener<KeyEvent>() {
 			@Override
 			public boolean onSignal ( KeyEvent event ) {
-				if ( active && event.pressed && KeyBindings.getActionForKey( event ) == keyAction()){
-					onClick();
+				if ( active && KeyBindings.getActionForKey( event ) == keyAction()){
+					if (event.pressed){
+						pressed = true;
+						pressTime = 0;
+						processed = false;
+						Button.this.onPointerDown();
+					} else {
+						Button.this.onPointerUp();
+						if (pressed && !processed) onClick();
+						pressed = false;
+					}
 					return true;
 				}
 				return false;
@@ -104,9 +163,36 @@ public class Button extends Component {
 	
 	protected void onPointerDown() {}
 	protected void onPointerUp() {}
-	protected void onClick() {}
+	protected void onClick() {} //left click, default key type
+	protected void onRightClick() {}
+	protected void onMiddleClick() {}
 	protected boolean onLongClick() {
 		return false;
+	}
+
+	protected String hoverText() {
+		return null;
+	}
+
+	//TODO might be nice for more flexibility here
+	private void alignTooltip( Tooltip tip ){
+		tip.setPos(x, y-tip.height()-1);
+		Camera cam = camera();
+		//shift left if there's no room on the right
+		if (tip.right() > (cam.width+cam.scroll.x)){
+			tip.setPos(tip.left() - (tip.right() - (cam.width+cam.scroll.x)), tip.top());
+		}
+		//move to the bottom if there's no room on top
+		if (tip.top() < 0){
+			tip.setPos(tip.left(), bottom()+1);
+		}
+	}
+
+	public void killTooltip(){
+		if (hoverTip != null){
+			hoverTip.killAndErase();
+			hoverTip = null;
+		}
 	}
 	
 	@Override

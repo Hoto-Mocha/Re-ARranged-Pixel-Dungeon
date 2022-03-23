@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
@@ -214,11 +215,9 @@ public class MagesStaff extends MeleeWeapon {
 
 		int oldStaffcharges = this.wand.curCharges;
 
-		if (owner == Dungeon.hero && Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION)
-				&& Random.Float() < 0.34f + 0.33f*Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION)){
-
+		if (owner == Dungeon.hero && Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION)){
 			Talent.WandPreservationCounter counter = Buff.affect(Dungeon.hero, Talent.WandPreservationCounter.class);
-			if (counter.count() < 3) {
+			if (counter.count() < 5 && Random.Float() < 0.5f*Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION)){
 				counter.countUp(1);
 				this.wand.level(0);
 				if (!this.wand.collect()) {
@@ -226,6 +225,13 @@ public class MagesStaff extends MeleeWeapon {
 				}
 				GLog.newLine();
 				GLog.p(Messages.get(this, "preserved"));
+			} else {
+				ArcaneResin resin = new ArcaneResin();
+				if (!resin.collect()) {
+					Dungeon.level.drop(resin, owner.pos);
+				}
+				GLog.newLine();
+				GLog.p(Messages.get(this, "preserved_resin"));
 			}
 		}
 
@@ -235,10 +241,10 @@ public class MagesStaff extends MeleeWeapon {
 		wand.updateLevel();
 
 		//syncs the level of the two items.
-		int targetLevel = Math.max(this.level() - (curseInfusionBonus ? 1 : 0), wand.level());
+		int targetLevel = Math.max(this.trueLevel(), wand.trueLevel());
 
 		//if the staff's level is being overridden by the wand, preserve 1 upgrade
-		if (wand.level() >= this.level() && this.level() > (curseInfusionBonus ? 1 : 0)) targetLevel++;
+		if (wand.trueLevel() >= this.trueLevel() && this.trueLevel() > 0) targetLevel++;
 		
 		level(targetLevel);
 		this.wand = wand;
@@ -417,22 +423,21 @@ public class MagesStaff extends MeleeWeapon {
 					applyWand((Wand)item);
 				} else {
 					int newLevel;
-					int itemLevel = item.level();
-					itemLevel -= ((Wand)item).resinBonus;
-					if (itemLevel >= level()){
-						if (level() > 0)    newLevel = itemLevel + 1;
-						else                newLevel = itemLevel;
+					int itemLevel = item.trueLevel();
+					if (itemLevel >= trueLevel()){
+						if (trueLevel() > 0)    newLevel = itemLevel + 1;
+						else                    newLevel = itemLevel;
 					} else {
-						newLevel = level();
+						newLevel = trueLevel();
 					}
 
 					String bodyText = Messages.get(MagesStaff.class, "imbue_desc", newLevel);
-					int preservesLeft = Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION) ? 3 : 0;
+					int preservesLeft = Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION) ? 5 : 0;
 					if (Dungeon.hero.buff(Talent.WandPreservationCounter.class) != null){
 						preservesLeft -= Dungeon.hero.buff(Talent.WandPreservationCounter.class).count();
 					}
-					if (preservesLeft > 0){
-						int preserveChance = Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 1 ? 67 : 100;
+					if (Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION)){
+						int preserveChance = Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 1 ? 50 : 100;
 						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent", preserveChance, preservesLeft);
 					} else {
 						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_lost");

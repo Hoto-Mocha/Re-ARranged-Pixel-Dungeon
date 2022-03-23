@@ -302,7 +302,7 @@ public class SleepGun extends MeleeWeapon {
     public class Dart extends MissileWeapon {
 
         {
-            image = ItemSpriteSheet.SLEEP_DART;
+            image = ItemSpriteSheet.CLEANSING_DART;
 
             hitSound = Assets.Sounds.HIT_ARROW;
             tier = 3;

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ public class QuickSlot {
 	 */
 
 	//note that the current max size is coded at 4, due to UI constraints, but it could be much much bigger with no issue.
-	public int SIZE = 8;
+	public static int SIZE = 8;
 	private Item[] slots = new Item[SIZE];
 
 	{

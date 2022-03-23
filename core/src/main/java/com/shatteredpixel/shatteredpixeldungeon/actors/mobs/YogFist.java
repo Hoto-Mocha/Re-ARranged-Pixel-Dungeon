@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
@@ -245,6 +246,10 @@ public abstract class YogFist extends Mob {
 
 		}
 
+		{
+			immunities.add(Frost.class);
+		}
+
 	}
 
 	public static class SoiledFist extends YogFist {
@@ -294,6 +299,11 @@ public abstract class YogFist extends Mob {
 			}
 			if (grassCells > 0) dmg = Math.round(dmg * (6-grassCells)/6f);
 
+			//can be ignited, but takes no damage from burning
+			if (src.getClass() == Burning.class){
+				return;
+			}
+
 			super.damage(dmg, src);
 		}
 
@@ -333,11 +343,6 @@ public abstract class YogFist extends Mob {
 					&& !(Dungeon.level.map[cell] == Terrain.FURROWED_GRASS || Dungeon.level.map[cell] == Terrain.HIGH_GRASS);
 		}
 
-		{
-			resistances.add(Burning.class);
-		}
-
-
 	}
 
 	public static class RottingFist extends YogFist {
@@ -364,6 +369,7 @@ public abstract class YogFist extends Mob {
 		@Override
 		public void damage(int dmg, Object src) {
 			if (!isInvulnerable(src.getClass()) && !(src instanceof Bleeding)){
+				dmg = Math.round( dmg * resist( src.getClass() ));
 				if (dmg < 0){
 					return;
 				}
@@ -421,6 +427,7 @@ public abstract class YogFist extends Mob {
 		@Override
 		public void damage(int dmg, Object src) {
 			if (!isInvulnerable(src.getClass()) && !(src instanceof Viscosity.DeferedDamage)){
+				dmg = Math.round( dmg * resist( src.getClass() ));
 				if (dmg >= 0) {
 					Buff.affect(this, Viscosity.DeferedDamage.class).prolong(dmg);
 					sprite.showStatus(CharSprite.WARNING, Messages.get(Viscosity.class, "deferred", dmg));

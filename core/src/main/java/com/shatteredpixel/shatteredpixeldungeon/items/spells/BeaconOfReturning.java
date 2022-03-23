@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,7 +107,7 @@ public class BeaconOfReturning extends Spell {
 	}
 	
 	private void returnBeacon( Hero hero ){
-		if (Dungeon.bossLevel()) {
+		if (Dungeon.level.locked) {
 			GLog.w( Messages.get(this, "preventing") );
 			return;
 		}
@@ -202,7 +202,7 @@ public class BeaconOfReturning extends Spell {
 			inputs =  new Class[]{ScrollOfPassage.class, ArcaneCatalyst.class};
 			inQuantity = new int[]{1, 1};
 			
-			cost = 8;
+			cost = 6;
 			
 			output = BeaconOfReturning.class;
 			outQuantity = 5;

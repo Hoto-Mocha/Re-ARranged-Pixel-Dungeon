@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2021 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -145,7 +146,7 @@ public class ScrollOfTeleportation extends Scroll {
 				boolean locked = false;
 				for (Point p : r.getPoints()){
 					terr = level.map[level.pointToCell(p)];
-					if (terr == Terrain.LOCKED_DOOR || terr == Terrain.BARRICADE){
+					if (terr == Terrain.LOCKED_DOOR || terr == Terrain.CRYSTAL_DOOR || terr == Terrain.BARRICADE){
 						locked = true;
 						break;
 					}
@@ -271,6 +272,10 @@ public class ScrollOfTeleportation extends Scroll {
 
 		if (Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[ch.pos]){
 			Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
+		}
+
+		if (Dungeon.level.heroFOV[ch.pos] && ch != Dungeon.hero ) {
+			CellEmitter.get(ch.pos).start(Speck.factory(Speck.LIGHT), 0.2f, 3);
 		}
 
 		ch.move( pos, false );

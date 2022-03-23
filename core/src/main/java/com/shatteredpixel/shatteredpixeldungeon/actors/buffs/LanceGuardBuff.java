@@ -77,7 +77,12 @@ public class LanceGuardBuff extends FlavourBuff implements ActionIndicator.Actio
     }
 
     @Override
-    public Image getIcon() {
+    public String actionName() {
+        return Messages.get(this, "action_name");
+    }
+
+    @Override
+    public Image actionIcon() {
         return new ItemSprite(ItemSpriteSheet.LANCE_N_SHIELD, null);
     }
 

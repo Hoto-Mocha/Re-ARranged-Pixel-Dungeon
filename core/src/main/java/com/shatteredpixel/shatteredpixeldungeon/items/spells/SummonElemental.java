@@ -1,3 +1,24 @@
+/*
+ * Pixel Dungeon
+ * Copyright (C) 2012-2015 Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2022 Evan Debenham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -66,13 +87,6 @@ public class SummonElemental extends Spell {
 	@Override
 	protected void onCast(Hero hero) {
 
-		for (Char ch : Actor.chars()){
-			if (ch instanceof Elemental && ch.buff(InvisAlly.class) != null){
-				GLog.w(Messages.get(this, "summon_limit"));
-				return;
-			}
-		}
-
 		ArrayList<Integer> spawnPoints = new ArrayList<>();
 
 		for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
@@ -84,10 +98,22 @@ public class SummonElemental extends Spell {
 
 		if (!spawnPoints.isEmpty()){
 
+			for (Char ch : Actor.chars()){
+				if (ch instanceof Elemental && ch.buff(InvisAlly.class) != null){
+					ScrollOfTeleportation.appear( ch, Random.element(spawnPoints) );
+					((Elemental) ch).state = ((Elemental) ch).HUNTING;
+					curUser.spendAndNext(Actor.TICK);
+					return;
+				}
+			}
+
 			Elemental elemental = Reflection.newInstance(summonClass);
 			GameScene.add( elemental );
 			Buff.affect(elemental, InvisAlly.class);
+			elemental.setSummonedALly();
+			elemental.HP = elemental.HT;
 			ScrollOfTeleportation.appear( elemental, Random.element(spawnPoints) );
+			curUser.spendAndNext(Actor.TICK);
 
 			summonClass = Elemental.AllyNewBornElemental.class;
 
@@ -202,10 +228,10 @@ public class SummonElemental extends Spell {
 			inputs =  new Class[]{Embers.class, ArcaneCatalyst.class};
 			inQuantity = new int[]{1, 1};
 
-			cost = 8;
+			cost = 6;
 
 			output = SummonElemental.class;
-			outQuantity = 3;
+			outQuantity = 5;
 		}
 
 	}
