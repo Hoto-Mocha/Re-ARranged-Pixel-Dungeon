@@ -59,9 +59,9 @@ public class Terrain {
 
 	public static final int WATER		    = 29;
 
-	public static final int CUSTOM_TILE_1	= 31;
-	public static final int CUSTOM_TILE_2	= 32;
-	public static final int CUSTOM_TILE_3	= 33;
+	public static final int CUSTOM_TILE_1	= 32;
+	public static final int CUSTOM_TILE_2	= 33;
+	public static final int CUSTOM_TILE_3	= 34;
 
 	public static final int PASSABLE		= 0x01;
 	public static final int LOS_BLOCKING	= 0x02;
