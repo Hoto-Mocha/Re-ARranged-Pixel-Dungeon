@@ -655,66 +655,67 @@ public class DriedRose extends Artifact {
 				rose = Dungeon.hero.belongings.getItem(DriedRose.class);
 			}
 
-			if (!isGun) {
-				if (rose.weapon instanceof CrudePistol
-				 || rose.weapon instanceof CrudePistolAP
-				 || rose.weapon instanceof CrudePistolHP
-				 || rose.weapon instanceof Pistol
-				 || rose.weapon instanceof PistolAP
-				 || rose.weapon instanceof PistolHP
-				 || rose.weapon instanceof GoldenPistol
-				 || rose.weapon instanceof GoldenPistolAP
-				 || rose.weapon instanceof GoldenPistolHP
-				 || rose.weapon instanceof Handgun
-				 || rose.weapon instanceof HandgunAP
-				 || rose.weapon instanceof HandgunHP
-				 || rose.weapon instanceof Magnum
-				 || rose.weapon instanceof MagnumAP
-				 || rose.weapon instanceof MagnumHP
-				 || rose.weapon instanceof TacticalHandgun
-				 || rose.weapon instanceof TacticalHandgunAP
-				 || rose.weapon instanceof TacticalHandgunHP
-				 || rose.weapon instanceof AutoHandgun
-				 || rose.weapon instanceof AutoHandgunAP
-				 || rose.weapon instanceof AutoHandgunHP) {
-					isHandGun = true;
-					isGun = true;
-				} else if (rose.weapon instanceof DualPistol
-				 		|| rose.weapon instanceof DualPistolAP
-				 		|| rose.weapon instanceof DualPistolHP
-				 		|| rose.weapon instanceof SubMachinegun
-				 		|| rose.weapon instanceof SubMachinegunAP
-				 		|| rose.weapon instanceof SubMachinegunHP
-				 		|| rose.weapon instanceof AssultRifle
-				 		|| rose.weapon instanceof AssultRifleAP
-				 		|| rose.weapon instanceof AssultRifleHP
-				 		|| rose.weapon instanceof HeavyMachinegun
-				 		|| rose.weapon instanceof HeavyMachinegunAP
-				 		|| rose.weapon instanceof HeavyMachinegunHP
-				 		|| rose.weapon instanceof MiniGun
-				 		|| rose.weapon instanceof MiniGunAP
-				 		|| rose.weapon instanceof MiniGunHP
-				 		|| rose.weapon instanceof AutoRifle
-				 		|| rose.weapon instanceof AutoRifleAP
-				 		|| rose.weapon instanceof AutoRifleHP) {
-					isMachineGun = true;
-					isGun = true;
-				} else if (rose.weapon instanceof HuntingRifle
-				  		|| rose.weapon instanceof HuntingRifleAP
-				  		|| rose.weapon instanceof HuntingRifleHP
-				  		|| rose.weapon instanceof SniperRifle
-				  		|| rose.weapon instanceof SniperRifleAP
-				  		|| rose.weapon instanceof SniperRifleHP
-				  		|| rose.weapon instanceof AntimaterRifle
-				  		|| rose.weapon instanceof AntimaterRifleAP
-				  		|| rose.weapon instanceof AntimaterRifleHP
-				  		|| rose.weapon instanceof MarksmanRifle
-				  		|| rose.weapon instanceof MarksmanRifleAP
-				  		|| rose.weapon instanceof MarksmanRifleHP
-				) {
-					isSniper = true;
-					isGun = true;
-				}
+
+			if (rose.weapon instanceof CrudePistol
+			 || rose.weapon instanceof CrudePistolAP
+			 || rose.weapon instanceof CrudePistolHP
+			 || rose.weapon instanceof Pistol
+			 || rose.weapon instanceof PistolAP
+			 || rose.weapon instanceof PistolHP
+			 || rose.weapon instanceof GoldenPistol
+			 || rose.weapon instanceof GoldenPistolAP
+			 || rose.weapon instanceof GoldenPistolHP
+			 || rose.weapon instanceof Handgun
+			 || rose.weapon instanceof HandgunAP
+			 || rose.weapon instanceof HandgunHP
+			 || rose.weapon instanceof Magnum
+			 || rose.weapon instanceof MagnumAP
+			 || rose.weapon instanceof MagnumHP
+			 || rose.weapon instanceof TacticalHandgun
+			 || rose.weapon instanceof TacticalHandgunAP
+			 || rose.weapon instanceof TacticalHandgunHP
+			 || rose.weapon instanceof AutoHandgun
+			 || rose.weapon instanceof AutoHandgunAP
+			 || rose.weapon instanceof AutoHandgunHP) {
+				isHandGun = true;
+				isGun = true;
+			} else if (rose.weapon instanceof DualPistol
+			 		|| rose.weapon instanceof DualPistolAP
+			 		|| rose.weapon instanceof DualPistolHP
+			 		|| rose.weapon instanceof SubMachinegun
+			 		|| rose.weapon instanceof SubMachinegunAP
+			 		|| rose.weapon instanceof SubMachinegunHP
+			 		|| rose.weapon instanceof AssultRifle
+			 		|| rose.weapon instanceof AssultRifleAP
+			 		|| rose.weapon instanceof AssultRifleHP
+			 		|| rose.weapon instanceof HeavyMachinegun
+			 		|| rose.weapon instanceof HeavyMachinegunAP
+			 		|| rose.weapon instanceof HeavyMachinegunHP
+			 		|| rose.weapon instanceof MiniGun
+			 		|| rose.weapon instanceof MiniGunAP
+			 		|| rose.weapon instanceof MiniGunHP
+			 		|| rose.weapon instanceof AutoRifle
+			 		|| rose.weapon instanceof AutoRifleAP
+			 		|| rose.weapon instanceof AutoRifleHP) {
+				isMachineGun = true;
+				isGun = true;
+			} else if (rose.weapon instanceof HuntingRifle
+			  		|| rose.weapon instanceof HuntingRifleAP
+			  		|| rose.weapon instanceof HuntingRifleHP
+			  		|| rose.weapon instanceof SniperRifle
+			  		|| rose.weapon instanceof SniperRifleAP
+			  		|| rose.weapon instanceof SniperRifleHP
+			  		|| rose.weapon instanceof AntimaterRifle
+			  		|| rose.weapon instanceof AntimaterRifleAP
+			  		|| rose.weapon instanceof AntimaterRifleHP
+			  		|| rose.weapon instanceof MarksmanRifle
+			  		|| rose.weapon instanceof MarksmanRifleAP
+			  		|| rose.weapon instanceof MarksmanRifleHP
+			) {
+				isSniper = true;
+				isGun = true;
+			} else {
+				isGun = false;
 			}
 			
 			//same dodge as the hero
