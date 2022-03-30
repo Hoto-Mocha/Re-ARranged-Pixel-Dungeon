@@ -632,6 +632,7 @@ public abstract class Mob extends Char {
 				Buff.affect(Dungeon.hero, Hunger.class).affectHunger(restoration*Dungeon.hero.pointsInTalent(Talent.SOUL_EATER)/3f);
 				Dungeon.hero.HP = (int) Math.ceil(Math.min(Dungeon.hero.HT, Dungeon.hero.HP + (restoration * 0.4f)));
 				Dungeon.hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
+				Dungeon.hero.sprite.emitter().burst(Speck.factory(Speck.HUNGER), 1);
 			}
 		}
 

@@ -35,6 +35,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
@@ -119,7 +121,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
@@ -344,8 +350,8 @@ abstract public class MissileWeapon extends Weapon {
 					&& !Dungeon.level.solid[dst]
 					&& Dungeon.level.distance(user.pos, dst) <= ((projecting) ? 4+hero.pointsInTalent(Talent.STREET_BATTLE) : 1+hero.pointsInTalent(Talent.STREET_BATTLE))
 					&& hero.buff(Talent.StreetBattleCooldown.class) == null){
-				Buff.affect(hero, Talent.StreetBattleCooldown.class, 40-10*hero.pointsInTalent(Talent.STREET_BATTLE));
-				return dst;
+					Buff.affect(hero, Talent.StreetBattleCooldown.class, 40-10*hero.pointsInTalent(Talent.STREET_BATTLE));
+					return dst;
 			} else {
 				return super.throwPos(user, dst);
 			}

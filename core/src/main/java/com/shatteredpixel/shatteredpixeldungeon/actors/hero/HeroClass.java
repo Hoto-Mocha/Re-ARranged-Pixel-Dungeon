@@ -66,10 +66,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfArmorEnhance;
@@ -95,6 +97,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfRush;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
@@ -523,6 +526,13 @@ public enum HeroClass {
 
 
 		//test
+		//new ScrollOfEnchantment().identify().quantity(200).collect();
+		//new TengusMask().collect();
+		//new FishingSpear().identify().quantity(20).collect();
+		//new AdvancedEvolution().quantity(200).collect();
+		//new StoneOfAugmentation().quantity(20).collect();
+		//new RingOfMight().identify().upgrade(3).collect();
+		//new RingOfRush().identify().upgrade(20).collect();
 		//new CrudePistol().identify().collect();
 		//new SubMachinegun().identify().collect();
 		//new SniperRifle().identify().collect();
@@ -630,9 +640,15 @@ public enum HeroClass {
 		//new PotionOfInvisibility().identify().quantity(30).collect();
 		//new PotionOfStrength().identify().quantity(30).collect();
 		//new TengusMask().collect();
+		//new RingOfMight().identify().collect();
+		//new RingOfMight().identify().collect();
+		//new RingOfMight().identify().collect();
+		//new RingOfMight().identify().collect();
 
 		//new RocketLauncher().identify().upgrade(15).collect();
 		//new AlchemistsToolkit().identify().collect();
+		//new ChaliceOfBlood().identify().collect();
+		//new TimekeepersHourglass().identify().collect();
 		//new ArcaneResin().quantity(50).collect();
 		//new AdvancedEvolution().quantity(50).collect();
 		//new ArcaneCatalyst().quantity(20).collect();

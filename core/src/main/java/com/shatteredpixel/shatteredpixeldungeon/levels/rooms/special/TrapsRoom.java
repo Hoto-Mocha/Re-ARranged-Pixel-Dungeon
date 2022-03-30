@@ -153,7 +153,7 @@ public class TrapsRoom extends SpecialRoom {
 			{WarpingTrap.class, FlashingTrap.class, DisintegrationTrap.class},
 			//halls, muahahahaha
 			{GrimTrap.class},
-
-			{GrippingTrap.class, TeleportationTrap.class, FlockTrap.class}
+			//labs
+			{GrimTrap.class}
 	};
 }

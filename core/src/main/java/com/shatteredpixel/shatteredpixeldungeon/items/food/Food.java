@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -73,6 +74,7 @@ public class Food extends Item {
 			detach( hero.belongings.backpack );
 			
 			satisfy(hero);
+			Dungeon.hero.sprite.emitter().burst(Speck.factory(Speck.HUNGER), 3);
 			GLog.i( Messages.get(this, "eat_msg") );
 			
 			hero.sprite.operate( hero.pos );

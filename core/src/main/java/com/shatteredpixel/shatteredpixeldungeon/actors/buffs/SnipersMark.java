@@ -108,16 +108,58 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 	@Override
 	public String actionName() {
 		SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
+		WindBow windBow = Dungeon.hero.belongings.getItem(WindBow.class);
+		PoisonBow poisonBow = Dungeon.hero.belongings.getItem(PoisonBow.class);
+		GoldenBow goldenBow = Dungeon.hero.belongings.getItem(GoldenBow.class);
+		NaturesBow naturesBow = Dungeon.hero.belongings.getItem(NaturesBow.class);
 
-		if (bow == null) return null;
-
-		switch (bow.augment){
-			case NONE: default:
-				return Messages.get(this, "action_name_snapshot");
-			case SPEED:
-				return Messages.get(this, "action_name_volley");
-			case DAMAGE:
-				return Messages.get(this, "action_name_sniper");
+		if (bow != null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) {
+			switch (bow.augment){
+				case NONE: default:
+					return Messages.get(this, "action_name_snapshot");
+				case SPEED:
+					return Messages.get(this, "action_name_volley");
+				case DAMAGE:
+					return Messages.get(this, "action_name_sniper");
+			}
+		} else if (bow == null && windBow != null && poisonBow == null && goldenBow == null && naturesBow == null) {
+			switch (windBow.augment){
+				case NONE: default:
+					return Messages.get(this, "action_name_snapshot");
+				case SPEED:
+					return Messages.get(this, "action_name_volley");
+				case DAMAGE:
+					return Messages.get(this, "action_name_sniper");
+			}
+		} else if (bow == null && windBow == null && poisonBow != null && goldenBow == null && naturesBow == null) {
+			switch (poisonBow.augment){
+				case NONE: default:
+					return Messages.get(this, "action_name_snapshot");
+				case SPEED:
+					return Messages.get(this, "action_name_volley");
+				case DAMAGE:
+					return Messages.get(this, "action_name_sniper");
+			}
+		} else if (bow == null && windBow == null && poisonBow == null && goldenBow != null && naturesBow == null) {
+			switch (goldenBow.augment){
+				case NONE: default:
+					return Messages.get(this, "action_name_snapshot");
+				case SPEED:
+					return Messages.get(this, "action_name_volley");
+				case DAMAGE:
+					return Messages.get(this, "action_name_sniper");
+			}
+		} else if (bow == null && windBow == null && poisonBow == null && goldenBow == null && naturesBow != null) {
+			switch (naturesBow.augment){
+				case NONE: default:
+					return Messages.get(this, "action_name_snapshot");
+				case SPEED:
+					return Messages.get(this, "action_name_volley");
+				case DAMAGE:
+					return Messages.get(this, "action_name_sniper");
+			}
+		} else { // if hero doesn't have any bow
+			return Messages.get(this, "no_bow");
 		}
 	}
 

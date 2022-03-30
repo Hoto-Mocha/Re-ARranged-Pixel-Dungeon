@@ -49,14 +49,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Multiplicity;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Overgrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Stench;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Affection;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Afterimage;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Camouflage;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Entanglement;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Flow;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Mirrorimage;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Obfuscation;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Repulsion;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Satisfying;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Stone;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Swiftness;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Thorns;
@@ -302,12 +305,15 @@ public class Armor extends EquipableItem {
 		if (Dungeon.isChallenged(Challenges.NO_ARMOR)){
 			return 1 + tier + lvl + augment.defenseFactor(lvl);
 		}
-		int max;
+		int upgradefactor = tier;
 		if (hero.hasTalent(Talent.CRAFTMANS_SKILLS) && tier <= 2+ hero.pointsInTalent(Talent.CRAFTMANS_SKILLS)) {
-			max = (tier+1) * (2 + lvl) + augment.defenseFactor(lvl);
-		} else {
-			max = tier * (2 + lvl) + augment.defenseFactor(lvl);
+			upgradefactor ++;
 		}
+		if (hasGlyph(Afterimage.class, hero)) {
+			upgradefactor --;
+		}
+		int max;
+		max = (upgradefactor) * (2 + lvl) + augment.defenseFactor(lvl);
 		if (lvl > max) {
 			return ((lvl - max) + 1) / 2;
 		} else {
@@ -350,6 +356,10 @@ public class Armor extends EquipableItem {
 			Demonization demonization = owner.buff(Demonization.class);
 			if (demonization != null && demonization.isDemonated()) {
 				evasion += demonization.evasionBonus(((Hero) owner).lvl, Math.max(0, -aEnc));
+			}
+
+			if (hasGlyph(Afterimage.class, owner)){
+				evasion *= Math.pow(1.2f, this.buffedLvl());
 			}
 		}
 		
@@ -675,16 +685,16 @@ public class Armor extends EquipableItem {
 				Obfuscation.class, Swiftness.class, Viscosity.class, Potential.class };
 		
 		private static final Class<?>[] uncommon = new Class<?>[]{
-				Brimstone.class, Stone.class, Entanglement.class,
-				Repulsion.class, Camouflage.class, Flow.class };
+				Brimstone.class, Stone.class, Entanglement.class, Mirrorimage.class,
+				Repulsion.class, Camouflage.class, Flow.class, Afterimage.class };
 		
 		private static final Class<?>[] rare = new Class<?>[]{
-				Affection.class, AntiMagic.class, Thorns.class };
+				Affection.class, AntiMagic.class, Thorns.class, Satisfying.class };
 		
 		private static final float[] typeChances = new float[]{
 				50, //12.5% each
-				40, //6.67% each
-				10  //3.33% each
+				40, //5% each
+				10  //2.5% each
 		};
 
 		private static final Class<?>[] curses = new Class<?>[]{
