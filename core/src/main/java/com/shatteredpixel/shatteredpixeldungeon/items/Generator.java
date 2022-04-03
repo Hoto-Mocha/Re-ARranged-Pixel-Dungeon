@@ -333,6 +333,7 @@ public class Generator {
 					Pistol.class,
 					DualPistol.class,
 					ShortKatana.class,
+					Knife.class,
 
 					//alchemical weapons
 					PistolAP.class,
@@ -340,7 +341,7 @@ public class Generator {
 					DualPistolAP.class,
 					DualPistolHP.class
 			};
-			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,4 ,4, 5, 0, 0, 0, 0};
+			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,4 ,4, 5, 4, 0, 0, 0, 0};
 			
 			WEP_T3.classes = new Class<?>[]{
 					Sword.class,

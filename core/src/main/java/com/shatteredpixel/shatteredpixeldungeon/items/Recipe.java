@@ -60,6 +60,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireImbueSpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
@@ -74,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
@@ -320,7 +322,9 @@ public abstract class Recipe {
 		new AutoRifle.Recipe3(),
 		new MarksmanRifle.Recipe1(),
 		new MarksmanRifle.Recipe2(),
-		new MarksmanRifle.Recipe3()
+		new MarksmanRifle.Recipe3(),
+		new FireImbueSpell.Recipe(),
+		new AssassinsSpear.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){

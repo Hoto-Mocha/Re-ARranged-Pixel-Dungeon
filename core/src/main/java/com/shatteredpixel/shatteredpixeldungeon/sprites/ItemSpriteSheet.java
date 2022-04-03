@@ -224,6 +224,7 @@ public class ItemSpriteSheet {
 	public static final int SPEAR           = WEP_TIER2+2;
 	public static final int QUARTERSTAFF    = WEP_TIER2+3;
 	public static final int DIRK            = WEP_TIER2+4;
+	public static final int KNIFE           = WEP_TIER2+5;
 
 	static{
 		assignItemRect(SHORTSWORD,      13, 13);
@@ -231,6 +232,7 @@ public class ItemSpriteSheet {
 		assignItemRect(SPEAR,           16, 16);
 		assignItemRect(QUARTERSTAFF,    16, 16);
 		assignItemRect(DIRK,            13, 14);
+		assignItemRect(KNIFE,           12, 13);
 	}
 
 	private static final int WEP_TIER3      =                               xy(1, 8);   //8 slots
@@ -484,6 +486,7 @@ public class ItemSpriteSheet {
 	public static final int LANCE           = ADVANCED_TIER6+3;
 	public static final int OBSIDIAN_SHIELD	= ADVANCED_TIER6+4;
 	public static final int SHARP_KATANA    = ADVANCED_TIER6+5;
+	public static final int ASSASSINS_SPEAR = ADVANCED_TIER6+6;
 
 	static{
 		assignItemRect(HUGE_SWORD,       	 16, 16);
@@ -492,6 +495,7 @@ public class ItemSpriteSheet {
 		assignItemRect(LANCE,            	 15, 15);
 		assignItemRect(OBSIDIAN_SHIELD,  	 12, 16);
 		assignItemRect(SHARP_KATANA,     	 12, 16);
+		assignItemRect(ASSASSINS_SPEAR,      16, 16);
 	}
 
 	private static final int MISSILE_WEP    =                               xy(1, 10);  //16 slots. 3 per tier + boomerang
@@ -504,7 +508,6 @@ public class ItemSpriteSheet {
 	public static final int FISHING_SPEAR   = MISSILE_WEP+4;
 	public static final int SHURIKEN        = MISSILE_WEP+5;
 	public static final int THROWING_CLUB   = MISSILE_WEP+6;
-	
 	public static final int THROWING_SPEAR  = MISSILE_WEP+7;
 	public static final int BOLAS           = MISSILE_WEP+8;
 	public static final int KUNAI           = MISSILE_WEP+9;
@@ -846,6 +849,12 @@ public class ItemSpriteSheet {
 	static{
 		for (int i = NEW_ELIXIRS; i < NEW_ELIXIRS+16; i++)
 			assignItemRect(i, 12, 14);
+	}
+
+	private static final int SPELLS_2         =                               xy(1, 26);  //16 slots
+	public static final int FIREIMBUE_SPELL    = SPELLS_2+0;
+	static{
+		assignItemRect(FIREIMBUE_SPELL,    12, 11);
 	}
 	
 	private static final int SPELLS         =                               xy(1, 27);  //16 slots
