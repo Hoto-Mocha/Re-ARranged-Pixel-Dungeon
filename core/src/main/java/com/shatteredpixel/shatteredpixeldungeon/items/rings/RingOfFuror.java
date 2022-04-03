@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AttackSpeedBuff;
@@ -55,6 +56,9 @@ public class RingOfFuror extends Ring {
 	
 	public static float attackSpeedMultiplier(Char target ){
 		float speedBonus = (float)Math.pow(1.105, getBuffedBonus(target, Furor.class));
+		if (hero.buff(Adrenaline.class) != null) {
+			speedBonus *= 1.5f;
+		}
 		if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null) {
 			speedBonus *= 2f + 0.05f * hero.pointsInTalent(Talent.DOUBLE_BLADE_PRACTICE);
 		}
