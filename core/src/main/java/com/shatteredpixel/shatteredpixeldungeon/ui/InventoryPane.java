@@ -146,6 +146,9 @@ public class InventoryPane extends Component {
 						&& KeyBindings.getActionForKey(keyEvent) != SPDAction.BAG_3
 						&& KeyBindings.getActionForKey(keyEvent) != SPDAction.BAG_4
 						&& KeyBindings.getActionForKey(keyEvent) != SPDAction.BAG_5){
+					//any windows opened as a consequence of this should be centered on the inventory
+					GameScene.centerNextWndOnInvPane();
+					selector.onSelect(null);
 					selector = null;
 					updateInventory();
 					return true;
@@ -360,7 +363,9 @@ public class InventoryPane extends Component {
 
 	public void setSelector(WndBag.ItemSelector selector){
 		this.selector = selector;
-		if (selector.preferredBag() != null) {
+		if (selector.preferredBag() == Belongings.Backpack.class){
+			lastBag = Dungeon.hero.belongings.backpack;
+		} else if (selector.preferredBag() != null) {
 			Bag preferred = Dungeon.hero.belongings.getItem(selector.preferredBag());
 			if (preferred != null) lastBag = preferred;
 		}
@@ -372,7 +377,9 @@ public class InventoryPane extends Component {
 	}
 
 	public static void useTargeting(){
-		if (lastTarget != null &&
+		if (instance != null &&
+				instance.visible &&
+				lastTarget != null &&
 				Actor.chars().contains( lastTarget ) &&
 				lastTarget.isAlive() &&
 				lastTarget.alignment != Char.Alignment.ALLY &&
@@ -531,6 +538,7 @@ public class InventoryPane extends Component {
 			}
 
 			if (selector == null){
+				targetingSlot = this;
 				RightClickMenu r = new RightClickMenu(item);
 				parent.addToFront(r);
 				r.camera = camera();
@@ -624,7 +632,11 @@ public class InventoryPane extends Component {
 
 		@Override
 		protected String hoverText() {
-			return Messages.titleCase(bag.name());
+			if (bag != null) {
+				return Messages.titleCase(bag.name());
+			} else {
+				return null;
+			}
 		}
 	}
 

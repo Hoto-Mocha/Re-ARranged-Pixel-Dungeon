@@ -45,6 +45,7 @@ import com.watabou.noosa.Scene;
 import com.watabou.noosa.Visual;
 import com.watabou.noosa.ui.Component;
 import com.watabou.noosa.ui.Cursor;
+import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Reflection;
@@ -289,12 +290,18 @@ public class PixelScene extends Scene {
 	}
 	
 	public static void showBadge( Badges.Badge badge ) {
-		BadgeBanner banner = BadgeBanner.show( badge.image );
-		banner.camera = uiCamera;
-		banner.x = align( banner.camera, (banner.camera.width - banner.width) / 2 );
-		banner.y = align( banner.camera, (banner.camera.height - banner.height) / 3 );
-		Scene s = Game.scene();
-		if (s != null) s.add( banner );
+		Game.runOnRenderThread(new Callback() {
+			@Override
+			public void call() {
+				BadgeBanner banner = BadgeBanner.show( badge.image );
+				banner.camera = uiCamera;
+				float offset = Camera.main.centerOffset.y;
+				banner.x = align( banner.camera, (banner.camera.width - banner.width) / 2 );
+				banner.y = align( uiCamera, (uiCamera.height - banner.height) / 2 - banner.height/2 - 16 - offset );
+				Scene s = Game.scene();
+				if (s != null) s.add( banner );
+			}
+		});
 	}
 	
 	protected static class Fader extends ColorBlock {
@@ -304,6 +311,8 @@ public class PixelScene extends Scene {
 		private boolean light;
 		
 		private float time;
+
+		private static Fader INSTANCE;
 		
 		public Fader( int color, boolean light ) {
 			super( uiCamera.width, uiCamera.height, color );
@@ -314,6 +323,11 @@ public class PixelScene extends Scene {
 			
 			alpha( 1f );
 			time = FADE_TIME;
+
+			if (INSTANCE != null){
+				INSTANCE.killAndErase();
+			}
+			INSTANCE = this;
 		}
 		
 		@Override
@@ -325,6 +339,9 @@ public class PixelScene extends Scene {
 				alpha( 0f );
 				parent.remove( this );
 				destroy();
+				if (INSTANCE == this) {
+					INSTANCE = null;
+				}
 			} else {
 				alpha( time / FADE_TIME );
 			}

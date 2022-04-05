@@ -144,6 +144,10 @@ public class DwarfKing extends Mob {
 
 	@Override
 	protected boolean act() {
+		if (pos == CityBossLevel.throne){
+			throwItems();
+		}
+
 		if (phase == 1) {
 
 			if (summonCooldown <= 0 && summonSubject(Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 2 : 3)){

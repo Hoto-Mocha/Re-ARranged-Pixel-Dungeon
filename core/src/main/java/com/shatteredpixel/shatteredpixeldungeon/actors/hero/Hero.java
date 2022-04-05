@@ -2791,7 +2791,13 @@ public class Hero extends Char {
 			}
 		}
 
-		GameScene.gameOver();
+		Game.runOnRenderThread(new Callback() {
+			@Override
+			public void call() {
+				GameScene.gameOver();
+				Sample.INSTANCE.play( Assets.Sounds.DEATH );
+			}
+		});
 		
 		if (cause instanceof Hero.Doom) {
 			((Hero.Doom)cause).onDeath();
