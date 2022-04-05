@@ -16,6 +16,7 @@ ________
 > - Advanced Evolution Weapons
 > - Alchemy Weapons
 > - Normal New Weapons
+> - New Enchantments/Glyphs
 ________
 - Added 2 artifacts what is deleted in SPD:
 > - Loyid's Beacon
@@ -65,6 +66,8 @@ ________
 > - Gambler
 > - Superman
 > - Pyromaniac
+> - Cursed Dungeon
+> - Durability
 ________
 - New Talents
 - 5th 1 tier talent for each class
