@@ -38,20 +38,16 @@ public class Stunning extends Weapon.Enchantment {
 	public int proc( Weapon weapon, Char attacker, Char defender, int damage ) {
 		int level = Math.max( 0, weapon.level() );
 
-		// lvl 0 - 13%
-		// lvl 1 - 22%
-		// lvl 2 - 30%
+		// 10 + lvl%
 		float procChance;
 		if (weapon instanceof TrueRunicBlade) {
-			procChance = (level+1f)/(level+2f) * procChanceMultiplier(attacker);
+			procChance = 1/2f * procChanceMultiplier(attacker); // 50% fixed
 		} else {
-			procChance = (level+1f)/(level+8f) * procChanceMultiplier(attacker);
+			procChance = (1/5f + level/100f) * procChanceMultiplier(attacker);
 		}
 		if (Random.Float() < procChance) {
-			
-			Buff.prolong( defender, Paralysis.class, Random.Float( 1, 1.5f + level ) );
+			Buff.prolong( defender, Paralysis.class, 1f );
 			defender.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 12 );
-
 		}
 
 		return damage;

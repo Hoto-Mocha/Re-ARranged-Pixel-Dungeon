@@ -175,7 +175,7 @@ public class v1_X_Changes {
 						"- _Superman:_ Your Damage Dealt increases by 3x, Evasion increases by 3x, Accuracy increases by 2x, but you will start with _Max Health 10_, and it cannot be increased by leveling up or several means.\n" +
 						"- _Pyromaniac:_ All your Physical attack _ignites enemy_, and the Elixir of Dragon Blood's effect duration halves."));
 
-		changes.addButton(new ChangeButton(Icons.get(Icons.DEPTH), "New Chapter",
+		changes.addButton(new ChangeButton(Icons.get(Icons.STAIRS), "New Chapter",
 				"_The 6th Chapter is added ARPD!_\n\n" +
 						"You can explore the 6th Chapter which contains 5 of new mobs, and brand new boss on floor _26-30_, and according to these changes, the amulet has moved to 31F.\n" +
 						"And you can also find some unique spell that summons _Some Solid Tiles_, and can be used on 30F's boss fighting."));

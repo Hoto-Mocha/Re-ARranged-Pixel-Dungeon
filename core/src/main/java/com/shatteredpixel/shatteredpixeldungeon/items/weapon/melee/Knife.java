@@ -51,13 +51,9 @@ public class Knife extends MeleeWeapon {
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage ) {
-		Hero hero = (Hero)attacker;
-		Char enemy = hero.enemy();
-		if (enemy instanceof Mob) {
-			Buff.affect( defender, Bleeding.class ).set(Random.NormalIntRange(max()/2, max()));
-			if (Dungeon.hero.subClass == HeroSubClass.WEAPONMASTER) {
-				Buff.affect( defender, Cripple.class, 2+buffedLvl() );
-			}
+		Buff.affect( defender, Bleeding.class ).set(Random.NormalIntRange(max()/2, max()));
+		if (Dungeon.hero.subClass == HeroSubClass.WEAPONMASTER && defender.alignment != Char.Alignment.ALLY) {
+			Buff.affect( defender, Cripple.class, 2+buffedLvl() );
 		}
 		return super.proc( attacker, defender, damage );
 	}

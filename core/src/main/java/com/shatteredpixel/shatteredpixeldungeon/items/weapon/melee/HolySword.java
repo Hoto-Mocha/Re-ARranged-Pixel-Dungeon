@@ -95,8 +95,8 @@ public class HolySword extends MeleeWeapon {
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
-            inputs =  new Class[]{Greatsword.class, Bible.class, LiquidMetal.class};
-            inQuantity = new int[]{1, 1, 70};
+            inputs =  new Class[]{HugeSword.class, Bible.class, LiquidMetal.class};
+            inQuantity = new int[]{1, 1, 100};
 
             cost = 10;
 

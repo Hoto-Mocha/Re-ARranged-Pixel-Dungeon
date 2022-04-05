@@ -66,7 +66,16 @@ public class RingOfForce extends Ring {
 		} else {
 			//attack without any ring of force influence
 			if (Dungeon.hero.subClass == HeroSubClass.FIGHTER) {
-				return Random.NormalIntRange((1 + 3 * hero.pointsInTalent(Talent.SKILLS_PRACTICE)), (hero.STR() - 8 + hero.lvl + 3 * hero.pointsInTalent(Talent.SKILLS_PRACTICE)));
+				int damage = Random.NormalIntRange(1, (hero.STR() - 8 + hero.lvl));
+				if (hero.pointsInTalent(Talent.RING_KNUCKLE) == 3) {
+					if (hero.belongings.ring != null) {
+						damage += hero.belongings.ring.buffedLvl();
+					}
+					if (hero.belongings.misc instanceof Ring) {
+						damage += hero.belongings.misc.buffedLvl();
+					}
+				}
+				return damage;
 			} else {
 				return Random.NormalIntRange(1, Math.max(hero.STR()-8, 1));
 			}

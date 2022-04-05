@@ -59,6 +59,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRingsCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
@@ -1191,6 +1193,10 @@ public class Hero extends Char {
 		float evasion = defenseSkill;
 		
 		evasion *= RingOfEvasion.evasionMultiplier( this );
+
+		if (hero.hasTalent(Talent.SWIFT_MOVEMENT)) {
+			evasion += hero.STR()-10;
+		}
 
 		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
 			evasion *= 3;
@@ -3438,25 +3444,28 @@ public class Hero extends Char {
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 		}
 
-		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER) {
-			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) >= 1 && Random.Int(5) == 0){
-				Buff.affect( enemy, Weakness.class, 3f );
+		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && enemy instanceof Mob) {
+			if (((Mob) enemy).surprisedBy(hero) && hero.hasTalent(Talent.BONE_CRUSHER)) {
+				Buff.affect(enemy, Cripple.class, 2f);
 			}
-			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) >= 2 && Random.Int(5) == 0){
-				Buff.affect( enemy, Vulnerable.class, 3f );
+			if (hero.pointsInTalent(Talent.BONE_CRUSHER) >= 2 && enemy.buff(Cripple.class) != null) {
+				Buff.affect(enemy, Vulnerable.class, 2f);
 			}
-			if (hit && hero.pointsInTalent(Talent.VITAL_ATTACK) == 3 && Random.Int(10) == 0){
-				Buff.affect( enemy, Paralysis.class, 3f );
+			if (hero.pointsInTalent(Talent.BONE_CRUSHER) == 3
+					&& enemy.buff(Cripple.class) != null
+					&& enemy.buff(Vulnerable.class) != null
+					&& Random.Int(10) == 0
+					&& !(enemy.properties().contains(Property.BOSS) || enemy.properties().contains(Property.MINIBOSS))) {
+				Buff.affect(enemy, com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom.class);
 			}
-			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) >= 1 && Random.Int(10) == 0){
-				Buff.affect( this, Adrenaline.class, 3f );
-			}
-			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) >= 2 && Random.Int(10) == 0){
-				Buff.affect( this, Bless.class, 3f );
-			}
-			if (hit && hero.pointsInTalent(Talent.MIND_PRACTICE) == 3 && Random.Int(10) == 0){
-				Buff.affect(this, Healing.class).setHeal((int) (3), 0, 1);
-			}
+		}
+		if (!hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && Random.Int(5) == 0 && hero.pointsInTalent(Talent.SWIFT_MOVEMENT) >= 2) {
+			Buff.affect(hero, EvasiveMove.class, 1.0001f);
+		}
+		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && hero.hasTalent(Talent.RING_KNUCKLE) && !((hero.belongings.misc instanceof RingOfForce) || (hero.belongings.ring instanceof RingOfForce))) {
+			Buff.prolong(hero, EnhancedRingsCombo.class, (Dungeon.hero.pointsInTalent(Talent.RING_KNUCKLE) >= 2) ? 2f : 1f).hit();
+			hero.updateHT(false);
+			updateQuickslot();
 		}
 		if (hit && hero.subClass == HeroSubClass.ENGINEER) {
 			if (Dungeon.hero.belongings.weapon() instanceof CrudePistol

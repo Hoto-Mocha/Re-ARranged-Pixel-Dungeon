@@ -88,7 +88,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfWeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHealth;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfArmorUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDragonsBreath;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfStormClouds;
@@ -530,65 +532,13 @@ public enum HeroClass {
 
 
 		//test
-		//new ScrollOfEnchantment().identify().quantity(200).collect();
 		//new TengusMask().collect();
-		//new FishingSpear().identify().quantity(20).collect();
-		//new AdvancedEvolution().quantity(200).collect();
-		//new StoneOfAugmentation().quantity(20).collect();
-		//new RingOfMight().identify().upgrade(3).collect();
-		//new RingOfRush().identify().upgrade(20).collect();
-		//new CrudePistol().identify().collect();
-		//new SubMachinegun().identify().collect();
-		//new SniperRifle().identify().collect();
-		//new RPG7().identify().collect();
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new AdvancedEvolution().quantity(50).collect();
-		//new RingOfMight().identify().upgrade(10).collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
-		//new StoneOfAugmentation().quantity(50).collect();
-		//new ScrollOfUpgrade().identify().quantity(100).collect();
-		//new PotionOfHealing().identify().quantity(100).collect();
-		//new TengusMask().collect();
-		//new StoneOfEnchantment().quantity(50).collect();
-		//new Teleporter().collect();
-		//new Teleporter().collect();
-		//new MissileButton().collect();
-		//new PlateArmor().identify().upgrade(10).collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
-		//new Longsword().identify().upgrade(10).collect();
-		//new ScrollOfTeleportation().identify().quantity(50).collect();
-		//new ScrollOfPassage().identify().quantity(50).collect();
-		//new WandOfRegrowth().identify().collect();
-		//new AquaBlast().collect();
-		//new PotionOfStormClouds().identify().collect();
-
-		//new NaturesBow().identify().collect();
-		//new WindBow().identify().collect();
-		//new PoisonBow().identify().collect();
-		//new GoldenBow().identify().collect();
-
-		//new Shuriken().quantity(50).collect();
-
-		//new PotionOfMagicalSight().identify().quantity(20).collect();
-		//new TengusMask().collect();
-		//new ScrollOfMetamorphosis().identify().quantity(20).collect();
-
-		//new RingOfSharpshooting().identify().collect();
-		//new ScrollOfUpgrade().identify().quantity(50).collect();
-		//new FishingSpear().quantity(10).collect();
-		//new ThrowingSpear().quantity(10).collect();
-		//new Javelin().quantity(10).collect();
-		//new Trident().quantity(10).collect();
-		//new TrueRunicBlade().identify().upgrade(10).collect();
-		//new PotionOfStrength().identify().quantity(20).collect();
-		//new Amulet().collect();
-		//new TengusMask().collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
-		//new PotionOfDivineInspiration().identify().quantity(30).collect();
-		//new AdvancedEvolution().quantity(100).collect();
-		//new TestWeapon().identify().collect();
-		//new PotionOfHealing().identify().quantity(50).collect();
-		//new DriedRose().identify().collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
+		//new RingOfRush().identify().upgrade(100).collect();
+		//new PotionOfStrength().identify().quantity(29).collect();
+		//new RingOfAccuracy().identify().upgrade(10).collect();
+		//new ElixirOfTalent().collect();
+		//new PotionOfDivineInspiration().identify().quantity(5).collect();
 	}
 
 	private static void initGunner( Hero hero ) {

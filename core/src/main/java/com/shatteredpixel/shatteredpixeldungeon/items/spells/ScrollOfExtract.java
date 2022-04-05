@@ -99,14 +99,14 @@ public class ScrollOfExtract extends InventorySpell {
 
     @Override
     public int value() {
-        return quantity * 220;
+        return quantity * 280;
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {
             inputs =  new Class[]{ArcaneCatalyst.class, ArcaneResin.class};
-            inQuantity = new int[]{1, 6};
+            inQuantity = new int[]{1, 8};
 
             cost = 10;
 

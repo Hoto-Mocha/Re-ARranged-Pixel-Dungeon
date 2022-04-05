@@ -89,9 +89,7 @@ public class SpellBook_Lightning extends MeleeWeapon {
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
-		if (isEquipped( hero )) {
-			actions.add(AC_READ);
-		}
+		actions.add(AC_READ);
 		return actions;
 	}
 
@@ -103,8 +101,6 @@ public class SpellBook_Lightning extends MeleeWeapon {
 		if (action.equals(AC_READ)) {
 			if (hero.buff(SpellBookCoolDown.class) != null) {
 				GLog.w( Messages.get(SpellBook_Empty.class, "fail") );
-			} else if (!isEquipped(hero)) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "unequipped") );
 			} else if (!isIdentified()) {
 				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
 			} else {
