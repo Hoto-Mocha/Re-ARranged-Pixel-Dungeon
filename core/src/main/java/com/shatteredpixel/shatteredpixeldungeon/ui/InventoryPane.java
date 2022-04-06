@@ -553,8 +553,8 @@ public class InventoryPane extends Component {
 
 	private class BagButton extends IconButton {
 
-		private static final int ACTIVE		= 0x9953564D;
-		private static final int INACTIVE	= 0x9942443D;
+		private static final int ACTIVE		= 0x992E2E2E;
+		private static final int INACTIVE	= 0x993D3D3D;
 
 		private ColorBlock bgTop;
 		private ColorBlock bgBottom;

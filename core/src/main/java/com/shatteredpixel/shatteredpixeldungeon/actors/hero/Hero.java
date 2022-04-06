@@ -3445,22 +3445,12 @@ public class Hero extends Char {
 		}
 
 		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && enemy instanceof Mob) {
-			if (((Mob) enemy).surprisedBy(hero) && hero.hasTalent(Talent.BONE_CRUSHER)) {
-				Buff.affect(enemy, Cripple.class, 2f);
-			}
-			if (hero.pointsInTalent(Talent.BONE_CRUSHER) >= 2 && enemy.buff(Cripple.class) != null) {
-				Buff.affect(enemy, Vulnerable.class, 2f);
-			}
-			if (hero.pointsInTalent(Talent.BONE_CRUSHER) == 3
-					&& enemy.buff(Cripple.class) != null
-					&& enemy.buff(Vulnerable.class) != null
-					&& Random.Int(10) == 0
-					&& !(enemy.properties().contains(Property.BOSS) || enemy.properties().contains(Property.MINIBOSS))) {
-				Buff.affect(enemy, com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom.class);
+			if (((Mob) enemy).surprisedBy(hero) && Random.Int(100) < 3*hero.pointsInTalent(Talent.JAW_STRIKE)) {
+				Buff.affect(enemy, Paralysis.class, 1f);
 			}
 		}
 		if (!hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && Random.Int(5) == 0 && hero.pointsInTalent(Talent.SWIFT_MOVEMENT) >= 2) {
-			Buff.affect(hero, EvasiveMove.class, 1.0001f);
+			Buff.prolong(hero, EvasiveMove.class, 1.0001f);
 		}
 		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && hero.hasTalent(Talent.RING_KNUCKLE) && !((hero.belongings.misc instanceof RingOfForce) || (hero.belongings.ring instanceof RingOfForce))) {
 			Buff.prolong(hero, EnhancedRingsCombo.class, (Dungeon.hero.pointsInTalent(Talent.RING_KNUCKLE) >= 2) ? 2f : 1f).hit();

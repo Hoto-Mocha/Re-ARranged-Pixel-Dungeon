@@ -495,7 +495,8 @@ public class AlchemyScene extends PixelScene {
 						|| finding instanceof ArcaneCatalyst
 						|| finding instanceof ArcaneResin
 						|| finding instanceof Cartridge
-						|| finding instanceof MetalShard) {
+						|| finding instanceof MetalShard
+						|| finding instanceof GunSmithingTool) {
 					detached = found.get(0).detachAll(inventory.backpack);
 				} else {
 					detached = found.get(0).detach(inventory.backpack);

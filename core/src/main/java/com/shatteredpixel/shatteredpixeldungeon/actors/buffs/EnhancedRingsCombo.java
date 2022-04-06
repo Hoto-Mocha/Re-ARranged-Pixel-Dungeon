@@ -42,8 +42,8 @@ public class EnhancedRingsCombo extends FlavourBuff{
 	int combo = 0;
 
 	public void hit() {
-		if (combo < 3*Dungeon.hero.pointsInTalent(Talent.RING_KNUCKLE)) combo ++;
-		else combo = 3*Dungeon.hero.pointsInTalent(Talent.RING_KNUCKLE);
+		if (combo < Dungeon.hero.pointsInTalent(Talent.RING_KNUCKLE)) combo ++;
+		else combo = Dungeon.hero.pointsInTalent(Talent.RING_KNUCKLE);
 		if (target instanceof Hero) ((Hero) target).updateHT(false);
 	}
 

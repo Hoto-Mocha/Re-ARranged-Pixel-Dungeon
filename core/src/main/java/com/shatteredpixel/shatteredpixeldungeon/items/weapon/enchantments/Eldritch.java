@@ -51,10 +51,10 @@ public class Eldritch extends Weapon.Enchantment {
 		if (Random.Float() < procChance) {
 
 			if (defender == Dungeon.hero) {
-				Buff.affect( defender, Terror.class, Terror.DURATION/4 );
+				Buff.prolong( defender, Terror.class, Terror.DURATION/4 );
 			} else {
 				//damage will reduce by 5 turns, so effectively 10 turns of terror
-				Buff.affect( defender, Terror.class, 10f + 5f ).object = attacker.id();
+				Buff.prolong( defender, Terror.class, 10f + 5f ).object = attacker.id();
 			}
 
 		}
