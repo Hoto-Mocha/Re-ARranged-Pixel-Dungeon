@@ -291,6 +291,20 @@ public class LabsBossLevel extends Level {
 		}
 	}
 
+	private static final String ISCOMPLETED = "iscompleted";
+
+	@Override
+	public void storeInBundle( Bundle bundle ) {
+		super.storeInBundle(bundle);
+		bundle.put(ISCOMPLETED, isCompleted);
+	}
+
+	@Override
+	public void restoreFromBundle( Bundle bundle ) {
+		super.restoreFromBundle(bundle);
+		isCompleted = bundle.getBoolean( ISCOMPLETED );
+	}
+
 	@Override
 	public String tileDesc(int tile) {
 		switch (tile) {

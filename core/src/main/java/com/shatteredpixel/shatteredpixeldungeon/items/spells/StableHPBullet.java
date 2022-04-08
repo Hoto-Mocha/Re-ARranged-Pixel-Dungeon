@@ -36,8 +36,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
@@ -65,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleA
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
@@ -171,7 +174,7 @@ public class StableHPBullet extends InventorySpell {
                 || item instanceof GrenadeLauncherAP
 
                 || item instanceof SleepGun
-                || item instanceof ParalysisGun;
+                || item instanceof FrostGun;
     }
 
     @Override
@@ -248,19 +251,19 @@ public class StableHPBullet extends InventorySpell {
         } else if (w instanceof SPAS || w instanceof SPASAP) {
             n = new SPASHP();
         } else if (w instanceof AutoHandgun || w instanceof AutoHandgunAP) {
-            n = new SPASHP();
+            n = new AutoHandgunHP();
         } else if (w instanceof AutoRifle || w instanceof AutoRifleAP) {
-            n = new SPASHP();
+            n = new AutoRifleHP();
         } else if (w instanceof MarksmanRifle || w instanceof MarksmanRifleAP) {
-            n = new SPASHP();
+            n = new MarksmanRifleHP();
         } else if (w instanceof FlameThrower || w instanceof FlameThrowerAP) {
             n = new FlameThrowerHP();
         } else if (w instanceof PlasmaCannon || w instanceof PlasmaCannonAP) {
             n = new PlasmaCannonHP();
         } else if (w instanceof GrenadeLauncher || w instanceof GrenadeLauncherAP){
             n = new GrenadeLauncherHP();
-        } else { //(w instanceof SleepGun || w instanceof ParalysisGun)
-            n = new FrostGun();
+        } else { //(w instanceof SleepGun || w instanceof FrostGun)
+            n = new ParalysisGun();
         }
 
         int level = w.level();
