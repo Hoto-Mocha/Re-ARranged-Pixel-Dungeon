@@ -471,12 +471,14 @@ public class ItemSpriteSheet {
 	public static final int EXCROSSBOW      = ADVANCED_TIER5+1;
 	public static final int TRUE_RUNIC_BLADE= ADVANCED_TIER5+2;
 	public static final int CHAIN_WHIP		= ADVANCED_TIER5+3;
+	public static final int MINERS_TOOL		= ADVANCED_TIER5+4;
 
 	static{
 		assignItemRect(SPADE,           	16, 16);
 		assignItemRect(EXCROSSBOW,  		15, 16);
 		assignItemRect(TRUE_RUNIC_BLADE,	14, 14);
 		assignItemRect(CHAIN_WHIP,			14, 14);
+		assignItemRect(CHAIN_WHIP,			16, 16);
 	}
 
 	private static final int ADVANCED_TIER6 = 								xy(1, 40);
@@ -853,8 +855,10 @@ public class ItemSpriteSheet {
 
 	private static final int SPELLS_2         =                               xy(1, 26);  //16 slots
 	public static final int FIREIMBUE_SPELL    = SPELLS_2+0;
+	public static final int XRAY			   = SPELLS_2+1;
 	static{
 		assignItemRect(FIREIMBUE_SPELL,    12, 11);
+		assignItemRect(XRAY,		       12, 11);
 	}
 	
 	private static final int SPELLS         =                               xy(1, 27);  //16 slots

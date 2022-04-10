@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMi
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
@@ -74,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Xray;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
@@ -324,7 +326,8 @@ public abstract class Recipe {
 		new MarksmanRifle.Recipe2(),
 		new MarksmanRifle.Recipe3(),
 		new FireImbueSpell.Recipe(),
-		new AssassinsSpear.Recipe()
+		new AssassinsSpear.Recipe(),
+		new Xray.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){
@@ -365,7 +368,7 @@ public abstract class Recipe {
 	public static boolean usableInRecipe(Item item){
 		if (item instanceof EquipableItem){
 			//only weapons and wands allowed among equipment items
-			return item.isIdentified() && !item.cursed && (item instanceof MissileWeapon || item instanceof MeleeWeapon);
+			return item.isIdentified() && !item.cursed && (item instanceof MissileWeapon || item instanceof MeleeWeapon || item instanceof Pickaxe) && !item.isEquipped( hero );
 		} else if (item instanceof Wand) {
 			return item.isIdentified() && !item.cursed;
 		} else {

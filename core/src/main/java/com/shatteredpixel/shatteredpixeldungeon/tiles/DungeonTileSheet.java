@@ -69,6 +69,7 @@ public class DungeonTileSheet {
 	public static final int CUSTOM_TILE_1   = GROUND +21;
 	public static final int CUSTOM_TILE_2   = GROUND +22;
 	public static final int CUSTOM_TILE_3   = GROUND +23;
+	public static final int CUSTOM_WALL		= GROUND +24;
 
 
 
@@ -152,6 +153,7 @@ public class DungeonTileSheet {
 		chasmStitcheable.put( Terrain.LOCKED_DOOR,  CHASM_WALL );
 		chasmStitcheable.put( Terrain.SECRET_DOOR,  CHASM_WALL );
 		chasmStitcheable.put( Terrain.WALL_DECO,    CHASM_WALL );
+		chasmStitcheable.put( Terrain.CUSTOM_WALL,	CHASM_WALL );
 
 		//water
 		chasmStitcheable.put( Terrain.WATER,        CHASM_WATER );
@@ -173,6 +175,7 @@ public class DungeonTileSheet {
 	public static final int FLAT_WALL_ALT       = FLAT_WALLS+4;
 	public static final int FLAT_WALL_DECO_ALT  = FLAT_WALLS+5;
 	public static final int FLAT_BOOKSHELF_ALT  = FLAT_WALLS+6;
+	public static final int FLAT_CUSTOM_WALL  	= FLAT_WALLS+7;
 
 	private static final int FLAT_DOORS         =                           xy(1, 6);   //16 slots
 	public static final int FLAT_DOOR           = FLAT_DOORS+0;
@@ -217,7 +220,7 @@ public class DungeonTileSheet {
 	//These tiles count as wall for the purposes of wall stitching
 	private static int[] wallStitcheable = new int[]{
 			Terrain.WALL, Terrain.WALL_DECO, Terrain.SECRET_DOOR,
-			Terrain.LOCKED_EXIT, Terrain.UNLOCKED_EXIT, Terrain.BOOKSHELF, NULL_TILE
+			Terrain.LOCKED_EXIT, Terrain.UNLOCKED_EXIT, Terrain.BOOKSHELF, Terrain.CUSTOM_WALL, NULL_TILE
 	};
 
 	public static boolean wallStitcheable(int tile){
@@ -368,6 +371,7 @@ public class DungeonTileSheet {
 		directVisuals.put(Terrain.CUSTOM_TILE_1,    CUSTOM_TILE_1);
 		directVisuals.put(Terrain.CUSTOM_TILE_2,    CUSTOM_TILE_2);
 		directVisuals.put(Terrain.CUSTOM_TILE_3,    CUSTOM_TILE_3);
+		directVisuals.put(Terrain.CUSTOM_WALL,   	CUSTOM_WALL);
 
 		directVisuals.put(Terrain.SECRET_TRAP,      directVisuals.get(Terrain.EMPTY));
 		directVisuals.put(Terrain.TRAP,             directVisuals.get(Terrain.EMPTY));
@@ -397,6 +401,7 @@ public class DungeonTileSheet {
 		directFlatVisuals.put(Terrain.BARRICADE,        FLAT_BARRICADE);
 		directFlatVisuals.put(Terrain.HIGH_GRASS,       FLAT_HIGH_GRASS);
 		directFlatVisuals.put(Terrain.FURROWED_GRASS,   FLAT_FURROWED_GRASS);
+		directFlatVisuals.put(Terrain.CUSTOM_WALL,   	FLAT_CUSTOM_WALL);
 
 		directFlatVisuals.put(Terrain.SECRET_DOOR,      directFlatVisuals.get(Terrain.WALL));
 	}

@@ -177,8 +177,9 @@ public enum Catalog {
 		WEAPONS.seen.put( Greatshield.class,                false);
 		WEAPONS.seen.put( Gauntlet.class,                   false);
 		WEAPONS.seen.put( LargeKatana.class,                false);
-		//advanced tier 5
+		//advanced tier 3-5
 		WEAPONS.seen.put( Spade.class,             		    false);
+		WEAPONS.seen.put( MinersTool.class,             	false);
 		WEAPONS.seen.put( ExplosiveCrossbow.class,          false);
 		WEAPONS.seen.put( ChainWhip.class,        			false);
 		WEAPONS.seen.put( TrueRunicBlade.class,             false);

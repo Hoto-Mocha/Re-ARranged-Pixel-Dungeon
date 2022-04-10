@@ -846,7 +846,7 @@ public abstract class Level implements Bundlable {
 		int terr = map[pos];
 		if (terr == Terrain.EMPTY || terr == Terrain.EMPTY_DECO
 				|| (Terrain.flags[map[pos]] & Terrain.FLAMABLE) != 0) {
-			if (terr == Terrain.BOOKSHELF && Random.Int(10) <= Math.min(5, Math.round(0.5f*RingOfWealth.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class)))) {
+			if (terr == Terrain.BOOKSHELF && Random.Int(20) <= Math.min(5, Math.round(0.5f*RingOfWealth.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class)))) {
 				Dungeon.level.drop(prize, pos);
 			} //generates prize for 10% chance when a bookshelf has destroyed
 			set(pos, Terrain.EMBERS);
@@ -900,17 +900,23 @@ public abstract class Level implements Bundlable {
 		level.water[cell]			= terrain == Terrain.WATER;
 
 		for (int i : PathFinder.NEIGHBOURS9){
+			if (i < 0) {
+				continue;
+			}
 			i = cell + i;
 			if (level.solid[i]){
 				level.openSpace[i] = false;
 			} else {
 				for (int j = 1; j < PathFinder.CIRCLE8.length; j += 2){
-					if (level.solid[i+PathFinder.CIRCLE8[j]]) {
-						level.openSpace[i] = false;
-					} else if (!level.solid[i+PathFinder.CIRCLE8[(j+1)%8]]
-							&& !level.solid[i+PathFinder.CIRCLE8[(j+2)%8]]){
-						level.openSpace[i] = true;
-						break;
+					int k = i+PathFinder.CIRCLE8[j];
+					if (k > 0) {
+						if (level.solid[k]) {
+							level.openSpace[i] = false;
+						} else if (!level.solid[i+PathFinder.CIRCLE8[(j+1)%8]]
+								&& !level.solid[i+PathFinder.CIRCLE8[(j+2)%8]]){
+							level.openSpace[i] = true;
+							break;
+						}
 					}
 				}
 			}
@@ -1527,6 +1533,8 @@ public abstract class Level implements Bundlable {
 				return Messages.get(Level.class, "bookshelf_name");
 			case Terrain.ALCHEMY:
 				return Messages.get(Level.class, "alchemy_name");
+			case Terrain.CUSTOM_WALL:
+				return Messages.get(Level.class, "custom_wall_name");
 			default:
 				return Messages.get(Level.class, "default_name");
 		}
@@ -1568,6 +1576,8 @@ public abstract class Level implements Bundlable {
 				return Messages.get(Level.class, "alchemy_desc");
 			case Terrain.EMPTY_WELL:
 				return Messages.get(Level.class, "empty_well_desc");
+			case Terrain.CUSTOM_WALL:
+				return Messages.get(Level.class, "custom_wall_desc");
 			default:
 				return "";
 		}

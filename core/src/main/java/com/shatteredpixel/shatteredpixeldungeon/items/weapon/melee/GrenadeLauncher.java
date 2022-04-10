@@ -407,7 +407,7 @@ public class GrenadeLauncher extends MeleeWeapon {
             Char enemy = Actor.findChar( cell );
             ArrayList<Char> targets = new ArrayList<>();
             if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
-            for (int i : PathFinder.NEIGHBOURS26){
+            for (int i : PathFinder.NEIGHBOURS24){
                 if (Actor.findChar(cell + i) != null) targets.add(Actor.findChar(cell + i));
             }
             for (Char target : targets){
@@ -421,7 +421,7 @@ public class GrenadeLauncher extends MeleeWeapon {
             CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
             boolean terrainAffected = false;
             ArrayList<Char> affected = new ArrayList<>();
-            for (int n : PathFinder.NEIGHBOURS27) {
+            for (int n : PathFinder.NEIGHBOURS25) {
                 int c = cell + n;
                 if (c >= 0 && c < Dungeon.level.length()) {
                     if (Dungeon.level.heroFOV[c]) {

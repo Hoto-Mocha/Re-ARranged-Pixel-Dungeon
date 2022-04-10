@@ -62,6 +62,7 @@ public class Terrain {
 	public static final int CUSTOM_TILE_1	= 32;
 	public static final int CUSTOM_TILE_2	= 33;
 	public static final int CUSTOM_TILE_3	= 34;
+	public static final int CUSTOM_WALL		= 35;
 
 	public static final int PASSABLE		= 0x01;
 	public static final int LOS_BLOCKING	= 0x02;
@@ -91,6 +92,7 @@ public class Terrain {
 		flags[CUSTOM_TILE_1]= PASSABLE;
 		flags[CUSTOM_TILE_2]= PASSABLE;
 		flags[CUSTOM_TILE_3]= PASSABLE;
+		flags[CUSTOM_WALL]  = flags[WALL];
 		flags[WALL_DECO]	= flags[WALL];
 		flags[BARRICADE]	= FLAMABLE | SOLID | LOS_BLOCKING;
 		flags[EMPTY_SP]		= flags[EMPTY];
