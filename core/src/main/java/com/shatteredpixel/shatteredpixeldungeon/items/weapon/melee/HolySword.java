@@ -21,16 +21,23 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 
 public class HolySword extends MeleeWeapon {
 
@@ -40,9 +47,23 @@ public class HolySword extends MeleeWeapon {
         hitSoundPitch = 1f;
 
         tier = 7;
-        //also heals player, see Hero.onAttackComplete
         alchemy = true;
     }
+
+    @Override
+    public int proc(Char attacker, Char defender, int damage) {
+        if (hero.STR() >= STRReq()) {
+            int healAmt = 5+buffedLvl();
+            healAmt = Math.min( healAmt, attacker.HT - hero.HP );
+            if (healAmt > 0 && attacker.isAlive()) {
+                attacker.HP += healAmt;
+                attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+                attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+            }
+        }
+        return damage;
+    }
+
     @Override
     public int max(int lvl) {
         if (Dungeon.hero.STR() >= this.STRReq()) {

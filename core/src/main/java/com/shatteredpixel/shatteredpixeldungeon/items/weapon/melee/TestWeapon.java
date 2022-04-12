@@ -22,6 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class TestWeapon extends MeleeWeapon {
@@ -35,6 +38,12 @@ public class TestWeapon extends MeleeWeapon {
 
         bones = false;
         ACC = 100f;
+    }
+
+    @Override
+    public int proc(Char attacker, Char defender, int damage) {
+        Buff.affect(attacker, Awareness.class, 10f);
+        return damage;
     }
 
     public int min(int lvl) {

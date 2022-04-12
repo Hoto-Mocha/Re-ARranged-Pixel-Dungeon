@@ -21,7 +21,19 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Bible extends MeleeWeapon {
@@ -32,13 +44,39 @@ public class Bible extends MeleeWeapon {
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
-		//also grants player lots of buffs, see Hero.onAttackComplete
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		if (attacker.buff(Bless.class) == null) {
+			Buff.affect( attacker, Bless.class, 2f);
+		} else if (attacker.buff(PotionOfCleansing.Cleanse.class) == null) {
+			for (Buff b : attacker.buffs()){
+				if (b.type == Buff.buffType.NEGATIVE
+						&& !(b instanceof AllyBuff)
+						&& !(b instanceof LostInventory)){
+					b.detach();
+				}
+			}
+			Buff.affect( attacker, PotionOfCleansing.Cleanse.class, 2f);
+		} else if (attacker.buff(Adrenaline.class) == null) {
+			Buff.affect( attacker, Adrenaline.class, 2f);
+		} else {
+			int healAmt = 1;
+			healAmt = Math.min( healAmt, attacker.HT - attacker.HP );
+			if (healAmt > 0 && attacker.isAlive()) {
+				attacker.HP += healAmt;
+				attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+				attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+			}
+		}
+		return damage;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  Math.round(2.5f*(tier+1)) +     //10 base, down from 20
-				lvl*(tier-1);                   //+2 per level, down from +4
+		return  3*(tier+1) +    //12 base, down from 20
+				lvl*(tier);     //+3 per level, down from +4
 	}
 
 }

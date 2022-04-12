@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampir
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Venomous;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MinersTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -163,7 +164,7 @@ abstract public class Weapon extends KindOfWeapon {
 		if (hero.subClass == HeroSubClass.TREASUREHUNTER
 				&& defender.HP <= damage
 				&& Random.Int(100) < 10+4*hero.belongings.weapon.buffedLvl()
-				&& (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade)) {
+				&& (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
 			Buff.affect(defender, Lucky.LuckProc.class);
 		}
 
@@ -172,7 +173,7 @@ abstract public class Weapon extends KindOfWeapon {
 			Buff.affect(defender, Lucky.LuckProc.class);
 		}
 
-		if (attacker == hero && hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade)) {
+		if (attacker == hero && hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
 			Dungeon.level.drop( new Gold(1 + Math.round(hero.belongings.weapon.level()/2f)), defender.pos ).sprite.drop();
 		}
 

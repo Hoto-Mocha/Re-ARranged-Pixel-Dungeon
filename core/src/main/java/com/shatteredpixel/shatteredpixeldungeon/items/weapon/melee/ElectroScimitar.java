@@ -21,11 +21,21 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.ShockingBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Random;
 
 public class ElectroScimitar extends MeleeWeapon {
 
@@ -38,6 +48,17 @@ public class ElectroScimitar extends MeleeWeapon {
 		DLY = 0.67f; //1.5x speed
 		//also affects paralysis, see Hero.onAttackComplete
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		if (Random.Int(10) <= Math.floor(hero.belongings.weapon.buffedLvl()/4f)) {
+			Buff.affect(defender, Paralysis.class, 2f);
+			defender.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+			defender.sprite.flash();
+			Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+		}
+		return damage;
 	}
 
 	@Override

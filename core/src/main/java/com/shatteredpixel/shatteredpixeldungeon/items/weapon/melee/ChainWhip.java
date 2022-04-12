@@ -21,8 +21,15 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class ChainWhip extends MeleeWeapon {
 
@@ -33,6 +40,14 @@ public class ChainWhip extends MeleeWeapon {
 
 		tier = 5;
 		RCH = 4;    //lots of extra reach
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		if (Random.Int(100) < 10+2*hero.belongings.weapon.buffedLvl()) {
+			Buff.affect( defender, Paralysis.class, 3f);
+		}
+		return damage;
 	}
 
 	@Override

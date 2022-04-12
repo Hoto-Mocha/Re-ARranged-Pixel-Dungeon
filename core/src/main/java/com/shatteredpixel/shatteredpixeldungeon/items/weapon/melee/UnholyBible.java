@@ -21,11 +21,25 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class UnholyBible extends MeleeWeapon {
 
@@ -37,6 +51,43 @@ public class UnholyBible extends MeleeWeapon {
 		tier = 4;
 		//also affects enemy lots of debuffs, see Hero.onAttackComplete
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		switch (Random.Int(15)) {
+			case 0: case 1: default:
+				Buff.affect( defender, Weakness.class, 3f );
+				break;
+			case 2: case 3:
+				Buff.affect( defender, Vulnerable.class, 3f );
+				break;
+			case 4:
+				Buff.affect( defender, Cripple.class, 3f );
+				break;
+			case 5:
+				Buff.affect( defender, Blindness.class, 3f );
+				break;
+			case 6:
+				Buff.affect( defender, Terror.class, 3f );
+				break;
+			case 7: case 8: case 9:
+				Buff.affect( defender, Amok.class, 3f );
+				break;
+			case 10: case 11:
+				Buff.affect( defender, Slow.class, 3f );
+				break;
+			case 12: case 13:
+				Buff.affect( defender, Hex.class, 3f );
+				break;
+			case 14:
+				Buff.affect( defender, Paralysis.class, 3f );
+				break;
+		}
+		if (Random.Int(100) <= Math.min(buffedLvl(), 9)) {					//1% base, +1% per lvl, max 10%
+			Buff.affect( defender, com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom.class);
+		}
+		return damage;
 	}
 
 	@Override

@@ -26,9 +26,12 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MinersToolCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShovelDigCoolDown;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -37,12 +40,13 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
+import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -66,10 +70,24 @@ public class MinersTool extends MeleeWeapon {
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 0.9f;
 
-		tier = 4;
+		tier = 3;
 
 		unique = true;
 		bones = false;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		int level = Math.max( 0, this.buffedLvl() );
+		float procChance;
+		// lvl 0 - 13%
+		// lvl 1 - 22%
+		// lvl 2 - 30%
+		procChance = (level+1f)/(level+8f);
+		if (Random.Float() < procChance) {
+			Buff.prolong(defender, Vulnerable.class, 5f);
+		}
+		return damage;
 	}
 
 	@Override
@@ -93,31 +111,60 @@ public class MinersTool extends MeleeWeapon {
 			}
 		}
 		if (action.equals(AC_MINE)) {
-			usesTargeting = false;
-			curUser = hero;
-			curItem = this;
-			GameScene.selectCell(new CellSelector.Listener() {
-				@Override
-				public void onSelect( Integer cell ) {
-					if (cell != null) {
-						if (!(Dungeon.level.adjacent(hero.pos, cell) || cell == hero.pos)) {
-							GLog.w(Messages.get(MinersTool.class, "too_far"));
-						} else {
-							if (Dungeon.level.map[cell] == Terrain.WALL_DECO) {
-								goldMining(cell);
-							} else if (Dungeon.level.map[cell] == Terrain.WATER) {
-								filling(cell);
+			if (hero.buff(MinersToolCoolDown.class) != null){
+				GLog.w(Messages.get(this, "not_ready_mining"));
+			} else {
+				usesTargeting = false;
+				curUser = hero;
+				curItem = this;
+				GameScene.selectCell(new CellSelector.Listener() {
+					@Override
+					public void onSelect( Integer cell ) {
+						if (cell != null) {
+							if (!(Dungeon.level.adjacent(curUser.pos, cell) || cell == curUser.pos)) {
+								GLog.w(Messages.get(MinersTool.class, "too_far"));
 							} else {
-								GLog.w(Messages.get(MinersTool.class, "cannot_mine"));
+								if (Dungeon.level.map[cell] == Terrain.WALL_DECO) {
+									goldMining(cell);
+								} else if (Dungeon.level.map[cell] == Terrain.WATER) {
+									filling(cell);
+								} else if (Dungeon.level.map[cell] == Terrain.EMPTY
+										|| Dungeon.level.map[cell] == Terrain.EMPTY_DECO
+										|| Dungeon.level.map[cell] == Terrain.EMPTY_SP
+										|| Dungeon.level.map[cell] == Terrain.GRASS
+										|| Dungeon.level.map[cell] == Terrain.HIGH_GRASS
+										|| Dungeon.level.map[cell] == Terrain.FURROWED_GRASS
+										|| Dungeon.level.map[cell] == Terrain.EMBERS
+										|| Dungeon.level.map[cell] == Terrain.INACTIVE_TRAP) {
+									if (Dungeon.depth % 5 == 0 || Dungeon.depth == 31) {
+										GLog.w(Messages.get(MinersTool.class, "cannot_mine_boss"));
+									} else {
+										Char ch = Actor.findChar(cell);
+										//don't trigger when immovable neutral chars are exist
+										if (!(ch.alignment == Char.Alignment.NEUTRAL && Char.hasProp(ch, Char.Property.IMMOVABLE))) {
+											floorMining(cell);
+										} else {
+											GLog.w(Messages.get(MinersTool.class, "cannot_mine"));
+										}
+									}
+								} else if (Dungeon.level.map[cell] == Terrain.STATUE
+										|| Dungeon.level.map[cell] == Terrain.STATUE_SP) {
+									statueMining(cell);
+								} else if (Dungeon.level.map[cell] == Terrain.TRAP
+										|| Dungeon.level.map[cell] == Terrain.SECRET_TRAP) {
+									trapDisarming(cell);
+								} else {
+									GLog.w(Messages.get(MinersTool.class, "cannot_mine"));
+								}
 							}
 						}
 					}
-				}
-				@Override
-				public String prompt() {
-					return Messages.get(MinersTool.class, "prompt");
-				}
-			});
+					@Override
+					public String prompt() {
+						return Messages.get(MinersTool.class, "prompt");
+					}
+				});
+			}
 		}
 	}
 
@@ -157,27 +204,113 @@ public class MinersTool extends MeleeWeapon {
 	}
 
 	public void goldMining(int cell) {
-		Level l = Dungeon.level;
-		Item gold = new Gold().quantity((int)Math.ceil(Dungeon.depth/5f)*Random.NormalIntRange(5, 50));
+		Item gold = new Gold().quantity((int)Math.ceil(Dungeon.depth/5f)*Random.NormalIntRange(5, 25));
 		Level.set(cell, Terrain.CUSTOM_WALL);
-		Dungeon.level.drop(gold, curUser.pos);
+		Dungeon.level.drop(gold, curUser.pos).sprite.drop();
 		Sample.INSTANCE.play( Assets.Sounds.EVOKE );
 		curUser.sprite.zap( cell );
 		CellEmitter.center( cell ).burst( Speck.factory( Speck.STAR ), 10 );
 		curUser.spendAndNext(3f);
 		GameScene.updateMap(cell);
 		curUser.busy();
+		Buff.affect(curUser, MinersToolCoolDown.class, Math.max(20-2*buffedLvl(), 5));
+		Invisibility.dispel();
+		GLog.p(Messages.get(MinersTool.class, "gold_mining"));
+	}
+
+	public void floorMining(int cell) {
+		Level.set(cell, Terrain.CHASM);
+
+		Heap heap = Dungeon.level.heaps.get(cell);
+		if (heap != null && heap.type != Heap.Type.FOR_SALE
+				&& heap.type != Heap.Type.LOCKED_CHEST
+				&& heap.type != Heap.Type.CRYSTAL_CHEST) {
+			for (Item item : heap.items) {
+				Dungeon.dropToChasm(item);
+			}
+			heap.sprite.kill();
+			GameScene.discard(heap);
+			Dungeon.level.heaps.remove(cell);
+		}
+
+		Char ch = Actor.findChar(cell);
+
+		if (ch != null && !ch.flying) {
+			if (ch == Dungeon.hero) {
+				Chasm.heroFall(cell);
+			} else {
+				Chasm.mobFall((Mob) ch);
+			}
+		}
+		curUser.sprite.zap( cell );
+		Sample.INSTANCE.play(Assets.Sounds.ROCKS);
+		CellEmitter.get(cell).start(Speck.factory(Speck.ROCK), 0.07f, 10);
+		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+			mob.beckon( curUser.pos );
+		}
+		curUser.spendAndNext(3f);
+		for (int i : PathFinder.NEIGHBOURS9){
+			GameScene.updateMap(cell + i);
+		}
+		curUser.busy();
+		Buff.affect(curUser, MinersToolCoolDown.class, 50f);
+		Invisibility.dispel();
+		GLog.w(Messages.get(MinersTool.class, "floor_mining"));
 	}
 
 	public void filling(int cell) {
 		Level.set(cell, Terrain.GRASS);
 		for (int i : PathFinder.NEIGHBOURS9){
-			GameScene.updateMap(hero.pos + i);
+			GameScene.updateMap(curUser.pos + i);
 		}
 		CellEmitter.get( cell ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
 		Sample.INSTANCE.play(Assets.Sounds.TRAMPLE, 2, 1.1f);
 		curUser.sprite.operate(curUser.pos);
 		curUser.spend(1f);
 		curUser.busy();
+		Buff.affect(curUser, MinersToolCoolDown.class, Math.max(20-2*buffedLvl(), 5));
+		Invisibility.dispel();
+		GLog.i(Messages.get(MinersTool.class, "filling"));
+	}
+
+	public void statueMining(int cell) {
+		if (Random.Int(10) == 0) {
+			Item stone = Generator.random(Generator.Category.STONE);
+			Dungeon.level.drop(stone, cell).sprite.drop();
+			GLog.p(Messages.get(MinersTool.class, "statue_mining_stone"));
+		} else {
+			GLog.i(Messages.get(MinersTool.class, "statue_mining"));
+		}
+		if (Dungeon.level.map[cell] == Terrain.STATUE) {
+			Level.set(cell, Terrain.EMPTY);
+		} else {
+			Level.set(cell, Terrain.EMPTY_SP);
+		}
+		curUser.sprite.zap( cell );
+		Sample.INSTANCE.play(Assets.Sounds.ROCKS);
+		CellEmitter.get(cell).start(Speck.factory(Speck.ROCK), 0.07f, 5);
+		curUser.spendAndNext(2f);
+		for (int i : PathFinder.NEIGHBOURS9){
+			GameScene.updateMap(cell + i);
+		}
+		curUser.busy();
+		Buff.affect(curUser, MinersToolCoolDown.class, Math.max(20-2*buffedLvl(), 5));
+		Invisibility.dispel();
+	}
+
+	public void trapDisarming(int cell) {
+		Trap t = Dungeon.level.traps.get(cell);
+		t.reveal();
+		t.disarm();
+		CellEmitter.get(t.pos).burst(Speck.factory(Speck.STEAM), 6);
+		Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
+		Level.set(cell, Terrain.INACTIVE_TRAP);
+		curUser.sprite.operate(curUser.pos);
+		curUser.spendAndNext(2f);
+		GameScene.updateMap(cell);
+		curUser.busy();
+		Buff.affect(curUser, MinersToolCoolDown.class, Math.max(20-2*buffedLvl(), 5));
+		Invisibility.dispel();
+		GLog.i(Messages.get(MinersTool.class, "trap_disarming"));
 	}
 }

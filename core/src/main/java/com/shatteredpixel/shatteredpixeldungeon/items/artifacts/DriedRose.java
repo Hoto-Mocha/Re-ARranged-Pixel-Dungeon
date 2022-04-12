@@ -796,13 +796,13 @@ public class DriedRose extends Artifact {
 			if (rose != null) {
 				if (rose.weapon != null) {
 					if (Dungeon.hero.belongings.weapon != null) {
-						dmg += rose.weapon.damageRoll(this) + Math.round(Dungeon.hero.belongings.weapon.damageRoll(this) / 2f);
+						dmg += rose.weapon.damageRoll(this) + Math.round(Dungeon.hero.belongings.weapon.damageRoll(this) / 4f);
 					} else {
 						dmg += rose.weapon.damageRoll(this);
 					}
 				} else {
 					if (Dungeon.hero.belongings.weapon != null) {
-						dmg += Random.NormalIntRange(0, 5) + Math.round(Dungeon.hero.belongings.weapon.damageRoll(this) / 2f);
+						dmg += Random.NormalIntRange(0, 5) + Math.round(Dungeon.hero.belongings.weapon.damageRoll(this) / 4f);
 					} else {
 						dmg += Random.NormalIntRange(0, 5);
 					}
@@ -896,14 +896,14 @@ public class DriedRose extends Artifact {
 				if (Dungeon.hero.belongings.armor == null) {
 					block += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax());
 				} else {
-					block += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax()) + Math.round(Random.NormalIntRange(Dungeon.hero.belongings.armor.DRMin(), Dungeon.hero.belongings.armor.DRMax())/2);
+					block += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax()) + Math.round(Random.NormalIntRange(Dungeon.hero.belongings.armor.DRMin(), Dungeon.hero.belongings.armor.DRMax())/4f);
 				}
 			}
 			if (rose != null && rose.weapon != null){
 				if (Dungeon.hero.belongings.weapon == null) {
 					block += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this ));
 				} else {
-					block += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this )) + Math.round(Random.NormalIntRange(0, Dungeon.hero.belongings.weapon.defenseFactor(this))/2);
+					block += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this )) + Math.round(Random.NormalIntRange(0, Dungeon.hero.belongings.weapon.defenseFactor(this))/4f);
 				}
 
 			}

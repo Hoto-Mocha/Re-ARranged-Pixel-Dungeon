@@ -21,11 +21,18 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class PoisonScimitar extends MeleeWeapon {
 
@@ -38,6 +45,18 @@ public class PoisonScimitar extends MeleeWeapon {
 		DLY = 0.8f; //1.25x speed
 		//also affects poison, see Hero.onAttackComplete
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		if (Random.Int(4) <= Math.floor(hero.belongings.weapon.buffedLvl()/4f)) {
+			if (defender.buff(Poison.class) != null) {
+				Buff.affect( defender, Poison.class).extend(2);
+			} else {
+				Buff.affect( defender, Poison.class).set(2);
+			}
+		}
+		return damage;
 	}
 
 	@Override

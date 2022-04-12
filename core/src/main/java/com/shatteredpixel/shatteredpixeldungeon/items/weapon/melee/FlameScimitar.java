@@ -22,9 +22,14 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class FlameScimitar extends MeleeWeapon {
 
@@ -37,6 +42,23 @@ public class FlameScimitar extends MeleeWeapon {
 		DLY = 0.8f; //1.25x speed
 		//also affects burning, see Hero.onAttackComplete
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		float procChance;
+		//50%
+		procChance = 1/2f;
+		if (Random.Float() < procChance) {
+			if (defender.buff(Burning.class) != null){
+				Buff.affect(defender, Burning.class).reignite(defender, 8f);
+				int burnDamage = Random.NormalIntRange( 1, 3 + Dungeon.depth/4 );
+				defender.damage( Math.round(burnDamage * 0.67f), this );
+			} else {
+				Buff.affect(defender, Burning.class).reignite(defender, 8f);
+			}
+		}
+		return damage;
 	}
 
 	@Override

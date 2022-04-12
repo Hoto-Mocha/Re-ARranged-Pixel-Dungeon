@@ -22,9 +22,14 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class FrostScimitar extends MeleeWeapon {
 
@@ -37,6 +42,25 @@ public class FrostScimitar extends MeleeWeapon {
 		DLY = 0.8f; //1.25x speed
 		//also affects chilling, see Hero.onAttackComplete
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		//adds 3 turns of chill per proc, with a cap of 6 turns
+		float durationToAdd = 3f;
+		float procChance;
+		Chill existing = defender.buff(Chill.class);
+		//50%
+		procChance = 1/2f;
+		if (Random.Float() < procChance) {
+			if (existing != null){
+				durationToAdd = Math.min(durationToAdd, 6f-existing.cooldown());
+			}
+
+			Buff.affect( defender, Chill.class, durationToAdd );
+			Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
+		}
+		return damage;
 	}
 
 	@Override

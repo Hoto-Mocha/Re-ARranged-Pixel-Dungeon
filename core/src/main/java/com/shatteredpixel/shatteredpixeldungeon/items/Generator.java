@@ -316,13 +316,9 @@ public class Generator {
 					CrudePistol.class,
 					WornKatana.class,
 					Shovel.class,
-					Saber.class,
-
-					//alchemical weapons
-					CrudePistolAP.class,
-					CrudePistolHP.class
+					Saber.class
 			};
-			WEP_T1.probs = new float[]{ 1, 1, 1, 0, 1, 0, 1, 0, 0};
+			WEP_T1.probs = new float[]{ 1, 1, 1, 0, 1, 1, 0, 1};
 			
 			WEP_T2.classes = new Class<?>[]{
 					Shortsword.class,
@@ -333,15 +329,9 @@ public class Generator {
 					Pistol.class,
 					DualPistol.class,
 					ShortKatana.class,
-					Knife.class,
-
-					//alchemical weapons
-					PistolAP.class,
-					PistolHP.class,
-					DualPistolAP.class,
-					DualPistolHP.class
+					Knife.class
 			};
-			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,4 ,4, 5, 4, 0, 0, 0, 0};
+			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,4 ,4, 5, 4};
 			
 			WEP_T3.classes = new Class<?>[]{
 					Sword.class,
@@ -355,27 +345,9 @@ public class Generator {
 					ShotGun.class,
 					HuntingRifle.class,
 					Katana.class,
-					Bible.class,
-
-					//alchemical weapons
-					SpearNShield.class,
-					GoldenPistolAP.class,
-					GoldenPistolHP.class,
-					SubMachinegunAP.class,
-					SubMachinegunHP.class,
-					ShotGunAP.class,
-					ShotGunHP.class,
-					HuntingRifleAP.class,
-					HuntingRifleHP.class,
-					Spade.class,
-					GrenadeLauncher.class,	//see Level.create()
-					GrenadeLauncherAP.class,
-					GrenadeLauncherHP.class,
-					SleepGun.class,
-					FrostGun.class,
-					ParalysisGun.class
+					Bible.class
 			};
-			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,5 ,4, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,5 ,4, 5, 3};
 			
 			WEP_T4.classes = new Class<?>[]{
 					Longsword.class,
@@ -386,15 +358,9 @@ public class Generator {
 					Crossbow.class,
 					Handgun.class,
 					AssultRifle.class,
-					LongKatana.class,
-
-					//alchemical weapons
-					HandgunAP.class,
-					HandgunHP.class,
-					AssultRifleAP.class,
-					AssultRifleHP.class
+					LongKatana.class
 			};
-			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4, 5, 0, 0, 0, 0};
+			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4, 5};
 			
 			WEP_T5.classes = new Class<?>[]{
 					Greatsword.class,
@@ -410,40 +376,9 @@ public class Generator {
 					FlameThrower.class,
 					PlasmaCannon.class,
 					LargeKatana.class,
-
-					//alchemical weapons
-					Lance.class,
-					LanceNShield.class,
-					TrueRunicBlade.class,
-					MagnumAP.class,
-					MagnumHP.class,
-					HeavyMachinegunAP.class,
-					HeavyMachinegunHP.class,
-					SniperRifleAP.class,
-					SniperRifleHP.class,
-					MiniGun.class,
-					MiniGunAP.class,
-					MiniGunHP.class,
-					TacticalHandgun.class,
-					TacticalHandgunAP.class,
-					TacticalHandgunHP.class,
-					AntimaterRifle.class,
-					AntimaterRifleAP.class,
-					AntimaterRifleHP.class,
-					SPAS.class,
-					SPASAP.class,
-					SPASHP.class,
-					SharpKatana.class,
-					HugeSword.class,
-					IronHammer.class,
-					BeamSaber.class,
-					FlameThrowerAP.class,
-					FlameThrowerHP.class,
-					PlasmaCannonAP.class,
-					PlasmaCannonHP.class,
 					MissileButton.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 3, 3, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 3, 3, 4, 5, 1 };
 
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
