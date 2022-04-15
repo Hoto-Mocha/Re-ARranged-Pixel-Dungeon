@@ -35,8 +35,9 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AccuracyBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability;
@@ -47,10 +48,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterAttackDef;
@@ -59,7 +58,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRingsCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
@@ -68,30 +66,28 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GhostSpawner;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.KnightsBlocking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Lead;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.OneShotOneKill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Outlaw;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ParalysisTracker;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StanceCooldown;
@@ -99,7 +95,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AttackSpeedBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
@@ -108,18 +103,18 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.En
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EnergyParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
+import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -149,7 +144,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
@@ -170,6 +164,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
@@ -517,11 +513,15 @@ public class Hero extends Char {
 			accuracy *= 2;
 		}
 
+		if (subClass == HeroSubClass.GLADIATOR && hero.buff(Combo.class) == null && hero.hasTalent(Talent.CAUTIOUS_ATTACK)) {
+			accuracy *= 1+0.1*pointsInTalent(Talent.CAUTIOUS_ATTACK);
+		}
+
 		if (hero.hasTalent(Talent.ACC_ENHANCE)) {
 			accuracy *= 1 + 0.05f * hero.pointsInTalent(Talent.ACC_ENHANCE);
 		}
 
-		if (hero.buff(Lead.class) != null) {
+		if (hero.buff(Sheathing.class) != null) {
 			accuracy *= 1.2f;
 		}
 
@@ -529,7 +529,7 @@ public class Hero extends Char {
 			accuracy = INFINITE_ACCURACY;
 		}
 
-		if (hero.buff(Jung.class) != null && hero.buff(Lead.class) != null && wep instanceof MeleeWeapon) {
+		if (hero.buff(Jung.class) != null && hero.buff(Sheathing.class) != null && wep instanceof MeleeWeapon) {
 			accuracy = INFINITE_ACCURACY;
 		}
 
@@ -1281,7 +1281,7 @@ public class Hero extends Char {
 			dr += 4+hero.belongings.weapon.buffedLvl()*2;
 		}
 
-		if (buff(Lead.class) != null) {
+		if (buff(Sheathing.class) != null) {
 			dr += Random.NormalIntRange(0, 5*pointsInTalent(Talent.PARRY));
 		}
 		
@@ -1313,6 +1313,14 @@ public class Hero extends Char {
 
 		if (hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null && hero.hasTalent(Talent.PLATE_ADD)) {
 			speed *= (1 - hero.pointsInTalent(Talent.PLATE_ADD)/8f);
+		}
+
+		if (hero.hasTalent(Talent.DONG_SHEATHING) && hero.buff(Dong.class) != null && hero.buff(Sheathing.class) != null) {
+			speed *= 0.25 * hero.pointsInTalent(Talent.DONG_SHEATHING);
+		}
+
+		if (hero.hasTalent(Talent.IMAGE_OF_DEMON) && hero.buff(Demonization.class) != null && hero.buff(Demonization.class).isDemonated()) {
+			speed *= 1+hero.pointsInTalent(Talent.IMAGE_OF_DEMON);
 		}
 
 		if (hero.subClass == HeroSubClass.RANGER) {
@@ -1430,7 +1438,7 @@ public class Hero extends Char {
 			return 0;
 		}
 
-		if (buff(Lead.class) != null && buff(Jung.class) != null) {
+		if (buff(Sheathing.class) != null && buff(Jung.class) != null) {
 			hero.buff(Jung.class).detach();
 			Buff.affect(hero, Dong.class);
 			Buff.affect(hero, StanceCooldown.class, 9f);
@@ -1976,10 +1984,10 @@ public class Hero extends Char {
 				Buff.affect(Dungeon.hero, Talent.ChaseCooldown.class, 15f);
 			}
 			if (hero.heroClass == HeroClass.SAMURAI) {
-				if (hero.buff(Lead.class) == null && hero.hasTalent(Talent.FLOW_AWAY) && Random.Int(10) < hero.pointsInTalent(Talent.FLOW_AWAY)) {
+				if (hero.buff(Sheathing.class) == null && hero.hasTalent(Talent.FLOW_AWAY) && Random.Int(10) < hero.pointsInTalent(Talent.FLOW_AWAY)) {
 					Buff.affect(hero, EvasiveMove.class, 0.9999f);
 				}
-				Buff.affect(hero, Lead.class);
+				Buff.affect(hero, Sheathing.class);
 
 				if (hero.subClass == HeroSubClass.MASTER && hero.buff(StanceCooldown.class) == null) {
 					if (hero.buff(Dong.class) == null && hero.buff(Jung.class) == null) {
@@ -1993,6 +2001,9 @@ public class Hero extends Char {
 
 					}
 				}
+			}
+			if (hero.hasTalent(Talent.OUTLAW_OF_BARRENLAND)) {
+				Buff.affect(hero, Outlaw.class).count();
 			}
 		}
 		resting = fullRest;
@@ -2033,6 +2044,9 @@ public class Hero extends Char {
 						if (enemy.isAlive()) {
 							int bonusTurns = hasTalent(Talent.SHARED_UPGRADES) ? wep.buffedLvl() : 0;
 							Buff.prolong(Hero.this, SnipersMark.class, SnipersMark.DURATION + bonusTurns).set(enemy.id(), bonusTurns);
+							if (hero.hasTalent(Talent.VISION_ARROW)) {
+								Buff.append(Dungeon.hero, TalismanOfForesight.CharAwareness.class, hero.pointsInTalent(Talent.VISION_ARROW)).charID = enemy.id();
+							}
 						}
 						Actor.remove(this);
 						return true;
@@ -2105,6 +2119,10 @@ public class Hero extends Char {
 
 		if (hero.hasTalent(Talent.DEFENSE_STANCE) && Random.Int(20) < hero.pointsInTalent(Talent.DEFENSE_STANCE) && hero.buff(ShieldCoolDown.class) != null) {
 			Buff.detach(this, ShieldCoolDown.class);
+		}
+
+		if (hero.hasTalent(Talent.THORNY_VINE) && (level.map[hero.pos] == Terrain.FURROWED_GRASS || level.map[hero.pos] == Terrain.HIGH_GRASS)) {
+			Buff.affect(enemy, Bleeding.class).set(hero.pointsInTalent(Talent.THORNY_VINE));
 		}
 		
 		return damage;
@@ -2868,43 +2886,37 @@ public class Hero extends Char {
 		Invisibility.dispel();
 		spend( attackDelay() );
 
-		if (hero.buff(Lead.class) != null) {
+		if (hero.buff(Sheathing.class) != null) {
 
 			if (hit) {
 				Buff.affect(enemy, Bleeding.class).set(Math.min(3+hero.pointsInTalent(Talent.DEEP_SCAR), Math.round(exStr/2f)));
 			}
 			if (!enemy.isAlive() && Dungeon.hero.hasTalent(Talent.FAST_LEAD) && Random.Int(3) < Dungeon.hero.pointsInTalent(Talent.FAST_LEAD)) {
-				Buff.affect(hero, Lead.class);
+				Buff.affect(hero, Sheathing.class);
 			} else {
-				hero.buff(Lead.class).detach();
+				hero.buff(Sheathing.class).detach();
 			}
 		}
 
-		if (hit && !enemy.isAlive() && hasTalent(Talent.DEADS_BLESS) && Random.Int(10) < pointsInTalent(Talent.DEADS_BLESS)) {
-			this.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
-			Emitter e = hero.sprite.centerEmitter();
-			if (e != null) e.burst( EnergyParticle.FACTORY, 15 );
-			hero.HTBoost++;
-			updateHT(true);
+		if (hit &&  Random.Int(10) < hero.pointsInTalent(Talent.MADNESS)) {
+			Buff.prolong(enemy, Amok.class, 3f);
+		}
+
+		if (hit && hero.hasTalent(Talent.PUSHBACK) && hero.buff(Talent.PushbackCooldown.class) == null) {
+			Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
+			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
+			WandOfBlastWave.throwChar(enemy, trajectory, 3, true);
+			Buff.affect(hero, Talent.PushbackCooldown.class, 30-5*Dungeon.hero.pointsInTalent(Talent.PUSHBACK));
 		}
 
 		if (hit
 		 && subClass == HeroSubClass.FORTRESS
-		 &&	Random.Int(20) < 1+belongings.armor.buffedLvl()+pointsInTalent(Talent.FIND_WEAKNESS) //base 5%, +5%*armor lvl, +5%*talent lvl
+		 &&	Random.Int(20) < 1+belongings.armor.buffedLvl()+2*pointsInTalent(Talent.PREPARATION) //base 5%, +5%*armor lvl, +10%*talent lvl
 		 && hero.belongings.armor != null
 		 && buff(KnightsBlocking.class) != null) {
 			Buff.affect(this, CounterAttack.class, Actor.TICK);
-		}
-
-		if (hit && hero.hasTalent(Talent.MIND_FOCUS)) {
-			if (Random.Int(3) < hero.pointsInTalent(Talent.MIND_FOCUS)) {
-				int healAmt = 1;
-				healAmt = Math.min( healAmt, hero.HT - hero.HP );
-				if (healAmt > 0 && hero.isAlive()) {
-					hero.HP += healAmt;
-					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-				}
+			if (Random.Int(10) < 2*hero.pointsInTalent(Talent.COUNTER_MOMENTUM) && hero.buff(ShieldCoolDown.class) != null) {
+				hero.buff(ShieldCoolDown.class).detach();
 			}
 		}
 
@@ -3412,7 +3424,7 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherAP
 					|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP
 			) {
-				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
+				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
 					Buff.affect(this, Recharging.class, 1f);
 				}
 				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 2 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
@@ -3434,12 +3446,106 @@ public class Hero extends Char {
 						Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
 					}
 					Buff.affect(this, Barrier.class).setShield(10);
+					if (hero.hasTalent(Talent.STATIC_ENERGY)) {
+						ArrayList<Lightning.Arc> arcs = new ArrayList<>();
+						ArrayList<Char> affected = new ArrayList<>();
+						affected.clear();
+						arcs.clear();
+
+						Shocking.arc(hero, enemy, 2, affected, arcs);
+
+						affected.remove(enemy); //defender isn't hurt by lightning
+						for (Char ch : affected) {
+							if (ch.alignment != hero.alignment) {
+								ch.damage(Math.round(5), this);
+								if (hero.pointsInTalent(Talent.STATIC_ENERGY) >= 2 ) {
+									Buff.affect(ch, Paralysis.class, 2f + hero.pointsInTalent(Talent.HIGH_VOLT));
+								}
+							}
+						}
+						if (hero.pointsInTalent((Talent.STATIC_ENERGY)) == 3 ) {
+							GameScene.add( Blob.seed( enemy.pos, 3, Electricity.class ) );
+						}
+
+						hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
+						Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+					}
 				}
 			}
 		}
 
 		if (hit && hero.heroClass == HeroClass.KNIGHT && hero.buff(ShieldCoolDown.class) != null) {
 			hero.buff(ShieldCoolDown.class).hit(hero.belongings.armor.buffedLvl());
+		}
+
+		if (hit && hero.hasTalent(Talent.IMAGE_OF_HORROR) && hero.buff(Invisibility.class) == null && hero.buff(CloakOfShadows.cloakStealth.class) == null && hero.buff(Shadows.class) == null) {
+			float proc = 0.1f;
+			if (hero.pointsInTalent(Talent.IMAGE_OF_HORROR) >= 2 && ((Mob) enemy).surprisedBy(hero)) {
+				proc *= 2;
+			}
+			if (Random.Float() < proc) {
+				Buff.prolong(enemy, Terror.class, 3);
+			}
+			if (enemy.buff(Terror.class) != null && hero.pointsInTalent(Talent.IMAGE_OF_HORROR) == 3) {
+				Buff.prolong(hero, Invisibility.class, 2);
+				Buff.prolong(hero, Haste.class, 2);
+			}
+		}
+
+		if (hit && !enemy.isAlive() && Random.Int(10) < 2 * hero.pointsInTalent(Talent.SINGULAR_STRIKE)) {
+			Buff.affect(hero, Talent.SingularStrikeTracker.class);
+		}
+
+		if (hit && hero.belongings.weapon() == null && hero.buff(Talent.SingularStrikeTracker.class) != null) {
+			Buff.affect(enemy, Vulnerable.class, Vulnerable.DURATION);
+			hero.buff(Talent.SingularStrikeTracker.class).detach();
+		}
+
+		if (hero.buff(Outlaw.class) != null) {
+			hero.buff(Outlaw.class).detach();
+		}
+
+		if (hero.hasTalent(Talent.ONE_SHOT_ONE_KILL)) {
+			if (enemy != null
+					&& hit
+					&& (!enemy.isAlive() || (enemy.properties().contains(Property.BOSS) || enemy.properties().contains(Property.MINIBOSS)))
+					&&(hero.belongings.weapon() instanceof HuntingRifle.Bullet
+					|| hero.belongings.weapon() instanceof HuntingRifleAP.Bullet
+					|| hero.belongings.weapon() instanceof HuntingRifleHP.Bullet
+					|| hero.belongings.weapon() instanceof SniperRifle.Bullet
+					|| hero.belongings.weapon() instanceof SniperRifleAP.Bullet
+					|| hero.belongings.weapon() instanceof SniperRifleHP.Bullet
+					|| hero.belongings.weapon() instanceof AntimaterRifle.Bullet
+					|| hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
+					|| hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet
+					|| hero.belongings.weapon() instanceof MarksmanRifle.Bullet
+					|| hero.belongings.weapon() instanceof MarksmanRifleAP.Bullet
+					|| hero.belongings.weapon() instanceof MarksmanRifleHP.Bullet)) {
+				Buff.affect(hero, OneShotOneKill.class).count();
+			} else {
+				if (hero.buff(OneShotOneKill.class) != null) hero.buff(OneShotOneKill.class).detach();
+			}
+		}
+
+		if (hit && hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
+
+			int amount = 1 + Math.round(hero.belongings.weapon.level()/2f);
+			if (hero.hasTalent(Talent.GOLD_MINER) && Random.Int(10) == 0) {
+				amount *= 1+hero.pointsInTalent(Talent.GOLD_MINER);
+			}
+			Dungeon.level.drop( new Gold(amount), enemy.pos ).sprite.drop();
+		}
+
+		if (hero.subClass == HeroSubClass.TREASUREHUNTER
+				&& hit
+				&& !enemy.isAlive()
+				&& Random.Int(100) < 10+4*hero.belongings.weapon.buffedLvl()
+				&& (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
+			Buff.affect(enemy, Lucky.LuckProc.class);
+		}
+
+		if (hit && Random.Int(10) < hero.pointsInTalent(Talent.EARTHQUAKE) && level.adjacent(hero.pos, enemy.pos) && hero.belongings.weapon() instanceof MeleeWeapon) {
+			Buff.prolong(enemy, Cripple.class, 5);
 		}
 
 		curAction = null;

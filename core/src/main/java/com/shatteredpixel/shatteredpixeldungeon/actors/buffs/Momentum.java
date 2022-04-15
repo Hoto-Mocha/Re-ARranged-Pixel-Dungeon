@@ -76,6 +76,13 @@ public class Momentum extends Buff implements ActionIndicator.Action {
 		spend(TICK);
 		return true;
 	}
+
+	public void quickPrep(int amount) {
+		if (freerunCooldown > 0) {
+			freerunCooldown -= amount;
+		}
+		BuffIndicator.refreshHero();
+	}
 	
 	public void gainStack(){
 		movedLastTurn = true;

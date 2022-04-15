@@ -68,7 +68,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.OneShotOneKill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Outlaw;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
@@ -107,6 +109,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
@@ -115,6 +118,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetributio
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfSirensSong;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFrost;
@@ -895,6 +899,22 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero) {
+				if (dmg >= enemy.HP
+						&& Random.Int(100) < 3*hero.pointsInTalent(Talent.DEADS_BLESS)
+						&& hero.buff(Bless.class) != null
+						&& !enemy.isImmune(AllyBuff.class)
+						&& enemy.buff(AllyBuff.class) == null
+						&& enemy instanceof Mob
+						&& enemy.isAlive()){
+					dmg = 0;
+					int healAmt = enemy.HT-enemy.HP;
+					enemy.HP += healAmt;
+					enemy.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 5 );
+					AllyBuff.affectAndLoot((Mob)enemy, hero, ScrollOfSirensSong.Enthralled.class);
+				}
+			}
+
+			if (this instanceof Hero) {
 				if (Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher.Rocket) {
 					Buff.prolong(enemy, Vulnerable.class, 5f);
 				}
@@ -952,6 +972,77 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
 				) {
 					dmg *= 1.3f;
+				}
+			}
+
+			if (this instanceof Hero) {
+				Hero h = (Hero) this;
+				if (h.belongings.weapon() instanceof DualPistol.Bullet
+				 || h.belongings.weapon() instanceof DualPistolAP.Bullet
+				 || h.belongings.weapon() instanceof DualPistolHP.Bullet
+				 || h.belongings.weapon() instanceof SubMachinegun.Bullet
+				 || h.belongings.weapon() instanceof SubMachinegunAP.Bullet
+				 || h.belongings.weapon() instanceof SubMachinegunHP.Bullet
+				 || h.belongings.weapon() instanceof AssultRifle.Bullet
+				 || h.belongings.weapon() instanceof AssultRifleAP.Bullet
+				 || h.belongings.weapon() instanceof AssultRifleHP.Bullet
+				 || h.belongings.weapon() instanceof HeavyMachinegun.Bullet
+				 || h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
+				 || h.belongings.weapon() instanceof HeavyMachinegunHP.Bullet
+				 || h.belongings.weapon() instanceof MiniGun.Bullet
+				 || h.belongings.weapon() instanceof MiniGunAP.Bullet
+				 || h.belongings.weapon() instanceof MiniGunHP.Bullet
+				 || h.belongings.weapon() instanceof AutoRifle.Bullet
+				 || h.belongings.weapon() instanceof AutoRifleAP.Bullet
+				 || h.belongings.weapon() instanceof AutoRifleHP.Bullet
+				) {
+					dmg *= 0.4f + 0.1f*hero.pointsInTalent(Talent.EXPLOSIVE_BULLET);
+				}
+			}
+
+			if (this instanceof Hero && hero.hasTalent(Talent.OUTLAW_OF_BARRENLAND)) {
+				Hero h = (Hero) this;
+				if ( hero.buff(Outlaw.class) != null && hero.buff(Outlaw.class).isReady() && (h.belongings.weapon() instanceof CrudePistol.Bullet
+						|| h.belongings.weapon() instanceof CrudePistolAP.Bullet
+						|| h.belongings.weapon() instanceof CrudePistolHP.Bullet
+						|| h.belongings.weapon() instanceof Pistol.Bullet
+						|| h.belongings.weapon() instanceof PistolAP.Bullet
+						|| h.belongings.weapon() instanceof PistolHP.Bullet
+						|| h.belongings.weapon() instanceof GoldenPistol.Bullet
+						|| h.belongings.weapon() instanceof GoldenPistolAP.Bullet
+						|| h.belongings.weapon() instanceof GoldenPistolHP.Bullet
+						|| h.belongings.weapon() instanceof Magnum.Bullet
+						|| h.belongings.weapon() instanceof MagnumAP.Bullet
+						|| h.belongings.weapon() instanceof MagnumHP.Bullet
+						|| h.belongings.weapon() instanceof TacticalHandgun.Bullet
+						|| h.belongings.weapon() instanceof TacticalHandgunAP.Bullet
+						|| h.belongings.weapon() instanceof TacticalHandgunHP.Bullet
+						|| h.belongings.weapon() instanceof AutoHandgun.Bullet
+						|| h.belongings.weapon() instanceof AutoHandgunAP.Bullet
+						|| h.belongings.weapon() instanceof AutoHandgunHP.Bullet
+						|| h.belongings.weapon() instanceof DualPistol.Bullet
+						|| h.belongings.weapon() instanceof DualPistolAP.Bullet
+						|| h.belongings.weapon() instanceof DualPistolHP.Bullet)) {
+					dmg *= 5;
+				}
+			}
+
+			if (this instanceof Hero && hero.hasTalent(Talent.ONE_SHOT_ONE_KILL)) {
+				Hero h = (Hero) this;
+				if ( hero.buff(OneShotOneKill.class) != null
+						&&(h.belongings.weapon() instanceof HuntingRifle.Bullet
+						|| h.belongings.weapon() instanceof HuntingRifleAP.Bullet
+						|| h.belongings.weapon() instanceof HuntingRifleHP.Bullet
+						|| h.belongings.weapon() instanceof SniperRifle.Bullet
+						|| h.belongings.weapon() instanceof SniperRifleAP.Bullet
+						|| h.belongings.weapon() instanceof SniperRifleHP.Bullet
+						|| h.belongings.weapon() instanceof AntimaterRifle.Bullet
+						|| h.belongings.weapon() instanceof AntimaterRifleAP.Bullet
+						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
+						|| h.belongings.weapon() instanceof MarksmanRifle.Bullet
+						|| h.belongings.weapon() instanceof MarksmanRifleAP.Bullet
+						|| h.belongings.weapon() instanceof MarksmanRifleHP.Bullet)) {
+					dmg *= 1 + (0.05 * (1 + hero.pointsInTalent(Talent.ONE_SHOT_ONE_KILL))) * hero.buff(OneShotOneKill.class).getCount();
 				}
 			}
 
@@ -1538,6 +1629,10 @@ public abstract class Char extends Actor {
 					DeathMark.processFearTheReaper(enemy);
 				}
 				enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Preparation.class, "assassinated"));
+				if (Random.Int(20) < hero.pointsInTalent(Talent.ENERGY_DRAW)) {
+					CloakOfShadows cloak = hero.belongings.getItem(CloakOfShadows.class);
+					cloak.overCharge(1);
+				}
 			}
 
 			enemy.sprite.bloodBurstA( sprite.center(), effectiveDamage );
@@ -1574,6 +1669,13 @@ public abstract class Char extends Actor {
 
 			if (enemy instanceof Hero && hero.pointsInTalent(Talent.SWIFT_MOVEMENT) == 3) {
 				Buff.prolong(hero, Invisibility.class, 1.0001f);
+			}
+
+			if (enemy instanceof Hero && hero.hasTalent(Talent.QUICK_PREP)) {
+				Momentum momentum = hero.buff(Momentum.class);
+				if (momentum != null) {
+					momentum.quickPrep(hero.pointsInTalent(Talent.QUICK_PREP));
+				}
 			}
 
 			enemy.sprite.showStatus( CharSprite.NEUTRAL, enemy.defenseVerb() );

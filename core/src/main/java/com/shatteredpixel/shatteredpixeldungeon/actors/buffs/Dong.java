@@ -27,12 +27,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Effects;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -46,10 +43,6 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class Dong extends Buff implements ActionIndicator.Action {
 
@@ -118,10 +111,10 @@ public class Dong extends Buff implements ActionIndicator.Action {
 
 	@Override
 	public void doAction() {
-		if (Dungeon.hero.buff(Lead.class) != null) {
+		if (Dungeon.hero.buff(Sheathing.class) != null) {
 			GameScene.selectCell(attack);
 		} else {
-			Buff.affect(Dungeon.hero, Lead.class);
+			Buff.affect(Dungeon.hero, Sheathing.class);
 			Dungeon.hero.spendAndNext(TICK);
 		}
 	}

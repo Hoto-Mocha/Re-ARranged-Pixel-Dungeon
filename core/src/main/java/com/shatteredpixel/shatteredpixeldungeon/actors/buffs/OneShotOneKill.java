@@ -23,53 +23,68 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Effects;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
+import com.watabou.utils.Bundle;
 
-public class Lead extends Buff {
-
-	{
-		type = buffType.POSITIVE;
-		announced = true;
-	}
-
-	public int pos = -1;
-
-	@Override
-	public boolean act() {
-		if (pos == -1) pos = target.pos;
-		if (pos != target.pos) {
-			detach();
-		} else {
-			spend(TICK);
-		}
-		return true;
-	}
+public class OneShotOneKill extends Buff {
+	
+	private int count = 0;
+	private int maxCount = 10;
 
 	@Override
 	public int icon() {
-		return BuffIndicator.WEAPON;
+		return BuffIndicator.BULLET;
 	}
-
+	
 	@Override
 	public void tintIcon(Image icon) {
-		icon.hardlight(0xB862B8);
+		icon.hardlight(0+0.1f*count, 0f, 0f);
 	}
 
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");
 	}
+	
+	public void count() {
+		if (count < maxCount) {
+			count ++;
+		} else {
+			count = maxCount;
+		}
+		BuffIndicator.refreshHero(); //refresh the buff
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	@Override
+	public void detach() {
+		super.detach();
+	}
 
 	@Override
 	public String desc() {
-		return Messages.get(this, "desc");
+		return Messages.get(this, "desc", count*5*(1+Dungeon.hero.pointsInTalent(Talent.ONE_SHOT_ONE_KILL)));
+	}
+
+	private static final String COUNT = "count";
+	private static final String MAXCOUNT  = "maxCount";
+
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(COUNT, count);
+		bundle.put(MAXCOUNT, maxCount);
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		count = bundle.getInt( COUNT );
+		maxCount = bundle.getInt( MAXCOUNT );
 	}
 }

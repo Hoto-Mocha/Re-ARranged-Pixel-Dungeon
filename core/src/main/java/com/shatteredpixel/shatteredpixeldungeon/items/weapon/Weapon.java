@@ -73,9 +73,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampir
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Venomous;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MinersTool;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -87,8 +84,6 @@ import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import sun.security.provider.Sun;
 
 abstract public class Weapon extends KindOfWeapon {
 
@@ -161,20 +156,9 @@ abstract public class Weapon extends KindOfWeapon {
 			}
 		}
 
-		if (hero.subClass == HeroSubClass.TREASUREHUNTER
-				&& defender.HP <= damage
-				&& Random.Int(100) < 10+4*hero.belongings.weapon.buffedLvl()
-				&& (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
-			Buff.affect(defender, Lucky.LuckProc.class);
-		}
-
 		if (attacker.buff(TreasureMap.LuckTracker.class) != null
 				&& defender.HP <= damage) {
 			Buff.affect(defender, Lucky.LuckProc.class);
-		}
-
-		if (attacker == hero && hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
-			Dungeon.level.drop( new Gold(1 + Math.round(hero.belongings.weapon.level()/2f)), defender.pos ).sprite.drop();
 		}
 
 		if (hero.hasTalent(Talent.DEW_MAKING) && Random.Int(50) < hero.pointsInTalent(Talent.DEW_MAKING)) {
@@ -267,11 +251,7 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 
 	protected float speedMultiplier(Char owner ){
-		if (hero.hasTalent(Talent.SLASHING_PRACTICE) && hero.buff(SerialAttack.class) != null) {
-			return RingOfFuror.attackSpeedMultiplier(owner)*Math.min(1f + 0.05f * hero.buff(SerialAttack.class).getCount(), 1.2f + 0.05f * hero.pointsInTalent(Talent.SLASHING_PRACTICE));
-		} else {
-			return RingOfFuror.attackSpeedMultiplier(owner);
-		}
+		return RingOfFuror.attackSpeedMultiplier(owner);
 	}
 
 	@Override
@@ -447,6 +427,12 @@ abstract public class Weapon extends KindOfWeapon {
 				Berserk rage = attacker.buff(Berserk.class);
 				if (rage != null) {
 					multi += (rage.rageAmount() * 0.15f) * ((Hero) attacker).pointsInTalent(Talent.ENRAGED_CATALYST);
+				}
+			}
+			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.ARCANE_ATTACK)) {
+				SerialAttack serialAttack = attacker.buff(SerialAttack.class);
+				if (serialAttack != null) {
+					multi += (serialAttack.getCount() * 0.05f) * ((Hero) attacker).pointsInTalent(Talent.ARCANE_ATTACK);
 				}
 			}
 			if (attacker.buff(Talent.SpiritBladesTracker.class) != null

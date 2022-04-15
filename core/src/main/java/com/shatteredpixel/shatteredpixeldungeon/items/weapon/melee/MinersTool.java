@@ -141,10 +141,14 @@ public class MinersTool extends MeleeWeapon {
 									} else {
 										Char ch = Actor.findChar(cell);
 										//don't trigger when immovable neutral chars are exist
-										if (!(ch.alignment == Char.Alignment.NEUTRAL && Char.hasProp(ch, Char.Property.IMMOVABLE))) {
-											floorMining(cell);
+										if (ch != null) {
+											if (!(ch.alignment == Char.Alignment.NEUTRAL || Char.hasProp(ch, Char.Property.IMMOVABLE))) {
+												floorMining(cell);
+											} else {
+												GLog.w(Messages.get(MinersTool.class, "cannot_mine"));
+											}
 										} else {
-											GLog.w(Messages.get(MinersTool.class, "cannot_mine"));
+											floorMining(cell);
 										}
 									}
 								} else if (Dungeon.level.map[cell] == Terrain.STATUE

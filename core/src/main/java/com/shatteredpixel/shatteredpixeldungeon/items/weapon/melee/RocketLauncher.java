@@ -464,7 +464,6 @@ public class RocketLauncher extends MeleeWeapon {
             }
             CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
             CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-            boolean terrainAffected = false;
             ArrayList<Char> affected = new ArrayList<>();
             for (int n : PathFinder.NEIGHBOURS9) {
                 int c = cell + n;
@@ -476,7 +475,6 @@ public class RocketLauncher extends MeleeWeapon {
                     if (Dungeon.level.flamable[c]) {
                         Dungeon.level.destroy(c);
                         GameScene.updateMap(c);
-                        terrainAffected = true;
                     }
                     Char ch = Actor.findChar(c);
                     if (ch != null) {

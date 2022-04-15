@@ -58,6 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.text.DecimalFormat;
@@ -528,6 +529,26 @@ public class SubMachinegun extends MeleeWeapon {
                         if (!curUser.shoot(enemy, this)) {
                             CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                             CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                        }
+                    }
+                    if (hero.hasTalent(Talent.EXPLOSIVE_BULLET)) {
+                        ArrayList<Char> affected = new ArrayList<>();
+                        for (int n : PathFinder.NEIGHBOURS9) {
+                            int c = cell + n;
+                            if (c >= 0 && c < Dungeon.level.length()) {
+                                if (Dungeon.level.heroFOV[c]) {
+                                    CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
+                                    CellEmitter.center(cell).burst(BlastParticle.FACTORY, 4);
+                                }
+                                if (Dungeon.level.flamable[c]) {
+                                    Dungeon.level.destroy(c);
+                                    GameScene.updateMap(c);
+                                }
+                                Char ch = Actor.findChar(c);
+                                if (ch != null) {
+                                    affected.add(ch);
+                                }
+                            }
                         }
                     }
                     if (hero.buff(InfiniteBullet.class) != null) {

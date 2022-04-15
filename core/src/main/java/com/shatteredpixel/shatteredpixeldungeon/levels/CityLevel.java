@@ -165,7 +165,7 @@ public class CityLevel extends RegularLevel {
 
 	public static void addCityVisuals( Level level, Group group ) {
 		for (int i=0; i < level.length(); i++) {
-			if (level.map[i] == Terrain.WALL_DECO) {
+			if (level.map[i] == Terrain.WALL_DECO || level.map[i] == Terrain.CUSTOM_WALL) {
 				group.add( new Smoke( i ) );
 			}
 		}

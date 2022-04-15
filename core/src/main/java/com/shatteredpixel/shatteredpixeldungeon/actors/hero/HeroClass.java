@@ -55,6 +55,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.Teleporter;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
@@ -62,6 +63,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
@@ -70,6 +72,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMastery;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
@@ -83,14 +87,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetributio
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MinersTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -220,14 +228,17 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
+		//new FlameThrower().identify().collect();
+		//new PotionOfMastery().identify().collect();
+		//new PotionOfStrength().identify().quantity(100).collect();
 		//new Teleporter().collect();
-		//new MinersTool().identify().collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new TestWeapon().identify().collect();
 		//new RingOfMight().identify().upgrade(100).collect();
 		//new PotionOfHealing().identify().quantity(100).collect();
 		//new MinersTool().identify().collect();
 		//new ScrollOfUpgrade().identify().quantity(100).collect();
+		//new WandOfWarding().identify().upgrade(10).collect();
 	}
 
 	private static void initMage( Hero hero ) {
@@ -333,6 +344,14 @@ public enum HeroClass {
 
 		new ScrollOfRetribution().identify();
 		new PotionOfStrength().identify();
+
+		//new TengusMask().collect();
+		//new PotionOfExperience().identify().quantity(100).collect();
+		//new RingOfMight().identify().upgrade(10).collect();
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new TestWeapon().identify().collect();
+		//new Teleporter().collect();
+		//new FrostGun().identify().collect();
 	}
 
 	private static void initPlanter( Hero hero ) {
@@ -360,6 +379,15 @@ public enum HeroClass {
 
 		new ScrollOfMirrorImage().identify();
 		new PotionOfPurity().identify();
+
+		//new TengusMask().collect();
+		//new PotionOfExperience().identify().quantity(100).collect();
+		//new Spade().identify().collect();
+		//new Pickaxe().collect();
+		//new RingOfMight().identify().upgrade(10).collect();
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new TestWeapon().identify().collect();
+		//new Teleporter().collect();
 	}
 
 	private static void initKnight( Hero hero ) {
@@ -381,6 +409,7 @@ public enum HeroClass {
 
 		new ScrollOfRemoveCurse().identify();
 		new PotionOfParalyticGas().identify();
+
 	}
 
 	public String title() {

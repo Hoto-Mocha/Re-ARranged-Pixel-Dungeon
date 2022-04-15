@@ -95,8 +95,6 @@ public class ScrollOfAlchemy extends InventorySpell {
             item.upgrade();
         }
 
-        Talent.onUpgradeScrollUsed( Dungeon.hero );
-
         Badges.validateItemLevelAquired( item );
         Statistics.upgradesUsed++;
         Badges.validateMageUnlock();

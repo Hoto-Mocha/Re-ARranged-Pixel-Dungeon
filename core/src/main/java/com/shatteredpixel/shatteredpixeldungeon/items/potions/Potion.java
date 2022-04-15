@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -43,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHo
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCorrosiveGas;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMastery;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShroudingFog;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfSnapFreeze;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfStormClouds;
@@ -286,9 +288,22 @@ public class Potion extends Item {
 	}
 	
 	protected void drink( Hero hero ) {
-		
-		detach( hero.belongings.backpack );
-		
+		int proc = (Dungeon.hero.pointsInTalent(Talent.CLINICAL_TRIAL) == 3) ? 1 : 0;
+		if (this instanceof ExoticPotion) {
+			if (Dungeon.hero.pointsInTalent(Talent.CLINICAL_TRIAL) >= 2 && (Random.Int(10) <= proc ) && !(this instanceof PotionOfMastery)) {
+				GLog.p(Messages.get(this, "preserve"));
+			} else {
+				detach( hero.belongings.backpack );
+			}
+		} else {
+			if (Dungeon.hero.hasTalent(Talent.CLINICAL_TRIAL) && Random.Int(10) <= proc && !(this instanceof PotionOfStrength)) {
+				GLog.p(Messages.get(this, "preserve"));
+			} else {
+				detach( hero.belongings.backpack );
+			}
+		}
+
+
 		hero.spend( TIME_TO_DRINK );
 		hero.busy();
 		apply( hero );

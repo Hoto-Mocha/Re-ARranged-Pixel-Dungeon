@@ -141,7 +141,9 @@ public class FlameThrower extends MeleeWeapon {
                     reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    if (hero.STR() < this.STRReq(this.buffedLvl())) {
+                    int STRReq = this.STRReq(this.buffedLvl());
+                    if (this.masteryPotionBonus) STRReq -= 2;
+                    if (hero.STR() < STRReq) {
                         usesTargeting = false;
                         GLog.w(Messages.get(this, "heavy_to_shoot"));
                     } else {
@@ -198,11 +200,6 @@ public class FlameThrower extends MeleeWeapon {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
         return Messages.format(TXT_STATUS, round, max_round);
-    }
-
-    @Override
-    public int STRReq(int lvl) {
-        return STRReq(tier, lvl);
     }
 
     public int min(int lvl) {

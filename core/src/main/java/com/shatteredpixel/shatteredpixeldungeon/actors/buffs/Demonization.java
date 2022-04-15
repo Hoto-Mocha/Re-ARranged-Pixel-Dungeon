@@ -61,8 +61,9 @@ public class Demonization extends Buff implements ActionIndicator.Action {
     @Override
     public boolean act() {
         if (state == State.DEMONATED) {
-            if (hero.HP > 1) {
-                target.damage( 1, this );
+            int damage = hero.hasTalent(Talent.IMAGE_OF_DEMON) ? 2 + 2 * hero.pointsInTalent(Talent.IMAGE_OF_DEMON) : 1;
+            if (hero.HP > damage) {
+                target.damage( damage, this );
             } else {
                 doAction();
             }

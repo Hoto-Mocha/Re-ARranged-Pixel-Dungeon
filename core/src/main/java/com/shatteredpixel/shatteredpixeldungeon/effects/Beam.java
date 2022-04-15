@@ -60,6 +60,12 @@ public class Beam extends Image {
 		}
 	}
 
+	public static class ShadowRay extends Beam{
+		public ShadowRay(PointF s, PointF e){
+			super(s, e, Effects.Type.SHADOW_RAY, 0.5f);
+		}
+	}
+
 	public static class LightRay extends Beam{
 		public LightRay(PointF s, PointF e){
 			super(s, e, Effects.Type.LIGHT_RAY, 1f);
