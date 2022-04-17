@@ -418,7 +418,7 @@ public enum Talent {
 
 	public int icon(){
 		if (this == HEROIC_ENERGY){
-			if (Dungeon.hero != null && Dungeon.hero.armorAbility instanceof Ratmogrify){
+			if (Ratmogrify.useRatroicEnergy){
 				return 289;
 			}
 			HeroClass cls = Dungeon.hero != null ? Dungeon.hero.heroClass : GamesInProgress.selectedClass;
@@ -426,6 +426,7 @@ public enum Talent {
 				case WARRIOR: default:
 					return 34;
 				case MAGE:
+
 					return 69;
 				case ROGUE:
 					return 104;
@@ -450,9 +451,7 @@ public enum Talent {
 	}
 
 	public String title(){
-		if (this == HEROIC_ENERGY
-				&& Dungeon.hero != null
-				&& Dungeon.hero.armorAbility instanceof Ratmogrify){
+		if (this == HEROIC_ENERGY && Ratmogrify.useRatroicEnergy){
 			return Messages.get(this, name() + ".rat_title");
 		}
 		return Messages.get(this, name() + ".title");
@@ -931,8 +930,10 @@ public enum Talent {
 		if (hero.hasTalent(TEST_SUBJECT)){
 			//heal for 2/3 HP
 			hero.HP = Math.min(hero.HP + 1 + hero.pointsInTalent(TEST_SUBJECT), hero.HT);
-			Emitter e = hero.sprite.emitter();
-			if (e != null) e.burst(Speck.factory(Speck.HEALING), hero.pointsInTalent(TEST_SUBJECT));
+			if (hero.sprite != null) {
+				Emitter e = hero.sprite.emitter();
+				if (e != null) e.burst(Speck.factory(Speck.HEALING), hero.pointsInTalent(TEST_SUBJECT));
+			}
 		}
 		if (hero.hasTalent(TESTED_HYPOTHESIS)){
 			//2/3 turns of wand recharging
