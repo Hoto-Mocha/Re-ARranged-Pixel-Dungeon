@@ -74,7 +74,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.OneShotOneKill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
@@ -2044,9 +2043,6 @@ public class Hero extends Char {
 						if (enemy.isAlive()) {
 							int bonusTurns = hasTalent(Talent.SHARED_UPGRADES) ? wep.buffedLvl() : 0;
 							Buff.prolong(Hero.this, SnipersMark.class, SnipersMark.DURATION + bonusTurns).set(enemy.id(), bonusTurns);
-							if (hero.hasTalent(Talent.VISION_ARROW)) {
-								Buff.append(Dungeon.hero, TalismanOfForesight.CharAwareness.class, hero.pointsInTalent(Talent.VISION_ARROW)).charID = enemy.id();
-							}
 						}
 						Actor.remove(this);
 						return true;
@@ -2906,7 +2902,7 @@ public class Hero extends Char {
 			Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
 			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
 			WandOfBlastWave.throwChar(enemy, trajectory, 3, true);
-			Buff.affect(hero, Talent.PushbackCooldown.class, 30-5*Dungeon.hero.pointsInTalent(Talent.PUSHBACK));
+			Buff.affect(hero, Talent.PushbackCooldown.class, 35-5*Dungeon.hero.pointsInTalent(Talent.PUSHBACK));
 		}
 
 		if (hit
@@ -3484,11 +3480,10 @@ public class Hero extends Char {
 				proc *= 2;
 			}
 			if (Random.Float() < proc) {
-				Buff.prolong(enemy, Terror.class, 3);
-			}
-			if (enemy.buff(Terror.class) != null && hero.pointsInTalent(Talent.IMAGE_OF_HORROR) == 3) {
-				Buff.prolong(hero, Invisibility.class, 2);
-				Buff.prolong(hero, Haste.class, 2);
+				Buff.prolong(enemy, Terror.class, 4);
+				if (hero.pointsInTalent(Talent.IMAGE_OF_HORROR) == 3) {
+					Buff.prolong(enemy, Cripple.class, 4);
+				}
 			}
 		}
 
@@ -3496,35 +3491,13 @@ public class Hero extends Char {
 			Buff.affect(hero, Talent.SingularStrikeTracker.class);
 		}
 
-		if (hit && hero.belongings.weapon() == null && hero.buff(Talent.SingularStrikeTracker.class) != null) {
+		if (hit && enemy.isAlive() && hero.belongings.weapon() == null && hero.buff(Talent.SingularStrikeTracker.class) != null) {
 			Buff.affect(enemy, Vulnerable.class, Vulnerable.DURATION);
 			hero.buff(Talent.SingularStrikeTracker.class).detach();
 		}
 
 		if (hero.buff(Outlaw.class) != null) {
 			hero.buff(Outlaw.class).detach();
-		}
-
-		if (hero.hasTalent(Talent.ONE_SHOT_ONE_KILL)) {
-			if (enemy != null
-					&& hit
-					&& (!enemy.isAlive() || (enemy.properties().contains(Property.BOSS) || enemy.properties().contains(Property.MINIBOSS)))
-					&&(hero.belongings.weapon() instanceof HuntingRifle.Bullet
-					|| hero.belongings.weapon() instanceof HuntingRifleAP.Bullet
-					|| hero.belongings.weapon() instanceof HuntingRifleHP.Bullet
-					|| hero.belongings.weapon() instanceof SniperRifle.Bullet
-					|| hero.belongings.weapon() instanceof SniperRifleAP.Bullet
-					|| hero.belongings.weapon() instanceof SniperRifleHP.Bullet
-					|| hero.belongings.weapon() instanceof AntimaterRifle.Bullet
-					|| hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
-					|| hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet
-					|| hero.belongings.weapon() instanceof MarksmanRifle.Bullet
-					|| hero.belongings.weapon() instanceof MarksmanRifleAP.Bullet
-					|| hero.belongings.weapon() instanceof MarksmanRifleHP.Bullet)) {
-				Buff.affect(hero, OneShotOneKill.class).count();
-			} else {
-				if (hero.buff(OneShotOneKill.class) != null) hero.buff(OneShotOneKill.class).detach();
-			}
 		}
 
 		if (hit && hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {

@@ -27,14 +27,19 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
@@ -126,7 +131,12 @@ public class Dong extends Buff implements ActionIndicator.Action {
 			if (cell == null) return;
 			final Char enemy = Actor.findChar( cell );
 			if (enemy == null || Dungeon.hero.isCharmedBy(enemy) || enemy instanceof NPC || !Dungeon.level.heroFOV[cell] || enemy instanceof Hero){
-				GLog.w(Messages.get(Dong.class, "no_target"));
+				if (Dungeon.hero.hasTalent(Talent.DONG_SHEATHING) && enemy instanceof Hero) {
+					Dungeon.hero.buff(Sheathing.class).detach();
+					Dungeon.hero.spendAndNext(TICK);
+				} else {
+					GLog.w(Messages.get(Dong.class, "no_target"));
+				}
 			} else {
 
 				//just attack them then!
@@ -164,6 +174,9 @@ public class Dong extends Buff implements ActionIndicator.Action {
 				Dungeon.observe();
 				GameScene.updateFog();
 				Dungeon.hero.checkVisibleMobs();
+
+				Dungeon.hero.sprite.parent.add( new Lightning(Dungeon.hero.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( Dungeon.hero.pos ), null));
+				CellEmitter.center( Dungeon.hero.pos ).burst( SparkParticle.FACTORY, 3 );
 
 				Dungeon.hero.sprite.place( Dungeon.hero.pos );
 				Dungeon.hero.sprite.turnTo( Dungeon.hero.pos, cell);

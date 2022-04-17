@@ -68,7 +68,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.OneShotOneKill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Outlaw;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
@@ -103,6 +102,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.PrismaticImage;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
@@ -111,9 +111,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfRush;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
@@ -996,7 +998,7 @@ public abstract class Char extends Actor {
 				 || h.belongings.weapon() instanceof AutoRifleAP.Bullet
 				 || h.belongings.weapon() instanceof AutoRifleHP.Bullet
 				) {
-					dmg *= 0.4f + 0.1f*hero.pointsInTalent(Talent.EXPLOSIVE_BULLET);
+					dmg *= 1f - 0.1f*hero.pointsInTalent(Talent.DRUM_MAGAZINE);
 				}
 			}
 
@@ -1023,26 +1025,28 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof DualPistol.Bullet
 						|| h.belongings.weapon() instanceof DualPistolAP.Bullet
 						|| h.belongings.weapon() instanceof DualPistolHP.Bullet)) {
-					dmg *= 5;
+					dmg *= 2*hero.pointsInTalent(Talent.OUTLAW_OF_BARRENLAND);
+					hero.buff(Outlaw.class).detach();
 				}
 			}
 
-			if (this instanceof Hero && hero.hasTalent(Talent.ONE_SHOT_ONE_KILL)) {
-				Hero h = (Hero) this;
-				if ( hero.buff(OneShotOneKill.class) != null
-						&&(h.belongings.weapon() instanceof HuntingRifle.Bullet
-						|| h.belongings.weapon() instanceof HuntingRifleAP.Bullet
-						|| h.belongings.weapon() instanceof HuntingRifleHP.Bullet
-						|| h.belongings.weapon() instanceof SniperRifle.Bullet
-						|| h.belongings.weapon() instanceof SniperRifleAP.Bullet
-						|| h.belongings.weapon() instanceof SniperRifleHP.Bullet
-						|| h.belongings.weapon() instanceof AntimaterRifle.Bullet
-						|| h.belongings.weapon() instanceof AntimaterRifleAP.Bullet
-						|| h.belongings.weapon() instanceof AntimaterRifleHP.Bullet
-						|| h.belongings.weapon() instanceof MarksmanRifle.Bullet
-						|| h.belongings.weapon() instanceof MarksmanRifleAP.Bullet
-						|| h.belongings.weapon() instanceof MarksmanRifleHP.Bullet)) {
-					dmg *= 1 + (0.05 * (1 + hero.pointsInTalent(Talent.ONE_SHOT_ONE_KILL))) * hero.buff(OneShotOneKill.class).getCount();
+			if (this instanceof Hero) {
+				if (hero.hasTalent(Talent.SURPRISE_BULLET) && ((Mob) enemy).surprisedBy(hero) && !level.adjacent(hero.pos, enemy.pos) && Random.Int(20) == 0) {
+					if ((hero.belongings.weapon() instanceof HuntingRifle.Bullet
+						|| hero.belongings.weapon() instanceof HuntingRifleAP.Bullet
+						|| hero.belongings.weapon() instanceof HuntingRifleHP.Bullet
+						|| hero.belongings.weapon() instanceof SniperRifle.Bullet
+						|| hero.belongings.weapon() instanceof SniperRifleAP.Bullet
+						|| hero.belongings.weapon() instanceof SniperRifleHP.Bullet
+						|| hero.belongings.weapon() instanceof AntimaterRifle.Bullet
+						|| hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
+						|| hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet
+						|| hero.belongings.weapon() instanceof MarksmanRifle.Bullet
+						|| hero.belongings.weapon() instanceof MarksmanRifleAP.Bullet
+						|| hero.belongings.weapon() instanceof MarksmanRifleHP.Bullet)) {
+						hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
+						dmg *= 1+hero.pointsInTalent(Talent.SURPRISE_BULLET);
+					}
 				}
 			}
 
@@ -1577,6 +1581,10 @@ public abstract class Char extends Actor {
 				dmg += hero.belongings.armor.DRMax()*0.05f*hero.pointsInTalent(Talent.TACKLE);
 			}
 
+			if (this instanceof Hero && hero.belongings.weapon() instanceof MissileWeapon && hero.hasTalent(Talent.VISION_ARROW) && ((Mob) enemy).surprisedBy(hero)) {
+				Buff.append(hero, TalismanOfForesight.CharAwareness.class, 3*hero.pointsInTalent(Talent.VISION_ARROW)).charID = enemy.id();
+			}
+
 			dmg += dmgBonus;
 
 			//friendly endure
@@ -1629,9 +1637,13 @@ public abstract class Char extends Actor {
 					DeathMark.processFearTheReaper(enemy);
 				}
 				enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Preparation.class, "assassinated"));
-				if (Random.Int(20) < hero.pointsInTalent(Talent.ENERGY_DRAW)) {
+				if (Random.Int(5) < hero.pointsInTalent(Talent.ENERGY_DRAW)) {
 					CloakOfShadows cloak = hero.belongings.getItem(CloakOfShadows.class);
-					cloak.overCharge(1);
+					if (cloak != null) {
+						cloak.overCharge(1);
+						ScrollOfRecharging.charge( Dungeon.hero );
+						SpellSprite.show( hero, SpellSprite.CHARGE );
+					}
 				}
 			}
 

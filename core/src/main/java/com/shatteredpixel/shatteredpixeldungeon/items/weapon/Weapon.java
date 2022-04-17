@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
@@ -442,6 +443,9 @@ abstract public class Weapon extends KindOfWeapon {
 			if (attacker.buff(Talent.StrikingWaveTracker.class) != null
 					&& ((Hero)attacker).pointsInTalent(Talent.STRIKING_WAVE) == 4){
 				multi += 0.2f;
+			}
+			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.JUNG_FOCUSING) && ((Hero) attacker).buff(Jung.class) != null) {
+				multi += 0.5f * hero.pointsInTalent(Talent.JUNG_FOCUSING);
 			}
 			return multi;
 		}

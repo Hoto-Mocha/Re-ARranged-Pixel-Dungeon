@@ -21,15 +21,22 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -113,12 +120,15 @@ public class ArcaneResin extends Item {
 			if (item != null && item instanceof Wand) {
 				Wand w = (Wand)item;
 
-				if (w.level() >= 3){
+				if (w.level() >= 3+Dungeon.hero.pointsInTalent(Talent.MANA_ENHANCE)){
 					GLog.w(Messages.get(ArcaneResin.class, "level_too_high"));
 					return;
 				}
 
 				int resinToUse = w.level()+1;
+				if (Dungeon.hero.pointsInTalent(Talent.MANA_ENHANCE) >= 2) {
+					resinToUse = 2;
+				}
 
 				if (quantity() < resinToUse){
 					GLog.w(Messages.get(ArcaneResin.class, "not_enough"));
@@ -144,10 +154,19 @@ public class ArcaneResin extends Item {
 					GLog.p(Messages.get(ArcaneResin.class, "apply"));
 				}
 
-				if (Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.MANA_REPRESENTATION)) {
-					item = Generator.random( Generator.Category.WAND );
+				if (Random.Int(10) == 0 && Dungeon.hero.pointsInTalent(Talent.MANA_ENHANCE) == 3) {
+					item = new WandOfMagicMissile().identify();
 					Dungeon.level.drop(item, Dungeon.hero.pos).sprite.drop();
-					GLog.p( Messages.get(this, "mana") );
+					GLog.p( Messages.get(ArcaneResin.class, "mana") );
+				}
+
+				if (Dungeon.hero.hasTalent(Talent.MANA_ENHANCE)) {
+					MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
+					if (staff != null){
+						staff.gainCharge(1, true);
+						ScrollOfRecharging.charge( Dungeon.hero );
+						SpellSprite.show( hero, SpellSprite.CHARGE );
+					}
 				}
 			}
 		}

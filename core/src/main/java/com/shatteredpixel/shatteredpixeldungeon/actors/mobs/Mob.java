@@ -624,18 +624,6 @@ public abstract class Mob extends Char {
 			target = enemy.pos;
 		}
 
-		if (enemy instanceof Hero && !isAlive() && hero.hasTalent(Talent.JUNG_DRAIN)) {
-			if (hero.buff(Jung.class) != null) {
-				int healAmt = Math.round(damage * 0.1f * hero.pointsInTalent(Talent.JUNG_DRAIN));
-				healAmt = Math.min( healAmt, hero.HT - hero.HP );
-				if (healAmt > 0 && hero.isAlive()) {
-					hero.HP += healAmt;
-					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-				}
-			}
-		}
-
 		if (buff(SoulMark.class) != null) {
 			int restoration = Math.min(damage, HP+shielding());
 			
@@ -732,8 +720,8 @@ public abstract class Mob extends Char {
 
 			if (cause == Dungeon.hero
 					&& Dungeon.hero.hasTalent(Talent.LETHAL_RAGE)){
-				Berserk berserk = Buff.affect(this, Berserk.class);
-				berserk.damage(30*hero.HT*Dungeon.hero.pointsInTalent(Talent.LETHAL_RAGE));
+				Berserk berserk = Buff.affect(hero, Berserk.class);
+				berserk.add(0.1f*Dungeon.hero.pointsInTalent(Talent.LETHAL_RAGE));
 			}
 		}
 

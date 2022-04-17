@@ -194,7 +194,7 @@ public abstract class Scroll extends Item {
 		}
 
 		if (curUser.hasTalent(Talent.BLESSING_SCROLLS)) {
-			int duration = 10 * curUser.pointsInTalent(Talent.BLESSING_SCROLLS);
+			int duration = 5 * curUser.pointsInTalent(Talent.BLESSING_SCROLLS);
 			if (this instanceof ScrollOfUpgrade || this instanceof ScrollOfEnchantment) {
 				duration *= 2;
 			}

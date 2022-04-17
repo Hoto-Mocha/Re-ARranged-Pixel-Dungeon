@@ -32,7 +32,7 @@ import com.watabou.utils.Bundle;
 public class Outlaw extends Buff {
 	
 	private int count = 0;
-	private int maxCount = 7-Dungeon.hero.pointsInTalent(Talent.OUTLAW_OF_BARRENLAND);
+	private int maxCount = 5;
 
 	@Override
 	public int icon() {
@@ -41,9 +41,12 @@ public class Outlaw extends Buff {
 	
 	@Override
 	public void tintIcon(Image icon) {
-		icon.hardlight(0xFFDB65);
+		if (count < maxCount) {
+			icon.hardlight(0xFFDB65);
+		} else {
+			icon.hardlight(0xFF3333);
+		}
 	}
-
 	public int pos = -1;
 
 	@Override
@@ -51,6 +54,8 @@ public class Outlaw extends Buff {
 		if (pos == -1) pos = target.pos;
 		if (pos != target.pos) {
 			detach();
+		} else {
+			spend(TICK);
 		}
 		return true;
 	}
@@ -80,7 +85,8 @@ public class Outlaw extends Buff {
 
 	@Override
 	public String desc() {
-		return Messages.get(this, "desc", maxCount-count);
+		if (count < maxCount) return Messages.get(this, "desc", maxCount-count);
+		else return Messages.get(this, "desc_ready");
 	}
 
 	private static final String COUNT = "count";

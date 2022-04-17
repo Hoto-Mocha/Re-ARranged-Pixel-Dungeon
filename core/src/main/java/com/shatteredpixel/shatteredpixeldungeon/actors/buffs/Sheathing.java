@@ -47,7 +47,7 @@ public class Sheathing extends Buff {
 		if (pos == -1) pos = target.pos;
 		if (pos != target.pos) {
 			if (Dungeon.hero.hasTalent(Talent.DONG_SHEATHING) && Dungeon.hero.buff(Dong.class) != null) {
-				//do nothing
+				spend(TICK);
 			} else {
 				detach();
 			}
