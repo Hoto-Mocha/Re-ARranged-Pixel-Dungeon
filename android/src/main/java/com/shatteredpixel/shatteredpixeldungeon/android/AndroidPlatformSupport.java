@@ -209,12 +209,9 @@ public class AndroidPlatformSupport extends PlatformSupport {
 				case JAPANESE:
 					typeFace = 0;
 					break;
-				case KOREAN:
+				case KOREAN:default:
 					typeFace = 1;
 					break;
-				case CHINESE:
-				default:
-					typeFace = 2;
 			}
 			KRFontGenerator = SCFontGenerator = JPFontGenerator = new FreeTypeFontGenerator(Gdx.files.absolute("/system/fonts/NotoSansCJK-Regular.ttc"), typeFace);
 			
