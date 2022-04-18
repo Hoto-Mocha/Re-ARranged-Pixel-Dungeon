@@ -67,7 +67,7 @@ public class WndSupportPrompt extends Window {
 				//link += "?utm_source=shatteredpd";
 				//link += "&utm_medium=supporter_prompt";
 				//link += "&utm_campaign=ingame_link";
-				//ShatteredPixelDungeon.platform.openURI(link);
+				ShatteredPixelDungeon.platform.openURI(link);
 				SPDSettings.supportNagged(true);
 				WndSupportPrompt.super.hide();
 			}
