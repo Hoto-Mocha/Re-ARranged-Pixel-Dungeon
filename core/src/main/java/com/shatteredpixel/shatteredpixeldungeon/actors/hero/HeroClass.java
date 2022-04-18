@@ -382,10 +382,10 @@ public enum HeroClass {
 		new ScrollOfMirrorImage().identify();
 		new PotionOfPurity().identify();
 
-		new Teleporter().collect();
-		new MinersTool().identify().collect();
-		new RingOfMight().identify().upgrade(10).collect();
-		new PlateArmor().identify().upgrade(100).collect();
+		//new Teleporter().collect();
+		//new MinersTool().identify().collect();
+		//new RingOfMight().identify().upgrade(10).collect();
+		//new PlateArmor().identify().upgrade(100).collect();
 	}
 
 	private static void initKnight( Hero hero ) {
