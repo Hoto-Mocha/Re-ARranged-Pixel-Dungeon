@@ -74,6 +74,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticG
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMastery;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
@@ -90,6 +91,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurs
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMysticalEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLightning;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
@@ -237,6 +239,7 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
+		//new ScrollOfEnchantment().identify().quantity(50).collect();
 		//new TengusMask().collect();
 		//new PotionOfExperience().identify().quantity(100).collect();
 		//new RingOfMight().identify().upgrade(10).collect();
@@ -265,6 +268,12 @@ public enum HeroClass {
 		new ScrollOfUpgrade().identify();
 		new PotionOfLiquidFlame().identify();
 
+		//new ArcaneResin().quantity(50).collect();
+		//new WandOfMagicMissile().identify().collect();
+		//new WandOfMagicMissile().identify().collect();
+		//new WandOfMagicMissile().identify().collect();
+		//new TengusMask().collect();
+		//new PotionOfExperience().quantity(50).identify().collect();
 	}
 
 	private static void initRogue( Hero hero ) {
@@ -288,6 +297,15 @@ public enum HeroClass {
 
 		new ScrollOfMagicMapping().identify();
 		new PotionOfInvisibility().identify();
+		
+		//new Teleporter().collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new TestWeapon().identify().collect();
+		//new TengusMask().collect();
+		//new PotionOfHealing().identify().quantity(100).collect();
+		//new PotionOfMagicalSight().identify().quantity(100).collect();
+		//new MinersTool().identify().upgrade(20).collect();
 	}
 
 	private static void initHuntress( Hero hero ) {

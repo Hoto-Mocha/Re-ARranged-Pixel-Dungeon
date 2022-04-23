@@ -234,7 +234,9 @@ public class ScrollOfEnchantment extends ExoticScroll {
 				}
 			}
 
-			item.fix();
+			if (item != null) {
+				item.fix();
+			}
 		}
 	};
 }

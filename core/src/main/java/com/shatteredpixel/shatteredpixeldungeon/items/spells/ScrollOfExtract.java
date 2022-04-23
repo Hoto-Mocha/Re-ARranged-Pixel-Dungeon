@@ -45,7 +45,7 @@ public class ScrollOfExtract extends InventorySpell {
 
     @Override
     protected boolean usableOnItem(Item item) {
-        if (item.isEquipped(Dungeon.hero) || item.unique) {
+        if (item.isEquipped(Dungeon.hero) || item.unique || item.cursed ) {
             return false;
         }
         if ((item instanceof MeleeWeapon && isIdentified() && item.buffedLvl() > 0) || (item instanceof MissileWeapon && item.buffedLvl() > 0)) {

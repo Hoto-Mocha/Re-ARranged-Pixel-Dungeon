@@ -22,51 +22,36 @@
 package com.shatteredpixel.shatteredpixeldungeon.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Bones;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM300;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DwarfKing;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Goo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ConfusionGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ParalyticGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Pylon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rebel;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Soldier;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.keys.CrystalKey;
+import com.shatteredpixel.shatteredpixeldungeon.items.keys.GoldenKey;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfArmorEnhance;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfWeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HandyBarricade;
-import com.shatteredpixel.shatteredpixeldungeon.levels.builders.Builder;
-import com.shatteredpixel.shatteredpixeldungeon.levels.builders.FigureEightBuilder;
-import com.shatteredpixel.shatteredpixeldungeon.levels.painters.CityPainter;
-import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
-import com.shatteredpixel.shatteredpixeldungeon.levels.painters.SewerPainter;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.RatKingRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.sewerboss.GooBossRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.sewerboss.SewerBossEntranceRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.sewerboss.SewerBossExitRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.ImpShopRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.StandardRoom;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.ToxicGasRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
-import com.watabou.noosa.Group;
-import com.watabou.noosa.Tilemap;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.PathFinder;
-import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
-
-import java.util.ArrayList;
-import java.util.HashSet;
 
 public class LabsBossLevel extends Level {
 
@@ -84,7 +69,7 @@ public class LabsBossLevel extends Level {
 	}
 
 	private static int WIDTH = 33;
-	private static int HEIGHT = 34;
+	private static int HEIGHT = 40;
 
 	private static final Rect entry = new Rect(0, 27, 33, 6);
 	private static final Rect arena = new Rect(0, 0, 33, 26);
@@ -129,8 +114,11 @@ public class LabsBossLevel extends Level {
 	private static final short p = Terrain.PEDESTAL;
 	private static final short s = Terrain.EMPTY_SP;
 	private static final short D = Terrain.DOOR;
+	private static final short C = Terrain.CRYSTAL_DOOR;
+	private static final short B = Terrain.STATUE;
 	private static final short i = Terrain.CUSTOM_TILE_1;
 	private static final short t = Terrain.CUSTOM_TILE_2;
+	private static final short J = Terrain.CUSTOM_TILE_3;
 	private static final short L = Terrain.LOCKED_EXIT;
 
 	private static short[] level = {
@@ -162,11 +150,17 @@ public class LabsBossLevel extends Level {
 			W, W, W, W, W, W, i, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, i, W, W, W, W, W, W,
 			W, W, W, W, W, W, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, W, W, W, W, W, W,
 			W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, D, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
-			W, W, W, W, W, W, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, W, W, W, W, W, W,
-			W, W, W, W, W, W, t, t, t, t, t, t, t, t, t, e, e, e, t, t, t, t, t, t, t, t, t, W, W, W, W, W, W,
-			W, W, W, W, W, W, t, t, p, t, t, t, t, t, t, e, E, e, t, t, t, t, t, t, p, t, t, W, W, W, W, W, W,
-			W, W, W, W, W, W, t, t, t, t, t, t, t, t, t, e, e, e, t, t, t, t, t, t, t, t, t, W, W, W, W, W, W,
-			W, W, W, W, W, W, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, W, W, W, W, W, W,
+			W, W, W, W, W, W, t, p, p, p, t, t, t, t, t, t, t, t, t, t, t, t, t, p, p, p, t, W, W, W, W, W, W,
+			W, W, i, i, i, W, t, t, t, t, t, t, t, t, t, e, e, e, t, t, t, t, t, t, t, t, t, W, t, t, t, W, W,
+			W, W, i, i, i, B, t, t, p, t, t, t, t, t, t, e, E, e, t, t, t, t, t, t, p, t, t, C, t, p, t, W, W,
+			W, W, i, i, i, W, t, t, t, t, t, t, t, t, t, e, e, e, t, t, t, t, t, t, t, t, t, W, t, t, t, W, W,
+			W, W, W, B, W, W, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, W, W, t, W, W, W,
+			W, W, W, B, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, D, W, W, W,
+			W, W, i, i, i, W, W, W, W, i, i, i, W, W, W, W, i, i, i, W, W, W, W, i, i, i, W, W, W, t, W, W, W,
+			W, i, i, i, i, i, W, W, i, i, i, i, i, W, W, i, i, i, i, i, W, W, i, i, i, i, i, W, t, t, t, W, W,
+			W, i, i, J, i, i, B, B, i, i, J, i, i, B, B, i, i, J, i, i, B, B, i, i, J, i, i, B, t, p, t, W, W,
+			W, i, i, i, i, i, W, W, i, i, i, i, i, W, W, i, i, i, i, i, W, W, i, i, i, i, i, W, t, t, t, W, W,
+			W, W, i, i, i, W, W, W, W, i, i, i, W, W, W, W, i, i, i, W, W, W, W, i, i, i, W, W, W, W, W, W, W,
 			W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W
 	};
 
@@ -179,6 +173,11 @@ public class LabsBossLevel extends Level {
 			// 된 요소대로 맵 제작
 			pos++; 												//만들고 나서 다음 칸으로 이동하기 위해 필요한 것. ex)벽 -> 벽일 경우 첫번째 벽이 pos고, 두번째 벽이 pos+1.
 		}
+
+		Blob.seed(3+(36)*33, 12, ConfusionGasSeed.class, this);
+		Blob.seed(10+(36)*33, 12, ToxicGasSeed.class, this);
+		Blob.seed(17+(36)*33, 12, ParalyticGasSeed.class, this);
+		Blob.seed(24+(36)*33, 12, CorrosiveGasSeed.class, this);
 	}
 
 	@Override
@@ -187,9 +186,13 @@ public class LabsBossLevel extends Level {
 		super.occupyCell(ch);
 
 		if (map[bottomDoor] != Terrain.LOCKED_DOOR && ch.pos < bottomDoor && ch == Dungeon.hero && !isCompleted) {
-
 			seal();
+			return;
+		}
 
+		if (Dungeon.level.map[topDoor] == Terrain.LOCKED_EXIT && ch.pos < bottomDoor && ch == Dungeon.hero) {
+			seal(); //When the boss is not appeared
+			return;
 		}
 	}
 
@@ -199,8 +202,79 @@ public class LabsBossLevel extends Level {
 
 	@Override
 	protected void createItems() {
+		Item prize1 = Random.oneOf(
+				new Gold(3000),
+				new PotionOfHealing().quantity(3),
+				new StoneOfEnchantment().quantity(3),
+				Generator.randomArtifact(),
+				Generator.randomWeapon(5).upgrade(3),
+				Generator.randomArmor(5).upgrade(3),
+				new PotionOfArmorEnhance().quantity(5),
+				new PotionOfWeaponEnhance().quantity(5)
+		);
+		Item prize2 = Random.oneOf(
+				new Gold(3000),
+				new PotionOfHealing().quantity(3),
+				new StoneOfEnchantment().quantity(3),
+				Generator.randomArtifact(),
+				Generator.randomWeapon(5).upgrade(3),
+				Generator.randomArmor(5).upgrade(3),
+				new PotionOfArmorEnhance().quantity(5),
+				new PotionOfWeaponEnhance().quantity(5)
+		);
+		Item prize3 = Random.oneOf(
+				new Gold(3000),
+				new PotionOfHealing().quantity(3),
+				new StoneOfEnchantment().quantity(3),
+				Generator.randomArtifact(),
+				Generator.randomWeapon(5).upgrade(3),
+				Generator.randomArmor(5).upgrade(3),
+				new PotionOfArmorEnhance().quantity(5),
+				new PotionOfWeaponEnhance().quantity(5)
+		);
+		Item prize4 = Random.oneOf(
+				new Gold(3000),
+				new PotionOfHealing().quantity(3),
+				new StoneOfEnchantment().quantity(3),
+				Generator.randomArtifact(),
+				Generator.randomWeapon(5).upgrade(3),
+				Generator.randomArmor(5).upgrade(3),
+				new PotionOfArmorEnhance().quantity(5),
+				new PotionOfWeaponEnhance().quantity(5)
+		);
+		Item prize5 = Random.oneOf(
+				new Gold(3000),
+				new PotionOfHealing().quantity(3),
+				new StoneOfEnchantment().quantity(3),
+				Generator.randomArtifact(),
+				Generator.randomWeapon(5).upgrade(3),
+				Generator.randomArmor(5).upgrade(3),
+				new PotionOfArmorEnhance().quantity(5),
+				new PotionOfWeaponEnhance().quantity(5)
+		);
+		Item prize6 = Random.oneOf(
+				new Gold(3000),
+				new PotionOfHealing().quantity(3),
+				new StoneOfEnchantment().quantity(3),
+				Generator.randomArtifact(),
+				Generator.randomWeapon(5).upgrade(3),
+				Generator.randomArmor(5).upgrade(3),
+				new PotionOfArmorEnhance().quantity(5),
+				new PotionOfWeaponEnhance().quantity(5)
+		);
+
 		drop( new HandyBarricade().quantity(5), 8+(30)*33 );
 		drop( new HandyBarricade().quantity(5), 24+(30)*33 );
+		drop( new CrystalKey(30), 29+(30)*33 ).type = Heap.Type.CHEST;
+		drop( new GoldenKey(30).quantity(Random.NormalIntRange(1, 6)), 29+(36)*33 ).type = Heap.Type.CHEST;
+
+		drop( prize1, 7+(28)*33 ).type = Heap.Type.LOCKED_CHEST;
+		drop( prize2, 8+(28)*33 ).type = Heap.Type.LOCKED_CHEST;
+		drop( prize3, 9+(28)*33 ).type = Heap.Type.LOCKED_CHEST;
+
+		drop( prize4, 23+(28)*33 ).type = Heap.Type.LOCKED_CHEST;
+		drop( prize5, 24+(28)*33 ).type = Heap.Type.LOCKED_CHEST;
+		drop( prize6, 25+(28)*33 ).type = Heap.Type.LOCKED_CHEST;
 	}
 
 	public int randomCellPos() {
@@ -333,5 +407,109 @@ public class LabsBossLevel extends Level {
 			default:
 				return super.tileDesc( tile );
 		}
+	}
+
+	public static class ToxicGasSeed extends Blob {
+
+		@Override
+		protected void evolve() {
+			int cell;
+			ToxicGas gas = (ToxicGas) Dungeon.level.blobs.get(ToxicGas.class);
+			for (int i=area.top-1; i <= area.bottom; i++) {
+				for (int j = area.left-1; j <= area.right; j++) {
+					cell = j + i* Dungeon.level.width();
+					if (Dungeon.level.insideMap(cell)) {
+
+						off[cell] = cur[cell];
+						volume += off[cell];
+
+						if (gas == null || gas.volume == 0){
+							GameScene.add(Blob.seed(cell, 300, ToxicGas.class));
+						} else if (gas.cur[cell] <= 9*off[cell]){
+							GameScene.add(Blob.seed(cell, 300, ToxicGas.class));
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	public static class ParalyticGasSeed extends Blob {
+
+		@Override
+		protected void evolve() {
+			int cell;
+			ParalyticGas gas = (ParalyticGas) Dungeon.level.blobs.get(ParalyticGas.class);
+			for (int i=area.top-1; i <= area.bottom; i++) {
+				for (int j = area.left-1; j <= area.right; j++) {
+					cell = j + i* Dungeon.level.width();
+					if (Dungeon.level.insideMap(cell)) {
+
+						off[cell] = cur[cell];
+						volume += off[cell];
+
+						if (gas == null || gas.volume == 0){
+							GameScene.add(Blob.seed(cell, 300, ParalyticGas.class));
+						} else if (gas.cur[cell] <= 9*off[cell]){
+							GameScene.add(Blob.seed(cell, 300, ParalyticGas.class));
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	public static class CorrosiveGasSeed extends Blob {
+
+		@Override
+		protected void evolve() {
+			int cell;
+			CorrosiveGas gas = (CorrosiveGas) Dungeon.level.blobs.get(CorrosiveGas.class);
+			for (int i=area.top-1; i <= area.bottom; i++) {
+				for (int j = area.left-1; j <= area.right; j++) {
+					cell = j + i* Dungeon.level.width();
+					if (Dungeon.level.insideMap(cell)) {
+
+						off[cell] = cur[cell];
+						volume += off[cell];
+
+						if (gas == null || gas.volume == 0){
+							GameScene.add(Blob.seed(cell, 300, CorrosiveGas.class));
+						} else if (gas.cur[cell] <= 9*off[cell]){
+							GameScene.add(Blob.seed(cell, 300, CorrosiveGas.class));
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	public static class ConfusionGasSeed extends Blob {
+
+		@Override
+		protected void evolve() {
+			int cell;
+			ConfusionGas gas = (ConfusionGas) Dungeon.level.blobs.get(ConfusionGas.class);
+			for (int i=area.top-1; i <= area.bottom; i++) {
+				for (int j = area.left-1; j <= area.right; j++) {
+					cell = j + i* Dungeon.level.width();
+					if (Dungeon.level.insideMap(cell)) {
+
+						off[cell] = cur[cell];
+						volume += off[cell];
+
+						if (gas == null || gas.volume == 0){
+							GameScene.add(Blob.seed(cell, 300, ConfusionGas.class));
+						} else if (gas.cur[cell] <= 9*off[cell]){
+							GameScene.add(Blob.seed(cell, 300, ConfusionGas.class));
+						}
+					}
+				}
+			}
+		}
+
 	}
 }

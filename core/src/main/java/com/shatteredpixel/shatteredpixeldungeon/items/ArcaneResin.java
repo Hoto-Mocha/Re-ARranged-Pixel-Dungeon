@@ -152,20 +152,20 @@ public class ArcaneResin extends Item {
 
 					curUser.spendAndNext(Actor.TICK);
 					GLog.p(Messages.get(ArcaneResin.class, "apply"));
-				}
 
-				if (Random.Int(10) == 0 && Dungeon.hero.pointsInTalent(Talent.MANA_ENHANCE) == 3) {
-					item = new WandOfMagicMissile().identify();
-					Dungeon.level.drop(item, Dungeon.hero.pos).sprite.drop();
-					GLog.p( Messages.get(ArcaneResin.class, "mana") );
-				}
+					if (Random.Int(10) == 0 && Dungeon.hero.pointsInTalent(Talent.MANA_ENHANCE) == 3) {
+						item = new WandOfMagicMissile().identify();
+						Dungeon.level.drop(item, Dungeon.hero.pos).sprite.drop();
+						GLog.p( Messages.get(ArcaneResin.class, "mana") );
+					}
 
-				if (Dungeon.hero.hasTalent(Talent.MANA_ENHANCE)) {
-					MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
-					if (staff != null){
-						staff.gainCharge(1, true);
-						ScrollOfRecharging.charge( Dungeon.hero );
-						SpellSprite.show( hero, SpellSprite.CHARGE );
+					if (Dungeon.hero.hasTalent(Talent.MANA_ENHANCE)) {
+						MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
+						if (staff != null){
+							staff.gainCharge(1, true);
+							ScrollOfRecharging.charge( Dungeon.hero );
+							SpellSprite.show( hero, SpellSprite.CHARGE );
+						}
 					}
 				}
 			}
