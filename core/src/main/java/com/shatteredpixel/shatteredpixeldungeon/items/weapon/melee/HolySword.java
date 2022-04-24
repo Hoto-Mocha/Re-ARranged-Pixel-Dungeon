@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -53,13 +54,14 @@ public class HolySword extends MeleeWeapon {
     @Override
     public int proc(Char attacker, Char defender, int damage) {
         if (hero.STR() >= STRReq()) {
-            int healAmt = 5+buffedLvl();
+            int healAmt = 3+buffedLvl();
             healAmt = Math.min( healAmt, attacker.HT - hero.HP );
             if (healAmt > 0 && attacker.isAlive()) {
                 attacker.HP += healAmt;
                 attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
                 attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
             }
+            Buff.affect(attacker, HealingArea.class).setup(attacker.pos, 3+buffedLvl());
         }
         return damage;
     }
@@ -111,7 +113,7 @@ public class HolySword extends MeleeWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return 22;
+        return 24;
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

@@ -39,7 +39,7 @@ public class RingOfRush extends Ring {
 
 	public String statsInfo() {
 		if (isIdentified()){
-			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100f * (Math.pow(1.3f, soloBuffedBonus()) - 1f)), new DecimalFormat("#.##").format(100f * (1f - Math.pow(0.85f, soloBuffedBonus()))));
+			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100f * (Math.pow(1.3f, soloBuffedBonus()) - 1f)), new DecimalFormat("#.##").format(100f * (1f - Math.max(Math.pow(0.85f, soloBuffedBonus()), 0.1f))));
 		} else {
 			return Messages.get(this, "typical_stats", new DecimalFormat("#.##").format(30f), new DecimalFormat("#.##").format(15f));
 		}
@@ -55,7 +55,7 @@ public class RingOfRush extends Ring {
 	}
 
 	public static float damageMultiplier(Char target ){
-		return (float)Math.pow(0.85, getBuffedBonus(target, Rush.class));
+		return Math.max((float)Math.pow(0.85, getBuffedBonus(target, Rush.class)), 0.1f);
 	}
 
 	public class Rush extends RingBuff {

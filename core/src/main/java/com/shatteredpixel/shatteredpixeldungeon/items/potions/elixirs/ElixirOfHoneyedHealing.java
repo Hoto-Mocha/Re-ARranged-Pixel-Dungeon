@@ -22,10 +22,12 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -55,6 +57,10 @@ public class ElixirOfHoneyedHealing extends Elixir {
 		if (Dungeon.level.heroFOV[cell]) {
 			Sample.INSTANCE.play( Assets.Sounds.SHATTER );
 			splash( cell );
+		}
+
+		if (cell == Dungeon.hero.pos && !Dungeon.isChallenged(Challenges.NO_HEALING)) {
+			Buff.affect(Dungeon.hero, HealingArea.class).setup(Dungeon.hero.pos, Dungeon.hero.HT);
 		}
 		
 		Char ch = Actor.findChar(cell);

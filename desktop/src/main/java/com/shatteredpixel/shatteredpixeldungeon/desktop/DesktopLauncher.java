@@ -82,7 +82,7 @@ public class DesktopLauncher {
 
 				//shorten/simplify exception message to make it easier to fit into a message box
 				exceptionMsg = exceptionMsg.replaceAll("\\(.*:([0-9]*)\\)", "($1)");
-				exceptionMsg = exceptionMsg.replace("com.shatteredpixel.shatteredpixeldungeon.", "");
+				exceptionMsg = exceptionMsg.replace("com.arrangedpixel.arrangedpixeldungeon.", "");
 				exceptionMsg = exceptionMsg.replace("com.watabou.", "");
 				exceptionMsg = exceptionMsg.replace("com.badlogic.gdx.", "");
 				exceptionMsg = exceptionMsg.replace("\t", "    ");
@@ -130,20 +130,20 @@ public class DesktopLauncher {
 		String basePath = "";
 		if (SharedLibraryLoader.isWindows) {
 			if (System.getProperties().getProperty("os.name").equals("Windows XP")) {
-				basePath = "Application Data/.shatteredpixel/Shattered Pixel Dungeon/";
+				basePath = "Application Data/.arrangedpixel/ARranged Pixel Dungeon/";
 			} else {
-				basePath = "AppData/Roaming/.shatteredpixel/Shattered Pixel Dungeon/";
+				basePath = "AppData/Roaming/.arrangedpixel/ARranged Pixel Dungeon/";
 			}
 		} else if (SharedLibraryLoader.isMac) {
-			basePath = "Library/Application Support/Shattered Pixel Dungeon/";
+			basePath = "Library/Application Support/ARranged Pixel Dungeon/";
 		} else if (SharedLibraryLoader.isLinux) {
 			String XDGHome = System.getenv().get("XDG_DATA_HOME");
 			if (XDGHome == null) XDGHome = ".local/share/";
 			basePath = XDGHome + ".shatteredpixel/shattered-pixel-dungeon/";
 
 			//copy over files from old linux save DIR, pre-1.2.0
-			FileHandle oldBase = new Lwjgl3FileHandle(".shatteredpixel/shattered-pixel-dungeon/", Files.FileType.External);
-			FileHandle newBase = new Lwjgl3FileHandle(XDGHome + ".shatteredpixel/shattered-pixel-dungeon/", Files.FileType.External);
+			FileHandle oldBase = new Lwjgl3FileHandle(".arrangedpixel/shattered-pixel-dungeon/", Files.FileType.External);
+			FileHandle newBase = new Lwjgl3FileHandle(XDGHome + ".arrangedpixel/shattered-pixel-dungeon/", Files.FileType.External);
 			if (oldBase.exists()){
 				if (!newBase.exists()) {
 					oldBase.copyTo(newBase.parent());

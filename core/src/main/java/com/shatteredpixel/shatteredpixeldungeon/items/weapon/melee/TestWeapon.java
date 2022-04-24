@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class TestWeapon extends MeleeWeapon {
@@ -43,6 +44,7 @@ public class TestWeapon extends MeleeWeapon {
     @Override
     public int proc(Char attacker, Char defender, int damage) {
         Buff.affect(attacker, Awareness.class, 10f);
+        Buff.affect(attacker, HealingArea.class).setup(attacker.pos, 100);
         return damage;
     }
 
