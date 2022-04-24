@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ConfusionGas;
@@ -185,14 +186,23 @@ public class LabsBossLevel extends Level {
 
 		super.occupyCell(ch);
 
+		boolean isRebelAlive = false;
+
+		for (int i=0 ; i < Dungeon.level.length ; i++) {
+			Char mob = Actor.findChar(i);
+			if (mob instanceof Rebel) {
+				isRebelAlive = true;
+				break;
+			}
+		}
+
 		if (map[bottomDoor] != Terrain.LOCKED_DOOR && ch.pos < bottomDoor && ch == Dungeon.hero && !isCompleted) {
 			seal();
 			return;
 		}
 
-		if (Dungeon.level.map[topDoor] == Terrain.LOCKED_EXIT && ch.pos < bottomDoor && ch == Dungeon.hero) {
+		if (Dungeon.level.map[topDoor] == Terrain.LOCKED_EXIT && ch.pos < bottomDoor && ch == Dungeon.hero && !isRebelAlive) {
 			seal(); //When the boss is not appeared
-			return;
 		}
 	}
 
