@@ -299,16 +299,16 @@ public enum HeroClass {
 		new ScrollOfMagicMapping().identify();
 		new PotionOfInvisibility().identify();
 
-		new ElixirOfHoneyedHealing().quantity(50).collect();
-		new RingOfRush().identify().upgrade(50).collect();
-		new Teleporter().collect();
-		new PotionOfExperience().identify().quantity(29).collect();
-		new PlateArmor().identify().upgrade(100).collect();
-		new TestWeapon().identify().collect();
-		new TengusMask().collect();
-		new PotionOfHealing().identify().quantity(100).collect();
-		new PotionOfMagicalSight().identify().quantity(100).collect();
-		new MinersTool().identify().upgrade(20).collect();
+		//new ElixirOfHoneyedHealing().quantity(50).collect();
+		//new RingOfRush().identify().upgrade(50).collect();
+		//new Teleporter().collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new TestWeapon().identify().collect();
+		//new TengusMask().collect();
+		//new PotionOfHealing().identify().quantity(100).collect();
+		//new PotionOfMagicalSight().identify().quantity(100).collect();
+		//new MinersTool().identify().upgrade(20).collect();
 	}
 
 	private static void initHuntress( Hero hero ) {
