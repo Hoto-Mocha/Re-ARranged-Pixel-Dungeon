@@ -62,7 +62,11 @@ public enum HeroSubClass {
 
 	WEAPONMASTER(HeroIcon.WEAPONMASTER),
 	FORTRESS(HeroIcon.FORTRESS),
-	CRUSADER(HeroIcon.CRUSADER);
+	CRUSADER(HeroIcon.CRUSADER),
+
+	MEDIC(HeroIcon.MEDIC),
+	ANGEL(HeroIcon.ANGEL),
+	SURGEON(HeroIcon.SURGEON);
 
 	int icon;
 

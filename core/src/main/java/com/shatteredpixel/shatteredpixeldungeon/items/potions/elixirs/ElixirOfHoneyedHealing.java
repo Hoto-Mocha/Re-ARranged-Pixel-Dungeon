@@ -60,7 +60,7 @@ public class ElixirOfHoneyedHealing extends Elixir {
 		}
 
 		if (cell == Dungeon.hero.pos && !Dungeon.isChallenged(Challenges.NO_HEALING)) {
-			Buff.affect(Dungeon.hero, HealingArea.class).setup(Dungeon.hero.pos, Dungeon.hero.HT);
+			Buff.affect(Dungeon.hero, HealingArea.class).setup(Dungeon.hero.pos, Dungeon.hero.HT, 1, true);
 		}
 		
 		Char ch = Actor.findChar(cell);

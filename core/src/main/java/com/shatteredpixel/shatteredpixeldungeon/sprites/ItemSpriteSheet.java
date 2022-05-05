@@ -195,9 +195,15 @@ public class ItemSpriteSheet {
 
 	private static final int SPECIAL_ITEMS      =                               xy(1, 6);   //8 slots
 	public static final int KNIGHT_SHIELD 	= SPECIAL_ITEMS+0;
+	public static final int HEAL_BOOK	 	= SPECIAL_ITEMS+1;
+	public static final int GAMMA_RAY_GUN 	= SPECIAL_ITEMS+2;
+	public static final int HAND_MIRROR 	= SPECIAL_ITEMS+3;
 
 	static{
 		assignItemRect(KNIGHT_SHIELD,		16, 15);
+		assignItemRect(HEAL_BOOK,			13, 15);
+		assignItemRect(GAMMA_RAY_GUN,		12, 15);
+		assignItemRect(HAND_MIRROR,			10, 16);
 	}
 
 	private static final int WEP_TIER1      =                               xy(1, 7);   //8 slots

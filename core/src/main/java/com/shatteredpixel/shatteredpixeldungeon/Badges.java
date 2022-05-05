@@ -61,6 +61,7 @@ public class Badges {
 		UNLOCK_SAMURAI				( 21 ),
 		UNLOCK_PLANTER				( 22 ),
 		UNLOCK_KNIGHT				( 23 ),
+		UNLOCK_NURSE				( 24 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),
 		GOLD_COLLECTED_1            ( 6 ),
@@ -783,6 +784,11 @@ public class Badges {
 	public static void validateKnightUnlock(){
 		if ((Statistics.amuletObtained = true) && !global.contains(Badge.UNLOCK_KNIGHT))
 			displayBadge( Badge.UNLOCK_KNIGHT );
+	}
+
+	public static void validateNurseUnlock(){
+		if ((Statistics.amuletObtained = true) && !global.contains(Badge.UNLOCK_NURSE))
+			displayBadge( Badge.UNLOCK_NURSE );
 	}
 	
 	public static void validateMasteryCombo( int n ) {

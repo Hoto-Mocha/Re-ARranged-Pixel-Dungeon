@@ -44,8 +44,8 @@ public class TestWeapon extends MeleeWeapon {
     @Override
     public int proc(Char attacker, Char defender, int damage) {
         Buff.affect(attacker, Awareness.class, 10f);
-        Buff.affect(attacker, HealingArea.class).setup(attacker.pos, 100);
-        return damage;
+        Buff.affect(attacker, HealingArea.class).setup(attacker.pos, 100, 3, true);
+        return super.proc( attacker, defender, damage );
     }
 
     public int min(int lvl) {

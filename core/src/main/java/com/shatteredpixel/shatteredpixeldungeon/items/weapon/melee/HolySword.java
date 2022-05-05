@@ -61,9 +61,9 @@ public class HolySword extends MeleeWeapon {
                 attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
                 attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
             }
-            Buff.affect(attacker, HealingArea.class).setup(attacker.pos, 3+buffedLvl());
+            Buff.affect(attacker, HealingArea.class).setup(attacker.pos, 3+buffedLvl(), 1, true);
         }
-        return damage;
+        return super.proc( attacker, defender, damage );
     }
 
     @Override

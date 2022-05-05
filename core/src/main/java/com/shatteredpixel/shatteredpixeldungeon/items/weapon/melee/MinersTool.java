@@ -87,7 +87,7 @@ public class MinersTool extends MeleeWeapon {
 		if (Random.Float() < procChance) {
 			Buff.prolong(defender, Vulnerable.class, 5f);
 		}
-		return damage;
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

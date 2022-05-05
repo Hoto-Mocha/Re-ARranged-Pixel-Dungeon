@@ -62,6 +62,9 @@ public class HeroIcon extends Image {
 	public static final int WEAPONMASTER	= 43;
 	public static final int FORTRESS		= 44;
 	public static final int CRUSADER		= 45;
+	public static final int MEDIC			= 49;
+	public static final int ANGEL			= 50;
+	public static final int SURGEON			= 51;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;
@@ -89,6 +92,9 @@ public class HeroIcon extends Image {
 	public static final int HOLY_SHIELD		= 46;
 	public static final int STIMPACK		= 47;
 	public static final int UNSTABLE_ANKH	= 48;
+	public static final int HEAL_GENERATOR	= 52;
+	public static final int ANGEL_WING		= 53;
+	public static final int GAMMA_EMMIT		= 54;
 
 
 	public HeroIcon(HeroSubClass subCls){

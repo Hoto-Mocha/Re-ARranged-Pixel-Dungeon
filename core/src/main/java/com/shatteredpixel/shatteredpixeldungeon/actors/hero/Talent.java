@@ -313,13 +313,33 @@ public enum Talent {
 	BURDEN_RELIEF(273, 4), LASTING_PACK(274, 4), TIME_STOP(275, 4),
 	//UnstableAnkh T4
 	BLESSED_ANKH(276, 4), ANKH_ENHANCE(277, 4), COMPLETE_ANKH(278, 4),
+
+	//Nurse T1
+	HEALING_MEAL(280), DOCTORS_INTUITION(281), INNER_MIRROR(282), CRITICAL_SHIELD(283), HEAL_AMP(284),
+	//Nurse T2
+	CHALLENGING_MEAL(285), POTION_SPREAD(286), HEALAREA(287), ANGEL(288), MEDICAL_SUPPORT(289), WINNERS_FLAG(290),
+	//Nurse T3
+	PISTON(291, 3), SUBWEAPON_ENHANCE(292,3),
+	//Medic T3
+	PROMOTION(293, 3), HEALING_SHIELD(294, 3), SHARING_AREA(295, 3), COMP_RECOVER(296, 3),
+	//Angel T3
+	APPEASE(297, 3), ANGEL_AND_DEVIL(298, 3), AREA_OF_LIGHT(299, 3), BLESS_ENHANCE(300, 3),
+	//Surgeon T3
+	SCALPEL(301, 3), DEFIBRILLATOR(302, 3), DEATH_DIAGNOSIS(303, 3), FIRST_AID(304, 3),
+	//HealGenerator T4
+	AREA_AMP(305, 4), SHIELD_GEN(306, 4), DURABLE_GEN(307, 4),
+	//AngelWing T4
+	LIGHT_LIKE_FEATHER(308, 4), ANGELS_BLESS(309, 4), HEALING_WING(310, 4),
+	//GammaRayEmmit T4
+	TRANSMOG_BIAS(311, 4), IMPRINTING_EFFECT(312, 4), SHEEP_TRANSMOG(313, 4),
+
 	//universal T4
 	HEROIC_ENERGY(34, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
-	RATSISTANCE(286, 4), RATLOMACY(287, 4), RATFORCEMENTS(288, 4),
+	RATSISTANCE(321, 4), RATLOMACY(322, 4), RATFORCEMENTS(323, 4),
 	//universal T3
-	ATK_SPEED_ENHANCE(280, 4), DEF_ENHANCE(281, 4), ACC_ENHANCE(282, 4), EVA_ENHANCE(283, 4), DEW_ENHANCE(284, 4),
-	BETTER_CHOICE(285, 3);
+	ATK_SPEED_ENHANCE(315, 4), DEF_ENHANCE(316, 4), ACC_ENHANCE(317, 4), EVA_ENHANCE(318, 4), DEW_ENHANCE(319, 4),
+	BETTER_CHOICE(320, 3);
 
 	public static class ImprovisedProjectileCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
@@ -419,14 +439,13 @@ public enum Talent {
 	public int icon(){
 		if (this == HEROIC_ENERGY){
 			if (Ratmogrify.useRatroicEnergy){
-				return 289;
+				return 324;
 			}
 			HeroClass cls = Dungeon.hero != null ? Dungeon.hero.heroClass : GamesInProgress.selectedClass;
 			switch (cls){
 				case WARRIOR: default:
 					return 34;
 				case MAGE:
-
 					return 69;
 				case ROGUE:
 					return 104;
@@ -440,6 +459,8 @@ public enum Talent {
 					return 244;
 				case KNIGHT:
 					return 279;
+				case NURSE:
+					return 314;
 			}
 		} else {
 			return icon;

@@ -3,18 +3,15 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.nurse.AngelWing;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlessingParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.HealingParticle;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
-import com.watabou.noosa.Image;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
@@ -22,7 +19,7 @@ import com.watabou.utils.Point;
 
 import java.util.ArrayList;
 
-public class HealingArea extends Buff {
+public class BlessingArea extends Buff {
 
     private ArrayList<Integer> areaPositions = new ArrayList<>();
     private ArrayList<Emitter> areaEmitters = new ArrayList<>();
@@ -37,7 +34,7 @@ public class HealingArea extends Buff {
 
     @Override
     public int icon() {
-        return BuffIndicator.REGEN;
+        return BuffIndicator.BLESS;
     }
 
     @Override
@@ -108,10 +105,6 @@ public class HealingArea extends Buff {
             }
         }
 
-        if (!areaPositions.contains(target.pos)){
-            detach();
-        }
-
         left--;
         BuffIndicator.refreshHero();
         if (left <= 0){
@@ -119,16 +112,7 @@ public class HealingArea extends Buff {
         }
 
         for (Char ally : targets) {
-            int healAmt = 1;
-            if (Dungeon.hero.buff(AngelWing.AngelWingBuff.class) != null && Dungeon.hero.hasTalent(Talent.HEALING_WING)) {
-                healAmt *= 1+Dungeon.hero.pointsInTalent(Talent.HEALING_WING);
-            }
-            healAmt = Math.min( healAmt, ally.HT - ally.HP );
-            if (healAmt > 0 && ally.isAlive()) {
-                ally.HP += healAmt;
-                ally.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-                ally.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-            }
+            Buff.affect(ally, Bless.class, 3f);
         }
 
         targets.clear();
@@ -142,7 +126,7 @@ public class HealingArea extends Buff {
         if (on){
             for (int i : areaPositions){
                 Emitter e = CellEmitter.get(i);
-                e.pour(HealingParticle.FACTORY, 0.05f);
+                e.pour(BlessingParticle.FACTORY, 0.05f);
                 areaEmitters.add(e);
             }
         } else {

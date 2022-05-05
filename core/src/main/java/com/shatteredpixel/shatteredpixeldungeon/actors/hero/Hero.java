@@ -66,6 +66,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GhostSpawner;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.KnightsBlocking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
@@ -2121,6 +2122,10 @@ public class Hero extends Char {
 
 		if (hero.hasTalent(Talent.THORNY_VINE) && (level.map[hero.pos] == Terrain.FURROWED_GRASS || level.map[hero.pos] == Terrain.HIGH_GRASS)) {
 			Buff.affect(enemy, Bleeding.class).set(hero.pointsInTalent(Talent.THORNY_VINE));
+		}
+
+		if (heroClass == HeroClass.NURSE && Random.Int(100) <= 20+lvl) {
+			Buff.affect(this, HealingArea.class).setup(this.pos, 5, 1, true);
 		}
 		
 		return damage;

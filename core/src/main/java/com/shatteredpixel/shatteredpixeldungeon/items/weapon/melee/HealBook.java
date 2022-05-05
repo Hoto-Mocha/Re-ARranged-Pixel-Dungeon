@@ -21,40 +21,47 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
 
-public class ChainWhip extends MeleeWeapon {
+public class HealBook extends MeleeWeapon {
 
 	{
-		image = ItemSpriteSheet.CHAIN_WHIP;
-		hitSound = Assets.Sounds.HIT_CRUSH;
-		hitSoundPitch = 1f;
+		image = ItemSpriteSheet.HEAL_BOOK;
+		hitSound = Assets.Sounds.HIT;
+		hitSoundPitch = 1.1f;
 
-		tier = 5;
-		RCH = 4;    //lots of extra reach
+		tier = 1;
 	}
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
-		if (Random.Int(100) < 10+2*hero.belongings.weapon.buffedLvl()) {
-			Buff.affect( defender, Paralysis.class, 3f);
+		if (Random.Int(3) == 0) {
+			int healAmt = 1;
+			healAmt = Math.min( healAmt, attacker.HT - attacker.HP );
+			if (healAmt > 0 && attacker.isAlive()) {
+				attacker.HP += healAmt;
+				attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+				attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+			}
 		}
 		return super.proc( attacker, defender, damage );
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  3*(tier-1) +    //12 base, down from 30
-				lvl*(tier-2);   //+3 per level, down from +6
+		return  Math.round(2.5f*(tier+1)) +     //5 base, down from 10
+				lvl*Math.round(0.5f*(tier+1));  //+1 per level, down from +2
 	}
 
-	//see Hero.onAttackComplete for additional effect
 }

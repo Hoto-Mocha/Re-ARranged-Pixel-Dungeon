@@ -38,6 +38,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.Uns
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WildMagic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.nurse.AngelWing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.nurse.GammaRayEmmit;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.nurse.HealareaGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.Root;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.Sprout;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.TreasureMap;
@@ -52,7 +55,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
+import com.shatteredpixel.shatteredpixeldungeon.items.GammaRayGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.HandMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.Teleporter;
@@ -104,6 +109,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MinersTool;
@@ -116,6 +122,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.HealingDart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.utils.DeviceCompat;
@@ -129,7 +136,8 @@ public enum HeroClass {
 	GUNNER( HeroSubClass.LAUNCHER , HeroSubClass.RANGER , HeroSubClass.RIFLEMAN ),
 	SAMURAI( HeroSubClass.SLASHER , HeroSubClass.MASTER , HeroSubClass.SLAYER ),
 	PLANTER( HeroSubClass.TREASUREHUNTER, HeroSubClass.ADVENTURER, HeroSubClass.RESEARCHER),
-	KNIGHT( HeroSubClass.WEAPONMASTER, HeroSubClass.FORTRESS, HeroSubClass.CRUSADER);
+	KNIGHT( HeroSubClass.WEAPONMASTER, HeroSubClass.FORTRESS, HeroSubClass.CRUSADER),
+	NURSE( HeroSubClass.MEDIC, HeroSubClass.ANGEL, HeroSubClass.SURGEON );
 
 	private HeroSubClass[] subClasses;
 
@@ -187,6 +195,10 @@ public enum HeroClass {
 
 			case KNIGHT:
 				initKnight( hero );
+				break;
+
+			case NURSE:
+				initNurse( hero );
 				break;
 		}
 
@@ -428,20 +440,33 @@ public enum HeroClass {
 
 		new ScrollOfRemoveCurse().identify();
 		new PotionOfParalyticGas().identify();
+	}
 
-		//new TengusMask().collect();
-		//new TengusMask().collect();
-		//new TengusMask().collect();
-		//new PotionOfExperience().identify().quantity(100).collect();
-		//new RingOfMight().identify().upgrade(10).collect();
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new TestWeapon().identify().collect();
-		//new Teleporter().collect();
-		//new ScrollOfMysticalEnergy().identify().quantity(200).collect();
-		//new RingOfEvasion().identify().upgrade(100).collect();
-		//new RingOfRush().identify().upgrade(100).collect();
-		//new ElixirOfTalent().collect();
-		//new WandOfLightning().identify().upgrade(10).collect();
+	private static void initNurse( Hero hero ) {
+		HealBook healBook = new HealBook();
+		(hero.belongings.weapon = healBook).identify();
+		hero.belongings.weapon.activate(hero);
+
+		GammaRayGun gammaRayGun = new GammaRayGun();
+		gammaRayGun.collect();
+		Dungeon.quickslot.setSlot(0, gammaRayGun);
+
+		HandMirror handMirror = new HandMirror();
+		handMirror.collect();
+		Dungeon.quickslot.setSlot(1, handMirror);
+
+		HealingDart healingDart = new HealingDart();
+		healingDart.quantity(2).collect();
+		Dungeon.quickslot.setSlot(2, healingDart);
+
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			RingOfWealth wealth = new RingOfWealth();
+			(hero.belongings.ring = wealth).identify();
+			hero.belongings.ring.activate( hero );
+		}
+
+		new ScrollOfMirrorImage().identify();
+		new PotionOfHealing().identify();
 	}
 
 	public String title() {
@@ -474,6 +499,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Sprout(), new TreasureMap(), new Root()};
 			case KNIGHT:
 				return new ArmorAbility[]{new HolyShield(), new StimPack(), new UnstableAnkh()};
+			case NURSE:
+				return new ArmorAbility[]{new HealareaGenerator(), new AngelWing(), new GammaRayEmmit()};
 		}
 	}
 
@@ -495,6 +522,8 @@ public enum HeroClass {
 				return Assets.Sprites.PLANTER;
 			case KNIGHT:
 				return Assets.Sprites.KNIGHT;
+			case NURSE:
+				return Assets.Sprites.NURSE;
 		}
 	}
 
@@ -516,6 +545,8 @@ public enum HeroClass {
 				return Assets.Splashes.PLANTER;
 			case KNIGHT:
 				return Assets.Splashes.KNIGHT;
+			case NURSE:
+				return Assets.Splashes.NURSE;
 		}
 	}
 	
@@ -585,6 +616,14 @@ public enum HeroClass {
 						Messages.get(HeroClass.class, "knight_perk4"),
 						Messages.get(HeroClass.class, "knight_perk5"),
 				};
+			case NURSE:
+				return new String[]{
+						Messages.get(HeroClass.class, "nurse_perk1"),
+						Messages.get(HeroClass.class, "nurse_perk2"),
+						Messages.get(HeroClass.class, "nurse_perk3"),
+						Messages.get(HeroClass.class, "nurse_perk4"),
+						Messages.get(HeroClass.class, "nurse_perk5"),
+				};
 		}
 	}
 	
@@ -609,6 +648,8 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_PLANTER);
 			case KNIGHT:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_KNIGHT);
+			case NURSE:
+				return Badges.isUnlocked(Badges.Badge.UNLOCK_NURSE);
 		}
 	}
 	
@@ -630,6 +671,8 @@ public enum HeroClass {
 				return Messages.get(HeroClass.class, "planter_unlock");
 			case KNIGHT:
 				return Messages.get(HeroClass.class, "knight_unlock");
+			case NURSE:
+				return Messages.get(HeroClass.class, "nurse_unlock");
 		}
 	}
 

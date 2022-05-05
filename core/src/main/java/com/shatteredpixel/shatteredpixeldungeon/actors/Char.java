@@ -92,6 +92,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.nurse.AngelWing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.TreasureMap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Awake;
@@ -588,7 +589,9 @@ public abstract class Char extends Actor {
 			Berserk berserk = buff(Berserk.class);
 			if (berserk != null) dmg = berserk.damageFactor(dmg);
 
-			dmg *= RingOfRush.damageMultiplier(hero);
+			if (this instanceof Hero) {
+				dmg *= RingOfRush.damageMultiplier(hero);
+			}
 
 			if (Dungeon.isChallenged(Challenges.SUPERMAN) && this instanceof Hero) {
 				dmg *= 3f;
@@ -1781,6 +1784,7 @@ public abstract class Char extends Actor {
 		if ( buff( Stamina.class ) != null) speed *= 1.5f;
 		if ( buff( Adrenaline.class ) != null) speed *= 2f;
 		if ( buff( Haste.class ) != null) speed *= 3f;
+		if ( buff( AngelWing.AngelWingBuff.class ) != null) speed *= 3f;
 		if ( buff( Dread.class ) != null) speed *= 2f;
 		return speed;
 	}

@@ -70,7 +70,7 @@ public class Bible extends MeleeWeapon {
 				attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 			}
 		}
-		return damage;
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

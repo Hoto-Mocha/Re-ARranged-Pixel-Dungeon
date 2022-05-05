@@ -104,6 +104,10 @@ public class PrismaticGuard extends Buff {
 			this.HP = this.maxHP();
 		}
 	}
+
+	public int HP() {
+		return Math.round(HP);
+	}
 	
 	public int maxHP(){
 		return maxHP((Hero)target);

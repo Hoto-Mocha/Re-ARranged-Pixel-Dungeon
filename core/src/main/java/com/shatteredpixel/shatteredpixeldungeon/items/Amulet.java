@@ -74,6 +74,7 @@ public class Amulet extends Item {
 				Badges.validateSamuraiUnlock();
 				Badges.validatePlanterUnlock();
 				Badges.validateKnightUnlock();
+				Badges.validateNurseUnlock();
 
 				hero.spend(-TIME_TO_PICK_UP);
 
