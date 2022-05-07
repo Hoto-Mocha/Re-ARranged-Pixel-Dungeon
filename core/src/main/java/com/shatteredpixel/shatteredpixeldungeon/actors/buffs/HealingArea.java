@@ -159,10 +159,10 @@ public class HealingArea extends Buff {
 
             if (Dungeon.hero.hasTalent(Talent.PROMOTION)) {
                 if (Dungeon.hero.pointsInTalent(Talent.PROMOTION) >= 1) {
-                    Buff.affect(ally, Adrenaline.class, 2);
+                    Buff.prolong(ally, Adrenaline.class, 2);
                 }
                 if (Dungeon.hero.pointsInTalent(Talent.PROMOTION) >= 2) {
-                    Buff.affect(ally, Haste.class, 2);
+                    Buff.prolong(ally, Haste.class, 2);
                 }
                 if (Dungeon.hero.pointsInTalent(Talent.PROMOTION) == 3) {
                     if (ally.buff(Barrier.class) != null) {

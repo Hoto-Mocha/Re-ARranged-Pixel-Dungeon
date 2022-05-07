@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -63,6 +61,7 @@ public class HeroSelectScene extends PixelScene {
 	//fading UI elements
 	private ArrayList<StyledButton> heroBtns = new ArrayList<>();
 	private StyledButton startBtn;
+	private IconButton changeButton;
 	private IconButton infoButton;
 	private IconButton challengeButton;
 	private IconButton btnExit;
@@ -108,6 +107,72 @@ public class HeroSelectScene extends PixelScene {
 			add(fadeRight);
 		}
 
+		changeButton = new IconButton(Icons.get(Icons.CHANGES)) {
+			int change = 0;
+			@Override
+			protected void onClick() {
+				ChangeHero();
+			}
+
+			@Override
+			protected String hoverText() {
+				return Messages.titleCase(Messages.get(HeroSelectScene.class, "change"));
+			}
+
+			@Override
+			public void update() {
+				super.update();
+			}
+
+			private void ChangeHero() {
+				GamesInProgress.selectedClass = null;
+
+				background.visible = false;
+				startBtn.visible = false;
+				infoButton.visible = false;
+				challengeButton.visible = false;
+
+				if (change == 0) change = 1;
+				else if (change == 1) change = 2;
+				else change = 0;
+
+				int btnsToArray = 4;
+				int i = change*btnsToArray;
+
+				for (int j = 0 ; j < heroBtns.size() ; j++) {
+					heroBtns.get(j).destroy();
+				}
+
+				HeroClass[] classes = HeroClass.values();
+
+				int btnWidth = HeroBtn.MIN_WIDTH;
+				int curX = (Camera.main.width - btnWidth * btnsToArray)/2;
+				if (curX > 0) {
+					if (change == 2) {
+						btnWidth += Math.min(curX/2, 15);
+						curX = (Camera.main.width - btnWidth)/2;
+					} else {
+						btnWidth += Math.min(curX/(btnsToArray/2), 15);
+						curX = (Camera.main.width - btnWidth * btnsToArray)/2;
+					}
+				}
+				for (int p = 0 ; p < btnsToArray ; p++) {
+					if (classes.length <= p+i) break;
+					HeroBtn button = new HeroBtn(classes[p+i]);
+					button.setRect(curX, Camera.main.height - HeroBtn.HEIGHT+3, btnWidth, HeroBtn.HEIGHT);
+					curX += btnWidth;
+					add(button);
+					heroBtns.add(button);
+				}
+
+				prompt.visible = true;
+			}
+		};
+		changeButton.visible = true;
+		changeButton.setPos( 0, 0 );
+		changeButton.setSize(15, 15);
+		add(changeButton);
+
 		startBtn = new StyledButton(Chrome.Type.GREY_BUTTON_TR, ""){
 			@Override
 			protected void onClick() {
@@ -152,14 +217,21 @@ public class HeroSelectScene extends PixelScene {
 		HeroClass[] classes = HeroClass.values();
 
 		int btnWidth = HeroBtn.MIN_WIDTH;
-		int curX = (Camera.main.width - btnWidth * classes.length)/2;
+		int curX = (Camera.main.width - btnWidth * 4)/2;
 		if (curX > 0){
-			btnWidth += Math.min(curX/(classes.length/2), 15);
-			curX = (Camera.main.width - btnWidth * classes.length)/2;
+			btnWidth += Math.min(curX/(4/2), 15);
+			curX = (Camera.main.width - btnWidth * 4)/2;
 		}
+
+		//int curX = (Camera.main.width - btnWidth * classes.length)/2;
+		//if (curX > 0){
+		//	btnWidth += Math.min(curX/(classes.length/2), 15);
+		//	curX = (Camera.main.width - btnWidth * classes.length)/2;
+		//}																	//원문
 
 		int heroBtnleft = curX;
 		for (HeroClass cl : classes){
+			if (cl == HeroClass.GUNNER) break; //다음에 배열해야 할 클래스가 거너일 경우 캔슬
 			HeroBtn button = new HeroBtn(cl);
 			button.setRect(curX, Camera.main.height-HeroBtn.HEIGHT+3, btnWidth, HeroBtn.HEIGHT);
 			curX += btnWidth;

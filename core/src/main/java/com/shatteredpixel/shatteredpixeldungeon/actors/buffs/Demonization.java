@@ -176,7 +176,7 @@ public class Demonization extends Buff implements ActionIndicator.Action {
                 ActionIndicator.updateIcon();
                 Sample.INSTANCE.play( Assets.Sounds.CHALLENGE );
                 hero.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
-                GameScene.flash(0xFF0000);
+                //GameScene.flash(0xFF0000);
                 if (hero.hasTalent(Talent.FTL)) {
                     Buff.prolong(hero, EvasiveMove.class, hero.pointsInTalent(Talent.FTL) + 0.0001f);
                 }

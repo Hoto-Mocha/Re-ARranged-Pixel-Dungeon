@@ -647,7 +647,7 @@ public enum Talent {
 			Buff.prolong( hero, CritBonus.class, 10f).set(5f * hero.pointsInTalent(Talent.CRITICAL_MEAL));
 		}
 		if (hero.hasTalent(Talent.FOCUSING_MEAL)) {
-			Buff.prolong( hero, Bless.class, 1f + 2f*hero.pointsInTalent(FOCUSING_MEAL));
+			Buff.prolong( hero, Adrenaline.class, 1f + 2f*hero.pointsInTalent(FOCUSING_MEAL));
 		}
 		if (hero.hasTalent(Talent.NATURAL_MEAL)) {
 			if (hero.pointsInTalent(Talent.NATURAL_MEAL) == 1) {

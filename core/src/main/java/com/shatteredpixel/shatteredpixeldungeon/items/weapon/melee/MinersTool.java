@@ -42,6 +42,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -209,8 +211,54 @@ public class MinersTool extends MeleeWeapon {
 
 	public void goldMining(int cell) {
 		Item gold = new Gold().quantity((int)Math.ceil(Dungeon.depth/5f)*Random.NormalIntRange(5, 25));
+		Item prizeCh1 = new AquaBlast();
+		Item prizeCh2 = new Torch();
+		Item prizeCh3 = Generator.random(Generator.Category.RING);
+		Item prizeCh4 = Generator.random(Generator.Category.STONE);
+		Item prizeCh5 = Generator.random(Generator.Category.RING);
+		Item prizeCh6 = Generator.random(Generator.Category.MISSILE);
 		Level.set(cell, Terrain.CUSTOM_WALL);
-		Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+		//+0: 50.00% (1/2)
+		//+1: 33.33% (1/3)
+		//+2: 12.50% (1/8)
+		//+3: 03.33% (1/30)
+		//+4: 00.83% (1/120)
+		int upgrade = 0;
+		if (Random.Int(2) == 0) {
+			upgrade++;
+			if (Random.Int(3) == 0){
+				upgrade++;
+				if (Random.Int(4) == 0){
+					upgrade++;
+					if (Random.Int(5) == 0){
+						upgrade++;
+					}
+				}
+			}
+		}
+		prizeCh5.upgrade( upgrade );
+		prizeCh6.upgrade( upgrade );
+		if (Math.ceil(Dungeon.depth/5f) == 1) {
+			if (Random.Int(2) == 0) Dungeon.level.drop(prizeCh1, curUser.pos).sprite.drop();	//50%
+			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+		} else if (Math.ceil(Dungeon.depth/5f) == 2) {
+			if (Random.Int(2) == 0) Dungeon.level.drop(prizeCh2, curUser.pos).sprite.drop();	//50%
+			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+		} else if (Math.ceil(Dungeon.depth/5f) == 3) {
+			if (Random.Int(5) == 0) Dungeon.level.drop(prizeCh3, curUser.pos).sprite.drop();	//20%
+			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+		} else if (Math.ceil(Dungeon.depth/5f) == 4) {
+			if (Random.Int(2) == 0) Dungeon.level.drop(prizeCh4, curUser.pos).sprite.drop();	//50%
+			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+		} else if (Math.ceil(Dungeon.depth/5f) == 5) {
+			if (Random.Int(10) == 0) Dungeon.level.drop(prizeCh5, curUser.pos).sprite.drop();	//10%
+			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+		} else if (Math.ceil(Dungeon.depth/5f) == 6) {
+			if (Random.Int(2) == 0) Dungeon.level.drop(prizeCh6, curUser.pos).sprite.drop();	//50%
+			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+		}
+
+
 		Sample.INSTANCE.play( Assets.Sounds.EVOKE );
 		curUser.sprite.zap( cell );
 		CellEmitter.center( cell ).burst( Speck.factory( Speck.STAR ), 10 );

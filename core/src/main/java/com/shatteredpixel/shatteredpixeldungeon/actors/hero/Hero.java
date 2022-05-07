@@ -1190,6 +1190,9 @@ public class Hero extends Char {
 
 		if (buff(CounterAttack.class) != null){
 			if (canAttack(enemy)){
+				if (enemy instanceof Monk) {
+					if (enemy.buff(Monk.Focus.class) != null) enemy.buff(Monk.Focus.class).detach();
+				}
 				Buff.affect(this, CounterAttackDef.class).enemy = enemy;
 				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY);
 			}
@@ -2955,7 +2958,7 @@ public class Hero extends Char {
 		 &&	Random.Int(20) < 1+belongings.armor.buffedLvl()+2*pointsInTalent(Talent.PREPARATION) //base 5%, +5%*armor lvl, +10%*talent lvl
 		 && hero.belongings.armor != null
 		 && buff(KnightsBlocking.class) != null) {
-			Buff.affect(this, CounterAttack.class, Actor.TICK);
+			Buff.affect(this,  CounterAttack.class, Actor.TICK);
 			if (Random.Int(10) < 2*hero.pointsInTalent(Talent.COUNTER_MOMENTUM) && hero.buff(ShieldCoolDown.class) != null) {
 				hero.buff(ShieldCoolDown.class).detach();
 			}
