@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -42,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ExtraBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
@@ -61,9 +63,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
@@ -155,9 +159,11 @@ import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
+import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 
 public enum Talent {
@@ -319,9 +325,9 @@ public enum Talent {
 	//Nurse T2
 	CHALLENGING_MEAL(285), POTION_SPREAD(286), HEALAREA(287), ANGEL(288), MEDICAL_SUPPORT(289), WINNERS_FLAG(290),
 	//Nurse T3
-	PISTON(291, 3), SUBWEAPON_ENHANCE(292,3),
+	POWERFUL_BOND(291, 3), CHARISMA(292,3),
 	//Medic T3
-	PROMOTION(293, 3), HEALING_SHIELD(294, 3), SHARING_AREA(295, 3), COMP_RECOVER(296, 3),
+	PROMOTION(293, 3), HEALING_SHIELD(294, 3), HEAL_ENHANCE(295, 3), COMP_RECOVER(296, 3),
 	//Angel T3
 	APPEASE(297, 3), ANGEL_AND_DEVIL(298, 3), AREA_OF_LIGHT(299, 3), BLESS_ENHANCE(300, 3),
 	//Surgeon T3
@@ -559,6 +565,32 @@ public enum Talent {
 				Dungeon.level.drop( scl, Dungeon.hero.pos ).sprite.drop();
 			}
 		}
+
+		if (talent == DOCTORS_INTUITION && hero.pointsInTalent(DOCTORS_INTUITION) == 1) {
+			for (int i = 0 ; i < 2 ; i++) {
+				HashSet<Class<? extends Potion>> potions = Potion.getUnknown();
+				Potion p = Reflection.newInstance(Random.element(potions));
+				if (p == null) {
+					break;
+				} else {
+					p.identify();
+					potions.remove(p.getClass());
+				}
+			}
+		}
+
+		if (talent == DOCTORS_INTUITION && hero.pointsInTalent(DOCTORS_INTUITION) == 2) {
+			for (int i = 0 ; i < 3 ; i++) {
+				HashSet<Class<? extends Potion>> potions = Potion.getUnknown();
+				Potion p = Reflection.newInstance(Random.element(potions));
+				if (p == null) {
+					break;
+				} else {
+					p.identify();
+					potions.remove(p.getClass());
+				}
+			}
+		}
 	}
 
 	public static class CachedRationsDropped extends CounterBuff{{revivePersists = true;}};
@@ -643,6 +675,12 @@ public enum Talent {
 		}
 		if (hero.hasTalent(Talent.IMPREGNABLE_MEAL)) {
 			Buff.affect(hero, ArmorEmpower.class).set(hero.pointsInTalent(Talent.IMPREGNABLE_MEAL), 5f);
+		}
+		if (hero.hasTalent(Talent.HEALING_MEAL)) {
+			Buff.affect(hero, HealingArea.class).setup(hero.pos, 1+2*hero.pointsInTalent(Talent.HEALING_MEAL), 1, true);
+		}
+		if (hero.hasTalent(Talent.CHALLENGING_MEAL)) {
+			Buff.affect(hero, ScrollOfChallenge.ChallengeArena.class).setup(hero.pos, 5*hero.pointsInTalent(Talent.CHALLENGING_MEAL));
 		}
 	}
 
@@ -785,6 +823,9 @@ public enum Talent {
 		}
 		if (hero.hasTalent(Talent.SAFE_HEALING)) {
 			Buff.affect(hero, Barrier.class).setShield(10*hero.pointsInTalent(Talent.SAFE_HEALING));
+		}
+		if (hero.hasTalent(Talent.POTION_SPREAD) && !Dungeon.isChallenged(Challenges.NO_HEALING)) {
+			Buff.affect(hero, HealingArea.class).setup(hero.pos, Math.round(((0.8f * hero.HT + 14)/3)*(1+hero.pointsInTalent(Talent.POTION_SPREAD))), 2, true);
 		}
 	}
 
@@ -1068,6 +1109,9 @@ public enum Talent {
 			case KNIGHT:
 				Collections.addAll(tierTalents,	ON_ALERT, KNIGHTS_INTUITION, BATTLE_STIM, ACTIVE_BARRIER, WAR_CRY);
 				break;
+			case NURSE:
+				Collections.addAll(tierTalents,	HEALING_MEAL, DOCTORS_INTUITION, INNER_MIRROR, CRITICAL_SHIELD, HEAL_AMP);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1103,6 +1147,9 @@ public enum Talent {
 			case KNIGHT:
 				Collections.addAll(tierTalents,	IMPREGNABLE_MEAL, SAFE_HEALING, DEFENSE_STANCE, CROSS_SLASH, ENDURING, BLOCKING);
 				break;
+			case NURSE:
+				Collections.addAll(tierTalents,	CHALLENGING_MEAL, POTION_SPREAD, HEALAREA, ANGEL, MEDICAL_SUPPORT, WINNERS_FLAG);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1137,6 +1184,9 @@ public enum Talent {
 				break;
 			case KNIGHT:
 				Collections.addAll(tierTalents,	CRAFTMANS_SKILLS, TACKLE);
+				break;
+			case NURSE:
+				Collections.addAll(tierTalents,	POWERFUL_BOND, CHARISMA);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1237,7 +1287,15 @@ public enum Talent {
 			case CRUSADER:
 				Collections.addAll(tierTalents, NAME_OF_LIGHT, HOLY_SHIELD, DEADS_BLESS, BLESSING_SCROLLS, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
-
+			case MEDIC:
+				Collections.addAll(tierTalents, PROMOTION, HEALING_SHIELD, HEAL_ENHANCE, COMP_RECOVER, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
+				break;
+			case ANGEL:
+				Collections.addAll(tierTalents, APPEASE, ANGEL_AND_DEVIL, AREA_OF_LIGHT, BLESS_ENHANCE, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
+				break;
+			case SURGEON:
+				Collections.addAll(tierTalents, SCALPEL, DEFIBRILLATOR, DEATH_DIAGNOSIS, FIRST_AID, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			talents.get(2).put(talent, 0);

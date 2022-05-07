@@ -60,10 +60,11 @@ public class AngelWing extends ArmorAbility {
 		Buff.prolong(hero, AngelWingBuff.class, AngelWingBuff.DURATION);
 
 		if (hero.hasTalent(Talent.ANGELS_BLESS)) {
-			Buff.affect(hero, BlessGen.class, 20);
+			Buff.affect(hero, BlessGen.class).setup(20);
 		}
 
 		hero.sprite.operate(hero.pos);
+		hero.spendAndNext(Actor.TICK);
 
 		armor.charge -= chargeUse(hero);
 		armor.updateQuickslot();
@@ -140,42 +141,33 @@ public class AngelWing extends ArmorAbility {
 		}
 	}
 
-	public static class BlessGen extends FlavourBuff {
+	public static class BlessGen extends Buff {
+
+		int left = 0;
 
 		{
-			type = buffType.NEUTRAL;
-			announced = false;
+			type = buffType.POSITIVE;
 		}
 
-
-		@Override
-		public int icon() {
-			return BuffIndicator.BLESS;
-		}
-
-		@Override
-		public float iconFadePercent() {
-			return Math.max(0, (20 - visualcooldown()) / 20);
+		public void setup( int duration ) {
+			left = duration;
 		}
 
 		@Override
 		public boolean act() {
-
-			Buff.affect(target, BlessingArea.class).setup(target.pos, 3, 1+Dungeon.hero.pointsInTalent(Talent.ANGELS_BLESS), false);
-
-			spend( TICK );
-
+			Buff.affect(target, BlessingArea.class).setup(target.pos, 2, 1+Dungeon.hero.pointsInTalent(Talent.ANGELS_BLESS));
+			left--;
+			BuffIndicator.refreshHero();
+			if (left <= 0){
+				detach();
+			}
+			spend(TICK);
 			return true;
 		}
 
 		@Override
-		public String toString() {
-			return Messages.get(this, "name");
-		}
-
-		@Override
-		public String desc() {
-			return Messages.get(this, "desc", dispTurns());
+		public void detach() {
+			super.detach();
 		}
 	}
 }

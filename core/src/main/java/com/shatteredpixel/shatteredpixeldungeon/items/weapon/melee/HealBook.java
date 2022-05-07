@@ -42,6 +42,7 @@ public class HealBook extends MeleeWeapon {
 		hitSoundPitch = 1.1f;
 
 		tier = 1;
+		bones = false;
 	}
 
 	@Override

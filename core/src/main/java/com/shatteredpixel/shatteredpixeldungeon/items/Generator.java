@@ -316,9 +316,10 @@ public class Generator {
 					CrudePistol.class,
 					WornKatana.class,
 					Shovel.class,
-					Saber.class
+					Saber.class,
+					HealBook.class
 			};
-			WEP_T1.probs = new float[]{ 1, 1, 1, 0, 1, 1, 0, 1};
+			WEP_T1.probs = new float[]{ 1, 1, 1, 0, 1, 1, 0, 1, 1};
 			
 			WEP_T2.classes = new Class<?>[]{
 					Shortsword.class,

@@ -47,7 +47,7 @@ public class HandMirror extends Item {
 		image = ItemSpriteSheet.HAND_MIRROR;
 
 		defaultAction = AC_USE;
-		usesTargeting = true;
+		usesTargeting = false;
 
 		bones = false;
 		unique = true;

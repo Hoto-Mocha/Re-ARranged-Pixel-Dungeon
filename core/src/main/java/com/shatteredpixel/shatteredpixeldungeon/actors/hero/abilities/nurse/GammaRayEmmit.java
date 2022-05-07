@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
@@ -76,12 +77,14 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tank;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Warlock;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfSirensSong;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
@@ -477,6 +480,11 @@ public class GammaRayEmmit extends ArmorAbility {
 								new Tank());
 					}
 			}
+			if (hero.hasTalent(Talent.SHEEP_TRANSMOG)) {
+				if (Random.Int(100) < hero.pointsInTalent(Talent.SHEEP_TRANSMOG)) {
+					enemy = new Sheep();
+				}
+			}
 			//1 chapter enemy = 2% + point*3%, max +12%, max 14%
 			//2 chapter enemy = 3% + point*3%, max +12%, max 15%
 			//3 chapter enemy = 5% + point*4%, max +16%, max 21%
@@ -497,6 +505,11 @@ public class GammaRayEmmit extends ArmorAbility {
 			Sample.INSTANCE.play(Assets.Sounds.PUFF);
 
 			Dungeon.level.occupyCell(enemy);
+			if (hero.hasTalent(Talent.IMPRINTING_EFFECT)) {
+				if (Random.Int(10) < hero.pointsInTalent(Talent.IMPRINTING_EFFECT) && !(enemy instanceof Sheep)) {
+					AllyBuff.affectAndLoot(enemy, hero, ScrollOfSirensSong.Enthralled.class);
+				}
+			}
 		}
 
 		armor.charge -= chargeUse(hero);

@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Effects;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
@@ -106,12 +107,22 @@ public class Dong extends Buff implements ActionIndicator.Action {
 
 	@Override
 	public String actionName() {
-		return Messages.get(this, "action_name");
+		if (Dungeon.hero.buff(Sheathing.class) != null) {
+			return Messages.get(this, "action_name");
+		} else {
+			return Messages.get(this, "action_name_sheath");
+		}
 	}
 
 	@Override
 	public Image actionIcon() {
-		return new ItemSprite(ItemSpriteSheet.SHEATH, null);
+		if (Dungeon.hero.buff(Sheathing.class) != null) {
+			Image actionIco = Effects.get(Effects.Type.WOUND);
+			actionIco.hardlight(1f, 0f, 0f);
+			return actionIco;
+		} else {
+			return new ItemSprite(ItemSpriteSheet.SHEATH, null);
+		}
 	}
 
 	@Override

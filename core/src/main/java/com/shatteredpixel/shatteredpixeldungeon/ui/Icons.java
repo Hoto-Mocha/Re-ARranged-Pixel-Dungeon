@@ -39,6 +39,8 @@ public enum Icons {
 	PREFS,
 	SHPX,
 	ARRANGED,
+	HEAL,
+	DEATH_CERTIFICATE,
 
 	//rankings and hero select icons, spacing for 16x16
 	STAIRS,
@@ -50,6 +52,7 @@ public enum Icons {
 	SAMURAI,
 	PLANTER,
 	KNIGHT,
+	NURSE,
 
 	//grey icons, mainly used for buttons, spacing for 16x16
 	EXIT,
@@ -153,6 +156,12 @@ public enum Icons {
 			case ARRANGED:
 				icon.frame( icon.texture.uvRectBySize( 144, 0, 15, 16 ) );
 				break;
+			case HEAL:
+				icon.frame( icon.texture.uvRectBySize( 160, 0, 16, 16 ) );
+				break;
+			case DEATH_CERTIFICATE:
+				icon.frame( icon.texture.uvRectBySize( 176, 0, 15, 14 ) );
+				break;
 
 			case STAIRS:
 				icon.frame( icon.texture.uvRectBySize( 0, 16, 13, 16 ) );
@@ -170,16 +179,19 @@ public enum Icons {
 				icon.frame( icon.texture.uvRectBySize( 64, 16, 16, 16 ) );
 				break;
 			case GUNNER:
-				icon.frame( icon.texture.uvRectBySize( 80, 16, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 80, 16, 10, 13 ) );
 				break;
 			case SAMURAI:
-				icon.frame( icon.texture.uvRectBySize( 96, 16, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 96, 16, 14, 14 ) );
 				break;
 			case PLANTER:
 				icon.frame( icon.texture.uvRectBySize( 112, 16, 16, 16 ) );
 				break;
 			case KNIGHT:
-				icon.frame( icon.texture.uvRectBySize( 128, 16, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 128, 16, 16, 15 ) );
+				break;
+			case NURSE:
+				icon.frame( icon.texture.uvRectBySize( 144, 16, 13, 15 ) );
 				break;
 
 			case EXIT:
@@ -391,6 +403,8 @@ public enum Icons {
 			return get( PLANTER );
 		case KNIGHT:
 			return get( KNIGHT );
+		case NURSE:
+			return get( NURSE );
 		default:
 			return null;
 		}

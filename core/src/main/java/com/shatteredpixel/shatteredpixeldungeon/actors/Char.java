@@ -58,6 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -107,6 +108,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
@@ -490,6 +492,10 @@ public abstract class Char extends Actor {
 			ReinforcedArmor.reinforcedArmorTracker rearmor = enemy.buff(ReinforcedArmor.reinforcedArmorTracker.class);
 			if (rearmor != null)  dr += rearmor.blockingRoll();
 
+			if (this.alignment == Alignment.ALLY && !(this instanceof Hero) && hero.hasTalent(Talent.CHARISMA)) {
+				dr *= 1+0.1f*hero.pointsInTalent(Talent.CHARISMA);
+			}
+
 			if (this instanceof Hero) {
 				if ( hero.belongings.weapon() instanceof Spear
 					|| hero.belongings.weapon() instanceof Glaive
@@ -501,6 +507,8 @@ public abstract class Char extends Actor {
 			if (this instanceof Hero && Dungeon.isChallenged(Challenges.PYRO)) {
 				Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
 			}
+
+
 			
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
@@ -591,6 +599,10 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero) {
 				dmg *= RingOfRush.damageMultiplier(hero);
+			}
+
+			if (this.alignment == Alignment.ALLY && !(this instanceof Hero) && hero.hasTalent(Talent.POWERFUL_BOND)) {
+				dmg *= 1+0.1f*hero.pointsInTalent(Talent.POWERFUL_BOND);
 			}
 
 			if (Dungeon.isChallenged(Challenges.SUPERMAN) && this instanceof Hero) {
@@ -916,6 +928,19 @@ public abstract class Char extends Actor {
 					enemy.HP += healAmt;
 					enemy.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 5 );
 					AllyBuff.affectAndLoot((Mob)enemy, hero, ScrollOfSirensSong.Enthralled.class);
+				}
+			}
+
+			if (this instanceof Hero) {
+				if (hero.hasTalent(Talent.DEFIBRILLATOR)) {
+					if (!enemy.isAlive() && Random.Int(50) < hero.pointsInTalent(Talent.DEFIBRILLATOR)) {
+						dmg = 0;
+						int healAmt = 10;
+						enemy.HP += healAmt;
+						enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+						enemy.sprite.flash();
+						AllyBuff.affectAndLoot((Mob)enemy, hero, ScrollOfSirensSong.Enthralled.class);
+					}
 				}
 			}
 
@@ -1588,6 +1613,28 @@ public abstract class Char extends Actor {
 				Buff.append(hero, TalismanOfForesight.CharAwareness.class, 3*hero.pointsInTalent(Talent.VISION_ARROW)).charID = enemy.id();
 			}
 
+			if (this instanceof Hero && enemy.buff(Charm.class) != null && hero.pointsInTalent(Talent.APPEASE) >= 2) {
+				int healAmt = Math.round(dmg/10f);
+				healAmt = Math.min( healAmt, Dungeon.hero.HT - Dungeon.hero.HP );
+				if (healAmt > 0 && Dungeon.hero.isAlive()) {
+					Dungeon.hero.HP += healAmt;
+					Dungeon.hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+					Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
+			}
+
+			if (this instanceof Hero && enemy.buff(Charm.class) != null && hero.pointsInTalent(Talent.APPEASE) == 3 && !enemy.isAlive() && Random.Int(10) == 0) {
+				dmg = 0;
+				int healAmt = enemy.HT;
+				healAmt = Math.min( healAmt, enemy.HT - enemy.HP );
+				if (healAmt > 0) {
+					enemy.HP += healAmt;
+					enemy.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+					enemy.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
+				AllyBuff.affectAndLoot(((Mob) enemy), hero, ScrollOfSirensSong.Enthralled.class);
+			}
+
 			dmg += dmgBonus;
 
 			//friendly endure
@@ -1724,14 +1771,34 @@ public abstract class Char extends Actor {
 		}
 
 		float acuRoll = Random.Float( acuStat );
-		if (attacker.buff(Bless.class) != null) acuRoll *= 1.25f;
+		if (attacker.buff(Bless.class) != null) {
+			if (attacker instanceof Hero) {
+				if (hero.hasTalent(Talent.BLESS_ENHANCE)) {
+					acuRoll *= 1 + 0.25f * (1 + 0.2f * hero.pointsInTalent(Talent.BLESS_ENHANCE));
+				} else {
+					acuRoll *= 1.25f;
+				}
+			} else {
+				acuRoll *= 1.25f;
+			}
+		}
 		if (attacker.buff(  Hex.class) != null) acuRoll *= 0.8f;
 		for (ChampionEnemy buff : attacker.buffs(ChampionEnemy.class)){
 			acuRoll *= buff.evasionAndAccuracyFactor();
 		}
 		
 		float defRoll = Random.Float( defStat );
-		if (defender.buff(Bless.class) != null) defRoll *= 1.25f;
+		if (defender.buff(Bless.class) != null) {
+			if (defender instanceof Hero) {
+				if (hero.hasTalent(Talent.BLESS_ENHANCE)) {
+					defRoll *= 1 + 0.25f * (1 + 0.2f * hero.pointsInTalent(Talent.BLESS_ENHANCE));
+				} else {
+					defRoll *= 1.25f;
+				}
+			} else {
+				defRoll *= 1.25f;
+			}
+		}
 		if (defender.buff(  Hex.class) != null) defRoll *= 0.8f;
 		for (ChampionEnemy buff : defender.buffs(ChampionEnemy.class)){
 			defRoll *= buff.evasionAndAccuracyFactor();

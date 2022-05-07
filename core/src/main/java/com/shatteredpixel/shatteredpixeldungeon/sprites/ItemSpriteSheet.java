@@ -584,21 +584,23 @@ public class ItemSpriteSheet {
 	public static final int ARMOR_SAMURAI   = ARMOR+10;
 	public static final int ARMOR_PLANTER   = ARMOR+11;
 	public static final int ARMOR_KNIGHT  	= ARMOR+12;
+	public static final int ARMOR_NURSE  	= ARMOR+13;
 
 	static{
-		assignItemRect(ARMOR_CLOTH,     15, 12);
-		assignItemRect(ARMOR_LEATHER,   14, 13);
-		assignItemRect(ARMOR_MAIL,      14, 12);
-		assignItemRect(ARMOR_SCALE,     14, 11);
-		assignItemRect(ARMOR_PLATE,     12, 12);
-		assignItemRect(ARMOR_WARRIOR,   12, 12);
-		assignItemRect(ARMOR_MAGE,      15, 15);
-		assignItemRect(ARMOR_ROGUE,     14, 12);
-		assignItemRect(ARMOR_HUNTRESS,  13, 15);
-		assignItemRect(ARMOR_GUNNER,    15, 13);
-		assignItemRect(ARMOR_SAMURAI,   12, 16);
-		assignItemRect(ARMOR_PLANTER,   15, 12);
-		assignItemRect(ARMOR_KNIGHT,    14, 12);
+		assignItemRect(ARMOR_CLOTH,   		15, 12);
+		assignItemRect(ARMOR_LEATHER, 		14, 13);
+		assignItemRect(ARMOR_MAIL,    		14, 12);
+		assignItemRect(ARMOR_SCALE,   		14, 11);
+		assignItemRect(ARMOR_PLATE,   		12, 12);
+		assignItemRect(ARMOR_WARRIOR, 		12, 12);
+		assignItemRect(ARMOR_MAGE,    		15, 15);
+		assignItemRect(ARMOR_ROGUE,   		14, 12);
+		assignItemRect(ARMOR_HUNTRESS,		13, 15);
+		assignItemRect(ARMOR_GUNNER,  		15, 13);
+		assignItemRect(ARMOR_SAMURAI, 		12, 16);
+		assignItemRect(ARMOR_PLANTER, 		15, 12);
+		assignItemRect(ARMOR_KNIGHT,  		14, 12);
+		assignItemRect(ARMOR_NURSE,  		14, 12);
 	}
 
 	                                                                                    //16 free slots

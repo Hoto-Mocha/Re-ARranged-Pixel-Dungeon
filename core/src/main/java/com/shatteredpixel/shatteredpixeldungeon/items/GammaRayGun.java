@@ -2,30 +2,20 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.KnightsBlocking;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ParalysisTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PoisonParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -33,8 +23,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.watabou.noosa.audio.Sample;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -82,24 +71,31 @@ public class GammaRayGun extends Item {
 					Buff.affect(curUser, HealingArea.class).setup(curUser.pos, Math.round(curUser.HT*0.3f), 1, true);
 					hero.sprite.operate(curUser.pos);
 				} else {
-					Ballistica beam = new Ballistica(curUser.pos, target, Ballistica.STOP_TARGET);
+					Ballistica beam = new Ballistica(curUser.pos, target, Ballistica.PROJECTILE);
 					Char ch = Actor.findChar(beam.collisionPos);
-					if (ch.alignment == Char.Alignment.ENEMY) {
-						if (Dungeon.level.heroFOV[ch.pos]) {
-							CellEmitter.center( ch.pos ).burst( PoisonParticle.SPLASH, 3 );
+					if (ch != null) {
+						if (ch.alignment == Char.Alignment.ENEMY) {
+							if (hero.subClass == HeroSubClass.ANGEL) {
+								Buff.affect(ch, Charm.class, Charm.DURATION/2).object = curUser.id();
+								ch.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 3 );
+							} else {
+								Buff.affect(ch, Poison.class).set( 3 + Math.round(2*Dungeon.depth / 3f) );
+								if (Dungeon.level.heroFOV[ch.pos]) {
+									CellEmitter.center( ch.pos ).burst( PoisonParticle.SPLASH, 3 );
+								}
+							}
 						}
-						Buff.affect(ch, Poison.class).set( 5 + Math.round(2*Dungeon.depth / 3f) );
-					}
-					if (ch.alignment == Char.Alignment.ALLY && (ch != curUser)) { //ch != hero is always false
-						int healAmt = 5+Math.round(curUser.lvl/2f);
-						healAmt = Math.min( healAmt, ch.HT - ch.HP );
-						if (healAmt > 0 && ch.isAlive()) {
-							ch.HP += healAmt;
-							ch.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-							ch.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+						if (ch.alignment == Char.Alignment.ALLY && (ch != curUser)) { //ch != hero is always false
+							int healAmt = 5+Math.round(curUser.lvl/2f);
+							healAmt = Math.min( healAmt, ch.HT - ch.HP );
+							if (healAmt > 0 && ch.isAlive()) {
+								ch.HP += healAmt;
+								ch.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+								ch.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+							}
 						}
 					}
-					curUser.sprite.zap(ch.pos);
+					curUser.sprite.zap(target);
 					curUser.sprite.parent.add( new Beam.GreenRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(beam.collisionPos)) );
 				}
 				if (curUser.buff(GammaRayCooldown.class) != null) {
@@ -108,11 +104,13 @@ public class GammaRayGun extends Item {
 					} else {
 						Buff.affect(curUser, Poison.class).set(5+Math.round(curUser.lvl/2f));
 					}
+					BuffIndicator.refreshHero();
 					CellEmitter.center( curUser.pos ).burst( PoisonParticle.SPLASH, 3 );
 				}
 				if (Random.Int(3) == 0) {
 					Buff.affect(hero, GammaRayCooldown.class).set(Random.NormalIntRange(3, 5));
 				}
+				hero.spendAndNext(Actor.TICK);
 			}
 		}
 		@Override

@@ -22,32 +22,17 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.nurse;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
-import com.watabou.noosa.Camera;
-import com.watabou.utils.Callback;
-import com.watabou.utils.PathFinder;
-import com.watabou.utils.Random;
 
 public class HealareaGenerator extends ArmorAbility {
 
@@ -56,13 +41,14 @@ public class HealareaGenerator extends ArmorAbility {
 	}
 
 	@Override
-	public void activate( ClassArmor armor, Hero hero, Integer target ) {
-		Buff.affect(hero, HealGen.class, 20+5*Dungeon.hero.pointsInTalent(Talent.DURABLE_GEN));
+	public void activate(ClassArmor armor, Hero hero, Integer target) {
+		Buff.affect(hero, HealGen.class).setup(20+5*hero.pointsInTalent(Talent.DURABLE_GEN));
 		if (hero.hasTalent(Talent.SHIELD_GEN)) {
-			Buff.prolong( hero, BlobImmunity.class, 10*hero.pointsInTalent(Talent.SHIELD_GEN) );
+			Buff.prolong(hero, BlobImmunity.class, 10 * hero.pointsInTalent(Talent.SHIELD_GEN));
 		}
 
 		hero.sprite.operate(hero.pos);
+		hero.spendAndNext(Actor.TICK);
 
 		armor.charge -= chargeUse(hero);
 		armor.updateQuickslot();
@@ -79,42 +65,33 @@ public class HealareaGenerator extends ArmorAbility {
 		return new Talent[]{Talent.AREA_AMP, Talent.SHIELD_GEN, Talent.DURABLE_GEN, Talent.HEROIC_ENERGY};
 	}
 
-	public static class HealGen extends FlavourBuff {
+	public static class HealGen extends Buff {
+
+		int left = 0;
 
 		{
-			type = buffType.NEUTRAL;
-			announced = false;
+			type = buffType.POSITIVE;
 		}
 
-
-		@Override
-		public int icon() {
-			return BuffIndicator.REGEN;
-		}
-
-		@Override
-		public float iconFadePercent() {
-			return Math.max(0, (20+5*Dungeon.hero.pointsInTalent(Talent.DURABLE_GEN) - visualcooldown()) / 20+5*Dungeon.hero.pointsInTalent(Talent.DURABLE_GEN));
+		public void setup( int duration ) {
+			left = duration;
 		}
 
 		@Override
 		public boolean act() {
-
-			Buff.affect(target, HealingArea.class).setup(target.pos, 3, 1+Dungeon.hero.pointsInTalent(Talent.AREA_AMP), false);
-
-			spend( TICK );
-
+			Buff.affect(target, HealingArea.class).setup(target.pos, 2, 1+Dungeon.hero.pointsInTalent(Talent.AREA_AMP), false);
+			left--;
+			BuffIndicator.refreshHero();
+			if (left <= 0){
+				detach();
+			}
+			spend(TICK);
 			return true;
 		}
 
 		@Override
-		public String toString() {
-			return Messages.get(this, "name");
-		}
-
-		@Override
-		public String desc() {
-			return Messages.get(this, "desc", dispTurns());
+		public void detach() {
+			super.detach();
 		}
 	}
 }

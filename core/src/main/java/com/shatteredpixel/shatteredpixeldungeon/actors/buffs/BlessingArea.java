@@ -57,7 +57,7 @@ public class BlessingArea extends Buff {
         return Messages.get(this, "desc", left);
     }
 
-    public void setup(int pos, int duration, int dist, boolean talent){ //dist's default value is 1
+    public void setup(int pos, int duration, int dist){ //dist's default value is 1
 
         if (Dungeon.depth == 5 || Dungeon.depth == 10 || Dungeon.depth == 20){
             dist = 1; //smaller boss areas

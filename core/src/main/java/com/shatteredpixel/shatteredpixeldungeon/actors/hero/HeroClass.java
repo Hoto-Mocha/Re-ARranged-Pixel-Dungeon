@@ -59,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.GammaRayGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.HandMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.Teleporter;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
@@ -467,6 +468,12 @@ public enum HeroClass {
 
 		new ScrollOfMirrorImage().identify();
 		new PotionOfHealing().identify();
+
+		new TengusMask().collect();
+		new KingsCrown().collect();
+		new PotionOfExperience().identify().quantity(100).collect();
+		new RingOfRush().identify().upgrade(100).collect();
+		new TestWeapon().identify().collect();
 	}
 
 	public String title() {

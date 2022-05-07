@@ -1,5 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -9,16 +10,24 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.nurse.Ange
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.HealingParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.watabou.noosa.Image;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -27,6 +36,7 @@ public class HealingArea extends Buff {
     private ArrayList<Integer> areaPositions = new ArrayList<>();
     private ArrayList<Emitter> areaEmitters = new ArrayList<>();
     private ArrayList<Char> targets = new ArrayList<>();
+    private ArrayList<Char> enemy = new ArrayList<>();
 
     private static final float DURATION = 20;
     int left = 0;
@@ -81,6 +91,10 @@ public class HealingArea extends Buff {
             } else {
                 dist += 1;
             }
+
+            if (talent && Dungeon.hero.hasTalent(Talent.HEALAREA)) {
+                dist += Dungeon.hero.pointsInTalent(Talent.HEALAREA);
+            }
         }
 
         PathFinder.buildDistanceMap( pos, BArray.or( Dungeon.level.passable, Dungeon.level.avoid, null ), dist );
@@ -98,13 +112,21 @@ public class HealingArea extends Buff {
 
     }
 
+    public void extend(int duration) {
+        left += duration;
+    }
+
     @Override
     public boolean act() {
 
         for (int i : areaPositions) {
             Char ch = Actor.findChar(i);
-            if (ch != null && ch.alignment == Char.Alignment.ALLY) {
-                targets.add(ch);
+            if (ch != null) {
+                if (ch.alignment == Char.Alignment.ALLY) {
+                    targets.add(ch);
+                } else if (ch.alignment == Char.Alignment.ENEMY) {
+                    enemy.add(ch);
+                }
             }
         }
 
@@ -120,6 +142,11 @@ public class HealingArea extends Buff {
 
         for (Char ally : targets) {
             int healAmt = 1;
+            if (Dungeon.hero.hasTalent(Talent.HEAL_AMP)) {
+                if (Random.Int(4) < Dungeon.hero.pointsInTalent(Talent.HEAL_AMP)) {
+                    healAmt *= 2;
+                }
+            }
             if (Dungeon.hero.buff(AngelWing.AngelWingBuff.class) != null && Dungeon.hero.hasTalent(Talent.HEALING_WING)) {
                 healAmt *= 1+Dungeon.hero.pointsInTalent(Talent.HEALING_WING);
             }
@@ -128,6 +155,37 @@ public class HealingArea extends Buff {
                 ally.HP += healAmt;
                 ally.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
                 ally.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+            }
+
+            if (Dungeon.hero.hasTalent(Talent.PROMOTION)) {
+                if (Dungeon.hero.pointsInTalent(Talent.PROMOTION) >= 1) {
+                    Buff.affect(ally, Adrenaline.class, 2);
+                }
+                if (Dungeon.hero.pointsInTalent(Talent.PROMOTION) >= 2) {
+                    Buff.affect(ally, Haste.class, 2);
+                }
+                if (Dungeon.hero.pointsInTalent(Talent.PROMOTION) == 3) {
+                    if (ally.buff(Barrier.class) != null) {
+                        Buff.affect(ally, Barrier.class).incShield(healAmt);
+                    } else {
+                        Buff.affect(ally, Barrier.class).setShield(healAmt);
+                    }
+                }
+            }
+
+            if (Dungeon.hero.hasTalent(Talent.COMP_RECOVER)) {
+                Buff.affect(target, HealAreaUse.class);
+            }
+        }
+
+        for (Char ch : enemy) {
+            if (Dungeon.hero.hasTalent(Talent.ANGEL_AND_DEVIL)) {
+                if (Random.Int(3) < Dungeon.hero.pointsInTalent(Talent.ANGEL_AND_DEVIL)) {
+                    int dmg = (Dungeon.hero.hasTalent(Talent.ANGEL)) ? 2 : 1;
+                    ch.damage(dmg, Dungeon.hero);
+                    ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 4 );
+                    Sample.INSTANCE.play(Assets.Sounds.BURNING, 0.7f);
+                }
             }
         }
 

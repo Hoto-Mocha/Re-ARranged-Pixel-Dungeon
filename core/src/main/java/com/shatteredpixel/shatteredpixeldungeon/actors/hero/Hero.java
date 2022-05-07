@@ -48,8 +48,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlessingArea;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterAttackDef;
@@ -92,6 +95,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StanceCooldown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AttackSpeedBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Surgery;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SurgeryTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
@@ -102,6 +107,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.N
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rebel;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
@@ -109,6 +115,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EnergyParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
@@ -155,6 +162,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
@@ -513,6 +521,10 @@ public class Hero extends Char {
 
 		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
 			accuracy *= 2;
+		}
+
+		if (hero.buff(Surgery.class) != null) {
+			accuracy *= 1 + 0.02 * hero.buff(Surgery.class).getCount();
 		}
 
 		if (subClass == HeroSubClass.GLADIATOR && hero.buff(Combo.class) == null && hero.hasTalent(Talent.CAUTIOUS_ATTACK)) {
@@ -2007,6 +2019,15 @@ public class Hero extends Char {
 			if (hero.hasTalent(Talent.OUTLAW_OF_BARRENLAND)) {
 				Buff.affect(hero, Outlaw.class).count();
 			}
+			if (Random.Int(10) < hero.pointsInTalent(Talent.FIRST_AID) && !hero.buff(Hunger.class).isStarving()) {
+				int healAmt = 1;
+				healAmt = Math.min( healAmt, hero.HT - hero.HP );
+				if (healAmt > 0 && hero.isAlive()) {
+					hero.HP += healAmt;
+					hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1);
+					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
+			}
 		}
 		resting = fullRest;
 	}
@@ -2124,8 +2145,25 @@ public class Hero extends Char {
 			Buff.affect(enemy, Bleeding.class).set(hero.pointsInTalent(Talent.THORNY_VINE));
 		}
 
-		if (heroClass == HeroClass.NURSE && Random.Int(100) <= 20+lvl) {
+		if (heroClass == HeroClass.NURSE && Random.Int(100) <= 20+lvl+5*hero.pointsInTalent(Talent.MEDICAL_SUPPORT)) {
 			Buff.affect(this, HealingArea.class).setup(this.pos, 5, 1, true);
+		}
+
+		if (hero.hasTalent(Talent.INNER_MIRROR)) {
+			if (Random.Int(50) == 0) {
+				ScrollOfMirrorImage.spawnImages(Dungeon.hero, hero.pointsInTalent(Talent.INNER_MIRROR));
+			}
+		}
+
+		if (hero.hasTalent(Talent.ANGEL) && hero.buff(HealingArea.class) != null) {
+			Buff.affect( enemy, Charm.class, Charm.DURATION ).object = hero.id();
+		}
+
+		if (hero.subClass == HeroSubClass.ANGEL && Random.Int(10) == 0) {
+			Charm charm = Buff.affect(enemy, Charm.class, Charm.DURATION/2f);
+			charm.object = hero.id();
+			charm.ignoreHeroAllies = true;
+			enemy.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 3 );
 		}
 		
 		return damage;
@@ -3526,6 +3564,70 @@ public class Hero extends Char {
 
 		if (hit && Random.Int(10) < hero.pointsInTalent(Talent.EARTHQUAKE) && level.adjacent(hero.pos, enemy.pos) && hero.belongings.weapon() instanceof MeleeWeapon) {
 			Buff.prolong(enemy, Cripple.class, 5);
+		}
+
+		if (hit && hero.hasTalent(Talent.CRITICAL_SHIELD) && !enemy.isAlive()) {
+			Buff.affect(hero, Barrier.class).setShield(1+hero.pointsInTalent(Talent.CRITICAL_SHIELD));
+		}
+
+		if (hit && hero.hasTalent(Talent.WINNERS_FLAG) && !enemy.isAlive() && Random.Int(10) == 0) {
+			Buff.affect(hero, BlessingArea.class).setup(hero.pos, 10, hero.pointsInTalent(Talent.WINNERS_FLAG));
+		}
+
+		if (hero.subClass == HeroSubClass.MEDIC && hit) {
+			for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+				if (Dungeon.level.heroFOV[mob.pos]) {
+					if (mob.isAlive() && mob.alignment == Alignment.ALLY) {
+						int healAmt = 2+2*hero.pointsInTalent(Talent.HEAL_ENHANCE);
+						healAmt = Math.min( healAmt, mob.HT - mob.HP );
+						if (healAmt > 0 && mob.isAlive()) {
+							mob.HP += healAmt;
+							mob.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 2 );
+							mob.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+						}
+					}
+				}
+			}
+			if (hero.buff(HealingArea.class) != null) {
+				Buff.affect(hero, HealingArea.class).extend(2);
+			}
+		}
+
+		if (hit && hero.hasTalent(Talent.HEALING_SHIELD) && !enemy.isAlive()) {
+			if (Random.Int(5) < hero.pointsInTalent(Talent.HEALING_SHIELD)) {
+				Buff.affect(hero, HealingArea.class).setup(hero.pos, 10, 1, true);
+			}
+		}
+
+		if (hit && hero.hasTalent(Talent.APPEASE) && Random.Int(5) == 0) {
+			Buff.affect(enemy, Charm.class, Charm.DURATION/2).object = hero.id();
+			enemy.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 3 );
+		}
+
+		if (hit && hero.hasTalent(Talent.AREA_OF_LIGHT)) {
+			int duration = (hero.hasTalent(Talent.WINNERS_FLAG) ? 2 : 1);
+			Buff.affect(hero, BlessingArea.class).setup(hero.pos, duration, hero.pointsInTalent(Talent.AREA_OF_LIGHT));
+		}
+
+		if (hero.subClass == HeroSubClass.SURGEON) {
+			if (hero.buff(Surgery.class) != null) {
+				if (hit) Buff.affect(hero, Surgery.class).hit();
+				else hero.buff(Surgery.class).detach();
+			} else {
+				if (hit) {
+					Buff.affect(hero, Surgery.class).hit();
+				}
+			}
+		}
+
+		if (hit && hero.buff(SurgeryTracker.class) != null) {
+			enemy.damage( enemy.HP, this );
+			enemy.sprite.emitter().burst( ShadowParticle.UP, 5 );
+			hero.buff(SurgeryTracker.class).detach();
+		}
+
+		if (hit && hero.hasTalent(Talent.SCALPEL)) {
+			Buff.affect(enemy, Bleeding.class).set(hero.pointsInTalent(Talent.SCALPEL));
 		}
 
 		curAction = null;
