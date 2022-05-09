@@ -58,6 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.WindParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.StunGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.Stylus;
 import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
@@ -244,10 +245,15 @@ public abstract class Level implements Bundlable {
 			//one subweapon is guaranteed to spawn somewhere on chapter 2-4
 			if ( Dungeon.depth / 5 == enchChapter &&
 					Dungeon.seed % 4 + 1 == Dungeon.depth % 5){
-				if (Random.Int(2) == 0) {
-					addItemToSpawn( new GrenadeLauncher().identify() );
-				} else {
-					addItemToSpawn( new SleepGun().identify() );
+				switch (Random.Int(3)) {
+					case 0: default:
+						addItemToSpawn( new GrenadeLauncher().identify() );
+						break;
+					case 1:
+						addItemToSpawn( new SleepGun().identify() );
+						break;
+					case 2:
+						addItemToSpawn( new StunGun().identify() );
 				}
 			}
 			//one extractor is 50% chance to spawn somewhere on chapter 4-5

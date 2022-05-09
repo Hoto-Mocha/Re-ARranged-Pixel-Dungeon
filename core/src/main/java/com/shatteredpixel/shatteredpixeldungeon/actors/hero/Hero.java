@@ -49,7 +49,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlessingArea;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
@@ -107,14 +106,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.N
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rebel;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EnergyParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
@@ -126,6 +123,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.StunGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.StunGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
@@ -206,7 +205,6 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndTradeItem;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
@@ -3631,6 +3629,37 @@ public class Hero extends Char {
 
 		if (hit && hero.hasTalent(Talent.SCALPEL)) {
 			Buff.affect(enemy, Bleeding.class).set(hero.pointsInTalent(Talent.SCALPEL));
+		}
+
+		if (hit && hero.belongings.weapon() instanceof MeleeWeapon && hero.buff(StunGun.StunningTracker.class) != null) {
+			Buff.affect(enemy, Paralysis.class, 2f);
+			enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+			enemy.sprite.flash();
+			Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+		}
+
+		if (hit && hero.belongings.weapon() instanceof MeleeWeapon && hero.buff(StunGunAP.ShockingTracker.class) != null) {
+			Buff.affect(enemy, Paralysis.class, 3f);
+			enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+			enemy.sprite.flash();
+			ArrayList<Lightning.Arc> arcs2 = new ArrayList<>();
+			ArrayList<Char> affected2 = new ArrayList<>();
+			affected2.clear();
+			arcs2.clear();
+
+			Shocking.arc(hero, enemy, 2, affected2, arcs2);
+
+			affected2.remove(enemy); //defender isn't hurt by lightning
+			for (Char ch : affected2) {
+				if (ch.alignment != hero.alignment) {
+					ch.damage(Random.IntRange(4, 6), this);
+					Buff.affect(ch, Paralysis.class, 3f);
+				}
+			}
+			GameScene.add( Blob.seed( enemy.pos, 3, Electricity.class ) );
+
+			hero.sprite.parent.addToFront( new Lightning( arcs2, null ) );
+			Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
 		}
 
 		curAction = null;

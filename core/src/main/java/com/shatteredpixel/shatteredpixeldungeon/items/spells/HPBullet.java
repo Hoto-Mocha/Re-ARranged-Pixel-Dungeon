@@ -29,6 +29,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.StunGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.StunGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.StunGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
@@ -168,7 +171,10 @@ public class HPBullet extends InventorySpell {
                 || item instanceof GrenadeLauncherAP
 
                 || item instanceof SleepGun
-                || item instanceof FrostGun;
+                || item instanceof FrostGun
+
+                || item instanceof StunGun
+                || item instanceof StunGunAP;
     }
 
     @Override
@@ -203,6 +209,8 @@ public class HPBullet extends InventorySpell {
     public static Item changeItem( Item item ){
         if (item instanceof MeleeWeapon) {
             return changeWeapon((Weapon) item);
+        } else if (item instanceof StunGun || item instanceof StunGunAP){
+            return new StunGunHP();
         } else {
             return null;
         }

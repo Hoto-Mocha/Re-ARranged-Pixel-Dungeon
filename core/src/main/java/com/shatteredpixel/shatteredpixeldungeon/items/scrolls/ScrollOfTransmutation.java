@@ -94,10 +94,10 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		return (item instanceof MeleeWeapon
 				&& (!(item instanceof GrenadeLauncher))
 				&& (!(item instanceof GrenadeLauncherAP))
-				&& (!(item instanceof GrenadeLauncherHP)))
+				&& (!(item instanceof GrenadeLauncherHP))
 				&& (!(item instanceof SleepGun))
 				&& (!(item instanceof FrostGun))
-				&& (!(item instanceof ParalysisGun)) ||
+				&& (!(item instanceof ParalysisGun))) ||
 				(item instanceof MissileWeapon && (!(item instanceof Dart) || item instanceof TippedDart)) ||
 				(item instanceof Potion && !(item instanceof Elixir || item instanceof Brew || item instanceof AlchemicalCatalyst)) ||
 				item instanceof Scroll ||

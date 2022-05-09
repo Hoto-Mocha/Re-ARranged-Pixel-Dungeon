@@ -23,6 +23,9 @@ package com.shatteredpixel.shatteredpixeldungeon.journal;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.StunGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.StunGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.StunGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.GunnerArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.HuntressArmor;
@@ -30,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.KnightArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.MageArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.NurseArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlanterArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.RogueArmor;
@@ -148,6 +152,7 @@ public enum Catalog {
 		WEAPONS.seen.put( WornKatana.class,                 false);
 		WEAPONS.seen.put( Shovel.class,         	        false);
 		WEAPONS.seen.put( Saber.class,         	   	 	  	false);
+		WEAPONS.seen.put( HealBook.class,         	   	 	false);
 		WEAPONS.seen.put( Shortsword.class,                 false);
 		WEAPONS.seen.put( HandAxe.class,                    false);
 		WEAPONS.seen.put( Spear.class,                      false);
@@ -253,12 +258,17 @@ public enum Catalog {
 
 		WEAPONS.seen.put( RocketLauncher.class,             false);
 		WEAPONS.seen.put( RPG7.class,                       false);
+
 		WEAPONS.seen.put( GrenadeLauncher.class,            false);
 		WEAPONS.seen.put( GrenadeLauncherAP.class,          false);
 		WEAPONS.seen.put( GrenadeLauncherHP.class,          false);
 		WEAPONS.seen.put( SleepGun.class,         			false);
 		WEAPONS.seen.put( FrostGun.class,         			false);
 		WEAPONS.seen.put( ParalysisGun.class,        		false);
+		WEAPONS.seen.put( StunGun.class,        			false);
+		WEAPONS.seen.put( StunGunAP.class,        			false);
+		WEAPONS.seen.put( StunGunHP.class,        			false);
+
 		WEAPONS.seen.put( FlameThrower.class,               false);
 		WEAPONS.seen.put( PlasmaCannon.class,               false);
 		WEAPONS.seen.put( MissileButton.class,              false);
@@ -276,6 +286,7 @@ public enum Catalog {
 		ARMOR.seen.put( SamuraiArmor.class,                 false);
 		ARMOR.seen.put( PlanterArmor.class,                 false);
 		ARMOR.seen.put( KnightArmor.class,                  false);
+		ARMOR.seen.put( NurseArmor.class,                	false);
 
 		WANDS.seen.put( WandOfMagicMissile.class,           false);
 		WANDS.seen.put( WandOfLightning.class,              false);

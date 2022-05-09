@@ -396,6 +396,9 @@ public class ItemSpriteSheet {
 	public static final int SLEEP_GUN 			= SUBWEAPONS+3;
 	public static final int FROST_GUN 			= SUBWEAPONS+4;
 	public static final int PARALYSIS_GUN 		= SUBWEAPONS+5;
+	public static final int STUN_GUN 			= SUBWEAPONS+6;
+	public static final int STUN_GUN_HP			= SUBWEAPONS+7;
+	public static final int STUN_GUN_AP			= SUBWEAPONS+8;
 	static{
 		assignItemRect(GRENADE_LAUNCHER ,15, 15);
 		assignItemRect(SMOKE_LAUNCHER   ,15, 15);
@@ -403,6 +406,9 @@ public class ItemSpriteSheet {
 		assignItemRect(SLEEP_GUN 	   	,12, 15);
 		assignItemRect(FROST_GUN 	   	,12, 15);
 		assignItemRect(PARALYSIS_GUN   	,12, 15);
+		assignItemRect(STUN_GUN 	   	,14, 14);
+		assignItemRect(STUN_GUN_HP		,14, 14);
+		assignItemRect(STUN_GUN_AP	   	,14, 14);
 	}
 
 	private static final int KATANAS         =                               xy(1, 36);

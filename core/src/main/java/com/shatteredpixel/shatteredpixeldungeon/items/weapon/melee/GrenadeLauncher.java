@@ -180,7 +180,7 @@ public class GrenadeLauncher extends MeleeWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier, lvl);
+        return 0;
     }
 
     public int min(int lvl) {

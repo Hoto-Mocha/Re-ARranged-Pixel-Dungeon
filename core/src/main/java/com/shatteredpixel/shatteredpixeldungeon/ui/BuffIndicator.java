@@ -115,6 +115,7 @@ public class BuffIndicator extends Component {
 	public static final int KNIGHTSHIELD= 62;
 	public static final int REGEN		= 63;
 	public static final int ANGELWING	= 64;
+	public static final int STUNNING	= 65;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

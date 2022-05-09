@@ -122,7 +122,7 @@ public class HealingArea extends Buff {
         for (int i : areaPositions) {
             Char ch = Actor.findChar(i);
             if (ch != null) {
-                if (ch.alignment == Char.Alignment.ALLY) {
+                if (ch.alignment == Char.Alignment.ALLY && !(ch instanceof Hero)) {
                     targets.add(ch);
                 } else if (ch.alignment == Char.Alignment.ENEMY) {
                     enemy.add(ch);
@@ -185,10 +185,11 @@ public class HealingArea extends Buff {
                     ch.damage(dmg, Dungeon.hero);
                     ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 4 );
                     Sample.INSTANCE.play(Assets.Sounds.BURNING, 0.7f);
+
                 }
             }
         }
-
+        enemy.clear();
         targets.clear();
 
         spend(TICK);
