@@ -231,6 +231,7 @@ public class ItemSpriteSheet {
 	public static final int QUARTERSTAFF    = WEP_TIER2+3;
 	public static final int DIRK            = WEP_TIER2+4;
 	public static final int KNIFE           = WEP_TIER2+5;
+	public static final int NUNCHAKU        = WEP_TIER2+6;
 
 	static{
 		assignItemRect(SHORTSWORD,      13, 13);
@@ -239,6 +240,7 @@ public class ItemSpriteSheet {
 		assignItemRect(QUARTERSTAFF,    16, 16);
 		assignItemRect(DIRK,            13, 14);
 		assignItemRect(KNIFE,           12, 13);
+		assignItemRect(NUNCHAKU,        16, 16);
 	}
 
 	private static final int WEP_TIER3      =                               xy(1, 8);   //8 slots
@@ -426,21 +428,23 @@ public class ItemSpriteSheet {
 		assignItemRect(LARGE_KATANA,	12, 16);
 	}
 
-	private static final int ALCHEMYWEAPONS 	        =            	           xy(1, 37);
-	public static final int SPEAR_N_SHIELD  	= ALCHEMYWEAPONS+0;
-	public static final int LANCE_N_SHIELD  	= ALCHEMYWEAPONS+1;
-	public static final int	CHAIN_FLAIL			= ALCHEMYWEAPONS+2;
-	public static final int FLAME_SCIMITAR		= ALCHEMYWEAPONS+3;
-	public static final int FROST_SCIMITAR		= ALCHEMYWEAPONS+4;
-	public static final int POISON_SCIMITAR		= ALCHEMYWEAPONS+5;
-	public static final int ELECTRO_SCIMITAR	= ALCHEMYWEAPONS+6;
-	public static final int CURSED_SWORD		= ALCHEMYWEAPONS+7;
-	public static final int UNHOLY_BIBLE    	= ALCHEMYWEAPONS+8;
-	public static final int TACTICAL_SHIELD 	= ALCHEMYWEAPONS+9;
-	public static final int BALLISTA  			= ALCHEMYWEAPONS+10;
-	public static final int FORCE_GLOVE  		= ALCHEMYWEAPONS+11;
-	public static final int HOLY_SWORD  		= ALCHEMYWEAPONS+12;
-	public static final int CROSS  				= ALCHEMYWEAPONS+13;
+	private static final int ALCHEMYWEAPONS_1 	        =            	           xy(1, 37);
+	public static final int SPEAR_N_SHIELD  	= ALCHEMYWEAPONS_1+0;
+	public static final int LANCE_N_SHIELD  	= ALCHEMYWEAPONS_1+1;
+	public static final int	CHAIN_FLAIL			= ALCHEMYWEAPONS_1+2;
+	public static final int FLAME_SCIMITAR		= ALCHEMYWEAPONS_1+3;
+	public static final int FROST_SCIMITAR		= ALCHEMYWEAPONS_1+4;
+	public static final int POISON_SCIMITAR		= ALCHEMYWEAPONS_1+5;
+	public static final int ELECTRO_SCIMITAR	= ALCHEMYWEAPONS_1+6;
+	public static final int CURSED_SWORD		= ALCHEMYWEAPONS_1+7;
+	public static final int UNHOLY_BIBLE    	= ALCHEMYWEAPONS_1+8;
+	public static final int TACTICAL_SHIELD 	= ALCHEMYWEAPONS_1+9;
+	public static final int BALLISTA  			= ALCHEMYWEAPONS_1+10;
+	public static final int FORCE_GLOVE  		= ALCHEMYWEAPONS_1+11;
+	public static final int HOLY_SWORD  		= ALCHEMYWEAPONS_1+12;
+	public static final int CROSS  				= ALCHEMYWEAPONS_1+13;
+	public static final int CHAOS_SWORD  		= ALCHEMYWEAPONS_1+14;
+	public static final int DOUBLE_GREATSWORD   = ALCHEMYWEAPONS_1+15;
 
 	static{
 		assignItemRect(SPEAR_N_SHIELD,  	16, 15);
@@ -457,9 +461,18 @@ public class ItemSpriteSheet {
 		assignItemRect(FORCE_GLOVE, 	  	13, 15);
 		assignItemRect(HOLY_SWORD, 	  		16, 16);
 		assignItemRect(CROSS, 	  			14, 14);
+		assignItemRect(CHAOS_SWORD, 	  	14, 14);
+		assignItemRect(DOUBLE_GREATSWORD, 	16, 16);
 	}
 
-	private static final int SPELLBOOKS 	        =            	           xy(1, 38);
+	//private static final int ALCHEMYWEAPONS_2 	        =            	           xy(1, 38);
+	//public static final int   	= ALCHEMYWEAPONS_2+0;
+
+	//static{
+	//	assignItemRect( ,  	16, 15);
+	//}
+
+	private static final int SPELLBOOKS 	        =            	           xy(1, 39);
 	public static final int EMPTY_SPELLBOOK  		= SPELLBOOKS+0;
 	public static final int FIRE_SPELLBOOK  		= SPELLBOOKS+1;
 	public static final int FROST_SPELLBOOK  		= SPELLBOOKS+2;
@@ -478,7 +491,7 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 16);
 	}
 
-	private static final int ADVANCED_TIER5 = 								xy(1, 39);
+	private static final int ADVANCED_TIER5 = 								xy(1, 40);
 	public static final int SPADE           = ADVANCED_TIER5+0;
 	public static final int EXCROSSBOW      = ADVANCED_TIER5+1;
 	public static final int TRUE_RUNIC_BLADE= ADVANCED_TIER5+2;
@@ -493,7 +506,7 @@ public class ItemSpriteSheet {
 		assignItemRect(CHAIN_WHIP,			16, 16);
 	}
 
-	private static final int ADVANCED_TIER6 = 								xy(1, 40);
+	private static final int ADVANCED_TIER6 = 								xy(1, 41);
 	public static final int HUGE_SWORD      = ADVANCED_TIER6+0;
 	public static final int IRON_HAMMER     = ADVANCED_TIER6+1;
 	public static final int BEAM_SABER      = ADVANCED_TIER6+2;
@@ -785,7 +798,7 @@ public class ItemSpriteSheet {
 		assignItemRect(LIQUID_METAL,    8, 15);
 	}
 
-	private static final int NEW_POTIONS = 								xy(1, 41);  //16 slots
+	private static final int NEW_POTIONS = 								xy(1, 42);  //16 slots
 	public static final int POTION_FLUORESCENT      = NEW_POTIONS+0;
 	public static final int POTION_ASH     	 		= NEW_POTIONS+1;
 
@@ -812,7 +825,7 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 13);
 	}
 
-	private static final int NEW_EXOTIC_POTIONS = 						xy(1, 42);  //16 slots
+	private static final int NEW_EXOTIC_POTIONS = 						xy(1, 43);  //16 slots
 	public static final int EXOTIC_FLUORESCENT      = NEW_EXOTIC_POTIONS+0;
 	public static final int EXOTIC_ASH     			= NEW_EXOTIC_POTIONS+1;
 
@@ -859,7 +872,7 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 14);
 	}
 
-	private static final int NEW_ELIXIRS = 								xy(1, 43);  //16 slots
+	private static final int NEW_ELIXIRS = 								xy(1, 44);  //16 slots
 	public static final int ELIXIR_HEALTH      = NEW_ELIXIRS+0;
 
 	static{

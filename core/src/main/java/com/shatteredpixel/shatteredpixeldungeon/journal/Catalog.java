@@ -160,6 +160,7 @@ public enum Catalog {
 		WEAPONS.seen.put( Dirk.class,                       false);
 		WEAPONS.seen.put( ShortKatana.class,                false);
 		WEAPONS.seen.put( Knife.class,       		        false);
+		WEAPONS.seen.put( Nunchaku.class,       		    false);
 		WEAPONS.seen.put( Sword.class,                      false);
 		WEAPONS.seen.put( Mace.class,                       false);
 		WEAPONS.seen.put( Scimitar.class,                   false);
@@ -210,6 +211,8 @@ public enum Catalog {
 		WEAPONS.seen.put( TacticalShield.class,       	 	false);
 		WEAPONS.seen.put( ForceGlove.class,     	  	 	false);
 		WEAPONS.seen.put( HolySword.class,     	  	 		false);
+		WEAPONS.seen.put( DoubleGreatSword.class,     	  	false);
+		WEAPONS.seen.put( ChaosSword.class,    		 	  	false);
 
 		//spellbooks
 		WEAPONS.seen.put( SpellBook_Empty.class,     	  	false);

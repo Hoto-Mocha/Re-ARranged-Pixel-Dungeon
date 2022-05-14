@@ -210,6 +210,7 @@ public class MinersTool extends MeleeWeapon {
 	}
 
 	public void goldMining(int cell) {
+		boolean isPrizeDropped = false;
 		Item gold = new Gold().quantity((int)Math.ceil(Dungeon.depth/5f)*Random.NormalIntRange(5, 25));
 		Item prizeCh1 = new AquaBlast();
 		Item prizeCh2 = new Torch();
@@ -239,23 +240,48 @@ public class MinersTool extends MeleeWeapon {
 		prizeCh5.upgrade( upgrade );
 		prizeCh6.upgrade( upgrade );
 		if (Math.ceil(Dungeon.depth/5f) == 1) {
-			if (Random.Int(2) == 0) Dungeon.level.drop(prizeCh1, curUser.pos).sprite.drop();	//50%
-			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			if (Random.Int(2) == 0) {
+				Dungeon.level.drop(prizeCh1, curUser.pos).sprite.drop();	//50%
+				isPrizeDropped = true;
+			}
+			else {
+				Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			}
 		} else if (Math.ceil(Dungeon.depth/5f) == 2) {
-			if (Random.Int(2) == 0) Dungeon.level.drop(prizeCh2, curUser.pos).sprite.drop();	//50%
-			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			if (Random.Int(2) == 0) {
+				Dungeon.level.drop(prizeCh2, curUser.pos).sprite.drop();	//50%
+				isPrizeDropped = true;
+			} else {
+				Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			}
 		} else if (Math.ceil(Dungeon.depth/5f) == 3) {
-			if (Random.Int(5) == 0) Dungeon.level.drop(prizeCh3, curUser.pos).sprite.drop();	//20%
-			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			if (Random.Int(5) == 0) {
+				Dungeon.level.drop(prizeCh3, curUser.pos).sprite.drop();	//20%
+				isPrizeDropped = true;
+			} else {
+				Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			}
 		} else if (Math.ceil(Dungeon.depth/5f) == 4) {
-			if (Random.Int(2) == 0) Dungeon.level.drop(prizeCh4, curUser.pos).sprite.drop();	//50%
-			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			if (Random.Int(2) == 0) {
+				Dungeon.level.drop(prizeCh4, curUser.pos).sprite.drop();	//50%
+				isPrizeDropped = true;
+			} else {
+				Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			}
 		} else if (Math.ceil(Dungeon.depth/5f) == 5) {
-			if (Random.Int(10) == 0) Dungeon.level.drop(prizeCh5, curUser.pos).sprite.drop();	//10%
-			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			if (Random.Int(10) == 0) {
+				Dungeon.level.drop(prizeCh5, curUser.pos).sprite.drop();	//10%
+				isPrizeDropped = true;
+			} else {
+				Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			}
 		} else if (Math.ceil(Dungeon.depth/5f) == 6) {
-			if (Random.Int(2) == 0) Dungeon.level.drop(prizeCh6, curUser.pos).sprite.drop();	//50%
-			else Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			if (Random.Int(2) == 0) {
+				Dungeon.level.drop(prizeCh6, curUser.pos).sprite.drop();	//50%
+				isPrizeDropped = true;
+			} else {
+				Dungeon.level.drop(gold, curUser.pos).sprite.drop();
+			}
 		}
 
 
@@ -267,7 +293,12 @@ public class MinersTool extends MeleeWeapon {
 		curUser.busy();
 		Buff.affect(curUser, MinersToolCoolDown.class, Math.max(20-2*buffedLvl(), 5));
 		Invisibility.dispel();
-		GLog.p(Messages.get(MinersTool.class, "gold_mining"));
+
+		if (isPrizeDropped) {
+			GLog.p(Messages.get(MinersTool.class, "prize_mining"));
+		} else {
+			GLog.p(Messages.get(MinersTool.class, "gold_mining"));
+		}
 	}
 
 	public void floorMining(int cell) {

@@ -86,7 +86,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChaosSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedSword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DoubleGreatSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ElectroScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
@@ -445,6 +447,8 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new ForceGlove.Recipe()));
 				result.add(new QuickRecipe(new AssassinsSpear.Recipe()));
 				result.add(new QuickRecipe(new HolySword.Recipe()));
+				result.add(new QuickRecipe(new DoubleGreatSword.Recipe()));
+				result.add(new QuickRecipe(new ChaosSword.Recipe()));
 				result.add(new QuickRecipe(new Cross.Recipe()));
 				result.add(null);
 				result.add(null);

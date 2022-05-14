@@ -82,7 +82,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChaosSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedSword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DoubleGreatSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ElectroScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
@@ -327,7 +329,9 @@ public abstract class Recipe {
 		new MarksmanRifle.Recipe3(),
 		new FireImbueSpell.Recipe(),
 		new AssassinsSpear.Recipe(),
-		new Xray.Recipe()
+		new Xray.Recipe(),
+		new DoubleGreatSword.Recipe(),
+		new ChaosSword.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){

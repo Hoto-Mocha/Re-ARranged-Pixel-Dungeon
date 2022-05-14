@@ -96,6 +96,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StanceCooldown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AttackSpeedBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Surgery;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SurgeryTracker;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SurgeryUse;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
@@ -3612,8 +3613,14 @@ public class Hero extends Char {
 
 		if (hero.subClass == HeroSubClass.SURGEON) {
 			if (hero.buff(Surgery.class) != null) {
-				if (hit) Buff.affect(hero, Surgery.class).hit();
-				else hero.buff(Surgery.class).detach();
+				if (hit)  {
+					Buff.affect(hero, Surgery.class).hit();
+				} else {
+					hero.buff(Surgery.class).detach();
+					if (hero.buff(SurgeryUse.class) != null) {
+						hero.buff(SurgeryUse.class).detach();
+					}
+				}
 			} else {
 				if (hit) {
 					Buff.affect(hero, Surgery.class).hit();

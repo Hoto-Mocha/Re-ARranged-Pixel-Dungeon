@@ -330,9 +330,10 @@ public class Generator {
 					Pistol.class,
 					DualPistol.class,
 					ShortKatana.class,
-					Knife.class
+					Knife.class,
+					Nunchaku.class
 			};
-			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,4 ,4, 5, 4};
+			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,4 ,4, 5, 4, 4};
 			
 			WEP_T3.classes = new Class<?>[]{
 					Sword.class,
