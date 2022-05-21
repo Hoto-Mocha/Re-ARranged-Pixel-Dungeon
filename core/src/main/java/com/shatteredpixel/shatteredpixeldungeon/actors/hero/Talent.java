@@ -177,7 +177,7 @@ public enum Talent {
 	//Berserker T3
 	ENDLESS_RAGE(13, 3), BERSERKING_STAMINA(14, 3), ENRAGED_CATALYST(15, 3), LETHAL_RAGE(16, 3),
 	//Gladiator T3
-	CLEAVE(17, 3), LETHAL_DEFENSE(18, 3), ENHANCED_COMBO(19, 3), CAUTIOUS_ATTACK(20, 3),
+	CLEAVE(17, 3), LETHAL_DEFENSE(18, 3), ENHANCED_COMBO(19, 3), QUICK_SWAP(20, 3),
 	//Veteran T3
 	ARM_VETERAN(21, 3), MARTIAL_ARTS(22, 3), ENHANCED_FOCUSING(23, 3), PUSHBACK(24, 3),
 	//Heroic Leap T4
@@ -422,6 +422,13 @@ public enum Talent {
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.3f, 0.3f, 0.3f); }
 		public float iconFadePercent() { return Math.max(0, 1-visualcooldown() / (30-5*Dungeon.hero.pointsInTalent(Talent.PUSHBACK))); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class QuickSwapCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0xB3B3B3); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 5); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
@@ -1219,7 +1226,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ENDLESS_RAGE, BERSERKING_STAMINA, ENRAGED_CATALYST, LETHAL_RAGE, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case GLADIATOR:
-				Collections.addAll(tierTalents, CLEAVE, LETHAL_DEFENSE, ENHANCED_COMBO, CAUTIOUS_ATTACK, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
+				Collections.addAll(tierTalents, CLEAVE, LETHAL_DEFENSE, ENHANCED_COMBO, QUICK_SWAP, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case VETERAN:
 				Collections.addAll(tierTalents, ARM_VETERAN, MARTIAL_ARTS, ENHANCED_FOCUSING, PUSHBACK, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);

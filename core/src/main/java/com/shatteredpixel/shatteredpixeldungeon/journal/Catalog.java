@@ -153,6 +153,7 @@ public enum Catalog {
 		WEAPONS.seen.put( Shovel.class,         	        false);
 		WEAPONS.seen.put( Saber.class,         	   	 	  	false);
 		WEAPONS.seen.put( HealBook.class,         	   	 	false);
+
 		WEAPONS.seen.put( Shortsword.class,                 false);
 		WEAPONS.seen.put( HandAxe.class,                    false);
 		WEAPONS.seen.put( Spear.class,                      false);
@@ -161,6 +162,7 @@ public enum Catalog {
 		WEAPONS.seen.put( ShortKatana.class,                false);
 		WEAPONS.seen.put( Knife.class,       		        false);
 		WEAPONS.seen.put( Nunchaku.class,       		    false);
+
 		WEAPONS.seen.put( Sword.class,                      false);
 		WEAPONS.seen.put( Mace.class,                       false);
 		WEAPONS.seen.put( Scimitar.class,                   false);
@@ -169,6 +171,7 @@ public enum Catalog {
 		WEAPONS.seen.put( Whip.class,                       false);
 		WEAPONS.seen.put( Katana.class,                     false);
 		WEAPONS.seen.put( Bible.class,          			false);
+
 		WEAPONS.seen.put( Longsword.class,                  false);
 		WEAPONS.seen.put( BattleAxe.class,                  false);
 		WEAPONS.seen.put( Flail.class,                      false);
@@ -176,6 +179,7 @@ public enum Catalog {
 		WEAPONS.seen.put( AssassinsBlade.class,             false);
 		WEAPONS.seen.put( Crossbow.class,                   false);
 		WEAPONS.seen.put( LongKatana.class,                 false);
+
 		WEAPONS.seen.put( Greatsword.class,                 false);
 		WEAPONS.seen.put( WarHammer.class,                  false);
 		WEAPONS.seen.put( Glaive.class,                     false);

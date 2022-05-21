@@ -35,8 +35,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -79,8 +81,15 @@ abstract public class KindOfWeapon extends EquipableItem {
 				equipCursed( hero );
 				GLog.n( Messages.get(KindOfWeapon.class, "equip_cursed") );
 			}
-			
-			hero.spendAndNext( TIME_TO_EQUIP );
+
+			if (hero.subClass == HeroSubClass.WEAPONMASTER || (hero.hasTalent(Talent.QUICK_SWAP) && hero.buff(Talent.QuickSwapCooldown.class) == null)) {
+				if (hero.hasTalent(Talent.QUICK_SWAP)) {
+					Buff.affect( hero, WeaponEmpower.class).set( hero.pointsInTalent(Talent.QUICK_SWAP), 1f);
+					Buff.affect( hero, Talent.QuickSwapCooldown.class, 5f);
+				}
+			} else {
+				hero.spendAndNext( TIME_TO_EQUIP );
+			}
 			return true;
 			
 		} else {

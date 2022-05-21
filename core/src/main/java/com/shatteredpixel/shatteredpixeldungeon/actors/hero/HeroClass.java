@@ -287,6 +287,7 @@ public enum HeroClass {
 		//new StableAPBullet().collect();
 		//new StableHPBullet().collect();
 
+		//new TengusMask().collect();
 		//new AlchemistsToolkit().identify().upgrade(10).collect();
 		//new Greatsword().identify().collect();
 		//new Greatsword().identify().collect();
@@ -299,6 +300,10 @@ public enum HeroClass {
 		//new RingOfMight().identify().upgrade(20).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new Teleporter().identify().collect();
+		//new PotionOfHealing().identify().quantity(100).collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
+		//new TestWeapon().identify().collect();
+		//new CrudePistol().identify().collect();
 	}
 
 	private static void initMage( Hero hero ) {

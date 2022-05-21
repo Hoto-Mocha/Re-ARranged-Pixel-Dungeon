@@ -281,8 +281,11 @@ public class Hero extends Char {
 	
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
-		
-		HT = (Dungeon.isChallenged(Challenges.SUPERMAN)) ? 10 + 5*hero.pointsInTalent(Talent.MAX_HEALTH): 20 + 5*(lvl-1) + HTBoost + 5*hero.pointsInTalent(Talent.MAX_HEALTH) ;
+
+		HT = (Dungeon.isChallenged(Challenges.SUPERMAN)) ? 10 : 20 + 5 * (lvl-1) + HTBoost;
+		if (this.hasTalent(Talent.MAX_HEALTH)) {
+			HT += 5*this.pointsInTalent(Talent.MAX_HEALTH);
+		}
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -524,10 +527,6 @@ public class Hero extends Char {
 
 		if (hero.buff(Surgery.class) != null) {
 			accuracy *= 1 + 0.02 * hero.buff(Surgery.class).getCount();
-		}
-
-		if (subClass == HeroSubClass.GLADIATOR && hero.buff(Combo.class) == null && hero.hasTalent(Talent.CAUTIOUS_ATTACK)) {
-			accuracy *= 1+0.1*pointsInTalent(Talent.CAUTIOUS_ATTACK);
 		}
 
 		if (hero.hasTalent(Talent.ACC_ENHANCE)) {
@@ -3017,6 +3016,8 @@ public class Hero extends Char {
 					|| belongings.weapon() instanceof Gauntlet
 					|| belongings.weapon() instanceof BeamSaber
 					|| belongings.weapon() instanceof ForceGlove
+					|| belongings.weapon() instanceof DoubleGreatSword
+					|| belongings.weapon() instanceof Nunchaku
 			) {
 				Buff.affect(this, AccuracyBuff.class).attack(enemy);
 			}
@@ -3050,8 +3051,8 @@ public class Hero extends Char {
 			}
 
 			if ((belongings.weapon() instanceof Crossbow
-						|| belongings.weapon instanceof ExplosiveCrossbow
-						|| belongings.weapon instanceof Ballista
+						|| belongings.weapon() instanceof ExplosiveCrossbow
+						|| belongings.weapon() instanceof Ballista
 						|| belongings.weapon() instanceof CrudePistol
 					  	|| belongings.weapon() instanceof CrudePistolAP
 					  	|| belongings.weapon() instanceof CrudePistolHP

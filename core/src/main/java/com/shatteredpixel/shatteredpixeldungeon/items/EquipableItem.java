@@ -26,8 +26,11 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -121,10 +124,14 @@ public abstract class EquipableItem extends Item {
 			return false;
 		}
 
-		if (single) {
-			hero.spendAndNext( time2equip( hero ) );
+		if ((hero.subClass == HeroSubClass.WEAPONMASTER || hero.hasTalent(Talent.QUICK_SWAP)) && this instanceof MeleeWeapon) {
+			//do nothing
 		} else {
-			hero.spend( time2equip( hero ) );
+			if (single) {
+				hero.spendAndNext( time2equip( hero ) );
+			} else {
+				hero.spend( time2equip( hero ) );
+			}
 		}
 
 		//temporarily keep this item so it can be collected

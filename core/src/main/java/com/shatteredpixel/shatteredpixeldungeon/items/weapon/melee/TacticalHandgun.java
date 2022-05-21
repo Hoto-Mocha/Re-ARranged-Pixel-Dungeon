@@ -579,7 +579,7 @@ public class TacticalHandgun extends MeleeWeapon {
             }
             for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
                 if (mob.paralysed <= 0
-                        && Dungeon.level.distance(curUser.pos, mob.pos) <= 8
+                        && Dungeon.level.distance(curUser.pos, mob.pos) <= 4
                         && mob.state != mob.HUNTING
                         && !silencer) {
                     mob.beckon( curUser.pos );
