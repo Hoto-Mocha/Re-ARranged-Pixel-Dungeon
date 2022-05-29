@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSatisfying;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.utils.Bundle;
@@ -57,6 +58,25 @@ public class WellFed extends Buff {
 		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
 			//150 turns if on diet is enabled
 			left /= 3;
+		}
+	}
+
+	public void set( int duration ) {
+		int max = Math.round(Hunger.STARVING * RingOfSatisfying.satisfactionMultiplier( Dungeon.hero ) - 450f);
+		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
+			duration /= 3;
+		}
+		left = Math.min(duration, max);
+	}
+
+	public void extend( int duration ) {
+		int max = Math.round(Hunger.STARVING * RingOfSatisfying.satisfactionMultiplier( Dungeon.hero ) - 450f);
+		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
+			duration /= 3;
+		}
+		left += duration;
+		if (left > max) {
+			left = max;
 		}
 	}
 	

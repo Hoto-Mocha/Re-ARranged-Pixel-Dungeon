@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -28,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSatisfying;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -110,8 +113,17 @@ public class Hunger extends Buff implements Hero.Doom {
 				level = newLevel;
 
 			}
-			
-			spend( target.buff( Shadows.class ) == null ? Dungeon.hero.pointsInTalent(Talent.SHADOW) > 1 ? STEP/0.9f : STEP : STEP * 1.5f );
+
+			float hunger = STEP;
+			if (target.buff( Shadows.class ) == null) {
+				if (Dungeon.hero.pointsInTalent(Talent.SHADOW) > 1) {
+					spend(hunger/0.9f);
+				} else {
+					spend(hunger);
+				}
+			} else {
+				spend(hunger * 1.5f);
+			}
 
 		} else {
 
@@ -130,7 +142,17 @@ public class Hunger extends Buff implements Hero.Doom {
 			GLog.n( Messages.get(this, "cursedhorn") );
 		}
 
-		affectHunger( energy, false );
+		if ( level - energy < 0 ) {
+			int excess = Math.round(energy - level);
+			affectHunger( energy, false);
+			if (hero.buff(WellFed.class) != null) {
+				Buff.affect(hero, WellFed.class).extend(excess);
+			} else {
+				Buff.affect(hero, WellFed.class).set(excess);
+			}
+		} else {
+			affectHunger( energy, false );
+		}
 	}
 
 	public void affectHunger(float energy ){

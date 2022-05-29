@@ -643,27 +643,38 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 14, 14);
 	}
 
-	private static final int RINGS          =                               xy(1, 15);  //16 slots
-	public static final int RING_GARNET     = RINGS+0;
-	public static final int RING_RUBY       = RINGS+1;
-	public static final int RING_TOPAZ      = RINGS+2;
-	public static final int RING_EMERALD    = RINGS+3;
-	public static final int RING_ONYX       = RINGS+4;
-	public static final int RING_OPAL       = RINGS+5;
-	public static final int RING_TOURMALINE = RINGS+6;
-	public static final int RING_SAPPHIRE   = RINGS+7;
-	public static final int RING_AMETHYST   = RINGS+8;
-	public static final int RING_QUARTZ     = RINGS+9;
-	public static final int RING_AGATE      = RINGS+10;
-	public static final int RING_DIAMOND    = RINGS+11;
-	public static final int RING_OBSIDIAN   = RINGS+12;
-	public static final int RING_PEARL   = RINGS+13;
+	private static final int RINGS_1          =                               xy(1, 15);  //16 slots
+	public static final int RING_GARNET     = RINGS_1+0;
+	public static final int RING_RUBY       = RINGS_1+1;
+	public static final int RING_TOPAZ      = RINGS_1+2;
+	public static final int RING_EMERALD    = RINGS_1+3;
+	public static final int RING_ONYX       = RINGS_1+4;
+	public static final int RING_OPAL       = RINGS_1+5;
+	public static final int RING_TOURMALINE = RINGS_1+6;
+	public static final int RING_SAPPHIRE   = RINGS_1+7;
+	public static final int RING_AMETHYST   = RINGS_1+8;
+	public static final int RING_QUARTZ     = RINGS_1+9;
+	public static final int RING_AGATE      = RINGS_1+10;
+	public static final int RING_DIAMOND    = RINGS_1+11;
+	public static final int RING_OBSIDIAN   = RINGS_1+12;
+	public static final int RING_PEARL   	= RINGS_1+13;
+	public static final int RING_GOLD   	= RINGS_1+14;
+	public static final int RING_EMBER   	= RINGS_1+15;
 	static {
-		for (int i = RINGS; i < RINGS+16; i++)
+		for (int i = RINGS_1; i < RINGS_1+16; i++)
 			assignItemRect(i, 8, 10);
 	}
 
-	private static final int ARTIFACTS          =                            xy(1, 16);  //32 slots
+	private static final int RINGS_2          =                               xy(1, 16);  //16 slots
+	public static final int RING_IOLITE		= RINGS_2+0;
+	public static final int RING_AQUAMARINE = RINGS_2+1;
+	public static final int RING_JADE		= RINGS_2+2;
+	static {
+		for (int i = RINGS_2; i < RINGS_2+3; i++)
+			assignItemRect(i, 8, 10);
+	}
+
+	private static final int ARTIFACTS          =                            xy(1, 17);  //32 slots
 	public static final int ARTIFACT_CLOAK      = ARTIFACTS+0;
 	public static final int ARTIFACT_ARMBAND    = ARTIFACTS+1;
 	public static final int ARTIFACT_CAPE       = ARTIFACTS+2;
@@ -712,8 +723,6 @@ public class ItemSpriteSheet {
 		assignItemRect(ARTIFACT_ROSE2,      14, 14);
 		assignItemRect(ARTIFACT_ROSE3,      14, 14);
 	}
-
-	                                                                                    //16 free slots
 
 	private static final int SCROLLS        =                               xy(1, 19);  //16 slots
 	public static final int SCROLL_KAUNAN   = SCROLLS+0;
@@ -1074,6 +1083,11 @@ public class ItemSpriteSheet {
 		public static final int RING_TENACITY   = RINGS+9;
 		public static final int RING_WEALTH     = RINGS+10;
 		public static final int RING_RUSH    	= RINGS+11;
+		public static final int RING_VAMPIRE   	= RINGS+12;
+		public static final int RING_SATISFYING	= RINGS+13;
+		public static final int RING_SHIELD    	= RINGS+14;
+		public static final int RING_FURY    	= RINGS+15;
+		public static final int RING_VORPAL    	= RINGS+16;
 		static {
 			assignIconRect( RING_ACCURACY,      7, 7 );
 			assignIconRect( RING_ELEMENTS,      7, 7 );
@@ -1087,6 +1101,11 @@ public class ItemSpriteSheet {
 			assignIconRect( RING_TENACITY,      6, 6 );
 			assignIconRect( RING_WEALTH,        7, 6 );
 			assignIconRect( RING_RUSH,       	7, 6 );
+			assignIconRect( RING_VAMPIRE,       7, 6 );
+			assignIconRect( RING_SATISFYING,    7, 6 );
+			assignIconRect( RING_SHIELD,       	7, 6 );
+			assignIconRect( RING_FURY,       	7, 6 );
+			assignIconRect( RING_VORPAL,       	7, 6 );
 		}
 
 		                                                                                //16 free slots

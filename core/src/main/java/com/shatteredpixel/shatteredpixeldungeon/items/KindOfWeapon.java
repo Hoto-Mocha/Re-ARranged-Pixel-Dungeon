@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -161,7 +162,9 @@ abstract public class KindOfWeapon extends EquipableItem {
 			critChance = 100;
 		}
 
-		if (owner == hero && Dungeon.hero.heroClass == HeroClass.SAMURAI && Random.Int(100) < critChance && Dungeon.hero.belongings.weapon instanceof MeleeWeapon) {
+		critChance += Math.round(100*RingOfVorpal.vorpalProc( hero ));
+
+		if (owner == hero && Random.Int(100) < critChance && Dungeon.hero.belongings.weapon() instanceof MeleeWeapon) {
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 			hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
 			if (demonization != null && demonization.isDemonated() && hero.hasTalent(Talent.ENERGY_DRAIN)) {

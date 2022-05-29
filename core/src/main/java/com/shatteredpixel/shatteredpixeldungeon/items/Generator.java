@@ -67,12 +67,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFury;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfRush;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSatisfying;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVampire;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
@@ -448,8 +453,13 @@ public class Generator {
 					RingOfTenacity.class,
 					RingOfWealth.class,
 					RingOfReload.class,
-					RingOfRush.class};
-			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+					RingOfRush.class,
+					RingOfVampire.class,
+					RingOfSatisfying.class,
+					RingOfFury.class,
+					RingOfShield.class,
+					RingOfVorpal.class};
+			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 			
 			ARTIFACT.classes = new Class<?>[]{
 					CapeOfThorns.class,

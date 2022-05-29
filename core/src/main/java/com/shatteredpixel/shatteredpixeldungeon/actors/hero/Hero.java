@@ -159,6 +159,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
@@ -1299,6 +1300,8 @@ public class Hero extends Char {
 		if (buff(Sheathing.class) != null) {
 			dr += Random.NormalIntRange(0, 5*pointsInTalent(Talent.PARRY));
 		}
+
+		dr += RingOfShield.armorMultiplier( this );
 		
 		return dr;
 	}

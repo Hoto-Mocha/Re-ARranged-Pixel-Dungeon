@@ -74,6 +74,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.FrozenCarpaccio;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
@@ -83,8 +85,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFury;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSatisfying;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVampire;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
@@ -303,7 +310,13 @@ public enum HeroClass {
 		//new PotionOfHealing().identify().quantity(100).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new TestWeapon().identify().collect();
-		//new CrudePistol().identify().collect();
+		//new RingOfVampire().identify().upgrade(10).collect();
+		//new RingOfSatisfying().identify().upgrade(1).collect();
+		//new RingOfFury().identify().upgrade(10).collect();
+		//new RingOfShield().identify().upgrade(10).collect();
+		//new RingOfVorpal().identify().upgrade(10).collect();
+		//new MeatPie().quantity(3).collect();
+		//new FrozenCarpaccio().quantity(50).collect();
 	}
 
 	private static void initMage( Hero hero ) {

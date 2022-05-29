@@ -117,7 +117,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFury;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfRush;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVampire;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
@@ -1622,6 +1624,18 @@ public abstract class Char extends Actor {
 					Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 				}
 			}
+
+			if (this instanceof Hero && Random.Float() < RingOfVampire.vampiricProc( hero )) {
+				int healAmt = Math.round(dmg/5f);
+				healAmt = Math.min( healAmt, Dungeon.hero.HT - Dungeon.hero.HP );
+				if (healAmt > 0 && Dungeon.hero.isAlive()) {
+					Dungeon.hero.HP += healAmt;
+					Dungeon.hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+					Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
+			}
+
+			dmg *= RingOfFury.dealingMultiplier( hero );
 
 			if (this instanceof Hero && enemy.buff(Charm.class) != null && hero.pointsInTalent(Talent.APPEASE) == 3 && !enemy.isAlive() && Random.Int(10) == 0) {
 				dmg = 0;
