@@ -141,14 +141,21 @@ public class Hunger extends Buff implements Hero.Doom {
 			energy *= 0.67f;
 			GLog.n( Messages.get(this, "cursedhorn") );
 		}
+		int max = Math.round(Hunger.STARVING * RingOfSatisfying.satisfactionMultiplier( Dungeon.hero ) - Hunger.STARVING);
+		if (max < 0) {
+			energy += max;
+		}
 
-		if ( level - energy < 0 ) {
+		if ( level < energy ) {
 			int excess = Math.round(energy - level);
 			affectHunger( energy, false);
-			if (hero.buff(WellFed.class) != null) {
-				Buff.affect(hero, WellFed.class).extend(excess);
-			} else {
-				Buff.affect(hero, WellFed.class).set(excess);
+
+			if (max > 0) {
+				if (hero.buff(WellFed.class) != null) {
+					Buff.affect(hero, WellFed.class).extend(excess);
+				} else {
+					Buff.affect(hero, WellFed.class).set(excess);
+				}
 			}
 		} else {
 			affectHunger( energy, false );

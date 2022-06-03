@@ -90,8 +90,8 @@ public class SpellBook_Lightning extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return  Math.round(3f*(tier+1)) +     //12 base, down from 20
-				lvl*(tier);                   //+3 per level, down from +4
+		return  4*(tier+1) +    //16 base
+				lvl*(tier+1);   //+4 per level
 	}
 
 	private CellSelector.Listener spell = new CellSelector.Listener() {

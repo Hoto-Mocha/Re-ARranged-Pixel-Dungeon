@@ -60,9 +60,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -166,9 +166,9 @@ public class GunSmithingTool extends InventorySpell {
                 || item instanceof ShotGun
                 || item instanceof ShotGunAP
                 || item instanceof ShotGunHP
-                || item instanceof SPAS
-                || item instanceof SPASAP
-                || item instanceof SPASHP;
+                || item instanceof KSG
+                || item instanceof KSGAP
+                || item instanceof KSGHP;
     }
 
     @Override
@@ -8389,18 +8389,18 @@ public class GunSmithingTool extends InventorySpell {
 
                 pos = btnFlash.bottom();
                 //End of button
-            } else if (toSmith instanceof SPAS){
+            } else if (toSmith instanceof KSG){
                 RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPAS)toSmith).silencer = true;
-                        ((SPAS)toSmith).short_barrel = false;
-                        ((SPAS)toSmith).long_barrel = false;
-                        ((SPAS)toSmith).magazine = false;
-                        ((SPAS)toSmith).light = false;
-                        ((SPAS)toSmith).heavy = false;
-                        ((SPAS)toSmith).flash = false;
+                        ((KSG)toSmith).silencer = true;
+                        ((KSG)toSmith).short_barrel = false;
+                        ((KSG)toSmith).long_barrel = false;
+                        ((KSG)toSmith).magazine = false;
+                        ((KSG)toSmith).light = false;
+                        ((KSG)toSmith).heavy = false;
+                        ((KSG)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8420,13 +8420,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPAS)toSmith).silencer = false;
-                        ((SPAS)toSmith).short_barrel = true;
-                        ((SPAS)toSmith).long_barrel = false;
-                        ((SPAS)toSmith).magazine = false;
-                        ((SPAS)toSmith).light = false;
-                        ((SPAS)toSmith).heavy = false;
-                        ((SPAS)toSmith).flash = false;
+                        ((KSG)toSmith).silencer = false;
+                        ((KSG)toSmith).short_barrel = true;
+                        ((KSG)toSmith).long_barrel = false;
+                        ((KSG)toSmith).magazine = false;
+                        ((KSG)toSmith).light = false;
+                        ((KSG)toSmith).heavy = false;
+                        ((KSG)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8446,13 +8446,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPAS)toSmith).silencer = false;
-                        ((SPAS)toSmith).short_barrel = false;
-                        ((SPAS)toSmith).long_barrel = true;
-                        ((SPAS)toSmith).magazine = false;
-                        ((SPAS)toSmith).light = false;
-                        ((SPAS)toSmith).heavy = false;
-                        ((SPAS)toSmith).flash = false;
+                        ((KSG)toSmith).silencer = false;
+                        ((KSG)toSmith).short_barrel = false;
+                        ((KSG)toSmith).long_barrel = true;
+                        ((KSG)toSmith).magazine = false;
+                        ((KSG)toSmith).light = false;
+                        ((KSG)toSmith).heavy = false;
+                        ((KSG)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8472,13 +8472,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPAS)toSmith).silencer = false;
-                        ((SPAS)toSmith).short_barrel = false;
-                        ((SPAS)toSmith).long_barrel = false;
-                        ((SPAS)toSmith).magazine = true;
-                        ((SPAS)toSmith).light = false;
-                        ((SPAS)toSmith).heavy = false;
-                        ((SPAS)toSmith).flash = false;
+                        ((KSG)toSmith).silencer = false;
+                        ((KSG)toSmith).short_barrel = false;
+                        ((KSG)toSmith).long_barrel = false;
+                        ((KSG)toSmith).magazine = true;
+                        ((KSG)toSmith).light = false;
+                        ((KSG)toSmith).heavy = false;
+                        ((KSG)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8498,13 +8498,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPAS)toSmith).silencer = false;
-                        ((SPAS)toSmith).short_barrel = false;
-                        ((SPAS)toSmith).long_barrel = false;
-                        ((SPAS)toSmith).magazine = false;
-                        ((SPAS)toSmith).light = true;
-                        ((SPAS)toSmith).heavy = false;
-                        ((SPAS)toSmith).flash = false;
+                        ((KSG)toSmith).silencer = false;
+                        ((KSG)toSmith).short_barrel = false;
+                        ((KSG)toSmith).long_barrel = false;
+                        ((KSG)toSmith).magazine = false;
+                        ((KSG)toSmith).light = true;
+                        ((KSG)toSmith).heavy = false;
+                        ((KSG)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8524,13 +8524,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPAS)toSmith).silencer = false;
-                        ((SPAS)toSmith).short_barrel = false;
-                        ((SPAS)toSmith).long_barrel = false;
-                        ((SPAS)toSmith).magazine = false;
-                        ((SPAS)toSmith).light = false;
-                        ((SPAS)toSmith).heavy = true;
-                        ((SPAS)toSmith).flash = false;
+                        ((KSG)toSmith).silencer = false;
+                        ((KSG)toSmith).short_barrel = false;
+                        ((KSG)toSmith).long_barrel = false;
+                        ((KSG)toSmith).magazine = false;
+                        ((KSG)toSmith).light = false;
+                        ((KSG)toSmith).heavy = true;
+                        ((KSG)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8550,13 +8550,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPAS)toSmith).silencer = false;
-                        ((SPAS)toSmith).short_barrel = false;
-                        ((SPAS)toSmith).long_barrel = false;
-                        ((SPAS)toSmith).magazine = false;
-                        ((SPAS)toSmith).light = false;
-                        ((SPAS)toSmith).heavy = false;
-                        ((SPAS)toSmith).flash = true;
+                        ((KSG)toSmith).silencer = false;
+                        ((KSG)toSmith).short_barrel = false;
+                        ((KSG)toSmith).long_barrel = false;
+                        ((KSG)toSmith).magazine = false;
+                        ((KSG)toSmith).light = false;
+                        ((KSG)toSmith).heavy = false;
+                        ((KSG)toSmith).flash = true;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8571,18 +8571,18 @@ public class GunSmithingTool extends InventorySpell {
 
                 pos = btnFlash.bottom();
                 //End of button
-            } else if (toSmith instanceof SPASAP){
+            } else if (toSmith instanceof KSGAP){
                 RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASAP)toSmith).silencer = true;
-                        ((SPASAP)toSmith).short_barrel = false;
-                        ((SPASAP)toSmith).long_barrel = false;
-                        ((SPASAP)toSmith).magazine = false;
-                        ((SPASAP)toSmith).light = false;
-                        ((SPASAP)toSmith).heavy = false;
-                        ((SPASAP)toSmith).flash = false;
+                        ((KSGAP)toSmith).silencer = true;
+                        ((KSGAP)toSmith).short_barrel = false;
+                        ((KSGAP)toSmith).long_barrel = false;
+                        ((KSGAP)toSmith).magazine = false;
+                        ((KSGAP)toSmith).light = false;
+                        ((KSGAP)toSmith).heavy = false;
+                        ((KSGAP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8602,13 +8602,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASAP)toSmith).silencer = false;
-                        ((SPASAP)toSmith).short_barrel = true;
-                        ((SPASAP)toSmith).long_barrel = false;
-                        ((SPASAP)toSmith).magazine = false;
-                        ((SPASAP)toSmith).light = false;
-                        ((SPASAP)toSmith).heavy = false;
-                        ((SPASAP)toSmith).flash = false;
+                        ((KSGAP)toSmith).silencer = false;
+                        ((KSGAP)toSmith).short_barrel = true;
+                        ((KSGAP)toSmith).long_barrel = false;
+                        ((KSGAP)toSmith).magazine = false;
+                        ((KSGAP)toSmith).light = false;
+                        ((KSGAP)toSmith).heavy = false;
+                        ((KSGAP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8628,13 +8628,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASAP)toSmith).silencer = false;
-                        ((SPASAP)toSmith).short_barrel = false;
-                        ((SPASAP)toSmith).long_barrel = true;
-                        ((SPASAP)toSmith).magazine = false;
-                        ((SPASAP)toSmith).light = false;
-                        ((SPASAP)toSmith).heavy = false;
-                        ((SPASAP)toSmith).flash = false;
+                        ((KSGAP)toSmith).silencer = false;
+                        ((KSGAP)toSmith).short_barrel = false;
+                        ((KSGAP)toSmith).long_barrel = true;
+                        ((KSGAP)toSmith).magazine = false;
+                        ((KSGAP)toSmith).light = false;
+                        ((KSGAP)toSmith).heavy = false;
+                        ((KSGAP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8654,13 +8654,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASAP)toSmith).silencer = false;
-                        ((SPASAP)toSmith).short_barrel = false;
-                        ((SPASAP)toSmith).long_barrel = false;
-                        ((SPASAP)toSmith).magazine = true;
-                        ((SPASAP)toSmith).light = false;
-                        ((SPASAP)toSmith).heavy = false;
-                        ((SPASAP)toSmith).flash = false;
+                        ((KSGAP)toSmith).silencer = false;
+                        ((KSGAP)toSmith).short_barrel = false;
+                        ((KSGAP)toSmith).long_barrel = false;
+                        ((KSGAP)toSmith).magazine = true;
+                        ((KSGAP)toSmith).light = false;
+                        ((KSGAP)toSmith).heavy = false;
+                        ((KSGAP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8680,13 +8680,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASAP)toSmith).silencer = false;
-                        ((SPASAP)toSmith).short_barrel = false;
-                        ((SPASAP)toSmith).long_barrel = false;
-                        ((SPASAP)toSmith).magazine = false;
-                        ((SPASAP)toSmith).light = true;
-                        ((SPASAP)toSmith).heavy = false;
-                        ((SPASAP)toSmith).flash = false;
+                        ((KSGAP)toSmith).silencer = false;
+                        ((KSGAP)toSmith).short_barrel = false;
+                        ((KSGAP)toSmith).long_barrel = false;
+                        ((KSGAP)toSmith).magazine = false;
+                        ((KSGAP)toSmith).light = true;
+                        ((KSGAP)toSmith).heavy = false;
+                        ((KSGAP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8706,13 +8706,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASAP)toSmith).silencer = false;
-                        ((SPASAP)toSmith).short_barrel = false;
-                        ((SPASAP)toSmith).long_barrel = false;
-                        ((SPASAP)toSmith).magazine = false;
-                        ((SPASAP)toSmith).light = false;
-                        ((SPASAP)toSmith).heavy = true;
-                        ((SPASAP)toSmith).flash = false;
+                        ((KSGAP)toSmith).silencer = false;
+                        ((KSGAP)toSmith).short_barrel = false;
+                        ((KSGAP)toSmith).long_barrel = false;
+                        ((KSGAP)toSmith).magazine = false;
+                        ((KSGAP)toSmith).light = false;
+                        ((KSGAP)toSmith).heavy = true;
+                        ((KSGAP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8732,13 +8732,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASAP)toSmith).silencer = false;
-                        ((SPASAP)toSmith).short_barrel = false;
-                        ((SPASAP)toSmith).long_barrel = false;
-                        ((SPASAP)toSmith).magazine = false;
-                        ((SPASAP)toSmith).light = false;
-                        ((SPASAP)toSmith).heavy = false;
-                        ((SPASAP)toSmith).flash = true;
+                        ((KSGAP)toSmith).silencer = false;
+                        ((KSGAP)toSmith).short_barrel = false;
+                        ((KSGAP)toSmith).long_barrel = false;
+                        ((KSGAP)toSmith).magazine = false;
+                        ((KSGAP)toSmith).light = false;
+                        ((KSGAP)toSmith).heavy = false;
+                        ((KSGAP)toSmith).flash = true;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8753,18 +8753,18 @@ public class GunSmithingTool extends InventorySpell {
 
                 pos = btnFlash.bottom();
                 //End of button
-            } else if (toSmith instanceof SPASHP){
+            } else if (toSmith instanceof KSGHP){
                 RedButton btnSilencer = new RedButton( Messages.get(this, "silencer") ) {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASHP)toSmith).silencer = true;
-                        ((SPASHP)toSmith).short_barrel = false;
-                        ((SPASHP)toSmith).long_barrel = false;
-                        ((SPASHP)toSmith).magazine = false;
-                        ((SPASHP)toSmith).light = false;
-                        ((SPASHP)toSmith).heavy = false;
-                        ((SPASHP)toSmith).flash = false;
+                        ((KSGHP)toSmith).silencer = true;
+                        ((KSGHP)toSmith).short_barrel = false;
+                        ((KSGHP)toSmith).long_barrel = false;
+                        ((KSGHP)toSmith).magazine = false;
+                        ((KSGHP)toSmith).light = false;
+                        ((KSGHP)toSmith).heavy = false;
+                        ((KSGHP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8784,13 +8784,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASHP)toSmith).silencer = false;
-                        ((SPASHP)toSmith).short_barrel = true;
-                        ((SPASHP)toSmith).long_barrel = false;
-                        ((SPASHP)toSmith).magazine = false;
-                        ((SPASHP)toSmith).light = false;
-                        ((SPASHP)toSmith).heavy = false;
-                        ((SPASHP)toSmith).flash = false;
+                        ((KSGHP)toSmith).silencer = false;
+                        ((KSGHP)toSmith).short_barrel = true;
+                        ((KSGHP)toSmith).long_barrel = false;
+                        ((KSGHP)toSmith).magazine = false;
+                        ((KSGHP)toSmith).light = false;
+                        ((KSGHP)toSmith).heavy = false;
+                        ((KSGHP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8810,13 +8810,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASHP)toSmith).silencer = false;
-                        ((SPASHP)toSmith).short_barrel = false;
-                        ((SPASHP)toSmith).long_barrel = true;
-                        ((SPASHP)toSmith).magazine = false;
-                        ((SPASHP)toSmith).light = false;
-                        ((SPASHP)toSmith).heavy = false;
-                        ((SPASHP)toSmith).flash = false;
+                        ((KSGHP)toSmith).silencer = false;
+                        ((KSGHP)toSmith).short_barrel = false;
+                        ((KSGHP)toSmith).long_barrel = true;
+                        ((KSGHP)toSmith).magazine = false;
+                        ((KSGHP)toSmith).light = false;
+                        ((KSGHP)toSmith).heavy = false;
+                        ((KSGHP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8836,13 +8836,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASHP)toSmith).silencer = false;
-                        ((SPASHP)toSmith).short_barrel = false;
-                        ((SPASHP)toSmith).long_barrel = false;
-                        ((SPASHP)toSmith).magazine = true;
-                        ((SPASHP)toSmith).light = false;
-                        ((SPASHP)toSmith).heavy = false;
-                        ((SPASHP)toSmith).flash = false;
+                        ((KSGHP)toSmith).silencer = false;
+                        ((KSGHP)toSmith).short_barrel = false;
+                        ((KSGHP)toSmith).long_barrel = false;
+                        ((KSGHP)toSmith).magazine = true;
+                        ((KSGHP)toSmith).light = false;
+                        ((KSGHP)toSmith).heavy = false;
+                        ((KSGHP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8862,13 +8862,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASHP)toSmith).silencer = false;
-                        ((SPASHP)toSmith).short_barrel = false;
-                        ((SPASHP)toSmith).long_barrel = false;
-                        ((SPASHP)toSmith).magazine = false;
-                        ((SPASHP)toSmith).light = true;
-                        ((SPASHP)toSmith).heavy = false;
-                        ((SPASHP)toSmith).flash = false;
+                        ((KSGHP)toSmith).silencer = false;
+                        ((KSGHP)toSmith).short_barrel = false;
+                        ((KSGHP)toSmith).long_barrel = false;
+                        ((KSGHP)toSmith).magazine = false;
+                        ((KSGHP)toSmith).light = true;
+                        ((KSGHP)toSmith).heavy = false;
+                        ((KSGHP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8888,13 +8888,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASHP)toSmith).silencer = false;
-                        ((SPASHP)toSmith).short_barrel = false;
-                        ((SPASHP)toSmith).long_barrel = false;
-                        ((SPASHP)toSmith).magazine = false;
-                        ((SPASHP)toSmith).light = false;
-                        ((SPASHP)toSmith).heavy = true;
-                        ((SPASHP)toSmith).flash = false;
+                        ((KSGHP)toSmith).silencer = false;
+                        ((KSGHP)toSmith).short_barrel = false;
+                        ((KSGHP)toSmith).long_barrel = false;
+                        ((KSGHP)toSmith).magazine = false;
+                        ((KSGHP)toSmith).light = false;
+                        ((KSGHP)toSmith).heavy = true;
+                        ((KSGHP)toSmith).flash = false;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );
@@ -8914,13 +8914,13 @@ public class GunSmithingTool extends InventorySpell {
                     @Override
                     protected void onClick() {
                         hide();
-                        ((SPASHP)toSmith).silencer = false;
-                        ((SPASHP)toSmith).short_barrel = false;
-                        ((SPASHP)toSmith).long_barrel = false;
-                        ((SPASHP)toSmith).magazine = false;
-                        ((SPASHP)toSmith).light = false;
-                        ((SPASHP)toSmith).heavy = false;
-                        ((SPASHP)toSmith).flash = true;
+                        ((KSGHP)toSmith).silencer = false;
+                        ((KSGHP)toSmith).short_barrel = false;
+                        ((KSGHP)toSmith).long_barrel = false;
+                        ((KSGHP)toSmith).magazine = false;
+                        ((KSGHP)toSmith).light = false;
+                        ((KSGHP)toSmith).heavy = false;
+                        ((KSGHP)toSmith).flash = true;
                         GLog.p(Messages.get(GunSmithingTool.class, "modification"));
                         Sample.INSTANCE.play( Assets.Sounds.EVOKE );
                         curUser.spend( 1f );

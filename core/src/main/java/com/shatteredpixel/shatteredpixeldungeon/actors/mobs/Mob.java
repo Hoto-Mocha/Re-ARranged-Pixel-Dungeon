@@ -749,12 +749,9 @@ public abstract class Mob extends Char {
 		if (!(this instanceof Wraith) && Dungeon.isChallenged(Challenges.CURSED_DUNGEON)
 				&& !(Dungeon.hero.belongings.weapon instanceof CursedSword)
 				&& (hero.buff(MagicImmune.class) == null)
-				&& Random.Int(2) == 0
+				&& Random.Int(4) < 3
 		) {
 			Wraith w = Wraith.spawnAt(pos);
-			if (w != null) {
-				Buff.affect(w, Barrier.class).setShield(Random.IntRange(this.HT/4, this.HT/2));
-			}
 		}
 
 		if (!(this instanceof Wraith) && Dungeon.hero.belongings.weapon instanceof CursedSword){

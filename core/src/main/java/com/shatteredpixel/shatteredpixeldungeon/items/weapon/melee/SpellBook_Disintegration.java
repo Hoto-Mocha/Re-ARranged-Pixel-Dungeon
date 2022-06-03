@@ -49,8 +49,8 @@ public class SpellBook_Disintegration extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return Math.round(2.5f * (tier + 1)) +     //10 base, down from 20
-				lvl * (tier - 1);                   //+2 per level, down from +4
+		return  4*(tier+1) +    //16 base
+				lvl*(tier+1);   //+4 per level
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

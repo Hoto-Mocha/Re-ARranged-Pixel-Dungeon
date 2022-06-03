@@ -518,7 +518,7 @@ public class ItemSpriteSheet {
 	static{
 		assignItemRect(HUGE_SWORD,       	 16, 16);
 		assignItemRect(IRON_HAMMER,      	 16, 16);
-		assignItemRect(BEAM_SABER,       	 15, 15);
+		assignItemRect(BEAM_SABER,       	 16, 15);
 		assignItemRect(LANCE,            	 15, 15);
 		assignItemRect(OBSIDIAN_SHIELD,  	 12, 16);
 		assignItemRect(SHARP_KATANA,     	 12, 16);

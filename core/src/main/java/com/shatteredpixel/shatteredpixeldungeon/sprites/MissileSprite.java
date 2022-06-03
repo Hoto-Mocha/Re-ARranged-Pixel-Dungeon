@@ -90,9 +90,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonA
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -224,9 +224,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(ShotGun.Bullet.class,              0);
 		ANGULAR_SPEEDS.put(ShotGunAP.Bullet.class,            0);
 		ANGULAR_SPEEDS.put(ShotGunHP.Bullet.class,            0);
-		ANGULAR_SPEEDS.put(SPAS.Bullet.class,                 0);
-		ANGULAR_SPEEDS.put(SPASAP.Bullet.class,               0);
-		ANGULAR_SPEEDS.put(SPASHP.Bullet.class,               0);
+		ANGULAR_SPEEDS.put(KSG.Bullet.class,                 0);
+		ANGULAR_SPEEDS.put(KSGAP.Bullet.class,               0);
+		ANGULAR_SPEEDS.put(KSGHP.Bullet.class,               0);
 		ANGULAR_SPEEDS.put(AutoHandgun.Bullet.class,          0);
 		ANGULAR_SPEEDS.put(AutoHandgunAP.Bullet.class,        0);
 		ANGULAR_SPEEDS.put(AutoHandgunHP.Bullet.class,        0);
@@ -363,9 +363,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				||item instanceof ShotGun.Bullet
 				||item instanceof ShotGunAP.Bullet
 				||item instanceof ShotGunHP.Bullet
-				||item instanceof SPAS.Bullet
-				||item instanceof SPASAP.Bullet
-				||item instanceof SPASHP.Bullet
+				||item instanceof KSG.Bullet
+				||item instanceof KSGAP.Bullet
+				||item instanceof KSGHP.Bullet
 				||item instanceof MiniGun.Bullet
 				||item instanceof MiniGunAP.Bullet
 				||item instanceof MiniGunHP.Bullet

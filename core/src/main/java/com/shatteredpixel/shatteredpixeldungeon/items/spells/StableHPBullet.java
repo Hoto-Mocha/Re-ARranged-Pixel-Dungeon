@@ -88,9 +88,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -165,8 +165,8 @@ public class StableHPBullet extends InventorySpell {
 
                 || item instanceof ShotGun
                 || item instanceof ShotGunAP
-                || item instanceof SPAS
-                || item instanceof SPASAP
+                || item instanceof KSG
+                || item instanceof KSGAP
 
                 || item instanceof FlameThrower
                 || item instanceof FlameThrowerAP
@@ -256,8 +256,8 @@ public class StableHPBullet extends InventorySpell {
             n = new AntimaterRifleHP();
         } else if (w instanceof ShotGun || w instanceof ShotGunAP) {
             n = new ShotGunHP();
-        } else if (w instanceof SPAS || w instanceof SPASAP) {
-            n = new SPASHP();
+        } else if (w instanceof KSG || w instanceof KSGAP) {
+            n = new KSGHP();
         } else if (w instanceof AutoHandgun || w instanceof AutoHandgunAP) {
             n = new AutoHandgunHP();
         } else if (w instanceof AutoRifle || w instanceof AutoRifleAP) {

@@ -35,7 +35,7 @@ public class RingOfShield extends Ring {
 
 	public String statsInfo() {
 		if (isIdentified()){
-			return Messages.get(this, "stats", 2+2*soloBuffedBonus());
+			return Messages.get(this, "stats", 2*soloBuffedBonus());
 		} else {
 			return Messages.get(this, "typical_stats", 2);
 		}
@@ -47,7 +47,7 @@ public class RingOfShield extends Ring {
 	}
 	
 	public static float armorMultiplier( Char target ){
-		return 2+2*getBuffedBonus(target, Shield.class);
+		return 2*getBuffedBonus(target, Shield.class);
 	}
 	
 	public class Shield extends RingBuff {

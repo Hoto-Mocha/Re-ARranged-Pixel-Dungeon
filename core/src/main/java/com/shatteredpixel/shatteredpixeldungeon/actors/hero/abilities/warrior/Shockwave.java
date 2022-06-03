@@ -84,9 +84,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -219,9 +219,9 @@ public class Shockwave extends ArmorAbility {
 												|| hero.belongings.weapon instanceof ShotGun
 												|| hero.belongings.weapon instanceof ShotGunAP
 												|| hero.belongings.weapon instanceof ShotGunHP
-												|| hero.belongings.weapon instanceof SPAS
-												|| hero.belongings.weapon instanceof SPASAP
-												|| hero.belongings.weapon instanceof SPASHP
+												|| hero.belongings.weapon instanceof KSG
+												|| hero.belongings.weapon instanceof KSGAP
+												|| hero.belongings.weapon instanceof KSGHP
 												|| hero.belongings.weapon instanceof RocketLauncher
 												|| hero.belongings.weapon instanceof MiniGun
 												|| hero.belongings.weapon instanceof MiniGunAP

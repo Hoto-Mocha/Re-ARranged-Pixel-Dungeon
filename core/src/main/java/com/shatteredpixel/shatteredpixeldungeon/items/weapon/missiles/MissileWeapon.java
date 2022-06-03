@@ -23,20 +23,15 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
@@ -104,9 +99,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonA
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -114,6 +109,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Disintegration;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
@@ -121,11 +117,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
@@ -326,9 +318,9 @@ abstract public class MissileWeapon extends Weapon {
 				|| this instanceof ShotGun.Bullet
 				|| this instanceof ShotGunAP.Bullet
 				|| this instanceof ShotGunHP.Bullet
-				|| this instanceof SPAS.Bullet
-				|| this instanceof SPASAP.Bullet
-				|| this instanceof SPASHP.Bullet
+				|| this instanceof KSG.Bullet
+				|| this instanceof KSGAP.Bullet
+				|| this instanceof KSGHP.Bullet
 				|| this instanceof AutoHandgun.Bullet
 				|| this instanceof AutoHandgunAP.Bullet
 				|| this instanceof AutoHandgunHP.Bullet
@@ -352,6 +344,15 @@ abstract public class MissileWeapon extends Weapon {
 					&& hero.buff(Talent.StreetBattleCooldown.class) == null){
 					Buff.affect(hero, Talent.StreetBattleCooldown.class, 40-10*hero.pointsInTalent(Talent.STREET_BATTLE));
 					return dst;
+			} else {
+				return super.throwPos(user, dst);
+			}
+		}
+
+		if (hero.belongings.weapon instanceof SpellBook_Disintegration) {
+			if (!Dungeon.level.solid[dst]
+					&& Dungeon.level.distance(user.pos, dst) <= ((projecting) ? 4 + Math.min(10, ((SpellBook_Disintegration)hero.belongings.weapon).buffedLvl()) : 1 + Math.min(10, ((SpellBook_Disintegration)hero.belongings.weapon).buffedLvl()))) {
+				return dst;
 			} else {
 				return super.throwPos(user, dst);
 			}

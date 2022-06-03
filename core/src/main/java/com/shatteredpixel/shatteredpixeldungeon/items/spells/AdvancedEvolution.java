@@ -67,9 +67,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShiel
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
@@ -261,19 +261,19 @@ public class AdvancedEvolution extends InventorySpell {
                 || w instanceof ShotGunHP) {
             if (w instanceof ShotGun) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
-                    n = new SPAS();
+                    n = new KSG();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else if (w instanceof ShotGunAP) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
-                    n = new SPASAP();
+                    n = new KSGAP();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else { //w instanceof ShotGunHP
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
-                    n = new SPASHP();
+                    n = new KSGHP();
                 } else {
                     n = Generator.randomWeapon();
                 }

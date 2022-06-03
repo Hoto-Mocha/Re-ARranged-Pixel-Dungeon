@@ -164,30 +164,43 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 		critChance += Math.round(100*RingOfVorpal.vorpalProc( hero ));
 
-		if (owner == hero && Random.Int(100) < critChance && Dungeon.hero.belongings.weapon() instanceof MeleeWeapon) {
-			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
-			hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
-			if (demonization != null && demonization.isDemonated() && hero.hasTalent(Talent.ENERGY_DRAIN)) {
-				int pointUsed = hero.pointsInTalent(Talent.ENERGY_DRAIN);
-				if (hero.buff(Barrier.class) == null || hero.buff(Barrier.class).shielding() < (10*pointUsed - pointUsed)) {
-					Buff.affect(hero, Barrier.class).incShield(pointUsed);
+		if (owner == hero && Dungeon.hero.belongings.weapon() instanceof MeleeWeapon) {
+			if ( critChance > 0 ) {
+				if (Random.Int(100) < critChance) {
+					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+					hero.sprite.showStatus(CharSprite.NEUTRAL, "!");
+					if (demonization != null && demonization.isDemonated() && hero.hasTalent(Talent.ENERGY_DRAIN)) {
+						int pointUsed = hero.pointsInTalent(Talent.ENERGY_DRAIN);
+						if (hero.buff(Barrier.class) == null || hero.buff(Barrier.class).shielding() < (10 * pointUsed - pointUsed)) {
+							Buff.affect(hero, Barrier.class).incShield(pointUsed);
+						} else {
+							Buff.affect(hero, Barrier.class).setShield(10 * pointUsed);
+						}
+					}
+					if (hero.buff(Flurry.class) != null) {
+						int healAmt = 2;
+						healAmt = Math.min(healAmt, hero.HT - hero.HP);
+						if (healAmt > 0 && hero.isAlive()) {
+							hero.HP += healAmt;
+							hero.sprite.emitter().start(Speck.factory(Speck.HEALING), 0.4f, 2);
+							hero.sprite.showStatus(CharSprite.POSITIVE, Integer.toString(healAmt));
+						}
+					}
+					if (hero.hasTalent(Talent.POWERFUL_CRIT)) {
+						return Random.NormalIntRange(Math.round(0.75f * max()), max()) + 1 + 2 * hero.pointsInTalent(Talent.POWERFUL_CRIT);
+					} else {
+						return Random.NormalIntRange(Math.round(0.75f * max()), max());
+					}
 				} else {
-					Buff.affect(hero, Barrier.class).setShield(10*pointUsed);
+					return Random.NormalIntRange( min(), max() );
 				}
-			}
-			if (hero.buff(Flurry.class) != null) {
-				int healAmt = 2;
-				healAmt = Math.min( healAmt, hero.HT - hero.HP );
-				if (healAmt > 0 && hero.isAlive()) {
-					hero.HP += healAmt;
-					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 2 );
-					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-				}
-			}
-			if (hero.hasTalent(Talent.POWERFUL_CRIT)) {
-				return Random.NormalIntRange( Math.round(0.75f*max()), max()) + 1+2*hero.pointsInTalent(Talent.POWERFUL_CRIT);
 			} else {
-				return Random.NormalIntRange( Math.round(0.75f*max()), max());
+				if (Random.Int(100) < -critChance) {
+					hero.sprite.showStatus(CharSprite.NEUTRAL, "?");
+					return Random.NormalIntRange(min(), Math.round(0.5f * max()));
+				} else {
+					return Random.NormalIntRange( min(), max() );
+				}
 			}
 		} else {
 			return Random.NormalIntRange( min(), max() );

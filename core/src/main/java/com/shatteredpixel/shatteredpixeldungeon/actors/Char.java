@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.gold;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
 import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
@@ -58,7 +57,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -102,6 +100,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.En
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.PrismaticImage;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
@@ -113,7 +112,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
@@ -549,7 +547,7 @@ public abstract class Char extends Actor {
 						|| h.belongings.weapon() instanceof HeavyMachinegunAP.Bullet
 						|| h.belongings.weapon() instanceof AutoRifleAP.Bullet
 						|| h.belongings.weapon() instanceof ShotGunAP.Bullet
-						|| h.belongings.weapon() instanceof SPASAP.Bullet
+						|| h.belongings.weapon() instanceof KSGAP.Bullet
 						|| h.belongings.weapon() instanceof MiniGunAP.Bullet
 						|| h.belongings.weapon() instanceof TacticalHandgunAP.Bullet
 						|| h.belongings.weapon() instanceof AntimaterRifleAP.Bullet
@@ -575,10 +573,10 @@ public abstract class Char extends Actor {
 				) {
 					dr *= 3;
 				} else if (h.belongings.weapon instanceof ShotGunHP.Bullet
-						|| h.belongings.weapon instanceof SPASHP.Bullet) {
+						|| h.belongings.weapon instanceof KSGHP.Bullet) {
 					dr *= 2.5;
 				} else if (h.belongings.weapon instanceof ShotGun.Bullet
-						|| h.belongings.weapon instanceof SPAS.Bullet) {
+						|| h.belongings.weapon instanceof KSG.Bullet) {
 					dr *= 1.5;
 				}
 			}
@@ -1135,9 +1133,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).silencer)
 						|| (hero.belongings.weapon() instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof KSG.Bullet && ((KSG)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof KSGAP.Bullet && ((KSGAP)hero.belongings.weapon).silencer)
+						|| (hero.belongings.weapon() instanceof KSGHP.Bullet && ((KSGHP)hero.belongings.weapon).silencer)
 				) {
 					dmg *= 0.75f;
 				}
@@ -1196,9 +1194,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof ShotGun && ((ShotGun)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof ShotGunAP && ((ShotGunAP)hero.belongings.weapon).light)
 						|| (hero.belongings.weapon() instanceof ShotGunHP && ((ShotGunHP)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof SPAS && ((SPAS)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof SPASAP && ((SPASAP)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof SPASHP && ((SPASHP)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof KSG && ((KSG)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof KSGAP && ((KSGAP)hero.belongings.weapon).light)
+						|| (hero.belongings.weapon() instanceof KSGHP && ((KSGHP)hero.belongings.weapon).light)
 				) {
 					dmg *= 0.75f;
 				}
@@ -1257,9 +1255,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof ShotGun && ((ShotGun)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof ShotGunAP && ((ShotGunAP)hero.belongings.weapon).heavy)
 						|| (hero.belongings.weapon() instanceof ShotGunHP && ((ShotGunHP)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof SPAS && ((SPAS)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof SPASAP && ((SPASAP)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof SPASHP && ((SPASHP)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof KSG && ((KSG)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof KSGAP && ((KSGAP)hero.belongings.weapon).heavy)
+						|| (hero.belongings.weapon() instanceof KSGHP && ((KSGHP)hero.belongings.weapon).heavy)
 				) {
 					dmg *= 1.1f;
 				}
@@ -1318,9 +1316,9 @@ public abstract class Char extends Actor {
 						|| (hero.belongings.weapon() instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).flash)
 						|| (hero.belongings.weapon() instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).flash)) && hero.buff(Light.class) == null
+						|| (hero.belongings.weapon() instanceof KSG.Bullet && ((KSG)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof KSGAP.Bullet && ((KSGAP)hero.belongings.weapon).flash)
+						|| (hero.belongings.weapon() instanceof KSGHP.Bullet && ((KSGHP)hero.belongings.weapon).flash)) && hero.buff(Light.class) == null
 				) {
 					Buff.affect(enemy, Blindness.class, 5f);
 					Buff.affect(hero, Light.class, 50f);
@@ -1394,9 +1392,9 @@ public abstract class Char extends Actor {
 					 || Dungeon.hero.belongings.weapon() instanceof ShotGun
 					 || Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 					 || Dungeon.hero.belongings.weapon() instanceof ShotGunHP
-					 || Dungeon.hero.belongings.weapon() instanceof SPAS
-					 || Dungeon.hero.belongings.weapon() instanceof SPASAP
-					 || Dungeon.hero.belongings.weapon() instanceof SPASHP
+					 || Dungeon.hero.belongings.weapon() instanceof KSG
+					 || Dungeon.hero.belongings.weapon() instanceof KSGAP
+					 || Dungeon.hero.belongings.weapon() instanceof KSGHP
 					 || Dungeon.hero.belongings.weapon() instanceof RocketLauncher
 					 || Dungeon.hero.belongings.weapon() instanceof RPG7
 					 || Dungeon.hero.belongings.weapon() instanceof FlameThrower
@@ -1470,9 +1468,9 @@ public abstract class Char extends Actor {
 						|| Dungeon.hero.belongings.weapon() instanceof ShotGun.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof SPAS.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof SPASAP.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof SPASHP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof KSG.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof KSGAP.Bullet
+						|| Dungeon.hero.belongings.weapon() instanceof KSGHP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher.Rocket
 						|| Dungeon.hero.belongings.weapon() instanceof RPG7.Rocket
 						//|| Dungeon.hero.belongings.weapon() instanceof FlameThrower.Bullet
@@ -1546,9 +1544,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof ShotGun
 							|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 							|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
-							|| Dungeon.hero.belongings.weapon() instanceof SPAS
-							|| Dungeon.hero.belongings.weapon() instanceof SPASAP
-							|| Dungeon.hero.belongings.weapon() instanceof SPASHP
+							|| Dungeon.hero.belongings.weapon() instanceof KSG
+							|| Dungeon.hero.belongings.weapon() instanceof KSGAP
+							|| Dungeon.hero.belongings.weapon() instanceof KSGHP
 							|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
 							|| Dungeon.hero.belongings.weapon() instanceof RPG7
 							|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
@@ -1573,9 +1571,9 @@ public abstract class Char extends Actor {
 							|| Dungeon.hero.belongings.weapon() instanceof ShotGun.Bullet
 							|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP.Bullet
 							|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof SPAS.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof SPASAP.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof SPASHP.Bullet
+							|| Dungeon.hero.belongings.weapon() instanceof KSG.Bullet
+							|| Dungeon.hero.belongings.weapon() instanceof KSGAP.Bullet
+							|| Dungeon.hero.belongings.weapon() instanceof KSGHP.Bullet
 							//|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher.Rocket see GrenadeLauncher for effect
 							//|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherAP.Rocket see GrenadeLauncherAP for effect
 							//|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP.Rocket see GrenadeLauncherHP for effect
@@ -1625,13 +1623,24 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && Random.Float() < RingOfVampire.vampiricProc( hero )) {
-				int healAmt = Math.round(dmg/5f);
-				healAmt = Math.min( healAmt, Dungeon.hero.HT - Dungeon.hero.HP );
-				if (healAmt > 0 && Dungeon.hero.isAlive()) {
-					Dungeon.hero.HP += healAmt;
-					Dungeon.hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-					Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+			if (this instanceof Hero) {
+				if (RingOfVampire.vampiricProc( hero ) < 0) {
+					if (Random.Float() < -RingOfVampire.vampiricProc( hero )) {
+						this.damage(Math.round(dmg/5f), hero);
+						CellEmitter.get(this.pos).burst(ShadowParticle.UP, 5);
+						Sample.INSTANCE.play(Assets.Sounds.CURSED);
+						GLog.w(Messages.get(RingOfVampire.class, "damage"));
+					}
+				} else {
+					if (Random.Float() < RingOfVampire.vampiricProc( hero )) {
+						int healAmt = Math.round(dmg/5f);
+						healAmt = Math.min( healAmt, Dungeon.hero.HT - Dungeon.hero.HP );
+						if (healAmt > 0 && Dungeon.hero.isAlive()) {
+							Dungeon.hero.HP += healAmt;
+							Dungeon.hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+							Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+						}
+					}
 				}
 			}
 

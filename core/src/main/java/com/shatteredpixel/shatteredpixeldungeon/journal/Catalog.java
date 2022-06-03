@@ -260,7 +260,7 @@ public enum Catalog {
 		WEAPONS.seen.put( MiniGun.class,                    false);
 
 		WEAPONS.seen.put( ShotGun.class,                    false);
-		WEAPONS.seen.put( SPAS.class,                       false);
+		WEAPONS.seen.put( KSG.class,                       false);
 
 		WEAPONS.seen.put( SpiritBow.class,                  false);
 		WEAPONS.seen.put( WindBow.class,                    false);

@@ -310,10 +310,11 @@ public enum HeroClass {
 		//new PotionOfHealing().identify().quantity(100).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new TestWeapon().identify().collect();
-		//new RingOfVampire().identify().upgrade(10).collect();
-		//new RingOfSatisfying().identify().upgrade(1).collect();
+		//new RingOfVampire().identify().collect();
+		//new RingOfSatisfying().identify().collect();
+		//new CurseInfusion().identify().collect();
 		//new RingOfFury().identify().upgrade(10).collect();
-		//new RingOfShield().identify().upgrade(10).collect();
+		//new RingOfShield().identify().collect();
 		//new RingOfVorpal().identify().upgrade(10).collect();
 		//new MeatPie().quantity(3).collect();
 		//new FrozenCarpaccio().quantity(50).collect();

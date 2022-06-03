@@ -621,9 +621,9 @@ public class Hero extends Char {
 					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).short_barrel)
-					|| (wep instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).short_barrel)
-					|| (wep instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).short_barrel)
-					|| (wep instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof KSG.Bullet && ((KSG)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof KSGAP.Bullet && ((KSGAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof KSGHP.Bullet && ((KSGHP)hero.belongings.weapon).short_barrel)
 			) {
 				if (Dungeon.level.adjacent( pos, target.pos )) {
 					accuracy *= 1.25f;
@@ -686,9 +686,9 @@ public class Hero extends Char {
 					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).long_barrel)
-					|| (wep instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).long_barrel)
-					|| (wep instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).long_barrel)
-					|| (wep instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof KSG.Bullet && ((KSG)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof KSGAP.Bullet && ((KSGAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof KSGHP.Bullet && ((KSGHP)hero.belongings.weapon).long_barrel)
 			) {
 				if (Dungeon.level.adjacent( pos, target.pos )) {
 					accuracy *= 0.75f;
@@ -751,9 +751,9 @@ public class Hero extends Char {
 					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).magazine)
 					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).magazine)
 					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).magazine)
-					|| (wep instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).magazine)
-					|| (wep instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).magazine)
-					|| (wep instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof KSG.Bullet && ((KSG)hero.belongings.weapon).magazine)
+					|| (wep instanceof KSGAP.Bullet && ((KSGAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof KSGHP.Bullet && ((KSGHP)hero.belongings.weapon).magazine)
 			) {
 				if (!(Dungeon.level.adjacent( pos, target.pos ))) {
 					accuracy *= 0.85f;
@@ -814,9 +814,9 @@ public class Hero extends Char {
 					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).light)
 					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).light)
 					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).light)
-					|| (wep instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).light)
-					|| (wep instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).light)
-					|| (wep instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).light)
+					|| (wep instanceof KSG.Bullet && ((KSG)hero.belongings.weapon).light)
+					|| (wep instanceof KSGAP.Bullet && ((KSGAP)hero.belongings.weapon).light)
+					|| (wep instanceof KSGHP.Bullet && ((KSGHP)hero.belongings.weapon).light)
 			) {
 				accuracy *= 0.9f;
 			}
@@ -875,18 +875,18 @@ public class Hero extends Char {
 					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).heavy)
 					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).heavy)
 					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).heavy)
-					|| (wep instanceof SPAS.Bullet && ((SPAS)hero.belongings.weapon).heavy)
-					|| (wep instanceof SPASAP.Bullet && ((SPASAP)hero.belongings.weapon).heavy)
-					|| (wep instanceof SPASHP.Bullet && ((SPASHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof KSG.Bullet && ((KSG)hero.belongings.weapon).heavy)
+					|| (wep instanceof KSGAP.Bullet && ((KSGAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof KSGHP.Bullet && ((KSGHP)hero.belongings.weapon).heavy)
 			) {
 				accuracy *= 1.1f;
 			}
 
 			if (Dungeon.level.adjacent( pos, target.pos )) {
 				if (wep instanceof ShotGun.Bullet
-				 || wep instanceof SPAS.Bullet
+				 || wep instanceof KSG.Bullet
 				 || wep instanceof ShotGunHP.Bullet
-				 || wep instanceof SPASHP.Bullet) {
+				 || wep instanceof KSGHP.Bullet) {
 					accuracy *= (1.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				} else if (wep instanceof HuntingRifle.Bullet
 						|| wep instanceof SniperRifle.Bullet
@@ -908,9 +908,9 @@ public class Hero extends Char {
 
 			} else {
 				if (wep instanceof ShotGun.Bullet
-			     || wep instanceof SPAS.Bullet
+			     || wep instanceof KSG.Bullet
 				 || wep instanceof ShotGunHP.Bullet
-				 || wep instanceof SPASHP.Bullet) {
+				 || wep instanceof KSGHP.Bullet) {
 					accuracy *= 0;
 				}
 				else if (wep instanceof HuntingRifle.Bullet
@@ -959,7 +959,7 @@ public class Hero extends Char {
 						|| wep instanceof HeavyMachinegunHP.Bullet
 						|| wep instanceof RocketLauncher.Rocket
 						|| wep instanceof ShotGunAP.Bullet
-						|| wep instanceof SPASAP.Bullet
+						|| wep instanceof KSGAP.Bullet
 						|| wep instanceof MiniGun.Bullet
 						|| wep instanceof MiniGunAP.Bullet
 						|| wep instanceof MiniGunHP.Bullet
@@ -1148,9 +1148,9 @@ public class Hero extends Char {
 			 || wep instanceof ShotGun.Bullet
 			 || wep instanceof ShotGunAP.Bullet
 			 || wep instanceof ShotGunHP.Bullet
-			 || wep instanceof SPAS.Bullet
-			 || wep instanceof SPASAP.Bullet
-			 || wep instanceof SPASHP.Bullet
+			 || wep instanceof KSG.Bullet
+			 || wep instanceof KSGAP.Bullet
+			 || wep instanceof KSGHP.Bullet
 			 || wep instanceof RocketLauncher.Rocket
 			 || wep instanceof RPG7.Rocket
 			 //|| wep instanceof FlameThrower.Bullet
@@ -1421,9 +1421,9 @@ public class Hero extends Char {
 		if (belongings.weapon() instanceof ShotGun.Bullet)				          	    return false;
 		//if (belongings.weapon() instanceof ShotGunAP.Bullet)				          	return false;           //슬러그 샷건은 기습가능
 		if (belongings.weapon() instanceof ShotGunHP.Bullet)				          	return false;
-		if (belongings.weapon() instanceof SPAS.Bullet)				             	 	return false;
+		if (belongings.weapon() instanceof KSG.Bullet)				             	 	return false;
 		//if (belongings.weapon() instanceof SPASAP.Bullet)				         	 	return false;
-		if (belongings.weapon() instanceof SPASHP.Bullet)				        	  	return false;
+		if (belongings.weapon() instanceof KSGHP.Bullet)				        	  	return false;
 		//if (belongings.weapon() instanceof GrenadeLauncher.Rocket)					return false;
 		//if (belongings.weapon() instanceof GrenadeLauncherAP.Rocket)					return false;
 		//if (belongings.weapon() instanceof GrenadeLauncherHP.Rocket)					return false;  			//폭발류도 기습 가능
@@ -3110,9 +3110,9 @@ public class Hero extends Char {
 					  	|| belongings.weapon() instanceof ShotGun
 					  	|| belongings.weapon() instanceof ShotGunAP
 					  	|| belongings.weapon() instanceof ShotGunHP
-					  	|| belongings.weapon() instanceof SPAS
-					  	|| belongings.weapon() instanceof SPASAP
-					  	|| belongings.weapon() instanceof SPASHP
+					  	|| belongings.weapon() instanceof KSG
+					  	|| belongings.weapon() instanceof KSGAP
+					  	|| belongings.weapon() instanceof KSGHP
 					  	|| belongings.weapon() instanceof RocketLauncher
 					  	|| belongings.weapon() instanceof RPG7
 					  	|| belongings.weapon() instanceof FlameThrower
@@ -3185,9 +3185,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGun
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
-					|| Dungeon.hero.belongings.weapon() instanceof SPAS
-					|| Dungeon.hero.belongings.weapon() instanceof SPASAP
-					|| Dungeon.hero.belongings.weapon() instanceof SPASHP
+					|| Dungeon.hero.belongings.weapon() instanceof KSG
+					|| Dungeon.hero.belongings.weapon() instanceof KSGAP
+					|| Dungeon.hero.belongings.weapon() instanceof KSGHP
 					|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
 					|| Dungeon.hero.belongings.weapon() instanceof RPG7
 					|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
@@ -3256,9 +3256,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGun
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
-					|| Dungeon.hero.belongings.weapon() instanceof SPAS
-					|| Dungeon.hero.belongings.weapon() instanceof SPASAP
-					|| Dungeon.hero.belongings.weapon() instanceof SPASHP
+					|| Dungeon.hero.belongings.weapon() instanceof KSG
+					|| Dungeon.hero.belongings.weapon() instanceof KSGAP
+					|| Dungeon.hero.belongings.weapon() instanceof KSGHP
 					|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
 					|| Dungeon.hero.belongings.weapon() instanceof RPG7
 					|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
@@ -3335,9 +3335,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGun
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
-					|| Dungeon.hero.belongings.weapon() instanceof SPAS
-					|| Dungeon.hero.belongings.weapon() instanceof SPASAP
-					|| Dungeon.hero.belongings.weapon() instanceof SPASHP
+					|| Dungeon.hero.belongings.weapon() instanceof KSG
+					|| Dungeon.hero.belongings.weapon() instanceof KSGAP
+					|| Dungeon.hero.belongings.weapon() instanceof KSGHP
 					|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
 					|| Dungeon.hero.belongings.weapon() instanceof RPG7
 					|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
@@ -3456,9 +3456,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGun
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
-					|| Dungeon.hero.belongings.weapon() instanceof SPAS
-					|| Dungeon.hero.belongings.weapon() instanceof SPASAP
-					|| Dungeon.hero.belongings.weapon() instanceof SPASHP
+					|| Dungeon.hero.belongings.weapon() instanceof KSG
+					|| Dungeon.hero.belongings.weapon() instanceof KSGAP
+					|| Dungeon.hero.belongings.weapon() instanceof KSGHP
 					|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
 					|| Dungeon.hero.belongings.weapon() instanceof RPG7
 					|| Dungeon.hero.belongings.weapon() instanceof FlameThrower

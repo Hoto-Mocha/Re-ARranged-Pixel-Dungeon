@@ -41,8 +41,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
@@ -66,7 +64,7 @@ import java.util.ArrayList;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 
-public class SPASHP extends MeleeWeapon {
+public class KSGHP extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
@@ -259,16 +257,16 @@ public class SPASHP extends MeleeWeapon {
             } else if (Dungeon.hero.STR() > STRReq()){
                 info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
             }
-            info += "\n\n" + Messages.get(SPASHP.class, "stats_known",
-                    Bulletmin(SPASHP.this.buffedLvl()),
-                    Bulletmax(SPASHP.this.buffedLvl()),
+            info += "\n\n" + Messages.get(KSGHP.class, "stats_known",
+                    Bulletmin(KSGHP.this.buffedLvl()),
+                    Bulletmax(KSGHP.this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > Dungeon.hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
-            info += "\n\n" + Messages.get(SPASHP.class, "stats_unknown",
+            info += "\n\n" + Messages.get(KSGHP.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
@@ -365,8 +363,8 @@ public class SPASHP extends MeleeWeapon {
         return delay;
     }
 
-    public SPASHP.Bullet knockBullet(){
-        return new SPASHP.Bullet();
+    public KSGHP.Bullet knockBullet(){
+        return new KSGHP.Bullet();
     }
     public class Bullet extends MissileWeapon {
 
@@ -379,15 +377,15 @@ public class SPASHP extends MeleeWeapon {
 
         @Override
         public int buffedLvl(){
-            return SPASHP.this.buffedLvl();
+            return KSGHP.this.buffedLvl();
         }
 
         @Override
         public int damageRoll(Char owner) {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
-            int bulletdamage = Random.NormalIntRange(Bulletmin(SPASHP.this.buffedLvl()),
-                    Bulletmax(SPASHP.this.buffedLvl()));
+            int bulletdamage = Random.NormalIntRange(Bulletmin(KSGHP.this.buffedLvl()),
+                    Bulletmax(KSGHP.this.buffedLvl()));
 
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
@@ -401,7 +399,7 @@ public class SPASHP extends MeleeWeapon {
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-            return SPASHP.this.hasEnchant(type, owner);
+            return KSGHP.this.hasEnchant(type, owner);
         }
 
         @Override
@@ -411,56 +409,56 @@ public class SPASHP extends MeleeWeapon {
             GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
             NaturesBow bow4 = hero.belongings.getItem(NaturesBow.class);
             PoisonBow bow5 = hero.belongings.getItem(PoisonBow.class);
-            if (SPASHP.this.enchantment == null
+            if (KSGHP.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow != null
                     && bow.enchantment != null) {
                 return bow.enchantment.proc(this, attacker, defender, damage);
-            } else if (SPASHP.this.enchantment == null
+            } else if (KSGHP.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow2 != null
                     && bow2.enchantment != null) {
                 return bow2.enchantment.proc(this, attacker, defender, damage);
-            } else if (SPASHP.this.enchantment == null
+            } else if (KSGHP.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow3 != null
                     && bow3.enchantment != null) {
                 return bow3.enchantment.proc(this, attacker, defender, damage);
-            } else if (SPASHP.this.enchantment == null
+            } else if (KSGHP.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow4 != null
                     && bow4.enchantment != null) {
                 return bow4.enchantment.proc(this, attacker, defender, damage);
-            } else if (SPASHP.this.enchantment == null
+            } else if (KSGHP.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow5 != null
                     && bow5.enchantment != null) {
                 return bow5.enchantment.proc(this, attacker, defender, damage);
             } else {
-                return SPASHP.this.proc(attacker, defender, damage);
+                return KSGHP.this.proc(attacker, defender, damage);
             }
         }
 
         @Override
         public float delayFactor(Char user) {
             if (hero.buff(Riot.riotTracker.class) != null) {
-                return SPASHP.this.delayFactor(user)/2f;
+                return KSGHP.this.delayFactor(user)/2f;
             } else {
-                return SPASHP.this.delayFactor(user);
+                return KSGHP.this.delayFactor(user);
             }
         }
 
         @Override
         public int STRReq(int lvl) {
-            if (SPASHP.this.masteryPotionBonus) {
-                return STRReq(tier, SPASHP.this.buffedLvl()) - 2;
+            if (KSGHP.this.masteryPotionBonus) {
+                return STRReq(tier, KSGHP.this.buffedLvl()) - 2;
             }
-            return STRReq(tier, SPASHP.this.buffedLvl());
+            return STRReq(tier, KSGHP.this.buffedLvl());
         }
 
         @Override
@@ -502,7 +500,7 @@ public class SPASHP extends MeleeWeapon {
             }
             updateQuickslot();
             if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-                SPASHP.this.use();
+                KSGHP.this.use();
             }
         }
 

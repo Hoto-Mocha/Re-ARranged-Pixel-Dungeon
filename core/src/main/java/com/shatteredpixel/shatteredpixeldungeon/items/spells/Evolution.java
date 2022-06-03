@@ -78,9 +78,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonA
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
@@ -200,9 +200,9 @@ public class Evolution extends InventorySpell {
                 || w instanceof SniperRifleHP
                 || w instanceof RocketLauncher
                 || w instanceof LargeKatana
-                || w instanceof SPAS
-                || w instanceof SPASAP
-                || w instanceof SPASHP
+                || w instanceof KSG
+                || w instanceof KSGAP
+                || w instanceof KSGHP
                 || w instanceof FlameThrower
                 || w instanceof FlameThrowerAP
                 || w instanceof FlameThrowerHP

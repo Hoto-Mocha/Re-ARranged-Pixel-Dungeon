@@ -64,7 +64,7 @@ import java.util.ArrayList;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 
-public class SPAS extends MeleeWeapon {
+public class KSGAP extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD = "RELOAD";
@@ -232,15 +232,15 @@ public class SPAS extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        return 1 +
-               lvl +
-               RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return 4 +
+                lvl +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return (tier + 2)   +
-               lvl * 3 +
-               RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return 4 * (tier+3)   +
+                lvl * (tier+3) +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
@@ -257,16 +257,16 @@ public class SPAS extends MeleeWeapon {
             } else if (Dungeon.hero.STR() > STRReq()){
                 info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
             }
-            info += "\n\n" + Messages.get(SPAS.class, "stats_known",
-                    Bulletmin(SPAS.this.buffedLvl()),
-                    Bulletmax(SPAS.this.buffedLvl()),
+            info += "\n\n" + Messages.get(KSGAP.class, "stats_known",
+                    Bulletmin(KSGAP.this.buffedLvl()),
+                    Bulletmax(KSGAP.this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > Dungeon.hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
-            info += "\n\n" + Messages.get(SPAS.class, "stats_unknown",
+            info += "\n\n" + Messages.get(KSGAP.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
@@ -363,13 +363,13 @@ public class SPAS extends MeleeWeapon {
         return delay;
     }
 
-    public SPAS.Bullet knockBullet(){
-        return new SPAS.Bullet();
+    public KSGAP.Bullet knockBullet(){
+        return new KSGAP.Bullet();
     }
     public class Bullet extends MissileWeapon {
 
         {
-            image = ItemSpriteSheet.TRIPLE_BULLET;
+            image = ItemSpriteSheet.SINGLE_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
             tier = 5;
@@ -377,15 +377,15 @@ public class SPAS extends MeleeWeapon {
 
         @Override
         public int buffedLvl(){
-            return SPAS.this.buffedLvl();
+            return KSGAP.this.buffedLvl();
         }
 
         @Override
         public int damageRoll(Char owner) {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
-            int bulletdamage = Random.NormalIntRange(Bulletmin(SPAS.this.buffedLvl()),
-                    Bulletmax(SPAS.this.buffedLvl()));
+            int bulletdamage = Random.NormalIntRange(Bulletmin(KSGAP.this.buffedLvl()),
+                    Bulletmax(KSGAP.this.buffedLvl()));
 
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
@@ -399,7 +399,7 @@ public class SPAS extends MeleeWeapon {
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-            return SPAS.this.hasEnchant(type, owner);
+            return KSGAP.this.hasEnchant(type, owner);
         }
 
         @Override
@@ -409,74 +409,72 @@ public class SPAS extends MeleeWeapon {
             GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
             NaturesBow bow4 = hero.belongings.getItem(NaturesBow.class);
             PoisonBow bow5 = hero.belongings.getItem(PoisonBow.class);
-            if (SPAS.this.enchantment == null
+            if (KSGAP.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow != null
                     && bow.enchantment != null) {
                 return bow.enchantment.proc(this, attacker, defender, damage);
-            } else if (SPAS.this.enchantment == null
+            } else if (KSGAP.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow2 != null
                     && bow2.enchantment != null) {
                 return bow2.enchantment.proc(this, attacker, defender, damage);
-            } else if (SPAS.this.enchantment == null
+            } else if (KSGAP.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow3 != null
                     && bow3.enchantment != null) {
                 return bow3.enchantment.proc(this, attacker, defender, damage);
-            } else if (SPAS.this.enchantment == null
+            } else if (KSGAP.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow4 != null
                     && bow4.enchantment != null) {
                 return bow4.enchantment.proc(this, attacker, defender, damage);
-            } else if (SPAS.this.enchantment == null
+            } else if (KSGAP.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow5 != null
                     && bow5.enchantment != null) {
                 return bow5.enchantment.proc(this, attacker, defender, damage);
             } else {
-                return SPAS.this.proc(attacker, defender, damage);
+                return KSGAP.this.proc(attacker, defender, damage);
             }
         }
 
         @Override
         public float delayFactor(Char user) {
             if (hero.buff(Riot.riotTracker.class) != null) {
-                return SPAS.this.delayFactor(user)/2f;
+                return KSGAP.this.delayFactor(user)/2f;
             } else {
-                return SPAS.this.delayFactor(user);
+                return KSGAP.this.delayFactor(user);
             }
         }
 
         @Override
         public int STRReq(int lvl) {
-            if (SPAS.this.masteryPotionBonus) {
-                return STRReq(tier, SPAS.this.buffedLvl()) - 2;
+            if (KSGAP.this.masteryPotionBonus) {
+                return STRReq(tier, KSGAP.this.buffedLvl()) - 2;
             }
-            return STRReq(tier, SPAS.this.buffedLvl());
+            return STRReq(tier, KSGAP.this.buffedLvl());
         }
 
         @Override
         protected void onThrow(int cell) {
-            for (int i=1; i<=5; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
-                Char enemy = Actor.findChar(cell);
-                if (enemy == null || enemy == curUser) {
-                    parent = null;
+            Char enemy = Actor.findChar(cell);
+            if (enemy == null || enemy == curUser) {
+                parent = null;
+                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+            } else {
+                if (!curUser.shoot(enemy, this)) {
                     CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                     CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                } else {
-                    if (!curUser.shoot(enemy, this)) {
-                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                    }
-                    if (Random.Int(20) == 0){
-                        Buff.affect(enemy, Cripple.class, 2f);
-                    }
+                }
+                if (Random.Int(4) == 0){
+                    Buff.affect(enemy, Cripple.class, 5f);                              //불구 확률 5배, 지속 시간도 5턴으로 증가
                 }
             }
             if (hero.buff(InfiniteBullet.class) != null) {
@@ -500,7 +498,7 @@ public class SPAS extends MeleeWeapon {
             }
             updateQuickslot();
             if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-                SPAS.this.use();
+                KSGAP.this.use();
             }
         }
 
@@ -531,5 +529,4 @@ public class SPAS extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
-
 }

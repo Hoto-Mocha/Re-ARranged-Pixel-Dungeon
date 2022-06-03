@@ -34,7 +34,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CertainCrit;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
@@ -132,9 +131,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonA
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPAS;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SPASHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
@@ -749,9 +748,9 @@ public enum Talent {
 				||item instanceof ShotGun
 				||item instanceof ShotGunAP
 				||item instanceof ShotGunHP
-				||item instanceof SPAS
-				||item instanceof SPASAP
-				||item instanceof SPASHP
+				||item instanceof KSG
+				||item instanceof KSGAP
+				||item instanceof KSGHP
 				||item instanceof MiniGun
 				||item instanceof MiniGunAP
 				||item instanceof MiniGunHP
@@ -936,9 +935,9 @@ public enum Talent {
 						||item instanceof ShotGun
 						||item instanceof ShotGunAP
 						||item instanceof ShotGunHP
-						||item instanceof SPAS
-						||item instanceof SPASAP
-						||item instanceof SPASHP
+						||item instanceof KSG
+						||item instanceof KSGAP
+						||item instanceof KSGHP
 						||item instanceof MiniGun
 						||item instanceof MiniGunAP
 						||item instanceof MiniGunHP
