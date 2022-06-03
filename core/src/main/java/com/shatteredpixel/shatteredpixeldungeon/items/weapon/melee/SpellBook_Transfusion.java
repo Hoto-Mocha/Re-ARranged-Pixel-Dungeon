@@ -111,12 +111,12 @@ public class SpellBook_Transfusion extends MeleeWeapon {
 								AllyBuff.affectAndLoot(target, curUser, ScrollOfSirensSong.Enthralled.class);
 
 							} else {
-								Buff.affect( target, Charm.class, Charm.DURATION ).object = curUser.id();
+								Buff.affect( target, Charm.class, Charm.DURATION+2*buffedLvl() ).object = curUser.id();
 
 							}
 							target.sprite.centerEmitter().burst( Speck.factory( Speck.HEART ), 10 );
 						} else {
-							Buff.affect( target, Charm.class, Charm.DURATION ).object = curUser.id();
+							Buff.affect( target, Charm.class, Charm.DURATION+buffedLvl() ).object = curUser.id();
 							target.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 5 );
 							Sample.INSTANCE.play(Assets.Sounds.CHARMS);
 						}

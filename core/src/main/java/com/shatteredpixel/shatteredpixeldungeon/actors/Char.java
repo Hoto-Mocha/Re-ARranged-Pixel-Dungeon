@@ -786,7 +786,7 @@ public abstract class Char extends Actor {
 				} else if (hero.belongings.weapon instanceof SpellBook_Transfusion) {
 					//chance to heal scales from 5%-30% based on missing HP
 					float missingPercent = (hero.HT - hero.HP) / (float)hero.HT;
-					procChance = 0.05f + 0.25f*missingPercent;
+					procChance = 0.05f + (0.25f+0.01f*lvl)*missingPercent;
 					if (Random.Float() < procChance) {
 
 						//heals for 50% of damage dealt

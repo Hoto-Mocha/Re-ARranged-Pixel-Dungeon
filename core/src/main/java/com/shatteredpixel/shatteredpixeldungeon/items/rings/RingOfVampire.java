@@ -35,9 +35,9 @@ public class RingOfVampire extends Ring {
 
 	public String statsInfo() {
 		if (isIdentified()){
-			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100f * (1f - Math.pow(0.95f, soloBuffedBonus()))));
+			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100f * (1f - Math.pow(0.925f, soloBuffedBonus()))));
 		} else {
-			return Messages.get(this, "typical_stats", new DecimalFormat("#.##").format(5f));
+			return Messages.get(this, "typical_stats", new DecimalFormat("#.##").format(7.5f));
 		}
 	}
 	
@@ -47,7 +47,7 @@ public class RingOfVampire extends Ring {
 	}
 	
 	public static float vampiricProc( Char target ){
-		return 1-(float)Math.pow(0.95, getBuffedBonus(target, Vampire.class));
+		return 1-(float)Math.pow(0.925, getBuffedBonus(target, Vampire.class));
 	}
 	
 	public class Vampire extends RingBuff {

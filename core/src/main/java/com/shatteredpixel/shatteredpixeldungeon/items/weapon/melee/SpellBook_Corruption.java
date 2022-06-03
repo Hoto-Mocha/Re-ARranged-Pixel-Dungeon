@@ -110,31 +110,31 @@ public class SpellBook_Corruption extends MeleeWeapon {
 					if (ch != hero) {
 						switch (Random.Int(15)) {
 							case 0: case 1: default:
-								Buff.affect( ch, Weakness.class, 3f );
+								Buff.affect( ch, Weakness.class, 3f+buffedLvl() );
 								break;
 							case 2: case 3:
-								Buff.affect( ch, Vulnerable.class, 3f );
+								Buff.affect( ch, Vulnerable.class, 3f+buffedLvl() );
 								break;
 							case 4:
-								Buff.affect( ch, Cripple.class, 3f );
+								Buff.affect( ch, Cripple.class, 3f+buffedLvl() );
 								break;
 							case 5:
-								Buff.affect( ch, Blindness.class, 3f );
+								Buff.affect( ch, Blindness.class, 3f+buffedLvl() );
 								break;
 							case 6:
-								Buff.affect( ch, Terror.class, 3f );
+								Buff.affect( ch, Terror.class, 3f+buffedLvl() );
 								break;
 							case 7: case 8: case 9:
-								Buff.affect( ch, Amok.class, 3f );
+								Buff.affect( ch, Amok.class, 3f+buffedLvl() );
 								break;
 							case 10: case 11:
-								Buff.affect( ch, Slow.class, 3f );
+								Buff.affect( ch, Slow.class, 3f+buffedLvl() );
 								break;
 							case 12: case 13:
-								Buff.affect( ch, Hex.class, 3f );
+								Buff.affect( ch, Hex.class, 3f+buffedLvl() );
 								break;
 							case 14:
-								Buff.affect( ch, Paralysis.class, 3f );
+								Buff.affect( ch, Paralysis.class, 3f+buffedLvl() );
 								break;
 						}
 						if (Random.Int(100) <= Math.min(hero.belongings.weapon.buffedLvl(), 9)) {					//1% base, +1% per lvl, max 10%
@@ -148,7 +148,7 @@ public class SpellBook_Corruption extends MeleeWeapon {
 				} else {
 					GLog.p( Messages.get(SpellBook_Corruption.this, "cannot_cast") );
 				}
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(100f-5*buffedLvl(), 50f));
+				Buff.affect(hero, SpellBookCoolDown.class, Math.max(50f-2.5f*buffedLvl(), 25f));
 				Invisibility.dispel();
 				curUser.spend( Actor.TICK );
 				curUser.busy();

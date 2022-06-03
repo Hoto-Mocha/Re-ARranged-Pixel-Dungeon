@@ -143,8 +143,8 @@ public class SpellBook_Empty extends MeleeWeapon {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{WandOfMagicMissile.class, ArcaneResin.class};
-			inQuantity = new int[]{1, 2};
+			inputs =  new Class[]{WandOfMagicMissile.class};
+			inQuantity = new int[]{1};
 
 			cost = 5;
 
