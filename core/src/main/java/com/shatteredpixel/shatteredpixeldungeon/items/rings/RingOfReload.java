@@ -41,7 +41,7 @@ import java.util.HashSet;
 public class RingOfReload extends Ring {
 
     {
-        icon = ItemSpriteSheet.Icons.SCROLL_ENCHANT;
+        icon = ItemSpriteSheet.Icons.RING_RELOAD;
 
         bones = false;
     }

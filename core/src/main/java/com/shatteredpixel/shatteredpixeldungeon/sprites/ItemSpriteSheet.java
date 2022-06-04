@@ -1088,6 +1088,7 @@ public class ItemSpriteSheet {
 		public static final int RING_SHIELD    	= RINGS+14;
 		public static final int RING_FURY    	= RINGS+15;
 		public static final int RING_VORPAL    	= RINGS+16;
+		public static final int RING_RELOAD    	= RINGS+17;
 		static {
 			assignIconRect( RING_ACCURACY,      7, 7 );
 			assignIconRect( RING_ELEMENTS,      7, 7 );
@@ -1101,11 +1102,12 @@ public class ItemSpriteSheet {
 			assignIconRect( RING_TENACITY,      6, 6 );
 			assignIconRect( RING_WEALTH,        7, 6 );
 			assignIconRect( RING_RUSH,       	7, 6 );
-			assignIconRect( RING_VAMPIRE,       7, 6 );
-			assignIconRect( RING_SATISFYING,    7, 6 );
-			assignIconRect( RING_SHIELD,       	7, 6 );
-			assignIconRect( RING_FURY,       	7, 6 );
+			assignIconRect( RING_VAMPIRE,       6, 7 );
+			assignIconRect( RING_SATISFYING,    6, 7 );
+			assignIconRect( RING_SHIELD,       	6, 6 );
+			assignIconRect( RING_FURY,       	6, 6 );
 			assignIconRect( RING_VORPAL,       	7, 6 );
+			assignIconRect( RING_RELOAD,       	7, 8 );
 		}
 
 		                                                                                //16 free slots

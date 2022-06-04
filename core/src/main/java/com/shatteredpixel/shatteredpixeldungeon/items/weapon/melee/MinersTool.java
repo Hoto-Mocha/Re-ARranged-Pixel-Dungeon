@@ -27,6 +27,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.WaterOfAwareness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.WaterOfHealth;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.WellWater;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MinersToolCoolDown;
@@ -37,7 +40,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EarthParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -48,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GeyserTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -62,8 +68,10 @@ import java.util.ArrayList;
 
 public class MinersTool extends MeleeWeapon {
 
-	public static final String AC_DIG	= "DIG";
 	public static final String AC_MINE	= "MINE";
+	private static final Class<?>[] WATERS =
+			{WaterOfAwareness.class, WaterOfHealth.class};
+	public Class<?extends WellWater> overrideWater = null;
 
 	{
 		defaultAction = AC_MINE;
@@ -95,7 +103,6 @@ public class MinersTool extends MeleeWeapon {
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_DIG);
 		actions.add(AC_MINE);
 		return actions;
 	}
@@ -105,13 +112,6 @@ public class MinersTool extends MeleeWeapon {
 
 		super.execute(hero, action);
 
-		if (action.equals(AC_DIG)) {
-			if (hero.buff(ShovelDigCoolDown.class) != null){
-				GLog.w(Messages.get(this, "not_ready"));
-			} else {
-				Dig();
-			}
-		}
 		if (action.equals(AC_MINE)) {
 			if (hero.buff(MinersToolCoolDown.class) != null){
 				GLog.w(Messages.get(this, "not_ready_mining"));
@@ -123,8 +123,16 @@ public class MinersTool extends MeleeWeapon {
 					@Override
 					public void onSelect( Integer cell ) {
 						if (cell != null) {
-							if (!(Dungeon.level.adjacent(curUser.pos, cell) || cell == curUser.pos)) {
-								GLog.w(Messages.get(MinersTool.class, "too_far"));
+							if (!(Dungeon.level.adjacent(curUser.pos, cell)) || cell == curUser.pos) {
+								if (cell == curUser.pos) {
+									if (hero.buff(ShovelDigCoolDown.class) != null){
+										GLog.w(Messages.get(this, "not_ready"));
+									} else {
+										Dig();
+									}
+								} else {
+									GLog.w(Messages.get(MinersTool.class, "too_far"));
+								}
 							} else {
 								if (Dungeon.level.map[cell] == Terrain.WALL_DECO) {
 									goldMining(cell);
@@ -159,6 +167,11 @@ public class MinersTool extends MeleeWeapon {
 								} else if (Dungeon.level.map[cell] == Terrain.TRAP
 										|| Dungeon.level.map[cell] == Terrain.SECRET_TRAP) {
 									trapDisarming(cell);
+								} else if (Dungeon.level.map[cell] == Terrain.DOOR
+										|| Dungeon.level.map[cell] == Terrain.OPEN_DOOR) {
+									doorBlocking(cell);
+								} else if (Dungeon.level.map[cell] == Terrain.EMPTY_WELL) {
+									wellMining(cell);
 								} else {
 									GLog.w(Messages.get(MinersTool.class, "cannot_mine"));
 								}
@@ -302,8 +315,6 @@ public class MinersTool extends MeleeWeapon {
 	}
 
 	public void floorMining(int cell) {
-		Level.set(cell, Terrain.CHASM);
-
 		Heap heap = Dungeon.level.heaps.get(cell);
 		if (heap != null && heap.type != Heap.Type.FOR_SALE
 				&& heap.type != Heap.Type.LOCKED_CHEST
@@ -315,6 +326,14 @@ public class MinersTool extends MeleeWeapon {
 			GameScene.discard(heap);
 			Dungeon.level.heaps.remove(cell);
 		}
+		if (heap != null && (heap.type == Heap.Type.FOR_SALE
+				|| heap.type == Heap.Type.LOCKED_CHEST
+				|| heap.type == Heap.Type.CRYSTAL_CHEST)) {
+			GLog.w(Messages.get(MinersTool.class, "cannot_mine"));
+			return;
+		}
+
+		Level.set(cell, Terrain.CHASM);
 
 		Char ch = Actor.findChar(cell);
 
@@ -395,5 +414,51 @@ public class MinersTool extends MeleeWeapon {
 		Buff.affect(curUser, MinersToolCoolDown.class, Math.max(20-2*buffedLvl(), 5));
 		Invisibility.dispel();
 		GLog.i(Messages.get(MinersTool.class, "trap_disarming"));
+	}
+
+	public void doorBlocking(int cell) {
+		Level.set(cell, Terrain.BARRICADE);
+		Buff.affect(curUser, MinersToolCoolDown.class, Math.max(20-2*buffedLvl(), 5));
+		curUser.spendAndNext(3f);
+		GameScene.updateMap(cell);
+		curUser.sprite.operate( cell );
+		curUser.busy();
+		GLog.p(Messages.get(MinersTool.class, "door_blocking"));
+		CellEmitter.get(cell).burst(LeafParticle.LEVEL_SPECIFIC, 4);
+		CellEmitter.bottom( cell ).start( EarthParticle.FACTORY, 0.05f, 8 );
+		Sample.INSTANCE.play( Assets.Sounds.PLANT );
+		Invisibility.dispel();
+	}
+
+	public void wellMining(int cell) {
+		if (Random.Int(10) < 2) {
+			if (Random.Int(10) < 1) {
+				Level.set(cell, Terrain.WELL);
+				@SuppressWarnings("unchecked")
+				Class<? extends WellWater> waterClass =
+						overrideWater != null ?
+								overrideWater :
+								(Class<? extends WellWater>)Random.element( WATERS );
+				WellWater.seed(cell, 1, waterClass, Dungeon.level);
+				GeyserTrap geyser = new GeyserTrap();
+				geyser.pos = cell;
+				geyser.activate();
+				GLog.p(Messages.get(MinersTool.class, "well_mining"));
+			} else {
+				Dungeon.level.drop(new Dewdrop(), cell).sprite.drop();
+				GLog.p(Messages.get(MinersTool.class, "dew_drop"));
+			}
+		} else {
+			GLog.i(Messages.get(MinersTool.class, "nothing"));
+		}
+
+		Buff.affect(curUser, MinersToolCoolDown.class, 50f);
+		Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+		curUser.sprite.zap( cell );
+		CellEmitter.center( cell ).burst( Speck.factory( Speck.STAR ), 10 );
+		curUser.spendAndNext(3f);
+		GameScene.updateMap(cell);
+		curUser.busy();
+		Invisibility.dispel();
 	}
 }

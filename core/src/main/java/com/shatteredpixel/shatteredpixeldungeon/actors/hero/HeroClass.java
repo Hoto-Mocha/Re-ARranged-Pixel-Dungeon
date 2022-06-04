@@ -264,60 +264,6 @@ public enum HeroClass {
 
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
-
-		//new ScrollOfEnchantment().identify().quantity(50).collect();
-		//new TengusMask().collect();
-		//new PotionOfExperience().identify().quantity(100).collect();
-		//new RingOfMight().identify().upgrade(10).collect();
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new TestWeapon().identify().collect();
-		//new Teleporter().collect();
-		//new FrostGun().identify().collect();
-		//new MinersTool().identify().upgrade(20).collect();
-
-		//new ScrollOfTransmutation().identify().quantity(50).collect();
-		//new Evolution().quantity(50).collect();
-		//new SleepGun().identify().collect();
-		//new ParalysisGun().identify().collect();
-		//new FrostGun().identify().collect();
-		//new GrenadeLauncher().identify().collect();
-		//new GrenadeLauncherAP().identify().collect();
-		//new GrenadeLauncherHP().identify().collect();
-		//new ScrollOfExtract().quantity(20).collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
-		//new StunGun().collect();
-		//new StunGunAP().collect();
-		//new StunGunHP().collect();
-		//new ScrollOfUpgrade().identify().quantity(20).collect();
-		//new APBullet().collect();
-		//new HPBullet().collect();
-		//new StableAPBullet().collect();
-		//new StableHPBullet().collect();
-
-		//new TengusMask().collect();
-		//new AlchemistsToolkit().identify().upgrade(10).collect();
-		//new Greatsword().identify().collect();
-		//new Greatsword().identify().collect();
-		//new Sword().identify().collect();
-		//new CurseInfusion().identify().quantity(4).collect();
-		//new ArcaneCatalyst().quantity(2).collect();
-		//new LiquidMetal().quantity(100).collect();
-		//new ScrollOfUpgrade().quantity(100).collect();
-		//new ArcaneResin().quantity(2).collect();
-		//new RingOfMight().identify().upgrade(20).collect();
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new Teleporter().identify().collect();
-		//new PotionOfHealing().identify().quantity(100).collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
-		//new TestWeapon().identify().collect();
-		//new RingOfVampire().identify().collect();
-		//new RingOfSatisfying().identify().collect();
-		//new CurseInfusion().identify().collect();
-		//new RingOfFury().identify().upgrade(10).collect();
-		//new RingOfShield().identify().collect();
-		//new RingOfVorpal().identify().upgrade(10).collect();
-		//new MeatPie().quantity(3).collect();
-		//new FrozenCarpaccio().quantity(50).collect();
 	}
 
 	private static void initMage( Hero hero ) {
@@ -338,13 +284,6 @@ public enum HeroClass {
 
 		new ScrollOfUpgrade().identify();
 		new PotionOfLiquidFlame().identify();
-
-		//new ArcaneResin().quantity(50).collect();
-		//new WandOfMagicMissile().identify().collect();
-		//new WandOfMagicMissile().identify().collect();
-		//new WandOfMagicMissile().identify().collect();
-		//new TengusMask().collect();
-		//new PotionOfExperience().quantity(50).identify().collect();
 	}
 
 	private static void initRogue( Hero hero ) {
