@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
@@ -177,7 +178,6 @@ public class Dart extends MissileWeapon {
 		if (exbow != null) {
 			Char enemy = Actor.findChar( cell );
 			ArrayList<Char> targets = new ArrayList<>();
-			if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
 			for (int i : PathFinder.NEIGHBOURS8){
 				if (Actor.findChar(cell + i) != null) targets.add(Actor.findChar(cell + i));
 			}
@@ -203,12 +203,18 @@ public class Dart extends MissileWeapon {
 					}
 				}
 			}
-			Sample.INSTANCE.play( Assets.Sounds.BLAST );
+			if (!curUser.shoot( enemy, this )) {
+
+			}
 			decrementDurability();
-			if (((!curUser.shoot( enemy, this ) || !enemy.isAlive()) && durability <= 0)){
+			Sample.INSTANCE.play( Assets.Sounds.BLAST );
+			if (durability <= 0){
 				Dungeon.level.drop(new Dart(), cell).sprite.drop();
 			} else {
-				super.onThrow(cell);
+				Heap heap = Dungeon.level.drop( this, cell );
+				if (!heap.isEmpty()) {
+					heap.sprite.drop( cell );
+				}
 			}
 		} else {
 			super.onThrow(cell);

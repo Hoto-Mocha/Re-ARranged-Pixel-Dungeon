@@ -61,7 +61,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LifeLink;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
@@ -77,7 +76,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Speed;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Stamina;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Swing;
@@ -496,7 +494,7 @@ public abstract class Char extends Actor {
 				dr *= 1+0.1f*hero.pointsInTalent(Talent.CHARISMA);
 			}
 
-			if (this instanceof Hero) {
+			if (this instanceof Hero && hero.subClass == HeroSubClass.WEAPONMASTER) {
 				if ( hero.belongings.weapon() instanceof Spear
 					|| hero.belongings.weapon() instanceof Glaive
 					|| hero.belongings.weapon() instanceof Lance ) {
@@ -874,6 +872,11 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero && hero.buff(LanceBuff.class) != null && hero.belongings.weapon() instanceof Lance) {
+				dmg *= 1f + hero.buff(LanceBuff.class).getDamageFactor();
+				Buff.detach(this, LanceBuff.class);
+			}
+
+			if (this instanceof Hero && hero.buff(LanceBuff.class) != null && hero.belongings.weapon() instanceof LanceNShield && ((LanceNShield)hero.belongings.weapon).stance) {
 				dmg *= 1f + hero.buff(LanceBuff.class).getDamageFactor();
 				Buff.detach(this, LanceBuff.class);
 			}
@@ -1599,10 +1602,6 @@ public abstract class Char extends Actor {
 				) {
 					dmg *= 1f + 0.1f*Dungeon.hero.pointsInTalent(Talent.ONLY_ONE_SHOT);
 				}
-			}
-
-			if ((Dungeon.hero.buff(SpearGuard.class) != null) || (Dungeon.hero.buff(LanceGuard.class) != null)) {
-				dmg *= 0.4f;
 			}
 
 			if (this instanceof Hero && hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos) && hero.belongings.armor != null && hero.belongings.weapon() instanceof MeleeWeapon) {

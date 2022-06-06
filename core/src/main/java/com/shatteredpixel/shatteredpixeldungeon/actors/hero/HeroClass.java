@@ -89,6 +89,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFury;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSatisfying;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVampire;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
@@ -113,9 +114,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableAPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
@@ -123,20 +126,28 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLaunch
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MinersTool;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.HealingDart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.utils.DeviceCompat;
 
@@ -264,6 +275,17 @@ public enum HeroClass {
 
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
+
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new Teleporter().collect();
+		//new RingOfMight().identify().upgrade(19).collect();
+		//new LanceNShield().identify().collect();
+		//new Lance().identify().collect();
+		//new ObsidianShield().identify().collect();
+		//new SpearNShield().identify().collect();
+		//new Spear().identify().collect();
+		//new RoundShield().identify().collect();
+		//new ScrollOfUpgrade().identify().quantity(100).collect();
 	}
 
 	private static void initMage( Hero hero ) {
@@ -336,6 +358,20 @@ public enum HeroClass {
 
 		new PotionOfMindVision().identify();
 		new ScrollOfLullaby().identify();
+
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new Teleporter().collect();
+		//new RingOfMight().identify().upgrade(19).collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
+		//new Dart().quantity(200).collect();
+		//new SandalsOfNature().identify().upgrade(3).collect();
+		//new PoisonBow().identify().collect();
+		//new RingOfSharpshooting().identify().upgrade(5).collect();
+		//new ExplosiveCrossbow().identify().collect();
+		//new ScrollOfUpgrade().identify().quantity(100).collect();
+		//new ScrollOfEnchantment().identify().quantity(100).collect();
+		//new TengusMask().collect();
+		//new Firebloom.Seed().quantity(200).collect();
 	}
 
 	private static void initGunner( Hero hero ) {

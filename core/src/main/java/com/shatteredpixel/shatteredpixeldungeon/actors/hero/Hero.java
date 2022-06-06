@@ -72,7 +72,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.KnightsBlocking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
@@ -91,7 +90,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StanceCooldown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AttackSpeedBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Surgery;
@@ -1201,10 +1199,6 @@ public class Hero extends Char {
 		if (buff(EvasiveMove.class) != null) {
 			return INFINITE_EVASION;
 		}
-
-		if (buff(LanceGuard.class) != null || buff(SpearGuard.class) != null){
-			return 0;
-		}
 		
 		float evasion = defenseSkill;
 		
@@ -1287,14 +1281,6 @@ public class Hero extends Char {
 
 		if (buff(HoldFast.class) != null){
 			dr += Random.NormalIntRange(0, 2*pointsInTalent(Talent.HOLD_FAST));
-		}
-
-		if (buff(LanceGuard.class) != null && hero.belongings.weapon instanceof LanceNShield){
-			dr += 4+hero.belongings.weapon.buffedLvl()*2;
-		}
-
-		if (buff(SpearGuard.class) != null && hero.belongings.weapon instanceof SpearNShield){
-			dr += 4+hero.belongings.weapon.buffedLvl()*2;
 		}
 
 		if (buff(Sheathing.class) != null) {
@@ -1381,10 +1367,6 @@ public class Hero extends Char {
 
 		if (hero.buff(Riot.riotTracker.class) != null && hero.hasTalent(Talent.HASTE_MOVE)) {
 			speed *= 1f + 0.25f * hero.pointsInTalent(Talent.HASTE_MOVE);
-		}
-
-		if ((hero.buff(SpearGuard.class) != null) || (hero.buff(LanceGuard.class) != null)) {
-			speed *= 0.5f;
 		}
 
 		if (belongings.armor() != null) {
@@ -2117,12 +2099,6 @@ public class Hero extends Char {
 			damage = rockArmor.absorb(damage);
 		}
 
-		if (hero.buff(LanceGuard.class) != null || hero.buff(SpearGuard.class) != null) {
-			if (sprite != null && sprite.visible) {
-				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
-			}
-		}
-
 		if (hero.hasTalent(Talent.EMERGENCY_ESCAPE) && Random.Int(50) < hero.pointsInTalent(Talent.EMERGENCY_ESCAPE)) {
 			Buff.prolong(this, Invisibility.class, 3f);
 		}
@@ -2217,8 +2193,8 @@ public class Hero extends Char {
 			dmg -= ObsidianShield.drRoll(belongings.weapon().buffedLvl());
 		}
 
-		if (buff(LanceGuard.class) != null && hero.belongings.weapon() instanceof LanceNShield && LanceNShield.RESISTS.contains(src.getClass())){
-			dmg -= 2+hero.belongings.weapon.buffedLvl();
+		if (hero.belongings.weapon instanceof LanceNShield && LanceNShield.RESISTS.contains(src.getClass()) && !((LanceNShield)hero.belongings.weapon).stance){
+			dmg -= LanceNShield.drRoll(belongings.weapon().buffedLvl());
 		}
 
 
@@ -2400,6 +2376,10 @@ public class Hero extends Char {
 			}
 
 			if (hero.belongings.weapon instanceof Lance) {
+				Buff.affect(this, LanceBuff.class).setDamageFactor(1+(hero.speed()));
+			}
+
+			if (hero.belongings.weapon instanceof LanceNShield && ((LanceNShield)hero.belongings.weapon).stance) {
 				Buff.affect(this, LanceBuff.class).setDamageFactor(1+(hero.speed()));
 			}
 

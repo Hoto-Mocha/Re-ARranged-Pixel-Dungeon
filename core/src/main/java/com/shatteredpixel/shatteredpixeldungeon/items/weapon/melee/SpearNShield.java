@@ -22,69 +22,133 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuard;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpearGuardBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.watabou.utils.Random;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Bundle;
+
+import java.util.ArrayList;
 
 public class SpearNShield extends MeleeWeapon {
 
+    public boolean stance;
+    public static final String AC_CHANGE		= "CHANGE";
+
     {
         image = ItemSpriteSheet.SPEAR_N_SHIELD;
-        hitSound = Assets.Sounds.HIT_SLASH;
+        hitSound = Assets.Sounds.HIT_STAB;
         hitSoundPitch = 1.1f;
 
         tier = 3;
         alchemy = true;
+        stance = true;
+
+        defaultAction = AC_CHANGE;
+    }
+
+    @Override
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        if (isEquipped(hero)) {
+            actions.add(AC_CHANGE);
+        }
+        return actions;
+    }
+
+    @Override
+    public void execute(Hero hero, String action) {
+
+        super.execute(hero, action);
+
+        if (action.equals(AC_CHANGE)) {
+            if (!isEquipped(hero)) {
+                GLog.w(Messages.get(this,"not_equipped"));
+            } else {
+                if (stance) {
+                    stance = false;
+                } else {
+                    stance = true;
+                }
+                Sample.INSTANCE.play(Assets.Sounds.MISS, 1f, 0.8f);
+                hero.sprite.emitter().burst(Speck.factory(Speck.JET), 5);
+                GLog.p(Messages.get(this,"change"));
+            }
+        }
+    }
+
+    @Override
+    public int reachFactor(Char owner) {
+        int reach = super.reachFactor(owner);
+        if (stance) {
+            reach += 1;
+        }
+        return reach;
     }
 
     @Override
     public int max(int lvl) {
-        return  3*(tier+1) +
-                lvl*(tier+1);
+        if (stance) {
+            return  Math.round(6.67f*(tier)) +    //20 base, up from 15
+                    lvl*Math.round(1.33f*(tier)); //+4 per level, up from +3
+        } else {
+            return  Math.round(2.5f*(tier+1)) +     //10 base, down from 20
+                    lvl*(tier-1);                   //+2 per level, down from +4
+        }
     }
 
     @Override
-    public int proc(Char attacker, Char defender, int damage ) {
-
-        // lvl 0 - 33%
-        // lvl 1 - 50%
-        // lvl 2 - 60%
-
-        float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
-
-        if (Random.Float() < procChance && (Dungeon.hero.buff(SpearGuardBuff.class) == null) && (Dungeon.hero.buff(SpearGuard.class) == null)) {
-            Buff.prolong( attacker, SpearGuardBuff.class, 5f);
-            return super.proc( attacker, defender, damage );
+    public int defenseFactor( Char owner ) {
+        if (stance) {
+            return 0;
         } else {
-            return super.proc( attacker, defender, damage );
+            return 4+2*buffedLvl();     //4 extra defence, plus 2 per level;
         }
     }
 
     public String statsInfo(){
-        if (isIdentified()){
-            return Messages.get(this, "stats_desc", 4+2*buffedLvl());
+        if (stance) {
+            if (isIdentified()){
+                return Messages.get(this, "stats_desc_attack");
+            } else {
+                return Messages.get(this, "typical_stats_desc_attack");
+            }
         } else {
-            return Messages.get(this, "typical_stats_desc", 4);
+            if (isIdentified()){
+                return Messages.get(this, "stats_desc_defense", 4+2*buffedLvl());
+            } else {
+                return Messages.get(this, "typical_stats_desc_defense", 4);
+            }
         }
     }
 
     @Override
     protected float baseDelay( Char owner ){
         float delay = augment.delayFactor(this.DLY);
-        if (Dungeon.hero.buff(SpearGuard.class) != null) {
-            delay *= 0.5f;
+        if (stance) {
+            delay *= 1.5f;
+        } else {
+            delay *= 1f;
         }
-
         return delay;
+    }
+
+    private static final String STANCE = "stance";
+
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put( STANCE, stance );
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        stance = bundle.getBoolean( STANCE );
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

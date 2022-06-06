@@ -50,13 +50,8 @@ public class ObsidianShield extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        return 3 * (tier + 1) +
-                lvl * (tier - 2);
-    }
-
-    @Override
-    public int STRReq(int lvl) {
-        return STRReq(tier - 1, lvl); //18 base strength req, down from 20
+        return 4*(tier-1) + //20 base
+                lvl*(tier-1); //+5 per +1
     }
 
     @Override

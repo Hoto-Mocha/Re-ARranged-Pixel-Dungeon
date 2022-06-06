@@ -22,31 +22,79 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuard;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceGuardBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class LanceNShield extends MeleeWeapon {
 
+    public boolean stance;
+    public static final String AC_CHANGE		= "CHANGE";
+
     {
         image = ItemSpriteSheet.LANCE_N_SHIELD;
-        hitSound = Assets.Sounds.HIT_SLASH;
+        hitSound = Assets.Sounds.HIT_STAB;
         hitSoundPitch = 1.1f;
 
-        tier = 6;
+        tier = 7;
         alchemy = true;
+        stance = true;
+
+        defaultAction = AC_CHANGE;
+    }
+
+    @Override
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        if (isEquipped(hero)) {
+            actions.add(AC_CHANGE);
+        }
+        return actions;
+    }
+
+    @Override
+    public void execute(Hero hero, String action) {
+
+        super.execute(hero, action);
+
+        if (action.equals(AC_CHANGE)) {
+            if (!isEquipped(hero)) {
+                GLog.w(Messages.get(this,"not_equipped"));
+            } else {
+                if (stance) {
+                    if (hero.buff(LanceBuff.class) != null) {
+                        hero.buff(LanceBuff.class).detach();
+                    }
+                    stance = false;
+                } else {
+                    stance = true;
+                }
+                Sample.INSTANCE.play(Assets.Sounds.MISS, 1f, 0.8f);
+                hero.sprite.emitter().burst(Speck.factory(Speck.JET), 5);
+                GLog.p(Messages.get(this,"change"));
+            }
+        }
+    }
+
+    @Override
+    public int reachFactor(Char owner) {
+        int reach = super.reachFactor(owner);
+        if (stance) {
+            reach += 1;
+        }
+        return reach;
     }
 
     public static final HashSet<Class> RESISTS = new HashSet<>();
@@ -57,44 +105,57 @@ public class LanceNShield extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        return  3*(tier+1) +
-                lvl*(tier+1);
+        if (stance) {
+            return  4*(tier-1) +    //24 base
+                    lvl*(tier-1);     //scaling +6 per +1
+        } else {
+            return 4*(tier-2) + //20 base
+                    lvl*(tier-2); //+5 per +1
+        }
     }
 
     @Override
-    public int proc(Char attacker, Char defender, int damage ) {
-
-        // lvl 0 - 33%
-        // lvl 1 - 50%
-        // lvl 2 - 60%
-
-        float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
-
-        if (Random.Float() < procChance && (Dungeon.hero.buff(LanceGuardBuff.class) == null) && (Dungeon.hero.buff(LanceGuard.class) == null)) {
-            Buff.prolong( attacker, LanceGuardBuff.class, 5f);
-            return super.proc( attacker, defender, damage );
+    public int defenseFactor( Char owner ) {
+        if (stance) {
+            return 0;
         } else {
-            return super.proc( attacker, defender, damage );
+            return 4+2*buffedLvl();     //4 extra defence, plus 2 per level;
         }
     }
 
     //see Hero.damage for antimagic effects
+    public static int drRoll(int level) {
+        return Random.NormalIntRange(0, 4+2*level); //4 extra defence, plus 2 per level;
+    }
+
     public String statsInfo(){
-        if (isIdentified()){
-            return Messages.get(this, "stats_desc", 4+2*buffedLvl(), 2+buffedLvl());
+        if (stance) {
+            if (isIdentified()){
+                return Messages.get(this, "stats_desc_attack");
+            } else {
+                return Messages.get(this, "typical_stats_desc_attack");
+            }
         } else {
-            return Messages.get(this, "typical_stats_desc", 4, 2);
+            if (isIdentified()){
+                return Messages.get(this, "stats_desc_defense", 4+2*buffedLvl());
+            } else {
+                return Messages.get(this, "typical_stats_desc_defense", 4);
+            }
         }
     }
 
-    @Override
-    protected float baseDelay( Char owner ){
-        float delay = augment.delayFactor(this.DLY);
-        if (Dungeon.hero.buff(LanceGuard.class) != null) {
-            delay *= 0.5f;
-        }
+    private static final String STANCE = "stance";
 
-        return delay;
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put( STANCE, stance );
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        stance = bundle.getBoolean( STANCE );
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

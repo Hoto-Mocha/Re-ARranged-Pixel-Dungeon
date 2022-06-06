@@ -29,8 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class
-Lance extends MeleeWeapon {
+public class Lance extends MeleeWeapon {
 
     {
         image = ItemSpriteSheet.LANCE;
@@ -42,13 +41,8 @@ Lance extends MeleeWeapon {
     }
 
     @Override
-    public int STRReq(int lvl) {
-        return STRReq(tier-1, lvl); //18 base strength req
-    }
-
-    @Override
     public int max(int lvl) {
-        return  4*(tier-1) +    //20 base
-                lvl*(tier-1);     //scaling +5 per +1
+        return  4*(tier) +    //24 base
+                lvl*(tier);     //scaling +6 per +1
     }
 }
