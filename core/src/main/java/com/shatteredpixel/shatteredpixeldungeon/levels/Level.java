@@ -256,8 +256,9 @@ public abstract class Level implements Bundlable {
 						addItemToSpawn( new StunGun().identify() );
 				}
 			}
-			//one extractor is 50% chance to spawn somewhere on chapter 4-5
-			if ( Dungeon.depth / 5 >= 3 && Dungeon.seed % 4 + 1 == Dungeon.depth % 5) {
+			//one extractor is 50% chance to spawn somewhere on chapter 3-5
+			if ( Dungeon.depth / 5 == (int)((Dungeon.seed / 10) % 3) + 2
+					&& Dungeon.seed % 4 + 1 == Dungeon.depth % 5) {
 				if (Random.Int(2) == 0) {
 					addItemToSpawn(new ScrollOfExtract());
 				}

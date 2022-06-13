@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Rio
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM300;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DwarfKing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Goo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rebel;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tengu;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.YogDzewa;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -418,7 +419,9 @@ public class SleepGun extends MeleeWeapon {
                     && !(enemy instanceof Tengu)
                     && !(enemy instanceof DM300)
                     && !(enemy instanceof DwarfKing)
-                    && !(enemy instanceof YogDzewa)) {
+                    && !(enemy instanceof YogDzewa)
+                    && !(enemy instanceof Rebel)
+                    && !(enemy instanceof Hero)) {
                 new FlavourBuff(){
                     {actPriority = VFX_PRIO;}
                     public boolean act() {

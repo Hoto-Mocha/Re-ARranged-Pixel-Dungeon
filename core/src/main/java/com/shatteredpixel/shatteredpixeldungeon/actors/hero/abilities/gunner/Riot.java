@@ -52,7 +52,7 @@ import com.watabou.utils.Random;
 public class Riot extends ArmorAbility {
 
     {
-        baseChargeUse = 35f;
+        baseChargeUse = 25f;
     }
 
     @Override

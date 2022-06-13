@@ -45,11 +45,18 @@ public class ScrollOfExtract extends InventorySpell {
 
     @Override
     protected boolean usableOnItem(Item item) {
-        if (item.isEquipped(Dungeon.hero) || item.unique || item.cursed ) {
-            return false;
-        }
-        if ((item instanceof MeleeWeapon && isIdentified() && item.buffedLvl() > 0) || (item instanceof MissileWeapon && item.buffedLvl() > 0)) {
-            return true;
+        if (item instanceof MeleeWeapon) {
+            if (((MeleeWeapon) item).hasCurseEnchant() || !isIdentified() || cursed || item.buffedLvl() <= 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } else if (item instanceof MissileWeapon) {
+            if (buffedLvl() > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -59,6 +66,7 @@ public class ScrollOfExtract extends InventorySpell {
     protected void onItemSelected(Item item) {
 
         Item result = changeItem(item);
+        item.level(0);
 
         if (result == null){
             //This shouldn't ever trigger
@@ -79,7 +87,6 @@ public class ScrollOfExtract extends InventorySpell {
 
     public static Item changeItem( Item item ){
         if (item instanceof MeleeWeapon || item instanceof MissileWeapon) {
-            item.detach(Dungeon.hero.belongings.backpack);
             return extractWeapon((Weapon) item);
         } else {
             return null;
@@ -88,10 +95,7 @@ public class ScrollOfExtract extends InventorySpell {
 
     private static Item extractWeapon( Weapon w ) {
         Item n;
-
-        int level = w.level();
-        if (w.curseInfusionBonus) level--;
-
+        int level = Math.min(w.level(), 3);
         n = new ScrollOfAlchemy().quantity(level);
 
         return n;
@@ -99,19 +103,6 @@ public class ScrollOfExtract extends InventorySpell {
 
     @Override
     public int value() {
-        return quantity * 280;
-    }
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{ArcaneCatalyst.class, ArcaneResin.class};
-            inQuantity = new int[]{1, 8};
-
-            cost = 10;
-
-            output = ScrollOfExtract.class;
-            outQuantity = 1;
-        }
+        return quantity * 300;
     }
 }

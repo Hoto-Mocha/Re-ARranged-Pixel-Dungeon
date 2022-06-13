@@ -540,6 +540,10 @@ public class Hero extends Char {
 			accuracy = INFINITE_ACCURACY;
 		}
 
+		if (buff(SurgeryTracker.class) != null) {
+			accuracy = INFINITE_ACCURACY;
+		}
+
 		if (hero.buff(Jung.class) != null && hero.buff(Sheathing.class) != null && wep instanceof MeleeWeapon) {
 			accuracy = INFINITE_ACCURACY;
 		}

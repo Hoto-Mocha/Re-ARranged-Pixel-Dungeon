@@ -517,12 +517,12 @@ public class QuickRecipe extends Component {
 				result.add(null);
 				result.add(new QuickRecipe(new Alchemize.Recipe()));
 				result.add(new QuickRecipe(new MagicalInfusion.Recipe()));
+				result.add(new QuickRecipe(new MagicalInfusion.Recipe2()));
 				result.add(new QuickRecipe(new CurseInfusion.Recipe()));
 				result.add(new QuickRecipe(new Recycle.Recipe()));
 				result.add(new QuickRecipe(new Evolution.Recipe()));
 				result.add(null);
 				result.add(new QuickRecipe(new AdvancedEvolution.Recipe()));
-				result.add(new QuickRecipe(new ScrollOfExtract.Recipe()));
 				result.add(new QuickRecipe(new Xray.Recipe()));
 				return result;
 		}

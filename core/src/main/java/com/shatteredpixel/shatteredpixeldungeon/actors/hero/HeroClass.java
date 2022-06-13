@@ -286,6 +286,10 @@ public enum HeroClass {
 		//new Spear().identify().collect();
 		//new RoundShield().identify().collect();
 		//new ScrollOfUpgrade().identify().quantity(100).collect();
+		//new ScrollOfExtract().quantity(20).collect();
+		//new CurseInfusion().quantity(20).collect();
+		//new AlchemistsToolkit().identify().upgrade(10).collect();
+		//new WandOfMagicMissile().identify().collect();
 	}
 
 	private static void initMage( Hero hero ) {

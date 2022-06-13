@@ -50,7 +50,7 @@ public class v1_X_Changes {
 
 	public static void addAllChanges( ArrayList<ChangeInfo> changeInfos ){
 		add_Coming_Soon(changeInfos);
-		add_v2_7_Changes(changeInfos);
+		add_v2_23_Changes(changeInfos);
 		add_v1_2_Changes(changeInfos);
 		add_v1_1_Changes(changeInfos);
 		add_v1_0_Changes(changeInfos);
@@ -80,8 +80,8 @@ public class v1_X_Changes {
 
 	}
 
-	public static void add_v2_7_Changes( ArrayList<ChangeInfo> changeInfos ) {
-		ChangeInfo changes = new ChangeInfo("ARranged v2.7", true, "");
+	public static void add_v2_23_Changes( ArrayList<ChangeInfo> changeInfos ) {
+		ChangeInfo changes = new ChangeInfo("ARranged v2.23", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
@@ -90,8 +90,7 @@ public class v1_X_Changes {
 		changeInfos.add(changes);
 
 		changes.addButton( new ChangeButton(Icons.get(Icons.ARRANGED), "Developer Commentary",
-				"_-_ Released March 24th, 2022\n" +
-						"_-_ First Release After Addition of the Changelog\n" +
+				"_-_ Released June 7th, 2022\n" +
 						"_-_ You can Check the Changelog details in the ARranged Pixel Dungeon Github website.\n" +
 						"Expect dev commentary here in the future."));
 
@@ -106,6 +105,7 @@ public class v1_X_Changes {
 		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.LANCE), "Added Weapons",
 				"_Another unique Weapons Added in ARPD too!_\n\n" +
 						"- _Katanas:_ High Max Damage, but min damage is fixed at 1.\n" +
+						"- _Normal Weapons:_ There are some of new weapons in ARPD.\n" +
 						"- _Advanced Evolution Weapons:_ You can EVOLVE your Weapons to Special Weapons!\n" +
 						"- _Alchemy Weapons:_ You can also create special weapons by splicing specific weapons and some of Liquid Metal!\n" +
 						"- _Bows:_ The Huntress can also evolve her Spirit Bow to Special Bows!\n" +
@@ -211,8 +211,12 @@ public class v1_X_Changes {
 
 		changes.addButton( new ChangeButton( Icons.get(Icons.CHANGES), "Other Changes",
 				"Main Menu's Buttons are Arranged in ARPD:\n\n" +
-						"_Support/Feedback:_ You can contact me here, the ARPD's GitHub page.\n\n" +
+						"_Support/Feedback:_ You can contact me here: the ARPD's GitHub page.\n\n" +
 						"you can check the details of update log(check the Release) and source code, and you can make any questions/suggestions to me here(issues)."));
+
+		changes.addButton( new ChangeButton( Icons.get(Icons.TALENT), "New Talents",
+				"There are one additional talents at 1 tier, 2 tier, 3 tier talent!\n\n" +
+						"All talents that added in ARPD have unique abilities. Check it out!"));
 	}
 
 	public static void add_v1_2_Changes( ArrayList<ChangeInfo> changeInfos ) {

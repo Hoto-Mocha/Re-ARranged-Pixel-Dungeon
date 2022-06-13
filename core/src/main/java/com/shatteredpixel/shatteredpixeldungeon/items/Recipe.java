@@ -234,7 +234,8 @@ public abstract class Recipe {
 		new ArcaneResin.Recipe(),
 		new Alchemize.Recipe(),
 		new Cartridge.Recipe(),
-		new StewedMeat.oneMeat()
+		new StewedMeat.oneMeat(),
+		new SpellBook_Empty.Recipe()
 	};
 
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
@@ -258,6 +259,7 @@ public abstract class Recipe {
 		new CurseInfusion.Recipe(),
 		new FeatherFall.Recipe(),
 		new MagicalInfusion.Recipe(),
+		new MagicalInfusion.Recipe2(),
 		new MagicalPorter.Recipe(),
 		new PhaseShift.Recipe(),
 		new ReclaimTrap.Recipe(),
@@ -272,7 +274,6 @@ public abstract class Recipe {
 		new MissileButton.Recipe(),
 		new StableAPBullet.Recipe(),
 		new StableHPBullet.Recipe(),
-		new SpellBook_Empty.Recipe(),
 		new SpellBook_Blast.Recipe(),
 		new SpellBook_Corrosion.Recipe(),
 		new SpellBook_Corruption.Recipe(),
@@ -285,7 +286,6 @@ public abstract class Recipe {
 		new SpellBook_Regrowth.Recipe(),
 		new SpellBook_Transfusion.Recipe(),
 		new SpellBook_Warding.Recipe(),
-		new ScrollOfExtract.Recipe(),
 		new PotionOfWeaponEnhance.Recipe(),
 		new PotionOfArmorEnhance.Recipe(),
 		new GunSmithingTool.Recipe()
