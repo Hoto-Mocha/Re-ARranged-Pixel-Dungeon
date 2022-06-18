@@ -34,14 +34,14 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.watabou.noosa.Image;
 
-public class WndCombo extends Window {
+public class WndMagicalCombo extends Window {
 
 	private static final int WIDTH_P = 120;
 	private static final int WIDTH_L = 160;
 
 	private static final int MARGIN  = 2;
 
-	public WndCombo( Combo combo ){
+	public WndMagicalCombo(MagicalCombo combo ){
 		super();
 
 		int width = PixelScene.landscape() ? WIDTH_L : WIDTH_P;
@@ -62,7 +62,7 @@ public class WndCombo extends Window {
 			icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.WEAPON_HOLDER; }});
 		}
 
-		for (Combo.ComboMove move : Combo.ComboMove.values()) {
+		for (MagicalCombo.ComboMove move : MagicalCombo.ComboMove.values()) {
 			Image ic = new Image(icon);
 
 			RedButton moveBtn = new RedButton(move.desc(combo.getComboCount()), 6){

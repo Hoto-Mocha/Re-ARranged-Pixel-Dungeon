@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -46,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
@@ -193,7 +195,7 @@ public enum Talent {
 	//Mage T3
 	EMPOWERING_SCROLLS(46, 3), ALLY_WARP(47, 3),
 	//Battlemage T3
-	EMPOWERED_STRIKE(48, 3), MYSTICAL_CHARGE(49, 3), EXCESS_CHARGE(50, 3), MANA_ENHANCE(51, 3),
+	EMPOWERED_STRIKE(48, 3), MYSTICAL_CHARGE(49, 3), EXCESS_CHARGE(50, 3), BATTLE_MAGIC(51, 3),
 	//Warlock T3
 	SOUL_EATER(52, 3), SOUL_SIPHON(53, 3), NECROMANCERS_MINIONS(54, 3), MADNESS(55, 3),
 	//Engineer T3
@@ -216,7 +218,7 @@ public enum Talent {
 	//Freerunner T3
 	EVASIVE_ARMOR(87, 3), PROJECTILE_MOMENTUM(88, 3), SPEEDY_STEALTH(89, 3), QUICK_PREP(90, 3),
 	//Chaser T3
-	INCISIVE_BLADE(91, 3), LETHAL_SURPRISE(92, 3), CHAIN_CLOCK(93, 3), IMAGE_OF_HORROR(94, 3),
+	POISONOUS_BLADE(91, 3), LETHAL_SURPRISE(92, 3), CHAIN_CLOCK(93, 3), SOUL_COLLECT(94, 3),
 	//Smoke Bomb T4
 	HASTY_RETREAT(95, 4), BODY_REPLACEMENT(96, 4), SHADOW_STEP(97, 4),
 	//Death Mark T4
@@ -231,7 +233,7 @@ public enum Talent {
 	//Huntress T3
 	POINT_BLANK(116, 3), SEER_SHOT(117, 3),
 	//Sniper T3
-	FARSIGHT(118, 3), SHARED_ENCHANTMENT(119, 3), SHARED_UPGRADES(120, 3), VISION_ARROW(121, 3),
+	FARSIGHT(118, 3), SHARED_ENCHANTMENT(119, 3), SHARED_UPGRADES(120, 3), KICK(121, 3),
 	//Warden T3
 	DURABLE_TIPS(122, 3), BARKSKIN(123, 3), SHIELDING_DEW(124, 3), DENSE_GRASS(125, 3),
 	//Fighter T3
@@ -273,7 +275,7 @@ public enum Talent {
 	//Master T3
 	DONG_MIND_EYES(192, 3), DONG_SHEATHING(193, 3), JUNG_DETECTION(194, 3), JUNG_FOCUSING(195, 3),
 	//Slayer T3
-	AFTERIMAGE(196, 3), ENERGY_DRAIN(197, 3), FTL(198, 3), IMAGE_OF_DEMON(199, 3),
+	AFTERIMAGE(196, 3), ENERGY_DRAIN(197, 3), FTL(198, 3), QUICK_RECOVER(199, 3),
 	//Awake T4
 	AWAKE_LIMIT(200, 4), AWAKE_DURATION(201, 4), INSURANCE(202, 4),
 	//ShadowBlade T4
@@ -307,7 +309,7 @@ public enum Talent {
 	//Knight T3
 	CRAFTMANS_SKILLS(256, 3), TACKLE(257, 3),
 	//Weaponmaster T3
-	WEAPON_AUGMENT(258, 3), SWORD_N_SHIELD(259, 3), FIRE_WEAPON(260, 3), EARTHQUAKE(261, 3),
+	CLASH(258, 3), SPIN_SLASH(259, 3), ABSOLUTE_ZERO(260, 3), EARTHQUAKE(261, 3),
 	//Fortress T3
 	IMPREGNABLE_WALL(262, 3), COUNTER_MOMENTUM(263, 3), SHIELD_SLAM(264, 3), PREPARATION(265, 3),
 	//Crusader T3
@@ -431,6 +433,13 @@ public enum Talent {
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
+	public static class KickCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0xF27318); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 10); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
 
 
 	int icon;
@@ -549,6 +558,7 @@ public enum Talent {
 			StoneOfEnchantment stone = new StoneOfEnchantment();
 			if (stone.doPickUp( Dungeon.hero )) {
 				GLog.i( Messages.get(Dungeon.hero, "you_now_have", stone.name() ));
+				hero.spend(-1);
 			} else {
 				Dungeon.level.drop( stone, Dungeon.hero.pos ).sprite.drop();
 			}
@@ -558,6 +568,7 @@ public enum Talent {
 			ScrollOfEnchantment enchantment = new ScrollOfEnchantment();
 			if (enchantment.doPickUp( Dungeon.hero )) {
 				GLog.i( Messages.get(Dungeon.hero, "you_now_have", enchantment.name() ));
+				hero.spend(-1);
 			} else {
 				Dungeon.level.drop( enchantment, Dungeon.hero.pos ).sprite.drop();
 			}
@@ -567,6 +578,7 @@ public enum Talent {
 			ScrollOfUpgrade scl = new ScrollOfUpgrade();
 			if (scl.doPickUp( Dungeon.hero )) {
 				GLog.i( Messages.get(Dungeon.hero, "you_now_have", scl.name() ));
+				hero.spend(-1);
 			} else {
 				Dungeon.level.drop( scl, Dungeon.hero.pos ).sprite.drop();
 			}
@@ -1018,18 +1030,10 @@ public enum Talent {
 			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
-		if (hero.hasTalent(Talent.INCISIVE_BLADE)
+		if (hero.hasTalent(Talent.POISONOUS_BLADE)
 				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
 		) {
-			if (hero.pointsInTalent(Talent.INCISIVE_BLADE) == 1) {
-				dmg += Random.IntRange(0, 5);
-			}
-			if (hero.pointsInTalent(Talent.INCISIVE_BLADE) == 2) {
-				dmg += Random.IntRange(3, 10);
-			}
-			if (hero.pointsInTalent(Talent.INCISIVE_BLADE) == 3) {
-				dmg += Random.IntRange(5, 15);
-			}
+			Buff.affect(enemy, Poison.class).set(2+hero.pointsInTalent(Talent.POISONOUS_BLADE));
 		}
 
 		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE)) {
@@ -1231,7 +1235,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ARM_VETERAN, MARTIAL_ARTS, ENHANCED_FOCUSING, PUSHBACK, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case BATTLEMAGE:
-				Collections.addAll(tierTalents, EMPOWERED_STRIKE, MYSTICAL_CHARGE, EXCESS_CHARGE, MANA_ENHANCE, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
+				Collections.addAll(tierTalents, EMPOWERED_STRIKE, MYSTICAL_CHARGE, EXCESS_CHARGE, BATTLE_MAGIC, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case WARLOCK:
 				Collections.addAll(tierTalents, SOUL_EATER, SOUL_SIPHON, NECROMANCERS_MINIONS, MADNESS, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
@@ -1246,10 +1250,10 @@ public enum Talent {
 				Collections.addAll(tierTalents, EVASIVE_ARMOR, PROJECTILE_MOMENTUM, SPEEDY_STEALTH, QUICK_PREP, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case CHASER:
-				Collections.addAll(tierTalents, INCISIVE_BLADE ,LETHAL_SURPRISE , CHAIN_CLOCK, IMAGE_OF_HORROR, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
+				Collections.addAll(tierTalents, POISONOUS_BLADE ,LETHAL_SURPRISE , CHAIN_CLOCK, SOUL_COLLECT, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case SNIPER:
-				Collections.addAll(tierTalents, FARSIGHT, SHARED_ENCHANTMENT, SHARED_UPGRADES, VISION_ARROW, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
+				Collections.addAll(tierTalents, FARSIGHT, SHARED_ENCHANTMENT, SHARED_UPGRADES, KICK, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case WARDEN:
 				Collections.addAll(tierTalents, DURABLE_TIPS, BARKSKIN, SHIELDING_DEW, DENSE_GRASS, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
@@ -1273,7 +1277,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, DONG_MIND_EYES, DONG_SHEATHING, JUNG_DETECTION, JUNG_FOCUSING, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case SLAYER:
-				Collections.addAll(tierTalents, AFTERIMAGE, ENERGY_DRAIN, FTL, IMAGE_OF_DEMON, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
+				Collections.addAll(tierTalents, AFTERIMAGE, ENERGY_DRAIN, FTL, QUICK_RECOVER, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case TREASUREHUNTER:
 				Collections.addAll(tierTalents, TAKEDOWN, DETECTOR, GOLD_SHIELD, GOLD_MINER, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
@@ -1285,7 +1289,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SHOCK_DRAIN, DEW_MAKING, BIO_ENERGY, CLINICAL_TRIAL, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case WEAPONMASTER:
-				Collections.addAll(tierTalents, WEAPON_AUGMENT, SWORD_N_SHIELD, FIRE_WEAPON, EARTHQUAKE, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
+				Collections.addAll(tierTalents, CLASH, SPIN_SLASH, ABSOLUTE_ZERO, EARTHQUAKE, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);
 				break;
 			case FORTRESS:
 				Collections.addAll(tierTalents, IMPREGNABLE_WALL, COUNTER_MOMENTUM, SHIELD_SLAM, PREPARATION, ATK_SPEED_ENHANCE, DEF_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, DEW_ENHANCE, BETTER_CHOICE);

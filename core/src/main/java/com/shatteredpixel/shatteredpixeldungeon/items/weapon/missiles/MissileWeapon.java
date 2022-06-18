@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -32,6 +33,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
@@ -117,9 +123,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -273,7 +284,7 @@ abstract public class MissileWeapon extends Weapon {
 				}
 			}
 		}
-		if (this instanceof CrudePistol.Bullet
+		if ((this instanceof CrudePistol.Bullet
 				|| this instanceof CrudePistolAP.Bullet
 				|| this instanceof CrudePistolHP.Bullet
 				|| this instanceof Pistol.Bullet
@@ -337,13 +348,13 @@ abstract public class MissileWeapon extends Weapon {
 				|| this instanceof GrenadeLauncherHP.Rocket
 				|| this instanceof SleepGun.Dart
 				|| this instanceof ParalysisGun.Dart
-				|| this instanceof FrostGun.Dart) {
-			if (hero.hasTalent(Talent.STREET_BATTLE)
-					&& !Dungeon.level.solid[dst]
-					&& Dungeon.level.distance(user.pos, dst) <= ((projecting) ? 4+hero.pointsInTalent(Talent.STREET_BATTLE) : 1+hero.pointsInTalent(Talent.STREET_BATTLE))
-					&& hero.buff(Talent.StreetBattleCooldown.class) == null){
-					Buff.affect(hero, Talent.StreetBattleCooldown.class, 40-10*hero.pointsInTalent(Talent.STREET_BATTLE));
-					return dst;
+				|| this instanceof FrostGun.Dart)
+				&& user.hasTalent(Talent.STREET_BATTLE)){
+			if (!Dungeon.level.solid[dst]
+					&& Dungeon.level.distance(user.pos, dst) <= ((projecting) ? 4+user.pointsInTalent(Talent.STREET_BATTLE) : 1+user.pointsInTalent(Talent.STREET_BATTLE))
+					&& user.buff(Talent.StreetBattleCooldown.class) == null){
+				Buff.affect(user, Talent.StreetBattleCooldown.class, 40-10*Dungeon.hero.pointsInTalent(Talent.STREET_BATTLE));
+				return dst;
 			} else {
 				return super.throwPos(user, dst);
 			}

@@ -120,15 +120,12 @@ public class ArcaneResin extends Item {
 			if (item != null && item instanceof Wand) {
 				Wand w = (Wand)item;
 
-				if (w.level() >= 3+Dungeon.hero.pointsInTalent(Talent.MANA_ENHANCE)){
+				if (w.level() >= 3){
 					GLog.w(Messages.get(ArcaneResin.class, "level_too_high"));
 					return;
 				}
 
 				int resinToUse = w.level()+1;
-				if (Dungeon.hero.pointsInTalent(Talent.MANA_ENHANCE) >= 2) {
-					resinToUse = 2;
-				}
 
 				if (quantity() < resinToUse){
 					GLog.w(Messages.get(ArcaneResin.class, "not_enough"));
@@ -152,21 +149,6 @@ public class ArcaneResin extends Item {
 
 					curUser.spendAndNext(Actor.TICK);
 					GLog.p(Messages.get(ArcaneResin.class, "apply"));
-
-					if (Random.Int(10) == 0 && Dungeon.hero.pointsInTalent(Talent.MANA_ENHANCE) == 3) {
-						item = new WandOfMagicMissile().identify();
-						Dungeon.level.drop(item, Dungeon.hero.pos).sprite.drop();
-						GLog.p( Messages.get(ArcaneResin.class, "mana") );
-					}
-
-					if (Dungeon.hero.hasTalent(Talent.MANA_ENHANCE)) {
-						MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
-						if (staff != null){
-							staff.gainCharge(1, true);
-							ScrollOfRecharging.charge( Dungeon.hero );
-							SpellSprite.show( hero, SpellSprite.CHARGE );
-						}
-					}
 				}
 			}
 		}

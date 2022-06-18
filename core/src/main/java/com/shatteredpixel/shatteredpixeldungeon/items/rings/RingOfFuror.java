@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
@@ -32,8 +33,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.PathFinder;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class RingOfFuror extends Ring {
 
@@ -54,7 +57,7 @@ public class RingOfFuror extends Ring {
 		return new Furor();
 	}
 	
-	public static float attackSpeedMultiplier(Char target ){
+	public static float attackSpeedMultiplier( Char target ){
 		float speedBonus = (float)Math.pow(1.105, getBuffedBonus(target, Furor.class));
 		if (hero.buff(Adrenaline.class) != null) {
 			speedBonus *= 1.5f;
@@ -73,6 +76,14 @@ public class RingOfFuror extends Ring {
 		}
 		if (hero.hasTalent(Talent.SLASHING_PRACTICE) && hero.buff(SerialAttack.class) != null) {
 			speedBonus *= 1f + 0.02f * hero.pointsInTalent(Talent.SLASHING_PRACTICE) * hero.buff(SerialAttack.class).getCount();
+		}
+		if (hero.hasTalent(Talent.CLASH)) {
+			ArrayList<Char> targets = new ArrayList<>();
+			for (int i : PathFinder.NEIGHBOURS8){
+				if (Actor.findChar(target.pos + i) != null) targets.add(Actor.findChar(target.pos + i));
+			}
+			speedBonus *= 1f * 0.1f * hero.pointsInTalent(Talent.CLASH) * targets.size();
+			targets.clear();
 		}
 		speedBonus *= RingOfRush.rushSpeedMultiplier(hero);
 		return speedBonus;

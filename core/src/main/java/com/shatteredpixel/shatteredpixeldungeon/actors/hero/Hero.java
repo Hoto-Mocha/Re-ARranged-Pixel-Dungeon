@@ -64,8 +64,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRingsCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GhostSpawner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
@@ -76,6 +78,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalCombo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
@@ -1325,10 +1330,6 @@ public class Hero extends Char {
 
 		if (hero.hasTalent(Talent.DONG_SHEATHING) && hero.buff(Dong.class) != null && hero.buff(Sheathing.class) != null) {
 			speed *= 0.25 * hero.pointsInTalent(Talent.DONG_SHEATHING);
-		}
-
-		if (hero.hasTalent(Talent.IMAGE_OF_DEMON) && hero.buff(Demonization.class) != null && hero.buff(Demonization.class).isDemonated()) {
-			speed *= 1+hero.pointsInTalent(Talent.IMAGE_OF_DEMON);
 		}
 
 		if (hero.subClass == HeroSubClass.RANGER) {
@@ -2938,6 +2939,21 @@ public class Hero extends Char {
 			Buff.affect(hero, Talent.PushbackCooldown.class, 35-5*Dungeon.hero.pointsInTalent(Talent.PUSHBACK));
 		}
 
+		if (hero.hasTalent(Talent.SPIN_SLASH) && Random.Int(50) < hero.pointsInTalent(Talent.SPIN_SLASH)) {
+			Buff.affect(Dungeon.hero, Talent.LethalMomentumTracker.class, 1f);
+		}
+
+		if (hit && hero.hasTalent(Talent.ABSOLUTE_ZERO) && Random.Int(10) < hero.pointsInTalent(Talent.ABSOLUTE_ZERO)) {
+			if (!enemy.properties().contains(Property.BOSS) && !enemy.properties().contains(Property.MINIBOSS)) {
+				new FlavourBuff(){
+					{actPriority = VFX_PRIO;}
+					public boolean act() {
+						Buff.affect( enemy, Frost.class, 20f);
+						return super.act();
+					}
+				}.attachTo(enemy);
+			}
+		}
 		if (hit
 		 && subClass == HeroSubClass.FORTRESS
 		 &&	Random.Int(20) < 1+belongings.armor.buffedLvl()+2*pointsInTalent(Talent.PREPARATION) //base 5%, +5%*armor lvl, +10%*talent lvl
@@ -2953,8 +2969,9 @@ public class Hero extends Char {
 			Buff.affect( this, Combo.class ).hit( enemy );
 		}
 
-		if (hit && hasTalent(Talent.FIRE_WEAPON) && Random.Int(20) < pointsInTalent(Talent.FIRE_WEAPON)) {
-			Buff.affect(this, FireImbue.class).set(5f);
+		if (hit && subClass == HeroSubClass.BATTLEMAGE && hero.belongings.weapon() instanceof MagesStaff && hero.hasTalent(Talent.BATTLE_MAGIC)) {
+			Buff.affect( this, MagicalCombo.class).hit( enemy );
+			hero.sprite.showStatus(CharSprite.NEUTRAL, "!");
 		}
 
 		if (hit && buff(ParalysisTracker.class) != null) {
@@ -3509,16 +3526,40 @@ public class Hero extends Char {
 			hero.buff(ShieldCoolDown.class).hit(hero.belongings.armor.buffedLvl());
 		}
 
-		if (hit && hero.hasTalent(Talent.IMAGE_OF_HORROR) && hero.buff(Invisibility.class) == null && hero.buff(CloakOfShadows.cloakStealth.class) == null && hero.buff(Shadows.class) == null) {
-			float proc = 0.1f;
-			if (hero.pointsInTalent(Talent.IMAGE_OF_HORROR) >= 2 && ((Mob) enemy).surprisedBy(hero)) {
-				proc *= 2;
+		if (hit && hero.hasTalent(Talent.POISONOUS_BLADE)
+				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
+		) {
+			Buff.affect(enemy, Poison.class).set(2+hero.pointsInTalent(Talent.POISONOUS_BLADE));
+		}
+
+		if (hit && hero.hasTalent(Talent.KICK)
+				&& enemy.buff(PinCushion.class) != null
+				&& hero.buff(Talent.KickCooldown.class) == null
+		) {
+			Item item = enemy.buff(PinCushion.class).grabOne();
+			if (item.doPickUp(hero, enemy.pos)){
+				hero.spend(-1); //attacking enemy already takes a turn
+			} else {
+				GLog.w(Messages.get(this, "cant_grab"));
+				Dungeon.level.drop(item, enemy.pos).sprite.drop();
+				return;
 			}
-			if (Random.Float() < proc) {
-				Buff.prolong(enemy, Terror.class, 4);
-				if (hero.pointsInTalent(Talent.IMAGE_OF_HORROR) == 3) {
-					Buff.prolong(enemy, Cripple.class, 4);
-				}
+			Ballistica trajectory = new Ballistica(hero.pos, enemy.pos, Ballistica.STOP_TARGET);
+			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size() - 1), Ballistica.PROJECTILE);
+			int dist = hero.pointsInTalent(Talent.KICK);
+			WandOfBlastWave.throwChar(enemy, trajectory, dist, true, false);
+			Buff.affect(hero, Talent.KickCooldown.class, 10f);
+		}
+
+		if (hit && hero.hasTalent(Talent.SOUL_COLLECT)
+				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero) && !enemy.isAlive()
+		) {
+			int healAmt = 3*hero.pointsInTalent(Talent.SOUL_COLLECT);
+			healAmt = Math.min( healAmt, hero.HT - hero.HP );
+			if (healAmt > 0 && hero.isAlive()) {
+				hero.HP += healAmt;
+				hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 2 );
+				hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 			}
 		}
 

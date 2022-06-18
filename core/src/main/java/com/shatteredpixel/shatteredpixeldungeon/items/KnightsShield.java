@@ -69,9 +69,6 @@ public class KnightsShield extends Item {
 				if (hero.hasTalent(Talent.BLOCKING)) {
 					Buff.affect(hero, ArmorEmpower.class).set(hero.pointsInTalent(Talent.BLOCKING), 10f);
 				}
-				if (hero.hasTalent(Talent.SWORD_N_SHIELD)) {
-					Buff.affect(hero, WeaponEmpower.class).set(hero.pointsInTalent(Talent.SWORD_N_SHIELD), 10f);
-				}
 				if (hero.hasTalent(Talent.IMPREGNABLE_WALL)) {
 					Buff.affect(hero, Barrier.class).setShield(Math.round(((hero.lvl + hero.belongings.armor.buffedLvl())/3f)*hero.pointsInTalent(Talent.IMPREGNABLE_WALL)));
 				}

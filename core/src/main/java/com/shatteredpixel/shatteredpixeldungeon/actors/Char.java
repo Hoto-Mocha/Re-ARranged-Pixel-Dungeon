@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DemonizationCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ExtraBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
@@ -618,12 +619,6 @@ public abstract class Char extends Actor {
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 					hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
 				}
-			}
-
-			if (hero.hasTalent(Talent.WEAPON_AUGMENT) && hero.belongings.weapon != null) {
-				if (hero.pointsInTalent(Talent.WEAPON_AUGMENT) == 1) dmg *= 0.01f*Random.NormalIntRange(90, 110); // 90%-110% damage
-				if (hero.pointsInTalent(Talent.WEAPON_AUGMENT) == 2) dmg *= 0.01f*Random.NormalIntRange(75, 125); // 75%-125% damage
-				if (hero.pointsInTalent(Talent.WEAPON_AUGMENT) == 3) dmg *= 0.01f*Random.NormalIntRange(50, 150); // 50%-150% damage
 			}
 
 			if (this instanceof Hero && hero.buff(Bless.class) != null && hero.subClass == HeroSubClass.CRUSADER) {
@@ -1608,10 +1603,6 @@ public abstract class Char extends Actor {
 				dmg += hero.belongings.armor.DRMax()*0.05f*hero.pointsInTalent(Talent.TACKLE);
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon() instanceof MissileWeapon && hero.hasTalent(Talent.VISION_ARROW) && ((Mob) enemy).surprisedBy(hero)) {
-				Buff.append(hero, TalismanOfForesight.CharAwareness.class, 3*hero.pointsInTalent(Talent.VISION_ARROW)).charID = enemy.id();
-			}
-
 			if (this instanceof Hero && enemy.buff(Charm.class) != null && hero.pointsInTalent(Talent.APPEASE) >= 2) {
 				int healAmt = Math.round(dmg/10f);
 				healAmt = Math.min( healAmt, Dungeon.hero.HT - Dungeon.hero.HP );
@@ -1759,6 +1750,16 @@ public abstract class Char extends Actor {
 				Momentum momentum = hero.buff(Momentum.class);
 				if (momentum != null) {
 					momentum.quickPrep(hero.pointsInTalent(Talent.QUICK_PREP));
+				}
+			}
+
+			if (enemy instanceof Hero && hero.hasTalent(Talent.QUICK_RECOVER)) {
+				int healAmt = hero.pointsInTalent(Talent.QUICK_RECOVER);
+				healAmt = Math.min( healAmt, hero.HT - hero.HP );
+				if (healAmt > 0 && hero.isAlive()) {
+					hero.HP += healAmt;
+					hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1);
+					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 				}
 			}
 

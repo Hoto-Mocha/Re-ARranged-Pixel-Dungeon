@@ -35,9 +35,9 @@ public class RingOfSatisfying extends Ring {
 
 	public String statsInfo() {
 		if (isIdentified()){
-			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100f * (Math.pow(1.1f, soloBuffedBonus()) - 1f)));
+			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100*(Math.pow(1.1f, 1+buffedLvl())-1)));
 		} else {
-			return Messages.get(this, "typical_stats", new DecimalFormat("#.##").format(10f));
+			return Messages.get(this, "typical_stats", new DecimalFormat("#.##").format(100*(Math.pow(1.1f, 1+buffedLvl())-1)));
 		}
 	}
 	
@@ -45,7 +45,7 @@ public class RingOfSatisfying extends Ring {
 	protected RingBuff buff( ) {
 		return new Satisfaction();
 	}
-	
+
 	public static float satisfactionMultiplier( Char target ){
 		return (float)Math.pow(1.1f, getBuffedBonus(target, Satisfaction.class));
 	}
