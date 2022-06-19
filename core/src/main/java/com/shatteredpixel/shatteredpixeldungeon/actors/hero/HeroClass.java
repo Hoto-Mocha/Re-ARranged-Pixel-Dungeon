@@ -58,7 +58,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.GammaRayGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.HandMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.Teleporter;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -79,6 +81,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfRush;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSatisfying;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
@@ -269,6 +272,16 @@ public enum HeroClass {
 
 		new ScrollOfUpgrade().identify();
 		new PotionOfLiquidFlame().identify();
+
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new Teleporter().collect();
+		//new ScrollOfUpgrade().identify().quantity(100).collect();
+		//new ScrollOfTransmutation().identify().quantity(100).collect();
+		//new TengusMask().collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
+		//new RingOfRush().identify().upgrade(20).collect();
+		//new WandOfMagicMissile().identify().collect();
+		//new KingsCrown().collect();
 	}
 
 	private static void initRogue( Hero hero ) {

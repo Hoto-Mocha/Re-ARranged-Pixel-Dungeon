@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -36,8 +38,8 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorrosion;
@@ -62,7 +64,6 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -76,7 +77,6 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class MagicalCombo extends Buff implements ActionIndicator.Action {
@@ -119,7 +119,7 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 
 		ActionIndicator.setAction( this );
 		BuffIndicator.refreshHero(); //refresh the buff visually on-hit
-
+		GLog.p( Messages.get(this, "combo", count) );
 	}
 
 	public void addTime( float time ){
@@ -190,11 +190,12 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 	}
 
 	public enum ComboMove {
-		CHARGE 	(1, 0xFF00FF00),
+		BLAST 	(1, 0xFF00FF00),
 		STAB   	(1, 0xFF00FF00),
-		MANA_AMP(1, 0xFF00FF00),
+		MANA_AMP(2, 0xFFFFFF00),
 		EMMIT  	(2, 0xFFFFFF00),
-		UNLEASH	(3, 0xFFFF0000);
+		UNLEASH	(3, 0xFFFF0000),
+		POWER	(3, 0xFFFF0000);
 
 		public int talentReq, tintColor;
 
@@ -204,20 +205,22 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 		}
 
 		public String desc(int count){
+			MagesStaff staff = Dungeon.hero.belongings.getItem(MagesStaff.class);
 			switch (this){
 				default:
 					return Messages.get(this, name()+"_desc");
-				case CHARGE:
-					return Messages.get(this, name()+"_desc", new DecimalFormat("#.#").format(count*0.5f));
+				case BLAST:
+					return Messages.get(this, name()+"_desc", 1+count/2);
 				case STAB:
-					return Messages.get(this, name()+"_desc", count, count*10);
-				case EMMIT:
 					return Messages.get(this, name()+"_desc", count*10);
 				case MANA_AMP:
-					MagesStaff staff = Dungeon.hero.belongings.getItem(MagesStaff.class);
-					return Messages.get(this, name()+"_desc", Math.min(count, staff.buffedLvl()), staff.buffedLvl());
+					return Messages.get(this, name()+"_desc", Dungeon.hero.pointsInTalent(Talent.BATTLE_MAGIC), Math.min(1+count/2, staff.level()), staff.level());
+				case EMMIT:
+					return Messages.get(this, name()+"_desc", count);
 				case UNLEASH:
-					return  Messages.get(this, name()+"_desc", count*10, new DecimalFormat("#.#").format(3+count*0.5f));
+					return Messages.get(this, name()+"_desc", count*10, 3+count/2);
+				case POWER:
+					return Messages.get(this, name()+"_desc", (staff.getCurCharges()+count)/2);
 			}
 		}
 	}
@@ -231,22 +234,13 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 	}
 
 	public void useMove(ComboMove move){
-		if (move == ComboMove.CHARGE) {
-			MagesStaff staff = Dungeon.hero.belongings.getItem(MagesStaff.class);
-			if (staff != null) {
-				staff.gainCharge(count/2f, false);
-				ScrollOfRecharging.charge(Dungeon.hero);
-				SpellSprite.show(Dungeon.hero, SpellSprite.CHARGE);
-			}
-			target.sprite.operate(target.pos);
-			((Hero) target).spendAndNext(Actor.TICK);
-			Dungeon.hero.busy();
-			Dungeon.hero.spendAndNext(Actor.TICK);
-			detach();
+		if (move == ComboMove.EMMIT) {
+			magicEmmit(Dungeon.hero);
 		} else if (move == ComboMove.UNLEASH){
 			magicUnleash(Dungeon.hero);
-			Dungeon.hero.busy();
-			Dungeon.hero.spendAndNext(Actor.TICK);
+			detach();
+		} else if (move == ComboMove.POWER){
+			magicPower(Dungeon.hero);
 			detach();
 		} else {
 			moveBeingUsed = move;
@@ -564,6 +558,23 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 		Sample.INSTANCE.play( Assets.Sounds.CHARGEUP );
 	}
 
+	private void magicEmmit(Hero hero) {
+		GameScene.selectCell(magicEmmit);
+	}
+
+	private void magicPower(Hero hero) {
+		MagesStaff staff = Dungeon.hero.belongings.getItem(MagesStaff.class);
+		int duration = (staff.getCurCharges()+count)/2;
+		staff.loseCharge();
+		Buff.prolong(hero, Adrenaline.class, duration);
+		Buff.prolong(hero, Bless.class, duration);
+		Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
+
+		hero.sprite.operate(hero.pos);
+		hero.busy();
+		hero.spendAndNext(Actor.TICK);
+	}
+
 	private static ComboMove moveBeingUsed;
 
 	private void doAttack(final Char enemy) {
@@ -578,16 +589,14 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 
 		//variance in damage dealt
 		switch (moveBeingUsed) {
-			case STAB:
-				MagesStaff staff = Dungeon.hero.belongings.getItem(MagesStaff.class);
-				dmgBonus = staff.buffedLvl();
-				dmgMulti = 0.1f;
-				break;
-			case MANA_AMP:
+			case BLAST: case MANA_AMP:
 				dmgMulti = 0.6f;
 				break;
-			case EMMIT:
-				dmgMulti = 0.1f;
+			case STAB:
+				dmgMulti = 0.2f*count;
+				break;
+			default:
+				//nothing
 				break;
 		}
 
@@ -595,33 +604,26 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 			//special on-hit effects
 			MagesStaff staff = Dungeon.hero.belongings.getItem(MagesStaff.class);
 			switch (moveBeingUsed) {
-				case STAB:
-					if (Random.Int(10) < count) {
-						Buff.affect(enemy, Paralysis.class, 2f);
+				case BLAST:
+					//trace a ballistica to our target (which will also extend past them
+					Ballistica trajectory = new Ballistica(target.pos, enemy.pos, Ballistica.STOP_TARGET);
+					//trim it to just be the part that goes past them
+					trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size() - 1), Ballistica.PROJECTILE);
+					//knock them back along that ballistica, ensuring they don't fall into a pit
+					int dist = 1+count/2;
+					if (!enemy.flying) {
+						while (dist > trajectory.dist ||
+								(dist > 0 && Dungeon.level.pit[trajectory.path.get(dist)])) {
+							dist--;
+						}
 					}
+					WandOfBlastWave.throwChar(enemy, trajectory, dist, true, false);
+					break;
+				case STAB:
+					hero.spend(-hero.attackDelay());
 					break;
 				case MANA_AMP:
-					Buff.affect(hero, WandOfMagicMissile.MagicCharge.class).set(Math.min(count, staff.buffedLvl()));
-					break;
-				case EMMIT:
-					if (Random.Int(10) < count) {
-						//trace a ballistica to our target (which will also extend past them
-						Ballistica trajectory = new Ballistica(target.pos, enemy.pos, Ballistica.STOP_TARGET);
-						//trim it to just be the part that goes past them
-						trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size() - 1), Ballistica.PROJECTILE);
-						//knock them back along that ballistica, ensuring they don't fall into a pit
-						int dist = 2;
-						if (!enemy.flying) {
-							while (dist > trajectory.dist ||
-									(dist > 0 && Dungeon.level.pit[trajectory.path.get(dist)])) {
-								dist--;
-							}
-						}
-						WandOfBlastWave.throwChar(enemy, trajectory, dist, true, false);
-						staff.gainCharge(1, false);
-						ScrollOfRecharging.charge(Dungeon.hero);
-						SpellSprite.show(Dungeon.hero, SpellSprite.CHARGE);
-					}
+					Buff.affect(hero, MagicalEmpower.class).set(hero.pointsInTalent(Talent.BATTLE_MAGIC), Math.min(1+count/2, staff.level()));
 					break;
 				default:
 					//nothing
@@ -635,7 +637,6 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 		switch(moveBeingUsed){
 			case EMMIT:
 				MagesStaff staff = Dungeon.hero.belongings.getItem(MagesStaff.class);
-				staff.execute(hero, MagesStaff.AC_ZAP);
 				detach();
 				ActionIndicator.clearAction(MagicalCombo.this);
 				break;
@@ -674,4 +675,73 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 			return Messages.get(MagicalCombo.class, "prompt");
 		}
 	};
+
+	private CellSelector.Listener magicEmmit = new CellSelector.Listener() {
+
+			@Override
+			public void onSelect(Integer cell) {
+				if (cell == null) return;
+				if (cell == hero.pos) {
+					GLog.w(Messages.get(MagicalCombo.class, "bad_target"));
+				} else {
+					Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP); //Always Projecting and no distance limit, see MissileWeapon.throwPos
+					int maxDist = count;
+					int dist = Math.min(aim.dist, maxDist);
+					ConeAOE cone = new ConeAOE(aim,
+							dist,
+							30,
+							Ballistica.STOP_TARGET | Ballistica.STOP_SOLID);
+					//cast to cells at the tip, rather than all cells, better performance.
+					for (Ballistica ray : cone.outerRays){
+						((MagicMissile)hero.sprite.parent.recycle( MagicMissile.class )).reset(
+								MagicMissile.MAGIC_MISS_CONE,
+								hero.sprite,
+								ray.path.get(ray.dist),
+								null
+						);
+					}
+					int affectedChar = 0;
+					for (int cells : cone.cells){
+
+						Char ch = Actor.findChar(cells);
+						if (ch != null && ch.alignment != hero.alignment){
+							int damage = Random.NormalIntRange(10, 20);
+							damage -= ch.drRoll();
+							ch.damage(damage, hero);
+							affectedChar++;
+						}
+					}
+					if (affectedChar > 0) {
+						for (Buff b : hero.buffs()){
+							if (b instanceof Artifact.ArtifactBuff) {
+								if (!((Artifact.ArtifactBuff) b).isCursed()) ((Artifact.ArtifactBuff) b).charge(hero, affectedChar);
+							}
+						}
+						SpellSprite.show( hero, SpellSprite.CHARGE );
+					}
+					Sample.INSTANCE.play(Assets.Sounds.CHARGEUP, 1f);
+					//final zap at 2/3 distance, for timing of the actual effect
+					MagicMissile.boltFromChar(hero.sprite.parent,
+							MagicMissile.MAGIC_MISS_CONE,
+							hero.sprite,
+							cone.coreRay.path.get(dist * 2 / 3),
+							new Callback() {
+								@Override
+								public void call() {
+								}
+							});
+					Invisibility.dispel();
+					hero.sprite.zap(cell);
+					hero.busy();
+					hero.spendAndNext(Actor.TICK);
+
+					detach();
+				}
+			}
+
+			@Override
+			public String prompt() {
+				return Messages.get(MagicalCombo.class, "prompt");
+			}
+		};
 }

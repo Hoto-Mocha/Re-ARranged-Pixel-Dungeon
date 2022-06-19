@@ -79,6 +79,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalCombo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
@@ -2971,7 +2972,11 @@ public class Hero extends Char {
 
 		if (hit && subClass == HeroSubClass.BATTLEMAGE && hero.belongings.weapon() instanceof MagesStaff && hero.hasTalent(Talent.BATTLE_MAGIC)) {
 			Buff.affect( this, MagicalCombo.class).hit( enemy );
-			hero.sprite.showStatus(CharSprite.NEUTRAL, "!");
+		}
+
+		MagicalEmpower magicalEmpower = hero.buff(MagicalEmpower.class);
+		if (hit && magicalEmpower != null && hero.belongings.weapon() instanceof MagesStaff) {
+			magicalEmpower.use();
 		}
 
 		if (hit && buff(ParalysisTracker.class) != null) {

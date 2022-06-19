@@ -103,6 +103,10 @@ public class MagesStaff extends MeleeWeapon {
 		wand.curCharges = wand.maxCharges;
 	}
 
+	public int getCurCharges() {
+		return wand.curCharges;
+	}
+
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions( hero );
@@ -281,6 +285,10 @@ public class MagesStaff extends MeleeWeapon {
 		if (wand != null){
 			wand.gainCharge(amt, overcharge);
 		}
+	}
+
+	public void loseCharge() {
+		wand.loseCharge();
 	}
 
 	public void applyWandChargeBuff(Char owner){

@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
@@ -166,6 +167,13 @@ public abstract class Wand extends Item {
 			if (overcharge) curCharges = Math.min(maxCharges+(int)amt, curCharges+1);
 			else curCharges = Math.min(maxCharges, curCharges+1);
 			partialCharge--;
+			updateQuickslot();
+		}
+	}
+
+	public void loseCharge() {
+		while (curCharges > 0) {
+			curCharges --;
 			updateQuickslot();
 		}
 	}
@@ -344,6 +352,10 @@ public abstract class Wand extends Item {
 				lvl += 3;
 			}
 
+			if (charger.target.buff(MagicalEmpower.class) != null) {
+				lvl += charger.target.buff(MagicalEmpower.class).upgrades;
+			}
+
 			WandOfMagicMissile.MagicCharge buff = charger.target.buff(WandOfMagicMissile.MagicCharge.class);
 			if (buff != null && buff.level() > lvl){
 				return buff.level();
@@ -414,6 +426,10 @@ public abstract class Wand extends Item {
 			ScrollEmpower empower = curUser.buff(ScrollEmpower.class);
 			if (empower != null){
 				empower.use();
+			}
+			MagicalEmpower magicalEmpower = curUser.buff(MagicalEmpower.class);
+			if (magicalEmpower != null) {
+				magicalEmpower.use();
 			}
 		}
 
