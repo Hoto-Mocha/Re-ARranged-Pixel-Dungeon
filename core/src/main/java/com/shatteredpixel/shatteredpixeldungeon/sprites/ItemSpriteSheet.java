@@ -312,20 +312,20 @@ public class ItemSpriteSheet {
 		assignItemRect(AUTOHANDGUN    ,12, 15);
 	}
 
-	private static final int SNIPERS         =                               xy(9, 32);
-	public static final int HUNTING_RIFLE = SNIPERS+0;
-	public static final int SNIPER_RIFLE  = SNIPERS+1;
-	public static final int MARKSMAN      = SNIPERS+2;
-	public static final int SNIPERS_4     = SNIPERS+3;
-	public static final int SNIPERS_5     = SNIPERS+4;
-	public static final int SNIPERS_6     = SNIPERS+5;
+	private static final int SNIPERS        =                               xy(9, 32);
+	public static final int REVOLVER 		= SNIPERS+0;
+	public static final int HUNTING_RIFLE   = SNIPERS+1;
+	public static final int KARBINE		 	= SNIPERS+2;
+	public static final int SNIPER_RIFLE 	= SNIPERS+3;
+	public static final int MARKSMAN 	 	= SNIPERS+4;
+	public static final int WA2000		 	= SNIPERS+5;
 	static{
-		assignItemRect(HUNTING_RIFLE  ,13, 16);
-		assignItemRect(SNIPER_RIFLE   ,14, 16);
-		assignItemRect(MARKSMAN       ,15, 16);
-		assignItemRect(SNIPERS_4      ,16, 16);
-		assignItemRect(SNIPERS_5      ,16, 16);
-		assignItemRect(SNIPERS_6      ,16, 16);
+		assignItemRect(REVOLVER 		,11, 15);
+		assignItemRect(HUNTING_RIFLE  	,13, 16);
+		assignItemRect(KARBINE		 	,13, 16);
+		assignItemRect(SNIPER_RIFLE 	,14, 16);
+		assignItemRect(MARKSMAN 	 	,15, 16);
+		assignItemRect(WA2000		 	,16, 16);
 	}
 
 	private static final int MACHINEGUNS         =                               xy(1, 33);

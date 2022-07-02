@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -722,6 +723,11 @@ public abstract class Mob extends Char {
 					&& Dungeon.hero.hasTalent(Talent.LETHAL_RAGE)){
 				Berserk berserk = Buff.affect(hero, Berserk.class);
 				berserk.add(0.1f*Dungeon.hero.pointsInTalent(Talent.LETHAL_RAGE));
+			}
+
+			if (cause == hero
+					&& hero.hasTalent(Talent.CLASH)){
+				Buff.affect(hero, WeaponEmpower.class).set(hero.pointsInTalent(Talent.CLASH), 10f);
 			}
 		}
 

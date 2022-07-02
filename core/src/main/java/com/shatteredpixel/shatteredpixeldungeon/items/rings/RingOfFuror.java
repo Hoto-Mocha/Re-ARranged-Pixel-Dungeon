@@ -77,14 +77,6 @@ public class RingOfFuror extends Ring {
 		if (hero.hasTalent(Talent.SLASHING_PRACTICE) && hero.buff(SerialAttack.class) != null) {
 			speedBonus *= 1f + 0.02f * hero.pointsInTalent(Talent.SLASHING_PRACTICE) * hero.buff(SerialAttack.class).getCount();
 		}
-		if (hero.hasTalent(Talent.CLASH)) {
-			ArrayList<Char> targets = new ArrayList<>();
-			for (int i : PathFinder.NEIGHBOURS8){
-				if (Actor.findChar(target.pos + i) != null) targets.add(Actor.findChar(target.pos + i));
-			}
-			speedBonus *= 1f * 0.1f * hero.pointsInTalent(Talent.CLASH) * targets.size();
-			targets.clear();
-		}
 		speedBonus *= RingOfRush.rushSpeedMultiplier(hero);
 		return speedBonus;
 	}

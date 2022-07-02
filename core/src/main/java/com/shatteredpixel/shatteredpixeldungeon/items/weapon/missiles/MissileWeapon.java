@@ -61,6 +61,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
@@ -104,6 +107,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
@@ -122,6 +128,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -302,6 +311,10 @@ abstract public class MissileWeapon extends Weapon {
 				|| this instanceof TacticalHandgun.Bullet
 				|| this instanceof TacticalHandgunAP.Bullet
 				|| this instanceof TacticalHandgunHP.Bullet
+				|| this instanceof AutoHandgun.Bullet
+				|| this instanceof AutoHandgunAP.Bullet
+				|| this instanceof AutoHandgunHP.Bullet
+
 				|| this instanceof DualPistol.Bullet
 				|| this instanceof DualPistolAP.Bullet
 				|| this instanceof DualPistolHP.Bullet
@@ -317,32 +330,42 @@ abstract public class MissileWeapon extends Weapon {
 				|| this instanceof MiniGun.Bullet
 				|| this instanceof MiniGunAP.Bullet
 				|| this instanceof MiniGunHP.Bullet
+				|| this instanceof AutoRifle.Bullet
+				|| this instanceof AutoRifleAP.Bullet
+				|| this instanceof AutoRifleHP.Bullet
+
+				|| this instanceof Revolver.Bullet
+				|| this instanceof RevolverAP.Bullet
+				|| this instanceof RevolverHP.Bullet
 				|| this instanceof HuntingRifle.Bullet
 				|| this instanceof HuntingRifleAP.Bullet
 				|| this instanceof HuntingRifleHP.Bullet
+				|| this instanceof Carbine.Bullet
+				|| this instanceof CarbineAP.Bullet
+				|| this instanceof CarbineHP.Bullet
 				|| this instanceof SniperRifle.Bullet
 				|| this instanceof SniperRifleAP.Bullet
 				|| this instanceof SniperRifleHP.Bullet
 				|| this instanceof AntimaterRifle.Bullet
 				|| this instanceof AntimaterRifleAP.Bullet
 				|| this instanceof AntimaterRifleHP.Bullet
+				|| this instanceof MarksmanRifle.Bullet
+				|| this instanceof MarksmanRifleAP.Bullet
+				|| this instanceof MarksmanRifleHP.Bullet
+				|| this instanceof WA2000.Bullet
+				|| this instanceof WA2000AP.Bullet
+				|| this instanceof WA2000HP.Bullet
+
 				|| this instanceof ShotGun.Bullet
 				|| this instanceof ShotGunAP.Bullet
 				|| this instanceof ShotGunHP.Bullet
 				|| this instanceof KSG.Bullet
 				|| this instanceof KSGAP.Bullet
 				|| this instanceof KSGHP.Bullet
-				|| this instanceof AutoHandgun.Bullet
-				|| this instanceof AutoHandgunAP.Bullet
-				|| this instanceof AutoHandgunHP.Bullet
-				|| this instanceof AutoRifle.Bullet
-				|| this instanceof AutoRifleAP.Bullet
-				|| this instanceof AutoRifleHP.Bullet
-				|| this instanceof MarksmanRifle.Bullet
-				|| this instanceof MarksmanRifleAP.Bullet
-				|| this instanceof MarksmanRifleHP.Bullet
+
 				|| this instanceof RocketLauncher.Rocket
 				|| this instanceof RPG7.Rocket
+
 				|| this instanceof GrenadeLauncher.Rocket
 				|| this instanceof GrenadeLauncherAP.Rocket
 				|| this instanceof GrenadeLauncherHP.Rocket

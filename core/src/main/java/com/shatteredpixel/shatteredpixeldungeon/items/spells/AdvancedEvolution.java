@@ -328,16 +328,21 @@ public class AdvancedEvolution extends InventorySpell {
             } else {
                 n = Generator.randomWeapon();
             }
-        } else if (w instanceof SpiritBow || w instanceof WindBow || w instanceof NaturesBow || w instanceof GoldenBow || w instanceof PoisonBow) {
-            int proc = Random.Int(8);
-            if (proc <= 3) {
-                n = new WindBow(); //50%
-            } else if (proc == 4) {
-                n = new NaturesBow(); //12.5%
-            } else if (proc == 5) {
-                n = new PoisonBow(); //12.5%
-            } else {
-                n = new GoldenBow(); //25%
+        } else if (w instanceof SpiritBow) {
+            switch (Random.Int(4)) {
+                case 0:
+                default:
+                    n = new WindBow();
+                    break;
+                case 1:
+                    n = new NaturesBow();
+                    break;
+                case 2:
+                    n = new PoisonBow();
+                    break;
+                case 3:
+                    n = new GoldenBow();
+                    break;
             }
             n.enchantment = w.enchantment;
             n.curseInfusionBonus = w.curseInfusionBonus;
@@ -348,6 +353,95 @@ public class AdvancedEvolution extends InventorySpell {
             n.augment = w.augment;
 
             return n;
+
+        } else if (w instanceof WindBow) {
+            switch (Random.Int(3)) {
+                case 0: default:
+                    n = new NaturesBow();
+                    break;
+                case 1:
+                    n = new PoisonBow();
+                    break;
+                case 2:
+                    n = new GoldenBow();
+                    break;
+            }
+            n.enchantment = w.enchantment;
+            n.curseInfusionBonus = w.curseInfusionBonus;
+            n.masteryPotionBonus = w.masteryPotionBonus;
+            n.levelKnown = w.levelKnown;
+            n.cursedKnown = w.cursedKnown;
+            n.cursed = w.cursed;
+            n.augment = w.augment;
+
+            return n;
+
+        } else if (w instanceof NaturesBow) {
+            switch (Random.Int(3)) {
+                case 0: default:
+                    n = new WindBow();
+                    break;
+                case 1:
+                    n = new PoisonBow();
+                    break;
+                case 2:
+                    n = new GoldenBow();
+                    break;
+            }
+            n.enchantment = w.enchantment;
+            n.curseInfusionBonus = w.curseInfusionBonus;
+            n.masteryPotionBonus = w.masteryPotionBonus;
+            n.levelKnown = w.levelKnown;
+            n.cursedKnown = w.cursedKnown;
+            n.cursed = w.cursed;
+            n.augment = w.augment;
+
+            return n;
+
+        } else if (w instanceof PoisonBow) {
+            switch (Random.Int(3)) {
+                case 0: default:
+                    n = new WindBow();
+                    break;
+                case 1:
+                    n = new NaturesBow();
+                    break;
+                case 2:
+                    n = new GoldenBow();
+                    break;
+            }
+            n.enchantment = w.enchantment;
+            n.curseInfusionBonus = w.curseInfusionBonus;
+            n.masteryPotionBonus = w.masteryPotionBonus;
+            n.levelKnown = w.levelKnown;
+            n.cursedKnown = w.cursedKnown;
+            n.cursed = w.cursed;
+            n.augment = w.augment;
+
+            return n;
+
+        } else if (w instanceof GoldenBow) {
+            switch (Random.Int(3)) {
+                case 0: default:
+                    n = new WindBow();
+                    break;
+                case 1:
+                    n = new NaturesBow();
+                    break;
+                case 2:
+                    n = new PoisonBow();
+                    break;
+            }
+            n.enchantment = w.enchantment;
+            n.curseInfusionBonus = w.curseInfusionBonus;
+            n.masteryPotionBonus = w.masteryPotionBonus;
+            n.levelKnown = w.levelKnown;
+            n.cursedKnown = w.cursedKnown;
+            n.cursed = w.cursed;
+            n.augment = w.augment;
+
+            return n;
+
         } else if (w instanceof Crossbow) {
             if (Random.Int(10) < 9) {
                 n = new ExplosiveCrossbow();

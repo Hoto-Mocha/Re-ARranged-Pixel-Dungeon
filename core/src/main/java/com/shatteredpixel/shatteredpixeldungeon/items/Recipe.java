@@ -113,6 +113,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Tra
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Warding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.watabou.utils.Reflection;
@@ -327,6 +328,9 @@ public abstract class Recipe {
 		new MarksmanRifle.Recipe1(),
 		new MarksmanRifle.Recipe2(),
 		new MarksmanRifle.Recipe3(),
+		new WA2000.Recipe1(),
+		new WA2000.Recipe2(),
+		new WA2000.Recipe3(),
 		new FireImbueSpell.Recipe(),
 		new AssassinsSpear.Recipe(),
 		new Xray.Recipe(),

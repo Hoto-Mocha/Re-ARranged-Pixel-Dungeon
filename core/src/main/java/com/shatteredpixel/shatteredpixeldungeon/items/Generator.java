@@ -334,11 +334,12 @@ public class Generator {
 					Dirk.class,
 					Pistol.class,
 					DualPistol.class,
+					Revolver.class,
 					ShortKatana.class,
 					Knife.class,
 					Nunchaku.class
 			};
-			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,4 ,4, 5, 4, 4};
+			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,4 ,4, 4, 5, 4, 4};
 			
 			WEP_T3.classes = new Class<?>[]{
 					Sword.class,
@@ -365,9 +366,10 @@ public class Generator {
 					Crossbow.class,
 					Handgun.class,
 					AssultRifle.class,
+					Carbine.class,
 					LongKatana.class
 			};
-			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4, 5};
+			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 5};
 			
 			WEP_T5.classes = new Class<?>[]{
 					Greatsword.class,

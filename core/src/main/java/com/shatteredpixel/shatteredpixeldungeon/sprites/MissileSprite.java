@@ -41,6 +41,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
@@ -71,6 +74,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
@@ -104,6 +110,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Bolas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.FishingSpear;
@@ -203,12 +212,13 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(Magnum.Bullet.class,               0);
 		ANGULAR_SPEEDS.put(MagnumAP.Bullet.class,             0);
 		ANGULAR_SPEEDS.put(MagnumHP.Bullet.class,             0);
-		ANGULAR_SPEEDS.put(HuntingRifle.Bullet.class,         0);
-		ANGULAR_SPEEDS.put(HuntingRifleAP.Bullet.class,       0);
-		ANGULAR_SPEEDS.put(HuntingRifleHP.Bullet.class,       0);
-		ANGULAR_SPEEDS.put(SniperRifle.Bullet.class,          0);
-		ANGULAR_SPEEDS.put(SniperRifleAP.Bullet.class,        0);
-		ANGULAR_SPEEDS.put(SniperRifleHP.Bullet.class,        0);
+		ANGULAR_SPEEDS.put(TacticalHandgun.Bullet.class,      0);
+		ANGULAR_SPEEDS.put(TacticalHandgunAP.Bullet.class,    0);
+		ANGULAR_SPEEDS.put(TacticalHandgunHP.Bullet.class,    0);
+		ANGULAR_SPEEDS.put(AutoHandgun.Bullet.class,          0);
+		ANGULAR_SPEEDS.put(AutoHandgunAP.Bullet.class,        0);
+		ANGULAR_SPEEDS.put(AutoHandgunHP.Bullet.class,        0);
+
 		ANGULAR_SPEEDS.put(DualPistol.Bullet.class,           0);
 		ANGULAR_SPEEDS.put(DualPistolAP.Bullet.class,         0);
 		ANGULAR_SPEEDS.put(DualPistolHP.Bullet.class,         0);
@@ -221,39 +231,54 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(HeavyMachinegun.Bullet.class,      0);
 		ANGULAR_SPEEDS.put(HeavyMachinegunAP.Bullet.class,    0);
 		ANGULAR_SPEEDS.put(HeavyMachinegunHP.Bullet.class,    0);
-		ANGULAR_SPEEDS.put(ShotGun.Bullet.class,              0);
-		ANGULAR_SPEEDS.put(ShotGunAP.Bullet.class,            0);
-		ANGULAR_SPEEDS.put(ShotGunHP.Bullet.class,            0);
-		ANGULAR_SPEEDS.put(KSG.Bullet.class,                 0);
-		ANGULAR_SPEEDS.put(KSGAP.Bullet.class,               0);
-		ANGULAR_SPEEDS.put(KSGHP.Bullet.class,               0);
-		ANGULAR_SPEEDS.put(AutoHandgun.Bullet.class,          0);
-		ANGULAR_SPEEDS.put(AutoHandgunAP.Bullet.class,        0);
-		ANGULAR_SPEEDS.put(AutoHandgunHP.Bullet.class,        0);
-		ANGULAR_SPEEDS.put(AutoRifle.Bullet.class,            0);
-		ANGULAR_SPEEDS.put(AutoRifleAP.Bullet.class,          0);
-		ANGULAR_SPEEDS.put(AutoRifleHP.Bullet.class,          0);
-		ANGULAR_SPEEDS.put(MarksmanRifle.Bullet.class,        0);
-		ANGULAR_SPEEDS.put(MarksmanRifleAP.Bullet.class,      0);
-		ANGULAR_SPEEDS.put(MarksmanRifleHP.Bullet.class,      0);
-	    ANGULAR_SPEEDS.put(RocketLauncher.Rocket.class,       0);
-
 		ANGULAR_SPEEDS.put(MiniGun.Bullet.class,              0);
 		ANGULAR_SPEEDS.put(MiniGunAP.Bullet.class,            0);
 		ANGULAR_SPEEDS.put(MiniGunHP.Bullet.class,            0);
-		ANGULAR_SPEEDS.put(TacticalHandgun.Bullet.class,      0);
-		ANGULAR_SPEEDS.put(TacticalHandgunAP.Bullet.class,    0);
-		ANGULAR_SPEEDS.put(TacticalHandgunHP.Bullet.class,    0);
+		ANGULAR_SPEEDS.put(AutoRifle.Bullet.class,            0);
+		ANGULAR_SPEEDS.put(AutoRifleAP.Bullet.class,          0);
+		ANGULAR_SPEEDS.put(AutoRifleHP.Bullet.class,          0);
+
+		ANGULAR_SPEEDS.put(Revolver.Bullet.class,         	  0);
+		ANGULAR_SPEEDS.put(RevolverAP.Bullet.class,           0);
+		ANGULAR_SPEEDS.put(RevolverHP.Bullet.class,           0);
+		ANGULAR_SPEEDS.put(HuntingRifle.Bullet.class,         0);
+		ANGULAR_SPEEDS.put(HuntingRifleAP.Bullet.class,       0);
+		ANGULAR_SPEEDS.put(HuntingRifleHP.Bullet.class,       0);
+		ANGULAR_SPEEDS.put(Carbine.Bullet.class,       		  0);
+		ANGULAR_SPEEDS.put(CarbineAP.Bullet.class,     		  0);
+		ANGULAR_SPEEDS.put(CarbineHP.Bullet.class,     		  0);
+		ANGULAR_SPEEDS.put(SniperRifle.Bullet.class,          0);
+		ANGULAR_SPEEDS.put(SniperRifleAP.Bullet.class,        0);
+		ANGULAR_SPEEDS.put(SniperRifleHP.Bullet.class,        0);
 		ANGULAR_SPEEDS.put(AntimaterRifle.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(AntimaterRifleAP.Bullet.class,     0);
 		ANGULAR_SPEEDS.put(AntimaterRifleHP.Bullet.class,     0);
+		ANGULAR_SPEEDS.put(MarksmanRifle.Bullet.class,        0);
+		ANGULAR_SPEEDS.put(MarksmanRifleAP.Bullet.class,      0);
+		ANGULAR_SPEEDS.put(MarksmanRifleHP.Bullet.class,      0);
+		ANGULAR_SPEEDS.put(WA2000.Bullet.class,       		  0);
+		ANGULAR_SPEEDS.put(WA2000AP.Bullet.class,     		  0);
+		ANGULAR_SPEEDS.put(WA2000HP.Bullet.class,     		  0);
+
+		ANGULAR_SPEEDS.put(ShotGun.Bullet.class,              0);
+		ANGULAR_SPEEDS.put(ShotGunAP.Bullet.class,            0);
+		ANGULAR_SPEEDS.put(ShotGunHP.Bullet.class,            0);
+		ANGULAR_SPEEDS.put(KSG.Bullet.class,                  0);
+		ANGULAR_SPEEDS.put(KSGAP.Bullet.class,                0);
+		ANGULAR_SPEEDS.put(KSGHP.Bullet.class,                0);
+
+
+
+	    ANGULAR_SPEEDS.put(RocketLauncher.Rocket.class,       0);
 		ANGULAR_SPEEDS.put(RPG7.Rocket.class,                 0);
+
 		ANGULAR_SPEEDS.put(FlameThrower.Bullet.class,         0);
 		ANGULAR_SPEEDS.put(FlameThrowerAP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(FlameThrowerHP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(PlasmaCannon.Bullet.class,         0);
 		ANGULAR_SPEEDS.put(PlasmaCannonAP.Bullet.class,       0);
 		ANGULAR_SPEEDS.put(PlasmaCannonHP.Bullet.class,       0);
+
 		ANGULAR_SPEEDS.put(MissileButton.Rocket.class,        0);
 		ANGULAR_SPEEDS.put(GrenadeLauncher.Rocket.class,      0);
 		ANGULAR_SPEEDS.put(GrenadeLauncherAP.Rocket.class,    0);
@@ -328,73 +353,86 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				|| item instanceof TenguSprite.TenguShuriken){
 			speed *= 1.5f;
 		} else if (item instanceof CrudePistol.Bullet
-				||item instanceof CrudePistolAP.Bullet
-				||item instanceof CrudePistolHP.Bullet
-				||item instanceof Pistol.Bullet
-				||item instanceof PistolAP.Bullet
-				||item instanceof PistolHP.Bullet
-				||item instanceof GoldenPistol.Bullet
-				||item instanceof GoldenPistolAP.Bullet
-				||item instanceof GoldenPistolHP.Bullet
-				||item instanceof Handgun.Bullet
-				||item instanceof HandgunAP.Bullet
-				||item instanceof HandgunHP.Bullet
-				||item instanceof Magnum.Bullet
-				||item instanceof MagnumAP.Bullet
-				||item instanceof MagnumHP.Bullet
-				||item instanceof DualPistol.Bullet
-				||item instanceof DualPistolAP.Bullet
-				||item instanceof DualPistolHP.Bullet
-				||item instanceof SubMachinegun.Bullet
-				||item instanceof SubMachinegunAP.Bullet
-				||item instanceof SubMachinegunHP.Bullet
-				||item instanceof AssultRifle.Bullet
-				||item instanceof AssultRifleAP.Bullet
-				||item instanceof AssultRifleHP.Bullet
-				||item instanceof HeavyMachinegun.Bullet
-				||item instanceof HeavyMachinegunAP.Bullet
-				||item instanceof HeavyMachinegunHP.Bullet
-				||item instanceof HuntingRifle.Bullet
-				||item instanceof HuntingRifleAP.Bullet
-				||item instanceof HuntingRifleHP.Bullet
-				||item instanceof SniperRifle.Bullet
-				||item instanceof SniperRifleAP.Bullet
-				||item instanceof SniperRifleHP.Bullet
-				||item instanceof ShotGun.Bullet
-				||item instanceof ShotGunAP.Bullet
-				||item instanceof ShotGunHP.Bullet
-				||item instanceof KSG.Bullet
-				||item instanceof KSGAP.Bullet
-				||item instanceof KSGHP.Bullet
-				||item instanceof MiniGun.Bullet
-				||item instanceof MiniGunAP.Bullet
-				||item instanceof MiniGunHP.Bullet
-				||item instanceof TacticalHandgun.Bullet
-				||item instanceof TacticalHandgunAP.Bullet
-				||item instanceof TacticalHandgunHP.Bullet
-				||item instanceof AntimaterRifle.Bullet
-				||item instanceof AntimaterRifleAP.Bullet
-				||item instanceof AntimaterRifleHP.Bullet
-				||item instanceof AutoHandgun.Bullet
-				||item instanceof AutoHandgunAP.Bullet
-				||item instanceof AutoHandgunHP.Bullet
-				||item instanceof AutoRifle.Bullet
-				||item instanceof AutoRifleAP.Bullet
-				||item instanceof AutoRifleHP.Bullet
-				||item instanceof MarksmanRifle.Bullet
-				||item instanceof MarksmanRifleAP.Bullet
-				||item instanceof MarksmanRifleHP.Bullet
-				||item instanceof RPG7.Rocket
-				||item instanceof WindBow.SpiritArrow
-				||item instanceof SleepGun.Dart
-				||item instanceof FrostGun.Dart
-				||item instanceof ParalysisGun.Dart
-				||item instanceof TacticalShield.Bullet
-				||item instanceof SoldierSprite.SoldierShot
-				||item instanceof TankSprite.TankShot
-				||item instanceof SWATSprite.SWATShot
-				||item instanceof RebelSprite.RebelShot
-				||item instanceof GhostSprite.GhostShot
+				|| item instanceof CrudePistolAP.Bullet
+				|| item instanceof CrudePistolHP.Bullet
+				|| item instanceof Pistol.Bullet
+				|| item instanceof PistolAP.Bullet
+				|| item instanceof PistolHP.Bullet
+				|| item instanceof GoldenPistol.Bullet
+				|| item instanceof GoldenPistolAP.Bullet
+				|| item instanceof GoldenPistolHP.Bullet
+				|| item instanceof Handgun.Bullet
+				|| item instanceof HandgunAP.Bullet
+				|| item instanceof HandgunHP.Bullet
+				|| item instanceof Magnum.Bullet
+				|| item instanceof MagnumAP.Bullet
+				|| item instanceof MagnumHP.Bullet
+				|| item instanceof TacticalHandgun.Bullet
+				|| item instanceof TacticalHandgunAP.Bullet
+				|| item instanceof TacticalHandgunHP.Bullet
+				|| item instanceof AutoHandgun.Bullet
+				|| item instanceof AutoHandgunAP.Bullet
+				|| item instanceof AutoHandgunHP.Bullet
+
+				|| item instanceof DualPistol.Bullet
+				|| item instanceof DualPistolAP.Bullet
+				|| item instanceof DualPistolHP.Bullet
+				|| item instanceof SubMachinegun.Bullet
+				|| item instanceof SubMachinegunAP.Bullet
+				|| item instanceof SubMachinegunHP.Bullet
+				|| item instanceof AssultRifle.Bullet
+				|| item instanceof AssultRifleAP.Bullet
+				|| item instanceof AssultRifleHP.Bullet
+				|| item instanceof HeavyMachinegun.Bullet
+				|| item instanceof HeavyMachinegunAP.Bullet
+				|| item instanceof HeavyMachinegunHP.Bullet
+				|| item instanceof MiniGun.Bullet
+				|| item instanceof MiniGunAP.Bullet
+				|| item instanceof MiniGunHP.Bullet
+				|| item instanceof AutoRifle.Bullet
+				|| item instanceof AutoRifleAP.Bullet
+				|| item instanceof AutoRifleHP.Bullet
+
+				|| item instanceof Revolver.Bullet
+				|| item instanceof RevolverAP.Bullet
+				|| item instanceof RevolverHP.Bullet
+				|| item instanceof HuntingRifle.Bullet
+				|| item instanceof HuntingRifleAP.Bullet
+				|| item instanceof HuntingRifleHP.Bullet
+				|| item instanceof Carbine.Bullet
+				|| item instanceof CarbineAP.Bullet
+				|| item instanceof CarbineHP.Bullet
+				|| item instanceof SniperRifle.Bullet
+				|| item instanceof SniperRifleAP.Bullet
+				|| item instanceof SniperRifleHP.Bullet
+				|| item instanceof AntimaterRifle.Bullet
+				|| item instanceof AntimaterRifleAP.Bullet
+				|| item instanceof AntimaterRifleHP.Bullet
+				|| item instanceof MarksmanRifle.Bullet
+				|| item instanceof MarksmanRifleAP.Bullet
+				|| item instanceof MarksmanRifleHP.Bullet
+				|| item instanceof WA2000.Bullet
+				|| item instanceof WA2000AP.Bullet
+				|| item instanceof WA2000HP.Bullet
+
+				|| item instanceof ShotGun.Bullet
+				|| item instanceof ShotGunAP.Bullet
+				|| item instanceof ShotGunHP.Bullet
+				|| item instanceof KSG.Bullet
+				|| item instanceof KSGAP.Bullet
+				|| item instanceof KSGHP.Bullet
+
+				|| item instanceof RPG7.Rocket
+				|| item instanceof WindBow.SpiritArrow
+				|| item instanceof SleepGun.Dart
+				|| item instanceof FrostGun.Dart
+				|| item instanceof ParalysisGun.Dart
+				|| item instanceof TacticalShield.Bullet
+				|| item instanceof SoldierSprite.SoldierShot
+				|| item instanceof TankSprite.TankShot
+				|| item instanceof SWATSprite.SWATShot
+				|| item instanceof RebelSprite.RebelShot
+				|| item instanceof GhostSprite.GhostShot
 		) {
 			speed *= 3f;
 		} else if (item instanceof RocketLauncher.Rocket

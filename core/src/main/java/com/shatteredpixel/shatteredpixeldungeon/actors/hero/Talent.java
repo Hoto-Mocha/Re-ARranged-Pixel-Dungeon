@@ -85,6 +85,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
@@ -113,6 +116,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
@@ -146,6 +152,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -725,64 +734,84 @@ public enum Talent {
 
 		// 3x/instant for Gunner (see onItemEquipped)
 		if (item instanceof CrudePistol
-				||item instanceof CrudePistolAP
-				||item instanceof CrudePistolHP
-				||item instanceof Pistol
-				||item instanceof PistolAP
-				||item instanceof PistolHP
-				||item instanceof GoldenPistol
-				||item instanceof GoldenPistolAP
-				||item instanceof GoldenPistolHP
-				||item instanceof Handgun
-				||item instanceof HandgunAP
-				||item instanceof HandgunHP
-				||item instanceof Magnum
-				||item instanceof MagnumAP
-				||item instanceof MagnumHP
-				||item instanceof DualPistol
-				||item instanceof DualPistolAP
-				||item instanceof DualPistolHP
-				||item instanceof SubMachinegun
-				||item instanceof SubMachinegunAP
-				||item instanceof SubMachinegunHP
-				||item instanceof AssultRifle
-				||item instanceof AssultRifleAP
-				||item instanceof AssultRifleHP
-				||item instanceof HeavyMachinegun
-				||item instanceof HeavyMachinegunAP
-				||item instanceof HeavyMachinegunHP
-				||item instanceof HuntingRifle
-				||item instanceof HuntingRifleAP
-				||item instanceof HuntingRifleHP
-				||item instanceof SniperRifle
-				||item instanceof SniperRifleAP
-				||item instanceof SniperRifleHP
-				||item instanceof ShotGun
-				||item instanceof ShotGunAP
-				||item instanceof ShotGunHP
-				||item instanceof KSG
-				||item instanceof KSGAP
-				||item instanceof KSGHP
-				||item instanceof MiniGun
-				||item instanceof MiniGunAP
-				||item instanceof MiniGunHP
-				||item instanceof TacticalHandgun
-				||item instanceof TacticalHandgunAP
-				||item instanceof TacticalHandgunHP
-				||item instanceof AntimaterRifle
-				||item instanceof AntimaterRifleAP
-				||item instanceof AntimaterRifleHP
-				||item instanceof AutoHandgun
-				||item instanceof AutoHandgunAP
-				||item instanceof AutoHandgunHP
-				||item instanceof AutoRifle
-				||item instanceof AutoRifleAP
-				||item instanceof AutoRifleHP
-				||item instanceof MarksmanRifle
-				||item instanceof MarksmanRifleAP
-				||item instanceof MarksmanRifleHP
-				||item instanceof RPG7
-				||item instanceof RocketLauncher) {
+				|| item instanceof CrudePistolAP
+				|| item instanceof CrudePistolHP
+				|| item instanceof Pistol
+				|| item instanceof PistolAP
+				|| item instanceof PistolHP
+				|| item instanceof GoldenPistol
+				|| item instanceof GoldenPistolAP
+				|| item instanceof GoldenPistolHP
+				|| item instanceof Handgun
+				|| item instanceof HandgunAP
+				|| item instanceof HandgunHP
+				|| item instanceof Magnum
+				|| item instanceof MagnumAP
+				|| item instanceof MagnumHP
+				|| item instanceof TacticalHandgun
+				|| item instanceof TacticalHandgunAP
+				|| item instanceof TacticalHandgunHP
+				|| item instanceof AutoHandgun
+				|| item instanceof AutoHandgunAP
+				|| item instanceof AutoHandgunHP
+
+				|| item instanceof DualPistol
+				|| item instanceof DualPistolAP
+				|| item instanceof DualPistolHP
+				|| item instanceof SubMachinegun
+				|| item instanceof SubMachinegunAP
+				|| item instanceof SubMachinegunHP
+				|| item instanceof AssultRifle
+				|| item instanceof AssultRifleAP
+				|| item instanceof AssultRifleHP
+				|| item instanceof HeavyMachinegun
+				|| item instanceof HeavyMachinegunAP
+				|| item instanceof HeavyMachinegunHP
+				|| item instanceof MiniGun
+				|| item instanceof MiniGunAP
+				|| item instanceof MiniGunHP
+				|| item instanceof AutoRifle
+				|| item instanceof AutoRifleAP
+				|| item instanceof AutoRifleHP
+
+				|| item instanceof Revolver
+				|| item instanceof RevolverAP
+				|| item instanceof RevolverHP
+				|| item instanceof HuntingRifle
+				|| item instanceof HuntingRifleAP
+				|| item instanceof HuntingRifleHP
+				|| item instanceof Carbine
+				|| item instanceof CarbineAP
+				|| item instanceof CarbineHP
+				|| item instanceof SniperRifle
+				|| item instanceof SniperRifleAP
+				|| item instanceof SniperRifleHP
+				|| item instanceof AntimaterRifle
+				|| item instanceof AntimaterRifleAP
+				|| item instanceof AntimaterRifleHP
+				|| item instanceof MarksmanRifle
+				|| item instanceof MarksmanRifleAP
+				|| item instanceof MarksmanRifleHP
+				|| item instanceof WA2000
+				|| item instanceof WA2000AP
+				|| item instanceof WA2000HP
+
+				|| item instanceof ShotGun
+				|| item instanceof ShotGunAP
+				|| item instanceof ShotGunHP
+				|| item instanceof KSG
+				|| item instanceof KSGAP
+				|| item instanceof KSGHP
+
+				|| item instanceof FlameThrower
+				|| item instanceof FlameThrowerAP
+				|| item instanceof FlameThrowerHP
+				|| item instanceof PlasmaCannon
+				|| item instanceof PlasmaCannonAP
+				|| item instanceof PlasmaCannonHP
+
+				|| item instanceof RPG7
+				|| item instanceof RocketLauncher) {
 			factor *= 1f + 2f*hero.pointsInTalent(GUNNERS_INTUITION);
 		}
 
@@ -912,77 +941,84 @@ public enum Talent {
 		}
 		if (hero.pointsInTalent(GUNNERS_INTUITION) == 2 &&
 				(item instanceof CrudePistol
-						||item instanceof CrudePistolAP
-						||item instanceof CrudePistolHP
-						||item instanceof Pistol
-						||item instanceof PistolAP
-						||item instanceof PistolHP
-						||item instanceof GoldenPistol
-						||item instanceof GoldenPistolAP
-						||item instanceof GoldenPistolHP
-						||item instanceof Handgun
-						||item instanceof HandgunAP
-						||item instanceof HandgunHP
-						||item instanceof Magnum
-						||item instanceof MagnumAP
-						||item instanceof MagnumHP
-						||item instanceof DualPistol
-						||item instanceof DualPistolAP
-						||item instanceof DualPistolHP
-						||item instanceof SubMachinegun
-						||item instanceof SubMachinegunAP
-						||item instanceof SubMachinegunHP
-						||item instanceof AssultRifle
-						||item instanceof AssultRifleAP
-						||item instanceof AssultRifleHP
-						||item instanceof HeavyMachinegun
-						||item instanceof HeavyMachinegunAP
-						||item instanceof HeavyMachinegunHP
-						||item instanceof HuntingRifle
-						||item instanceof HuntingRifleAP
-						||item instanceof HuntingRifleHP
-						||item instanceof SniperRifle
-						||item instanceof SniperRifleAP
-						||item instanceof SniperRifleHP
-						||item instanceof ShotGun
-						||item instanceof ShotGunAP
-						||item instanceof ShotGunHP
-						||item instanceof KSG
-						||item instanceof KSGAP
-						||item instanceof KSGHP
-						||item instanceof MiniGun
-						||item instanceof MiniGunAP
-						||item instanceof MiniGunHP
-						||item instanceof TacticalHandgun
-						||item instanceof TacticalHandgunAP
-						||item instanceof TacticalHandgunHP
-						||item instanceof AntimaterRifle
-						||item instanceof AntimaterRifleAP
-						||item instanceof AntimaterRifleHP
-						||item instanceof RPG7
-						||item instanceof RocketLauncher
-						||item instanceof FlameThrower
-						||item instanceof FlameThrowerAP
-						||item instanceof FlameThrowerHP
-						||item instanceof PlasmaCannon
-						||item instanceof PlasmaCannonAP
-						||item instanceof PlasmaCannonHP
-						||item instanceof GrenadeLauncher
-						||item instanceof GrenadeLauncherAP
-						||item instanceof GrenadeLauncherHP
-						||item instanceof SleepGun
-						||item instanceof FrostGun
-						||item instanceof ParalysisGun
-						||item instanceof AutoHandgun
-						||item instanceof AutoHandgunAP
-						||item instanceof AutoHandgunHP
-						||item instanceof AutoRifle
-						||item instanceof AutoRifleAP
-						||item instanceof AutoRifleHP
-						||item instanceof MarksmanRifle
-						||item instanceof MarksmanRifleAP
-						||item instanceof MarksmanRifleHP
-				)
+						|| item instanceof CrudePistolAP
+						|| item instanceof CrudePistolHP
+						|| item instanceof Pistol
+						|| item instanceof PistolAP
+						|| item instanceof PistolHP
+						|| item instanceof GoldenPistol
+						|| item instanceof GoldenPistolAP
+						|| item instanceof GoldenPistolHP
+						|| item instanceof Handgun
+						|| item instanceof HandgunAP
+						|| item instanceof HandgunHP
+						|| item instanceof Magnum
+						|| item instanceof MagnumAP
+						|| item instanceof MagnumHP
+						|| item instanceof TacticalHandgun
+						|| item instanceof TacticalHandgunAP
+						|| item instanceof TacticalHandgunHP
+						|| item instanceof AutoHandgun
+						|| item instanceof AutoHandgunAP
+						|| item instanceof AutoHandgunHP
+
+						|| item instanceof DualPistol
+						|| item instanceof DualPistolAP
+						|| item instanceof DualPistolHP
+						|| item instanceof SubMachinegun
+						|| item instanceof SubMachinegunAP
+						|| item instanceof SubMachinegunHP
+						|| item instanceof AssultRifle
+						|| item instanceof AssultRifleAP
+						|| item instanceof AssultRifleHP
+						|| item instanceof HeavyMachinegun
+						|| item instanceof HeavyMachinegunAP
+						|| item instanceof HeavyMachinegunHP
+						|| item instanceof MiniGun
+						|| item instanceof MiniGunAP
+						|| item instanceof MiniGunHP
+						|| item instanceof AutoRifle
+						|| item instanceof AutoRifleAP
+						|| item instanceof AutoRifleHP
+
+						|| item instanceof Revolver
+						|| item instanceof RevolverAP
+						|| item instanceof RevolverHP
+						|| item instanceof HuntingRifle
+						|| item instanceof HuntingRifleAP
+						|| item instanceof HuntingRifleHP
+						|| item instanceof Carbine
+						|| item instanceof CarbineAP
+						|| item instanceof CarbineHP
+						|| item instanceof SniperRifle
+						|| item instanceof SniperRifleAP
+						|| item instanceof SniperRifleHP
+						|| item instanceof AntimaterRifle
+						|| item instanceof AntimaterRifleAP
+						|| item instanceof AntimaterRifleHP
+						|| item instanceof MarksmanRifle
+						|| item instanceof MarksmanRifleAP
+						|| item instanceof MarksmanRifleHP
+						|| item instanceof WA2000
+						|| item instanceof WA2000AP
+						|| item instanceof WA2000HP
+
+						|| item instanceof ShotGun
+						|| item instanceof ShotGunAP
+						|| item instanceof ShotGunHP
+						|| item instanceof KSG
+						|| item instanceof KSGAP
+						|| item instanceof KSGHP
+
+						|| item instanceof FlameThrower
+						|| item instanceof FlameThrowerAP
+						|| item instanceof FlameThrowerHP
+						|| item instanceof PlasmaCannon
+						|| item instanceof PlasmaCannonAP
+						|| item instanceof PlasmaCannonHP
+
+						|| item instanceof RPG7
+						|| item instanceof RocketLauncher)
 		){
 			item.identify();
 		}

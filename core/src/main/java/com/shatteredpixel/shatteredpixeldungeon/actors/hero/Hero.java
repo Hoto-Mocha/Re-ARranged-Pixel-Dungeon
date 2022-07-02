@@ -614,9 +614,15 @@ public class Hero extends Char {
 					|| (wep instanceof AutoRifle.Bullet && ((AutoRifle)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof AutoRifleAP.Bullet && ((AutoRifleAP)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof AutoRifleHP.Bullet && ((AutoRifleHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof Revolver.Bullet && ((Revolver)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof RevolverAP.Bullet && ((RevolverAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof RevolverHP.Bullet && ((RevolverHP)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof Carbine.Bullet && ((Carbine)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof CarbineAP.Bullet && ((CarbineAP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof CarbineHP.Bullet && ((CarbineHP)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof SniperRifleAP.Bullet && ((SniperRifleAP)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof SniperRifleHP.Bullet && ((SniperRifleHP)hero.belongings.weapon).short_barrel)
@@ -626,6 +632,9 @@ public class Hero extends Char {
 					|| (wep instanceof MarksmanRifle.Bullet && ((MarksmanRifle)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof MarksmanRifleAP.Bullet && ((MarksmanRifleAP)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof MarksmanRifleHP.Bullet && ((MarksmanRifleHP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof WA2000.Bullet && ((WA2000)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof WA2000AP.Bullet && ((WA2000AP)hero.belongings.weapon).short_barrel)
+					|| (wep instanceof WA2000HP.Bullet && ((WA2000HP)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).short_barrel)
 					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).short_barrel)
@@ -676,21 +685,30 @@ public class Hero extends Char {
 					|| (wep instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).long_barrel)
-					|| (wep instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).long_barrel)
-					|| (wep instanceof AutoHandgunAP.Bullet && ((AutoHandgunAP)hero.belongings.weapon).long_barrel)
-					|| (wep instanceof AutoHandgunHP.Bullet && ((AutoHandgunHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof AutoRifle.Bullet && ((AutoRifle)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof AutoRifleAP.Bullet && ((AutoRifleAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof AutoRifleHP.Bullet && ((AutoRifleHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof Revolver.Bullet && ((Revolver)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof RevolverAP.Bullet && ((RevolverAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof RevolverHP.Bullet && ((RevolverHP)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof Carbine.Bullet && ((Carbine)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof CarbineAP.Bullet && ((CarbineAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof CarbineHP.Bullet && ((CarbineHP)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof SniperRifleAP.Bullet && ((SniperRifleAP)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof SniperRifleHP.Bullet && ((SniperRifleHP)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).long_barrel)
-					|| (wep instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).long_barrel)
-					|| (wep instanceof AutoHandgunAP.Bullet && ((AutoHandgunAP)hero.belongings.weapon).long_barrel)
-					|| (wep instanceof AutoHandgunHP.Bullet && ((AutoHandgunHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof MarksmanRifle.Bullet && ((MarksmanRifle)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof MarksmanRifleAP.Bullet && ((MarksmanRifleAP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof MarksmanRifleHP.Bullet && ((MarksmanRifleHP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof WA2000.Bullet && ((WA2000)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof WA2000AP.Bullet && ((WA2000AP)hero.belongings.weapon).long_barrel)
+					|| (wep instanceof WA2000HP.Bullet && ((WA2000HP)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).long_barrel)
 					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).long_barrel)
@@ -741,21 +759,30 @@ public class Hero extends Char {
 					|| (wep instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).magazine)
 					|| (wep instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).magazine)
 					|| (wep instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).magazine)
-					|| (wep instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).magazine)
-					|| (wep instanceof AutoHandgunAP.Bullet && ((AutoHandgunAP)hero.belongings.weapon).magazine)
-					|| (wep instanceof AutoHandgunHP.Bullet && ((AutoHandgunHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof AutoRifle.Bullet && ((AutoRifle)hero.belongings.weapon).magazine)
+					|| (wep instanceof AutoRifleAP.Bullet && ((AutoRifleAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof AutoRifleHP.Bullet && ((AutoRifleHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof Revolver.Bullet && ((Revolver)hero.belongings.weapon).magazine)
+					|| (wep instanceof RevolverAP.Bullet && ((RevolverAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof RevolverHP.Bullet && ((RevolverHP)hero.belongings.weapon).magazine)
 					|| (wep instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).magazine)
 					|| (wep instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).magazine)
 					|| (wep instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof Carbine.Bullet && ((Carbine)hero.belongings.weapon).magazine)
+					|| (wep instanceof CarbineAP.Bullet && ((CarbineAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof CarbineHP.Bullet && ((CarbineHP)hero.belongings.weapon).magazine)
 					|| (wep instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).magazine)
 					|| (wep instanceof SniperRifleAP.Bullet && ((SniperRifleAP)hero.belongings.weapon).magazine)
 					|| (wep instanceof SniperRifleHP.Bullet && ((SniperRifleHP)hero.belongings.weapon).magazine)
 					|| (wep instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).magazine)
 					|| (wep instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).magazine)
 					|| (wep instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).magazine)
-					|| (wep instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).magazine)
-					|| (wep instanceof AutoHandgunAP.Bullet && ((AutoHandgunAP)hero.belongings.weapon).magazine)
-					|| (wep instanceof AutoHandgunHP.Bullet && ((AutoHandgunHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof MarksmanRifle.Bullet && ((MarksmanRifle)hero.belongings.weapon).magazine)
+					|| (wep instanceof MarksmanRifleAP.Bullet && ((MarksmanRifleAP)hero.belongings.weapon).magazine)
+					|| (wep instanceof MarksmanRifleHP.Bullet && ((MarksmanRifleHP)hero.belongings.weapon).magazine)
+					|| (wep instanceof WA2000.Bullet && ((WA2000)hero.belongings.weapon).magazine)
+					|| (wep instanceof WA2000AP.Bullet && ((WA2000AP)hero.belongings.weapon).magazine)
+					|| (wep instanceof WA2000HP.Bullet && ((WA2000HP)hero.belongings.weapon).magazine)
 					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).magazine)
 					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).magazine)
 					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).magazine)
@@ -804,21 +831,30 @@ public class Hero extends Char {
 					|| (wep instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).light)
 					|| (wep instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).light)
 					|| (wep instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).light)
-					|| (wep instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).light)
-					|| (wep instanceof AutoHandgunAP.Bullet && ((AutoHandgunAP)hero.belongings.weapon).light)
-					|| (wep instanceof AutoHandgunHP.Bullet && ((AutoHandgunHP)hero.belongings.weapon).light)
+					|| (wep instanceof AutoRifle.Bullet && ((AutoRifle)hero.belongings.weapon).light)
+					|| (wep instanceof AutoRifleAP.Bullet && ((AutoRifleAP)hero.belongings.weapon).light)
+					|| (wep instanceof AutoRifleHP.Bullet && ((AutoRifleHP)hero.belongings.weapon).light)
+					|| (wep instanceof Revolver.Bullet && ((Revolver)hero.belongings.weapon).light)
+					|| (wep instanceof RevolverAP.Bullet && ((RevolverAP)hero.belongings.weapon).light)
+					|| (wep instanceof RevolverHP.Bullet && ((RevolverHP)hero.belongings.weapon).light)
 					|| (wep instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).light)
 					|| (wep instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).light)
 					|| (wep instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).light)
+					|| (wep instanceof Carbine.Bullet && ((Carbine)hero.belongings.weapon).light)
+					|| (wep instanceof CarbineAP.Bullet && ((CarbineAP)hero.belongings.weapon).light)
+					|| (wep instanceof CarbineHP.Bullet && ((CarbineHP)hero.belongings.weapon).light)
 					|| (wep instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).light)
 					|| (wep instanceof SniperRifleAP.Bullet && ((SniperRifleAP)hero.belongings.weapon).light)
 					|| (wep instanceof SniperRifleHP.Bullet && ((SniperRifleHP)hero.belongings.weapon).light)
 					|| (wep instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).light)
 					|| (wep instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).light)
 					|| (wep instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).light)
-					|| (wep instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).light)
-					|| (wep instanceof AutoHandgunAP.Bullet && ((AutoHandgunAP)hero.belongings.weapon).light)
-					|| (wep instanceof AutoHandgunHP.Bullet && ((AutoHandgunHP)hero.belongings.weapon).light)
+					|| (wep instanceof MarksmanRifle.Bullet && ((MarksmanRifle)hero.belongings.weapon).light)
+					|| (wep instanceof MarksmanRifleAP.Bullet && ((MarksmanRifleAP)hero.belongings.weapon).light)
+					|| (wep instanceof MarksmanRifleHP.Bullet && ((MarksmanRifleHP)hero.belongings.weapon).light)
+					|| (wep instanceof WA2000.Bullet && ((WA2000)hero.belongings.weapon).light)
+					|| (wep instanceof WA2000AP.Bullet && ((WA2000AP)hero.belongings.weapon).light)
+					|| (wep instanceof WA2000HP.Bullet && ((WA2000HP)hero.belongings.weapon).light)
 					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).light)
 					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).light)
 					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).light)
@@ -865,21 +901,30 @@ public class Hero extends Char {
 					|| (wep instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).heavy)
 					|| (wep instanceof MiniGunAP.Bullet && ((MiniGunAP)hero.belongings.weapon).heavy)
 					|| (wep instanceof MiniGunHP.Bullet && ((MiniGunHP)hero.belongings.weapon).heavy)
-					|| (wep instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).heavy)
-					|| (wep instanceof AutoHandgunAP.Bullet && ((AutoHandgunAP)hero.belongings.weapon).heavy)
-					|| (wep instanceof AutoHandgunHP.Bullet && ((AutoHandgunHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof AutoRifle.Bullet && ((AutoRifle)hero.belongings.weapon).heavy)
+					|| (wep instanceof AutoRifleAP.Bullet && ((AutoRifleAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof AutoRifleHP.Bullet && ((AutoRifleHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof Revolver.Bullet && ((Revolver)hero.belongings.weapon).heavy)
+					|| (wep instanceof RevolverAP.Bullet && ((RevolverAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof RevolverHP.Bullet && ((RevolverHP)hero.belongings.weapon).heavy)
 					|| (wep instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).heavy)
 					|| (wep instanceof HuntingRifleAP.Bullet && ((HuntingRifleAP)hero.belongings.weapon).heavy)
 					|| (wep instanceof HuntingRifleHP.Bullet && ((HuntingRifleHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof Carbine.Bullet && ((Carbine)hero.belongings.weapon).heavy)
+					|| (wep instanceof CarbineAP.Bullet && ((CarbineAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof CarbineHP.Bullet && ((CarbineHP)hero.belongings.weapon).heavy)
 					|| (wep instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).heavy)
 					|| (wep instanceof SniperRifleAP.Bullet && ((SniperRifleAP)hero.belongings.weapon).heavy)
 					|| (wep instanceof SniperRifleHP.Bullet && ((SniperRifleHP)hero.belongings.weapon).heavy)
 					|| (wep instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).heavy)
 					|| (wep instanceof AntimaterRifleAP.Bullet && ((AntimaterRifleAP)hero.belongings.weapon).heavy)
 					|| (wep instanceof AntimaterRifleHP.Bullet && ((AntimaterRifleHP)hero.belongings.weapon).heavy)
-					|| (wep instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).heavy)
-					|| (wep instanceof AutoHandgunAP.Bullet && ((AutoHandgunAP)hero.belongings.weapon).heavy)
-					|| (wep instanceof AutoHandgunHP.Bullet && ((AutoHandgunHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof MarksmanRifle.Bullet && ((MarksmanRifle)hero.belongings.weapon).heavy)
+					|| (wep instanceof MarksmanRifleAP.Bullet && ((MarksmanRifleAP)hero.belongings.weapon).heavy)
+					|| (wep instanceof MarksmanRifleHP.Bullet && ((MarksmanRifleHP)hero.belongings.weapon).heavy)
+					|| (wep instanceof WA2000.Bullet && ((WA2000)hero.belongings.weapon).heavy)
+					|| (wep instanceof WA2000AP.Bullet && ((WA2000AP)hero.belongings.weapon).heavy)
+					|| (wep instanceof WA2000HP.Bullet && ((WA2000HP)hero.belongings.weapon).heavy)
 					|| (wep instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).heavy)
 					|| (wep instanceof ShotGunAP.Bullet && ((ShotGunAP)hero.belongings.weapon).heavy)
 					|| (wep instanceof ShotGunHP.Bullet && ((ShotGunHP)hero.belongings.weapon).heavy)
@@ -896,19 +941,27 @@ public class Hero extends Char {
 				 || wep instanceof ShotGunHP.Bullet
 				 || wep instanceof KSGHP.Bullet) {
 					accuracy *= (1.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
-				} else if (wep instanceof HuntingRifle.Bullet
-						|| wep instanceof SniperRifle.Bullet
-						|| wep instanceof AntimaterRifle.Bullet
+				} else if (wep instanceof Revolver.Bullet
+						|| wep instanceof RevolverAP.Bullet
+						|| wep instanceof RevolverHP.Bullet
+						|| wep instanceof HuntingRifle.Bullet
 						|| wep instanceof HuntingRifleAP.Bullet
-						|| wep instanceof SniperRifleAP.Bullet
-						|| wep instanceof AntimaterRifleAP.Bullet
 						|| wep instanceof HuntingRifleHP.Bullet
+						|| wep instanceof Carbine.Bullet
+						|| wep instanceof CarbineAP.Bullet
+						|| wep instanceof CarbineHP.Bullet
+						|| wep instanceof SniperRifle.Bullet
+						|| wep instanceof SniperRifleAP.Bullet
 						|| wep instanceof SniperRifleHP.Bullet
+						|| wep instanceof AntimaterRifle.Bullet
+						|| wep instanceof AntimaterRifleAP.Bullet
 						|| wep instanceof AntimaterRifleHP.Bullet
 						|| wep instanceof MarksmanRifle.Bullet
 						|| wep instanceof MarksmanRifleAP.Bullet
 						|| wep instanceof MarksmanRifleHP.Bullet
-				){
+						|| wep instanceof WA2000.Bullet
+						|| wep instanceof WA2000AP.Bullet
+						|| wep instanceof WA2000HP.Bullet){
 					accuracy *= 0;
 				} else {
 					accuracy *= (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
@@ -921,18 +974,27 @@ public class Hero extends Char {
 				 || wep instanceof KSGHP.Bullet) {
 					accuracy *= 0;
 				}
-				else if (wep instanceof HuntingRifle.Bullet
-					  || wep instanceof SniperRifle.Bullet
-					  || wep instanceof AntimaterRifle.Bullet
-					  || wep instanceof HuntingRifleAP.Bullet
-					  || wep instanceof SniperRifleAP.Bullet
-					  || wep instanceof AntimaterRifleAP.Bullet
-					  || wep instanceof HuntingRifleHP.Bullet
-					  || wep instanceof SniperRifleHP.Bullet
-					  || wep instanceof AntimaterRifleHP.Bullet
-					  || wep instanceof MarksmanRifle.Bullet
-					  || wep instanceof MarksmanRifleAP.Bullet
-					  || wep instanceof MarksmanRifleHP.Bullet
+				else if (wep instanceof Revolver.Bullet
+						|| wep instanceof RevolverAP.Bullet
+						|| wep instanceof RevolverHP.Bullet
+						|| wep instanceof HuntingRifle.Bullet
+						|| wep instanceof HuntingRifleAP.Bullet
+						|| wep instanceof HuntingRifleHP.Bullet
+						|| wep instanceof Carbine.Bullet
+						|| wep instanceof CarbineAP.Bullet
+						|| wep instanceof CarbineHP.Bullet
+						|| wep instanceof SniperRifle.Bullet
+						|| wep instanceof SniperRifleAP.Bullet
+						|| wep instanceof SniperRifleHP.Bullet
+						|| wep instanceof AntimaterRifle.Bullet
+						|| wep instanceof AntimaterRifleAP.Bullet
+						|| wep instanceof AntimaterRifleHP.Bullet
+						|| wep instanceof MarksmanRifle.Bullet
+						|| wep instanceof MarksmanRifleAP.Bullet
+						|| wep instanceof MarksmanRifleHP.Bullet
+						|| wep instanceof WA2000.Bullet
+						|| wep instanceof WA2000AP.Bullet
+						|| wep instanceof WA2000HP.Bullet
 				) {
 						accuracy *= 2f;
 				} else if (wep instanceof CrudePistol.Bullet
@@ -987,62 +1049,72 @@ public class Hero extends Char {
 				}
 			}
 			if (this.hasTalent(Talent.BULLET_FOCUS)) {
-				if (wep instanceof CrudePistolAP.Bullet
-					|| wep instanceof PistolAP.Bullet
-					|| wep instanceof GoldenPistolAP.Bullet
-					|| wep instanceof HandgunAP.Bullet
-					|| wep instanceof MagnumAP.Bullet
-					|| wep instanceof HuntingRifleAP.Bullet
-					|| wep instanceof SniperRifleAP.Bullet
-					|| wep instanceof DualPistolAP.Bullet
-					|| wep instanceof SubMachinegunAP.Bullet
-					|| wep instanceof AssultRifleAP.Bullet
-					|| wep instanceof HeavyMachinegunAP.Bullet
-					|| wep instanceof MiniGunAP.Bullet
-					|| wep instanceof TacticalHandgunAP.Bullet
-					|| wep instanceof AntimaterRifleAP.Bullet
-					|| wep instanceof CrudePistolHP.Bullet
-					|| wep instanceof PistolHP.Bullet
-					|| wep instanceof GoldenPistolHP.Bullet
-					|| wep instanceof HandgunHP.Bullet
-					|| wep instanceof MagnumHP.Bullet
-					|| wep instanceof HuntingRifleHP.Bullet
-					|| wep instanceof SniperRifleHP.Bullet
-					|| wep instanceof DualPistolHP.Bullet
-					|| wep instanceof SubMachinegunHP.Bullet
-					|| wep instanceof AssultRifleHP.Bullet
-					|| wep instanceof HeavyMachinegunHP.Bullet
-					|| wep instanceof MiniGunHP.Bullet
-					|| wep instanceof TacticalHandgunHP.Bullet
-					|| wep instanceof AntimaterRifleHP.Bullet
-					|| wep instanceof CrudePistol.Bullet
-					|| wep instanceof Pistol.Bullet
-					|| wep instanceof GoldenPistol.Bullet
-					|| wep instanceof Handgun.Bullet
-					|| wep instanceof Magnum.Bullet
-					|| wep instanceof HuntingRifle.Bullet
-					|| wep instanceof SniperRifle.Bullet
-					|| wep instanceof DualPistol.Bullet
-					|| wep instanceof SubMachinegun.Bullet
-					|| wep instanceof AssultRifle.Bullet
-					|| wep instanceof HeavyMachinegun.Bullet
-					|| wep instanceof MiniGun.Bullet
-					|| wep instanceof AutoHandgun.Bullet
-					|| wep instanceof AutoHandgunAP.Bullet
-					|| wep instanceof AutoHandgunHP.Bullet
-					|| wep instanceof AutoRifle.Bullet
-					|| wep instanceof AutoRifleAP.Bullet
-					|| wep instanceof AutoRifleHP.Bullet
-					|| wep instanceof MarksmanRifle.Bullet
-					|| wep instanceof MarksmanRifleAP.Bullet
-					|| wep instanceof MarksmanRifleHP.Bullet
-					|| wep instanceof AntimaterRifle.Bullet
-					|| wep instanceof RocketLauncher.Rocket
-					|| wep instanceof RPG7.Rocket
-					|| wep instanceof GrenadeLauncher.Rocket
-					|| wep instanceof GrenadeLauncherAP.Rocket
-					|| wep instanceof GrenadeLauncherHP.Rocket
-					|| wep instanceof TacticalShield.Bullet
+				if (wep instanceof CrudePistol.Bullet
+						|| wep instanceof CrudePistolAP.Bullet
+						|| wep instanceof CrudePistolHP.Bullet
+						|| wep instanceof Pistol.Bullet
+						|| wep instanceof PistolAP.Bullet
+						|| wep instanceof PistolHP.Bullet
+						|| wep instanceof GoldenPistol.Bullet
+						|| wep instanceof GoldenPistolAP.Bullet
+						|| wep instanceof GoldenPistolHP.Bullet
+						|| wep instanceof Handgun.Bullet
+						|| wep instanceof HandgunAP.Bullet
+						|| wep instanceof HandgunHP.Bullet
+						|| wep instanceof Magnum.Bullet
+						|| wep instanceof MagnumAP.Bullet
+						|| wep instanceof MagnumHP.Bullet
+						|| wep instanceof TacticalHandgun.Bullet
+						|| wep instanceof TacticalHandgunAP.Bullet
+						|| wep instanceof TacticalHandgunHP.Bullet
+						|| wep instanceof AutoHandgun.Bullet
+						|| wep instanceof AutoHandgunAP.Bullet
+						|| wep instanceof AutoHandgunHP.Bullet
+						|| wep instanceof DualPistol.Bullet
+						|| wep instanceof DualPistolAP.Bullet
+						|| wep instanceof DualPistolHP.Bullet
+						|| wep instanceof SubMachinegun.Bullet
+						|| wep instanceof SubMachinegunAP.Bullet
+						|| wep instanceof SubMachinegunHP.Bullet
+						|| wep instanceof AssultRifle.Bullet
+						|| wep instanceof AssultRifleAP.Bullet
+						|| wep instanceof AssultRifleHP.Bullet
+						|| wep instanceof HeavyMachinegun.Bullet
+						|| wep instanceof HeavyMachinegunAP.Bullet
+						|| wep instanceof HeavyMachinegunHP.Bullet
+						|| wep instanceof MiniGun.Bullet
+						|| wep instanceof MiniGunAP.Bullet
+						|| wep instanceof MiniGunHP.Bullet
+						|| wep instanceof AutoRifle.Bullet
+						|| wep instanceof AutoRifleAP.Bullet
+						|| wep instanceof AutoRifleHP.Bullet
+						|| wep instanceof Revolver.Bullet
+						|| wep instanceof RevolverAP.Bullet
+						|| wep instanceof RevolverHP.Bullet
+						|| wep instanceof HuntingRifle.Bullet
+						|| wep instanceof HuntingRifleAP.Bullet
+						|| wep instanceof HuntingRifleHP.Bullet
+						|| wep instanceof Carbine.Bullet
+						|| wep instanceof CarbineAP.Bullet
+						|| wep instanceof CarbineHP.Bullet
+						|| wep instanceof SniperRifle.Bullet
+						|| wep instanceof SniperRifleAP.Bullet
+						|| wep instanceof SniperRifleHP.Bullet
+						|| wep instanceof AntimaterRifle.Bullet
+						|| wep instanceof AntimaterRifleAP.Bullet
+						|| wep instanceof AntimaterRifleHP.Bullet
+						|| wep instanceof MarksmanRifle.Bullet
+						|| wep instanceof MarksmanRifleAP.Bullet
+						|| wep instanceof MarksmanRifleHP.Bullet
+						|| wep instanceof WA2000.Bullet
+						|| wep instanceof WA2000AP.Bullet
+						|| wep instanceof WA2000HP.Bullet
+						|| wep instanceof RocketLauncher.Rocket
+						|| wep instanceof RPG7.Rocket
+						|| wep instanceof GrenadeLauncher.Rocket
+						|| wep instanceof GrenadeLauncherAP.Rocket
+						|| wep instanceof GrenadeLauncherHP.Rocket
+						|| wep instanceof TacticalShield.Bullet
 				) {
 					accuracy *= 1.05f + 0.05f * hero.pointsInTalent(Talent.BULLET_FOCUS);
 				}
@@ -1141,9 +1213,15 @@ public class Hero extends Char {
 			 || wep instanceof AutoRifle.Bullet
 			 || wep instanceof AutoRifleAP.Bullet
 			 || wep instanceof AutoRifleHP.Bullet
+			 || wep instanceof Revolver.Bullet
+			 || wep instanceof RevolverAP.Bullet
+			 || wep instanceof RevolverHP.Bullet
 			 || wep instanceof HuntingRifle.Bullet
 			 || wep instanceof HuntingRifleAP.Bullet
 			 || wep instanceof HuntingRifleHP.Bullet
+			 || wep instanceof Carbine.Bullet
+			 || wep instanceof CarbineAP.Bullet
+			 || wep instanceof CarbineHP.Bullet
 			 || wep instanceof SniperRifle.Bullet
 			 || wep instanceof SniperRifleAP.Bullet
 			 || wep instanceof SniperRifleHP.Bullet
@@ -1153,6 +1231,9 @@ public class Hero extends Char {
 			 || wep instanceof MarksmanRifle.Bullet
 			 || wep instanceof MarksmanRifleAP.Bullet
 			 || wep instanceof MarksmanRifleHP.Bullet
+			 || wep instanceof WA2000.Bullet
+			 || wep instanceof WA2000AP.Bullet
+			 || wep instanceof WA2000HP.Bullet
 			 || wep instanceof ShotGun.Bullet
 			 || wep instanceof ShotGunAP.Bullet
 			 || wep instanceof ShotGunHP.Bullet
@@ -3101,9 +3182,15 @@ public class Hero extends Char {
 					  	|| belongings.weapon() instanceof AutoRifle
 					  	|| belongings.weapon() instanceof AutoRifleAP
 					  	|| belongings.weapon() instanceof AutoRifleHP
+						|| belongings.weapon() instanceof Revolver
+						|| belongings.weapon() instanceof RevolverAP
+						|| belongings.weapon() instanceof RevolverHP
 					  	|| belongings.weapon() instanceof HuntingRifle
 					  	|| belongings.weapon() instanceof HuntingRifleAP
 					  	|| belongings.weapon() instanceof HuntingRifleHP
+						|| belongings.weapon() instanceof Carbine
+						|| belongings.weapon() instanceof CarbineAP
+						|| belongings.weapon() instanceof CarbineHP
 					  	|| belongings.weapon() instanceof SniperRifle
 					  	|| belongings.weapon() instanceof SniperRifleAP
 					  	|| belongings.weapon() instanceof SniperRifleHP
@@ -3113,6 +3200,9 @@ public class Hero extends Char {
 					  	|| belongings.weapon() instanceof MarksmanRifle
 					  	|| belongings.weapon() instanceof MarksmanRifleAP
 					  	|| belongings.weapon() instanceof MarksmanRifleHP
+						|| belongings.weapon() instanceof WA2000
+						|| belongings.weapon() instanceof WA2000AP
+						|| belongings.weapon() instanceof WA2000HP
 					  	|| belongings.weapon() instanceof ShotGun
 					  	|| belongings.weapon() instanceof ShotGunAP
 					  	|| belongings.weapon() instanceof ShotGunHP
@@ -3176,9 +3266,15 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifle
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof Revolver
+					|| Dungeon.hero.belongings.weapon() instanceof RevolverAP
+					|| Dungeon.hero.belongings.weapon() instanceof RevolverHP
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof Carbine
+					|| Dungeon.hero.belongings.weapon() instanceof CarbineAP
+					|| Dungeon.hero.belongings.weapon() instanceof CarbineHP
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifle
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifleHP
@@ -3188,6 +3284,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifle
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000AP
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000HP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGun
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
@@ -3247,9 +3346,15 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifle
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof Revolver
+					|| Dungeon.hero.belongings.weapon() instanceof RevolverAP
+					|| Dungeon.hero.belongings.weapon() instanceof RevolverHP
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof Carbine
+					|| Dungeon.hero.belongings.weapon() instanceof CarbineAP
+					|| Dungeon.hero.belongings.weapon() instanceof CarbineHP
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifle
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifleHP
@@ -3259,6 +3364,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifle
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000AP
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000HP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGun
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
@@ -3326,9 +3434,15 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifle
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof Revolver
+					|| Dungeon.hero.belongings.weapon() instanceof RevolverAP
+					|| Dungeon.hero.belongings.weapon() instanceof RevolverHP
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof Carbine
+					|| Dungeon.hero.belongings.weapon() instanceof CarbineAP
+					|| Dungeon.hero.belongings.weapon() instanceof CarbineHP
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifle
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifleHP
@@ -3338,6 +3452,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifle
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000AP
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000HP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGun
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP
@@ -3447,9 +3564,15 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifle
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof AutoRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof Revolver
+					|| Dungeon.hero.belongings.weapon() instanceof RevolverAP
+					|| Dungeon.hero.belongings.weapon() instanceof RevolverHP
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof Carbine
+					|| Dungeon.hero.belongings.weapon() instanceof CarbineAP
+					|| Dungeon.hero.belongings.weapon() instanceof CarbineHP
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifle
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof SniperRifleHP
@@ -3459,6 +3582,9 @@ public class Hero extends Char {
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifle
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleAP
 					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifleHP
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000AP
+					|| Dungeon.hero.belongings.weapon() instanceof WA2000HP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGun
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunAP
 					|| Dungeon.hero.belongings.weapon() instanceof ShotGunHP

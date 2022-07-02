@@ -43,6 +43,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
@@ -71,6 +74,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
@@ -101,6 +107,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -154,14 +163,20 @@ public class StableHPBullet extends InventorySpell {
                 || item instanceof AutoRifle
                 || item instanceof AutoRifleAP
 
+                || item instanceof Revolver
+                || item instanceof RevolverAP
                 || item instanceof HuntingRifle
                 || item instanceof HuntingRifleAP
+                || item instanceof Carbine
+                || item instanceof CarbineAP
                 || item instanceof SniperRifle
                 || item instanceof SniperRifleAP
                 || item instanceof AntimaterRifle
                 || item instanceof AntimaterRifleAP
                 || item instanceof MarksmanRifle
                 || item instanceof MarksmanRifleAP
+                || item instanceof WA2000
+                || item instanceof WA2000AP
 
                 || item instanceof ShotGun
                 || item instanceof ShotGunAP
@@ -238,6 +253,8 @@ public class StableHPBullet extends InventorySpell {
             n = new MagnumHP();
         } else if (w instanceof TacticalHandgun || w instanceof TacticalHandgunAP) {
             n = new TacticalHandgunHP();
+        } else if (w instanceof AutoHandgun || w instanceof AutoHandgunAP) {
+            n = new AutoHandgunHP();
         } else if (w instanceof DualPistol || w instanceof DualPistolAP) {
             n = new DualPistolHP();
         } else if (w instanceof SubMachinegun || w instanceof SubMachinegunAP) {
@@ -248,22 +265,26 @@ public class StableHPBullet extends InventorySpell {
             n = new HeavyMachinegunHP();
         } else if (w instanceof MiniGun || w instanceof MiniGunAP) {
             n = new MiniGunHP();
+        } else if (w instanceof AutoRifle || w instanceof AutoRifleAP) {
+            n = new AutoRifleHP();
+        } else if (w instanceof Revolver || w instanceof RevolverAP) {
+            n = new RevolverHP();
         } else if (w instanceof HuntingRifle || w instanceof HuntingRifleAP) {
             n = new HuntingRifleHP();
+        } else if (w instanceof Carbine || w instanceof CarbineAP) {
+            n = new CarbineHP();
         } else if (w instanceof SniperRifle || w instanceof SniperRifleAP) {
             n = new SniperRifleHP();
         } else if (w instanceof AntimaterRifle || w instanceof AntimaterRifleAP) {
             n = new AntimaterRifleHP();
+        } else if (w instanceof MarksmanRifle || w instanceof MarksmanRifleAP) {
+            n = new MarksmanRifleHP();
+        } else if (w instanceof WA2000 || w instanceof WA2000AP) {
+            n = new WA2000HP();
         } else if (w instanceof ShotGun || w instanceof ShotGunAP) {
             n = new ShotGunHP();
         } else if (w instanceof KSG || w instanceof KSGAP) {
             n = new KSGHP();
-        } else if (w instanceof AutoHandgun || w instanceof AutoHandgunAP) {
-            n = new AutoHandgunHP();
-        } else if (w instanceof AutoRifle || w instanceof AutoRifleAP) {
-            n = new AutoRifleHP();
-        } else if (w instanceof MarksmanRifle || w instanceof MarksmanRifleAP) {
-            n = new MarksmanRifleHP();
         } else if (w instanceof FlameThrower || w instanceof FlameThrowerAP) {
             n = new FlameThrowerHP();
         } else if (w instanceof PlasmaCannon || w instanceof PlasmaCannonAP) {

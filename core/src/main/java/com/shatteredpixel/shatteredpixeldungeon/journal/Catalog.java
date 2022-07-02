@@ -247,17 +247,20 @@ public enum Catalog {
 		WEAPONS.seen.put( AutoHandgun.class,                false);
 		WEAPONS.seen.put( TacticalHandgun.class,            false);
 
-		WEAPONS.seen.put( HuntingRifle.class,               false);
-		WEAPONS.seen.put( SniperRifle.class,                false);
-		WEAPONS.seen.put( MarksmanRifle.class,              false);
-		WEAPONS.seen.put( AntimaterRifle.class,             false);
-
 		WEAPONS.seen.put( DualPistol.class,                 false);
 		WEAPONS.seen.put( SubMachinegun.class,              false);
 		WEAPONS.seen.put( AssultRifle.class,                false);
 		WEAPONS.seen.put( HeavyMachinegun.class,            false);
 		WEAPONS.seen.put( AutoRifle.class,          		false);
 		WEAPONS.seen.put( MiniGun.class,                    false);
+
+		WEAPONS.seen.put( Revolver.class,              		false);
+		WEAPONS.seen.put( HuntingRifle.class,               false);
+		WEAPONS.seen.put( Carbine.class,              		false);
+		WEAPONS.seen.put( SniperRifle.class,                false);
+		WEAPONS.seen.put( MarksmanRifle.class,              false);
+		WEAPONS.seen.put( WA2000.class,             		false);
+		WEAPONS.seen.put( AntimaterRifle.class,             false);
 
 		WEAPONS.seen.put( ShotGun.class,                    false);
 		WEAPONS.seen.put( KSG.class,                       false);

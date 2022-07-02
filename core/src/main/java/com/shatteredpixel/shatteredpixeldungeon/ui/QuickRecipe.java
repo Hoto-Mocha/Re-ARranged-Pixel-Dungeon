@@ -116,6 +116,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Tra
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Warding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -427,6 +428,7 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new AutoRifle.Recipe1()));
 				result.add(null);
 				result.add(new QuickRecipe(new MarksmanRifle.Recipe1()));
+				result.add(new QuickRecipe(new WA2000.Recipe1()));
 				result.add(null);
 				result.add(null);
 				result.add(new QuickRecipe(new SpearNShield.Recipe()));

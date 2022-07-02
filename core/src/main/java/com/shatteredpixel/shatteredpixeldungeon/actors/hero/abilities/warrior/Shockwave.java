@@ -49,6 +49,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
@@ -70,6 +73,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
@@ -96,6 +102,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -198,6 +207,13 @@ public class Shockwave extends ArmorAbility {
 												|| hero.belongings.weapon instanceof Magnum
 												|| hero.belongings.weapon instanceof MagnumAP
 												|| hero.belongings.weapon instanceof MagnumHP
+												|| hero.belongings.weapon instanceof TacticalHandgun
+												|| hero.belongings.weapon instanceof TacticalHandgunAP
+												|| hero.belongings.weapon instanceof TacticalHandgunHP
+												|| hero.belongings.weapon instanceof AutoHandgun
+												|| hero.belongings.weapon instanceof AutoHandgunAP
+												|| hero.belongings.weapon instanceof AutoHandgunHP
+
 												|| hero.belongings.weapon instanceof DualPistol
 												|| hero.belongings.weapon instanceof DualPistolAP
 												|| hero.belongings.weapon instanceof DualPistolHP
@@ -210,38 +226,44 @@ public class Shockwave extends ArmorAbility {
 												|| hero.belongings.weapon instanceof HeavyMachinegun
 												|| hero.belongings.weapon instanceof HeavyMachinegunAP
 												|| hero.belongings.weapon instanceof HeavyMachinegunHP
+												|| hero.belongings.weapon instanceof MiniGun
+												|| hero.belongings.weapon instanceof MiniGunAP
+												|| hero.belongings.weapon instanceof MiniGunHP
+												|| hero.belongings.weapon instanceof AutoRifle
+												|| hero.belongings.weapon instanceof AutoRifleAP
+												|| hero.belongings.weapon instanceof AutoRifleHP
+
+												|| hero.belongings.weapon instanceof Revolver
+												|| hero.belongings.weapon instanceof RevolverAP
+												|| hero.belongings.weapon instanceof RevolverHP
 												|| hero.belongings.weapon instanceof HuntingRifle
 												|| hero.belongings.weapon instanceof HuntingRifleAP
 												|| hero.belongings.weapon instanceof HuntingRifleHP
+												|| hero.belongings.weapon instanceof Carbine
+												|| hero.belongings.weapon instanceof CarbineAP
+												|| hero.belongings.weapon instanceof CarbineHP
 												|| hero.belongings.weapon instanceof SniperRifle
 												|| hero.belongings.weapon instanceof SniperRifleAP
 												|| hero.belongings.weapon instanceof SniperRifleHP
+												|| hero.belongings.weapon instanceof AntimaterRifle
+												|| hero.belongings.weapon instanceof AntimaterRifleAP
+												|| hero.belongings.weapon instanceof AntimaterRifleHP
+												|| hero.belongings.weapon instanceof MarksmanRifle
+												|| hero.belongings.weapon instanceof MarksmanRifleAP
+												|| hero.belongings.weapon instanceof MarksmanRifleHP
+												|| hero.belongings.weapon instanceof WA2000
+												|| hero.belongings.weapon instanceof WA2000AP
+												|| hero.belongings.weapon instanceof WA2000HP
+
 												|| hero.belongings.weapon instanceof ShotGun
 												|| hero.belongings.weapon instanceof ShotGunAP
 												|| hero.belongings.weapon instanceof ShotGunHP
 												|| hero.belongings.weapon instanceof KSG
 												|| hero.belongings.weapon instanceof KSGAP
 												|| hero.belongings.weapon instanceof KSGHP
+
 												|| hero.belongings.weapon instanceof RocketLauncher
-												|| hero.belongings.weapon instanceof MiniGun
-												|| hero.belongings.weapon instanceof MiniGunAP
-												|| hero.belongings.weapon instanceof MiniGunHP
-												|| hero.belongings.weapon instanceof TacticalHandgun
-												|| hero.belongings.weapon instanceof TacticalHandgunAP
-												|| hero.belongings.weapon instanceof TacticalHandgunHP
-												|| hero.belongings.weapon instanceof AntimaterRifle
-												|| hero.belongings.weapon instanceof AntimaterRifleAP
-												|| hero.belongings.weapon instanceof AntimaterRifleHP
 												|| hero.belongings.weapon instanceof RPG7
-												|| hero.belongings.weapon instanceof AutoHandgun
-												|| hero.belongings.weapon instanceof AutoHandgunAP
-												|| hero.belongings.weapon instanceof AutoHandgunHP
-												|| hero.belongings.weapon instanceof AutoRifle
-												|| hero.belongings.weapon instanceof AutoRifleAP
-												|| hero.belongings.weapon instanceof AutoRifleHP
-												|| hero.belongings.weapon instanceof MarksmanRifle
-												|| hero.belongings.weapon instanceof MarksmanRifleAP
-												|| hero.belongings.weapon instanceof MarksmanRifleHP
 										) {
 											Buff.affect( hero, Focusing.class ).hit( ch );
 										}
