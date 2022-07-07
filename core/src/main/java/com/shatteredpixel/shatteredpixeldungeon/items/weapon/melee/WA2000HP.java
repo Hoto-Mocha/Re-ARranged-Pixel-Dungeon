@@ -242,8 +242,8 @@ public class WA2000HP extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 5 * (tier+2)   +
-                lvl * (tier+2) +
+        return 5 * (tier+1)   +
+                lvl * (tier+1) +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
@@ -258,7 +258,7 @@ public class WA2000HP extends MeleeWeapon {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
             if (STRReq() > Dungeon.hero.STR()) {
                 info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (Dungeon.hero.STR() > STRReq()){
+            } else if (Dungeon.hero.STR() > STRReq()) {
                 info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
             }
             info += "\n\n" + Messages.get(WA2000HP.class, "stats_known",

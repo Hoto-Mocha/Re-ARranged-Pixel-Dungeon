@@ -40,7 +40,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ItemStatusHandler;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.Elixir;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCorrosiveGas;
@@ -289,8 +292,8 @@ public class Potion extends Item {
 	
 	protected void drink( Hero hero ) {
 		int proc = (Dungeon.hero.pointsInTalent(Talent.CLINICAL_TRIAL) == 3) ? 1 : 0;
-		if (this instanceof ExoticPotion) {
-			if (Dungeon.hero.pointsInTalent(Talent.CLINICAL_TRIAL) >= 2 && (Random.Int(10) <= proc ) && !(this instanceof PotionOfMastery)) {
+		if (this instanceof ExoticPotion || this instanceof Elixir) {
+			if (Dungeon.hero.pointsInTalent(Talent.CLINICAL_TRIAL) >= 2 && (Random.Int(10) <= proc ) && !(this instanceof PotionOfMastery || this instanceof ElixirOfTalent || this instanceof ElixirOfHealth)) {
 				GLog.p(Messages.get(this, "preserve"));
 			} else {
 				detach( hero.belongings.backpack );

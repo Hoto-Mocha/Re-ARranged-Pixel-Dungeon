@@ -77,10 +77,6 @@ public class ElixirOfTalent extends Elixir {
 		}
 
 		Badges.validateStrengthAttained();
-		curUser.busy();
-		curUser.sprite.operate(curUser.pos);
-
-		curUser.spendAndNext(1f);
 
 		boolean unspentTalents = false;
 		for (int i = 1; i <= Dungeon.hero.talents.size(); i++){
@@ -93,8 +89,6 @@ public class ElixirOfTalent extends Elixir {
 			StatusPane.talentBlink = 10f;
 			WndHero.lastIdx = 1;
 		}
-
-
 
 		Sample.INSTANCE.play( Assets.Sounds.DRINK );
 	}

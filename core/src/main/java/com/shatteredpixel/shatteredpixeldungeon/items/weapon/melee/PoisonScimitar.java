@@ -43,7 +43,6 @@ public class PoisonScimitar extends MeleeWeapon {
 
 		tier = 4;
 		DLY = 0.8f; //1.25x speed
-		//also affects poison, see Hero.onAttackComplete
 		alchemy = true;
 	}
 
@@ -56,7 +55,7 @@ public class PoisonScimitar extends MeleeWeapon {
 				Buff.affect( defender, Poison.class).set(2);
 			}
 		}
-		return damage;
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

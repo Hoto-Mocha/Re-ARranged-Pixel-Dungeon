@@ -46,7 +46,6 @@ public class ElectroScimitar extends MeleeWeapon {
 
 		tier = 4;
 		DLY = 0.67f; //1.5x speed
-		//also affects paralysis, see Hero.onAttackComplete
 		alchemy = true;
 	}
 
@@ -58,7 +57,7 @@ public class ElectroScimitar extends MeleeWeapon {
 			defender.sprite.flash();
 			Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
 		}
-		return damage;
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

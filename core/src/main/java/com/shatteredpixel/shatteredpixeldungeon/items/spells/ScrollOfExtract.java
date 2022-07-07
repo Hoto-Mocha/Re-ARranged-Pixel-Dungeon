@@ -22,11 +22,18 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -46,7 +53,14 @@ public class ScrollOfExtract extends InventorySpell {
     @Override
     protected boolean usableOnItem(Item item) {
         if (item instanceof MeleeWeapon) {
-            if (((MeleeWeapon) item).hasCurseEnchant() || !isIdentified() || cursed || item.buffedLvl() <= 0) {
+            if ((((MeleeWeapon) item).hasCurseEnchant() || !isIdentified() || cursed || item.buffedLvl() <= 0)
+                || (item instanceof SleepGun
+                    || item instanceof FrostGun
+                    || item instanceof ParalysisGun
+                    || item instanceof GrenadeLauncher
+                    || item instanceof GrenadeLauncherAP
+                    || item instanceof GrenadeLauncherHP)
+            ) {
                 return false;
             } else {
                 return true;

@@ -79,6 +79,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFury;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfRush;
@@ -95,15 +97,27 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfForesight;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.APBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ElectroScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
@@ -238,6 +252,20 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
+		//new ScrollOfExtract().quantity(20).collect();
+		//new SleepGun().identify().collect();
+		//new SleepGun().identify().collect();
+		//new SleepGun().identify().collect();
+		//new GrenadeLauncher().identify().collect();
+		//new GrenadeLauncher().identify().collect();
+		//new GrenadeLauncher().identify().collect();
+		//new PotionOfExperience().identify().quantity(50).collect();
+		//new APBullet().quantity(2).collect();
+		//new HPBullet().quantity(2).collect();
+		//new ElectroScimitar().collect();
+		//new Longsword().collect();
+		//new RingOfFury().identify().upgrade(100).collect();
+		//new RingOfRush().identify().upgrade(15).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new Teleporter().collect();
 		//new RingOfMight().identify().upgrade(19).collect();
@@ -367,6 +395,14 @@ public enum HeroClass {
 
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
+
+		//new Revolver().identify().collect();
+		//new HuntingRifle().identify().collect();
+		//new Carbine().identify().collect();
+		//new SniperRifle().identify().collect();
+		//new WA2000().identify().collect();
+		//new RingOfMight().identify().upgrade(10).collect();
+
 
 		//new GoldenPistol().identify().collect();
 		//new SubMachinegun().identify().collect();

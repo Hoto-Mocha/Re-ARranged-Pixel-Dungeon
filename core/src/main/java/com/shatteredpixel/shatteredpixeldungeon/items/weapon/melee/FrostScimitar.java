@@ -40,7 +40,6 @@ public class FrostScimitar extends MeleeWeapon {
 
 		tier = 4;
 		DLY = 0.8f; //1.25x speed
-		//also affects chilling, see Hero.onAttackComplete
 		alchemy = true;
 	}
 
@@ -60,7 +59,7 @@ public class FrostScimitar extends MeleeWeapon {
 			Buff.affect( defender, Chill.class, durationToAdd );
 			Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
 		}
-		return damage;
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

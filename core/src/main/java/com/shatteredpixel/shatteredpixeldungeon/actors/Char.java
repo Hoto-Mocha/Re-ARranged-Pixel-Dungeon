@@ -1740,7 +1740,9 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			dmg *= RingOfFury.dealingMultiplier( hero );
+			if (this instanceof Hero) {
+				dmg *= RingOfFury.dealingMultiplier( hero );
+			}
 
 			if (this instanceof Hero && enemy.buff(Charm.class) != null && hero.pointsInTalent(Talent.APPEASE) == 3 && !enemy.isAlive() && Random.Int(10) == 0) {
 				dmg = 0;

@@ -242,8 +242,8 @@ public class WA2000AP extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return 5 * (tier+2)   +
-                lvl * (tier+2) +
+        return 5 * (tier+1)   +
+                lvl * (tier+1) +
                 RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 

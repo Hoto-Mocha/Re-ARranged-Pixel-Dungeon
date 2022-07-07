@@ -40,7 +40,6 @@ public class FlameScimitar extends MeleeWeapon {
 
 		tier = 4;
 		DLY = 0.8f; //1.25x speed
-		//also affects burning, see Hero.onAttackComplete
 		alchemy = true;
 	}
 
@@ -58,7 +57,7 @@ public class FlameScimitar extends MeleeWeapon {
 				Buff.affect(defender, Burning.class).reignite(defender, 8f);
 			}
 		}
-		return damage;
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

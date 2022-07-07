@@ -548,6 +548,89 @@ public enum Talent {
 			if (hero.belongings.ring instanceof Ring) hero.belongings.ring.setKnown();
 			if (hero.belongings.misc instanceof Ring) ((Ring) hero.belongings.misc).setKnown();
 		}
+		if (talent == GUNNERS_INTUITION && hero.pointsInTalent(GUNNERS_INTUITION) == 2){
+			if (hero.belongings.weapon() != null &&
+					(hero.belongings.weapon() instanceof CrudePistol
+						|| hero.belongings.weapon() instanceof CrudePistolAP
+						|| hero.belongings.weapon() instanceof CrudePistolHP
+						|| hero.belongings.weapon() instanceof Pistol
+						|| hero.belongings.weapon() instanceof PistolAP
+						|| hero.belongings.weapon() instanceof PistolHP
+						|| hero.belongings.weapon() instanceof GoldenPistol
+						|| hero.belongings.weapon() instanceof GoldenPistolAP
+						|| hero.belongings.weapon() instanceof GoldenPistolHP
+						|| hero.belongings.weapon() instanceof Handgun
+						|| hero.belongings.weapon() instanceof HandgunAP
+						|| hero.belongings.weapon() instanceof HandgunHP
+						|| hero.belongings.weapon() instanceof Magnum
+						|| hero.belongings.weapon() instanceof MagnumAP
+						|| hero.belongings.weapon() instanceof MagnumHP
+						|| hero.belongings.weapon() instanceof TacticalHandgun
+						|| hero.belongings.weapon() instanceof TacticalHandgunAP
+						|| hero.belongings.weapon() instanceof TacticalHandgunHP
+						|| hero.belongings.weapon() instanceof AutoHandgun
+						|| hero.belongings.weapon() instanceof AutoHandgunAP
+						|| hero.belongings.weapon() instanceof AutoHandgunHP
+						|| hero.belongings.weapon() instanceof DualPistol
+						|| hero.belongings.weapon() instanceof DualPistolAP
+						|| hero.belongings.weapon() instanceof DualPistolHP
+						|| hero.belongings.weapon() instanceof SubMachinegun
+						|| hero.belongings.weapon() instanceof SubMachinegunAP
+						|| hero.belongings.weapon() instanceof SubMachinegunHP
+						|| hero.belongings.weapon() instanceof AssultRifle
+						|| hero.belongings.weapon() instanceof AssultRifleAP
+						|| hero.belongings.weapon() instanceof AssultRifleHP
+						|| hero.belongings.weapon() instanceof HeavyMachinegun
+						|| hero.belongings.weapon() instanceof HeavyMachinegunAP
+						|| hero.belongings.weapon() instanceof HeavyMachinegunHP
+						|| hero.belongings.weapon() instanceof MiniGun
+						|| hero.belongings.weapon() instanceof MiniGunAP
+						|| hero.belongings.weapon() instanceof MiniGunHP
+						|| hero.belongings.weapon() instanceof AutoRifle
+						|| hero.belongings.weapon() instanceof AutoRifleAP
+						|| hero.belongings.weapon() instanceof AutoRifleHP
+						|| hero.belongings.weapon() instanceof Revolver
+						|| hero.belongings.weapon() instanceof RevolverAP
+						|| hero.belongings.weapon() instanceof RevolverHP
+						|| hero.belongings.weapon() instanceof HuntingRifle
+						|| hero.belongings.weapon() instanceof HuntingRifleAP
+						|| hero.belongings.weapon() instanceof HuntingRifleHP
+						|| hero.belongings.weapon() instanceof Carbine
+						|| hero.belongings.weapon() instanceof CarbineAP
+						|| hero.belongings.weapon() instanceof CarbineHP
+						|| hero.belongings.weapon() instanceof SniperRifle
+						|| hero.belongings.weapon() instanceof SniperRifleAP
+						|| hero.belongings.weapon() instanceof SniperRifleHP
+						|| hero.belongings.weapon() instanceof AntimaterRifle
+						|| hero.belongings.weapon() instanceof AntimaterRifleAP
+						|| hero.belongings.weapon() instanceof AntimaterRifleHP
+						|| hero.belongings.weapon() instanceof MarksmanRifle
+						|| hero.belongings.weapon() instanceof MarksmanRifleAP
+						|| hero.belongings.weapon() instanceof MarksmanRifleHP
+						|| hero.belongings.weapon() instanceof WA2000
+						|| hero.belongings.weapon() instanceof WA2000AP
+						|| hero.belongings.weapon() instanceof WA2000HP
+						|| hero.belongings.weapon() instanceof ShotGun
+						|| hero.belongings.weapon() instanceof ShotGunAP
+						|| hero.belongings.weapon() instanceof ShotGunHP
+						|| hero.belongings.weapon() instanceof KSG
+						|| hero.belongings.weapon() instanceof KSGAP
+						|| hero.belongings.weapon() instanceof KSGHP
+						|| hero.belongings.weapon() instanceof FlameThrower
+						|| hero.belongings.weapon() instanceof FlameThrowerAP
+						|| hero.belongings.weapon() instanceof FlameThrowerHP
+						|| hero.belongings.weapon() instanceof PlasmaCannon
+						|| hero.belongings.weapon() instanceof PlasmaCannonAP
+						|| hero.belongings.weapon() instanceof PlasmaCannonHP
+						|| hero.belongings.weapon() instanceof RPG7
+						|| hero.belongings.weapon() instanceof RocketLauncher)) hero.belongings.weapon().identify();
+		}
+		if (talent == MASTERS_INTUITION && hero.pointsInTalent(MASTERS_INTUITION) == 1){
+			if (hero.belongings.weapon() != null) hero.belongings.weapon().identify();
+		}
+		if (talent == KNIGHTS_INTUITION && hero.pointsInTalent(KNIGHTS_INTUITION) == 2){
+			if (hero.belongings.armor() != null)  hero.belongings.armor.identify();
+		}
 
 		if (talent == LIGHT_CLOAK && hero.pointsInTalent(LIGHT_CLOAK) == 1){
 			for (Item item : Dungeon.hero.belongings.backpack){
