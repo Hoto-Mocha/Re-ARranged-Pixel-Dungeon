@@ -58,6 +58,10 @@ import com.watabou.utils.Random;
 
 public class SmokeBomb extends ArmorAbility {
 
+	{
+		baseChargeUse = 50;
+	}
+
 	@Override
 	public String targetingPrompt() {
 		return Messages.get(this, "prompt");
@@ -77,7 +81,7 @@ public class SmokeBomb extends ArmorAbility {
 	protected void activate(ClassArmor armor, Hero hero, Integer target) {
 		if (target != null) {
 
-			PathFinder.buildDistanceMap(hero.pos, BArray.not(Dungeon.level.solid,null), 6);
+			PathFinder.buildDistanceMap(hero.pos, BArray.not(Dungeon.level.solid,null), 10);
 
 			if ( PathFinder.distance[target] == Integer.MAX_VALUE ||
 					!Dungeon.level.heroFOV[target] ||

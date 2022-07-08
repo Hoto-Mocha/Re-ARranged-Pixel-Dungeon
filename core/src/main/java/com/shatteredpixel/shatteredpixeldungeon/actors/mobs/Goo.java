@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -68,6 +69,10 @@ public class Goo extends Mob {
 		int max = (HP*2 <= HT) ? 12 : 8;
 		if (pumpedUp > 0) {
 			pumpedUp = 0;
+			if (enemy == Dungeon.hero) {
+				Statistics.qualifiedForBossChallengeBadge = false;
+				Statistics.bossScores[0] -= 100;
+			}
 			return Random.NormalIntRange( min*3, max*3 );
 		} else {
 			return Random.NormalIntRange( min, max );
@@ -97,6 +102,8 @@ public class Goo extends Mob {
 
 		if (Dungeon.level.water[pos] && HP < HT) {
 			HP += healInc;
+			Statistics.bossScores[0] -= 10;
+			Statistics.qualifiedForBossChallengeBadge = false;
 
 			LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
 			if (lock != null) lock.removeTime(healInc*2);
@@ -212,7 +219,13 @@ public class Goo extends Mob {
 	@Override
 	public boolean attack( Char enemy, float dmgMulti, float dmgBonus, float accMulti ) {
 		boolean result = super.attack( enemy, dmgMulti, dmgBonus, accMulti );
-		pumpedUp = 0;
+		if (pumpedUp > 0) {
+			pumpedUp = 0;
+			if (enemy == Dungeon.hero) {
+				Statistics.qualifiedForBossChallengeBadge = false;
+				Statistics.bossScores[0] -= 100;
+			}
+		}
 		return result;
 	}
 
@@ -265,6 +278,12 @@ public class Goo extends Mob {
 		
 		Badges.validateBossSlain();
 
+		if (Statistics.qualifiedForBossChallengeBadge){
+			Badges.validateBossChallengeCompleted();
+		}
+		Statistics.bossScores[0] += 1050; //Goo has a 50 point gimme
+		Statistics.bossScores[0] = Math.min(1000, Statistics.bossScores[0]);
+
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
 		if (beacon != null) {
 			beacon.upgrade();
@@ -309,9 +328,7 @@ public class Goo extends Mob {
 		if (state != SLEEPING) BossHealthBar.assignBoss(this);
 		if ((HP*2 <= HT)) BossHealthBar.bleed(true);
 
-		//if check is for pre-0.9.3 saves
 		healInc = bundle.getInt(HEALINC);
-
 	}
 	
 }

@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -104,7 +105,7 @@ public abstract class YogFist extends Mob {
 	private boolean invulnWarned = false;
 
 	protected boolean isNearYog(){
-		int yogPos = Dungeon.level.exit + 3*Dungeon.level.width();
+		int yogPos = Dungeon.level.exit() + 3*Dungeon.level.width();
 		return Dungeon.level.distance(pos, yogPos) <= 4;
 	}
 
@@ -338,7 +339,7 @@ public abstract class YogFist extends Mob {
 		}
 
 		private boolean canSpreadGrass(int cell){
-			int yogPos = Dungeon.level.exit + Dungeon.level.width()*3;
+			int yogPos = Dungeon.level.exit() + Dungeon.level.width()*3;
 			return Dungeon.level.distance(cell, yogPos) > 4 && !Dungeon.level.solid[cell]
 					&& !(Dungeon.level.map[cell] == Terrain.FURROWED_GRASS || Dungeon.level.map[cell] == Terrain.HIGH_GRASS);
 		}
@@ -473,6 +474,7 @@ public abstract class YogFist extends Mob {
 				Buff.prolong( enemy, Blindness.class, Blindness.DURATION/2f );
 
 				if (!enemy.isAlive() && enemy == Dungeon.hero) {
+					Badges.validateDeathFromEnemyMagic();
 					Dungeon.fail( getClass() );
 					GLog.n( Messages.get(Char.class, "kill", name()) );
 				}
@@ -497,7 +499,7 @@ public abstract class YogFist extends Mob {
 				} while (Dungeon.level.heroFOV[i]
 						|| Dungeon.level.solid[i]
 						|| Actor.findChar(i) != null
-						|| PathFinder.getStep(i, Dungeon.level.exit, Dungeon.level.passable) == -1);
+						|| PathFinder.getStep(i, Dungeon.level.exit(), Dungeon.level.passable) == -1);
 				ScrollOfTeleportation.appear(this, i);
 				state = WANDERING;
 				GameScene.flash(0x80FFFFFF);
@@ -540,6 +542,7 @@ public abstract class YogFist extends Mob {
 				}
 
 				if (!enemy.isAlive() && enemy == Dungeon.hero) {
+					Badges.validateDeathFromEnemyMagic();
 					Dungeon.fail( getClass() );
 					GLog.n( Messages.get(Char.class, "kill", name()) );
 				}
@@ -567,7 +570,7 @@ public abstract class YogFist extends Mob {
 				} while (Dungeon.level.heroFOV[i]
 						|| Dungeon.level.solid[i]
 						|| Actor.findChar(i) != null
-						|| PathFinder.getStep(i, Dungeon.level.exit, Dungeon.level.passable) == -1);
+						|| PathFinder.getStep(i, Dungeon.level.exit(), Dungeon.level.passable) == -1);
 				ScrollOfTeleportation.appear(this, i);
 				state = WANDERING;
 				GameScene.flash(0, false);

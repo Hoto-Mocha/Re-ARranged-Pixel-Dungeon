@@ -29,6 +29,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
+import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Starflower extends Plant {
@@ -43,8 +45,10 @@ public class Starflower extends Plant {
 
 		if (ch != null) {
 			Buff.prolong(ch, Bless.class, Bless.DURATION);
+			new Flare( 6, 32 ).color(0xFFFF00, true).show( ch.sprite, 2f );
 			if (ch instanceof Hero && (((Hero) ch).subClass == HeroSubClass.WARDEN || Dungeon.hero.pointsInTalent(Talent.FARMER) == 3)){
 				Buff.prolong(ch, Recharging.class, Recharging.DURATION);
+				SpellSprite.show( ch, SpellSprite.CHARGE );
 			}
 		}
 

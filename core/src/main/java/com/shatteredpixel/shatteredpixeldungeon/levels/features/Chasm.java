@@ -65,9 +65,25 @@ public class Chasm implements Hero.Doom {
 								Messages.get(Chasm.class, "jump"),
 								Messages.get(Chasm.class, "yes"),
 								Messages.get(Chasm.class, "no") ) {
+
+							private float elapsed = 0f;
+
+							@Override
+							public synchronized void update() {
+								super.update();
+								elapsed += Game.elapsed;
+							}
+
+							@Override
+							public void hide() {
+								if (elapsed > 0.2f){
+									super.hide();
+								}
+							}
+
 							@Override
 							protected void onSelect( int index ) {
-								if (index == 0) {
+								if (index == 0 && elapsed > 0.2f) {
 									if (Dungeon.hero.pos == heroPos) {
 										jumpConfirmed = true;
 										hero.resume();
@@ -133,7 +149,7 @@ public class Chasm implements Hero.Doom {
 
 		//The lower the hero's HP, the more bleed and the less upfront damage.
 		//Hero has a 50% chance to bleed out at 66% HP, and begins to risk instant-death at 25%
-		Buff.affect( hero, FallBleed.class).set( Math.round(hero.HT / (6f + (6f*(hero.HP/(float)hero.HT)))));
+		Buff.affect( hero, Bleeding.class).set( Math.round(hero.HT / (6f + (6f*(hero.HP/(float)hero.HT)))), Chasm.class);
 		hero.damage( Math.max( hero.HP / 2, Random.NormalIntRange( hero.HP / 2, hero.HT / 4 )), new Chasm() );
 	}
 
@@ -156,12 +172,5 @@ public class Chasm implements Hero.Doom {
 			return true;
 		}
 	}
-	
-	public static class FallBleed extends Bleeding implements Hero.Doom {
-		
-		@Override
-		public void onDeath() {
-			Badges.validateDeathFromFalling();
-		}
-	}
+
 }

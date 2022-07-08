@@ -30,11 +30,14 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.watabou.input.ControllerHandler;
 import com.watabou.input.GameAction;
 import com.watabou.input.KeyBindings;
 import com.watabou.input.KeyEvent;
+import com.watabou.input.PointerEvent;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.ui.Component;
+import com.watabou.utils.PointF;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -55,9 +58,13 @@ public class WndKeyBindings extends Window {
 
 	private LinkedHashMap<Integer, GameAction> changedBindings;
 
-	public WndKeyBindings() {
+	private static boolean controller = false;
 
-		changedBindings = KeyBindings.getAllBindings();
+	public WndKeyBindings(Boolean controller) {
+
+		this.controller = controller;
+
+		changedBindings = controller ? KeyBindings.getAllControllerBindings() : KeyBindings.getAllBindings();
 
 		RenderedTextBlock ttlAction = PixelScene.renderTextBlock(Messages.get(this, "ttl_action"), 9);
 		ttlAction.setPos( COL1_CENTER - ttlAction.width()/2, (BTN_HEIGHT - ttlAction.height())/2);
@@ -113,10 +120,42 @@ public class WndKeyBindings extends Window {
 		add(scrollingList);
 
 		int y = 0;
-		for (GameAction action : GameAction.allActions()){
-			//start at 1. No bindings for NONE
-			if (action.code() < 1) continue;
 
+		if (controller){
+			RenderedTextBlock controllerInfo = PixelScene.renderTextBlock(Messages.get(this, "controller_info"), 6);
+			controllerInfo.maxWidth(WIDTH);
+			controllerInfo.setPos(0, 2);
+			controllerInfo.hardlight(TITLE_COLOR);
+			bindingsList.add(controllerInfo);
+			y = (int)controllerInfo.bottom()+3;
+
+			ColorBlock sep = new ColorBlock(WIDTH, 1, 0xFF222222);
+			sep.y = y;
+			bindingsList.add(sep);
+		}
+
+		LinkedHashMap<Integer, GameAction> defaults = controller ? SPDAction.getControllerDefaults() : SPDAction.getDefaults();
+
+		ArrayList<GameAction> actionList = GameAction.allActions();
+		for (GameAction action : actionList.toArray(new GameAction[0])) {
+			//start at 1. No bindings for NONE
+			if (action.code() < 1) {
+				actionList.remove(action);
+
+			//mouse bindings are only available to controllers
+			} else if ((action == GameAction.LEFT_CLICK
+					|| action == GameAction.RIGHT_CLICK
+					|| action == GameAction.MIDDLE_CLICK) && !controller) {
+				actionList.remove(action);
+
+			//actions with no default binding are moved to the end of the list
+			} else if (!defaults.containsValue(action)){
+						actionList.remove(action);
+						actionList.add(action);
+			}
+		}
+
+		for (GameAction action : actionList){
 			BindingItem item = new BindingItem(action);
 			item.setRect(0, y, WIDTH, BindingItem.HEIGHT);
 			bindingsList.addToBack(item);
@@ -130,7 +169,7 @@ public class WndKeyBindings extends Window {
 		RedButton btnDefaults = new RedButton(Messages.get(this, "default"), 9){
 			@Override
 			protected void onClick() {
-				changedBindings = SPDAction.getDefaults();
+				changedBindings = controller ? SPDAction.getControllerDefaults() : SPDAction.getDefaults();
 				for (BindingItem i : listItems){
 					int key1 = 0;
 					int key2 = 0;
@@ -152,7 +191,8 @@ public class WndKeyBindings extends Window {
 		RedButton btnConfirm = new RedButton(Messages.get(this, "confirm"), 9){
 			@Override
 			protected void onClick() {
-				KeyBindings.setAllBindings(changedBindings);
+				if (controller) KeyBindings.setAllControllerBindings(changedBindings);
+				else            KeyBindings.setAllBindings(changedBindings);
 				SPDAction.saveBindings();
 				hide();
 			}
@@ -219,7 +259,12 @@ public class WndKeyBindings extends Window {
 			actionName.setHightlighting(false);
 			add(actionName);
 
-			ArrayList<Integer> keys = KeyBindings.getBoundKeysForAction(action);
+			ArrayList<Integer> keys;
+			if (controller){
+				keys = KeyBindings.getControllerKeysForAction(action);
+			} else {
+				keys = KeyBindings.getKeyboardKeysForAction(action);
+			}
 			origKey1 = key1 = keys.isEmpty() ? 0 : keys.remove(0);
 			origKey2 = key2 = keys.isEmpty() ? 0 : keys.remove(0);
 			origKey3 = key3 = keys.isEmpty() ? 0 : keys.remove(0);
@@ -344,7 +389,9 @@ public class WndKeyBindings extends Window {
 		private RenderedTextBlock changedKey;
 		private RenderedTextBlock warnErr;
 
+		private RedButton btnUnbind;
 		private RedButton btnConfirm;
+		private RedButton btnCancel;
 
 		public WndChangeBinding(GameAction action, BindingItem listItem, int keyAssigning, int curKeyCode, int otherBoundKey1, int otherBoundKey2 ){
 
@@ -379,10 +426,14 @@ public class WndKeyBindings extends Window {
 			warnErr.setRect(0, changedKey.bottom() + 10, WIDTH, warnErr.height());
 			add(warnErr);
 
-			RedButton btnUnbind = new RedButton(Messages.get(this, "unbind"), 9){
+			btnUnbind = new RedButton(Messages.get(this, "unbind"), 9){
 				@Override
 				protected void onClick() {
-					onSignal(new KeyEvent(0, true));
+					if (action == GameAction.LEFT_CLICK && listItem.key2 == 0 && listItem.key3 == 0){
+						ShatteredPixelDungeon.scene().addToFront(new WndMessage(Messages.get(WndChangeBinding.class, "cant_unbind")));
+					} else {
+						onSignal(new KeyEvent(0, true));
+					}
 				}
 			};
 			btnUnbind.setRect(0, warnErr.bottom() + 6, WIDTH, BTN_HEIGHT);
@@ -433,7 +484,7 @@ public class WndKeyBindings extends Window {
 			btnConfirm.enable(false);
 			add(btnConfirm);
 
-			RedButton btnCancel = new RedButton(Messages.get(this, "cancel"), 9){
+			btnCancel = new RedButton(Messages.get(this, "cancel"), 9){
 				@Override
 				protected void onClick() {
 					hide();
@@ -449,6 +500,19 @@ public class WndKeyBindings extends Window {
 
 		@Override
 		public boolean onSignal(KeyEvent event) {
+			//ignore left clicks if we are pressing a button
+			if (KeyBindings.getActionForKey(event) == GameAction.LEFT_CLICK){
+				PointF hoverPos = camera().screenToCamera((int)PointerEvent.currentHoverPos().x, (int)PointerEvent.currentHoverPos().y);
+				if (btnUnbind.inside(hoverPos.x, hoverPos.y)) return true;
+				if (btnConfirm.inside(hoverPos.x, hoverPos.y)) return true;
+				if (btnCancel.inside(hoverPos.x, hoverPos.y)) return true;
+			}
+
+			//ignore controller buttons on key bindings, and vice-versa
+			if (ControllerHandler.icControllerKey(event.code) != controller){
+				return true;
+			}
+
 			if (event.pressed){
 				changedKey.text(Messages.get(this, "changed_bind", KeyBindings.getKeyName(event.code)));
 				changedKey.setPos((WIDTH - changedKey.width())/2, changedKey.top());

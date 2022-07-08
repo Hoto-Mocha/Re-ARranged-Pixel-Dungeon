@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -100,15 +101,20 @@ public abstract class ChampionEnemy extends Buff {
 		Dungeon.mobsToChampion--;
 
 		if (Dungeon.mobsToChampion <= 0){
+			Class<?extends ChampionEnemy> buffCls;
 			switch (Random.Int(6)){
-				case 0: default:    Buff.affect(m, Blazing.class);      break;
-				case 1:             Buff.affect(m, Projecting.class);   break;
-				case 2:             Buff.affect(m, AntiMagic.class);    break;
-				case 3:             Buff.affect(m, Giant.class);        break;
-				case 4:             Buff.affect(m, Blessed.class);      break;
-				case 5:             Buff.affect(m, Growing.class);      break;
+				case 0: default:    buffCls = Blazing.class;      break;
+				case 1:             buffCls = Projecting.class;   break;
+				case 2:             buffCls = AntiMagic.class;    break;
+				case 3:             buffCls = Giant.class;        break;
+				case 4:             buffCls = Blessed.class;      break;
+				case 5:             buffCls = Growing.class;      break;
 			}
-			m.state = m.WANDERING;
+
+			if (Dungeon.isChallenged(Challenges.CHAMPION_ENEMIES)) {
+				Buff.affect(m, buffCls);
+				m.state = m.WANDERING;
+			}
 		}
 	}
 
@@ -125,9 +131,12 @@ public abstract class ChampionEnemy extends Buff {
 
 		@Override
 		public void detach() {
-			for (int i : PathFinder.NEIGHBOURS9){
-				if (!Dungeon.level.solid[target.pos+i]){
-					GameScene.add(Blob.seed(target.pos+i, 2, Fire.class));
+			//don't trigger when killed by being knocked into a pit
+			if (target.flying || !Dungeon.level.pit[target.pos]) {
+				for (int i : PathFinder.NEIGHBOURS9) {
+					if (!Dungeon.level.solid[target.pos + i]) {
+						GameScene.add(Blob.seed(target.pos + i, 2, Fire.class));
+					}
 				}
 			}
 			super.detach();

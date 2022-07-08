@@ -51,14 +51,8 @@ public class Fadeleaf extends Plant {
 		if (ch instanceof Hero) {
 			
 			((Hero)ch).curAction = null;
-			
-			if (((Hero) ch).subClass == HeroSubClass.WARDEN || Dungeon.hero.pointsInTalent(Talent.FARMER) == 3){
-				
-				if (Dungeon.level.locked) {
-					GLog.w( Messages.get(ScrollOfTeleportation.class, "no_tele") );
-					return;
-					
-				}
+
+			if ((((Hero) ch).subClass == HeroSubClass.WARDEN || Dungeon.hero.pointsInTalent(Talent.FARMER) == 3) && Dungeon.interfloorTeleportAllowed()){
 
 				TimekeepersHourglass.timeFreeze timeFreeze = Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class);
 				if (timeFreeze != null) timeFreeze.disarmPressedTraps();
@@ -67,6 +61,7 @@ public class Fadeleaf extends Plant {
 				
 				InterlevelScene.mode = InterlevelScene.Mode.RETURN;
 				InterlevelScene.returnDepth = Math.max(1, (Dungeon.depth - 1));
+				InterlevelScene.returnBranch = 0;
 				InterlevelScene.returnPos = -2;
 				Game.switchScene( InterlevelScene.class );
 				

@@ -31,7 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlad
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.watabou.utils.Random;
 
-public class Dazzling extends Weapon.Enchantment {
+public class Shiny extends Weapon.Enchantment {
 
 	private static ItemSprite.Glowing YELLOW = new ItemSprite.Glowing( 0xFFFF00 );
 

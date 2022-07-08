@@ -30,7 +30,11 @@ import java.util.LinkedHashMap;
 // should see about doing some refactoring to clean this up
 public class KeyBindings {
 
+	//for keyboard keys
 	private static LinkedHashMap<Integer, GameAction> bindings = new LinkedHashMap<>();
+
+	//for controller buttons
+	private static LinkedHashMap<Integer, GameAction> controllerBindings = new LinkedHashMap<>();
 
 	public static LinkedHashMap<Integer, GameAction> getAllBindings(){
 		return new LinkedHashMap<>(bindings);
@@ -38,6 +42,14 @@ public class KeyBindings {
 
 	public static void setAllBindings(LinkedHashMap<Integer, GameAction> newBindings){
 		bindings = new LinkedHashMap<>(newBindings);
+	}
+
+	public static LinkedHashMap<Integer, GameAction> getAllControllerBindings(){
+		return new LinkedHashMap<>(controllerBindings);
+	}
+
+	public static void setAllControllerBindings(LinkedHashMap<Integer, GameAction> newBindings){
+		controllerBindings = new LinkedHashMap<>(newBindings);
 	}
 
 	//these are special keybinding that are not user-configurable
@@ -53,22 +65,50 @@ public class KeyBindings {
 		if (keyCode < 0 || (keyCode > 255 && keyCode < 1000)){
 			return false;
 		}
-		return bindingKey || bindings.containsKey( keyCode ) || hardBindings.containsKey( keyCode );
+		return bindingKey
+				|| bindings.containsKey( keyCode )
+				|| controllerBindings.containsKey( keyCode )
+				|| hardBindings.containsKey( keyCode );
 	}
 	
 	public static GameAction getActionForKey(KeyEvent event){
-		if (bindings.containsKey( event.code )){
+		if (bindings.containsKey( event.code )) {
 			return bindings.get( event.code );
+		} else if (controllerBindings.containsKey( event.code )){
+			return controllerBindings.get( event.code );
 		} else if (hardBindings.containsKey( event.code )) {
 			return hardBindings.get( event.code );
 		}
 		return GameAction.NONE;
 	}
 
-	public static ArrayList<Integer> getBoundKeysForAction(GameAction action){
+	public static int getFirstKeyForAction(GameAction action, boolean preferController){
+		ArrayList<Integer> keys = getKeyboardKeysForAction(action);
+		ArrayList<Integer> buttons = getControllerKeysForAction(action);
+		if (preferController){
+			if (!buttons.isEmpty())         return buttons.get(0);
+			else if (!keys.isEmpty())       return keys.get(0);
+		} else {
+			if (!keys.isEmpty())            return keys.get(0);
+			else if (!buttons.isEmpty())    return buttons.get(0);
+		}
+		return 0;
+	}
+
+	public static ArrayList<Integer> getKeyboardKeysForAction(GameAction action){
 		ArrayList<Integer> result = new ArrayList<>();
-		for( int i : bindings.keySet()){
+		for( int i : bindings.keySet() ){
 			if (bindings.get(i) == action){
+				result.add(i);
+			}
+		}
+		return result;
+	}
+
+	public static ArrayList<Integer> getControllerKeysForAction(GameAction action){
+		ArrayList<Integer> result = new ArrayList<>();
+		for( int i : controllerBindings.keySet() ){
+			if (controllerBindings.get(i) == action){
 				result.add(i);
 			}
 		}

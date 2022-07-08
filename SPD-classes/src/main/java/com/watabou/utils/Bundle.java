@@ -88,7 +88,11 @@ public class Bundle {
 	}
 
 	public boolean contains( String key ) {
-		return !data.isNull( key );
+		return !isNull() && !data.isNull( key );
+	}
+
+	public boolean remove( String key ){
+		return data.remove(key) != null;
 	}
 
 	//JSONObject.keyset() doesn't exist on Android/iOS
@@ -182,6 +186,21 @@ public class Bundle {
 			int[] result = new int[length];
 			for (int i=0; i < length; i++) {
 				result[i] = array.getInt( i );
+			}
+			return result;
+		} catch (JSONException e) {
+			Game.reportException(e);
+			return null;
+		}
+	}
+
+	public long[] getLongArray( String key ) {
+		try {
+			JSONArray array = data.getJSONArray( key );
+			int length = array.length();
+			long[] result = new long[length];
+			for (int i=0; i < length; i++) {
+				result[i] = array.getLong( i );
 			}
 			return result;
 		} catch (JSONException e) {
@@ -371,6 +390,18 @@ public class Bundle {
 	}
 
 	public void put( String key, int[] array ) {
+		try {
+			JSONArray jsonArray = new JSONArray();
+			for (int i=0; i < array.length; i++) {
+				jsonArray.put( i, array[i] );
+			}
+			data.put( key, jsonArray );
+		} catch (JSONException e) {
+			Game.reportException(e);
+		}
+	}
+
+	public void put( String key, long[] array ) {
 		try {
 			JSONArray jsonArray = new JSONArray();
 			for (int i=0; i < array.length; i++) {

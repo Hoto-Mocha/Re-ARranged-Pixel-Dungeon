@@ -24,7 +24,9 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
@@ -61,6 +63,10 @@ public class Blacksmith extends NPC {
 	
 	@Override
 	protected boolean act() {
+		if (Dungeon.hero.buff(AscensionChallenge.class) != null){
+			die(null);
+			return true;
+		}
 		if (Dungeon.level.heroFOV[pos] && !Quest.reforged){
 			Notes.add( Notes.Landmark.TROLL );
 		}
@@ -120,6 +126,7 @@ public class Blacksmith extends NPC {
 					
 					Quest.completed = true;
 					Quest.reforged = false;
+					Statistics.questScores[2] = 3000;
 				}
 				
 			} else {
@@ -140,6 +147,7 @@ public class Blacksmith extends NPC {
 					
 					Quest.completed = true;
 					Quest.reforged = false;
+					Statistics.questScores[2] = 3000;
 				}
 				
 			}

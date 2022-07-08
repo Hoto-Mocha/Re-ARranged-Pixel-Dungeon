@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -52,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -97,13 +97,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
@@ -113,24 +109,20 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
@@ -138,20 +130,22 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
@@ -368,8 +362,46 @@ public enum Talent {
 	public static class StrikingWaveTracker extends FlavourBuff{};
 	public static class WandPreservationCounter extends CounterBuff{{revivePersists = true;}};
 	public static class EmpoweredStrikeTracker extends FlavourBuff{};
+	public static class ProtectiveShadowsTracker extends Buff {
+		float barrierInc = 0.5f;
+
+		@Override
+		public boolean act() {
+			//barrier every 2/1 turns, to a max of 3/5
+			if (((Hero)target).hasTalent(Talent.PROTECTIVE_SHADOWS) && target.invisible > 0){
+				Barrier barrier = Buff.affect(target, Barrier.class);
+				if (barrier.shielding() < 1 + 2*((Hero)target).pointsInTalent(Talent.PROTECTIVE_SHADOWS)) {
+					barrierInc += 0.5f * ((Hero) target).pointsInTalent(Talent.PROTECTIVE_SHADOWS);
+				}
+				if (barrierInc >= 1){
+					barrierInc = 0;
+					barrier.incShield(1);
+				} else {
+					barrier.incShield(0); //resets barrier decay
+				}
+			} else {
+				detach();
+			}
+			spend( TICK );
+			return true;
+		}
+
+		private static final String BARRIER_INC = "barrier_inc";
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put( BARRIER_INC, barrierInc);
+		}
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			barrierInc = bundle.getFloat( BARRIER_INC );
+		}
+	}
 	public static class BountyHunterTracker extends FlavourBuff{};
 	public static class SingularStrikeTracker extends Buff{};
+	public static class CriticalUpgradeTracker extends Buff{};
 	public static class RejuvenatingStepsCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0f, 0.35f, 0.15f); }
@@ -508,11 +540,25 @@ public enum Talent {
 		return Messages.get(this, name() + ".title");
 	}
 
-	public String desc(){
+	public final String desc(){
+		return desc(false);
+	}
+
+	public String desc(boolean metamorphed){
+		if (metamorphed){
+			String metaDesc = Messages.get(this, name() + ".meta_desc");
+			if (!metaDesc.equals(Messages.NO_TEXT_FOUND)){
+				return Messages.get(this, name() + ".desc") + "\n\n" + metaDesc;
+			}
+		}
 		return Messages.get(this, name() + ".desc");
 	}
 
 	public static void onTalentUpgraded( Hero hero, Talent talent){
+		//for metamorphosis
+		if (talent == IRON_WILL && hero.heroClass != HeroClass.WARRIOR){
+			Buff.affect(hero, BrokenSeal.WarriorShield.class);
+	}
 		if (talent == MAX_HEALTH) {
 			hero.updateHT(true);
 		}
@@ -632,7 +678,7 @@ public enum Talent {
 			if (hero.belongings.armor() != null)  hero.belongings.armor.identify();
 		}
 
-		if (talent == LIGHT_CLOAK && hero.pointsInTalent(LIGHT_CLOAK) == 1){
+		if (talent == LIGHT_CLOAK && hero.heroClass == HeroClass.ROGUE){
 			for (Item item : Dungeon.hero.belongings.backpack){
 				if (item instanceof CloakOfShadows){
 					if (hero.buff(LostInventory.class) == null || item.keptThoughLostInvent) {
@@ -704,7 +750,8 @@ public enum Talent {
 	}
 
 	public static class CachedRationsDropped extends CounterBuff{{revivePersists = true;}};
-	public static class NatureBerriesAvailable extends CounterBuff{{revivePersists = true;}};
+	public static class NatureBerriesAvailable extends CounterBuff{{revivePersists = true;}}; //for pre-1.3.0 saves
+	public static class NatureBerriesDropped extends CounterBuff{{revivePersists = true;}};
 
 	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
 		if (hero.hasTalent(HEARTY_MEAL)){
@@ -732,6 +779,7 @@ public enum Talent {
 			//5/8 turns of recharging
 			Buff.prolong( hero, Recharging.class, 2 + 3*(hero.pointsInTalent(ENERGIZING_MEAL)) );
 			ScrollOfRecharging.charge( hero );
+			SpellSprite.show(hero, SpellSprite.CHARGE);
 		}
 		if (hero.hasTalent(MYSTICAL_MEAL)){
 			//3/5 turns of recharging
@@ -740,6 +788,7 @@ public enum Talent {
 				Buff.affect( hero, ArtifactRecharge.class).set(1 + 2*(hero.pointsInTalent(MYSTICAL_MEAL))).ignoreHornOfPlenty = foodSource instanceof HornOfPlenty;
 			}
 			ScrollOfRecharging.charge( hero );
+			SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
 		}
 		if (hero.hasTalent(INVIGORATING_MEAL)){
 			//effectively 1/2 turns of haste
@@ -754,7 +803,8 @@ public enum Talent {
 			Buff.prolong( hero, InfiniteBullet.class, 0.001f+hero.pointsInTalent(IN_THE_GUNFIRE));
 		}
 		if (hero.hasTalent(Talent.CRITICAL_MEAL)) {
-			Buff.prolong( hero, CritBonus.class, 10f).set(5f * hero.pointsInTalent(Talent.CRITICAL_MEAL));
+			if (hero.heroClass == HeroClass.SAMURAI) Buff.prolong( hero, CritBonus.class, 10f).set(5f * hero.pointsInTalent(Talent.CRITICAL_MEAL));
+			else Buff.affect( hero, WeaponEmpower.class).set(hero.pointsInTalent(Talent.CRITICAL_MEAL), 10);
 		}
 		if (hero.hasTalent(Talent.FOCUSING_MEAL)) {
 			Buff.prolong( hero, Adrenaline.class, 1f + 2f*hero.pointsInTalent(FOCUSING_MEAL));
@@ -907,10 +957,15 @@ public enum Talent {
 
 	public static void onHealingPotionUsed( Hero hero ){
 		if (hero.hasTalent(RESTORED_WILLPOWER)){
-			BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
-			if (shield != null){
-				int shieldToGive = Math.round(shield.maxShield() * 0.33f*(1+hero.pointsInTalent(RESTORED_WILLPOWER)));
-				shield.supercharge(shieldToGive);
+			if (hero.heroClass == HeroClass.WARRIOR) {
+				BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
+				if (shield != null) {
+					int shieldToGive = Math.round(shield.maxShield() * 0.33f * (1 + hero.pointsInTalent(RESTORED_WILLPOWER)));
+					shield.supercharge(shieldToGive);
+				}
+			} else {
+				int shieldToGive = Math.round( hero.HT * (0.025f * (1+hero.pointsInTalent(RESTORED_WILLPOWER))));
+				Buff.affect(hero, Barrier.class).setShield(shieldToGive);
 			}
 		}
 		if (hero.hasTalent(RESTORED_NATURE)){
@@ -965,19 +1020,29 @@ public enum Talent {
 			upgradeUsed ++;
 		}
 		if (hero.hasTalent(ENERGIZING_UPGRADE)){
-			MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
-			if (staff != null){
-				staff.gainCharge(2 + 2*hero.pointsInTalent(ENERGIZING_UPGRADE), true);
-				ScrollOfRecharging.charge( Dungeon.hero );
-				SpellSprite.show( hero, SpellSprite.CHARGE );
+			if (hero.heroClass == HeroClass.MAGE) {
+				MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
+				if (staff != null) {
+					staff.gainCharge(2 + 2 * hero.pointsInTalent(ENERGIZING_UPGRADE), true);
+					ScrollOfRecharging.charge(Dungeon.hero);
+					SpellSprite.show(hero, SpellSprite.CHARGE);
+				}
+			} else {
+				Buff.affect(hero, Recharging.class, 4 + 8 * hero.pointsInTalent(ENERGIZING_UPGRADE));
 			}
 		}
 		if (hero.hasTalent(MYSTICAL_UPGRADE)){
-			CloakOfShadows cloak = hero.belongings.getItem(CloakOfShadows.class);
-			if (cloak != null){
-				cloak.overCharge(1 + hero.pointsInTalent(MYSTICAL_UPGRADE));
-				ScrollOfRecharging.charge( Dungeon.hero );
-				SpellSprite.show( hero, SpellSprite.CHARGE );
+			if (hero.heroClass == HeroClass.ROGUE) {
+				CloakOfShadows cloak = hero.belongings.getItem(CloakOfShadows.class);
+				if (cloak != null) {
+					cloak.overCharge(1 + hero.pointsInTalent(MYSTICAL_UPGRADE));
+					ScrollOfRecharging.charge(Dungeon.hero);
+					SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
+				}
+			} else {
+				Buff.affect(hero, ArtifactRecharge.class).set( 2 + 4*hero.pointsInTalent(MYSTICAL_UPGRADE) ).ignoreHornOfPlenty = false;
+				ScrollOfRecharging.charge(Dungeon.hero);
+				SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
 			}
 		}
 		if (hero.hasTalent(ANOTHER_CHANCE)) {
@@ -1001,7 +1066,8 @@ public enum Talent {
 		}
 
 		if (hero.hasTalent(CRITICAL_UPGRADE)) {
-		 	Buff.prolong(hero, CertainCrit.class, 5*hero.pointsInTalent(CRITICAL_UPGRADE));
+		 	if (hero.heroClass == HeroClass.SAMURAI) Buff.prolong(hero, CertainCrit.class, 5*hero.pointsInTalent(CRITICAL_UPGRADE));
+			else Buff.affect( hero, CriticalUpgradeTracker.class);
 		}
 	}
 
@@ -1149,6 +1215,13 @@ public enum Talent {
 			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
+		if (hero.hasTalent(Talent.POWERFUL_CRIT)
+				&& hero.heroClass != HeroClass.SAMURAI
+				&& enemy.buff(PowerfulCritTracker.class) == null){
+			dmg += 1+2*hero.pointsInTalent(Talent.POWERFUL_CRIT);
+			Buff.affect(enemy, PowerfulCritTracker.class);
+		}
+
 		if (hero.hasTalent(Talent.POISONOUS_BLADE)
 				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
 		) {
@@ -1190,6 +1263,7 @@ public enum Talent {
 	}
 
 	public static class SuckerPunchTracker extends Buff{};
+	public static class PowerfulCritTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
 	public static class UnexpectedSlashTracker extends Buff{};
 	public static class ShootTheHeartTracker extends Buff{};

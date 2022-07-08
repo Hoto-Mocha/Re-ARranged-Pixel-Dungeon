@@ -131,12 +131,17 @@ public class CellSelector extends ScrollArea {
 		SPDSettings.zoom((int) (value - PixelScene.defaultZoom));
 		camera.zoom( value );
 
-		//Resets character sprite positions with the new camera zoom
-		//This is important as characters are centered on a 16x16 tile, but may have any sprite size
+		//Resets char and item sprite positions with the new camera zoom
+		//This is important as sprites are centered on a 16x16 tile, but may have any sprite size
 		//This can lead to none-whole coordinate, which need to be aligned with the zoom
 		for (Char c : Actor.chars()){
 			if (c.sprite != null && !c.sprite.isMoving){
 				c.sprite.point(c.sprite.worldToCamera(c.pos));
+			}
+		}
+		for (Heap heap : Dungeon.level.heaps.valueList()){
+			if (heap.sprite != null){
+				heap.sprite.point(heap.sprite.worldToCamera(heap.pos));
 			}
 		}
 
@@ -246,10 +251,24 @@ public class CellSelector extends ScrollArea {
 	private GameAction heldAction3 = SPDAction.NONE;
 
 	private float heldDelay = 0f;
-	//note that delay starts ticking down on the frame it is processed
-	// so in most cases the actual wait is 50-58ms
-	private static final float INITIAL_DELAY = 0.06f;
 	private boolean delayingForRelease = false;
+
+	private static float initialDelay(){
+		switch (SPDSettings.movementHoldSensitivity()){
+			case 0:
+				return Float.POSITIVE_INFINITY;
+			case 1:
+				return 0.13f;
+			case 2:
+				return 0.09f;
+			//note that delay starts ticking down on the frame it is processed
+			// so in most cases the actual default wait is 50-58ms
+			case 3: default:
+				return 0.06f;
+			case 4:
+				return 0.03f;
+		}
+	}
 	
 	private Signal.Listener<KeyEvent> keyListener = new Signal.Listener<KeyEvent>() {
 		@Override
@@ -302,7 +321,7 @@ public class CellSelector extends ScrollArea {
 					delayingForRelease = true;
 					//in case more keys are being released
 					//note that this delay can tick down while the hero is moving
-					heldDelay = INITIAL_DELAY;
+					heldDelay = initialDelay();
 				}
 
 			} else if (directionFromAction(action) != 0) {
@@ -311,7 +330,7 @@ public class CellSelector extends ScrollArea {
 				lastCellMoved = -1;
 				if (heldAction1 == SPDAction.NONE){
 					heldAction1 = action;
-					heldDelay = INITIAL_DELAY;
+					heldDelay = initialDelay();
 					delayingForRelease = false;
 				} else if (heldAction2 == SPDAction.NONE){
 					heldAction2 = action;
@@ -344,7 +363,7 @@ public class CellSelector extends ScrollArea {
 
 		if (newLeftStick != leftStickAction){
 			if (leftStickAction == SPDAction.NONE){
-				heldDelay = INITIAL_DELAY;
+				heldDelay = initialDelay();
 				Dungeon.hero.resting = false;
 			} else if (newLeftStick == SPDAction.NONE && heldDelay > 0f){
 				heldDelay = 0f;

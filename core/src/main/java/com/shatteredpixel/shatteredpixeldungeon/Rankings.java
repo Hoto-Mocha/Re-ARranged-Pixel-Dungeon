@@ -30,11 +30,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.CorpseDust;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Toolbar;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -44,6 +46,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 public enum Rankings {
@@ -59,6 +62,13 @@ public enum Rankings {
 	public int totalNumber;
 	public int wonNumber;
 
+	//The number of runs which are only present locally, not in the cloud
+	public int localTotal;
+	public int localWon;
+
+	public Record latestDaily;
+	public LinkedHashMap<Long, Integer> dailyScoreHistory = new LinkedHashMap<>();
+
 	public void submit( boolean win, Class cause ) {
 
 		load();
@@ -70,13 +80,30 @@ public enum Rankings {
 		rec.heroClass	= Dungeon.hero.heroClass;
 		rec.armorTier	= Dungeon.hero.tier();
 		rec.herolevel	= Dungeon.hero.lvl;
-		rec.depth		= Dungeon.depth;
-		rec.score	= score( win );
+		if (Statistics.highestAscent == 0){
+			rec.depth = Statistics.deepestFloor;
+			rec.ascending = false;
+		} else {
+			rec.depth = Statistics.highestAscent;
+			rec.ascending = true;
+		}
+		rec.score       = calculateScore();
+		rec.customSeed  = Dungeon.customSeedText;
+		rec.daily       = Dungeon.daily;
+
+		Badges.validateHighScore( rec.score );
 		
 		INSTANCE.saveGameData(rec);
 
 		rec.gameID = UUID.randomUUID().toString();
-		
+
+		if (rec.daily){
+			latestDaily = rec;
+			dailyScoreHistory.put(Dungeon.seed, rec.score);
+			save();
+			return;
+		}
+
 		records.add( rec );
 		
 		Collections.sort( records, scoreComparator );
@@ -94,10 +121,12 @@ public enum Rankings {
 
 			size = records.size();
 		}
-		
-		totalNumber++;
-		if (win) {
-			wonNumber++;
+
+		if (rec.customSeed.isEmpty()) {
+			totalNumber++;
+			if (win) {
+				wonNumber++;
+			}
 		}
 
 		Badges.validateGamesPlayed();
@@ -109,11 +138,78 @@ public enum Rankings {
 		return (Statistics.goldCollected + Dungeon.hero.lvl * (win ? 26 : Dungeon.depth ) * 100) * (win ? 2 : 1);
 	}
 
-	public static final String HERO = "hero";
-	public static final String STATS = "stats";
-	public static final String BADGES = "badges";
-	public static final String HANDLERS = "handlers";
-	public static final String CHALLENGES = "challenges";
+	//assumes a ranking is loaded, or game is ending
+	public int calculateScore(){
+
+		if (Dungeon.initialVersion > ShatteredPixelDungeon.v1_2_3){
+			Statistics.progressScore = Dungeon.hero.lvl * Statistics.deepestFloor * 65;
+			Statistics.progressScore = Math.min(Statistics.progressScore, 50_000);
+
+			if (Statistics.heldItemValue == 0) {
+				for (Item i : Dungeon.hero.belongings) {
+					Statistics.heldItemValue += i.value();
+					if (i instanceof CorpseDust && Statistics.deepestFloor >= 10){
+						// in case player kept the corpse dust, for a necromancer run
+						Statistics.questScores[1] = 2000;
+					}
+				}
+			}
+			Statistics.treasureScore = Statistics.goldCollected + Statistics.heldItemValue;
+			Statistics.treasureScore = Math.min(Statistics.treasureScore, 20_000);
+
+			Statistics.exploreScore = 0;
+			int scorePerFloor = Statistics.floorsExplored.size * 50;
+			for (Boolean b : Statistics.floorsExplored.valueList()){
+				if (b) Statistics.exploreScore += scorePerFloor;
+			}
+
+			Statistics.totalBossScore = 0;
+			for (int i : Statistics.bossScores){
+				if (i > 0) Statistics.totalBossScore += i;
+			}
+
+			Statistics.totalQuestScore = 0;
+			for (int i : Statistics.questScores){
+				if (i > 0) Statistics.totalQuestScore += i;
+			}
+
+			Statistics.winMultiplier = 1f;
+			if (Statistics.gameWon)         Statistics.winMultiplier += 1f;
+			if (Statistics.ascended)        Statistics.winMultiplier += 0.5f;
+
+		//pre v1.3.0 runs have different score calculations
+		//only progress and treasure score, and they are each up to 50% bigger
+		//win multiplier is a simple 2x if run was a win, challenge multi is the same as 1.3.0
+		} else {
+			Statistics.progressScore = Dungeon.hero.lvl * Statistics.deepestFloor * 100;
+			Statistics.treasureScore = Math.min(Statistics.goldCollected, 30_000);
+
+			Statistics.exploreScore = Statistics.totalBossScore = Statistics.totalQuestScore = 0;
+
+			Statistics.winMultiplier = Statistics.gameWon ? 2 : 1;
+
+		}
+
+		Statistics.chalMultiplier = (float)Math.pow(1.25, Challenges.activeChallenges());
+		Statistics.chalMultiplier = Math.round(Statistics.chalMultiplier*20f)/20f;
+
+		Statistics.totalScore = Statistics.progressScore + Statistics.treasureScore + Statistics.exploreScore
+					+ Statistics.totalBossScore + Statistics.totalQuestScore;
+
+		Statistics.totalScore *= Statistics.winMultiplier * Statistics.chalMultiplier;
+
+		return Statistics.totalScore;
+	}
+
+	public static final String HERO         = "hero";
+	public static final String STATS        = "stats";
+	public static final String BADGES       = "badges";
+	public static final String HANDLERS     = "handlers";
+	public static final String CHALLENGES   = "challenges";
+	public static final String GAME_VERSION = "game_version";
+	public static final String SEED         = "seed";
+	public static final String CUSTOM_SEED	= "custom_seed";
+	public static final String DAILY	    = "daily";
 
 	public void saveGameData(Record rec){
 		rec.gameData = new Bundle();
@@ -166,6 +262,12 @@ public enum Rankings {
 		
 		//save challenges
 		rec.gameData.put( CHALLENGES, Dungeon.challenges );
+
+		rec.gameData.put( GAME_VERSION, Dungeon.initialVersion );
+
+		rec.gameData.put( SEED, Dungeon.seed );
+		rec.gameData.put( CUSTOM_SEED, Dungeon.customSeedText );
+		rec.gameData.put( DAILY, Dungeon.daily );
 	}
 
 	public void loadGameData(Record rec){
@@ -178,6 +280,7 @@ public enum Rankings {
 		Notes.reset();
 		Dungeon.quickslot.reset();
 		QuickSlotButton.reset();
+		Toolbar.swappedQuickslots = false;
 
 		Bundle handler = data.getBundle(HANDLERS);
 		Scroll.restore(handler);
@@ -192,6 +295,22 @@ public enum Rankings {
 		
 		Dungeon.challenges = data.getInt(CHALLENGES);
 
+		Dungeon.initialVersion = data.getInt(GAME_VERSION);
+
+		if (Dungeon.initialVersion <= ShatteredPixelDungeon.v1_2_3){
+			Statistics.gameWon = rec.win;
+		}
+		rec.score = calculateScore();
+
+		if (rec.gameData.contains(SEED)){
+			Dungeon.seed = rec.gameData.getLong(SEED);
+			Dungeon.customSeedText = rec.gameData.getString(CUSTOM_SEED);
+			Dungeon.daily = rec.gameData.getBoolean(DAILY);
+		} else {
+			Dungeon.seed = -1;
+			Dungeon.customSeedText = "";
+			Dungeon.daily = false;
+		}
 	}
 	
 	private static final String RECORDS	= "records";
@@ -199,12 +318,29 @@ public enum Rankings {
 	private static final String TOTAL	= "total";
 	private static final String WON     = "won";
 
+	public static final String LATEST_DAILY	        = "latest_daily";
+	public static final String DAILY_HISTORY_DATES  = "daily_history_dates";
+	public static final String DAILY_HISTORY_SCORES = "daily_history_scores";
+
 	public void save() {
 		Bundle bundle = new Bundle();
 		bundle.put( RECORDS, records );
 		bundle.put( LATEST, lastRecord );
 		bundle.put( TOTAL, totalNumber );
 		bundle.put( WON, wonNumber );
+
+		bundle.put(LATEST_DAILY, latestDaily);
+
+		long[] dates = new long[dailyScoreHistory.size()];
+		int[] scores = new int[dailyScoreHistory.size()];
+		int i = 0;
+		for (Long l : dailyScoreHistory.keySet()){
+			dates[i] = l;
+			scores[i] = dailyScoreHistory.get(l);
+			i++;
+		}
+		bundle.put(DAILY_HISTORY_DATES, dates);
+		bundle.put(DAILY_HISTORY_SCORES, scores);
 
 		try {
 			FileUtils.bundleToFile( RANKINGS_FILE, bundle);
@@ -244,6 +380,23 @@ public enum Rankings {
 				}
 			}
 
+			if (bundle.contains(LATEST_DAILY)){
+				latestDaily = (Record) bundle.get(LATEST_DAILY);
+
+				dailyScoreHistory.clear();
+				int[] scores = bundle.getIntArray(DAILY_HISTORY_SCORES);
+				int i = 0;
+				long latestDate = 0;
+				for (long date : bundle.getLongArray(DAILY_HISTORY_DATES)){
+					dailyScoreHistory.put(date, scores[i]);
+					if (date > latestDate) latestDate = date;
+					i++;
+				}
+				if (latestDate > SPDSettings.lastDaily()){
+					SPDSettings.lastDaily(latestDate);
+				}
+			}
+
 		} catch (IOException e) {
 		}
 	}
@@ -257,8 +410,11 @@ public enum Rankings {
 		private static final String TIER	= "tier";
 		private static final String LEVEL	= "level";
 		private static final String DEPTH	= "depth";
+		private static final String ASCEND	= "ascending";
 		private static final String DATA	= "gameData";
 		private static final String ID      = "gameID";
+		private static final String SEED    = "custom_seed";
+		private static final String DAILY   = "daily";
 
 		public Class cause;
 		public boolean win;
@@ -267,18 +423,29 @@ public enum Rankings {
 		public int armorTier;
 		public int herolevel;
 		public int depth;
-		
+		public boolean ascending;
+
 		public Bundle gameData;
 		public String gameID;
 
+		//Note this is for summary purposes, visible score should be re-calculated from game data
 		public int score;
 
+		public String customSeed;
+		public boolean daily;
+
 		public String desc(){
-			if (cause == null) {
+			if (win){
+				if (ascending){
+					return Messages.get(this, "ascended");
+				} else {
+					return Messages.get(this, "won");
+				}
+			} else if (cause == null) {
 				return Messages.get(this, "something");
 			} else {
 				String result = Messages.get(cause, "rankings_desc", (Messages.get(cause, "name")));
-				if (result.contains("!!!NO TEXT FOUND!!!")){
+				if (result.contains(Messages.NO_TEXT_FOUND)){
 					return Messages.get(this, "something");
 				} else {
 					return result;
@@ -295,19 +462,21 @@ public enum Rankings {
 				cause = null;
 			}
 			
-			win		= bundle.getBoolean( WIN );
-			score	= bundle.getInt( SCORE );
-			
+			win		    = bundle.getBoolean( WIN );
+			score	    = bundle.getInt( SCORE );
+			customSeed  = bundle.getString( SEED );
+			daily       = bundle.getBoolean( DAILY );
+
 			heroClass	= bundle.getEnum( CLASS, HeroClass.class );
 			armorTier	= bundle.getInt( TIER );
-			
+			herolevel   = bundle.getInt( LEVEL );
+			depth       = bundle.getInt( DEPTH );
+			ascending   = bundle.getBoolean( ASCEND );
+
 			if (bundle.contains(DATA))  gameData = bundle.getBundle(DATA);
 			if (bundle.contains(ID))   gameID = bundle.getString(ID);
 			
 			if (gameID == null) gameID = UUID.randomUUID().toString();
-
-			depth = bundle.getInt( DEPTH );
-			herolevel = bundle.getInt( LEVEL );
 
 		}
 		
@@ -318,24 +487,34 @@ public enum Rankings {
 
 			bundle.put( WIN, win );
 			bundle.put( SCORE, score );
-			
+			bundle.put( SEED, customSeed );
+			bundle.put( DAILY, daily );
+
 			bundle.put( CLASS, heroClass );
 			bundle.put( TIER, armorTier );
 			bundle.put( LEVEL, herolevel );
 			bundle.put( DEPTH, depth );
-			
+			bundle.put( ASCEND, ascending );
+
 			if (gameData != null) bundle.put( DATA, gameData );
 			bundle.put( ID, gameID );
 		}
 	}
 
-	private static final Comparator<Record> scoreComparator = new Comparator<Rankings.Record>() {
+	public static final Comparator<Record> scoreComparator = new Comparator<Rankings.Record>() {
 		@Override
 		public int compare( Record lhs, Record rhs ) {
+			//this covers custom seeded runs and dailies
+			if (rhs.customSeed.isEmpty() && !lhs.customSeed.isEmpty()){
+				return +1;
+			} else if (lhs.customSeed.isEmpty() && !rhs.customSeed.isEmpty()){
+				return -1;
+			}
+
 			int result = (int)Math.signum( rhs.score - lhs.score );
 			if (result == 0) {
 				return (int)Math.signum( rhs.gameID.hashCode() - lhs.gameID.hashCode());
-			} else{
+			} else {
 				return result;
 			}
 		}

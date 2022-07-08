@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
@@ -47,12 +48,11 @@ public class SPDSettings extends GameSettings {
 		return getInt( KEY_VERSION, 0 );
 	}
 	
-	//Graphics
+	//Display
 	
 	public static final String KEY_FULLSCREEN	= "fullscreen";
 	public static final String KEY_LANDSCAPE	= "landscape";
 	public static final String KEY_POWER_SAVER 	= "power_saver";
-	public static final String KEY_SCALE		= "scale";
 	public static final String KEY_ZOOM			= "zoom";
 	public static final String KEY_BRIGHTNESS	= "brightness";
 	public static final String KEY_GRID 	    = "visual_grid";
@@ -91,14 +91,6 @@ public class SPDSettings extends GameSettings {
 		return getBoolean( KEY_POWER_SAVER, false );
 	}
 	
-	public static void scale( int value ) {
-		put( KEY_SCALE, value );
-	}
-	
-	public static int scale() {
-		return getInt( KEY_SCALE, 0 );
-	}
-	
 	public static void zoom( int value ) {
 		put( KEY_ZOOM, value );
 	}
@@ -128,7 +120,8 @@ public class SPDSettings extends GameSettings {
 	//Interface
 
 	public static final String KEY_UI_SIZE 	    = "full_ui";
-	public static final String KEY_QUICKSLOTS	= "quickslots";
+	public static final String KEY_SCALE		= "scale";
+	public static final String KEY_QUICK_SWAP	= "quickslot_swapper";
 	public static final String KEY_FLIPTOOLBAR	= "flipped_ui";
 	public static final String KEY_FLIPTAGS 	= "flip_tags";
 	public static final String KEY_BARMODE		= "toolbar_mode";
@@ -150,10 +143,18 @@ public class SPDSettings extends GameSettings {
 		}
 		return size;
 	}
+
+	public static void scale( int value ) {
+		put( KEY_SCALE, value );
+	}
+
+	public static int scale() {
+		return getInt( KEY_SCALE, 0 );
+	}
 	
-	public static void quickSlots( int value ){ put( KEY_QUICKSLOTS, value ); }
+	public static void quickSwapper(boolean value ){ put( KEY_QUICK_SWAP, value ); }
 	
-	public static int quickSlots(){ return getInt( KEY_QUICKSLOTS, 4, 0, 4); }
+	public static boolean quickSwapper(){ return getBoolean( KEY_QUICK_SWAP, true); }
 	
 	public static void flipToolbar( boolean value) {
 		put(KEY_FLIPTOOLBAR, value );
@@ -179,6 +180,8 @@ public class SPDSettings extends GameSettings {
 	
 	public static final String KEY_LAST_CLASS	= "last_class";
 	public static final String KEY_CHALLENGES	= "challenges";
+	public static final String KEY_CUSTOM_SEED	= "custom_seed";
+	public static final String KEY_LAST_DAILY	= "last_daily";
 	public static final String KEY_INTRO		= "intro";
 
 	public static final String KEY_SUPPORT_NAGGED= "support_nagged";
@@ -207,6 +210,22 @@ public class SPDSettings extends GameSettings {
 		return getInt( KEY_CHALLENGES, 0, 0, Challenges.MAX_VALUE );
 	}
 
+	public static void customSeed( String value ){
+		put( KEY_CUSTOM_SEED, value );
+	}
+
+	public static String customSeed() {
+		return getString( KEY_CUSTOM_SEED, "", 20);
+	}
+
+	public static void lastDaily( long value ){
+		put( KEY_LAST_DAILY, value );
+	}
+
+	public static long lastDaily() {
+		return getLong( KEY_LAST_DAILY, 0);
+	}
+
 	public static void supportNagged( boolean value ) {
 		put( KEY_SUPPORT_NAGGED, value );
 	}
@@ -214,7 +233,28 @@ public class SPDSettings extends GameSettings {
 	public static boolean supportNagged() {
 		return getBoolean(KEY_SUPPORT_NAGGED, false);
 	}
-	
+
+	//Input
+
+	public static final String KEY_CONTROLLER_SENS  = "controller_sens";
+	public static final String KEY_MOVE_SENS        = "move_sens";
+
+	public static void controllerPointerSensitivity( int value ){
+		put( KEY_CONTROLLER_SENS, value );
+	}
+
+	public static int controllerPointerSensitivity(){
+		return getInt(KEY_CONTROLLER_SENS, 5, 1, 10);
+	}
+
+	public static void movementHoldSensitivity( int value ){
+		put( KEY_MOVE_SENS, value );
+	}
+
+	public static int movementHoldSensitivity(){
+		return getInt(KEY_MOVE_SENS, 3, 0, 4);
+	}
+
 	//Audio
 	
 	public static final String KEY_MUSIC		= "music";

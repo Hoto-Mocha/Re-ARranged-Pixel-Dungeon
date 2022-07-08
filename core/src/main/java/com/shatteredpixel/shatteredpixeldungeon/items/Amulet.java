@@ -29,7 +29,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AmuletScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.Game;
@@ -50,7 +52,11 @@ public class Amulet extends Item {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
-		actions.add( AC_END );
+		if (hero.buff(AscensionChallenge.class) != null){
+			actions.clear();
+		} else {
+			actions.add(AC_END);
+		}
 		return actions;
 	}
 	
@@ -127,4 +133,16 @@ public class Amulet extends Item {
 		return false;
 	}
 
+	@Override
+	public String desc() {
+		String desc = super.desc();
+
+		if (Dungeon.hero.buff(AscensionChallenge.class) == null){
+			desc += "\n\n" + Messages.get(this, "desc_origins");
+		} else {
+			desc += "\n\n" + Messages.get(this, "desc_ascent");
+		}
+
+		return desc;
+	}
 }

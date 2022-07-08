@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.wands;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -204,7 +205,7 @@ public class CursedWand {
 			case 1:
 				final Char target = Actor.findChar( targetPos );
 				if (target != null) {
-					int damage = Dungeon.depth * 2;
+					int damage = Dungeon.scalingDepth() * 2;
 					Char toHeal, toDamage;
 
 					if (Random.Int(2) == 0){
@@ -223,9 +224,11 @@ public class CursedWand {
 						Sample.INSTANCE.play(Assets.Sounds.CURSED);
 						if (!toDamage.isAlive()) {
 							if (origin != null) {
+								Badges.validateDeathFromFriendlyMagic();
 								Dungeon.fail( origin.getClass() );
 								GLog.n( Messages.get( CursedWand.class, "ondeath", origin.name() ) );
 							} else {
+								Badges.validateDeathFromFriendlyMagic();
 								Dungeon.fail( toHeal.getClass() );
 							}
 						}
@@ -241,6 +244,9 @@ public class CursedWand {
 			//Bomb explosion
 			case 2:
 				new Bomb().explode(targetPos);
+				if (user == Dungeon.hero && !user.isAlive()){
+					Badges.validateDeathFromFriendlyMagic();
+				}
 				tryForWandProc(Actor.findChar(targetPos), origin);
 				return true;
 
@@ -292,7 +298,7 @@ public class CursedWand {
 
 			//inter-level teleportation
 			case 2:
-				if (Dungeon.depth > 1 && !Dungeon.bossLevel() && user == Dungeon.hero) {
+				if (Dungeon.depth > 1 && Dungeon.interfloorTeleportAllowed() && user == Dungeon.hero) {
 
 					//each depth has 1 more weight than the previous depth.
 					float[] depths = new float[Dungeon.depth-1];
@@ -306,6 +312,7 @@ public class CursedWand {
 
 					InterlevelScene.mode = InterlevelScene.Mode.RETURN;
 					InterlevelScene.returnDepth = depth;
+					InterlevelScene.returnBranch = 0;
 					InterlevelScene.returnPos = -1;
 					Game.switchScene(InterlevelScene.class);
 

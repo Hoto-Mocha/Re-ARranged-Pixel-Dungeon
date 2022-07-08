@@ -71,6 +71,9 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 		Sample.INSTANCE.play( Assets.Sounds.READ );
 		curUser.sprite.emitter().start(Speck.factory(Speck.CHANGE), 0.2f, 10);
 		Transmuting.show(curUser, oldTalent, newTalent);
+		if (Dungeon.hero.hasTalent(newTalent)) {
+			Talent.onTalentUpgraded(Dungeon.hero, newTalent);
+		}
 		Dungeon.hero.updateHT(true);
 		updateQuickslot();
 	}
@@ -169,40 +172,13 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 	public static class WndMetamorphReplace extends Window {
 
 		//talents that can only be used by one hero class
-		//TODO could some of these be made more generic?
 		private static HashMap<Talent, HeroClass> restrictedTalents = new HashMap<>();
 		static {
-			restrictedTalents.put(Talent.IRON_WILL, HeroClass.WARRIOR);
-			restrictedTalents.put(Talent.RESTORED_WILLPOWER, HeroClass.WARRIOR);
 			restrictedTalents.put(Talent.RUNIC_TRANSFERENCE, HeroClass.WARRIOR);
-
-			restrictedTalents.put(Talent.BACKUP_BARRIER, HeroClass.MAGE);
-			restrictedTalents.put(Talent.ENERGIZING_UPGRADE, HeroClass.MAGE);
 			restrictedTalents.put(Talent.WAND_PRESERVATION, HeroClass.MAGE);
-
-			restrictedTalents.put(Talent.PROTECTIVE_SHADOWS, HeroClass.ROGUE);
-			restrictedTalents.put(Talent.MYSTICAL_UPGRADE, HeroClass.ROGUE);
-			restrictedTalents.put(Talent.LIGHT_CLOAK, HeroClass.ROGUE);
-
-			restrictedTalents.put(Talent.SEER_SHOT, HeroClass.HUNTRESS);
-
-			restrictedTalents.put(Talent.STREET_BATTLE, HeroClass.GUNNER);
-
-			restrictedTalents.put(Talent.CRITICAL_MEAL, HeroClass.SAMURAI);
-			restrictedTalents.put(Talent.FLOW_AWAY, HeroClass.SAMURAI);
-			restrictedTalents.put(Talent.CRITICAL_UPGRADE, HeroClass.SAMURAI);
-			restrictedTalents.put(Talent.PARRY, HeroClass.SAMURAI);
-			restrictedTalents.put(Talent.DETECTION, HeroClass.SAMURAI);
-			restrictedTalents.put(Talent.POWERFUL_CRIT, HeroClass.SAMURAI);
-			restrictedTalents.put(Talent.DEEP_SCAR, HeroClass.SAMURAI);
-			restrictedTalents.put(Talent.FAST_LEAD, HeroClass.SAMURAI);
 
 			restrictedTalents.put(Talent.FARMER, HeroClass.PLANTER);
 
-			restrictedTalents.put(Talent.ON_ALERT, HeroClass.KNIGHT);
-			restrictedTalents.put(Talent.DEFENSE_STANCE, HeroClass.KNIGHT);
-			restrictedTalents.put(Talent.CROSS_SLASH, HeroClass.KNIGHT);
-			restrictedTalents.put(Talent.BLOCKING, HeroClass.KNIGHT);
 			restrictedTalents.put(Talent.CRAFTMANS_SKILLS, HeroClass.KNIGHT);
 		}
 

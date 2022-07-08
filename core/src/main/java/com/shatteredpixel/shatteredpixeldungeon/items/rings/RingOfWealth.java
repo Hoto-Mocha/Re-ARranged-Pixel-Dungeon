@@ -209,23 +209,23 @@ public class RingOfWealth extends Ring {
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			switch (Random.Int(4)){
 				case 0: default:
-					return Generator.random(Generator.Category.SEED);
+					return Generator.randomUsingDefaults(Generator.Category.SEED);
 				case 1:
-					return Generator.random(Generator.Category.STONE);
+					return Generator.randomUsingDefaults(Generator.Category.STONE);
 				case 2:
-					return Generator.random(Generator.Category.POTION);
+					return Generator.randomUsingDefaults(Generator.Category.POTION);
 				case 3:
 					if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
 						if (Random.Int(16) == 0) {
 							return new ScrollOfUpgrade();
 						} else {
-							return Generator.random(Generator.Category.SCROLL);
+							return Generator.randomUsingDefaults(Generator.Category.SCROLL);
 						}
 					} else {
 						if (Random.Int(8) == 0) {
 							return new ScrollOfUpgrade();
 						} else {
-							return Generator.random(Generator.Category.SCROLL);
+							return Generator.randomUsingDefaults(Generator.Category.SCROLL);
 						}
 					}
 			}
@@ -235,11 +235,11 @@ public class RingOfWealth extends Ring {
 					Item i = new Gold().random();
 					return i.quantity(i.quantity()/2);
 				case 1:
-					return Generator.random(Generator.Category.STONE);
+					return Generator.randomUsingDefaults(Generator.Category.STONE);
 				case 2:
-					return Generator.random(Generator.Category.POTION);
+					return Generator.randomUsingDefaults(Generator.Category.POTION);
 				case 3:
-					return Generator.random(Generator.Category.SCROLL);
+					return Generator.randomUsingDefaults(Generator.Category.SCROLL);
 			}
 		}
 	}

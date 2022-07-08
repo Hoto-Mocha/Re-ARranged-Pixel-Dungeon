@@ -104,18 +104,24 @@ public class BuffIndicator extends Component {
 	public static final int MOMENTUM    = 51;
 	public static final int ANKH        = 52;
 	public static final int NOINV       = 53;
-	public static final int BULLET 		= 54;
-	public static final int PLATE 		= 55;
-	public static final int STATE_DONG	= 56;
-	public static final int STATE_JUNG	= 57;
-	public static final int SHADOWBLADE	= 58;
-	public static final int AWAKE		= 59;
-	public static final int LUCK		= 60;
-	public static final int FLURRY		= 61;
-	public static final int KNIGHTSHIELD= 62;
-	public static final int REGEN		= 63;
-	public static final int ANGELWING	= 64;
-	public static final int STUNNING	= 65;
+	public static final int TARGETED    = 54;
+	public static final int IMBUE       = 55;
+	public static final int ENDURE      = 56;
+	public static final int INVERT_MARK = 57;
+	public static final int NATURE_POWER= 58;
+	public static final int AMULET      = 59;
+	public static final int BULLET 		= 60;
+	public static final int PLATE 		= 61;
+	public static final int STATE_DONG	= 62;
+	public static final int STATE_JUNG	= 63;
+	public static final int SHADOWBLADE	= 64;
+	public static final int AWAKE		= 65;
+	public static final int LUCK		= 66;
+	public static final int FLURRY		= 67;
+	public static final int KNIGHTSHIELD= 68;
+	public static final int REGEN		= 69;
+	public static final int ANGELWING	= 70;
+	public static final int STUNNING	= 71;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;
@@ -246,7 +252,7 @@ public class BuffIndicator extends Component {
 		public void updateIcon(){
 			((BuffIcon)icon).refresh(buff);
 			//round up to the nearest pixel if <50% faded, otherwise round down
-			if (!large) {
+			if (!large || buff.iconTextDisplay().isEmpty()) {
 				text.visible = false;
 				float fadeHeight = buff.iconFadePercent() * icon.height();
 				float zoom = (camera() != null) ? camera().zoom : 1;
@@ -259,7 +265,7 @@ public class BuffIndicator extends Component {
 				grey.visible = false;
 				if (buff.type == Buff.buffType.POSITIVE)        text.hardlight(CharSprite.POSITIVE);
 				else if (buff.type == Buff.buffType.NEGATIVE)   text.hardlight(CharSprite.NEGATIVE);
-				text.alpha(0.6f);
+				text.alpha(0.7f);
 
 				text.text(buff.iconTextDisplay());
 				text.measure();

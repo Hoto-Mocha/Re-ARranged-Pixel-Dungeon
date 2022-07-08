@@ -22,11 +22,13 @@
 package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Eye;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
@@ -156,7 +158,7 @@ public class SentryRoom extends SpecialRoom {
 		sentry.pos = level.pointToCell(sentryPos);
 		sentry.room = new EmptyRoom();
 		sentry.room.set((Rect)this);
-		sentry.initialChargeDelay = dangerDist / 3f + 0.1f;
+		sentry.initialChargeDelay = sentry.curChargeDelay = dangerDist / 3f + 0.1f;
 		level.mobs.add( sentry );
 
 		Painter.set(level, treasurePos, Terrain.PEDESTAL);
@@ -238,7 +240,8 @@ public class SentryRoom extends SpecialRoom {
 			if (Dungeon.hero != null){
 				if (fieldOfView[Dungeon.hero.pos]
 						&& Dungeon.level.map[Dungeon.hero.pos] == Terrain.EMPTY_SP
-						&& room.inside(Dungeon.level.cellToPoint(Dungeon.hero.pos))){
+						&& room.inside(Dungeon.level.cellToPoint(Dungeon.hero.pos))
+						&& Dungeon.hero.buff(LostInventory.class) == null){
 
 					if (curChargeDelay > 0.001f){ //helps prevent rounding errors
 						if (curChargeDelay == initialChargeDelay) {
@@ -275,8 +278,9 @@ public class SentryRoom extends SpecialRoom {
 		public void onZapComplete(){
 			Dungeon.hero.damage(Random.NormalIntRange(2+Dungeon.depth/2, 4+Dungeon.depth), new Eye.DeathGaze());
 			if (!Dungeon.hero.isAlive()){
-				GLog.n( Messages.capitalize(Messages.get(Char.class, "kill", name())) );
+				Badges.validateDeathFromEnemyMagic();
 				Dungeon.fail( getClass() );
+				GLog.n( Messages.capitalize(Messages.get(Char.class, "kill", name())) );
 			}
 		}
 

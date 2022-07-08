@@ -46,10 +46,10 @@ public class QuickSlotButton extends Button {
 
 	private ItemSlot slot;
 	
-	private static Image crossB;
-	private static Image crossM;
+	private Image crossB;
+	private Image crossM;
 	
-	private static boolean targeting = false;
+	public static int targetingSlot = -1;
 	public static Char lastTarget = null;
 	
 	public QuickSlotButton( int slotNum ) {
@@ -83,7 +83,7 @@ public class QuickSlotButton extends Button {
 				if (!Dungeon.hero.isAlive() || !Dungeon.hero.ready){
 					return;
 				}
-				if (targeting) {
+				if (targetingSlot == slotNum) {
 					int cell = autoAim(lastTarget, select(slotNum));
 
 					if (cell != -1){
@@ -160,7 +160,7 @@ public class QuickSlotButton extends Button {
 	@Override
 	public void update() {
 		super.update();
-		if (targeting && lastTarget != null && lastTarget.sprite != null){
+		if (targetingSlot != -1 && lastTarget != null && lastTarget.sprite != null){
 			crossM.point(lastTarget.sprite.center(crossM));
 		}
 	}
@@ -274,7 +274,7 @@ public class QuickSlotButton extends Button {
 				lastTarget.alignment != Char.Alignment.ALLY &&
 				Dungeon.level.heroFOV[lastTarget.pos]) {
 
-			targeting = true;
+			targetingSlot = slotNum;
 			CharSprite sprite = lastTarget.sprite;
 
 			if (sprite.parent != null) {
@@ -288,7 +288,7 @@ public class QuickSlotButton extends Button {
 		} else {
 
 			lastTarget = null;
-			targeting = false;
+			targetingSlot = -1;
 
 		}
 
@@ -326,6 +326,9 @@ public class QuickSlotButton extends Button {
 				instance[i].enable(instance[i].active);
 			}
 		}
+		if (Toolbar.SWAP_INSTANCE != null){
+			Toolbar.SWAP_INSTANCE.updateVisuals();
+		}
 	}
 	
 	public static void target( Char target ) {
@@ -338,10 +341,12 @@ public class QuickSlotButton extends Button {
 	}
 	
 	public static void cancel() {
-		if (targeting) {
-			crossB.visible = false;
-			crossM.remove();
-			targeting = false;
+		if (targetingSlot != -1) {
+			for (QuickSlotButton btn : instance) {
+				btn.crossB.visible = false;
+				btn.crossM.remove();
+				targetingSlot = -1;
+			}
 		}
 	}
 }

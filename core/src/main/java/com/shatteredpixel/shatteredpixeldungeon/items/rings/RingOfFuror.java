@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AttackSpeedBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -76,6 +77,9 @@ public class RingOfFuror extends Ring {
 		}
 		if (hero.hasTalent(Talent.SLASHING_PRACTICE) && hero.buff(SerialAttack.class) != null) {
 			speedBonus *= 1f + 0.02f * hero.pointsInTalent(Talent.SLASHING_PRACTICE) * hero.buff(SerialAttack.class).getCount();
+		}
+		if (hero.hasTalent(Talent.CROSS_SLASH) && hero.heroClass != HeroClass.KNIGHT) {
+			speedBonus *= 1f + 0.1f * hero.pointsInTalent(Talent.CROSS_SLASH);
 		}
 		speedBonus *= RingOfRush.rushSpeedMultiplier(hero);
 		return speedBonus;

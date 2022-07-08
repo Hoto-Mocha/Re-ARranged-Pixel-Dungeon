@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.wands;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
@@ -38,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WildMagic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DwarfKing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
@@ -120,6 +122,9 @@ public class WandOfRegrowth extends Wand {
 				}
 				Char ch = Actor.findChar(cell);
 				if (ch != null){
+					if (ch instanceof DwarfKing){
+						Statistics.qualifiedForBossChallengeBadge = false;
+					}
 					wandProc(ch, chargesPerCast());
 					Buff.prolong( ch, Roots.class, 4f * chrgUsed );
 				}
@@ -331,8 +336,8 @@ public class WandOfRegrowth extends Wand {
 			ArrayList<Integer> candidates = new ArrayList<>();
 			for (int i : PathFinder.NEIGHBOURS8){
 				if (Dungeon.level.passable[pos+i]
-						&& pos+i != Dungeon.level.entrance
-						&& pos+i != Dungeon.level.exit){
+						&& pos+i != Dungeon.level.entrance()
+						&& pos+i != Dungeon.level.exit()){
 					candidates.add(pos+i);
 				}
 			}
@@ -371,15 +376,15 @@ public class WandOfRegrowth extends Wand {
 			ArrayList<Integer> candidates = new ArrayList<>();
 			for (int i : PathFinder.NEIGHBOURS8){
 				if (Dungeon.level.passable[pos+i]
-						&& pos+i != Dungeon.level.entrance
-						&& pos+i != Dungeon.level.exit){
+						&& pos+i != Dungeon.level.entrance()
+						&& pos+i != Dungeon.level.exit()){
 					candidates.add(pos+i);
 				}
 			}
 
 			for (int i = 0; i < nSeeds && !candidates.isEmpty(); i++){
 				Integer c = Random.element(candidates);
-				Dungeon.level.drop(Generator.random(Generator.Category.SEED), c).sprite.drop(pos);
+				Dungeon.level.drop(Generator.randomUsingDefaults(Generator.Category.SEED), c).sprite.drop(pos);
 				candidates.remove(c);
 			}
 

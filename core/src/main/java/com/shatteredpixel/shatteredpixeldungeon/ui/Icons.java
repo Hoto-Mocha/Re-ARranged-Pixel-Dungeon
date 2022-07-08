@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -63,13 +64,16 @@ public enum Icons {
 	AUDIO,
 	LANGS,
 	CONTROLLER,
+	KEYBOARD,
 	STATS,
 	CHALLENGE_OFF,
 	CHALLENGE_ON,
 	RENAME_OFF,
 	RENAME_ON,
+	SEED,
 	LEFTARROW,
 	RIGHTARROW,
+	CALENDAR,
 
 	//misc icons, mainly used for buttons, spacing for 16x16 until the smaller icons at the end
 	UNCHECKED,
@@ -100,7 +104,7 @@ public enum Icons {
 	SLEEP,
 	ALERT,
 	LOST,
-	DEPTH,
+	DEPTH,      //depth icons have two variants, for regular and seeded runs
 	DEPTH_CHASM,
 	DEPTH_WATER,
 	DEPTH_GRASS,
@@ -210,7 +214,7 @@ public enum Icons {
 				icon.frame( icon.texture.uvRectBySize( 32, 32, 16, 12 ) );
 				break;
 			case DATA:
-				icon.frame( icon.texture.uvRectBySize( 48, 32, 16, 15 ) );
+				icon.frame( icon.texture.uvRectBySize( 48, 32, 14, 15 ) );
 				break;
 			case AUDIO:
 				icon.frame( icon.texture.uvRectBySize( 64, 32, 14, 14 ) );
@@ -221,26 +225,35 @@ public enum Icons {
 			case CONTROLLER:
 				icon.frame( icon.texture.uvRectBySize( 96, 32, 16, 12 ) );
 				break;
+			case KEYBOARD:
+				icon.frame( icon.texture.uvRectBySize( 112, 32, 15, 12 ) );
+				break;
 			case STATS:
-				icon.frame( icon.texture.uvRectBySize( 112, 32, 16, 13 ) );
+				icon.frame( icon.texture.uvRectBySize( 128, 32, 16, 13 ) );
 				break;
 			case CHALLENGE_OFF:
-				icon.frame( icon.texture.uvRectBySize( 128, 32, 14, 12 ) );
+				icon.frame( icon.texture.uvRectBySize( 144, 32, 15, 12 ) );
 				break;
 			case CHALLENGE_ON:
-				icon.frame( icon.texture.uvRectBySize( 144, 32, 14, 12 ) );
+				icon.frame( icon.texture.uvRectBySize( 160, 32, 15, 12 ) );
 				break;
 			case RENAME_OFF:
-				icon.frame( icon.texture.uvRectBySize( 160, 32, 15, 14 ) );
-				break;
-			case RENAME_ON:
 				icon.frame( icon.texture.uvRectBySize( 176, 32, 15, 14 ) );
 				break;
+			case RENAME_ON:
+				icon.frame( icon.texture.uvRectBySize( 192, 32, 15, 14 ) );
+				break;
+			case SEED:
+				icon.frame( icon.texture.uvRectBySize( 208, 32, 15, 10 ) );
+				break;
 			case LEFTARROW:
-				icon.frame( icon.texture.uvRectBySize( 192, 32, 14, 8 ) );
+				icon.frame( icon.texture.uvRectBySize( 224, 32, 14, 8 ) );
 				break;
 			case RIGHTARROW:
-				icon.frame( icon.texture.uvRectBySize( 208, 32, 14, 8 ) );
+				icon.frame( icon.texture.uvRectBySize( 240, 32, 14, 8 ) );
+				break;
+			case CALENDAR:
+				icon.frame( icon.texture.uvRectBySize( 240, 16, 15, 12 ) );
 				break;
 
 			case UNCHECKED:
@@ -323,31 +336,39 @@ public enum Icons {
 				icon.frame( icon.texture.uvRectBySize( 40, 72, 8, 8 ) );
 				break;
 			case DEPTH:
-				icon.frame( icon.texture.uvRectBySize( 48, 64, 6, 7 ) );
+				int ofs = Dungeon.daily ? 16 : (!Dungeon.customSeedText.isEmpty() ? 8 : 0);
+				icon.frame( icon.texture.uvRectBySize( 48, 64 + ofs, 6, 7 ) );
 				break;
 			case DEPTH_CHASM:
-				icon.frame( icon.texture.uvRectBySize( 56, 64, 7, 7 ) );
+				ofs = Dungeon.daily ? 16 : (!Dungeon.customSeedText.isEmpty() ? 8 : 0);
+				icon.frame( icon.texture.uvRectBySize( 56, 64 + ofs, 7, 7 ) );
 				break;
 			case DEPTH_WATER:
-				icon.frame( icon.texture.uvRectBySize( 64, 64, 7, 7 ) );
+				ofs = Dungeon.daily ? 16 : (!Dungeon.customSeedText.isEmpty() ? 8 : 0);
+				icon.frame( icon.texture.uvRectBySize( 64, 64 + ofs, 7, 7 ) );
 				break;
 			case DEPTH_GRASS:
-				icon.frame( icon.texture.uvRectBySize( 72, 64, 7, 7 ) );
+				ofs = Dungeon.daily ? 16 : (!Dungeon.customSeedText.isEmpty() ? 8 : 0);
+				icon.frame( icon.texture.uvRectBySize( 72, 64 + ofs, 7, 7 ) );
 				break;
 			case DEPTH_DARK:
-				icon.frame( icon.texture.uvRectBySize( 80, 64, 7, 7 ) );
+				ofs = Dungeon.daily ? 16 : (!Dungeon.customSeedText.isEmpty() ? 8 : 0);
+				icon.frame( icon.texture.uvRectBySize( 80, 64 + ofs, 7, 7 ) );
 				break;
 			case DEPTH_LARGE:
-				icon.frame( icon.texture.uvRectBySize( 88, 64, 7, 7 ) );
+				ofs = Dungeon.daily ? 16 : (!Dungeon.customSeedText.isEmpty() ? 8 : 0);
+				icon.frame( icon.texture.uvRectBySize( 88, 64 + ofs, 7, 7 ) );
 				break;
 			case DEPTH_TRAPS:
-				icon.frame( icon.texture.uvRectBySize( 96, 64, 7, 7 ) );
+				ofs = Dungeon.daily ? 16 : (!Dungeon.customSeedText.isEmpty() ? 8 : 0);
+				icon.frame( icon.texture.uvRectBySize( 96, 64 + ofs, 7, 7 ) );
 				break;
 			case DEPTH_SECRETS:
-				icon.frame( icon.texture.uvRectBySize( 104, 64, 7, 7 ) );
+				ofs = Dungeon.daily ? 16 : (!Dungeon.customSeedText.isEmpty() ? 8 : 0);
+				icon.frame( icon.texture.uvRectBySize( 104, 64 + ofs, 7, 7 ) );
 				break;
 			case CHAL_COUNT:
-				icon.frame( icon.texture.uvRectBySize( 48, 72, 7, 7 ) );
+				icon.frame( icon.texture.uvRectBySize( 112, 64, 7, 7 ) );
 				break;
 		
 			case LIBGDX:

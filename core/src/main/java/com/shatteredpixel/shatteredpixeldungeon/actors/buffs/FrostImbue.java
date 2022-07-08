@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.utils.Random;
+import com.watabou.noosa.Image;
 
 public class FrostImbue extends FlavourBuff {
 	
@@ -49,7 +50,12 @@ public class FrostImbue extends FlavourBuff {
 	
 	@Override
 	public int icon() {
-		return BuffIndicator.FROST;
+		return BuffIndicator.IMBUE;
+	}
+
+	@Override
+	public void tintIcon(Image icon) {
+		icon.hardlight(0, 2f, 3f);
 	}
 
 	@Override

@@ -32,9 +32,11 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
+import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndDailies;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndError;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndRanking;
 import com.watabou.noosa.BitmapText;
@@ -147,6 +149,26 @@ public class RankingsScene extends PixelScene {
 		btnExit.setPos( Camera.main.width - btnExit.width(), 0 );
 		add( btnExit );
 
+		int left = 0;
+
+		if (Rankings.INSTANCE.latestDaily != null) {
+			IconButton btnDailies = new IconButton(Icons.CALENDAR.get()) {
+				@Override
+				protected void onClick() {
+					ShatteredPixelDungeon.scene().addToFront(new WndDailies());
+				}
+
+				@Override
+				protected void onPointerUp() {
+					icon.hardlight(0.5f, 1f, 2f);
+				}
+			};
+			btnDailies.icon().hardlight(0.5f, 1f, 2f);
+			btnDailies.setRect( left, 0, 20, 20 );
+			left += 20;
+			add(btnDailies);
+		}
+
 		fadeIn();
 	}
 	
@@ -166,7 +188,7 @@ public class RankingsScene extends PixelScene {
 		
 		private Rankings.Record rec;
 		
-		protected ItemSprite shield;
+		protected Image shield;
 		private Flare flare;
 		private BitmapText position;
 		private RenderedTextBlock desc;
@@ -198,7 +220,7 @@ public class RankingsScene extends PixelScene {
 			int odd = pos % 2;
 			
 			if (rec.win) {
-				shield.view( ItemSpriteSheet.AMULET, null );
+				shield.copy( new ItemSprite(ItemSpriteSheet.AMULET, null) );
 				position.hardlight( TEXT_WIN[odd] );
 				desc.hardlight( TEXT_WIN[odd] );
 				depth.hardlight( TEXT_WIN[odd] );
@@ -218,6 +240,19 @@ public class RankingsScene extends PixelScene {
 					add(depth);
 				}
 
+				if (rec.ascending){
+					shield.copy( new ItemSprite(ItemSpriteSheet.AMULET, null) );
+					shield.hardlight(0.4f, 0.4f, 0.7f);
+				}
+
+			}
+
+			if (rec.daily){
+				shield.copy( Icons.get(Icons.CALENDAR) );
+				shield.hardlight(0.5f, 1f, 2f);
+			} else if (!rec.customSeed.isEmpty()){
+				shield.copy( Icons.get(Icons.SEED) );
+				shield.hardlight(1f, 1.5f, 0.67f);
 			}
 
 			if (rec.herolevel != 0){
@@ -238,7 +273,7 @@ public class RankingsScene extends PixelScene {
 			
 			super.createChildren();
 			
-			shield = new ItemSprite( ItemSpriteSheet.TOMB, null );
+			shield = new Image(new ItemSprite( ItemSpriteSheet.TOMB, null ));
 			add( shield );
 			
 			position = new BitmapText( PixelScene.pixelFont);
@@ -262,7 +297,7 @@ public class RankingsScene extends PixelScene {
 			
 			super.layout();
 			
-			shield.x = x;
+			shield.x = x + (16 - shield.width) / 2f;
 			shield.y = y + (height - shield.height) / 2f;
 			align(shield);
 			
@@ -290,8 +325,8 @@ public class RankingsScene extends PixelScene {
 			depth.y = steps.y + (steps.height - depth.height()) / 2f + 1;
 			align(depth);
 
-			desc.maxWidth((int)(steps.x - (shield.x + shield.width + GAP)));
-			desc.setPos(shield.x + shield.width + GAP, shield.y + (shield.height - desc.height()) / 2f + 1);
+			desc.maxWidth((int)(steps.x - (x + 16 + GAP)));
+			desc.setPos(x + 16 + GAP, shield.y + (shield.height - desc.height()) / 2f + 1);
 			align(desc);
 		}
 		
