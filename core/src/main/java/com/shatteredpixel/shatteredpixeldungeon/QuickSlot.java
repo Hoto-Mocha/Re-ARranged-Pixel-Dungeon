@@ -43,7 +43,7 @@ public class QuickSlot {
 
 	{
 		if (!PixelScene.landscape()) {
-			SIZE = 6;
+			SIZE = 8;
 		}
 	}
 

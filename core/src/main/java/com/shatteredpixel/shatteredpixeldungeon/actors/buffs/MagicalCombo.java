@@ -449,7 +449,9 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 										WandOfBlastWave.throwChar(mob,
 												new Ballistica(mob.pos, aim.collisionPos, Ballistica.MAGIC_BOLT),
 												knockback,
-												true);
+												true,
+												true,
+												hero.getClass());
 									}
 
 									//*** Wand of Frost ***
@@ -617,7 +619,7 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 							dist--;
 						}
 					}
-					WandOfBlastWave.throwChar(enemy, trajectory, dist, true, false);
+					WandOfBlastWave.throwChar(enemy, trajectory, dist, true, false, hero.getClass());
 					break;
 				case STAB:
 					hero.spend(-hero.attackDelay());

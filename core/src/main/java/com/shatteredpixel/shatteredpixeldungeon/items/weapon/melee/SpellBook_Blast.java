@@ -104,9 +104,9 @@ public class SpellBook_Blast extends MeleeWeapon {
 						trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
 						//knock them back along that ballistica
 						if (buffedLvl() >= 10) {
-							WandOfBlastWave.throwChar(ch, trajectory, 3 + buffedLvl(), true);
+							WandOfBlastWave.throwChar(ch, trajectory, 3 + buffedLvl(), true, true, hero.getClass());
 						} else {
-							WandOfBlastWave.throwChar(ch, trajectory, 2 + buffedLvl() / 2, true);
+							WandOfBlastWave.throwChar(ch, trajectory, 2 + buffedLvl() / 2, true, true, hero.getClass());
 						}
 					} else {
 						GLog.p( Messages.get(SpellBook_Blast.this, "cannot_hero") );

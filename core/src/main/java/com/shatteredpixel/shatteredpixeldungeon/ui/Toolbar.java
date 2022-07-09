@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.ui;
 
+import static com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene.landscape;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
@@ -118,9 +120,9 @@ public class Toolbar extends Component {
 
 				if (Dungeon.hero.ready && !GameScene.cancel()) {
 
-					String[] slotNames = new String[6];
-					Image[] slotIcons = new Image[6];
-					for (int i = 0; i < 6; i++){
+					String[] slotNames = new String[8];
+					Image[] slotIcons = new Image[8];
+					for (int i = 0; i < 8; i++){
 						Item item = Dungeon.quickslot.getItem(i);
 
 						if (item != null && !Dungeon.quickslot.isPlaceholder(i) &&
@@ -459,6 +461,8 @@ public class Toolbar extends Component {
 		int quickslotsToShow = 4;
 		if (PixelScene.uiCamera.width > 152) quickslotsToShow ++;
 		if (PixelScene.uiCamera.width > 170) quickslotsToShow ++;
+		if (PixelScene.uiCamera.width > 188) quickslotsToShow ++;
+		if (PixelScene.uiCamera.width > 206) quickslotsToShow ++;
 
 		int startingSlot;
 		if (SPDSettings.quickSwapper() && quickslotsToShow < 6){
