@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.CheckBox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ItemSlot;
+import com.shatteredpixel.shatteredpixeldungeon.ui.MiniCheckBox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TalentButton;
@@ -376,18 +377,18 @@ public class WndRanking extends WndTabbed {
 
 				final String challenge = Challenges.NAME_IDS[i];
 
-				CheckBox cb = new CheckBox( Messages.titleCase(Messages.get(Challenges.class, challenge)) );
+				MiniCheckBox cb = new MiniCheckBox( Messages.titleCase(Messages.get(Challenges.class, challenge)));
 				cb.checked( (Dungeon.challenges & Challenges.MASKS[i]) != 0 );
 				cb.active = false;
 
 				if (i > 0) {
 					pos += 1;
 				}
-				cb.setRect( 0, pos, WIDTH-16, 15 );
+				cb.setRect( 0, pos, WIDTH-9, 9 );
 
 				add( cb );
 
-				IconButton info = new IconButton(Icons.get(Icons.INFO)){
+				IconButton info = new IconButton(Icons.get(Icons.MINI_INFO)){
 					@Override
 					protected void onClick() {
 						super.onClick();
@@ -396,7 +397,7 @@ public class WndRanking extends WndTabbed {
 						);
 					}
 				};
-				info.setRect(cb.right(), pos, 16, 15);
+				info.setRect(cb.right(), pos, 9, 9);
 				add(info);
 
 				pos = cb.bottom();

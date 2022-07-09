@@ -23,14 +23,14 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 
-public class CheckBox extends RedButton {
+public class MiniCheckBox extends RedButton {
 
 	private boolean checked = false;
 
-	public CheckBox( String label ) {
-		super( label );
-		
-		icon( Icons.get( Icons.UNCHECKED ) );
+	public MiniCheckBox( String label ) {
+		super( label, 7);
+
+		icon( Icons.get( Icons.MINI_UNCHECKED ) );
 	}
 
 	@Override
@@ -56,8 +56,8 @@ public class CheckBox extends RedButton {
 	public void checked( boolean value ) {
 		if (checked != value) {
 			checked = value;
-			icon.copy( Icons.get( checked ? Icons.CHECKED : Icons.UNCHECKED ) );
 		}
+		icon.copy( Icons.get( checked ? Icons.MINI_CHECKED : Icons.MINI_UNCHECKED ) );
 	}
 	
 	@Override
