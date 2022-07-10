@@ -89,6 +89,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class Dungeon {
@@ -203,7 +204,7 @@ public class Dungeon {
 
 		if (daily) {
 			seed = SPDSettings.lastDaily();
-			DateFormat format = DateFormat.getDateInstance();
+			DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ROOT);
 			format.setTimeZone(TimeZone.getTimeZone("UTC"));
 			customSeedText = format.format(new Date(seed));
 		} else if (!SPDSettings.customSeed().isEmpty()){
