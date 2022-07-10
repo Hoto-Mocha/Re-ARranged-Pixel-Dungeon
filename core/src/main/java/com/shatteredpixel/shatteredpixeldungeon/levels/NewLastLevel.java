@@ -22,23 +22,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
-import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
+import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTileSheet;
-import com.watabou.noosa.Group;
-import com.watabou.noosa.Tilemap;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
-
-import java.util.Arrays;
 
 public class NewLastLevel extends Level {
 
@@ -60,13 +52,12 @@ public class NewLastLevel extends Level {
 		return Assets.Environment.WATER_LABS;
 	}
 
-	private static final int ROOM_TOP = 10;
+	public static int AMULET_POS = 4 + (9)*4;
 
 	@Override
 	protected boolean build() {
-		exit = 4 + (4)*9;
-		entrance = 4 + (30)*9;
 		setSize(WIDTH, HEIGHT);
+		transitions.add(new LevelTransition(this, 4 + (30)*9, LevelTransition.Type.REGULAR_ENTRANCE));
 
 		//entrance room
 		buildLevel();
@@ -153,14 +144,14 @@ public class NewLastLevel extends Level {
 
 	@Override
 	protected void createItems() {
-		drop( new Amulet(), exit );
+		drop( new Amulet(), AMULET_POS );
 	}
 
 	@Override
 	public int randomRespawnCell( Char ch ) {
 		int cell;
 		do {
-			cell = entrance + PathFinder.NEIGHBOURS8[Random.Int(8)];
+			cell = entrance() + PathFinder.NEIGHBOURS8[Random.Int(8)];
 		} while (!passable[cell]
 				|| (Char.hasProp(ch, Char.Property.LARGE) && !openSpace[cell])
 				|| Actor.findChar(cell) != null);
@@ -219,5 +210,13 @@ public class NewLastLevel extends Level {
 			default:
 				return super.tileDesc( tile );
 		}
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		//pre-1.3.0 saves, deletes unneeded exit
+		if (bundle.contains("exit")) bundle.remove("exit");
+
+		super.restoreFromBundle(bundle);
 	}
 }

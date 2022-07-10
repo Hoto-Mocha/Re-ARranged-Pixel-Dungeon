@@ -1974,7 +1974,7 @@ public class Hero extends Char {
 				}
 
 			} else if (transition.type == LevelTransition.Type.REGULAR_ENTRANCE
-					&& Dungeon.depth == 25
+					&& Dungeon.depth == 30
 					//ascension challenge only works on runs started on v1.3+
 					&& Dungeon.initialVersion > ShatteredPixelDungeon.v1_2_3
 					&& belongings.getItem(Amulet.class) != null
@@ -1992,7 +1992,7 @@ public class Hero extends Char {
 							protected void onSelect(int index) {
 								if (index == 0){
 									Buff.affect(Hero.this, AscensionChallenge.class);
-									Statistics.highestAscent = 25;
+									Statistics.highestAscent = 30;
 									actTransition(action);
 								}
 							}

@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Bones;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -45,12 +46,15 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfWeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HandyBarricade;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
+import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.ToxicGasRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
 
@@ -74,6 +78,7 @@ public class LabsBossLevel extends Level {
 
 	private static final Rect entry = new Rect(0, 27, 33, 6);
 	private static final Rect arena = new Rect(0, 0, 33, 26);
+	private static final Rect exitDoor = new Rect(16, 1, 16, 1);
 
 	private static final int topDoor = 16 + 33;
 	private static final int bottomDoor = 16 + (arena.bottom+1) * 33;
@@ -93,9 +98,14 @@ public class LabsBossLevel extends Level {
 
 	@Override
 	protected boolean build() {
-		entrance = 16 + (30)*33;
-		exit = topDoor;
 		setSize(WIDTH, HEIGHT);
+
+		transitions.add(new LevelTransition(this, 16 + (30)*33, LevelTransition.Type.REGULAR_ENTRANCE));
+
+		int exitCell = topDoor;
+		LevelTransition exit = new LevelTransition(this, exitCell, LevelTransition.Type.REGULAR_EXIT);
+		exit.set(exitDoor);
+		transitions.add(exit);
 
 		//entrance room
 		buildLevel();
@@ -285,6 +295,14 @@ public class LabsBossLevel extends Level {
 		drop( prize4, 23+(28)*33 ).type = Heap.Type.LOCKED_CHEST;
 		drop( prize5, 24+(28)*33 ).type = Heap.Type.LOCKED_CHEST;
 		drop( prize6, 25+(28)*33 ).type = Heap.Type.LOCKED_CHEST;
+		Item item = Bones.get();
+		if (item != null) {
+			int pos;
+			do {
+				pos = randomRespawnCell(null);
+			} while (pos == entrance());
+			drop( item, pos ).setHauntedIfCursed().type = Heap.Type.REMAINS;
+		}
 	}
 
 	public int randomCellPos() {
@@ -309,6 +327,17 @@ public class LabsBossLevel extends Level {
 		int eC_19 	= Random.IntRange( 7+25*33, 25+25*33 ); //eC = emptyCell
 		int randomEmptyCell = Random.oneOf( eC_1, eC_2, eC_3, eC_4, eC_5, eC_6, eC_7, eC_8, eC_9, eC_10, eC_11, eC_12, eC_13, eC_14, eC_15, eC_16, eC_17, eC_18, eC_19 );
 		return randomEmptyCell;
+	}
+
+	@Override
+	public int randomRespawnCell( Char ch ) {
+		int cell;
+		do {
+			cell = entrance() + PathFinder.NEIGHBOURS8[Random.Int(8)];
+		} while (!passable[cell]
+				|| (Char.hasProp(ch, Char.Property.LARGE) && !openSpace[cell])
+				|| Actor.findChar(cell) != null);
+		return cell;
 	}
 
 	@Override
@@ -387,6 +416,12 @@ public class LabsBossLevel extends Level {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle(bundle);
 		isCompleted = bundle.getBoolean( ISCOMPLETED );
+		//pre-1.3.0 saves, modifies exit transition with custom size
+		if (bundle.contains("exit")){
+			LevelTransition exit = getTransition(LevelTransition.Type.REGULAR_EXIT);
+			exit.set(16, 1, 16, 1);
+			transitions.add(exit);
+		}
 	}
 
 	@Override

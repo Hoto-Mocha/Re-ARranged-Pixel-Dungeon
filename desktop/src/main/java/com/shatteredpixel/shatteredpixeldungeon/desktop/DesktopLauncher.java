@@ -62,14 +62,14 @@ public class DesktopLauncher {
 			SharedLibraryLoader.isIos = false;
 			SharedLibraryLoader.is64Bit = System.getProperty("os.arch").contains("64") || System.getProperty("os.arch").startsWith("armv8");
 		}
-		
+
 		final String title;
 		if (DesktopLauncher.class.getPackage().getSpecificationTitle() == null){
 			title = System.getProperty("Specification-Title");
 		} else {
 			title = DesktopLauncher.class.getPackage().getSpecificationTitle();
 		}
-		
+
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
 			public void uncaughtException(Thread thread, Throwable throwable) {
@@ -82,7 +82,7 @@ public class DesktopLauncher {
 
 				//shorten/simplify exception message to make it easier to fit into a message box
 				exceptionMsg = exceptionMsg.replaceAll("\\(.*:([0-9]*)\\)", "($1)");
-				exceptionMsg = exceptionMsg.replace("com.arrangedpixel.arrangedpixeldungeon.", "");
+				exceptionMsg = exceptionMsg.replace("com.shatteredpixel.shatteredpixeldungeon.", "");
 				exceptionMsg = exceptionMsg.replace("com.watabou.", "");
 				exceptionMsg = exceptionMsg.replace("com.badlogic.gdx.", "");
 				exceptionMsg = exceptionMsg.replace("\t", "    ");
@@ -94,14 +94,14 @@ public class DesktopLauncher {
 
 				if (exceptionMsg.contains("Couldnt create window")){
 					TinyFileDialogs.tinyfd_messageBox(title + " Has Crashed!",
-							title + " wasn't able to initialize it's graphics display, sorry about that!\n\n" +
-									"This usually happens when a computer's graphics card does not support OpenGL 2.0+, or has misconfigured graphics drivers.\n\n" +
-									"If you're certain the game should be working on your computer, feel free to message the developer (https://github.com/Hoto-Mocha/ARranged-Pixel-Dungeon)\n\n" +
+							title + " was not able to initialize its graphics display, sorry about that!\n\n" +
+									"This usually happens when your graphics card does not support OpenGL 2.0+, or has misconfigured graphics drivers.\n\n" +
+									"If you are certain the game should be working on your computer, feel free to report the developer (https://github.com/Hoto-Mocha/ARranged-Pixel-Dungeon/issues)\n\n" +
 									"version: " + Game.version, "ok", "error", false);
 				} else {
 					TinyFileDialogs.tinyfd_messageBox(title + " Has Crashed!",
-							title + " has run into an error it can't recover from and has crashed, sorry about that!\n\n" +
-									"If you could, please report this error message to the developer (https://github.com/Hoto-Mocha/ARranged-Pixel-Dungeon):\n\n" +
+							title + " has run into an error it cannot recover from and has crashed, sorry about that!\n\n" +
+									"If you could, please report this error message to the developer (https://github.com/Hoto-Mocha/ARranged-Pixel-Dungeon/issues):\n\n" +
 									"version: " + Game.version + "\n" +
 									exceptionMsg,
 							"ok", "error", false);
@@ -109,12 +109,12 @@ public class DesktopLauncher {
 				System.exit(1);
 			}
 		});
-		
+
 		Game.version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (Game.version == null) {
 			Game.version = System.getProperty("Specification-Version");
 		}
-		
+
 		try {
 			Game.versionCode = Integer.parseInt(DesktopLauncher.class.getPackage().getImplementationVersion());
 		} catch (NumberFormatException e) {
@@ -127,9 +127,9 @@ public class DesktopLauncher {
 		if (NewsImpl.supportsNews()){
 			News.service = NewsImpl.getNewsService();
 		}
-		
+
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		
+
 		config.setTitle( title );
 
 		String basePath = "";
@@ -142,7 +142,7 @@ public class DesktopLauncher {
 			}
 			baseFileType = Files.FileType.External;
 		} else if (SharedLibraryLoader.isMac) {
-			basePath = "Library/Application Support/ARranged Pixel Dungeon/";
+			basePath = "Library/Application Support/Shattered Pixel Dungeon/";
 			baseFileType = Files.FileType.External;
 		} else if (SharedLibraryLoader.isLinux) {
 			String XDGHome = System.getenv("XDG_DATA_HOME");
@@ -150,7 +150,7 @@ public class DesktopLauncher {
 			basePath = XDGHome + "/.shatteredpixel/shattered-pixel-dungeon/";
 
 			//copy over files from old linux save DIR, pre-1.2.0
-			FileHandle oldBase = new Lwjgl3FileHandle(".arrangedpixel/shattered-pixel-dungeon/", Files.FileType.External);
+			FileHandle oldBase = new Lwjgl3FileHandle(".shatteredpixel/shattered-pixel-dungeon/", Files.FileType.External);
 			FileHandle newBase = new Lwjgl3FileHandle(basePath, Files.FileType.Absolute);
 			if (oldBase.exists()){
 				if (!newBase.exists()) {
@@ -165,7 +165,7 @@ public class DesktopLauncher {
 		config.setPreferencesConfig( basePath, baseFileType );
 		SPDSettings.set( new Lwjgl3Preferences( new Lwjgl3FileHandle(basePath + SPDSettings.DEFAULT_PREFS_FILE, baseFileType) ));
 		FileUtils.setDefaultFileProperties( baseFileType, basePath );
-		
+
 		config.setWindowSizeLimits( 720, 400, -1, -1 );
 		Point p = SPDSettings.windowResolution();
 		config.setWindowedMode( p.x, p.y );
@@ -176,11 +176,11 @@ public class DesktopLauncher {
 		if (SPDSettings.fullscreen() && !SharedLibraryLoader.isMac) {
 			config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 		}
-		
+
 		//records whether window is maximized or not for settings
 		DesktopWindowListener listener = new DesktopWindowListener();
 		config.setWindowListener( listener );
-		
+
 		config.setWindowIcon("icons/icon_16.png", "icons/icon_32.png", "icons/icon_48.png",
 				"icons/icon_64.png", "icons/icon_128.png", "icons/icon_256.png");
 

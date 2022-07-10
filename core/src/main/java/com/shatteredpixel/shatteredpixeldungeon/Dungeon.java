@@ -352,7 +352,7 @@ public class Dungeon {
 			Statistics.deepestFloor--;
 		}
 		
-		level. create();
+		level.create();
 		
 		Statistics.qualifiedForNoKilling = !bossLevel();
 		Statistics.qualifiedForBossChallengeBadge = bossLevel();
@@ -403,7 +403,7 @@ public class Dungeon {
 	//is usually the dungeon depth, but can be set to 26 when ascending
 	public static int scalingDepth(){
 		if (Dungeon.hero != null && Dungeon.hero.buff(AscensionChallenge.class) != null){
-			return 26;
+			return 31;
 		} else {
 			return depth;
 		}
@@ -742,7 +742,7 @@ public class Dungeon {
 
 		droppedItems = new SparseArray<>();
 		portedItems = new SparseArray<>();
-		for (int i=1; i <= 26; i++) {
+		for (int i=1; i <= 31; i++) {
 			
 			//dropped items
 			ArrayList<Item> items = new ArrayList<>();

@@ -40,35 +40,41 @@ public class AscensionChallenge extends Buff {
 
 	private static HashMap<Class<?extends Mob>, Float> modifiers = new HashMap<>();
 	static {
-		modifiers.put(Rat.class,            10f);
-		modifiers.put(Snake.class,          8f);
-		modifiers.put(Gnoll.class,          8f);
-		modifiers.put(Swarm.class,          7f);
-		modifiers.put(Crab.class,           6f);
-		modifiers.put(Slime.class,          6f);
+		modifiers.put(Rat.class,            14f);
+		modifiers.put(Snake.class,          12f);
+		modifiers.put(Gnoll.class,          12f);
+		modifiers.put(Swarm.class,          10f);
+		modifiers.put(Crab.class,           8f);
+		modifiers.put(Slime.class,          8f);
 
-		modifiers.put(Skeleton.class,       4.5f);
-		modifiers.put(Thief.class,          4.5f);
-		modifiers.put(DM100.class,          4f);
-		modifiers.put(Guard.class,          3.5f);
-		modifiers.put(Necromancer.class,    3.5f);
+		modifiers.put(Skeleton.class,       7f);
+		modifiers.put(Thief.class,          7f);
+		modifiers.put(DM100.class,          6f);
+		modifiers.put(Guard.class,          4.5f);
+		modifiers.put(Necromancer.class,    4.5f);
 
-		modifiers.put(Bat.class,            2.5f);
-		modifiers.put(Brute.class,          2.25f);
-		modifiers.put(Shaman.class,         2.25f);
-		modifiers.put(Spinner.class,        2f);
-		modifiers.put(DM200.class,          2f);
+		modifiers.put(Bat.class,            4f);
+		modifiers.put(Brute.class,          3.5f);
+		modifiers.put(Shaman.class,         3.5f);
+		modifiers.put(Spinner.class,        2.5f);
+		modifiers.put(DM200.class,          2.5f);
 
-		modifiers.put(Ghoul.class,          1.67f);
-		modifiers.put(Elemental.class,      1.5f);
-		modifiers.put(Warlock.class,        1.33f);
-		modifiers.put(Monk.class,           1.33f);
-		modifiers.put(Golem.class,          1.25f);
+		modifiers.put(Ghoul.class,          2.25f);
+		modifiers.put(Elemental.class,      2f);
+		modifiers.put(Warlock.class,        1.67f);
+		modifiers.put(Monk.class,           1.67f);
+		modifiers.put(Golem.class,          1.5f);
 
-		modifiers.put(RipperDemon.class,    1.2f);
-		modifiers.put(Succubus.class,       1.2f);
-		modifiers.put(Eye.class,            1f);
-		modifiers.put(Scorpio.class,        1f);
+		modifiers.put(RipperDemon.class,    1.33f);
+		modifiers.put(Succubus.class,       1.33f);
+		modifiers.put(Eye.class,            1.25f);
+		modifiers.put(Scorpio.class,        1.25f);
+
+		modifiers.put(Soldier.class,   		1.2f);
+		modifiers.put(Researcher.class,     1.2f);
+		modifiers.put(Supression.class,     1f);
+		modifiers.put(Tank.class,       	1f);
+		modifiers.put(Medic.class,      	1f);
 	}
 
 	public static float statModifier(Char ch){
