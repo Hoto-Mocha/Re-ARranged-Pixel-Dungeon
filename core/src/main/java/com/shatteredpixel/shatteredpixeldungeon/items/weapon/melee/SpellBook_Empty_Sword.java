@@ -21,22 +21,25 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArcaneArmor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -45,28 +48,20 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Earth extends MeleeWeapon {
+public class SpellBook_Empty_Sword extends MeleeWeapon {
 
 	public static final String AC_READ		= "READ";
 
 	{
 		defaultAction = AC_READ;
+		usesTargeting = false;
 
-		image = ItemSpriteSheet.EARTH_SPELLBOOK;
+		image = ItemSpriteSheet.EMPTY_SPELLBOOK_SWORD;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
-		tier = 3;
+		tier = 5;
 		alchemy = true;
-	}
-
-	@Override
-	public int proc(Char attacker, Char defender, int damage) {
-		float procChance = 1/4f; //fixed at 1/4 regardless of lvl
-		if (Random.Float() < procChance) {
-			Buff.affect(hero, Earthroot.Armor.class).level(5+buffedLvl());
-		}
-		return super.proc( attacker, defender, damage );
 	}
 
 	@Override
@@ -83,42 +78,73 @@ public class SpellBook_Earth extends MeleeWeapon {
 
 		if (action.equals(AC_READ)) {
 			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "fail") );
+				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "fail") );
 			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
+				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "need_id") );
 			} else {
-				GLog.w( Messages.get(this, "barkskin") );
-				Buff.affect(hero, Barkskin.class).set(Dungeon.depth/2+buffedLvl(), 1);
-				if (buffedLvl() >= 10) {
-					Buff.affect(hero, ArcaneArmor.class).set(Dungeon.depth/2+buffedLvl(), 1);
+				switch(Random.Int( 10 )){
+					case 0: default:
+						Buff.affect(hero, Recharging.class, 20f+buffedLvl());
+						GLog.p( Messages.get(this, "recharge") );
+						break;
+					case 1:
+						Buff.affect(hero, ArtifactRecharge.class).set(10f+buffedLvl());
+						GLog.p( Messages.get(this, "artifact") );
+						break;
+					case 2:
+						Buff.affect(hero, Bless.class, 20f+buffedLvl());
+						GLog.p( Messages.get(this, "bless") );
+						break;
+					case 3:
+						Buff.affect(hero, Adrenaline.class, 10f+buffedLvl());
+						GLog.p( Messages.get(this, "adrenaline") );
+						break;
+					case 4:
+						Buff.affect(hero, Barrier.class).setShield(Dungeon.depth+buffedLvl());
+						GLog.p( Messages.get(this, "barrier") );
+						break;
+					case 5:
+						Buff.affect(hero, Barkskin.class).set(Dungeon.depth/2+buffedLvl(), 1);
+						GLog.p( Messages.get(this, "barkskin") );
+						break;
+					case 6:
+						Buff.affect(hero, Invisibility.class, 10f+buffedLvl());
+						GLog.p( Messages.get(this, "invisibility") );
+						break;
+					case 7:
+						Buff.affect(hero, ArcaneArmor.class).set(Dungeon.depth/2+buffedLvl(), 1);
+						GLog.p( Messages.get(this, "arcane_armor") );
+						break;
+					case 8:
+						Buff.affect(hero, Awareness.class, 2f);
+						GLog.p( Messages.get(this, "awareness") );
+						break;
+					case 9:
+						Buff.affect(hero, EvasiveMove.class, 3f);
+						GLog.p( Messages.get(this, "evasive_move") );
+						break;
 				}
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(100f-5*buffedLvl(), 50f));
 				Invisibility.dispel();
 				curUser.spend( Actor.TICK );
 				curUser.busy();
 				((HeroSprite)curUser.sprite).read();
-				Dungeon.hero.sprite.centerEmitter().burst(MagicMissile.EarthParticle.ATTRACT, Dungeon.depth/2+buffedLvl());
 				Sample.INSTANCE.play(Assets.Sounds.READ);
+				Buff.affect(hero, SpellBookCoolDown.class, Math.max(200f-10f*buffedLvl(), 100f));
 			}
 		}
-	}
-
-	@Override
-	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier);     //+3 per level, down from +4
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{SpellBook_Empty.class, WandOfLivingEarth.class};
-			inQuantity = new int[]{1, 1};
+			inputs =  new Class[]{Greatsword.class, SpellBook_Empty.class, ArcaneResin.class};
+			inQuantity = new int[]{1, 1, 4};
 
-			cost = 10;
+			cost = 5;
 
-			output = SpellBook_Earth.class;
+			output = SpellBook_Empty_Sword.class;
 			outQuantity = 1;
 		}
 	}
+
 }

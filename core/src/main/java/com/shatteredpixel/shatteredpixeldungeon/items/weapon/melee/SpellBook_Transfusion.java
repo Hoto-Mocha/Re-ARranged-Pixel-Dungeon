@@ -40,10 +40,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -61,6 +63,29 @@ public class SpellBook_Transfusion extends MeleeWeapon {
 
 		tier = 3;
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		//chance to heal scales from 5%-30% based on missing HP
+		float missingPercent = (hero.HT - hero.HP) / (float)hero.HT;
+		float procChance = 0.05f + (0.25f+0.01f*buffedLvl())*missingPercent;
+		if (Random.Float() < procChance) {
+
+			//heals for 50% of damage dealt
+			int healAmt = Math.round(damage * 0.5f);
+			healAmt = Math.min( healAmt, hero.HT - hero.HP );
+
+			if (healAmt > 0 && hero.isAlive()) {
+
+				hero.HP += healAmt;
+				hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+				hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+
+			}
+
+		}
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

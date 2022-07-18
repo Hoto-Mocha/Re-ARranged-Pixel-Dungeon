@@ -24,11 +24,13 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
@@ -36,6 +38,8 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.PathFinder;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -52,6 +56,27 @@ public class SpellBook_Regrowth extends MeleeWeapon {
 
 		tier = 3;
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
+		if (Random.Float() < procChance) {
+			boolean secondPlant = Random.Int(3) == 0;
+			ArrayList<Integer> positions = new ArrayList<>();
+			Blooming blooming = new Blooming();
+			for (int i : PathFinder.NEIGHBOURS8) {
+				positions.add(i);
+			}
+			Random.shuffle(positions);
+			for (int i : positions) {
+				if (blooming.plantGrass(defender.pos + i)) {
+					if (secondPlant) secondPlant = false;
+					else break;
+				}
+			}
+		}
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

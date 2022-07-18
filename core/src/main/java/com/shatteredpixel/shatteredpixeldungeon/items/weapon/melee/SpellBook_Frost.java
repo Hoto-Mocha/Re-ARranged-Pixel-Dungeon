@@ -26,10 +26,12 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blizzard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Freezing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
@@ -45,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -62,6 +65,23 @@ public class SpellBook_Frost extends MeleeWeapon {
 
 		tier = 3;
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		float procChance = (buffedLvl()+1f)/(buffedLvl()+4f);
+		if (Random.Float() < procChance) {
+			//adds 3 turns of chill per proc, with a cap of 6 turns
+			float durationToAdd = 3f;
+			Chill existing = defender.buff(Chill.class);
+			if (existing != null){
+				durationToAdd = Math.min(durationToAdd, 6f-existing.cooldown());
+			}
+
+			Buff.affect( defender, Chill.class, durationToAdd );
+			Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
+		}
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

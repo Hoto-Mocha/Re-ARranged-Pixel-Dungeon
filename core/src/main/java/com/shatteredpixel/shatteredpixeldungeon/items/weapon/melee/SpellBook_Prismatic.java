@@ -24,18 +24,22 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfPrismaticLight;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -52,6 +56,21 @@ public class SpellBook_Prismatic extends MeleeWeapon {
 
 		tier = 3;
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
+		if (Random.Float() < procChance) {
+			Buff.affect(defender, Blindness.class, 2+buffedLvl());
+		}
+		if (defender.properties().contains(Char.Property.DEMONIC) || defender.properties().contains(Char.Property.UNDEAD)){
+			defender.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10+buffedLvl() );
+			Sample.INSTANCE.play(Assets.Sounds.BURNING);
+
+			damage *= 1.3333f; //deals more damage to the demons and the undeads
+		}
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

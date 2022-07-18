@@ -31,14 +31,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -47,7 +46,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Blast extends MeleeWeapon {
+public class SpellBook_Blast_Sword extends MeleeWeapon {
 
 	public static final String AC_READ		= "READ";
 
@@ -55,11 +54,11 @@ public class SpellBook_Blast extends MeleeWeapon {
 		defaultAction = AC_READ;
 		usesTargeting = false;
 
-		image = ItemSpriteSheet.BLAST_SPELLBOOK;
+		image = ItemSpriteSheet.BLAST_SPELLBOOK_SWORD;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
-		tier = 3;
+		tier = 5;
 		alchemy = true;
 	}
 
@@ -86,9 +85,9 @@ public class SpellBook_Blast extends MeleeWeapon {
 
 		if (action.equals(AC_READ)) {
 			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "fail") );
+				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "fail") );
 			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
+				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "need_id") );
 			} else {
 				usesTargeting = true;
 				curUser = hero;
@@ -96,12 +95,6 @@ public class SpellBook_Blast extends MeleeWeapon {
 				GameScene.selectCell(spell);
 			}
 		}
-	}
-
-	@Override
-	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier);     //+3 per level, down from +4
 	}
 
 	private CellSelector.Listener spell = new CellSelector.Listener() {
@@ -122,10 +115,10 @@ public class SpellBook_Blast extends MeleeWeapon {
 							WandOfBlastWave.throwChar(ch, trajectory, 2 + buffedLvl() / 2, true, true, hero.getClass());
 						}
 					} else {
-						GLog.p( Messages.get(SpellBook_Blast.this, "cannot_hero") );
+						GLog.p( Messages.get(SpellBook_Blast_Sword.this, "cannot_hero") );
 					}
 				} else {
-					GLog.p( Messages.get(SpellBook_Blast.this, "cannot_cast") );
+					GLog.p( Messages.get(SpellBook_Blast_Sword.this, "cannot_cast") );
 				}
 				Buff.affect(hero, SpellBookCoolDown.class, Math.max(100f-5*buffedLvl(), 50f));
 				Invisibility.dispel();
@@ -144,12 +137,12 @@ public class SpellBook_Blast extends MeleeWeapon {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{SpellBook_Empty.class, WandOfBlastWave.class};
-			inQuantity = new int[]{1, 1};
+			inputs =  new Class[]{Greatsword.class, SpellBook_Blast.class, ArcaneResin.class};
+			inQuantity = new int[]{1, 1, 4};
 
 			cost = 10;
 
-			output = SpellBook_Blast.class;
+			output = SpellBook_Blast_Sword.class;
 			outQuantity = 1;
 		}
 	}

@@ -491,7 +491,26 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 16);
 	}
 
-	private static final int ADVANCED_TIER5 = 								xy(1, 40);
+	private static final int SPELLBOOK_SWORDS 	       		=            	           xy(1, 40);
+	public static final int EMPTY_SPELLBOOK_SWORD  			= SPELLBOOK_SWORDS+0;
+	public static final int FIRE_SPELLBOOK_SWORD  			= SPELLBOOK_SWORDS+1;
+	public static final int FROST_SPELLBOOK_SWORD  			= SPELLBOOK_SWORDS+2;
+	public static final int LIGHTNING_SPELLBOOK_SWORD 		= SPELLBOOK_SWORDS+3;
+	public static final int DISTRIBUTION_SPELLBOOK_SWORD  	= SPELLBOOK_SWORDS+4;
+	public static final int PRISMATIC_SPELLBOOK_SWORD  		= SPELLBOOK_SWORDS+5;
+	public static final int CORROSION_SPELLBOOK_SWORD  		= SPELLBOOK_SWORDS+6;
+	public static final int EARTH_SPELLBOOK_SWORD  			= SPELLBOOK_SWORDS+7;
+	public static final int BLAST_SPELLBOOK_SWORD  			= SPELLBOOK_SWORDS+8;
+	public static final int CORRUPTION_SPELLBOOK_SWORD  	= SPELLBOOK_SWORDS+9;
+	public static final int WARDING_SPELLBOOK_SWORD  		= SPELLBOOK_SWORDS+10;
+	public static final int REGROWTH_SPELLBOOK_SWORD  	    = SPELLBOOK_SWORDS+11;
+	public static final int TRANSFUSION_SPELLBOOK_SWORD  	= SPELLBOOK_SWORDS+12;
+	static{
+		for (int i = SPELLBOOK_SWORDS; i < SPELLBOOK_SWORDS+16; i++)
+			assignItemRect(i, 16, 16);
+	}
+
+	private static final int ADVANCED_TIER5 = 								xy(1, 41);
 	public static final int SPADE           = ADVANCED_TIER5+0;
 	public static final int EXCROSSBOW      = ADVANCED_TIER5+1;
 	public static final int TRUE_RUNIC_BLADE= ADVANCED_TIER5+2;
@@ -506,7 +525,7 @@ public class ItemSpriteSheet {
 		assignItemRect(CHAIN_WHIP,			16, 16);
 	}
 
-	private static final int ADVANCED_TIER6 = 								xy(1, 41);
+	private static final int ADVANCED_TIER6 = 								xy(1, 42);
 	public static final int HUGE_SWORD      = ADVANCED_TIER6+0;
 	public static final int IRON_HAMMER     = ADVANCED_TIER6+1;
 	public static final int BEAM_SABER      = ADVANCED_TIER6+2;
@@ -807,7 +826,7 @@ public class ItemSpriteSheet {
 		assignItemRect(LIQUID_METAL,    8, 15);
 	}
 
-	private static final int NEW_POTIONS = 								xy(1, 42);  //16 slots
+	private static final int NEW_POTIONS = 								xy(1, 43);  //16 slots
 	public static final int POTION_FLUORESCENT      = NEW_POTIONS+0;
 	public static final int POTION_ASH     	 		= NEW_POTIONS+1;
 
@@ -834,7 +853,7 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 13);
 	}
 
-	private static final int NEW_EXOTIC_POTIONS = 						xy(1, 43);  //16 slots
+	private static final int NEW_EXOTIC_POTIONS = 						xy(1, 44);  //16 slots
 	public static final int EXOTIC_FLUORESCENT      = NEW_EXOTIC_POTIONS+0;
 	public static final int EXOTIC_ASH     			= NEW_EXOTIC_POTIONS+1;
 

@@ -24,21 +24,26 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Inferno;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -47,7 +52,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Blast extends MeleeWeapon {
+public class SpellBook_Fire_Sword extends MeleeWeapon {
 
 	public static final String AC_READ		= "READ";
 
@@ -55,19 +60,26 @@ public class SpellBook_Blast extends MeleeWeapon {
 		defaultAction = AC_READ;
 		usesTargeting = false;
 
-		image = ItemSpriteSheet.BLAST_SPELLBOOK;
+		image = ItemSpriteSheet.FIRE_SPELLBOOK_SWORD;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
-		tier = 3;
+		tier = 5;
 		alchemy = true;
 	}
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
-		float procChance = (buffedLvl()+1f)/(buffedLvl()+5f);
+		float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
 		if (Random.Float() < procChance) {
-			Buff.affect(defender, Paralysis.class, (buffedLvl() >= 10) ? 1f : 2f);
+			if (defender.buff(Burning.class) != null){
+				Buff.affect(defender, Burning.class).reignite(defender, 8f);
+				int burnDamage = Random.NormalIntRange( 1, 3 + Dungeon.depth/4 );
+				defender.damage( Math.round(burnDamage * 0.67f), this );
+			} else {
+				Buff.affect(defender, Burning.class).reignite(defender, 8f);
+			}
+			defender.sprite.emitter().burst( FlameParticle.FACTORY, buffedLvl() + 1 );
 		}
 		return super.proc( attacker, defender, damage );
 	}
@@ -86,9 +98,9 @@ public class SpellBook_Blast extends MeleeWeapon {
 
 		if (action.equals(AC_READ)) {
 			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "fail") );
+				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "fail") );
 			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
+				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "need_id") );
 			} else {
 				usesTargeting = true;
 				curUser = hero;
@@ -98,40 +110,32 @@ public class SpellBook_Blast extends MeleeWeapon {
 		}
 	}
 
-	@Override
-	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier);     //+3 per level, down from +4
-	}
-
 	private CellSelector.Listener spell = new CellSelector.Listener() {
 		@Override
-		public void onSelect( Integer target ) {
-			if (target != null) {
-				Char ch = Actor.findChar(target);
-				if (ch != null) {
-					if (ch != hero) {
-						//trace a ballistica to our target (which will also extend past them
-						Ballistica trajectory = new Ballistica(hero.pos, ch.pos, Ballistica.STOP_TARGET);
-						//trim it to just be the part that goes past them
-						trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
-						//knock them back along that ballistica
-						if (buffedLvl() >= 10) {
-							WandOfBlastWave.throwChar(ch, trajectory, 3 + buffedLvl(), true, true, hero.getClass());
-						} else {
-							WandOfBlastWave.throwChar(ch, trajectory, 2 + buffedLvl() / 2, true, true, hero.getClass());
-						}
+		public void onSelect( Integer cell ) {
+			if (cell != null) {
+				int c = cell;
+				if (Dungeon.level.map[c] != Terrain.WALL && Dungeon.level.heroFOV[c]) {
+					if (Dungeon.level.pit[c]) {
+						GameScene.add(Blob.seed(c, 1, Fire.class));
 					} else {
-						GLog.p( Messages.get(SpellBook_Blast.this, "cannot_hero") );
+						if (buffedLvl() >= 10) {
+							GameScene.add(Blob.seed(c, 300 + 20 * buffedLvl(), Inferno.class));
+						} else {
+							GameScene.add(Blob.seed(c, 5, Fire.class));
+						}
 					}
+					Sample.INSTANCE.play(Assets.Sounds.BURNING);
 				} else {
-					GLog.p( Messages.get(SpellBook_Blast.this, "cannot_cast") );
+					GLog.w( Messages.get(SpellBook_Fire_Sword.this, "cannot_cast"));
 				}
+				Buff.affect(hero, FireImbue.class).set(Math.min(10+2*buffedLvl(), 50));
 				Buff.affect(hero, SpellBookCoolDown.class, Math.max(100f-5*buffedLvl(), 50f));
 				Invisibility.dispel();
 				curUser.spend( Actor.TICK );
 				curUser.busy();
 				((HeroSprite)curUser.sprite).read();
+				hero.sprite.emitter().burst( FlameParticle.FACTORY, buffedLvl() + 3 );
 				Sample.INSTANCE.play(Assets.Sounds.READ);
 			}
 		}
@@ -139,19 +143,19 @@ public class SpellBook_Blast extends MeleeWeapon {
 		public String prompt() {
 			return Messages.get(SpiritBow.class, "prompt");
 		}
+
 	};
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{SpellBook_Empty.class, WandOfBlastWave.class};
-			inQuantity = new int[]{1, 1};
+			inputs =  new Class[]{Greatsword.class, SpellBook_Fire.class, ArcaneResin.class};
+			inQuantity = new int[]{1, 1, 4};
 
 			cost = 10;
 
-			output = SpellBook_Blast.class;
+			output = SpellBook_Fire_Sword.class;
 			outQuantity = 1;
 		}
 	}
-
 }

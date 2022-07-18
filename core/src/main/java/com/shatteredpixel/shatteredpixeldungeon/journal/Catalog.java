@@ -238,6 +238,21 @@ public enum Catalog {
 		WEAPONS.seen.put( SpellBook_Warding.class,     	  	false);
 		WEAPONS.seen.put( SpellBook_Earth.class,     	  	false);
 
+		//spellbook swords
+		WEAPONS.seen.put( SpellBook_Empty_Sword.class,     	  	false);
+		WEAPONS.seen.put( SpellBook_Fire_Sword.class,     	  	false);
+		WEAPONS.seen.put( SpellBook_Frost_Sword.class,     	  	false);
+		WEAPONS.seen.put( SpellBook_Lightning_Sword.class,     	false);
+		WEAPONS.seen.put( SpellBook_Disintegration_Sword.class,   false);
+		WEAPONS.seen.put( SpellBook_Blast_Sword.class,     	  	false);
+		WEAPONS.seen.put( SpellBook_Corrosion_Sword.class,     	false);
+		WEAPONS.seen.put( SpellBook_Prismatic_Sword.class,     	false);
+		WEAPONS.seen.put( SpellBook_Regrowth_Sword.class,     	false);
+		WEAPONS.seen.put( SpellBook_Transfusion_Sword.class,     	false);
+		WEAPONS.seen.put( SpellBook_Corruption_Sword.class,     	false);
+		WEAPONS.seen.put( SpellBook_Warding_Sword.class,     	  	false);
+		WEAPONS.seen.put( SpellBook_Earth_Sword.class,     	  	false);
+
 		//guns
 		WEAPONS.seen.put( CrudePistol.class,                false);
 		WEAPONS.seen.put( Pistol.class,                     false);

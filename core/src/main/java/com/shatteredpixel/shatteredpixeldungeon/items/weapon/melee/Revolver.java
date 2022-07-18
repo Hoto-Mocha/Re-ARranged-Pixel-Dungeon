@@ -375,7 +375,7 @@ public class Revolver extends MeleeWeapon {
             image = ItemSpriteSheet.SNIPER_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 3;
+            tier = 2;
         }
 
         @Override

@@ -26,10 +26,12 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Inferno;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
@@ -45,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -62,6 +65,22 @@ public class SpellBook_Fire extends MeleeWeapon {
 
 		tier = 3;
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
+		if (Random.Float() < procChance) {
+			if (defender.buff(Burning.class) != null){
+				Buff.affect(defender, Burning.class).reignite(defender, 8f);
+				int burnDamage = Random.NormalIntRange( 1, 3 + Dungeon.depth/4 );
+				defender.damage( Math.round(burnDamage * 0.67f), this );
+			} else {
+				Buff.affect(defender, Burning.class).reignite(defender, 8f);
+			}
+			defender.sprite.emitter().burst( FlameParticle.FACTORY, buffedLvl() + 1 );
+		}
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

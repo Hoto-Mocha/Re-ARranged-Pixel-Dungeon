@@ -139,6 +139,7 @@ public class HeroSelectScene extends PixelScene {
 				infoButton.visible = false;
 				btnOptions.visible = false;
 				optionsPane.visible = false;
+				optionsPane.active = false;
 
 				if (change == 0) change = 1;
 				else if (change == 1) change = 2;

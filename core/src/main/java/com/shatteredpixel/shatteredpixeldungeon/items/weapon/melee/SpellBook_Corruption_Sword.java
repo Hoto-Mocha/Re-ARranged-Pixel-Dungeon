@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -56,7 +57,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Corruption extends MeleeWeapon {
+public class SpellBook_Corruption_Sword extends MeleeWeapon {
 
 	public static final String AC_READ		= "READ";
 
@@ -64,11 +65,11 @@ public class SpellBook_Corruption extends MeleeWeapon {
 		defaultAction = AC_READ;
 		usesTargeting = false;
 
-		image = ItemSpriteSheet.CORRUPTION_SPELLBOOK;
+		image = ItemSpriteSheet.CORRUPTION_SPELLBOOK_SWORD;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
-		tier = 3;
+		tier = 5;
 		alchemy = true;
 	}
 
@@ -136,9 +137,9 @@ public class SpellBook_Corruption extends MeleeWeapon {
 
 		if (action.equals(AC_READ)) {
 			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "fail") );
+				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "fail") );
 			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
+				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "need_id") );
 			} else {
 				usesTargeting = true;
 				curUser = hero;
@@ -146,12 +147,6 @@ public class SpellBook_Corruption extends MeleeWeapon {
 				GameScene.selectCell(spell);
 			}
 		}
-	}
-
-	@Override
-	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier);     //+3 per level, down from +4
 	}
 
 	private CellSelector.Listener spell = new CellSelector.Listener() {
@@ -196,10 +191,10 @@ public class SpellBook_Corruption extends MeleeWeapon {
 						ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
 						Sample.INSTANCE.play(Assets.Sounds.BURNING);
 					} else {
-						GLog.p( Messages.get(SpellBook_Corruption.this, "cannot_hero") );
+						GLog.p( Messages.get(SpellBook_Corruption_Sword.this, "cannot_hero") );
 					}
 				} else {
-					GLog.p( Messages.get(SpellBook_Corruption.this, "cannot_cast") );
+					GLog.p( Messages.get(SpellBook_Corruption_Sword.this, "cannot_cast") );
 				}
 				Buff.affect(hero, SpellBookCoolDown.class, Math.max(50f-2.5f*buffedLvl(), 25f));
 				Invisibility.dispel();
@@ -219,12 +214,12 @@ public class SpellBook_Corruption extends MeleeWeapon {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{SpellBook_Empty.class, WandOfCorruption.class};
-			inQuantity = new int[]{1, 1};
+			inputs =  new Class[]{Greatsword.class, SpellBook_Corruption.class, ArcaneResin.class};
+			inQuantity = new int[]{1, 1, 4};
 
 			cost = 10;
 
-			output = SpellBook_Corruption.class;
+			output = SpellBook_Corruption_Sword.class;
 			outQuantity = 1;
 		}
 	}

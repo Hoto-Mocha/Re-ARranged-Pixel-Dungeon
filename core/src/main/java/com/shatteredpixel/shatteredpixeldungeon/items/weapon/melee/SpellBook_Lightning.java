@@ -26,14 +26,17 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLightning;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -43,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -60,6 +64,30 @@ public class SpellBook_Lightning extends MeleeWeapon {
 
 		tier = 3;
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		ArrayList<Lightning.Arc> arcs = new ArrayList<>();
+		ArrayList<Char> affected = new ArrayList<>();
+		float procChance = (buffedLvl()+1f)/(buffedLvl()+4f);
+		if (Random.Float() < procChance) {
+			affected.clear();
+			arcs.clear();
+
+			Shocking.arc(hero, defender, 2, affected, arcs);
+
+			affected.remove(defender); //defender isn't hurt by lightning
+			for (Char ch : affected) {
+				if (ch.alignment != hero.alignment) {
+					ch.damage(Math.round(damage * 0.4f), this);
+				}
+			}
+
+			hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
+			Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+		}
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

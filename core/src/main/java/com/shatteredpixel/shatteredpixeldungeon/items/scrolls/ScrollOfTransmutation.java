@@ -212,6 +212,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			if (w instanceof MissileButton
 			 || w instanceof TacticalShield
 			 || w instanceof HolySword
+			 || w instanceof LanceNShield
 			) {
 				c = Generator.wepTiers[((MeleeWeapon) w).tier - 3];
 			} else if (
@@ -227,7 +228,6 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			 || w instanceof RPG7
 			 || w instanceof Lance
 			 || w instanceof ObsidianShield
-			 || w instanceof LanceNShield
 			 ||	w instanceof SharpKatana
 			 || w instanceof HugeSword
 			 || w instanceof IronHammer

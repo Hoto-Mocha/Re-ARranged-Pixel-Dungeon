@@ -643,15 +643,15 @@ public abstract class Char extends Actor {
 					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon != null) {
+			if (this instanceof Hero && hero.belongings.weapon != null && hero.belongings.weapon() instanceof MissileWeapon) {
 				float procChance; //chance to be activated
 				int lvl = hero.belongings.weapon.buffedLvl();
-				if (hero.belongings.weapon instanceof SpellBook_Corrosion) {
+				if (hero.belongings.weapon instanceof SpellBook_Corrosion || hero.belongings.weapon instanceof SpellBook_Corrosion_Sword) {
 					procChance = (lvl+1f)/(lvl+5f);
 					if (Random.Float() < procChance) {
 						Buff.affect(enemy, Ooze.class).set(3+lvl);
 					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Corruption) {
+				} else if (hero.belongings.weapon instanceof SpellBook_Corruption || hero.belongings.weapon instanceof SpellBook_Corruption_Sword) {
 					int procBonus = 0; //used for adding chances to corrupt
 					if (enemy.buff(Weakness.class) != null) {
 						procBonus += 1;
@@ -696,17 +696,17 @@ public abstract class Char extends Actor {
 						AllyBuff.affectAndLoot(mob, hero, Corruption.class);
 						dmg = 0;
 					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Blast) {
+				} else if (hero.belongings.weapon instanceof SpellBook_Blast || hero.belongings.weapon instanceof SpellBook_Blast_Sword) {
 					procChance = (lvl+1f)/(lvl+5f);
 					if (Random.Float() < procChance) {
 						Buff.affect(enemy, Paralysis.class, (lvl >= 10) ? 1f : 2f);
 					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Earth) {
+				} else if (hero.belongings.weapon instanceof SpellBook_Earth || hero.belongings.weapon instanceof SpellBook_Earth_Sword) {
 					procChance = 1/4f; //fixed at 1/4 regardless of lvl
 					if (Random.Float() < procChance) {
 						Buff.affect(hero, Earthroot.Armor.class).level(5+lvl);
 					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Fire) {
+				} else if (hero.belongings.weapon instanceof SpellBook_Fire || hero.belongings.weapon instanceof SpellBook_Fire_Sword) {
 					procChance = (lvl+1f)/(lvl+3f);
 					if (Random.Float() < procChance) {
 						if (enemy.buff(Burning.class) != null){
@@ -718,7 +718,7 @@ public abstract class Char extends Actor {
 						}
 						enemy.sprite.emitter().burst( FlameParticle.FACTORY, lvl + 1 );
 					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Frost) {
+				} else if (hero.belongings.weapon instanceof SpellBook_Frost || hero.belongings.weapon instanceof SpellBook_Frost_Sword) {
 					procChance = (lvl+1f)/(lvl+4f);
 					if (Random.Float() < procChance) {
 						//adds 3 turns of chill per proc, with a cap of 6 turns
@@ -731,7 +731,7 @@ public abstract class Char extends Actor {
 						Buff.affect( enemy, Chill.class, durationToAdd );
 						Splash.at( enemy.sprite.center(), 0xFFB2D6FF, 5);
 					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Lightning) {
+				} else if (hero.belongings.weapon instanceof SpellBook_Lightning || hero.belongings.weapon instanceof SpellBook_Lightning_Sword) {
 					ArrayList<Lightning.Arc> arcs = new ArrayList<>();
 					ArrayList<Char> affected = new ArrayList<>();
 					procChance = (lvl+1f)/(lvl+4f);
@@ -751,7 +751,7 @@ public abstract class Char extends Actor {
 						hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
 						Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
 					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Warding) {
+				} else if (hero.belongings.weapon instanceof SpellBook_Warding || hero.belongings.weapon instanceof SpellBook_Warding_Sword) {
 					procChance = (lvl+1f)/(lvl+3f);
 					if (Random.Float() < procChance) {
 						boolean found = false;
@@ -774,7 +774,7 @@ public abstract class Char extends Actor {
 							}
 						}
 					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Regrowth) {
+				} else if (hero.belongings.weapon instanceof SpellBook_Regrowth || hero.belongings.weapon instanceof SpellBook_Regrowth_Sword) {
 					procChance = (lvl+1f)/(lvl+3f);
 					if (Random.Float() < procChance) {
 						boolean secondPlant = Random.Int(3) == 0;
@@ -791,7 +791,7 @@ public abstract class Char extends Actor {
 							}
 						}
 					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Transfusion) {
+				} else if (hero.belongings.weapon instanceof SpellBook_Transfusion || hero.belongings.weapon instanceof SpellBook_Transfusion_Sword) {
 					//chance to heal scales from 5%-30% based on missing HP
 					float missingPercent = (hero.HT - hero.HP) / (float)hero.HT;
 					procChance = 0.05f + (0.25f+0.01f*lvl)*missingPercent;
@@ -810,7 +810,7 @@ public abstract class Char extends Actor {
 						}
 
 					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Prismatic) {
+				} else if (hero.belongings.weapon instanceof SpellBook_Prismatic || hero.belongings.weapon instanceof SpellBook_Prismatic_Sword) {
 					procChance = (lvl+1f)/(lvl+3f);
 					if (Random.Float() < procChance) {
 						Buff.affect(enemy, Blindness.class, 2+lvl);

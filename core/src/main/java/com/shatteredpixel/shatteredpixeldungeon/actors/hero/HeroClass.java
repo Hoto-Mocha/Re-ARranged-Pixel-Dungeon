@@ -112,6 +112,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
@@ -132,15 +133,15 @@ import com.watabou.utils.DeviceCompat;
 
 public enum HeroClass {
 
-	WARRIOR( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR, HeroSubClass.VETERAN ),
-	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.ENGINEER ),
-	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.CHASER ),
+	WARRIOR	( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR, HeroSubClass.VETERAN ),
+	MAGE	( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.ENGINEER ),
+	ROGUE	( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.CHASER ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.FIGHTER ),
-	GUNNER( HeroSubClass.LAUNCHER , HeroSubClass.RANGER , HeroSubClass.RIFLEMAN ),
-	SAMURAI( HeroSubClass.SLASHER , HeroSubClass.MASTER , HeroSubClass.SLAYER ),
-	PLANTER( HeroSubClass.TREASUREHUNTER, HeroSubClass.ADVENTURER, HeroSubClass.RESEARCHER),
-	KNIGHT( HeroSubClass.WEAPONMASTER, HeroSubClass.FORTRESS, HeroSubClass.CRUSADER),
-	NURSE( HeroSubClass.MEDIC, HeroSubClass.ANGEL, HeroSubClass.SURGEON );
+	GUNNER	( HeroSubClass.LAUNCHER , HeroSubClass.RANGER , HeroSubClass.RIFLEMAN ),
+	SAMURAI	( HeroSubClass.SLASHER , HeroSubClass.MASTER , HeroSubClass.SLAYER ),
+	PLANTER	( HeroSubClass.TREASUREHUNTER, HeroSubClass.ADVENTURER, HeroSubClass.RESEARCHER),
+	KNIGHT	( HeroSubClass.WEAPONMASTER, HeroSubClass.FORTRESS, HeroSubClass.CRUSADER),
+	NURSE	( HeroSubClass.MEDIC, HeroSubClass.ANGEL, HeroSubClass.SURGEON );
 
 	private HeroSubClass[] subClasses;
 
@@ -232,6 +233,17 @@ public enum HeroClass {
 				return Badges.Badge.MASTERY_ROGUE;
 			case HUNTRESS:
 				return Badges.Badge.MASTERY_HUNTRESS;
+			case GUNNER:
+				return Badges.Badge.MASTERY_GUNNER;
+			case SAMURAI:
+				return Badges.Badge.MASTERY_SAMURAI;
+			case PLANTER:
+				return Badges.Badge.MASTERY_PLANTER;
+			case KNIGHT:
+				return Badges.Badge.MASTERY_KNIGHT;
+			case NURSE:
+				return Badges.Badge.MASTERY_NURSE;
+
 		}
 		return null;
 	}
@@ -255,42 +267,8 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
-		//new ScrollOfExtract().quantity(20).collect();
-		//new SleepGun().identify().collect();
-		//new SleepGun().identify().collect();
-		//new SleepGun().identify().collect();
-		//new GrenadeLauncher().identify().collect();
-		//new GrenadeLauncher().identify().collect();
-		//new GrenadeLauncher().identify().collect();
-		//new PotionOfExperience().identify().quantity(50).collect();
-		//new APBullet().quantity(2).collect();
-		//new HPBullet().quantity(2).collect();
-		//new ElectroScimitar().collect();
-		//new Longsword().collect();
-		//new RingOfFury().identify().upgrade(100).collect();
-		//new RingOfRush().identify().upgrade(15).collect();
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new TestWeapon().identify().collect();
-		//new ScrollOfMagicMapping().identify().quantity(50).collect();
-		//new Teleporter().collect();
-		//new TengusMask().collect();
-		//new KingsCrown().collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
-		//new PotionOfHealing().identify().quantity(50).collect();
-		//new FeatherFall().quantity(50).collect();
-		//new RingOfHaste().identify().upgrade(100).collect();
-		//new RingOfMight().identify().upgrade(19).collect();
+		//new ScrollOfTransmutation().identify().quantity(100).collect();
 		//new LanceNShield().identify().collect();
-		//new Lance().identify().collect();
-		//new ObsidianShield().identify().collect();
-		//new SpearNShield().identify().collect();
-		//new Spear().identify().collect();
-		//new RoundShield().identify().collect();
-		//new ScrollOfUpgrade().identify().quantity(100).collect();
-		//new ScrollOfExtract().quantity(20).collect();
-		//new CurseInfusion().quantity(20).collect();
-		//new AlchemistsToolkit().identify().upgrade(10).collect();
-		//new WandOfMagicMissile().identify().collect();
 	}
 
 	private static void initMage( Hero hero ) {

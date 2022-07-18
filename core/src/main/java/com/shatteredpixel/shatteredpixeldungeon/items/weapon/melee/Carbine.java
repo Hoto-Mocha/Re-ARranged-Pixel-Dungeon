@@ -375,7 +375,7 @@ public class Carbine extends MeleeWeapon {
             image = ItemSpriteSheet.SNIPER_BULLET;
 
             hitSound = Assets.Sounds.PUFF;
-            tier = 3;
+            tier = 4;
         }
 
         @Override

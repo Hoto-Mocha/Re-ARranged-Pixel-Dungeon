@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
@@ -59,7 +60,8 @@ public class ScrollOfExtract extends InventorySpell {
                     || item instanceof ParalysisGun
                     || item instanceof GrenadeLauncher
                     || item instanceof GrenadeLauncherAP
-                    || item instanceof GrenadeLauncherHP)
+                    || item instanceof GrenadeLauncherHP
+                    || item instanceof MagesStaff)
             ) {
                 return false;
             } else {

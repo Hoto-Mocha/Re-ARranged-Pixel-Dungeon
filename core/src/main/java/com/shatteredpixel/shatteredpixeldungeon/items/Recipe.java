@@ -99,18 +99,30 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Blast;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Blast_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corrosion_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corruption_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Disintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Disintegration_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Earth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Earth_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Empty;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Fire;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Fire_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Frost;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Frost_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Lightning;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Lightning_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Prismatic;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Prismatic_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Regrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Regrowth_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Transfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Transfusion_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Warding;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Warding_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
@@ -335,7 +347,19 @@ public abstract class Recipe {
 		new AssassinsSpear.Recipe(),
 		new Xray.Recipe(),
 		new DoubleGreatSword.Recipe(),
-		new ChaosSword.Recipe()
+		new ChaosSword.Recipe(),
+		new SpellBook_Blast_Sword.Recipe(),
+		new SpellBook_Corrosion_Sword.Recipe(),
+		new SpellBook_Corruption_Sword.Recipe(),
+		new SpellBook_Disintegration_Sword.Recipe(),
+		new SpellBook_Earth_Sword.Recipe(),
+		new SpellBook_Fire_Sword.Recipe(),
+		new SpellBook_Frost_Sword.Recipe(),
+		new SpellBook_Lightning_Sword.Recipe(),
+		new SpellBook_Prismatic_Sword.Recipe(),
+		new SpellBook_Regrowth_Sword.Recipe(),
+		new SpellBook_Transfusion_Sword.Recipe(),
+		new SpellBook_Warding_Sword.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){

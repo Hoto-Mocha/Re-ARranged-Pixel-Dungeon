@@ -53,6 +53,11 @@ public class Badges {
 		MASTERY_MAGE,
 		MASTERY_ROGUE,
 		MASTERY_HUNTRESS,
+		MASTERY_GUNNER,
+		MASTERY_SAMURAI,
+		MASTERY_PLANTER,
+		MASTERY_KNIGHT,
+		MASTERY_NURSE,
 		FOUND_RATMOGRIFY,
 
 		//bronze
@@ -109,6 +114,11 @@ public class Badges {
 		BOSS_SLAIN_1_MAGE,
 		BOSS_SLAIN_1_ROGUE,
 		BOSS_SLAIN_1_HUNTRESS,
+		BOSS_SLAIN_1_GUNNER,
+		BOSS_SLAIN_1_SAMURAI,
+		BOSS_SLAIN_1_PLANTER,
+		BOSS_SLAIN_1_KNIGHT,
+		BOSS_SLAIN_1_NURSE,
 		BOSS_SLAIN_1_ALL_CLASSES    ( 54, true ),
 		GAMES_PLAYED_2              ( 55, true ),
 		HIGH_SCORE_2                ( 56 ),
@@ -154,16 +164,40 @@ public class Badges {
 		VICTORY_MAGE,
 		VICTORY_ROGUE,
 		VICTORY_HUNTRESS,
+		VICTORY_GUNNER,
+		VICTORY_SAMURAI,
+		VICTORY_PLANTER,
+		VICTORY_KNIGHT,
+		VICTORY_NURSE,
 		VICTORY_ALL_CLASSES         ( 103, true ),
 		DEATH_FROM_ALL              ( 104, true ),
 		BOSS_SLAIN_3_GLADIATOR,
 		BOSS_SLAIN_3_BERSERKER,
+		BOSS_SLAIN_3_VETERAN,
 		BOSS_SLAIN_3_WARLOCK,
 		BOSS_SLAIN_3_BATTLEMAGE,
+		BOSS_SLAIN_3_ENGINEER,
 		BOSS_SLAIN_3_FREERUNNER,
 		BOSS_SLAIN_3_ASSASSIN,
+		BOSS_SLAIN_3_CHASER,
 		BOSS_SLAIN_3_SNIPER,
 		BOSS_SLAIN_3_WARDEN,
+		BOSS_SLAIN_3_FIGHTER,
+		BOSS_SLAIN_3_LAUNCHER,
+		BOSS_SLAIN_3_RANGER,
+		BOSS_SLAIN_3_RIFLEMAN,
+		BOSS_SLAIN_3_SLASHER,
+		BOSS_SLAIN_3_MASTER,
+		BOSS_SLAIN_3_SLAYER,
+		BOSS_SLAIN_3_TREASUREHUNTER,
+		BOSS_SLAIN_3_ADVENTURER,
+		BOSS_SLAIN_3_RESEARCHER,
+		BOSS_SLAIN_3_WEAPONMASTER,
+		BOSS_SLAIN_3_FORTRESS,
+		BOSS_SLAIN_3_CRUSADER,
+		BOSS_SLAIN_3_MEDIC,
+		BOSS_SLAIN_3_ANGEL,
+		BOSS_SLAIN_3_SURGEON,
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 105, true ),
 		BOSS_CHALLENGE_3            ( 106 ),
 		BOSS_CHALLENGE_4            ( 107 ),
@@ -702,26 +736,63 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.MAGE, Badge.BOSS_SLAIN_1_MAGE);
 		firstBossClassBadges.put(HeroClass.ROGUE, Badge.BOSS_SLAIN_1_ROGUE);
 		firstBossClassBadges.put(HeroClass.HUNTRESS, Badge.BOSS_SLAIN_1_HUNTRESS);
+		firstBossClassBadges.put(HeroClass.GUNNER, Badge.BOSS_SLAIN_1_GUNNER);
+		firstBossClassBadges.put(HeroClass.SAMURAI, Badge.BOSS_SLAIN_1_SAMURAI);
+		firstBossClassBadges.put(HeroClass.PLANTER, Badge.BOSS_SLAIN_1_PLANTER);
+		firstBossClassBadges.put(HeroClass.KNIGHT, Badge.BOSS_SLAIN_1_KNIGHT);
+		firstBossClassBadges.put(HeroClass.NURSE, Badge.BOSS_SLAIN_1_NURSE);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
 	static {
-		victoryClassBadges.put(HeroClass.WARRIOR, Badge.VICTORY_WARRIOR);
-		victoryClassBadges.put(HeroClass.MAGE, Badge.MASTERY_MAGE);
-		victoryClassBadges.put(HeroClass.ROGUE, Badge.VICTORY_ROGUE);
-		victoryClassBadges.put(HeroClass.HUNTRESS, Badge.VICTORY_HUNTRESS);
+		victoryClassBadges.put(HeroClass.WARRIOR, 	Badge.VICTORY_WARRIOR);
+		victoryClassBadges.put(HeroClass.MAGE, 		Badge.MASTERY_MAGE);
+		victoryClassBadges.put(HeroClass.ROGUE, 	Badge.VICTORY_ROGUE);
+		victoryClassBadges.put(HeroClass.HUNTRESS, 	Badge.VICTORY_HUNTRESS);
+		victoryClassBadges.put(HeroClass.GUNNER, 	Badge.VICTORY_GUNNER);
+		victoryClassBadges.put(HeroClass.SAMURAI, 	Badge.VICTORY_SAMURAI);
+		victoryClassBadges.put(HeroClass.PLANTER, 	Badge.VICTORY_PLANTER);
+		victoryClassBadges.put(HeroClass.KNIGHT, 	Badge.VICTORY_KNIGHT);
+		victoryClassBadges.put(HeroClass.NURSE, 	Badge.VICTORY_NURSE);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
 	static {
-		thirdBossSubclassBadges.put(HeroSubClass.BERSERKER, Badge.BOSS_SLAIN_3_BERSERKER);
-		thirdBossSubclassBadges.put(HeroSubClass.GLADIATOR, Badge.BOSS_SLAIN_3_GLADIATOR);
-		thirdBossSubclassBadges.put(HeroSubClass.BATTLEMAGE, Badge.BOSS_SLAIN_3_BATTLEMAGE);
-		thirdBossSubclassBadges.put(HeroSubClass.WARLOCK, Badge.BOSS_SLAIN_3_WARLOCK);
-		thirdBossSubclassBadges.put(HeroSubClass.ASSASSIN, Badge.BOSS_SLAIN_3_ASSASSIN);
-		thirdBossSubclassBadges.put(HeroSubClass.FREERUNNER, Badge.BOSS_SLAIN_3_FREERUNNER);
-		thirdBossSubclassBadges.put(HeroSubClass.SNIPER, Badge.BOSS_SLAIN_3_SNIPER);
-		thirdBossSubclassBadges.put(HeroSubClass.WARDEN, Badge.BOSS_SLAIN_3_WARDEN);
+		thirdBossSubclassBadges.put(HeroSubClass.BERSERKER, 	Badge.BOSS_SLAIN_3_BERSERKER);
+		thirdBossSubclassBadges.put(HeroSubClass.GLADIATOR, 	Badge.BOSS_SLAIN_3_GLADIATOR);
+		thirdBossSubclassBadges.put(HeroSubClass.VETERAN, 		Badge.BOSS_SLAIN_3_VETERAN);
+
+		thirdBossSubclassBadges.put(HeroSubClass.BATTLEMAGE,	Badge.BOSS_SLAIN_3_BATTLEMAGE);
+		thirdBossSubclassBadges.put(HeroSubClass.WARLOCK, 		Badge.BOSS_SLAIN_3_WARLOCK);
+		thirdBossSubclassBadges.put(HeroSubClass.ENGINEER, 		Badge.BOSS_SLAIN_3_ENGINEER);
+
+		thirdBossSubclassBadges.put(HeroSubClass.ASSASSIN, 		Badge.BOSS_SLAIN_3_ASSASSIN);
+		thirdBossSubclassBadges.put(HeroSubClass.FREERUNNER,	Badge.BOSS_SLAIN_3_FREERUNNER);
+		thirdBossSubclassBadges.put(HeroSubClass.CHASER, 		Badge.BOSS_SLAIN_3_CHASER);
+
+		thirdBossSubclassBadges.put(HeroSubClass.SNIPER, 		Badge.BOSS_SLAIN_3_SNIPER);
+		thirdBossSubclassBadges.put(HeroSubClass.WARDEN, 		Badge.BOSS_SLAIN_3_WARDEN);
+		thirdBossSubclassBadges.put(HeroSubClass.FIGHTER, 		Badge.BOSS_SLAIN_3_FIGHTER);
+
+		thirdBossSubclassBadges.put(HeroSubClass.LAUNCHER, 		Badge.BOSS_SLAIN_3_LAUNCHER);
+		thirdBossSubclassBadges.put(HeroSubClass.RANGER, 		Badge.BOSS_SLAIN_3_RANGER);
+		thirdBossSubclassBadges.put(HeroSubClass.RIFLEMAN, 		Badge.BOSS_SLAIN_3_RIFLEMAN);
+
+		thirdBossSubclassBadges.put(HeroSubClass.SLASHER, 		Badge.BOSS_SLAIN_3_SLASHER);
+		thirdBossSubclassBadges.put(HeroSubClass.MASTER,		Badge.BOSS_SLAIN_3_MASTER);
+		thirdBossSubclassBadges.put(HeroSubClass.SLAYER,		Badge.BOSS_SLAIN_3_SLAYER);
+
+		thirdBossSubclassBadges.put(HeroSubClass.TREASUREHUNTER,Badge.BOSS_SLAIN_3_TREASUREHUNTER);
+		thirdBossSubclassBadges.put(HeroSubClass.ADVENTURER, 	Badge.BOSS_SLAIN_3_ADVENTURER);
+		thirdBossSubclassBadges.put(HeroSubClass.RESEARCHER, 	Badge.BOSS_SLAIN_3_RESEARCHER);
+
+		thirdBossSubclassBadges.put(HeroSubClass.WEAPONMASTER, 	Badge.BOSS_SLAIN_3_WEAPONMASTER);
+		thirdBossSubclassBadges.put(HeroSubClass.FORTRESS, 		Badge.BOSS_SLAIN_3_FORTRESS);
+		thirdBossSubclassBadges.put(HeroSubClass.CRUSADER, 		Badge.BOSS_SLAIN_3_CRUSADER);
+
+		thirdBossSubclassBadges.put(HeroSubClass.MEDIC, 		Badge.BOSS_SLAIN_3_MEDIC);
+		thirdBossSubclassBadges.put(HeroSubClass.ANGEL, 		Badge.BOSS_SLAIN_3_ANGEL);
+		thirdBossSubclassBadges.put(HeroSubClass.SURGEON, 		Badge.BOSS_SLAIN_3_SURGEON);
 	}
 	
 	public static void validateBossSlain() {
@@ -831,6 +902,22 @@ public class Badges {
 		case HUNTRESS:
 			badge = Badge.MASTERY_HUNTRESS;
 			break;
+		case GUNNER:
+			badge = Badge.MASTERY_GUNNER;
+			break;
+		case SAMURAI:
+			badge = Badge.MASTERY_SAMURAI;
+			break;
+		case PLANTER:
+			badge = Badge.MASTERY_PLANTER;
+			break;
+		case KNIGHT:
+			badge = Badge.MASTERY_KNIGHT;
+			break;
+		case NURSE:
+			badge = Badge.MASTERY_NURSE;
+			break;
+
 		}
 		
 		unlock(badge);
@@ -910,9 +997,20 @@ public class Badges {
 			badge = Badge.VICTORY_HUNTRESS;
 			break;
 		case GUNNER:
-			//TODO 거너 클리어 뱃지 추가
+			badge = Badge.VICTORY_GUNNER;
 			break;
-
+		case SAMURAI:
+			badge = Badge.VICTORY_SAMURAI;
+			break;
+		case PLANTER:
+			badge = Badge.VICTORY_PLANTER;
+			break;
+		case KNIGHT:
+			badge = Badge.VICTORY_KNIGHT;
+			break;
+		case NURSE:
+			badge = Badge.VICTORY_NURSE;
+			break;
 		}
 		local.add( badge );
 		unlock(badge);
@@ -920,7 +1018,12 @@ public class Badges {
 		if (isUnlocked( Badge.VICTORY_WARRIOR ) &&
 				isUnlocked( Badge.VICTORY_MAGE ) &&
 				isUnlocked( Badge.VICTORY_ROGUE ) &&
-				isUnlocked( Badge.VICTORY_HUNTRESS )) {
+				isUnlocked( Badge.VICTORY_HUNTRESS ) &&
+				isUnlocked( Badge.VICTORY_GUNNER ) &&
+				isUnlocked( Badge.VICTORY_SAMURAI ) &&
+				isUnlocked( Badge.VICTORY_PLANTER ) &&
+				isUnlocked( Badge.VICTORY_KNIGHT ) &&
+				isUnlocked( Badge.VICTORY_NURSE )) {
 			
 			badge = Badge.VICTORY_ALL_CLASSES;
 			displayBadge( badge );

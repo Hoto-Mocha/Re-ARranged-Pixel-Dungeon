@@ -21,21 +21,29 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PrismaticGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.MirrorImage;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.PrismaticImage;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -58,6 +66,33 @@ public class SpellBook_Warding extends MeleeWeapon {
 
 		tier = 3;
 		alchemy = true;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
+		if (Random.Float() < procChance) {
+			boolean found = false;
+			for (Mob m : Dungeon.level.mobs.toArray(new Mob[0])){
+				if (m instanceof PrismaticImage){ //if the prismatic image is existing in the floor
+					found = true;
+					if (m.HP < m.HT) {
+						m.HP = Math.min(m.HP+(int)(damage/2), m.HT); //heals the prismatic image
+						m.sprite.emitter().burst(Speck.factory(Speck.HEALING), 4);
+						m.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( Math.min((int)(damage/2), m.HT-m.HP) ) );
+					}
+				}
+			}
+
+			if (!found) {
+				if (hero.buff(PrismaticGuard.class) != null) {
+					Buff.affect(hero, PrismaticGuard.class).extend( (int)(damage/2) ); //heals the buff's hp
+				} else {
+					Buff.affect(hero, PrismaticGuard.class).set( (int)(damage/2) ); //affects a new buff to hero
+				}
+			}
+		}
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

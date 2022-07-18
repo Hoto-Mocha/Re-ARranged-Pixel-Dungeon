@@ -3152,18 +3152,31 @@ public class Hero extends Char {
 				|| belongings.weapon() instanceof Bible
 				|| belongings.weapon() instanceof UnholyBible
 				|| belongings.weapon() instanceof SpellBook_Earth
+				|| belongings.weapon() instanceof SpellBook_Earth_Sword
 				|| belongings.weapon() instanceof SpellBook_Warding
+				|| belongings.weapon() instanceof SpellBook_Warding_Sword
 				|| belongings.weapon() instanceof SpellBook_Transfusion
+				|| belongings.weapon() instanceof SpellBook_Transfusion_Sword
 				|| belongings.weapon() instanceof SpellBook_Regrowth
+				|| belongings.weapon() instanceof SpellBook_Regrowth_Sword
 				|| belongings.weapon() instanceof SpellBook_Blast
+				|| belongings.weapon() instanceof SpellBook_Blast_Sword
 				|| belongings.weapon() instanceof SpellBook_Prismatic
+				|| belongings.weapon() instanceof SpellBook_Prismatic_Sword
 				|| belongings.weapon() instanceof SpellBook_Disintegration
+				|| belongings.weapon() instanceof SpellBook_Disintegration_Sword
 				|| belongings.weapon() instanceof SpellBook_Corrosion
+				|| belongings.weapon() instanceof SpellBook_Corrosion_Sword
 				|| belongings.weapon() instanceof SpellBook_Corruption
+				|| belongings.weapon() instanceof SpellBook_Corruption_Sword
 				|| belongings.weapon() instanceof SpellBook_Lightning
+				|| belongings.weapon() instanceof SpellBook_Lightning_Sword
 				|| belongings.weapon() instanceof SpellBook_Frost
+				|| belongings.weapon() instanceof SpellBook_Frost_Sword
 				|| belongings.weapon() instanceof SpellBook_Fire
+				|| belongings.weapon() instanceof SpellBook_Fire_Sword
 				|| belongings.weapon() instanceof SpellBook_Empty
+				|| belongings.weapon() instanceof SpellBook_Empty_Sword
 				) {
 				Buff.affect(this, AttackSpeedBuff.class).attack(enemy);
 			}
