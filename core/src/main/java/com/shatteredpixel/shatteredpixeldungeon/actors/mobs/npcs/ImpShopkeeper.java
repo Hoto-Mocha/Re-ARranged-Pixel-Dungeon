@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -48,6 +49,11 @@ public class ImpShopkeeper extends Shopkeeper {
 				yell(Messages.get(this, "greetings_ascent", Dungeon.hero.name()));
 			}
 			seenBefore = true;
+		}
+
+		if (Statistics.highestAscent < 20 && Dungeon.hero.buff(AscensionChallenge.class) != null){
+			flee();
+			return true;
 		}
 		
 		return super.act();

@@ -55,7 +55,7 @@ public class Shopkeeper extends NPC {
 			Notes.add(Notes.Landmark.SHOP);
 		}
 
-		if (Statistics.highestAscent < 20 && Dungeon.hero.buff(AscensionChallenge.class) != null){
+		if (Statistics.highestAscent < 30 && Dungeon.hero.buff(AscensionChallenge.class) != null && !(this instanceof ImpShopkeeper)){
 			flee();
 			return true;
 		}

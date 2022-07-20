@@ -80,6 +80,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticG
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.DwarfToken;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFury;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
@@ -98,11 +100,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfForesight;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfSirensSong;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.APBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
@@ -323,9 +328,16 @@ public enum HeroClass {
 		new ScrollOfMagicMapping().identify();
 		new PotionOfInvisibility().identify();
 
+		//new TengusMask().collect();
+		//new RingOfMight().identify().collect();
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
 		//new ElixirOfHoneyedHealing().quantity(50).collect();
 		//new RingOfRush().identify().upgrade(50).collect();
 		//new Teleporter().collect();
+		//new TestWeapon().identify().collect();
+		//new DwarfToken().quantity(5).collect();
+		//new PotionOfMindVision().identify().quantity(30).collect();
 		//new PotionOfExperience().identify().quantity(29).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new TestWeapon().identify().collect();
@@ -352,9 +364,9 @@ public enum HeroClass {
 		new PotionOfMindVision().identify();
 		new ScrollOfLullaby().identify();
 
+		//new TengusMask().collect();
+		//new RingOfMight().identify().collect();
 		//new PlateArmor().identify().upgrade(100).collect();
-		//new Teleporter().collect();
-		//new RingOfMight().identify().upgrade(19).collect();
 		//new PotionOfExperience().identify().quantity(30).collect();
 		//new Dart().quantity(200).collect();
 		//new SandalsOfNature().identify().upgrade(3).collect();
@@ -385,6 +397,13 @@ public enum HeroClass {
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
 
+		//new ScrollOfUpgrade().identify().quantity(30).collect();
+		//new MagicalBullet().quantity(20).collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
+		//new CrudePistol().identify().collect();
+		//new CrudePistol().identify().collect();
+		//new CrudePistol().identify().collect();
+		//new CrudePistol().identify().collect();
 		//new Revolver().identify().collect();
 		//new HuntingRifle().identify().collect();
 		//new Carbine().identify().collect();
@@ -510,6 +529,13 @@ public enum HeroClass {
 
 		new ScrollOfMirrorImage().identify();
 		new PotionOfHealing().identify();
+
+		//new TengusMask().collect();
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new PotionOfExperience().identify().quantity(30).collect();
+		//new TestWeapon().identify().collect();
+		//new WandOfTransfusion().identify().collect();
+		//new ScrollOfSirensSong().identify().quantity(50).collect();
 	}
 
 	public String title() {

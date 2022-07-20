@@ -64,6 +64,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireImbueSpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalPorter;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
@@ -301,7 +302,8 @@ public abstract class Recipe {
 		new SpellBook_Warding.Recipe(),
 		new PotionOfWeaponEnhance.Recipe(),
 		new PotionOfArmorEnhance.Recipe(),
-		new GunSmithingTool.Recipe()
+		new GunSmithingTool.Recipe(),
+		new MagicalBullet.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{

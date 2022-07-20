@@ -68,6 +68,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireImbueSpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
@@ -431,6 +432,8 @@ public class QuickRecipe extends Component {
 				result.add(null);
 				result.add(new QuickRecipe(new StableAPBullet.Recipe()));
 				result.add(new QuickRecipe(new StableHPBullet.Recipe()));
+				result.add(null);
+				result.add(new QuickRecipe(new MagicalBullet.Recipe()));
 				result.add(null);
 				result.add(null);
 				result.add(new QuickRecipe(new Pistol.Recipe()));

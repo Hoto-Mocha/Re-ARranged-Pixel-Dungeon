@@ -908,12 +908,14 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 14);
 	}
 
-	private static final int SPELLS_2         =                               xy(1, 26);  //16 slots
+	private static final int SPELLS_2          =                               xy(1, 26);  //16 slots
 	public static final int FIREIMBUE_SPELL    = SPELLS_2+0;
 	public static final int XRAY			   = SPELLS_2+1;
+	public static final int MAGICAL_BULLET	   = SPELLS_2+2;
 	static{
-		assignItemRect(FIREIMBUE_SPELL,    12, 11);
-		assignItemRect(XRAY,		       12, 11);
+		assignItemRect(FIREIMBUE_SPELL,     12, 11);
+		assignItemRect(XRAY,		        12, 11);
+		assignItemRect(MAGICAL_BULLET,		13, 13);
 	}
 	
 	private static final int SPELLS         =                               xy(1, 27);  //16 slots

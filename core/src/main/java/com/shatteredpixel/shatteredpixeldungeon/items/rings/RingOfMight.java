@@ -79,7 +79,7 @@ public class RingOfMight extends Ring {
 	
 	public String statsInfo() {
 		if (isIdentified()){
-			return Messages.get(this, "stats", soloBonus(), new DecimalFormat("#.##").format(100f * (Math.pow(1.035, soloBuffedBonus()) - 1f)));
+			return Messages.get(this, "stats", soloBuffedBonus(), new DecimalFormat("#.##").format(100f * (Math.pow(1.035, soloBuffedBonus()) - 1f)));
 		} else {
 			return Messages.get(this, "typical_stats", 1, new DecimalFormat("#.##").format(3.5f));
 		}
@@ -89,9 +89,10 @@ public class RingOfMight extends Ring {
 	protected RingBuff buff( ) {
 		return new Might();
 	}
-	
+
+	//녹픽던에서는 버프의 영향을 받지 않도록 되어 있음
 	public static int strengthBonus( Char target ){
-		return getBonus( target, Might.class );
+		return getBuffedBonus( target, Might.class );
 	}
 	
 	public static float HTMultiplier( Char target ){
