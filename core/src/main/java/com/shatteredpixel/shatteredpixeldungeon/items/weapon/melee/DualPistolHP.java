@@ -542,10 +542,7 @@ public class DualPistolHP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (DualPistolHP.this.masteryPotionBonus) {
-                return STRReq(tier, DualPistolHP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, DualPistolHP.this.buffedLvl());
+            return DualPistolHP.this.STRReq();
         }
 
         @Override

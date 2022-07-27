@@ -436,10 +436,7 @@ public class TacticalShield extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (TacticalShield.this.masteryPotionBonus) {
-                return STRReq(tier, TacticalShield.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, TacticalShield.this.buffedLvl());
+            return TacticalShield.this.STRReq();
         }
 
         @Override

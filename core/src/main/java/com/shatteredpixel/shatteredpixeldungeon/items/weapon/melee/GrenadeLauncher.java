@@ -395,10 +395,7 @@ public class GrenadeLauncher extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (GrenadeLauncher.this.masteryPotionBonus) {
-                return STRReq(tier, GrenadeLauncher.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, GrenadeLauncher.this.buffedLvl());
+            return GrenadeLauncher.this.STRReq();
         }
 
         @Override

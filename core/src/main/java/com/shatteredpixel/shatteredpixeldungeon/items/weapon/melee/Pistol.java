@@ -525,10 +525,7 @@ public class Pistol extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (Pistol.this.masteryPotionBonus) {
-                return STRReq(tier, Pistol.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, Pistol.this.buffedLvl());
+            return Pistol.this.STRReq();
         }
 
         @Override

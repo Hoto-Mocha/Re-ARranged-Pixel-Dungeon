@@ -433,10 +433,7 @@ public class PlasmaCannonAP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (PlasmaCannonAP.this.masteryPotionBonus) {
-                return STRReq(tier, PlasmaCannonAP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, PlasmaCannonAP.this.buffedLvl());
+            return PlasmaCannonAP.this.STRReq();
         }
 
         @Override

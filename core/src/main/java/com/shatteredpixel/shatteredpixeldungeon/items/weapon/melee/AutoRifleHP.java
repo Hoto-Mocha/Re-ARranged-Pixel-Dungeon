@@ -516,10 +516,7 @@ public class AutoRifleHP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (AutoRifleHP.this.masteryPotionBonus) {
-                return STRReq(tier, AutoRifleHP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, AutoRifleHP.this.buffedLvl());
+            return AutoRifleHP.this.STRReq();
         }
 
         @Override

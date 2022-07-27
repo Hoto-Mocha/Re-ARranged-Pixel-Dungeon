@@ -527,10 +527,7 @@ public class GoldenPistolHP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (GoldenPistolHP.this.masteryPotionBonus) {
-                return STRReq(tier, GoldenPistolHP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, GoldenPistolHP.this.buffedLvl());
+            return GoldenPistolHP.this.STRReq();
         }
 
         @Override

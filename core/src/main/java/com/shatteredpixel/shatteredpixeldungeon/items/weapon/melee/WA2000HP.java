@@ -468,10 +468,7 @@ public class WA2000HP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (WA2000HP.this.masteryPotionBonus) {
-                return STRReq(tier, WA2000HP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, WA2000HP.this.buffedLvl());
+            return WA2000HP.this.STRReq();
         }
 
         @Override

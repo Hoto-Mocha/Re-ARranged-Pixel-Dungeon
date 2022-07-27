@@ -455,10 +455,7 @@ public class KSG extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (KSG.this.masteryPotionBonus) {
-                return STRReq(tier, KSG.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, KSG.this.buffedLvl());
+            return KSG.this.STRReq();
         }
 
         @Override

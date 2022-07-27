@@ -402,10 +402,7 @@ public class RPG7 extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (RPG7.this.masteryPotionBonus) {
-                return STRReq(tier, RPG7.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, RPG7.this.buffedLvl());
+            return RPG7.this.STRReq();
         }
 
         @Override

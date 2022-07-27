@@ -467,10 +467,7 @@ public class HuntingRifle extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (HuntingRifle.this.masteryPotionBonus) {
-                return STRReq(tier, HuntingRifle.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, HuntingRifle.this.buffedLvl());
+            return HuntingRifle.this.STRReq();
         }
 
         @Override

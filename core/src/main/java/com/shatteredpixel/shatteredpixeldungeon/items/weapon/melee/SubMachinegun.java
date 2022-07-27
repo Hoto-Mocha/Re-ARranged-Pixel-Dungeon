@@ -492,10 +492,7 @@ public class SubMachinegun extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (SubMachinegun.this.masteryPotionBonus) {
-                return STRReq(tier, SubMachinegun.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, SubMachinegun.this.buffedLvl());
+            return SubMachinegun.this.STRReq();
         }
 
         @Override

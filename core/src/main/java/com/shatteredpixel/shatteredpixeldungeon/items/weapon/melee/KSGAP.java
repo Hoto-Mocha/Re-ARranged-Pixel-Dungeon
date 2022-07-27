@@ -455,10 +455,7 @@ public class KSGAP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (KSGAP.this.masteryPotionBonus) {
-                return STRReq(tier, KSGAP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, KSGAP.this.buffedLvl());
+            return KSGAP.this.STRReq();
         }
 
         @Override

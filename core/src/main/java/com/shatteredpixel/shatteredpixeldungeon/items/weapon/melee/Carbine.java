@@ -467,10 +467,7 @@ public class Carbine extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (Carbine.this.masteryPotionBonus) {
-                return STRReq(tier, Carbine.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, Carbine.this.buffedLvl());
+            return Carbine.this.STRReq();
         }
 
         @Override

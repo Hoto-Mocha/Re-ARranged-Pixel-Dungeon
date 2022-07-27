@@ -110,6 +110,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Dis
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Earth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Earth_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Empty;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Empty_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Fire;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Fire_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Frost;
@@ -350,6 +351,7 @@ public abstract class Recipe {
 		new Xray.Recipe(),
 		new DoubleGreatSword.Recipe(),
 		new ChaosSword.Recipe(),
+		new SpellBook_Empty_Sword.Recipe(),
 		new SpellBook_Blast_Sword.Recipe(),
 		new SpellBook_Corrosion_Sword.Recipe(),
 		new SpellBook_Corruption_Sword.Recipe(),

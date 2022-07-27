@@ -548,10 +548,7 @@ public class AutoHandgunHP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (AutoHandgunHP.this.masteryPotionBonus) {
-                return STRReq(tier, AutoHandgunHP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, AutoHandgunHP.this.buffedLvl());
+            return AutoHandgunHP.this.STRReq();
         }
 
         @Override

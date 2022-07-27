@@ -465,10 +465,7 @@ public class AntimaterRifle extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (AntimaterRifle.this.masteryPotionBonus) {
-                return STRReq(tier, AntimaterRifle.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, AntimaterRifle.this.buffedLvl());
+            return AntimaterRifle.this.STRReq();
         }
 
         @Override

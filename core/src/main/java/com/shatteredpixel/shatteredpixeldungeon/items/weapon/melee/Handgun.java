@@ -526,10 +526,7 @@ public class Handgun extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (Handgun.this.masteryPotionBonus) {
-                return STRReq(tier, Handgun.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, Handgun.this.buffedLvl());
+            return Handgun.this.STRReq();
         }
 
         @Override

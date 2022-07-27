@@ -467,10 +467,7 @@ public class CarbineHP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (CarbineHP.this.masteryPotionBonus) {
-                return STRReq(tier, CarbineHP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, CarbineHP.this.buffedLvl());
+            return CarbineHP.this.STRReq();
         }
 
         @Override

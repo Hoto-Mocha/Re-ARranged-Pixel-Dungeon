@@ -54,7 +54,7 @@ public class ScrollOfExtract extends InventorySpell {
     @Override
     protected boolean usableOnItem(Item item) {
         if (item instanceof MeleeWeapon) {
-            if ((((MeleeWeapon) item).hasCurseEnchant() || !isIdentified() || cursed || item.buffedLvl() <= 0)
+            if ((((MeleeWeapon) item).hasCurseEnchant() || !item.isIdentified() || cursed || item.buffedLvl() <= 0)
                 || (item instanceof SleepGun
                     || item instanceof FrostGun
                     || item instanceof ParalysisGun

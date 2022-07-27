@@ -492,10 +492,7 @@ public class AssultRifleAP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (AssultRifleAP.this.masteryPotionBonus) {
-                return STRReq(tier, AssultRifleAP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, AssultRifleAP.this.buffedLvl());
+            return AssultRifleAP.this.STRReq();
         }
 
         @Override

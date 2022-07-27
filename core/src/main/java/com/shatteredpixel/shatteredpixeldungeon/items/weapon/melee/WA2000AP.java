@@ -468,10 +468,7 @@ public class WA2000AP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (WA2000AP.this.masteryPotionBonus) {
-                return STRReq(tier, WA2000AP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, WA2000AP.this.buffedLvl());
+            return WA2000AP.this.STRReq();
         }
 
         @Override

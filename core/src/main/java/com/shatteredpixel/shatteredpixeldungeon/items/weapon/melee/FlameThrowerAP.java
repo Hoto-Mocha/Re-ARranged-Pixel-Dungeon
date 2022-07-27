@@ -424,10 +424,7 @@ public class FlameThrowerAP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (FlameThrowerAP.this.masteryPotionBonus) {
-                return STRReq(tier, FlameThrowerAP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, FlameThrowerAP.this.buffedLvl());
+            return FlameThrowerAP.this.STRReq();
         }
 
         @Override

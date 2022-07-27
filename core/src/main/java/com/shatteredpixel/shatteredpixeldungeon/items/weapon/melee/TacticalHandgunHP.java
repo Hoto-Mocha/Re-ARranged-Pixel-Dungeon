@@ -530,10 +530,7 @@ public class TacticalHandgunHP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (TacticalHandgunHP.this.masteryPotionBonus) {
-                return STRReq(tier, TacticalHandgunHP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, TacticalHandgunHP.this.buffedLvl());
+            return TacticalHandgunHP.this.STRReq();
         }
 
         @Override

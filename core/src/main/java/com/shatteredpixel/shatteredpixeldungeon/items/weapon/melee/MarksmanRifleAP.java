@@ -468,10 +468,7 @@ public class MarksmanRifleAP extends MeleeWeapon {
 
         @Override
         public int STRReq(int lvl) {
-            if (MarksmanRifleAP.this.masteryPotionBonus) {
-                return STRReq(tier, MarksmanRifleAP.this.buffedLvl()) - 2;
-            }
-            return STRReq(tier, MarksmanRifleAP.this.buffedLvl());
+            return MarksmanRifleAP.this.STRReq();
         }
 
         @Override
