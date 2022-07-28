@@ -273,8 +273,8 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
-		new Sword().upgrade(2).collect();
-		new ScrollOfExtract().collect();
+		//new Sword().upgrade(2).collect();
+		//new ScrollOfExtract().collect();
 		//new ScrollOfTransmutation().identify().quantity(100).collect();
 		//new LanceNShield().identify().collect();
 	}

@@ -981,50 +981,63 @@ public class Badges {
 	public static void validateVictory() {
 
 		Badge badge = Badge.VICTORY;
+		local.add( badge );
 		displayBadge( badge );
 
-		switch (Dungeon.hero.heroClass) {
-		case WARRIOR:
-			badge = Badge.VICTORY_WARRIOR;
-			break;
-		case MAGE:
-			badge = Badge.VICTORY_MAGE;
-			break;
-		case ROGUE:
-			badge = Badge.VICTORY_ROGUE;
-			break;
-		case HUNTRESS:
-			badge = Badge.VICTORY_HUNTRESS;
-			break;
-		case GUNNER:
-			badge = Badge.VICTORY_GUNNER;
-			break;
-		case SAMURAI:
-			badge = Badge.VICTORY_SAMURAI;
-			break;
-		case PLANTER:
-			badge = Badge.VICTORY_PLANTER;
-			break;
-		case KNIGHT:
-			badge = Badge.VICTORY_KNIGHT;
-			break;
-		case NURSE:
-			badge = Badge.VICTORY_NURSE;
-			break;
-		}
+		//switch (Dungeon.hero.heroClass) {
+		//case WARRIOR:
+		//	badge = Badge.VICTORY_WARRIOR;
+		//	break;
+		//case MAGE:
+		//	badge = Badge.VICTORY_MAGE;
+		//	break;
+		//case ROGUE:
+		//	badge = Badge.VICTORY_ROGUE;
+		//	break;
+		//case HUNTRESS:
+		//	badge = Badge.VICTORY_HUNTRESS;
+		//	break;
+		//case GUNNER:
+		//	badge = Badge.VICTORY_GUNNER;
+		//	break;
+		//case SAMURAI:
+		//	badge = Badge.VICTORY_SAMURAI;
+		//	break;
+		//case PLANTER:
+		//	badge = Badge.VICTORY_PLANTER;
+		//	break;
+		//case KNIGHT:
+		//	badge = Badge.VICTORY_KNIGHT;
+		//	break;
+		//case NURSE:
+		//	badge = Badge.VICTORY_NURSE;
+		//	break;
+		//}
+		//local.add( badge );
+		//unlock(badge);
+		//
+		//if (isUnlocked( Badge.VICTORY_WARRIOR ) &&
+		//		isUnlocked( Badge.VICTORY_MAGE ) &&
+		//		isUnlocked( Badge.VICTORY_ROGUE ) &&
+		//		isUnlocked( Badge.VICTORY_HUNTRESS ) &&
+		//		isUnlocked( Badge.VICTORY_GUNNER ) &&
+		//		isUnlocked( Badge.VICTORY_SAMURAI ) &&
+		//		isUnlocked( Badge.VICTORY_PLANTER ) &&
+		//		isUnlocked( Badge.VICTORY_KNIGHT ) &&
+		//		isUnlocked( Badge.VICTORY_NURSE )) {
+		badge = victoryClassBadges.get(Dungeon.hero.heroClass);
+		if (badge == null) return;
 		local.add( badge );
 		unlock(badge);
-		
-		if (isUnlocked( Badge.VICTORY_WARRIOR ) &&
-				isUnlocked( Badge.VICTORY_MAGE ) &&
-				isUnlocked( Badge.VICTORY_ROGUE ) &&
-				isUnlocked( Badge.VICTORY_HUNTRESS ) &&
-				isUnlocked( Badge.VICTORY_GUNNER ) &&
-				isUnlocked( Badge.VICTORY_SAMURAI ) &&
-				isUnlocked( Badge.VICTORY_PLANTER ) &&
-				isUnlocked( Badge.VICTORY_KNIGHT ) &&
-				isUnlocked( Badge.VICTORY_NURSE )) {
-			
+
+		boolean allUnlocked = true;
+		for (Badge b : victoryClassBadges.values()){
+			if (!isUnlocked(b)){
+				allUnlocked = false;
+				break;
+			}
+		}
+		if (allUnlocked){
 			badge = Badge.VICTORY_ALL_CLASSES;
 			displayBadge( badge );
 		}

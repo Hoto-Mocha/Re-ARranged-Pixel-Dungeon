@@ -356,7 +356,7 @@ public class Dungeon {
 		level.create();
 		
 		Statistics.qualifiedForNoKilling = !bossLevel();
-		Statistics.qualifiedForBossChallengeBadge = bossLevel();
+		Statistics.qualifiedForBossChallengeBadge = false;
 		
 		return level;
 	}
