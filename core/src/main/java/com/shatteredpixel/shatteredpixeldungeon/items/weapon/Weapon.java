@@ -30,9 +30,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GunEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.IntervalWeaponUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.KnightsBlocking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.UpgradeShare;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -114,6 +118,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
@@ -334,6 +339,23 @@ abstract public class Weapon extends KindOfWeapon {
 		if (hero.hasTalent(Talent.VINE_WHIP) && owner == hero) {
 			reach += hero.pointsInTalent(Talent.VINE_WHIP);
 		}
+		if (hero.hasTalent(Talent.SPEAR_N_SHIELD)) {
+			switch (hero.pointsInTalent(Talent.SPEAR_N_SHIELD)) {
+				case 1: default:
+					if (hero.buff(KnightsBlocking.class) != null) {
+						reach += 1;
+					}
+					break;
+				case 2:
+					if (hero.buff(KnightsBlocking.class) != null || hero.buff(ShieldCoolDown.class) != null) {
+						reach += 1;
+					}
+					break;
+				case 3:
+					reach += 1;
+					break;
+			}
+		}
 		return reach;
 	}
 
@@ -370,9 +392,13 @@ abstract public class Weapon extends KindOfWeapon {
 		} else {
 			lvl = level();
 		}
-		WeaponEmpower weaponEmpower = Dungeon.hero.buff(WeaponEmpower.class);
-		if (weaponEmpower != null && isEquipped( Dungeon.hero ) && !(this instanceof MagesStaff)) {
+		WeaponEmpower weaponEmpower = hero.buff(WeaponEmpower.class);
+		if (weaponEmpower != null && isEquipped( hero ) && !(this instanceof MagesStaff)) {
 			lvl += weaponEmpower.getLvl();
+		}
+		IntervalWeaponUpgrade intervalWeaponUpgrade = hero.buff(IntervalWeaponUpgrade.class);
+		if (intervalWeaponUpgrade != null && isEquipped( hero ) && !(this instanceof MagesStaff)) {
+			lvl += intervalWeaponUpgrade.boost();
 		}
 		if (this instanceof CrudePistol
 			|| this instanceof CrudePistolAP
@@ -453,6 +479,12 @@ abstract public class Weapon extends KindOfWeapon {
 				lvl = buff.boost();
 			}
 		}
+
+		UpgradeShare upgradeShare = hero.buff(UpgradeShare.class);
+		if (upgradeShare != null && lvl < upgradeShare.level() && this instanceof MeleeWeapon) {
+			lvl = upgradeShare.level();
+		}
+
 		return lvl;
 	}
 	

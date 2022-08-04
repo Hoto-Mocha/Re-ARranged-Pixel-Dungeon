@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasionEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
@@ -586,6 +587,9 @@ public class CrudePistol extends MeleeWeapon {
                     reload();
                 } else {
                     knockBullet().cast(curUser, target);
+                    if (hero.hasTalent(Talent.ROLLING)) {
+                        Buff.prolong(hero, EvasionEnhance.class, 3f);
+                    }
                 }
             }
         }

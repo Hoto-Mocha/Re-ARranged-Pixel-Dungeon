@@ -1359,6 +1359,7 @@ public abstract class Level implements Bundlable {
 			if (c instanceof Hero){
 
 				viewDistBonus += 0.25f*((Hero) c).pointsInTalent(Talent.FARSIGHT);
+				viewDistBonus += 0.25f*((Hero) c).pointsInTalent(Talent.TELESCOPE);
 				if (((Hero) c).hasTalent(Talent.ON_ALERT) && ((Hero) c).heroClass != HeroClass.KNIGHT) {
 					viewDistBonus += 0.125f*((Hero) c).pointsInTalent(Talent.ON_ALERT);
 				}

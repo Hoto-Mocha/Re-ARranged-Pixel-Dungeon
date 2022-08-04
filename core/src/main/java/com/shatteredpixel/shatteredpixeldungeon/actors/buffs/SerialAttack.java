@@ -79,6 +79,18 @@ public class SerialAttack extends Buff {
 	public String toString() {
 		return Messages.get(this, "name");
 	}
+
+	public void maxHit() {
+		count = 4+Dungeon.hero.pointsInTalent(Talent.CONTINUOUS_ATTACK);
+		dmgBonus = 5*(4+Dungeon.hero.pointsInTalent(Talent.CONTINUOUS_ATTACK));
+		comboTime = 5f;
+		if (Dungeon.hero.hasTalent(Talent.SERIAL_MOMENTUM)) {
+			comboTime += Dungeon.hero.pointsInTalent(Talent.SERIAL_MOMENTUM);
+		}
+		initialComboTime = comboTime;
+
+		BuffIndicator.refreshHero(); //refresh the buff visually on-hit
+	}
 	
 	public void hit( Char enemy ) {
 

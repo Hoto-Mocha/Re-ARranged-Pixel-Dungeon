@@ -11,6 +11,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -87,6 +88,9 @@ public class GammaRayGun extends Item {
 						}
 						if (ch.alignment == Char.Alignment.ALLY && (ch != curUser)) { //ch != hero is always false
 							int healAmt = 5+Math.round(curUser.lvl/2f);
+							if (hero.hasTalent(Talent.HIGHER_HEAL)) {
+								healAmt *= 1 + 0.2f * hero.pointsInTalent(Talent.HIGHER_HEAL);
+							}
 							healAmt = Math.min( healAmt, ch.HT - ch.HP );
 							if (healAmt > 0 && ch.isAlive()) {
 								ch.HP += healAmt;
@@ -154,7 +158,7 @@ public class GammaRayGun extends Item {
 			super.restoreFromBundle(bundle);
 			duration = bundle.getInt( DURATION );
 		}
-	};
+	}
 
 	@Override
 	public boolean isUpgradable() {

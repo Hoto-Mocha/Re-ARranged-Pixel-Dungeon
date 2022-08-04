@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
@@ -110,7 +111,11 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 				int newDmg = attacker.damageRoll();
 				if (newDmg > dmg) dmg = newDmg;
 			}
-			return Math.round(dmg * (1f + baseDmgBonus));
+			float dmgMulti = baseDmgBonus;
+			if (Dungeon.hero.hasTalent(Talent.PERFECT_ASSASSIN)) {
+				dmgMulti *= 1f + 0.1f * Dungeon.hero.pointsInTalent(Talent.PERFECT_ASSASSIN);
+			}
+			return Math.round(dmg * (1f + dmgMulti));
 		}
 		
 		public static AttackLevel getLvl(int turnsInvis){
@@ -212,8 +217,13 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 		
 		AttackLevel lvl = AttackLevel.getLvl(turnsInvis);
 
+		float dmgMulti = lvl.baseDmgBonus;
+		if (Dungeon.hero.hasTalent(Talent.PERFECT_ASSASSIN)) {
+			dmgMulti *= 1f + 0.1f * Dungeon.hero.pointsInTalent(Talent.PERFECT_ASSASSIN);
+		}
+
 		desc += "\n\n" + Messages.get(this, "desc_dmg",
-				(int)(lvl.baseDmgBonus*100),
+				(int)(dmgMulti*100),
 				(int)(lvl.KOThreshold()*100),
 				(int)(lvl.KOThreshold()*20));
 		

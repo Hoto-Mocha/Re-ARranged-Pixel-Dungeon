@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
@@ -426,6 +427,10 @@ public class Armor extends EquipableItem {
 		if (armorEmpower != null && isEquipped( hero )) {
 			lvl += armorEmpower.getLvl();
 		}
+		Bless bless = hero.buff(Bless.class);
+		if (bless != null && hero.hasTalent(Talent.PROTECTION_OF_LIGHT)) {
+			lvl += hero.pointsInTalent(Talent.PROTECTION_OF_LIGHT);
+		}
 		return lvl;
 	}
 	
@@ -462,10 +467,6 @@ public class Armor extends EquipableItem {
 		
 		if (glyph != null && defender.buff(MagicImmune.class) == null) {
 			damage = glyph.proc( this, attacker, defender, damage );
-		}
-
-		if (hero.hasTalent(Talent.DEF_ENHANCE)) {
-			damage *= 1 - 0.025f * hero.pointsInTalent(Talent.DEF_ENHANCE);
 		}
 
 		if (hero.hasTalent(Talent.ENDURING)) {

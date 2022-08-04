@@ -33,7 +33,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CertainCrit;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CritBonus;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Iaido;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.IntervalWeaponUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -52,7 +55,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
-abstract public class KindOfWeapon extends EquipableItem {
+abstract public class  KindOfWeapon extends EquipableItem {
 	
 	protected static final float TIME_TO_EQUIP = 1f;
 
@@ -143,7 +146,11 @@ abstract public class KindOfWeapon extends EquipableItem {
 		}
 
 		if (Dungeon.hero.buff(Sheathing.class) != null) {
-			critChance *= 1.2f;
+			if (hero.buff(Iaido.class) != null) {
+				critChance *= 1.2f + 0.3f * hero.buff(Iaido.class).getCount();
+			} else {
+				critChance *= 1.2f;
+			}
 		}
 
 		if (Dungeon.hero.buff(Jung.class) != null) {
@@ -158,6 +165,10 @@ abstract public class KindOfWeapon extends EquipableItem {
 			critChance += 5 * Dungeon.hero.pointsInTalent(Talent.DETECTION);
 		}
 
+		if (Dungeon.hero.buff(IntervalWeaponUpgrade.class) != null) {
+			critChance += 10 * Dungeon.hero.buff(IntervalWeaponUpgrade.class).boost();
+		}
+
 		if (Dungeon.hero.buff(CertainCrit.class) != null) {
 			critChance = 100;
 		}
@@ -169,6 +180,15 @@ abstract public class KindOfWeapon extends EquipableItem {
 				if (Random.Int(100) < critChance) {
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 					hero.sprite.showStatus(CharSprite.NEUTRAL, "!");
+					if (hero.buff(Iaido.class) != null && hero.pointsInTalent(Talent.SLASHING) > 1) {
+						if (Random.Int(7) < hero.buff(Iaido.class).getCount()) {
+							Buff.affect(hero, IntervalWeaponUpgrade.class).levelUp();
+							Item.updateQuickslot();
+						}
+					}
+					if (hero.buff(Talent.DetactiveSlashingTracker.class) != null && hero.subClass == HeroSubClass.SLASHER) {
+						Buff.affect(hero, SerialAttack.class).maxHit();
+					}
 					if (demonization != null && demonization.isDemonated() && hero.hasTalent(Talent.ENERGY_DRAIN)) {
 						int pointUsed = hero.pointsInTalent(Talent.ENERGY_DRAIN);
 						if (hero.buff(Barrier.class) == null || hero.buff(Barrier.class).shielding() < (10 * pointUsed - pointUsed)) {

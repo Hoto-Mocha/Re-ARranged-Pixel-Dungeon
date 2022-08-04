@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlessingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
@@ -60,7 +61,7 @@ public class AngelWing extends ArmorAbility {
 		Buff.prolong(hero, AngelWingBuff.class, AngelWingBuff.DURATION);
 
 		if (hero.hasTalent(Talent.ANGELS_BLESS)) {
-			Buff.affect(hero, BlessGen.class).setup(20);
+			Buff.affect(hero, Bless.class, 10*hero.pointsInTalent(Talent.ANGELS_BLESS));
 		}
 
 		hero.sprite.operate(hero.pos);
@@ -138,36 +139,6 @@ public class AngelWing extends ArmorAbility {
 		@Override
 		public String desc() {
 			return Messages.get(this, "desc", dispTurns());
-		}
-	}
-
-	public static class BlessGen extends Buff {
-
-		int left = 0;
-
-		{
-			type = buffType.POSITIVE;
-		}
-
-		public void setup( int duration ) {
-			left = duration;
-		}
-
-		@Override
-		public boolean act() {
-			Buff.affect(target, BlessingArea.class).setup(target.pos, 2, 1+Dungeon.hero.pointsInTalent(Talent.ANGELS_BLESS));
-			left--;
-			BuffIndicator.refreshHero();
-			if (left <= 0){
-				detach();
-			}
-			spend(TICK);
-			return true;
-		}
-
-		@Override
-		public void detach() {
-			super.detach();
 		}
 	}
 }

@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
@@ -29,7 +31,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ItemStatusHandler;
@@ -51,6 +55,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFear;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFlock;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfShock;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -194,6 +199,14 @@ public abstract class Scroll extends Item {
 			updateQuickslot();
 		}
 
+		if (curUser.hasTalent(Talent.MAGIC_RUSH)) {
+			MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
+			if (staff != null) {
+				staff.gainCharge(hero.pointsInTalent(Talent.MAGIC_RUSH), false);
+				ScrollOfRecharging.charge(hero);
+			}
+		}
+
 		if (curUser.hasTalent(Talent.BLESSING_SCROLLS)) {
 			int duration = 5 * curUser.pointsInTalent(Talent.BLESSING_SCROLLS);
 			if (this instanceof ScrollOfUpgrade || this instanceof ScrollOfEnchantment) {
@@ -215,7 +228,7 @@ public abstract class Scroll extends Item {
 				updateQuickslot();
 			}
 			
-			if (Dungeon.hero.isAlive()) {
+			if (hero.isAlive()) {
 				Catalog.setSeen(getClass());
 			}
 		}

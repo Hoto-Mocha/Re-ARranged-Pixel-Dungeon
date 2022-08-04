@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalCircle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
@@ -200,6 +201,9 @@ public abstract class Wand extends Item {
 			Buff.append(Dungeon.hero, TalismanOfForesight.CharAwareness.class, dur).charID = target.id();
 		}
 
+		if (Dungeon.hero.hasTalent(Talent.ENHANCED_MARK)) {
+			wandLevel += Dungeon.hero.pointsInTalent(Talent.ENHANCED_MARK);
+		}
 		if (target != Dungeon.hero &&
 				Dungeon.hero.subClass == HeroSubClass.WARLOCK &&
 				//standard 1 - 0.92^x chance, plus 7%. Starts at 15%
@@ -409,6 +413,8 @@ public abstract class Wand extends Item {
 
 		if (Dungeon.hero.hasTalent(Talent.CHARGE_PRESERVE) && Random.Int(20) < Dungeon.hero.pointsInTalent(Talent.CHARGE_PRESERVE)) {
 			//charge preserves
+		} else if (Dungeon.hero.pointsInTalent(Talent.MAGICAL_CIRCLE) > 1 && Dungeon.hero.buff(MagicalCircle.class) != null && Random.Int(2) == 0) {
+			//charge preserves
 		} else if (cursed) {
 			curCharges -= 1;
 		} else {
@@ -616,6 +622,9 @@ public abstract class Wand extends Item {
 						Buff.affect(curUser, Barrier.class).setShield(Math.round(shield));
 						if (Dungeon.hero.subClass == HeroSubClass.ENGINEER && Dungeon.hero.hasTalent(Talent.AMMO_PRESERVE)) {
 							Buff.affect(curUser, InfiniteBullet.class, Math.round(curWand.curCharges / 3f * Dungeon.hero.pointsInTalent(Talent.AMMO_PRESERVE)));
+						}
+						if (Dungeon.hero.subClass == HeroSubClass.BATTLEMAGE && Dungeon.hero.hasTalent(Talent.MAGICAL_CIRCLE)) {
+							Buff.affect(curUser, MagicalCircle.class).setup(curUser.pos, curWand.curCharges*3);
 						}
 						curWand.curCharges = 0;
 						curUser.sprite.operate(curUser.pos);

@@ -92,7 +92,7 @@ public class ShieldCoolDown extends Buff {
 
     public void set() {
         maxCoolDown = 10f * hero.lvl;
-        coolDown = 10f * hero.lvl * (1 - 0.1f * hero.pointsInTalent(Talent.ON_ALERT));
+        coolDown = 10f * hero.lvl * (1 - 0.1f * hero.pointsInTalent(Talent.ON_ALERT) - 0.2f * hero.pointsInTalent(Talent.FORTRESS));
     }
 
     public void extend(float amount) {

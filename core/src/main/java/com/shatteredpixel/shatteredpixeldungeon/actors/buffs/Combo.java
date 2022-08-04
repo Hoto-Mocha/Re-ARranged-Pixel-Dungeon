@@ -313,10 +313,10 @@ public class Combo extends Buff implements ActionIndicator.Action {
 				dmgMulti = 0;
 				break;
 			case SLAM:
-				dmgBonus = Math.round(target.drRoll() * count / 5f);
+				dmgBonus = Math.round(target.drRoll() * count + hero.pointsInTalent(Talent.SKILL_ENHANCE) / 5f);
 				break;
 			case CRUSH:
-				dmgMulti = 0.25f * count;
+				dmgMulti = 0.25f * count + hero.pointsInTalent(Talent.SKILL_ENHANCE);
 				break;
 			case FURY:
 				dmgMulti = 0.6f;
@@ -334,7 +334,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 					trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size() - 1), Ballistica.PROJECTILE);
 					//knock them back along that ballistica, ensuring they don't fall into a pit
 					int dist = 2;
-					if (enemy.isAlive() && count >= 7 && hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 1) {
+					if (enemy.isAlive() && count + hero.pointsInTalent(Talent.SKILL_ENHANCE) >= 7 && hero.pointsInTalent(Talent.ENHANCED_COMBO) >= 1) {
 						dist++;
 						Buff.prolong(enemy, Vertigo.class, 3);
 					} else if (!enemy.flying) {
@@ -394,7 +394,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 			case FURY:
 				count--;
 				//fury attacks as many times as you have combo count
-				if (count > 0 && enemy.isAlive() && hero.canAttack(enemy) &&
+				if (count > -hero.pointsInTalent(Talent.SKILL_ENHANCE) && enemy.isAlive() && hero.canAttack(enemy) &&
 						(wasAlly || enemy.alignment != target.alignment)){
 					target.sprite.attack(enemy.pos, new Callback() {
 						@Override

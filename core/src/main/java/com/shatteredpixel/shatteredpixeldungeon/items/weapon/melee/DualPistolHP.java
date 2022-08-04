@@ -25,6 +25,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasionEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -568,7 +569,7 @@ public class DualPistolHP extends MeleeWeapon {
                     } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                         //round preserves
                     } else {
-                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
+                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
                             //round preserves
                         } else {
                             round --;
@@ -597,7 +598,7 @@ public class DualPistolHP extends MeleeWeapon {
                     } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                         //round preserves
                     } else {
-                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
+                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
                             //round preserves
                         } else {
                             round --;
@@ -638,6 +639,9 @@ public class DualPistolHP extends MeleeWeapon {
                     reload();
                 } else {
                     knockBullet().cast(curUser, target);
+                    if (hero.hasTalent(Talent.ROLLING)) {
+                        Buff.affect(hero, EvasionEnhance.class, 3f);
+                    }
                 }
             }
         }

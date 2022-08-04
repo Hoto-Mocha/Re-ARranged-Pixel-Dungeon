@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Effects;
@@ -49,6 +51,9 @@ public class Sheathing extends Buff {
 			if (Dungeon.hero.hasTalent(Talent.DONG_SHEATHING) && Dungeon.hero.buff(Dong.class) != null) {
 				spend(TICK);
 			} else {
+				if (hero.buff(Iaido.class) != null) {
+					hero.buff(Iaido.class).detach();
+				}
 				detach();
 			}
 		} else {

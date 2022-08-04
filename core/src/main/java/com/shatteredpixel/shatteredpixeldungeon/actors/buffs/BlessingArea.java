@@ -111,6 +111,10 @@ public class BlessingArea extends Buff {
             detach();
         }
 
+        if (!areaPositions.contains(target.pos)){
+            detach();
+        }
+
         for (Char ally : targets) {
             Buff.affect(ally, Bless.class, 3f);
         }

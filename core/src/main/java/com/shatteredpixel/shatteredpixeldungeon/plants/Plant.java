@@ -116,6 +116,10 @@ public abstract class Plant implements Bundlable {
 			seedChance += 0.2f;
 		}
 
+		if (Dungeon.hero.hasTalent(Talent.WITHDRAW_TRAP)) {
+			seedChance += 0.1f * Dungeon.hero.pointsInTalent(Talent.WITHDRAW_TRAP);
+		}
+
 		if (Random.Float() < seedChance){
 			if (seedClass != null && seedClass != Rotberry.Seed.class) {
 				Dungeon.level.drop(Reflection.newInstance(seedClass), pos).sprite.drop();

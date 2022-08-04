@@ -150,6 +150,10 @@ public class Berserk extends Buff {
 		if (state == State.RECOVERING) return;
 		float maxPower = 1f + 0.1f*((Hero)target).pointsInTalent(Talent.ENDLESS_RAGE);
 		power = Math.min(maxPower, power + amount );
+		if (((Hero)target).hasTalent(Talent.MAX_RAGE) && power >= maxPower && target.buff(Talent.MaxRageCooldown.class) == null) {
+			Buff.affect(target, Adrenaline.class, 10*power*((Hero) target).pointsInTalent(Talent.MAX_RAGE));
+			Buff.affect(target, Talent.MaxRageCooldown.class, 50f);
+		}
 		BuffIndicator.refreshHero(); //show new power immediately
 		powerLossBuffer = 3; //2 turns until rage starts dropping
 	}
@@ -170,6 +174,15 @@ public class Berserk extends Buff {
 				levelRecovery = 0;
 			}
 		}
+	}
+
+	public float getPower() {
+		return power;
+	}
+
+	public boolean isNormal() {
+		if (state == State.NORMAL) return true;
+		else return false;
 	}
 
 	@Override

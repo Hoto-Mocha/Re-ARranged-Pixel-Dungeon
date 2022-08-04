@@ -45,6 +45,8 @@ public class PathFinder {
 	public static int[] NEIGHBOURS9;
 	public static int[] NEIGHBOURS24;
 	public static int[] NEIGHBOURS25;
+	public static int[] NEIGHBOURS48;
+	public static int[] NEIGHBOURS49;
 
 	//similar to their equivalent neighbour arrays, but the order is clockwise.
 	//Useful for some logic functions, but is slower due to lack of array-access order.
@@ -71,6 +73,8 @@ public class PathFinder {
 		NEIGHBOURS9 = new int[]{-width-1, -width, -width+1, -1, 0, +1, +width-1, +width, +width+1};
 		NEIGHBOURS24 = new int[]{-2*width-2, -2*width-1, -2*width, -2*width+1, -2*width+2, -width-2, -width-1, -width, -width+1, -width+2, -2, -1, +1, +2, +width-2, +width-1, +width, +width+1, +width+2, +2*width-2, +2*width-1, +2*width, +2*width+1, +2*width+2};
 		NEIGHBOURS25 = new int[]{-2*width-2, -2*width-1, -2*width, -2*width+1, -2*width+2, -width-2, -width-1, -width, -width+1, -width+2, -2, -1, 0, +1, +2, +width-2, +width-1, +width, +width+1, +width+2, +2*width-2, +2*width-1, +2*width, +2*width+1, +2*width+2};
+		NEIGHBOURS48 = new int[]{-3*width-3, -3*width-2, -3*width-1, -3*width, -3*width+1, -3*width+2, -3*width+3, -2*width-3, -2*width-2, -2*width-1, -2*width, -2*width+1, -2*width+2, -2*width+3, -width-3, -width-2, -width-1, -width, -width+1, -width+2, -width+3, -3, -2, -1, +1, +2, +3, +width-3, +width-2, +width-1, +width, +width+1, +width+2, +width+3, +2*width-3, +2*width-2, +2*width-1, +2*width, +2*width+1, +2*width+2, +2*width+3, +3*width-3, +3*width-2, +3*width-1, +3*width, +3*width+1, +3*width+2, +3*width+3};
+		NEIGHBOURS48 = new int[]{-3*width-3, -3*width-2, -3*width-1, -3*width, -3*width+1, -3*width+2, -3*width+3, -2*width-3, -2*width-2, -2*width-1, -2*width, -2*width+1, -2*width+2, -2*width+3, -width-3, -width-2, -width-1, -width, -width+1, -width+2, -width+3, -3, -2, -1, 0, +1, +2, +3, +width-3, +width-2, +width-1, +width, +width+1, +width+2, +width+3, +2*width-3, +2*width-2, +2*width-1, +2*width, +2*width+1, +2*width+2, +2*width+3, +3*width-3, +3*width-2, +3*width-1, +3*width, +3*width+1, +3*width+2, +3*width+3};
 
 		CIRCLE4 = new int[]{-width, +1, +width, -1};
 		CIRCLE8 = new int[]{-width-1, -width, -width+1, +1, +width+1, +width, +width-1, -1};

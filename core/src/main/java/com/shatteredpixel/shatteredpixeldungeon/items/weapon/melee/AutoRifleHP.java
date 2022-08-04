@@ -544,7 +544,7 @@ public class AutoRifleHP extends MeleeWeapon {
                         } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                             //round preserves
                         } else {
-                            if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
+                            if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
                                 //round preserves
                             } else {
                                 round --;
@@ -573,7 +573,7 @@ public class AutoRifleHP extends MeleeWeapon {
                         } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                             //round preserves
                         } else {
-                            if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
+                            if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
                                 //round preserves
                             } else {
                                 round --;
@@ -598,7 +598,7 @@ public class AutoRifleHP extends MeleeWeapon {
                 } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                     //round preserves
                 } else {
-                    if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
+                    if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
                         //round preserves
                     } else {
                         round --;

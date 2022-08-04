@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasionEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
@@ -568,7 +569,7 @@ public class DualPistolAP extends MeleeWeapon {
                     } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                         //round preserves
                     } else {
-                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
+                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
                             //round preserves
                         } else {
                             round --;
@@ -597,7 +598,7 @@ public class DualPistolAP extends MeleeWeapon {
                     } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                         //round preserves
                     } else {
-                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) == 0) {
+                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
                             //round preserves
                         } else {
                             round --;
@@ -638,6 +639,9 @@ public class DualPistolAP extends MeleeWeapon {
                     reload();
                 } else {
                     knockBullet().cast(curUser, target);
+                    if (hero.hasTalent(Talent.ROLLING)) {
+                        Buff.affect(hero, EvasionEnhance.class, 3f);
+                    }
                 }
             }
         }

@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -497,6 +498,8 @@ public class AntimaterRifleAP extends MeleeWeapon {
             if (hero.hasTalent(Talent.SILENCER)
                     && (Dungeon.level.map[hero.pos] == Terrain.FURROWED_GRASS || Dungeon.level.map[hero.pos] == Terrain.HIGH_GRASS)
                     && Random.Int(3) < hero.pointsInTalent(Talent.SILENCER)){
+                Level.set(hero.pos, Terrain.HIGH_GRASS);
+                GameScene.updateMap(hero.pos);
                 //no aggro
             } else {
                 for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {

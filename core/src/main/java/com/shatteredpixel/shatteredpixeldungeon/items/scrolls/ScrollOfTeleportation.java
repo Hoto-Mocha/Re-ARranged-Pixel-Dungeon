@@ -21,11 +21,16 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
@@ -191,6 +196,9 @@ public class ScrollOfTeleportation extends Scroll {
 			Dungeon.level.occupyCell(hero );
 			if (secretDoor && level.map[doorPos] == Terrain.SECRET_DOOR){
 				Sample.INSTANCE.play( Assets.Sounds.SECRET );
+				if (Random.Int(3) < hero.pointsInTalent(Talent.SHARP_INTUITION)) {
+					Buff.affect(hero, MindVision.class, 1f);
+				}
 				int oldValue = Dungeon.level.map[doorPos];
 				GameScene.discoverTile( doorPos, oldValue );
 				Dungeon.level.discover( doorPos );

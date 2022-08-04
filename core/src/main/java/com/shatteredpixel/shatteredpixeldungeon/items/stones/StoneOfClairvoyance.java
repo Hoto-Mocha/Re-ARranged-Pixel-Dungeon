@@ -21,8 +21,13 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.stones;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
@@ -30,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Point;
+import com.watabou.utils.Random;
 
 public class StoneOfClairvoyance extends Runestone {
 	
@@ -80,6 +86,9 @@ public class StoneOfClairvoyance extends Runestone {
 		
 		if (noticed) {
 			Sample.INSTANCE.play( Assets.Sounds.SECRET );
+			if (Random.Int(3) < hero.pointsInTalent(Talent.SHARP_INTUITION)) {
+				Buff.affect(hero, MindVision.class, 1f);
+			}
 		}
 		
 		Sample.INSTANCE.play( Assets.Sounds.TELEPORT );

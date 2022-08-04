@@ -188,7 +188,7 @@ public class Demonization extends Buff implements ActionIndicator.Action {
             }
         } else {
             state = State.NORMAL;
-            Buff.affect(hero, DemonizationCoolDown.class, DemonizationCoolDown.DURATION);
+            Buff.affect(hero, DemonizationCoolDown.class, DemonizationCoolDown.DURATION * (1 - 0.2f * hero.pointsInTalent(Talent.HASTE_RECOVER)));
             Buff.affect(hero, Vulnerable.class, 5f);
             BuffIndicator.refreshHero();
             ActionIndicator.updateIcon();

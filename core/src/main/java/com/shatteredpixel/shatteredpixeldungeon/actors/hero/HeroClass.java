@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
@@ -102,6 +103,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfSirensSong;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.APBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
@@ -134,6 +136,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKn
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.HealingDart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.utils.DeviceCompat;
 
@@ -173,6 +177,30 @@ public enum HeroClass {
 		waterskin.collect();
 
 		new ScrollOfIdentify().identify();
+
+		//TODO: to delete after testing
+		//new TengusMask().collect();
+		//new KingsCrown().collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
+		//new ScrollOfMagicMapping().identify().quantity(29).collect();
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new ScrollOfUpgrade().identify().quantity(1000).collect();
+		//new TestWeapon().identify().collect();
+		//new Teleporter().collect();
+		//new ScrollOfTransmutation().identify().quantity(1000).collect();
+		//new Evolution().quantity(100).collect();
+		//new AlchemistsToolkit().upgrade(10).identify().collect();
+		//new Gloves().identify().collect();
+		//new Gloves().identify().collect();
+		//new Gloves().identify().collect();
+		//new Gloves().identify().collect();
+		//new PotionOfStrength().identify().quantity(20).collect();
+		//new RingOfRush().identify().upgrade(50).collect();
+		//new ThrowingStone().identify().quantity(100).collect();
+		//new CrudePistol().identify().collect();
+		//new Rotberry.Seed().collect();
+		//new Sungrass.Seed().quantity(100).collect();
+		//for testing
 
 		switch (this) {
 			case WARRIOR:

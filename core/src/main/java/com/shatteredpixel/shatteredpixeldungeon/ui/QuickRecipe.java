@@ -557,7 +557,6 @@ public class QuickRecipe extends Component {
 				result.add(null);
 				result.add(new QuickRecipe(new Alchemize.Recipe()));
 				result.add(new QuickRecipe(new MagicalInfusion.Recipe()));
-				result.add(new QuickRecipe(new MagicalInfusion.Recipe2()));
 				result.add(new QuickRecipe(new CurseInfusion.Recipe()));
 				result.add(new QuickRecipe(new Recycle.Recipe()));
 				result.add(new QuickRecipe(new Evolution.Recipe()));

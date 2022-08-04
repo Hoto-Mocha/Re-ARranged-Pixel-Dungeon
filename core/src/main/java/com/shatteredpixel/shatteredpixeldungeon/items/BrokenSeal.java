@@ -23,15 +23,19 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -41,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndUseItem;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 
 public class BrokenSeal extends Item {
@@ -187,12 +192,26 @@ public class BrokenSeal extends Item {
 		@Override
 		public synchronized boolean act() {
 			if (shielding() < maxShield()) {
-				partialShield += 1/30f;
+				float shield = 1/30f;
+				Berserk buff = target.buff(Berserk.class);
+				if (buff != null && ((Hero) target).hasTalent(Talent.ENDURANCE) && buff.isNormal()) {
+					shield *= 1+buff.getPower()*((Hero) target).pointsInTalent(Talent.ENDURANCE);
+				}
+				partialShield += shield;
 			}
 			
 			while (partialShield >= 1){
 				incShield();
 				partialShield--;
+				if (((Hero) target).pointsInTalent(Talent.FOCUS_UPGRADE) > 1 && target.buff(Focusing.class) != null) {
+					int healAmt = 1;
+					healAmt = Math.min( healAmt, Dungeon.hero.HT - Dungeon.hero.HP );
+					if (healAmt > 0 && Dungeon.hero.isAlive()) {
+						Dungeon.hero.HP += healAmt;
+						Dungeon.hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+						Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+					}
+				}
 			}
 			
 			if (shielding() <= 0 && maxShield() <= 0){

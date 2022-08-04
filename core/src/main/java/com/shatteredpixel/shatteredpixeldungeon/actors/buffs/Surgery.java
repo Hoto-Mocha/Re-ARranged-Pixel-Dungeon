@@ -22,15 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
-import com.watabou.noosa.Image;
 import com.watabou.utils.Bundle;
 
 public class Surgery extends Buff {
@@ -71,8 +65,6 @@ public class Surgery extends Buff {
 	}
 
 	private static final String COUNT = "count";
-	private static final String TIME  = "combotime";
-	private static final String INITIAL_TIME  = "initialComboTime";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {

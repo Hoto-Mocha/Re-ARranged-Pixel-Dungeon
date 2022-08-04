@@ -164,15 +164,7 @@ public class Waterskin extends Item {
 	public void collectDew( Dewdrop dew ) {
 
 		GLog.i( Messages.get(this, "collected") );
-		if (Dungeon.hero.hasTalent(Talent.DEW_ENHANCE)) {
-			if (Random.Int(20) < Dungeon.hero.pointsInTalent(Talent.DEW_ENHANCE)) {
-				volume += 2 * dew.quantity;
-			} else {
-				volume += dew.quantity;
-			}
-		} else {
-			volume += dew.quantity;
-		}
+		volume += dew.quantity;
 		if (volume >= MAX_VOLUME) {
 			volume = MAX_VOLUME;
 			GLog.p( Messages.get(this, "full") );

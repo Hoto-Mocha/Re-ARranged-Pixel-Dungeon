@@ -39,8 +39,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DamageEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
@@ -62,6 +64,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
@@ -752,6 +755,12 @@ public abstract class Mob extends Char {
 					&& hero.hasTalent(Talent.CLASH)){
 				Buff.affect(hero, WeaponEmpower.class).set(hero.pointsInTalent(Talent.CLASH), 10f);
 			}
+
+			if (cause == hero
+					&& hero.hasTalent(Talent.DONG_POLISHING) && hero.buff(Jung.class) == null) {
+				Buff.affect(hero, DamageEnhance.class).set();
+			}
+
 		}
 
 		if (Dungeon.hero.isAlive() && !Dungeon.level.heroFOV[pos]) {
@@ -865,6 +874,10 @@ public abstract class Mob extends Char {
 		//lucky enchant logic
 		if (buff(Lucky.LuckProc.class) != null){
 			Dungeon.level.drop(Lucky.genLoot(), pos).sprite.drop();
+			if (Random.Int(10) < hero.pointsInTalent(Talent.HIDDEN_STASH)) {
+				SmallRation food = new SmallRation();
+				Dungeon.level.drop(food, pos);
+			}
 			Lucky.showFlare(sprite);
 		}
 
