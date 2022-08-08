@@ -19,37 +19,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.rings;
+package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 
-import java.text.DecimalFormat;
+public class ArrowEnhance extends FlavourBuff {
 
-public class RingOfShield extends Ring {
+	public static final float DURATION	= 3f;
 
 	{
-		icon = ItemSpriteSheet.Icons.RING_SHIELD;
+		type = buffType.POSITIVE;
+		announced = true;
 	}
 
-	public String statsInfo() {
-		if (isIdentified()){
-			return Messages.get(this, "stats", 2*soloBuffedBonus());
-		} else {
-			return Messages.get(this, "typical_stats", 2);
-		}
-	}
-	
 	@Override
-	protected RingBuff buff( ) {
-		return new Shield();
+	public int icon() {
+		return BuffIndicator.MARK;
+	}
+
+	@Override
+	public float iconFadePercent() {
+		return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+	}
+
+	@Override
+	public String toString() {
+		return Messages.get(this, "name");
+	}
+
+	@Override
+	public String desc() {
+		return Messages.get(this, "desc", dispTurns());
 	}
 	
-	public static int armorMultiplier( Char target ){
-		return Math.round(1.5f*getBuffedBonus(target, Shield.class));
-	}
-	
-	public class Shield extends RingBuff {
-	}
 }

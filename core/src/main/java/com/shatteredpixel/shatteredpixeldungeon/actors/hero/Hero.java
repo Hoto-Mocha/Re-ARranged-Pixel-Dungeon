@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArrowEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AttackSpeedBuff;
@@ -58,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlessingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterAttack;
@@ -129,6 +131,8 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PoisonParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
@@ -172,13 +176,23 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMi
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFury;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfRush;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSatisfying;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVampire;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
@@ -193,6 +207,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
@@ -1571,6 +1586,11 @@ public class Hero extends Char {
 
 		if (buff(Talent.CounterAttackTracker.class) != null && hero.belongings.weapon == null) {
 			buff(Talent.CounterAttackTracker.class).detach();
+			return 0;
+		}
+
+		if (buff(Talent.MysticalPunchTracker.class) != null && hero.belongings.weapon == null) {
+			buff(Talent.MysticalPunchTracker.class).detach();
 			return 0;
 		}
 
@@ -3728,7 +3748,7 @@ public class Hero extends Char {
 		}
 
 		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && enemy instanceof Mob) {
-			if (((Mob) enemy).surprisedBy(hero) && Random.Int(100) < 3*hero.pointsInTalent(Talent.JAW_STRIKE)) {
+			if (((Mob) enemy).surprisedBy(hero) && Random.Int(10) < hero.pointsInTalent(Talent.JAW_STRIKE)) {
 				Buff.affect(enemy, Paralysis.class, 1f);
 			}
 		}
@@ -3946,14 +3966,144 @@ public class Hero extends Char {
 			Buff.affect(hero, MindVision.class, hero.pointsInTalent(Talent.TRAIL_TRACKING));
 		}
 
-		if (hit && !enemy.isAlive() && Random.Int(10) < 2 * hero.pointsInTalent(Talent.SINGULAR_STRIKE)) {
-			Buff.affect(hero, Talent.SingularStrikeTracker.class);
+		if (hit && hero.belongings.weapon == null && hero.hasTalent(Talent.MYSTICAL_PUNCH)) {
+			if (RingOfAccuracy.getBuffedBonus(this, RingOfAccuracy.Accuracy.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(100) < RingOfAccuracy.getBuffedBonus(this, RingOfAccuracy.Accuracy.class)) {
+					enemy.damage( enemy.HP, this );
+					enemy.sprite.emitter().burst( ShadowParticle.UP, 5 );
+				}
+			}
+			if (RingOfElements.getBuffedBonus(this, RingOfElements.Resistance.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				switch (Random.Int(5)) {
+					case 0: default:
+						Buff.affect(enemy, Burning.class).reignite(enemy);
+						break;
+					case 1:
+						Buff.affect(enemy, Poison.class).set(RingOfElements.getBuffedBonus(this, RingOfElements.Resistance.class));
+						if (Dungeon.level.heroFOV[enemy.pos]) {
+							CellEmitter.center( enemy.pos ).burst( PoisonParticle.SPLASH, 3 );
+						}
+						break;
+					case 2:
+						float durationToAdd = 3f;
+						Chill existing = enemy.buff(Chill.class);
+						if (existing != null){
+							durationToAdd = Math.min(durationToAdd, 6f-existing.cooldown());
+						}
+
+						Buff.affect( enemy, Chill.class, durationToAdd );
+						Splash.at( enemy.sprite.center(), 0xFFB2D6FF, 5);
+						break;
+					case 3:
+						Buff.affect(enemy, Ooze.class).set(Ooze.DURATION/2);
+						enemy.sprite.burst( 0x000000, 5 );
+					case 4:
+						Buff.affect(enemy, Paralysis.class, 2f);
+						enemy.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
+				}
+			}
+			if (RingOfEnergy.getBuffedBonus(this, RingOfEnergy.Energy.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				for (Buff b : hero.buffs()){
+					if (b instanceof Artifact.ArtifactBuff && !((Artifact.ArtifactBuff) b).isCursed() ) {
+						((Artifact.ArtifactBuff) b).charge(hero, 0.2f*RingOfEnergy.getBuffedBonus(this, RingOfEnergy.Energy.class));
+					}
+				}
+				ScrollOfRecharging.charge(hero);
+			}
+			if (RingOfEvasion.getBuffedBonus(this, RingOfEvasion.Evasion.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(25) < RingOfEvasion.getBuffedBonus(this, RingOfEvasion.Evasion.class)) {
+					Buff.affect(hero, EvasiveMove.class, 1f);
+				}
+			}
+			if (RingOfForce.getBuffedBonus(this, RingOfForce.Force.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(3) == 0) {
+					enemy.damage( RingOfForce.getBuffedBonus(this, RingOfForce.Force.class), this );
+				}
+			}
+			if (RingOfFuror.getBuffedBonus(this, RingOfFuror.Furor.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(20) < RingOfFuror.getBuffedBonus(this, RingOfFuror.Furor.class)) {
+					Buff.affect(hero, Talent.MysticalPunchTracker.class);
+				}
+			}
+			if (RingOfFury.getBuffedBonus(this, RingOfFury.Fury.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Float() < (float)((hero.HT-hero.HP)/hero.HT)) {
+					enemy.damage( Math.round(RingOfFury.getBuffedBonus(this, RingOfFury.Fury.class) * RingOfFury.dealingMultiplier( hero )), this );
+				}
+			}
+			if (RingOfHaste.getBuffedBonus(this, RingOfHaste.Haste.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(5) == 0) {
+					Buff.affect(hero, Haste.class, RingOfHaste.getBuffedBonus(this, RingOfHaste.Haste.class));
+				}
+			}
+			if (RingOfMight.getBuffedBonus(this, RingOfMight.Might.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(100) < RingOfMight.getBuffedBonus(this, RingOfMight.Might.class)) {
+					int healAmt = Math.round((hero.HT - hero.HP)/2f);
+					if (healAmt > 0 && hero.isAlive()) {
+						hero.HP += healAmt;
+						hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+						hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+					}
+				}
+			}
+			if (RingOfReload.getBuffedBonus(this, RingOfReload.Reload.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(5) < RingOfReload.getBuffedBonus(this, RingOfReload.Reload.class)) {
+					Buff.prolong(hero, ArrowEnhance.class, ArrowEnhance.DURATION);
+				}
+			}
+			if (RingOfRush.getBuffedBonus(this, RingOfRush.Rush.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(10) < RingOfRush.getBuffedBonus(this, RingOfRush.Rush.class)) {
+					Buff.affect(hero, Talent.MysticalPunchTracker.class);
+				}
+			}
+			if (RingOfSatisfying.getBuffedBonus(this, RingOfSatisfying.Satisfaction.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				Buff.affect(Dungeon.hero, Hunger.class).affectHunger(RingOfSatisfying.getBuffedBonus(this, RingOfSatisfying.Satisfaction.class));
+			}
+			if (RingOfSharpshooting.getBuffedBonus(this, RingOfSharpshooting.Aim.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(20) < RingOfSharpshooting.getBuffedBonus(this, RingOfSharpshooting.Aim.class)) {
+					Buff.prolong(hero, ArrowEnhance.class, ArrowEnhance.DURATION);
+				}
+			}
+			if (RingOfShield.getBuffedBonus(this, RingOfShield.Shield.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(8) == 0) {
+					Buff.affect(hero, Barkskin.class).set(RingOfShield.getBuffedBonus(this, RingOfShield.Shield.class), 1);
+				}
+			}
+			if (RingOfTenacity.getBuffedBonus(this, RingOfTenacity.Tenacity.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(3) == 0) {
+					Buff.affect(hero, Barrier.class).setShield(RingOfTenacity.getBuffedBonus(this, RingOfTenacity.Tenacity.class));
+				}
+			}
+			if (RingOfVampire.getBuffedBonus(this, RingOfVampire.Vampire.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Float() < (float)((hero.HT-hero.HP)/hero.HT)) {
+					int healAmt = 3;
+					healAmt = Math.min( healAmt, hero.HT - hero.HP );
+					if (healAmt > 0 && hero.isAlive()) {
+						hero.HP += healAmt;
+						hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+						hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+					}
+				}
+			}
+			if (RingOfVorpal.getBuffedBonus(this, RingOfVorpal.Vorpal.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(20) < RingOfVorpal.getBuffedBonus(this, RingOfVorpal.Vorpal.class)) {
+					Buff.affect(enemy, Bleeding.class).set(Math.round(RingOfVorpal.getBuffedBonus(this, RingOfVorpal.Vorpal.class)/2f));
+				}
+			}
+			if (RingOfWealth.getBuffedBonus(this, RingOfWealth.Wealth.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
+				if (Random.Int(25) < RingOfWealth.getBuffedBonus(this, RingOfWealth.Wealth.class)) {
+					Buff.affect(enemy, Lucky.LuckProc.class);
+				}
+			}
 		}
 
-		if (hit && enemy.isAlive() && hero.belongings.weapon() == null && hero.buff(Talent.SingularStrikeTracker.class) != null) {
-			Buff.affect(enemy, Vulnerable.class, Vulnerable.DURATION);
-			hero.buff(Talent.SingularStrikeTracker.class).detach();
-		}
+		//if (hit && !enemy.isAlive() && Random.Int(10) < 2 * hero.pointsInTalent(Talent.SINGULAR_STRIKE)) {
+		//	Buff.affect(hero, Talent.SingularStrikeTracker.class);
+		//}
+
+		//if (hit && enemy.isAlive() && hero.belongings.weapon() == null && hero.buff(Talent.SingularStrikeTracker.class) != null) {
+		//	Buff.affect(enemy, Vulnerable.class, Vulnerable.DURATION);
+		//	hero.buff(Talent.SingularStrikeTracker.class).detach();
+		//}
 
 		if (hero.buff(Outlaw.class) != null) {
 			hero.buff(Outlaw.class).detach();

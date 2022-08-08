@@ -128,6 +128,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
@@ -288,7 +289,7 @@ public enum HeroClass {
 		stones.quantity(3).collect();
 		Dungeon.quickslot.setSlot(0, stones);
 
-		if (hero.belongings.armor != null){
+		if (hero.belongings.armor != null) {
 			hero.belongings.armor.affixSeal(new BrokenSeal());
 		}
 
@@ -301,6 +302,8 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 
+		//new TacticalHandgun().identify().collect();
+		//new RingOfMight().identify().upgrade(12).collect();
 		//new Sword().upgrade(2).collect();
 		//new ScrollOfExtract().collect();
 		//new ScrollOfTransmutation().identify().quantity(100).collect();

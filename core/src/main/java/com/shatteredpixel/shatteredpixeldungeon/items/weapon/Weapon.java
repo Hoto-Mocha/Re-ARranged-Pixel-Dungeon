@@ -339,7 +339,7 @@ abstract public class Weapon extends KindOfWeapon {
 		if (hero.hasTalent(Talent.VINE_WHIP) && owner == hero) {
 			reach += hero.pointsInTalent(Talent.VINE_WHIP);
 		}
-		if (hero.hasTalent(Talent.SPEAR_N_SHIELD)) {
+		if (hero.hasTalent(Talent.SPEAR_N_SHIELD) && owner == hero) {
 			switch (hero.pointsInTalent(Talent.SPEAR_N_SHIELD)) {
 				case 1: default:
 					if (hero.buff(KnightsBlocking.class) != null) {

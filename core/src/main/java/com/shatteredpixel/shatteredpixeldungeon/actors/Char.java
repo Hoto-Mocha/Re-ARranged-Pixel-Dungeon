@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArcaneArmor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArrowEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
@@ -141,6 +142,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFrost;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLightning;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
@@ -2066,7 +2072,7 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero && hero.belongings.weapon() instanceof MissileWeapon && hero.hasTalent(Talent.TARGET_SPOTTING) && hero.buff(SnipersMark.class) != null && hero.buff(SnipersMark.class).object == enemy.id()) {
-				dmg *= 1+0.05f*hero.pointsInTalent(Talent.TARGET_SPOTTING);
+				dmg *= 1+0.1f*hero.pointsInTalent(Talent.TARGET_SPOTTING);
 			}
 
 			if (this instanceof Hero && hero.subClass == HeroSubClass.VETERAN && hero.belongings.weapon() instanceof MissileWeapon && hero.pointsInTalent(Talent.FOCUS_UPGRADE) == 3) {
@@ -2078,6 +2084,15 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero && hero.buff(DamageEnhance.class) != null) {
 				dmg *= hero.buff(DamageEnhance.class).getDmg();
+			}
+
+			if (this instanceof Hero && hero.buff(ArrowEnhance.class) != null
+					&& (hero.belongings.weapon() instanceof SpiritBow.SpiritArrow
+						|| hero.belongings.weapon() instanceof GoldenBow.SpiritArrow
+						|| hero.belongings.weapon() instanceof WindBow.SpiritArrow
+						|| hero.belongings.weapon() instanceof PoisonBow.SpiritArrow
+						|| hero.belongings.weapon() instanceof NaturesBow.SpiritArrow)) {
+				dmg *= 1.5f;
 			}
 
 			if (this instanceof Hero) {

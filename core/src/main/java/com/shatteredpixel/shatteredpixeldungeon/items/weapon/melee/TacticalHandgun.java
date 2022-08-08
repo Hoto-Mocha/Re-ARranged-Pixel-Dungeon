@@ -603,6 +603,7 @@ public class TacticalHandgun extends MeleeWeapon {
                 if (target == curUser.pos) {
                     reload();
                 } else {
+                    knockBullet().cast(curUser, target);
                     if (hero.hasTalent(Talent.ROLLING)) {
                         Buff.prolong(hero, EvasionEnhance.class, 3f);
                     }
