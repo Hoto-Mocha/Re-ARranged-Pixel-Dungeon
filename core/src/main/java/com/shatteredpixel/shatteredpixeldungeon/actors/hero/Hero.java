@@ -3968,7 +3968,7 @@ public class Hero extends Char {
 
 		if (hit && hero.belongings.weapon == null && hero.hasTalent(Talent.MYSTICAL_PUNCH)) {
 			if (RingOfAccuracy.getBuffedBonus(this, RingOfAccuracy.Accuracy.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
-				if (Random.Int(100) < RingOfAccuracy.getBuffedBonus(this, RingOfAccuracy.Accuracy.class)) {
+				if (Random.Int(100) < RingOfAccuracy.getBuffedBonus(this, RingOfAccuracy.Accuracy.class) && !(enemy.properties().contains(Property.BOSS) || enemy.properties().contains(Property.MINIBOSS))) {
 					enemy.damage( enemy.HP, this );
 					enemy.sprite.emitter().burst( ShadowParticle.UP, 5 );
 				}
@@ -4021,7 +4021,7 @@ public class Hero extends Char {
 				}
 			}
 			if (RingOfFuror.getBuffedBonus(this, RingOfFuror.Furor.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
-				if (Random.Int(20) < RingOfFuror.getBuffedBonus(this, RingOfFuror.Furor.class)) {
+				if (Random.Int(100) < RingOfFuror.getBuffedBonus(this, RingOfFuror.Furor.class)) {
 					Buff.affect(hero, Talent.MysticalPunchTracker.class);
 				}
 			}
@@ -4037,7 +4037,7 @@ public class Hero extends Char {
 			}
 			if (RingOfMight.getBuffedBonus(this, RingOfMight.Might.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
 				if (Random.Int(100) < RingOfMight.getBuffedBonus(this, RingOfMight.Might.class)) {
-					int healAmt = Math.round((hero.HT - hero.HP)/2f);
+					int healAmt = Math.round((hero.HT - hero.HP)/8f);
 					if (healAmt > 0 && hero.isAlive()) {
 						hero.HP += healAmt;
 						hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
@@ -4051,7 +4051,7 @@ public class Hero extends Char {
 				}
 			}
 			if (RingOfRush.getBuffedBonus(this, RingOfRush.Rush.class) > 0 && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_PUNCH)) {
-				if (Random.Int(10) < RingOfRush.getBuffedBonus(this, RingOfRush.Rush.class)) {
+				if (Random.Int(25) < RingOfRush.getBuffedBonus(this, RingOfRush.Rush.class)) {
 					Buff.affect(hero, Talent.MysticalPunchTracker.class);
 				}
 			}

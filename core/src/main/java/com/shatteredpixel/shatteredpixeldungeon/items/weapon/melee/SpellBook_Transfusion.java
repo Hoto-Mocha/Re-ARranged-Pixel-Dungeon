@@ -68,19 +68,19 @@ public class SpellBook_Transfusion extends MeleeWeapon {
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
 		//chance to heal scales from 5%-30% based on missing HP
-		float missingPercent = (hero.HT - hero.HP) / (float)hero.HT;
+		float missingPercent = (attacker.HT - attacker.HP) / (float)attacker.HT;
 		float procChance = 0.05f + (0.25f+0.01f*buffedLvl())*missingPercent;
 		if (Random.Float() < procChance) {
 
-			//heals for 50% of damage dealt
-			int healAmt = Math.round(damage * 0.5f);
-			healAmt = Math.min( healAmt, hero.HT - hero.HP );
+			//heals for 40% of damage dealt
+			int healAmt = Math.round(damage * 0.4f);
+			healAmt = Math.min( healAmt, attacker.HT - attacker.HP );
 
-			if (healAmt > 0 && hero.isAlive()) {
+			if (healAmt > 0 && attacker.isAlive()) {
 
-				hero.HP += healAmt;
-				hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-				hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				attacker.HP += healAmt;
+				attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+				attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 
 			}
 
