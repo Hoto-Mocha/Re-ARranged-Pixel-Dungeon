@@ -898,7 +898,7 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon instanceof Cross) {
+			if (this instanceof Hero && hero.belongings.weapon() instanceof Cross) {
 				if (enemy.properties().contains(Char.Property.DEMONIC) || enemy.properties().contains(Char.Property.UNDEAD)){
 					enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
 					Sample.INSTANCE.play(Assets.Sounds.BURNING);
@@ -912,7 +912,7 @@ public abstract class Char extends Actor {
 						|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
 						|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet) {
 					int distance = Dungeon.level.distance(hero.pos, enemy.pos) - 1;
-					float multiplier = Math.min(3f, 1.2f * (float)Math.pow(1.125f, distance));
+					float multiplier = Math.min(4f, (float)Math.pow(1.2f, distance + 1));
 					dmg = Math.round(dmg * multiplier);
 				}
 			}

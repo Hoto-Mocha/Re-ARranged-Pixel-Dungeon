@@ -1501,10 +1501,6 @@ public class Hero extends Char {
 			speed *= 1 + 0.05*hero.pointsInTalent(Talent.MOVESPEED_ENHANCE);
 		}
 
-		if (hero.belongings.weapon instanceof TacticalShield) {
-			speed *= 0.5f;
-		}
-
 		if (hero.buff(Riot.riotTracker.class) != null && hero.hasTalent(Talent.HASTE_MOVE)) {
 			speed *= 1f + 0.25f * hero.pointsInTalent(Talent.HASTE_MOVE);
 		}

@@ -166,6 +166,12 @@ public class Generator {
 		WEP_T4		( 0, 0, MeleeWeapon.class),
 		WEP_T5		( 0, 0, MeleeWeapon.class),
 
+		GUN_T1		( 0, 0, MeleeWeapon.class),
+		GUN_T2		( 0, 0, MeleeWeapon.class),
+		GUN_T3		( 0, 0, MeleeWeapon.class),
+		GUN_T4		( 0, 0, MeleeWeapon.class),
+		GUN_T5		( 0, 0, MeleeWeapon.class),
+
 		ARMOR		( 2, 1, Armor.class ),
 		
 		MISSILE 	( 1, 2, MissileWeapon.class ),
@@ -392,7 +398,43 @@ public class Generator {
 					LargeKatana.class,
 					MissileButton.class //may not dropped normally
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 3, 3, 4, 5, 0 };
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 3, 3, 3, 5, 0 };
+
+			GUN_T1.classes = new Class<?>[]{
+					CrudePistol.class
+			};
+			GUN_T1.probs = new float[]{ 1 };
+
+			GUN_T2.classes = new Class<?>[]{
+					Pistol.class,
+					Revolver.class,
+					DualPistol.class
+			};
+			GUN_T2.probs = new float[]{ 2, 1, 1 };
+
+			GUN_T3.classes = new Class<?>[]{
+					GoldenPistol.class,
+					HuntingRifle.class,
+					SubMachinegun.class
+			};
+			GUN_T3.probs = new float[]{ 2, 1, 1 };
+
+			GUN_T4.classes = new Class<?>[]{
+					Handgun.class,
+					Carbine.class,
+					AssultRifle.class
+			};
+			GUN_T4.probs = new float[]{ 2, 1, 1 };
+
+			GUN_T5.classes = new Class<?>[]{
+					Magnum.class,
+					SniperRifle.class,
+					HeavyMachinegun.class,
+					RocketLauncher.class,
+					FlameThrower.class,
+					PlasmaCannon.class
+			};
+			GUN_T5.probs = new float[]{ 6 ,4 ,4, 3, 3, 3 };
 
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
@@ -609,6 +651,14 @@ public class Generator {
 			Category.WEP_T5
 	};
 
+	public static final Category[] gunTiers = new Category[]{
+			Category.GUN_T1,
+			Category.GUN_T2,
+			Category.GUN_T3,
+			Category.GUN_T4,
+			Category.GUN_T5
+	};
+
 	public static MeleeWeapon randomWeapon(){
 		return randomWeapon(Dungeon.depth / 5);
 	}
@@ -618,6 +668,20 @@ public class Generator {
 		floorSet = (int)GameMath.gate(0, floorSet, floorSetTierProbs.length-1);
 		
 		Category c = wepTiers[Random.chances(floorSetTierProbs[floorSet])];
+		MeleeWeapon w = (MeleeWeapon)Reflection.newInstance(c.classes[Random.chances(c.probs)]);
+		w.random();
+		return w;
+	}
+
+	public static MeleeWeapon randomGun(){
+		return randomWeapon(Dungeon.depth / 5);
+	}
+
+	public static MeleeWeapon randomGun(int floorSet) {
+
+		floorSet = (int)GameMath.gate(0, floorSet, floorSetTierProbs.length-1);
+
+		Category c = gunTiers[Random.chances(floorSetTierProbs[floorSet])];
 		MeleeWeapon w = (MeleeWeapon)Reflection.newInstance(c.classes[Random.chances(c.probs)]);
 		w.random();
 		return w;

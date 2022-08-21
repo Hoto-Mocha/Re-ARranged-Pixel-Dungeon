@@ -165,10 +165,10 @@ public class RevolverAP extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -251,7 +251,7 @@ public class RevolverAP extends MeleeWeapon {
     public String info() {
 
         max_round = (magazine) ? 2 : 1;
-        reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (3f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {

@@ -39,7 +39,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Eye;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rebel;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
@@ -214,10 +216,9 @@ public class PlasmaCannonAP extends MeleeWeapon {
     }
 
     public int Bulletmax(int lvl) {
-        return Math.round((7 * (tier + 1) +
+        return Math.round((4 * (tier + 1) +
                 lvl * 4 +
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero))
-                * (1 + (RingOfEnergy.wandChargeMultiplier(Dungeon.hero)-1)/4));
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
     }
 
     @Override
@@ -372,6 +373,14 @@ public class PlasmaCannonAP extends MeleeWeapon {
                 bulletdamage *= 0.5f;
             }
 
+            if (enemy instanceof Eye) {
+                bulletdamage *= 0.5f;
+            }
+
+            if (enemy instanceof Rebel) {
+                bulletdamage *= 0.2f;
+            }
+
             return bulletdamage;
         }
 
@@ -440,7 +449,7 @@ public class PlasmaCannonAP extends MeleeWeapon {
         protected void onThrow(int cell) {
             Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP); //Always Projecting and no distance limit, see MissileWeapon.throwPos
             ArrayList<Char> chars = new ArrayList<>();
-            int maxDist = 10+2*PlasmaCannonAP.curItem.buffedLvl();
+            int maxDist = 6+2*PlasmaCannonAP.curItem.buffedLvl();
             int dist = Math.min(aim.dist, maxDist);
             int cells = aim.path.get(Math.min(aim.dist, dist));
             boolean terrainAffected = false;

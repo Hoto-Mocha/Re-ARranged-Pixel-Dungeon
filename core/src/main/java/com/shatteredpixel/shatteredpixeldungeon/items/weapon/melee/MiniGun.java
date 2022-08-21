@@ -240,7 +240,7 @@ public class MiniGun extends MeleeWeapon {
     }
 
     public int max(int lvl) {
-        return 10;
+        return 20;
     }
 
     public int Bulletmin(int lvl) {

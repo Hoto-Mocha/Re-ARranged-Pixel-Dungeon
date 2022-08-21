@@ -178,7 +178,7 @@ public class Magnum extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = (magazine) ? 5 : 4;
+            max_round = (magazine) ? 4 : 3;
             if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
                 max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
             }
@@ -196,7 +196,7 @@ public class Magnum extends MeleeWeapon {
         Buff.detach(hero, FrostBullet.class);
         Buff.detach(hero, FireBullet.class);
         Buff.detach(hero, ElectroBullet.class);
-        max_round = (magazine) ? 5 : 4;
+        max_round = (magazine) ? 4 : 3;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -220,7 +220,7 @@ public class Magnum extends MeleeWeapon {
         Buff.detach(hero, FrostBullet.class);
         Buff.detach(hero, FireBullet.class);
         Buff.detach(hero, ElectroBullet.class);
-        max_round = (magazine) ? 5 : 4;
+        max_round = (magazine) ? 4 : 3;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -256,7 +256,7 @@ public class Magnum extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = (magazine) ? 5 : 4;
+        max_round = (magazine) ? 4 : 3;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -300,7 +300,7 @@ public class Magnum extends MeleeWeapon {
     @Override
     public String info() {
 
-        max_round = (magazine) ? 5 : 4;
+        max_round = (magazine) ? 4 : 3;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
