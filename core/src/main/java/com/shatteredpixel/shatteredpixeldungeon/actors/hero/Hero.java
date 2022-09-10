@@ -4304,18 +4304,22 @@ public class Hero extends Char {
 			return true;
 		}
 		if (effect == Weakness.class
+				&& hero != null
 				&& hero.hasTalent(Talent.IMMUNE_SYSTEM)) {
 			return true;
 		}
 		if (effect == Vulnerable.class
+				&& hero != null
 				&& hero.hasTalent(Talent.IMMUNE_SYSTEM)) {
 			return true;
 		}
 		if (effect == Poison.class
+				&& hero != null
 				&& hero.pointsInTalent(Talent.IMMUNE_SYSTEM) > 1) {
 			return true;
 		}
 		if (effect == Bleeding.class
+				&& hero != null
 				&& hero.pointsInTalent(Talent.IMMUNE_SYSTEM) == 3) {
 			return true;
 		}

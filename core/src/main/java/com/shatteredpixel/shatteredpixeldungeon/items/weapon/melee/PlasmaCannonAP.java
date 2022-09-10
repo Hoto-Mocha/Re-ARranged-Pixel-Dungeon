@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rebel;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.AmmoBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.APBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
@@ -519,11 +520,20 @@ public class PlasmaCannonAP extends MeleeWeapon {
     private CellSelector.Listener shooter = new CellSelector.Listener() {
         @Override
         public void onSelect( Integer target ) {
+            AmmoBelt.OverHeat overHeat = hero.buff(AmmoBelt.OverHeat.class);
             if (target != null) {
-                if (target == curUser.pos) {
-                    reload();
+                if (overHeat != null && Random.Float() < AmmoBelt.OverHeat.chance) {
+                    usesTargeting = false;
+                    GLog.w(Messages.get(CrudePistol.class, "failed"));
+                    curUser.spendAndNext(Actor.TICK);
                 } else {
-                    knockBullet().cast(curUser, target);
+                    if (target != null) {
+                        if (target == curUser.pos) {
+                            reload();
+                        } else {
+                            knockBullet().cast(curUser, target);
+                        }
+                    }
                 }
             }
         }

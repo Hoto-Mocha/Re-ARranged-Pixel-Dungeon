@@ -68,6 +68,7 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			boolean wasCursed = w.cursed;
 			boolean hadCursedEnchant = w.hasCurseEnchant();
 			boolean hadGoodEnchant = w.hasGoodEnchant();
+			w.isUpgraded = true;
 			if (w.enchantment != null && Random.Int(2) < Dungeon.hero.pointsInTalent(Talent.MAGICAL_TRANSFERENCE)) {
 				if (w.durability() <= 0) {
 					w.fix();

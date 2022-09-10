@@ -26,6 +26,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasionEnhance;
+import com.shatteredpixel.shatteredpixeldungeon.items.AmmoBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -634,13 +635,20 @@ public class DualPistolHP extends MeleeWeapon {
     private CellSelector.Listener shooter = new CellSelector.Listener() {
         @Override
         public void onSelect( Integer target ) {
+            AmmoBelt.OverHeat overHeat = hero.buff(AmmoBelt.OverHeat.class);
             if (target != null) {
-                if (target == curUser.pos) {
-                    reload();
+                if (overHeat != null && Random.Float() < AmmoBelt.OverHeat.chance) {
+                    usesTargeting = false;
+                    GLog.w(Messages.get(CrudePistol.class, "failed"));
+                    curUser.spendAndNext(Actor.TICK);
                 } else {
-                    knockBullet().cast(curUser, target);
-                    if (hero.hasTalent(Talent.ROLLING)) {
-                        Buff.affect(hero, EvasionEnhance.class, 3f);
+                    if (target == curUser.pos) {
+                        reload();
+                    } else {
+                        knockBullet().cast(curUser, target);
+                        if (hero.hasTalent(Talent.ROLLING)) {
+                            Buff.prolong(hero, EvasionEnhance.class, 3f);
+                        }
                     }
                 }
             }

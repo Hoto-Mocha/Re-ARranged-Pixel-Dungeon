@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Sh
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
+import com.shatteredpixel.shatteredpixeldungeon.items.AmmoBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.GammaRayGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
@@ -90,6 +91,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurs
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
@@ -148,12 +151,21 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		//TODO: to delete after testing
+		//new MagicalBullet().quantity(5).collect();
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
 		//new PotionOfExperience().identify().quantity(29).collect();
 		//new ScrollOfMagicMapping().identify().quantity(29).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new ScrollOfUpgrade().identify().quantity(1000).collect();
+		//new CrudePistol().identify().collect();
+		//new CrudePistol().identify().collect();
+		//new CrudePistol().identify().collect();
+		//new CrudePistol().identify().upgrade(1).collect();
+		//new CrudePistol().identify().upgrade(2).collect();
+		//new CrudePistol().identify().upgrade(3).collect();
+		//new CrudePistol().identify().upgrade(4).collect();
+		//new ScrollOfExtract().quantity(20).collect();
 		//new TestWeapon().identify().collect();
 		//new Teleporter().collect();
 		//new PotionOfStrength().identify().quantity(20).collect();
@@ -388,6 +400,8 @@ public enum HeroClass {
 		RingOfReload reload = new RingOfReload();
 		(hero.belongings.ring = reload).identify().upgrade(3);
 		hero.belongings.ring.activate( hero );
+		AmmoBelt ammoBelt = new AmmoBelt();
+		ammoBelt.collect();
 
 		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
 			RingOfWealth wealth = new RingOfWealth();
@@ -396,6 +410,7 @@ public enum HeroClass {
 		}
 
 		Dungeon.quickslot.setSlot(0, crude);
+		Dungeon.quickslot.setSlot(1, ammoBelt);
 
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();

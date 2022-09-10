@@ -47,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.AmmoBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -582,13 +583,20 @@ public class CrudePistol extends MeleeWeapon {
     private CellSelector.Listener shooter = new CellSelector.Listener() {
         @Override
         public void onSelect( Integer target ) {
+            AmmoBelt.OverHeat overHeat = hero.buff(AmmoBelt.OverHeat.class);
             if (target != null) {
-                if (target == curUser.pos) {
-                    reload();
+                if (overHeat != null && Random.Float() < AmmoBelt.OverHeat.chance) {
+                    usesTargeting = false;
+                    GLog.w(Messages.get(CrudePistol.class, "failed"));
+                    curUser.spendAndNext(Actor.TICK);
                 } else {
-                    knockBullet().cast(curUser, target);
-                    if (hero.hasTalent(Talent.ROLLING)) {
-                        Buff.prolong(hero, EvasionEnhance.class, 3f);
+                    if (target == curUser.pos) {
+                        reload();
+                    } else {
+                        knockBullet().cast(curUser, target);
+                        if (hero.hasTalent(Talent.ROLLING)) {
+                            Buff.prolong(hero, EvasionEnhance.class, 3f);
+                        }
                     }
                 }
             }

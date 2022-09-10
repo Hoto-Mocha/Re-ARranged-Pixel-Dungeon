@@ -58,6 +58,7 @@ public class MagicalInfusion extends InventorySpell {
 		Degrade.detach( curUser, Degrade.class );
 
 		if (item instanceof Weapon && ((Weapon) item).enchantment != null) {
+			((Weapon) item).isUpgraded = true;
 			if (item.durability() <= 0) {
 				item.fix();
 			} else {
