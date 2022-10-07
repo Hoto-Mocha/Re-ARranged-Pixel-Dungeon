@@ -89,16 +89,20 @@ public class MeleeWeapon extends Weapon {
 				break; case DAMAGE: info += " " + Messages.get(Weapon.class, "stronger");
 				break; case NONE:
 		}
-		if (enchantment != null && (cursedKnown || !enchantment.curse())) {
-			info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
+		if (enchantment != null && (cursedKnown || !enchantment.curse())){
+			info += "\n\n" + Messages.capitalize(Messages.get(Weapon.class, "enchanted", enchantment.name()));
 			info += " " + enchantment.desc();
 		}
 		if (cursed && isEquipped(Dungeon.hero)) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
 		} else if (cursedKnown && cursed) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed");
-		} else if (!isIdentified() && cursedKnown) {
-			info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
+		} else if (!isIdentified() && cursedKnown){
+			if (enchantment != null && enchantment.curse()) {
+				info += "\n\n" + Messages.get(Weapon.class, "weak_cursed");
+			} else {
+				info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
+			}
 		}
 
 		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown && this.buffedLvl() > 0) {

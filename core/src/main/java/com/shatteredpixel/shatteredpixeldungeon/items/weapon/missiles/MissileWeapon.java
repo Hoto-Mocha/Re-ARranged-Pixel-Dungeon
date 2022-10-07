@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
@@ -403,7 +404,9 @@ abstract public class MissileWeapon extends Weapon {
 		||	this instanceof MissileButton.Rocket) {
 			return dst;
 		} else {
-			if (projecting && !Dungeon.level.solid[dst] && Dungeon.level.distance(user.pos, dst) <= 4){
+			if (projecting
+					&& !Dungeon.level.solid[dst]
+					&& Dungeon.level.distance(user.pos, dst) <= Math.round(4 * RingOfArcana.enchantPowerMultiplier(user))){
 				return dst;
 			} else {
 				return super.throwPos(user, dst);
@@ -412,12 +415,27 @@ abstract public class MissileWeapon extends Weapon {
 	}
 
 	@Override
-	public float accuracyFactor(Char owner) {
-		float accFactor = super.accuracyFactor(owner);
+	public float accuracyFactor(Char owner, Char target) {
+		float accFactor = super.accuracyFactor(owner, target);
 		if (owner instanceof Hero && owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()){
 			accFactor *= 1f + 0.2f*((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM);
 		}
+
+		accFactor *= adjacentAccFactor(owner, target);
+
 		return accFactor;
+	}
+
+	protected float adjacentAccFactor(Char owner, Char target){
+		if (Dungeon.level.adjacent( owner.pos, target.pos )) {
+			if (owner instanceof Hero){
+				return (0.5f + 0.2f*((Hero) owner).pointsInTalent(Talent.POINT_BLANK));
+			} else {
+				return 0.5f;
+			}
+		} else {
+			return 1.5f;
+		}
 	}
 
 	@Override
@@ -511,6 +529,11 @@ abstract public class MissileWeapon extends Weapon {
 			}
 		}
 		return this;
+	}
+
+	public String status() {
+		//show quantity even when it is 1
+		return Integer.toString( quantity );
 	}
 	
 	@Override

@@ -179,7 +179,7 @@ public enum Talent {
 	//Warrior T3
 	HOLD_FAST(11, 3), STRONGMAN(12, 3),
 	//Berserker T3
-	ENDLESS_RAGE(13, 3), BERSERKING_STAMINA(14, 3), ENRAGED_CATALYST(15, 3), LETHAL_RAGE(16, 3), MAX_RAGE(17, 3), ENDURANCE(18, 3),
+	ENDLESS_RAGE(13, 3), DEATHLESS_FURY(14, 3), ENRAGED_CATALYST(15, 3), LETHAL_RAGE(16, 3), MAX_RAGE(17, 3), ENDURANCE(18, 3),
 	//Gladiator T3
 	CLEAVE(19, 3), LETHAL_DEFENSE(20, 3), ENHANCED_COMBO(21, 3), QUICK_SWAP(22, 3), OFFENSIVE_DEFENSE(23, 3), SKILL_ENHANCE(24, 3),
 	//Veteran T3
@@ -354,8 +354,6 @@ public enum Talent {
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.15f, 0.2f, 0.5f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 50); }
-		public String toString() { return Messages.get(this, "name"); }
-		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
 	public static class LethalMomentumTracker extends FlavourBuff{};
 	public static class StrikingWaveTracker extends FlavourBuff{};
@@ -411,16 +409,12 @@ public enum Talent {
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0f, 0.35f, 0.15f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / (15 - 5*Dungeon.hero.pointsInTalent(REJUVENATING_STEPS))); }
-		public String toString() { return Messages.get(this, "name"); }
-		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
 	public static class RejuvenatingStepsFurrow extends CounterBuff{{revivePersists = true;}};
 	public static class SeerShotCooldown extends FlavourBuff{
 		public int icon() { return target.buff(RevealedArea.class) != null ? BuffIndicator.NONE : BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.7f, 0.4f, 0.7f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
-		public String toString() { return Messages.get(this, "name"); }
-		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
 	public static class SpiritBladesTracker extends FlavourBuff{};
 	public static class ChaseCooldown extends FlavourBuff{
@@ -1454,7 +1448,7 @@ public enum Talent {
 		//tier 3
 		switch (cls){
 			case BERSERKER: default:
-				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, ENDLESS_RAGE, BERSERKING_STAMINA, ENRAGED_CATALYST, LETHAL_RAGE, MAX_RAGE, ENDURANCE);
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, ENDLESS_RAGE, DEATHLESS_FURY, ENRAGED_CATALYST, LETHAL_RAGE, MAX_RAGE, ENDURANCE);
 				break;
 			case GLADIATOR:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, CLEAVE, LETHAL_DEFENSE, ENHANCED_COMBO, QUICK_SWAP, OFFENSIVE_DEFENSE, SKILL_ENHANCE);
@@ -1584,7 +1578,6 @@ public enum Talent {
 	}
 
 	public static void restoreTalentsFromBundle( Bundle bundle, Hero hero ){
-		//TODO restore replacements
 		if (bundle.contains("replacements")){
 			Bundle replacements = bundle.getBundle("replacements");
 			for (String key : replacements.getKeys()){

@@ -115,6 +115,7 @@ public class Amulet extends Item {
 				Badges.validateChampion(Challenges.activeChallenges());
 				try {
 					Dungeon.saveAll();
+					Badges.saveGlobal();
 				} catch (IOException e) {
 					ShatteredPixelDungeon.reportException(e);
 				}

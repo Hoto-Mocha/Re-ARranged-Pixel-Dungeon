@@ -336,11 +336,11 @@ public class NaturesBow extends Weapon {
 		}
 		
 		@Override
-		public float accuracyFactor(Char owner) {
+		public float accuracyFactor(Char owner, Char target) {
 			if (sniperSpecial && NaturesBow.this.augment == Augment.DAMAGE){
 				return Float.POSITIVE_INFINITY;
 			} else {
-				return super.accuracyFactor(owner);
+				return super.accuracyFactor(owner, target);
 			}
 		}
 		

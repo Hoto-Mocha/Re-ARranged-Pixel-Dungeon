@@ -48,8 +48,7 @@ public class Unstable extends Weapon.Enchantment {
 			Eldritch.class,
 			Stunning.class,
 			Venomous.class,
-			Vorpal.class,
-			Arcane.class
+			Vorpal.class
 	};
 
 	@Override

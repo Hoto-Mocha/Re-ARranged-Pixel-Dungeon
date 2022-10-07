@@ -331,11 +331,11 @@ public class PoisonBow extends Weapon {
 		}
 		
 		@Override
-		public float accuracyFactor(Char owner) {
+		public float accuracyFactor(Char owner, Char target) {
 			if (sniperSpecial && PoisonBow.this.augment == Augment.DAMAGE){
 				return Float.POSITIVE_INFINITY;
 			} else {
-				return super.accuracyFactor(owner);
+				return super.accuracyFactor(owner, target);
 			}
 		}
 		

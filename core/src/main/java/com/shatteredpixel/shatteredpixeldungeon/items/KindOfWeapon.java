@@ -227,11 +227,11 @@ abstract public class  KindOfWeapon extends EquipableItem {
 		}
 	}
 	
-	public float accuracyFactor( Char owner ) {
+	public float accuracyFactor( Char owner, Char target ) {
 		return 1f;
 	}
 	
-	public float delayFactor(Char owner ) {
+	public float delayFactor( Char owner ) {
 		return 1f;
 	}
 

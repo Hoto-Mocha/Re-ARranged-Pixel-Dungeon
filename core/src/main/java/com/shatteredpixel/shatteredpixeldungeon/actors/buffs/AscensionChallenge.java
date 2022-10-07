@@ -41,41 +41,41 @@ public class AscensionChallenge extends Buff {
 
 	private static HashMap<Class<?extends Mob>, Float> modifiers = new HashMap<>();
 	static {
-		modifiers.put(Rat.class,            14f);
-		modifiers.put(Snake.class,          12f);
-		modifiers.put(Gnoll.class,          12f);
-		modifiers.put(Swarm.class,          10f);
-		modifiers.put(Crab.class,           8f);
-		modifiers.put(Slime.class,          8f);
+		modifiers.put(Rat.class,            18f);
+		modifiers.put(Snake.class,          14f);
+		modifiers.put(Gnoll.class,          14f);
+		modifiers.put(Swarm.class,          12f);
+		modifiers.put(Crab.class,           10f);
+		modifiers.put(Slime.class,          10f);
 
-		modifiers.put(Skeleton.class,       7f);
+		modifiers.put(Skeleton.class,       8f);
 		modifiers.put(Thief.class,          7f);
-		modifiers.put(DM100.class,          6f);
-		modifiers.put(Guard.class,          4.5f);
-		modifiers.put(Necromancer.class,    4.5f);
+		modifiers.put(DM100.class,          6.5f);
+		modifiers.put(Guard.class,          6f);
+		modifiers.put(Necromancer.class,    6f);
 
-		modifiers.put(Bat.class,            4f);
-		modifiers.put(Brute.class,          3.5f);
-		modifiers.put(Shaman.class,         3.5f);
-		modifiers.put(Spinner.class,        2.5f);
-		modifiers.put(DM200.class,          2.5f);
+		modifiers.put(Bat.class,            5f);
+		modifiers.put(Brute.class,          4.5f);
+		modifiers.put(Shaman.class,         4.5f);
+		modifiers.put(Spinner.class,        4f);
+		modifiers.put(DM200.class,          4f);
 
-		modifiers.put(Ghoul.class,          2.25f);
-		modifiers.put(Elemental.class,      2f);
-		modifiers.put(Warlock.class,        1.67f);
-		modifiers.put(Monk.class,           1.67f);
-		modifiers.put(Golem.class,          1.5f);
+		modifiers.put(Ghoul.class,          2.5f);
+		modifiers.put(Elemental.class,      2.5f);
+		modifiers.put(Warlock.class,        2.25f);
+		modifiers.put(Monk.class,           2.25f);
+		modifiers.put(Golem.class,          2f);
 
-		modifiers.put(RipperDemon.class,    1.33f);
-		modifiers.put(Succubus.class,       1.33f);
-		modifiers.put(Eye.class,            1.25f);
-		modifiers.put(Scorpio.class,        1.25f);
+		modifiers.put(RipperDemon.class,    1.5f);
+		modifiers.put(Succubus.class,       1.5f);
+		modifiers.put(Eye.class,            1.33f);
+		modifiers.put(Scorpio.class,        1.33f);
 
 		modifiers.put(Soldier.class,   		1.2f);
 		modifiers.put(Researcher.class,     1.2f);
-		modifiers.put(Supression.class,     1f);
-		modifiers.put(Tank.class,       	1f);
-		modifiers.put(Medic.class,      	1f);
+		modifiers.put(Supression.class,     1.1f);
+		modifiers.put(Tank.class,       	1.1f);
+		modifiers.put(Medic.class,      	1.1f);
 	}
 
 	public static float statModifier(Char ch){
@@ -215,7 +215,7 @@ public class AscensionChallenge extends Buff {
 	}
 
 	public void saySwitch(){
-		if (Dungeon.bossLevel() || Dungeon.depth == 1){
+		if (Dungeon.bossLevel()){
 			GLog.p(Messages.get(this, "break"));
 		} else {
 			if (Dungeon.depth == 1){
@@ -230,10 +230,7 @@ public class AscensionChallenge extends Buff {
 				GLog.n(Messages.get(this, "beckon"));
 			}
 			if (stacks > 10 || stacks > 5 && Dungeon.depth > 20){
-				//english only until the next update
-				if (Messages.lang() == Languages.ENGLISH) {
-					GLog.h(Messages.get(this, "weaken_info"));
-				}
+				GLog.h(Messages.get(this, "weaken_info"));
 			}
 		}
 	}
@@ -282,11 +279,6 @@ public class AscensionChallenge extends Buff {
 		} else {
 			icon.hardlight(1, 0, 0);
 		}
-	}
-
-	@Override
-	public String toString() {
-		return Messages.get(this, "name");
 	}
 
 	@Override

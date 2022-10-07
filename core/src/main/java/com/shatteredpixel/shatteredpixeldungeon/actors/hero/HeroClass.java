@@ -59,18 +59,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.GammaRayGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.HandMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.Teleporter;
-import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
@@ -91,8 +86,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurs
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
@@ -102,10 +95,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.HealingDart;
@@ -565,6 +556,10 @@ public enum HeroClass {
 		return Messages.get(HeroClass.class, name()+"_desc");
 	}
 
+	public String shortDesc(){
+		return Messages.get(HeroClass.class, name()+"_desc_short");
+	}
+
 	public HeroSubClass[] subClasses() {
 		return subClasses;
 	}
@@ -637,84 +632,7 @@ public enum HeroClass {
 				return Assets.Splashes.NURSE;
 		}
 	}
-	
-	public String[] perks() {
-		switch (this) {
-			case WARRIOR: default:
-				return new String[]{
-						Messages.get(HeroClass.class, "warrior_perk1"),
-						Messages.get(HeroClass.class, "warrior_perk2"),
-						Messages.get(HeroClass.class, "warrior_perk3"),
-						Messages.get(HeroClass.class, "warrior_perk4"),
-						Messages.get(HeroClass.class, "warrior_perk5"),
-				};
-			case MAGE:
-				return new String[]{
-						Messages.get(HeroClass.class, "mage_perk1"),
-						Messages.get(HeroClass.class, "mage_perk2"),
-						Messages.get(HeroClass.class, "mage_perk3"),
-						Messages.get(HeroClass.class, "mage_perk4"),
-						Messages.get(HeroClass.class, "mage_perk5"),
-				};
-			case ROGUE:
-				return new String[]{
-						Messages.get(HeroClass.class, "rogue_perk1"),
-						Messages.get(HeroClass.class, "rogue_perk2"),
-						Messages.get(HeroClass.class, "rogue_perk3"),
-						Messages.get(HeroClass.class, "rogue_perk4"),
-						Messages.get(HeroClass.class, "rogue_perk5"),
-				};
-			case HUNTRESS:
-				return new String[]{
-						Messages.get(HeroClass.class, "huntress_perk1"),
-						Messages.get(HeroClass.class, "huntress_perk2"),
-						Messages.get(HeroClass.class, "huntress_perk3"),
-						Messages.get(HeroClass.class, "huntress_perk4"),
-						Messages.get(HeroClass.class, "huntress_perk5"),
-				};
-			case GUNNER:
-				return new String[]{
-						Messages.get(HeroClass.class, "gunner_perk1"),
-						Messages.get(HeroClass.class, "gunner_perk2"),
-						Messages.get(HeroClass.class, "gunner_perk3"),
-						Messages.get(HeroClass.class, "gunner_perk4"),
-						Messages.get(HeroClass.class, "gunner_perk5"),
-				};
-			case SAMURAI:
-				return new String[]{
-						Messages.get(HeroClass.class, "samurai_perk1"),
-						Messages.get(HeroClass.class, "samurai_perk2"),
-						Messages.get(HeroClass.class, "samurai_perk3"),
-						Messages.get(HeroClass.class, "samurai_perk4"),
-						Messages.get(HeroClass.class, "samurai_perk5"),
-				};
-			case PLANTER:
-				return new String[]{
-						Messages.get(HeroClass.class, "planter_perk1"),
-						Messages.get(HeroClass.class, "planter_perk2"),
-						Messages.get(HeroClass.class, "planter_perk3"),
-						Messages.get(HeroClass.class, "planter_perk4"),
-						Messages.get(HeroClass.class, "planter_perk5"),
-				};
-			case KNIGHT:
-				return new String[]{
-						Messages.get(HeroClass.class, "knight_perk1"),
-						Messages.get(HeroClass.class, "knight_perk2"),
-						Messages.get(HeroClass.class, "knight_perk3"),
-						Messages.get(HeroClass.class, "knight_perk4"),
-						Messages.get(HeroClass.class, "knight_perk5"),
-				};
-			case NURSE:
-				return new String[]{
-						Messages.get(HeroClass.class, "nurse_perk1"),
-						Messages.get(HeroClass.class, "nurse_perk2"),
-						Messages.get(HeroClass.class, "nurse_perk3"),
-						Messages.get(HeroClass.class, "nurse_perk4"),
-						Messages.get(HeroClass.class, "nurse_perk5"),
-				};
-		}
-	}
-	
+
 	public boolean isUnlocked(){
 		//always unlock on debug builds
 		if (DeviceCompat.isDebug()) return true;
@@ -742,26 +660,7 @@ public enum HeroClass {
 	}
 	
 	public String unlockMsg() {
-		switch (this){
-			case WARRIOR: default:
-				return "";
-			case MAGE:
-				return Messages.get(HeroClass.class, "mage_unlock");
-			case ROGUE:
-				return Messages.get(HeroClass.class, "rogue_unlock");
-			case HUNTRESS:
-				return Messages.get(HeroClass.class, "huntress_unlock");
-			case GUNNER:
-				return Messages.get(HeroClass.class, "gunner_unlock");
-			case SAMURAI:
-				return Messages.get(HeroClass.class, "samurai_unlock");
-			case PLANTER:
-				return Messages.get(HeroClass.class, "planter_unlock");
-			case KNIGHT:
-				return Messages.get(HeroClass.class, "knight_unlock");
-			case NURSE:
-				return Messages.get(HeroClass.class, "nurse_unlock");
-		}
+		return shortDesc() + "\n\n" + Messages.get(HeroClass.class, name()+"_unlock");
 	}
 
 }

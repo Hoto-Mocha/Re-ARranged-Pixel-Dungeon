@@ -49,9 +49,9 @@ public class Swiftthistle extends Plant {
 	
 	@Override
 	public void activate( Char ch ) {
-		if (ch == Dungeon.hero) {
+		if (ch != null) {
 			Buff.affect(ch, TimeBubble.class).reset();
-			if (((Hero) ch).subClass == HeroSubClass.WARDEN || Dungeon.hero.pointsInTalent(Talent.FARMER) == 3){
+			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN || Dungeon.hero.pointsInTalent(Talent.FARMER) == 3){
 				Buff.affect(ch, Haste.class, 1f);
 			}
 		}
@@ -115,11 +115,6 @@ public class Swiftthistle extends Plant {
 
 
 		@Override
-		public String toString() {
-			return Messages.get(this, "name");
-		}
-		
-		@Override
 		public String desc() {
 			return Messages.get(this, "desc", dispTurns(left));
 		}
@@ -166,6 +161,7 @@ public class Swiftthistle extends Plant {
 
 		@Override
 		public void fx(boolean on) {
+			if (!(target instanceof Hero)) return;
 			Emitter.freezeEmitters = on;
 			if (on){
 				for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {

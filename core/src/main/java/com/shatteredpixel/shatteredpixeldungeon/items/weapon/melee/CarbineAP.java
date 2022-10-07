@@ -459,8 +459,8 @@ public class CarbineAP extends MeleeWeapon {
         }
 
         @Override
-        public float accuracyFactor(Char user) {
-            float accFactor = super.accuracyFactor(user);
+        public float accuracyFactor(Char owner, Char target) {
+            float accFactor = super.accuracyFactor(owner, target);
             if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
                 accFactor += 0.1f * Dungeon.hero.pointsInTalent(Talent.ENHANCED_FOCUSING);
             }

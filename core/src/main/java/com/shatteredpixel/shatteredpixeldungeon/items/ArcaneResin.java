@@ -101,8 +101,7 @@ public class ArcaneResin extends Item {
 
 		@Override
 		public String textPrompt() {
-			//FIXME give this its own prompt string
-			return Messages.get(MagesStaff.class, "prompt");
+			return Messages.get(ArcaneResin.class, "prompt");
 		}
 
 		@Override
