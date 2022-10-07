@@ -1052,7 +1052,7 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero && hero.hasTalent(Talent.VINE_WHIP) && hero.belongings.weapon instanceof MeleeWeapon) {
-				dmg *= 1-0.2f*hero.pointsInTalent(Talent.VINE_WHIP);
+				dmg *= Math.pow(0.8, hero.pointsInTalent(Talent.VINE_WHIP));
 			}
 
 			if (this instanceof Hero && hero.belongings.weapon instanceof IronHammer && Random.Int(20) == 0) {
@@ -2444,8 +2444,8 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (enemy instanceof Hero && hero.hasTalent(Talent.QUICK_RECOVER)) {
-				int healAmt = hero.pointsInTalent(Talent.QUICK_RECOVER);
+			if (enemy instanceof Hero && Random.Int(2) < hero.pointsInTalent(Talent.QUICK_RECOVER)) {
+				int healAmt = 1;
 				healAmt = Math.min( healAmt, hero.HT - hero.HP );
 				if (healAmt > 0 && hero.isAlive()) {
 					hero.HP += healAmt;

@@ -344,13 +344,6 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new GoldenBow();
                     break;
             }
-            n.enchantment = w.enchantment;
-            n.curseInfusionBonus = w.curseInfusionBonus;
-            n.masteryPotionBonus = w.masteryPotionBonus;
-            n.levelKnown = w.levelKnown;
-            n.cursedKnown = w.cursedKnown;
-            n.cursed = w.cursed;
-            n.augment = w.augment;
 
             return n;
 
@@ -366,13 +359,6 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new GoldenBow();
                     break;
             }
-            n.enchantment = w.enchantment;
-            n.curseInfusionBonus = w.curseInfusionBonus;
-            n.masteryPotionBonus = w.masteryPotionBonus;
-            n.levelKnown = w.levelKnown;
-            n.cursedKnown = w.cursedKnown;
-            n.cursed = w.cursed;
-            n.augment = w.augment;
 
             return n;
 
@@ -388,13 +374,6 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new GoldenBow();
                     break;
             }
-            n.enchantment = w.enchantment;
-            n.curseInfusionBonus = w.curseInfusionBonus;
-            n.masteryPotionBonus = w.masteryPotionBonus;
-            n.levelKnown = w.levelKnown;
-            n.cursedKnown = w.cursedKnown;
-            n.cursed = w.cursed;
-            n.augment = w.augment;
 
             return n;
 
@@ -410,13 +389,6 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new GoldenBow();
                     break;
             }
-            n.enchantment = w.enchantment;
-            n.curseInfusionBonus = w.curseInfusionBonus;
-            n.masteryPotionBonus = w.masteryPotionBonus;
-            n.levelKnown = w.levelKnown;
-            n.cursedKnown = w.cursedKnown;
-            n.cursed = w.cursed;
-            n.augment = w.augment;
 
             return n;
 
@@ -432,13 +404,6 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new PoisonBow();
                     break;
             }
-            n.enchantment = w.enchantment;
-            n.curseInfusionBonus = w.curseInfusionBonus;
-            n.masteryPotionBonus = w.masteryPotionBonus;
-            n.levelKnown = w.levelKnown;
-            n.cursedKnown = w.cursedKnown;
-            n.cursed = w.cursed;
-            n.augment = w.augment;
 
             return n;
 
@@ -471,6 +436,7 @@ public class AdvancedEvolution extends InventorySpell {
         n.cursedKnown = w.cursedKnown;
         n.cursed = w.cursed;
         n.augment = w.augment;
+        n.isUpgraded = w.isUpgraded;
 
         return n;
 

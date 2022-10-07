@@ -46,7 +46,7 @@ public class AmmoBelt extends Item {
 		unique = true;
 	}
 
-	private static final String AC_USE = "SHOOT";
+	private static final String AC_USE = "USE";
 
 	@Override
 	public ArrayList<String> actions(Hero hero ) {

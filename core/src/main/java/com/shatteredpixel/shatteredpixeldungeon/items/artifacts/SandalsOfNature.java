@@ -21,11 +21,16 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
@@ -33,6 +38,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
@@ -310,6 +317,10 @@ public class SandalsOfNature extends Artifact {
 		@Override
 		public void onSelect(Integer cell) {
 			if (cell != null){
+				int chargeToUse = seedChargeReqs.get(curSeedEffect);
+				if (Dungeon.hero.hasTalent(Talent.BIO_ENERGY)) {
+					chargeToUse *= 0.67f;
+				}
 				PathFinder.buildDistanceMap(curUser.pos, BArray.not(Dungeon.level.solid,null), 3);
 
 				if (PathFinder.distance[cell] == Integer.MAX_VALUE){
@@ -321,7 +332,23 @@ public class SandalsOfNature extends Artifact {
 					plant.activate(Actor.findChar(cell));
 					Sample.INSTANCE.play(Assets.Sounds.TRAMPLE, 1, Random.Float( 0.96f, 1.05f ) );
 
-					charge -= seedChargeReqs.get(curSeedEffect);
+					if (Dungeon.hero.subClass == HeroSubClass.RESEARCHER) {
+						Buff.affect(Dungeon.hero, Barkskin.class).set((Dungeon.hero.pointsInTalent(Talent.BIO_ENERGY) > 2) ? Math.round(chargeToUse*1.5f) : chargeToUse, 2);
+					}
+
+					if (Dungeon.hero.pointsInTalent(Talent.BIO_ENERGY) > 1) {
+						for (int i : PathFinder.NEIGHBOURS8) {
+							int c = Dungeon.level.map[cell + i];
+							if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+									|| c == Terrain.EMBERS || c == Terrain.GRASS){
+								Level.set(cell + i, Terrain.HIGH_GRASS);
+								GameScene.updateMap(cell+ i);
+								CellEmitter.get( cell + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+							}
+						}
+					}
+
+					charge -= chargeToUse;
 					Talent.onArtifactUsed(Dungeon.hero);
 					updateQuickslot();
 					curUser.spendAndNext(1f);

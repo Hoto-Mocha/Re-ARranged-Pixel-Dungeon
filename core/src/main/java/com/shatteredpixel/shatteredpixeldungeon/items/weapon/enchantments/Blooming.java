@@ -47,7 +47,7 @@ public class Blooming extends Weapon.Enchantment {
 		// lvl 0 - 33%
 		// lvl 1 - 50%
 		// lvl 2 - 60%
-		float procChance = (level+1f)/(level+1f) * procChanceMultiplier(attacker);
+		float procChance = (level+1f)/(level+3f) * procChanceMultiplier(attacker);
 		if (weapon instanceof TrueRunicBlade) {
 			procChance = 1;
 		}

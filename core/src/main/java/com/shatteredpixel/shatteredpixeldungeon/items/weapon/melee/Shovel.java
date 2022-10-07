@@ -100,13 +100,30 @@ public class Shovel extends MeleeWeapon {
 
         GLog.i(Messages.get(this, "dig"));
 
-        for (int i : PathFinder.NEIGHBOURS9) {
-            int c = Dungeon.level.map[hero.pos + i];
-            if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
-                    || c == Terrain.EMBERS || c == Terrain.GRASS){
-                Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
-                GameScene.updateMap(hero.pos + i);
-                CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+        if (hero.subClass == HeroSubClass.RESEARCHER) {
+            for (int i : PathFinder.NEIGHBOURS25) {
+                int c = Dungeon.level.map[hero.pos + i];
+                if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+                        || c == Terrain.EMBERS || c == Terrain.GRASS
+                        || c == Terrain.WATER || c == Terrain.FURROWED_GRASS){
+                    if (Random.Int(8) < 1+hero.pointsInTalent(Talent.ALIVE_GRASS)) {
+                        Level.set(hero.pos + i, Terrain.HIGH_GRASS);
+                    } else {
+                        Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
+                    }
+                    GameScene.updateMap(hero.pos + i);
+                    CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+                }
+            }
+        } else {
+            for (int i : PathFinder.NEIGHBOURS9) {
+                int c = Dungeon.level.map[hero.pos + i];
+                if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+                        || c == Terrain.EMBERS || c == Terrain.GRASS){
+                    Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
+                    GameScene.updateMap(hero.pos + i);
+                    CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+                }
             }
         }
         if (Random.Int(10) < hero.pointsInTalent(Talent.DETECTOR)) {
@@ -122,8 +139,9 @@ public class Shovel extends MeleeWeapon {
             return 4*(tier+1) +
                     lvl*(tier+1) +
                     10 * hero.pointsInTalent(Talent.TAKEDOWN);
-        } else
-        return  4*(tier+1) +
-                lvl*(tier+1);
+        } else {
+            return  4*(tier+1) +
+                    lvl*(tier+1);
+        }
     }
 }

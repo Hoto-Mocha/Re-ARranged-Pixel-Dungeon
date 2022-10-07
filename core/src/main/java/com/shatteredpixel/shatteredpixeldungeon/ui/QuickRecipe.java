@@ -313,7 +313,6 @@ public class QuickRecipe extends Component {
 					parent = parent.parent;
 				}
 			}
-			
 			((AlchemyScene)ShatteredPixelDungeon.scene()).populate(ingredients, Dungeon.hero.belongings);
 		}
 		

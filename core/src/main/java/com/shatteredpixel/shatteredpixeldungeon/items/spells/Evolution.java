@@ -236,6 +236,7 @@ public class Evolution extends InventorySpell {
         n.cursedKnown = w.cursedKnown;
         n.cursed = w.cursed;
         n.augment = w.augment;
+        n.isUpgraded = w.isUpgraded;
 
         return n;
 

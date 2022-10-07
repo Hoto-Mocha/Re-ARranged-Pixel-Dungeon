@@ -71,12 +71,13 @@ public class SpearNShield extends MeleeWeapon {
             } else {
                 if (stance) {
                     stance = false;
+                    GLog.p(Messages.get(this,"change_defense"));
                 } else {
                     stance = true;
+                    GLog.p(Messages.get(this,"change_attack"));
                 }
                 Sample.INSTANCE.play(Assets.Sounds.MISS, 1f, 0.8f);
                 hero.sprite.emitter().burst(Speck.factory(Speck.JET), 5);
-                GLog.p(Messages.get(this,"change"));
             }
         }
     }

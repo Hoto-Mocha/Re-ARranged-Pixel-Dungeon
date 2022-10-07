@@ -77,13 +77,14 @@ public class LanceNShield extends MeleeWeapon {
                     if (hero.buff(LanceBuff.class) != null) {
                         hero.buff(LanceBuff.class).detach();
                     }
+                    GLog.p(Messages.get(this,"change_defense"));
                     stance = false;
                 } else {
+                    GLog.p(Messages.get(this,"change_attack"));
                     stance = true;
                 }
                 Sample.INSTANCE.play(Assets.Sounds.MISS, 1f, 0.8f);
                 hero.sprite.emitter().burst(Speck.factory(Speck.JET), 5);
-                GLog.p(Messages.get(this,"change"));
             }
         }
     }

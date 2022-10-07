@@ -50,7 +50,7 @@ import java.util.HashSet;
 public class Abil_Kunai extends ArmorAbility {
 
 	{
-		baseChargeUse = 100f;
+		baseChargeUse = 75f;
 	}
 
 	@Override

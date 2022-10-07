@@ -76,7 +76,6 @@ public class HeroSelectScene extends PixelScene {
 	private RenderedTextBlock heroName; //only on landscape
 	private RenderedTextBlock heroDesc; //only on landscape
 	private StyledButton startBtn;
-	private IconButton changeButton;
 	private IconButton infoButton;
 	private IconButton btnOptions;
 	private GameOptions optionsPane;
@@ -128,72 +127,6 @@ public class HeroSelectScene extends PixelScene {
 		PixelScene.align(title);
 		add(title);
 
-		changeButton = new IconButton(Icons.get(Icons.CHANGES)) {
-			int change = 0;
-			@Override
-			protected void onClick() {
-				ChangeHero();
-			}
-
-			@Override
-			protected String hoverText() {
-				return Messages.titleCase(Messages.get(HeroSelectScene.class, "change"));
-			}
-
-			@Override
-			public void update() {
-				super.update();
-			}
-
-			private void ChangeHero() {
-				GamesInProgress.selectedClass = null;
-
-				background.visible = false;
-				startBtn.visible = false;
-				infoButton.visible = false;
-				btnOptions.visible = false;
-				optionsPane.visible = false;
-				optionsPane.active = false;
-
-				if (change == 0) change = 1;
-				else if (change == 1) change = 2;
-				else change = 0;
-
-				int btnsToArray = 4;
-				int i = change*btnsToArray;
-
-				for (int j = 0 ; j < heroBtns.size() ; j++) {
-					heroBtns.get(j).destroy();
-				}
-
-				HeroClass[] classes = HeroClass.values();
-
-				int btnWidth = HeroBtn.MIN_WIDTH;
-				int curX = (Camera.main.width - btnWidth * btnsToArray)/2;
-				if (curX > 0) {
-					if (change == 2) {
-						btnWidth += Math.min(curX/2, 15);
-						curX = (Camera.main.width - btnWidth)/2;
-					} else {
-						btnWidth += Math.min(curX/(btnsToArray/2), 15);
-						curX = (Camera.main.width - btnWidth * btnsToArray)/2;
-					}
-				}
-				for (int p = 0 ; p < btnsToArray ; p++) {
-					if (classes.length <= p+i) break;
-					HeroBtn button = new HeroBtn(classes[p+i]);
-					button.setRect(curX, Camera.main.height - HeroBtn.HEIGHT+3, btnWidth, HeroBtn.HEIGHT);
-					curX += btnWidth;
-					add(button);
-					heroBtns.add(button);
-				}
-			}
-		};
-		changeButton.visible = true;
-		changeButton.setPos( 0, 0 );
-		changeButton.setSize(15, 15);
-		add(changeButton);
-
 		startBtn = new StyledButton(Chrome.Type.GREY_BUTTON_TR, ""){
 			@Override
 			protected void onClick() {
@@ -235,24 +168,7 @@ public class HeroSelectScene extends PixelScene {
 		infoButton.setSize(20, 21);
 		add(infoButton);
 
-		HeroClass[] classes = HeroClass.values();
-
-		int btnWidth = HeroBtn.MIN_WIDTH;
-		int curX = (Camera.main.width - btnWidth * 4)/2;
-		if (curX > 0){
-			btnWidth += Math.min(curX/(4/2), 15);
-			curX = (Camera.main.width - btnWidth * 4)/2;
-		}
-
-		//int curX = (Camera.main.width - btnWidth * classes.length)/2;
-		//if (curX > 0){
-		//	btnWidth += Math.min(curX/(classes.length/2), 15);
-		//	curX = (Camera.main.width - btnWidth * classes.length)/2;
-		//}																	//원문
-
-		int heroBtnleft = curX;
 		for (HeroClass cl : HeroClass.values()){
-			if (cl == HeroClass.GUNNER) break; //다음에 배열해야 할 클래스가 거너일 경우 캔슬
 			HeroBtn button = new HeroBtn(cl);
 			add(button);
 			heroBtns.add(button);
@@ -313,14 +229,14 @@ public class HeroSelectScene extends PixelScene {
 			title.setPos( (leftArea - title.width())/2f, (Camera.main.height-uiHeight)/2f);
 			align(title);
 
-			btnWidth = HeroBtn.MIN_WIDTH + 15;
+			int btnWidth = HeroBtn.MIN_WIDTH + 10;
 			int btnHeight = HeroBtn.HEIGHT;
 			if (uiHeight >= 180){
 				btnHeight += 6;
 			}
 
-			int cols = 2;
-			curX = Math.round((leftArea - btnWidth * cols + (cols-1))/2);
+			int cols = 5;
+			float curX = (leftArea - btnWidth * cols + (cols-1))/2f;
 			float curY = title.bottom() + uiSpacing;
 
 			int count = 0;
@@ -383,12 +299,12 @@ public class HeroSelectScene extends PixelScene {
 		} else {
 			background.visible = false;
 
-			btnWidth = HeroBtn.MIN_WIDTH;
+			int btnWidth = HeroBtn.MIN_WIDTH;
 
-			curX = (Camera.main.width - btnWidth * heroBtns.size()) / 2;
+			float curX = (Camera.main.width - btnWidth * heroBtns.size()) / 2f;
 			if (curX > 0) {
 				btnWidth += Math.min(curX / (heroBtns.size() / 2f), 15);
-				curX = (Camera.main.width - btnWidth * heroBtns.size()) / 2;
+				curX = (Camera.main.width - btnWidth * heroBtns.size()) / 2f;
 			}
 			float curY = Camera.main.height - HeroBtn.HEIGHT + 3;
 
@@ -589,8 +505,8 @@ public class HeroSelectScene extends PixelScene {
 
 		private HeroClass cl;
 
-		private static final int MIN_WIDTH = 20;
-		private static final int HEIGHT = 24;
+		private static final int MIN_WIDTH = 16;
+		private static final int HEIGHT = 20;
 
 		HeroBtn ( HeroClass cl ){
 			super(Chrome.Type.GREY_BUTTON_TR, "");
@@ -724,8 +640,8 @@ public class HeroSelectScene extends PixelScene {
 								icon,
 								Messages.get(HeroSelectScene.class, "daily"),
 								diff > 0 ?
-									Messages.get(HeroSelectScene.class, "daily_repeat") :
-									Messages.get(HeroSelectScene.class, "daily_desc"),
+										Messages.get(HeroSelectScene.class, "daily_repeat") :
+										Messages.get(HeroSelectScene.class, "daily_desc"),
 								Messages.get(HeroSelectScene.class, "daily_yes"),
 								Messages.get(HeroSelectScene.class, "daily_no")){
 							@Override
