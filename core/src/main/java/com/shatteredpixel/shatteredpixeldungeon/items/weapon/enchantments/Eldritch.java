@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite.Glowing;
@@ -54,7 +55,7 @@ public class Eldritch extends Weapon.Enchantment {
 				Buff.prolong( defender, Terror.class, Terror.DURATION/4 );
 			} else {
 				//damage will reduce by 5 turns, so effectively 10 turns of terror
-				Buff.prolong( defender, Terror.class, 10f + 5f ).object = attacker.id();
+				Buff.prolong( defender, Terror.class, 10f*RingOfArcana.enchantPowerMultiplier(attacker) + 5f ).object = attacker.id();
 			}
 
 		}

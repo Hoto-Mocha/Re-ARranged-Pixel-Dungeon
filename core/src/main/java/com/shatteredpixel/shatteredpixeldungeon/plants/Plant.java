@@ -85,10 +85,6 @@ public abstract class Plant implements Bundlable {
 			Buff.affect(Dungeon.hero, Barkskin.class).set(2, 1 + 2*(Dungeon.hero.pointsInTalent(Talent.NATURES_AID)));
 		}
 
-		if (Dungeon.level.heroFOV[pos] && Dungeon.hero.hasTalent(Talent.NATURES_PROTECTION)){
-			Buff.affect(Dungeon.hero, Barrier.class).setShield(2 + 3 * Dungeon.hero.pointsInTalent(Talent.NATURES_PROTECTION));
-		}
-
 		wither();
 		activate( ch );
 	}

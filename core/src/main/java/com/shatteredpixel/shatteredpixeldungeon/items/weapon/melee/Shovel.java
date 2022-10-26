@@ -32,12 +32,17 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShovelDigCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.Root;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
@@ -92,6 +97,16 @@ public class Shovel extends MeleeWeapon {
         }
     }
 
+    @Override
+    public int proc(Char attacker, Char defender, int damage) {
+        if (((Hero)attacker).subClass == HeroSubClass.TREASUREHUNTER && damage >= defender.HP) {
+            if (Random.Float() < (0.1f+0.04f*level()) * (1 + 0.5f * hero.pointsInTalent(Talent.FINDING_TREASURE))) {
+                Buff.affect(defender, Lucky.LuckProc.class);
+            }
+        }
+        return super.proc( attacker, defender, damage );
+    }
+
     public void Dig() {
         curUser.spend(Actor.TICK);
         curUser.busy();
@@ -111,6 +126,10 @@ public class Shovel extends MeleeWeapon {
                     } else {
                         Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
                     }
+                    Char enemy = Actor.findChar( hero.pos + i );
+                    if (enemy instanceof Mob && hero.hasTalent(Talent.ROOT)) {
+                        Buff.affect(enemy, Roots.class, 1+hero.pointsInTalent(Talent.ROOT));
+                    }
                     GameScene.updateMap(hero.pos + i);
                     CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
                 }
@@ -121,6 +140,10 @@ public class Shovel extends MeleeWeapon {
                 if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
                         || c == Terrain.EMBERS || c == Terrain.GRASS){
                     Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
+                    Char enemy = Actor.findChar( hero.pos + i );
+                    if (enemy instanceof Mob && hero.hasTalent(Talent.ROOT)) {
+                        Buff.affect(enemy, Roots.class, 1+hero.pointsInTalent(Talent.ROOT));
+                    }
                     GameScene.updateMap(hero.pos + i);
                     CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
                 }
@@ -138,7 +161,7 @@ public class Shovel extends MeleeWeapon {
         if (hero.hasTalent(Talent.TAKEDOWN) && hero.buff(Talent.TakeDownCooldown.class) == null) {
             return 4*(tier+1) +
                     lvl*(tier+1) +
-                    10 * hero.pointsInTalent(Talent.TAKEDOWN);
+                    15 * hero.pointsInTalent(Talent.TAKEDOWN);
         } else {
             return  4*(tier+1) +
                     lvl*(tier+1);

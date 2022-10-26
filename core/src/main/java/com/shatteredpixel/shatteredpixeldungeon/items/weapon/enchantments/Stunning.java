@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite.Glowing;
@@ -46,7 +47,7 @@ public class Stunning extends Weapon.Enchantment {
 			procChance = (1/5f + level/100f) * procChanceMultiplier(attacker);
 		}
 		if (Random.Float() < procChance) {
-			Buff.prolong( defender, Paralysis.class, 1f );
+			Buff.prolong( defender, Paralysis.class, 1f*RingOfArcana.enchantPowerMultiplier(attacker) );
 			defender.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 12 );
 		}
 

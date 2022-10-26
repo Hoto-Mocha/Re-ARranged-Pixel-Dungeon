@@ -287,7 +287,7 @@ public enum Talent {
 	KUNAI_OF_DOOM(242, 4), MYSTICAL_KUNAI(243, 4), POISONED_KUNAI(244, 4),
 
 	//Planter T1
-	FLOWER_BERRY(246), ADVENTURERS_INTUITION(247), SWING(248), NATURES_PROTECTION(249), SEED_EATING(250),
+	FLOWER_BERRY(246), ADVENTURERS_INTUITION(247), ROOT(248), NATURES_PROTECTION(249), SEED_EATING(250),
 	//Planter T2
 	NATURAL_MEAL(251), HERBAL_HEALING(252), SPROUT(253), VINE(254), MASS_PRODUCTION(255), NEUROTOXIN(256),
 	//Planter T3
@@ -451,7 +451,7 @@ public enum Talent {
 	public static class TakeDownCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 15); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
@@ -1336,7 +1336,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	CRITICAL_MEAL, MASTERS_INTUITION, UNEXPECTED_SLASH, FLOW_AWAY, ADRENALINE_SURGE);
 				break;
 			case PLANTER:
-				Collections.addAll(tierTalents,	FLOWER_BERRY, ADVENTURERS_INTUITION, SWING, NATURES_PROTECTION, SEED_EATING);
+				Collections.addAll(tierTalents,	FLOWER_BERRY, ADVENTURERS_INTUITION, ROOT, NATURES_PROTECTION, SEED_EATING);
 				break;
 			case KNIGHT:
 				Collections.addAll(tierTalents,	ON_ALERT, KNIGHTS_INTUITION, BATTLE_STIM, ACTIVE_BARRIER, WAR_CRY);

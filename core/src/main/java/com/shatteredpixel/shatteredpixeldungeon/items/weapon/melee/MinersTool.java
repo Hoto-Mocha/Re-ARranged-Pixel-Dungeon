@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.WellWater;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MinersToolCoolDown;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShovelDigCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -97,6 +98,11 @@ public class MinersTool extends MeleeWeapon {
 		procChance = (level+1f)/(level+8f);
 		if (Random.Float() < procChance) {
 			Buff.prolong(defender, Vulnerable.class, 5f);
+		}
+		if (((Hero)attacker).subClass == HeroSubClass.TREASUREHUNTER && damage >= defender.HP) {
+			if (Random.Float() < (0.1f+0.04f*level()) * (1 + 0.5f * hero.pointsInTalent(Talent.FINDING_TREASURE))) {
+				Buff.affect(defender, Lucky.LuckProc.class);
+			}
 		}
 		return super.proc( attacker, defender, damage );
 	}
@@ -207,6 +213,10 @@ public class MinersTool extends MeleeWeapon {
 					} else {
 						Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
 					}
+					Char enemy = Actor.findChar( hero.pos + i );
+					if (enemy instanceof Mob && hero.hasTalent(Talent.ROOT)) {
+						Buff.affect(enemy, Roots.class, 1+hero.pointsInTalent(Talent.ROOT));
+					}
 					GameScene.updateMap(hero.pos + i);
 					CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
 				}
@@ -217,6 +227,10 @@ public class MinersTool extends MeleeWeapon {
 				if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
 						|| c == Terrain.EMBERS || c == Terrain.GRASS){
 					Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
+					Char enemy = Actor.findChar( hero.pos + i );
+					if (enemy instanceof Mob && hero.hasTalent(Talent.ROOT)) {
+						Buff.affect(enemy, Roots.class, 1+hero.pointsInTalent(Talent.ROOT));
+					}
 					GameScene.updateMap(hero.pos + i);
 					CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
 				}
@@ -234,7 +248,7 @@ public class MinersTool extends MeleeWeapon {
 		if (hero.hasTalent(Talent.TAKEDOWN) && hero.buff(Talent.TakeDownCooldown.class) == null) {
 			return 4*(tier+1) +
 					lvl*(tier+1) +
-					10 * hero.pointsInTalent(Talent.TAKEDOWN);
+					15 * hero.pointsInTalent(Talent.TAKEDOWN);
 		} else
 			return  4*(tier+1) +
 					lvl*(tier+1);

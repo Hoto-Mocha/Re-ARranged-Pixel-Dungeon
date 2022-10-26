@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -49,11 +50,9 @@ public class Shiny extends Weapon.Enchantment {
 			procChance = (level+1f)/(level+5f) * procChanceMultiplier(attacker);
 		}
 		if (Random.Float() < procChance) {
-
-			Buff.prolong( defender, Blindness.class, Random.Float( 1f, 1f + level ) );
-			Buff.prolong( defender, Cripple.class, Random.Float( 1f, 1f + level/2f ) );
+			Buff.prolong( defender, Blindness.class, Random.Float( 1f, (1f + level) * RingOfArcana.enchantPowerMultiplier(attacker) ) );
+			Buff.prolong( defender, Cripple.class, Random.Float( 1f, (1f + level/2f) * RingOfArcana.enchantPowerMultiplier(attacker) ) );
 			defender.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
-
 		}
 
 		return damage;

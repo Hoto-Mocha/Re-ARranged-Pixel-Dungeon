@@ -2399,6 +2399,11 @@ public class Hero extends Char {
 			charm.ignoreHeroAllies = true;
 			enemy.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 3 );
 		}
+
+		if (hero.hasTalent(Talent.NATURES_PROTECTION) && (Dungeon.level.map[hero.pos] == Terrain.HIGH_GRASS || Dungeon.level.map[hero.pos] == Terrain.FURROWED_GRASS)) {
+			damage *= (1-0.1f*hero.pointsInTalent(Talent.NATURES_PROTECTION));
+			damage -= hero.pointsInTalent(Talent.NATURES_PROTECTION);
+		}
 		
 		return super.defenseProc( enemy, damage );
 	}
@@ -4118,14 +4123,6 @@ public class Hero extends Char {
 				amount *= 1+hero.pointsInTalent(Talent.GOLD_MINER);
 			}
 			Dungeon.level.drop( new Gold(amount), enemy.pos ).sprite.drop();
-		}
-
-		if (hero.subClass == HeroSubClass.TREASUREHUNTER
-				&& hit
-				&& !enemy.isAlive()
-				&& Random.Int(100) < (int)(10+4*hero.belongings.weapon.buffedLvl()) * (1 + 0.5f * hero.pointsInTalent(Talent.FINDING_TREASURE))
-				&& (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
-			Buff.affect(enemy, Lucky.LuckProc.class);
 		}
 
 		if (hit && Random.Int(10) < hero.pointsInTalent(Talent.EARTHQUAKE) && level.adjacent(hero.pos, enemy.pos) && hero.belongings.weapon() instanceof MeleeWeapon) {

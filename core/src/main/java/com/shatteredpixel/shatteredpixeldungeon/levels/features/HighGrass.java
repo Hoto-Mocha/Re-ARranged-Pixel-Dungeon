@@ -28,7 +28,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Swing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -158,9 +157,6 @@ public class HighGrass {
 			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
 				Buff.prolong(Dungeon.hero, Invisibility.class, Dungeon.hero.pointsInTalent(Talent.CAMOUFLAGE));
 				Sample.INSTANCE.play( Assets.Sounds.MELD );
-			}
-			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.SWING)) {
-				Buff.prolong(Dungeon.hero, Swing.class, 1.001f+Dungeon.hero.pointsInTalent(Talent.SWING));
 			}
 		}
 		

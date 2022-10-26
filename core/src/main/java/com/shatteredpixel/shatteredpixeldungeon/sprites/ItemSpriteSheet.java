@@ -902,7 +902,7 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 14);
 	}
 
-	private static final int NEW_ELIXIRS = 								xy(1, 44);  //16 slots
+	private static final int NEW_ELIXIRS = 								xy(1, 45);  //16 slots
 	public static final int ELIXIR_HEALTH      = NEW_ELIXIRS+0;
 
 	static{

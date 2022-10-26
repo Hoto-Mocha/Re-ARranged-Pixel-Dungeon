@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -50,7 +51,7 @@ public class Vorpal extends Weapon.Enchantment {
 		}
 		if (Random.Float() < procChance) {
 
-			Buff.affect(defender, Bleeding.class).set(damage/10f);
+			Buff.affect(defender, Bleeding.class).set((damage/10f) * RingOfArcana.enchantPowerMultiplier(attacker));
 			Splash.at( defender.sprite.center(), -PointF.PI / 2, PointF.PI / 6,
 					defender.sprite.blood(), 10 );
 

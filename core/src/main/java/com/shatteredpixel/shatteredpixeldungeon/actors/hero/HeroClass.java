@@ -95,6 +95,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetributio
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
@@ -169,16 +170,14 @@ public enum HeroClass {
 		//new ScrollOfMagicMapping().identify().quantity(29).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new ScrollOfUpgrade().identify().quantity(1000).collect();
-		//new LanceNShield().identify().collect();
-		//new SpearNShield().identify().collect();
 		//new ScrollOfExtract().quantity(20).collect();
 		//new TestWeapon().identify().collect();
-		//new ArcaneResin().quantity(4).collect();
 		//new Teleporter().collect();
 		//new PotionOfStrength().identify().quantity(20).collect();
 		//new Cross().collect();
 		//new ScrollOfTransmutation().identify().quantity(1000).collect();
 		//new Evolution().quantity(100).collect();
+		//new AdvancedEvolution().quantity(20).collect();
 		//new AlchemistsToolkit().upgrade(10).identify().collect();
 		//new RingOfRush().identify().upgrade(50).collect();
 		//new ThrowingStone().identify().quantity(100).collect();

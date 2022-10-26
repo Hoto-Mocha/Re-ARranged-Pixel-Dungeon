@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PoisonParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite.Glowing;
@@ -50,7 +51,7 @@ public class Venomous extends Weapon.Enchantment {
 		}
 		if (Random.Float() < procChance) {
 			
-			Buff.affect( defender, Poison.class ).extend( ((level/2) + 1) );
+			Buff.affect( defender, Poison.class ).extend( ((level/2) + 1) * RingOfArcana.enchantPowerMultiplier(attacker) );
 			CellEmitter.center(defender.pos).burst( PoisonParticle.SPLASH, 5 );
 
 		}
