@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath 'com.android.tools.build:gradle:7.3.1'
     }
 }
 
@@ -14,8 +14,8 @@ allprojects {
         appName = 'ARranged Pixel Dungeon'
         appPackageName = 'com.arrangedpixel.arrangedpixeldungeon'
 
-        appVersionCode = 695
-        appVersionName = '1.4.0_based_2.34.0'
+        appVersionCode = 696
+        appVersionName = '1.4.3_based_2.35.0'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 

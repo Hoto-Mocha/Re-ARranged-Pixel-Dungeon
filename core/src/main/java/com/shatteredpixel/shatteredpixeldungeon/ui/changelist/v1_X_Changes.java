@@ -236,9 +236,77 @@ public class v1_X_Changes {
 	}
 
 	public static void add_v1_4_Changes( ArrayList<ChangeInfo> changeInfos ) {
-		ChangeInfo changes = new ChangeInfo("v1.4-BETA", true, "");
+		ChangeInfo changes = new ChangeInfo("v1.4", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
+
+		changes = new ChangeInfo("v1.4.3 & v1.4.2", false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes") + " v1.4.3",
+				"Fixed (caused by v1.4.2)\n" +
+				"_-_ Crashes with bright fist and shock elemental\n" +
+				"_-_ Rare crashes caused by spectral necromancers\n\n" +
+				"Fixed (existed prior to v1.4)\n" +
+				"_-_ Various rare audiovisual errors\n" +
+				"_-_ Rare crashes with radial inventory selector\n" +
+				"_-_ Boss health bar not appearing in rare cases\n" +
+				"_-_ Buff icons sometimes going outside of character info windows"));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.BUFFS), "Balance Tweaks",
+				"I've made a few balance tweaks to things that were added/changed in v1.4.0:\n\n" +
+				"_- Sandals of Nature_ energy costs reduced by 20%\n" +
+				"_- Sandals of Nature_ seeds needed to upgrade reverted to 3/6/9 from 4/7/10\n\n" +
+				"_- Blocking_ proc rate scaling with weapon level reduced by 50%\n\n" +
+				"_- Empowered Strike_ special effect boost up to 50% per level, from 33%\n" +
+				"_- Deathless Fury_ cooldown reduced to 3/2/1 levels, from 4/3/2"));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"_-_ The buff bar now condenses itself if many buffs are visible at once. This raises the limit of on-screen buffs to 15.\n\n" +
+				"_-_ Plants now trigger after time freeze ends, just like traps\n\n" +
+				"_-_ Clarified description for boss score in rankings\n" +
+				"_-_ Yog's laser now deducts score even if the hero dodges it\n" +
+				"_-_ Goo no longer deducts score by healing in water\n\n" +
+				"_-_ Added lullaby vfx to the stone of deep sleep\n\n" +
+				"_-_ The sandals of nature now include the name of the most recently fed seed in their description\n\n" +
+				"_-_ Updated translations and translator credits"));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes") + " v1.4.2",
+				"Fixed (caused by v1.4)\n" +
+				"_-_ Various rare crash bugs\n" +
+				"_-_ Various errors and inconsistencies with trampling hero's own position\n\n" +
+				"Fixed (existed prior to v1.4)\n" +
+				"_-_ Various rare crash bugs\n" +
+				"_-_ Various rare audiovisual errors\n" +
+				"_-_ Goo Immediately using its pump up attack if a previous pump up was interrupted by sleep\n" +
+				"_-_ Caves boss arena not displacing all items on the tile that caves in\n" +
+				"_-_ Recharging effects sometimes getting an extra action on game load\n" +
+				"_-_ Screen orientation changes cancelling the scroll of enchantment\n" +
+				"_-_ Magical infusion incorrectly clearing curses on wands and rings\n" +
+				"_-_ Projecting weapons not reaching through webs in rare cases\n" +
+				"_-_ Death by necromancer summoning damage not producing a record in rankings"));
+
+		changes = new ChangeInfo("v1.4.1", false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"Fixed (caused by v1.4)\n" +
+				"_-_ Various minor visual and textual errors\n" +
+				"_-_ Blooming enchantment triggering more often than intended\n" +
+				"_-_ Errors with charge use on timekeeper's hourglass\n" +
+				"_-_ Some changes missing from v1.4 changelog\n\n" +
+				"Fixed (existed prior to v1.4)\n" +
+				"_-_ Multiplicity glyph duplicating NPCs in rare cases\n" +
+				"_-_ Rare cases where potion of healing talents wouldn't trigger\n" +
+				"_-_ Cursed horn of plenty affecting non-food items\n" +
+				"_-_ Being able to self-target with cursed wands in rare cases\n" +
+				"_-_ Some thrown weapons triggering traps as Tengu jumps\n" +
+				"_-_ Magic resistance not applying to some cursed wand effects\n" +
+				"_-_ Some users seeing rankings dates in local format, instead of international\n" +
+				"_-_ Exploits during ascension challenge that let players still use shops\n" +
+				"_-_ Elastic and battlemage blast wave ability conflicting with each other"));
 
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "new"), false, null);
 		changes.hardlight(Window.TITLE_COLOR);
@@ -295,9 +363,10 @@ public class v1_X_Changes {
 		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc") + " 1",
 				"_-_ Daily runs can now be replayed for practise\n" +
 				"_-_ Waiting now always takes exactly 1 turn, regardless of hero speed\n" +
-				"_-_ Hero can now trample grass and trigger traps they are standing on by waiting\n" +
+				"_-_ Grass the hero is standing on can now be trampled by selecting the hero's position\n" +
 				"_-_ Hero now pauses before ascending/descending if enemies are nearby\n" +
 				"_-_ Goo's pump up attack now always gives the hero at least 1 action to react\n" +
+				"_-_ DM-300 now knocks back during rockfall even if hero is 1 tile away\n" +
 				"_-_ Improved behaviour of ally AI when told to hold a position\n" +
 				"_-_ Slightly adjusted enemy stats on ascension to smooth out difficulty\n" +
 				"_-_ Rotberry plant now gives a small puff of toxic gas when trampled\n" +
@@ -330,7 +399,9 @@ public class v1_X_Changes {
 				"_-_ Various rare crash and hang bugs\n" +
 				"_-_ Various minor visual/textual errors\n" +
 				"_-_ Characters rarely managing to enter eternal fire\n" +
+				"_-_ Summons from guardian traps counting as regular states in some cases\n" +
 				"_-_ Invisibility effects not working on enemies\n" +
+				"_-_ Rare cases where giant enemies couldn't attack\n" +
 				"_-_ Confusing text when a weapon or armor is partly uncursed\n" +
 				"_-_ 'No Weapons in His Presence' badge not stating that ring of force counts as a weapon\n" +
 				"_-_ Various cases where the friendly fire badge was not correctly awarded\n" +
@@ -350,6 +421,8 @@ public class v1_X_Changes {
 				"_-_ Cursed rings of force still heavily buffing melee attacks\n" +
 				"_-_ Controller axis mapping issues on Android\n" +
 				"_-_ Armband not breaking invisibility\n" +
+				"_-_ Various quirks with charge spending on timekeeper's hourglass\n" +
+				"_-_ Stones of aggression working much more effectively than intended\n" +
 				"_-_ Various rare fog of war errors when the hero was knocked a high distance\n" +
 				"_-_ Chalice of Blood benefitting from recharging while hero is starving\n" +
 				"_-_ Cases where explosive curse would create explosions at the wrong location\n" +
@@ -404,7 +477,7 @@ public class v1_X_Changes {
 		changeInfos.add(changes);
 
 		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.EXOTIC_GYFU), new ScrollOfAntiMagic().trueName(),
-				"Antimagic now also suppresses the positive effects of scrolls and artifacts while it is applied to the hero." ));
+				"Antimagic now also suppresses the positive effects of rings and artifacts while it is applied to the hero." ));
 
 	}
 

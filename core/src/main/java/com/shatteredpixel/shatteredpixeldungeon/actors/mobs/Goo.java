@@ -102,9 +102,12 @@ public class Goo extends Mob {
 	@Override
 	public boolean act() {
 
+		if (state != HUNTING){
+			pumpedUp = 0;
+		}
+
 		if (Dungeon.level.water[pos] && HP < HT) {
 			HP += healInc;
-			Statistics.bossScores[0] -= 10;
 			Statistics.qualifiedForBossChallengeBadge = false;
 
 			LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
@@ -295,8 +298,8 @@ public class Goo extends Mob {
 		if (Statistics.qualifiedForBossChallengeBadge){
 			Badges.validateBossChallengeCompleted();
 		}
-		Statistics.bossScores[0] += 1050; //Goo has a 50 point gimme
-		Statistics.bossScores[0] = Math.min(1000, Statistics.bossScores[0]);
+
+		Statistics.bossScores[0] += 1000;
 
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
 		if (beacon != null) {
