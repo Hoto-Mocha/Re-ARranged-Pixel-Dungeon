@@ -548,10 +548,6 @@ public class Hero extends Char {
 			Buff.affect( this, Combo.class ).hit( enemy );
 		}
 
-		if (hit && subClass == HeroSubClass.SLASHER){
-			Buff.affect( this, SerialAttack.class ).hit( enemy );
-		}
-
 		return hit;
 	}
 

@@ -308,10 +308,10 @@ public class Combo extends Buff implements ActionIndicator.Action {
 				dmgMulti = 0;
 				break;
 			case SLAM:
-				dmgBonus = Math.round(target.drRoll() * count + hero.pointsInTalent(Talent.SKILL_ENHANCE) / 5f);
+				dmgBonus = Math.round(target.drRoll() * (count + hero.pointsInTalent(Talent.SKILL_ENHANCE)) / 5f);
 				break;
 			case CRUSH:
-				dmgMulti = 0.25f * count + hero.pointsInTalent(Talent.SKILL_ENHANCE);
+				dmgMulti = 0.25f * (count + hero.pointsInTalent(Talent.SKILL_ENHANCE));
 				break;
 			case FURY:
 				dmgMulti = 0.6f;

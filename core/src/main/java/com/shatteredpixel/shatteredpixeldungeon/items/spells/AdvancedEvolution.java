@@ -344,9 +344,6 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new GoldenBow();
                     break;
             }
-
-            return n;
-
         } else if (w instanceof WindBow) {
             switch (Random.Int(3)) {
                 case 0: default:
@@ -359,9 +356,6 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new GoldenBow();
                     break;
             }
-
-            return n;
-
         } else if (w instanceof NaturesBow) {
             switch (Random.Int(3)) {
                 case 0: default:
@@ -374,9 +368,6 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new GoldenBow();
                     break;
             }
-
-            return n;
-
         } else if (w instanceof PoisonBow) {
             switch (Random.Int(3)) {
                 case 0: default:
@@ -389,9 +380,6 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new GoldenBow();
                     break;
             }
-
-            return n;
-
         } else if (w instanceof GoldenBow) {
             switch (Random.Int(3)) {
                 case 0: default:

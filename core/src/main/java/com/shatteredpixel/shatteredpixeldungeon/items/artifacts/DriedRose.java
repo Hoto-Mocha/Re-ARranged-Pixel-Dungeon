@@ -312,7 +312,7 @@ public class DriedRose extends Artifact {
 			 || weapon instanceof TacticalHandgunHP
 			 || weapon instanceof AutoHandgun
 			 || weapon instanceof AutoHandgunAP
-			 || weapon instanceof AutoHandgunHP) { desc += "\n\n" + Messages.get(this, "desc_handgun", weapon.toString()); }
+			 || weapon instanceof AutoHandgunHP) { desc += "\n\n" + Messages.get(this, "desc_handgun", weapon.title()); }
 			if (weapon instanceof DualPistol
 			 || weapon instanceof DualPistolAP
 			 || weapon instanceof DualPistolHP
@@ -330,7 +330,7 @@ public class DriedRose extends Artifact {
 			 || weapon instanceof MiniGunHP
 			 || weapon instanceof AutoRifle
 			 || weapon instanceof AutoRifleAP
-			 || weapon instanceof AutoRifleHP) { desc += "\n\n" + Messages.get(this, "desc_machinegun", weapon.toString()); }
+			 || weapon instanceof AutoRifleHP) { desc += "\n\n" + Messages.get(this, "desc_machinegun", weapon.title()); }
 			if (weapon instanceof Revolver
 			 || weapon instanceof RevolverAP
 			 || weapon instanceof RevolverHP
@@ -351,7 +351,7 @@ public class DriedRose extends Artifact {
 			 || weapon instanceof MarksmanRifleHP
 			 || weapon instanceof WA2000
 			 || weapon instanceof WA2000AP
-			 || weapon instanceof WA2000HP) { desc += "\n\n" + Messages.get(this, "desc_sniper", weapon.toString()); }
+			 || weapon instanceof WA2000HP) { desc += "\n\n" + Messages.get(this, "desc_sniper", weapon.title()); }
 		}
 
 		if (weapon != null || armor != null) {
@@ -761,6 +761,7 @@ public class DriedRose extends Artifact {
 				isHandGun = false;
 				isMachineGun = false;
 				isSniper = true;
+				isGun = true;
 			} else {
 				isGun = false;
 			}

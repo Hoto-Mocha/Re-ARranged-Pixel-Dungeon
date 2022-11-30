@@ -69,6 +69,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
@@ -95,16 +96,21 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetributio
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -118,6 +124,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortswor
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.HealingDart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
@@ -169,13 +176,20 @@ public enum HeroClass {
 		//new PotionOfExperience().identify().quantity(29).collect();
 		//new ScrollOfMagicMapping().identify().quantity(29).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
+		//new PlateArmor().identify().upgrade(100).collect();
 		//new ScrollOfUpgrade().identify().quantity(1000).collect();
 		//new ScrollOfExtract().quantity(20).collect();
 		//new TestWeapon().identify().collect();
 		//new Teleporter().collect();
 		//new PotionOfStrength().identify().quantity(20).collect();
+		//new PotionOfMindVision().identify().quantity(20).collect();
+		//new Dart().quantity(500).collect();
+		//new ExplosiveCrossbow().identify().collect();
 		//new Cross().collect();
 		//new ScrollOfTransmutation().identify().quantity(1000).collect();
+		//new DriedRose().identify().upgrade(10).collect();
+		//new Carbine().identify().collect();
+		//new ScrollOfEnchantment().identify().quantity(1000).collect();
 		//new Evolution().quantity(100).collect();
 		//new AdvancedEvolution().quantity(20).collect();
 		//new AlchemistsToolkit().upgrade(10).identify().collect();
@@ -184,6 +198,7 @@ public enum HeroClass {
 		//new CrudePistol().identify().collect();
 		//new Rotberry.Seed().collect();
 		//new Sungrass.Seed().quantity(100).collect();
+		//new AutoHandgun().identify().collect();
 		//for testing
 
 		switch (this) {

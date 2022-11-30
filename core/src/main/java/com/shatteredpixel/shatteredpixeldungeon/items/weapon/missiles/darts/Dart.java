@@ -203,8 +203,10 @@ public class Dart extends MissileWeapon {
 					}
 				}
 			}
-			if (!curUser.shoot( enemy, this )) {
+			if (enemy != null) {
+				if (!curUser.shoot( enemy, this )) {
 
+				}
 			}
 			decrementDurability();
 			Sample.INSTANCE.play( Assets.Sounds.BLAST );
