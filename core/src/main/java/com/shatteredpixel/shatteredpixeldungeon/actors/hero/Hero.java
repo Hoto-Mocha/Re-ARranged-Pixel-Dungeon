@@ -133,6 +133,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PoisonParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
@@ -1754,7 +1755,7 @@ public class Hero extends Char {
 
 	public boolean isStandingOnTrampleableGrass(){
 		return !rooted && !flying &&
-				(Dungeon.level.map[pos] == Terrain.HIGH_GRASS || (heroClass != HeroClass.HUNTRESS && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS));
+				(Dungeon.level.map[pos] == Terrain.HIGH_GRASS || ((heroClass != HeroClass.HUNTRESS && heroClass != HeroClass.PLANTER && hero.subClass != HeroSubClass.RIFLEMAN) && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS));
 	}
 	
 	private boolean actMove( HeroAction.Move action ) {
@@ -2399,11 +2400,6 @@ public class Hero extends Char {
 			charm.object = hero.id();
 			charm.ignoreHeroAllies = true;
 			enemy.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 3 );
-		}
-
-		if (hero.hasTalent(Talent.NATURES_PROTECTION) && (Dungeon.level.map[hero.pos] == Terrain.HIGH_GRASS || Dungeon.level.map[hero.pos] == Terrain.FURROWED_GRASS)) {
-			damage *= (1-0.1f*hero.pointsInTalent(Talent.NATURES_PROTECTION));
-			damage -= hero.pointsInTalent(Talent.NATURES_PROTECTION);
 		}
 		
 		return super.defenseProc( enemy, damage );
@@ -3206,6 +3202,10 @@ public class Hero extends Char {
 			if (hero.buff(Iaido.class) != null) {
 				hero.buff(Iaido.class).detach();
 			}
+		}
+
+		if (hit && buff(Shovel.CrippleTracker.class) != null) {
+			Buff.affect(enemy, Cripple.class, 3f);
 		}
 
 		if (!enemy.isAlive() && hero.hasTalent(Talent.FAST_LEAD) && hero.heroClass != HeroClass.SAMURAI) {

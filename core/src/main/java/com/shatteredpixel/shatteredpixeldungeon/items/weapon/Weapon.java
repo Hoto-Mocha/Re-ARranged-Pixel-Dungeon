@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
@@ -41,6 +42,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.TreasureMap;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
@@ -148,7 +152,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundlable;
@@ -216,7 +223,12 @@ abstract public class Weapon extends KindOfWeapon {
 			}
 		}
 
-		if (hero.hasTalent(Talent.BLOOMING_WEAPON) && Random.Int(20) < hero.pointsInTalent(Talent.BLOOMING_WEAPON)) {
+		if (	(hero.hasTalent(Talent.BLOOMING_WEAPON)
+				&& Random.Int(20) < hero.pointsInTalent(Talent.BLOOMING_WEAPON)) //Talent.BLOOMING_WEAPON
+			|| ((level.map[defender.pos] == Terrain.GRASS || level.map[defender.pos] == Terrain.HIGH_GRASS || level.map[defender.pos] == Terrain.FURROWED_GRASS)
+				&& (defender instanceof Mob && ((Mob) defender).surprisedBy(attacker))
+				&& hero.hasTalent(Talent.SUDDEN_GROWTH)
+				&& Random.Int(2) < hero.pointsInTalent(Talent.SUDDEN_GROWTH))) { //Talent.SUDDEN_GROWTH
 			boolean secondPlant = Random.Int(3) == 0;
 			ArrayList<Integer> positions = new ArrayList<>();
 			Blooming blooming = new Blooming();
@@ -237,7 +249,7 @@ abstract public class Weapon extends KindOfWeapon {
 			Buff.affect(defender, Lucky.LuckProc.class);
 		}
 
-		if (hero.hasTalent(Talent.DEW_MAKING) && Random.Int(50) < hero.pointsInTalent(Talent.DEW_MAKING)) {
+		if (hero.hasTalent(Talent.DEW_MAKING) && Random.Int(25) < hero.pointsInTalent(Talent.DEW_MAKING)) {
 			Dungeon.level.drop( new Dewdrop(), defender.pos).sprite.drop();
 		}
 

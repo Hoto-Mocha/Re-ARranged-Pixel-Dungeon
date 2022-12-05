@@ -33,6 +33,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -40,6 +42,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
+import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
+import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Berry;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
@@ -72,17 +76,18 @@ public abstract class Plant implements Bundlable {
 			((Hero) ch).interrupt();
 		}
 
-		if (ch instanceof Mob && Dungeon.hero.hasTalent(Talent.VINE)) {
-			Buff.affect(ch, Roots.class, 2+3*Dungeon.hero.pointsInTalent(Talent.VINE));
-		}
-
-		if (ch instanceof Mob && Dungeon.hero.hasTalent(Talent.NEUROTOXIN)) {
-			Buff.affect(ch, Paralysis.class, 2+Dungeon.hero.pointsInTalent(Talent.VINE));
+		if (ch instanceof Mob && Dungeon.hero.hasTalent(Talent.WEAK_POISON)) {
+			Buff.affect(ch, Weakness.class, 1f+2*Dungeon.hero.pointsInTalent(Talent.WEAK_POISON));
+			Buff.affect(ch, Vulnerable.class, 1f+2*Dungeon.hero.pointsInTalent(Talent.WEAK_POISON));
 		}
 
 		if (Dungeon.level.heroFOV[pos] && Dungeon.hero.hasTalent(Talent.NATURES_AID)){
 			// 3/5 turns based on talent points spent
 			Buff.affect(Dungeon.hero, Barkskin.class).set(2, 1 + 2*(Dungeon.hero.pointsInTalent(Talent.NATURES_AID)));
+		}
+
+		if (Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.BEEKEEPER)) {
+			Dungeon.level.drop( new Honeypot(), pos ).sprite.drop();
 		}
 
 		wither();
@@ -120,10 +125,6 @@ public abstract class Plant implements Bundlable {
 			if (seedClass != null && seedClass != Rotberry.Seed.class) {
 				Dungeon.level.drop(Reflection.newInstance(seedClass), pos).sprite.drop();
 			}
-		}
-
-		if (Dungeon.hero.hasTalent(Talent.FLOWER_BERRY) && Random.Int(20) < Dungeon.hero.pointsInTalent(Talent.FLOWER_BERRY)) {
-			Dungeon.level.drop(new Berry(), pos).sprite.drop();
 		}
 	}
 	
@@ -218,11 +219,6 @@ public abstract class Plant implements Bundlable {
 				hero.spend( TIME_TO_PLANT );
 
 				hero.sprite.operate( hero.pos );
-
-				if (hero.hasTalent(Talent.SEED_EATING)) {
-					hero.buff( Hunger.class ).satisfy( 5*hero.pointsInTalent(Talent.SEED_EATING));
-				}
-				
 			}
 		}
 		

@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.levels.features;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -34,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.ArmoredStatue;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
@@ -44,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.food.Berry;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
@@ -157,6 +161,19 @@ public class HighGrass {
 			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
 				Buff.prolong(Dungeon.hero, Invisibility.class, Dungeon.hero.pointsInTalent(Talent.CAMOUFLAGE));
 				Sample.INSTANCE.play( Assets.Sounds.MELD );
+			}
+
+			//Healing
+			if (ch instanceof Hero) {
+				if (hero.hasTalent(Talent.KNOWLEDGE_HERB) && Random.Int(10) < 1+hero.pointsInTalent(Talent.KNOWLEDGE_HERB)) {
+					int healAmt = 1;
+					healAmt = Math.min( healAmt, hero.HT - hero.HP );
+					if (healAmt > 0 && hero.isAlive()) {
+						hero.HP += healAmt;
+						hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1);
+						hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+					}
+				}
 			}
 		}
 		

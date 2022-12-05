@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
@@ -45,13 +46,17 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
@@ -115,16 +120,28 @@ public class Shovel extends MeleeWeapon {
 
         GLog.i(Messages.get(this, "dig"));
 
+        int flowers = (Random.Int(1) < hero.pointsInTalent(Talent.FLOWER_BED)) ? 1 : 0;
+
         if (hero.subClass == HeroSubClass.RESEARCHER) {
+            ArrayList<Integer> positions = new ArrayList<>();
             for (int i : PathFinder.NEIGHBOURS25) {
+                positions.add(i);
+            }
+            Random.shuffle( positions );
+            for (int i : positions) {
                 int c = Dungeon.level.map[hero.pos + i];
                 if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
                         || c == Terrain.EMBERS || c == Terrain.GRASS
                         || c == Terrain.WATER || c == Terrain.FURROWED_GRASS){
-                    if (Random.Int(8) < 1+hero.pointsInTalent(Talent.ALIVE_GRASS)) {
-                        Level.set(hero.pos + i, Terrain.HIGH_GRASS);
+                    if (flowers > 0) {
+                        Dungeon.level.plant((Plant.Seed) Generator.randomUsingDefaults(Generator.Category.SEED), hero.pos + i);
+                        flowers--;
                     } else {
-                        Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
+                        if (Random.Int(8) < 1+hero.pointsInTalent(Talent.ALIVE_GRASS)) {
+                            Level.set(hero.pos + i, Terrain.HIGH_GRASS);
+                        } else {
+                            Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
+                        }
                     }
                     Char enemy = Actor.findChar( hero.pos + i );
                     if (enemy instanceof Mob && hero.hasTalent(Talent.ROOT)) {
@@ -135,11 +152,21 @@ public class Shovel extends MeleeWeapon {
                 }
             }
         } else {
+            ArrayList<Integer> positions = new ArrayList<>();
             for (int i : PathFinder.NEIGHBOURS9) {
+                positions.add(i);
+            }
+            Random.shuffle( positions );
+            for (int i : positions) {
                 int c = Dungeon.level.map[hero.pos + i];
                 if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
                         || c == Terrain.EMBERS || c == Terrain.GRASS){
-                    Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
+                    if (flowers > 0) {
+                        Dungeon.level.plant((Plant.Seed) Generator.randomUsingDefaults(Generator.Category.SEED), hero.pos + i);
+                        flowers--;
+                    } else {
+                        Level.set(hero.pos + i, Terrain.FURROWED_GRASS);
+                    }
                     Char enemy = Actor.findChar( hero.pos + i );
                     if (enemy instanceof Mob && hero.hasTalent(Talent.ROOT)) {
                         Buff.affect(enemy, Roots.class, 1+hero.pointsInTalent(Talent.ROOT));
@@ -154,6 +181,9 @@ public class Shovel extends MeleeWeapon {
             Lucky.showFlare(hero.sprite);
         }
         Buff.affect(hero, ShovelDigCoolDown.class, Math.max(30-2*buffedLvl(), 10));
+        if (hero.hasTalent(Talent.GRAVEL_THROW)) {
+            Buff.affect(hero, CrippleTracker.class, 1+hero.pointsInTalent(Talent.GRAVEL_THROW));
+        }
     }
 
     @Override
@@ -165,6 +195,41 @@ public class Shovel extends MeleeWeapon {
         } else {
             return  4*(tier+1) +
                     lvl*(tier+1);
+        }
+    }
+
+    public static class CrippleTracker extends FlavourBuff {
+
+        {
+            type = buffType.POSITIVE;
+            announced = true;
+        }
+
+        public static final float DURATION = 3f;
+
+        @Override
+        public int icon() {
+            return BuffIndicator.THORNS;
+        }
+
+        @Override
+        public float iconFadePercent() {
+            return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+        }
+
+        @Override
+        public void tintIcon(Image icon) {
+            icon.hardlight(0xB3B3B3);
+        }
+
+        @Override
+        public String toString() {
+            return Messages.get(this, "name");
+        }
+
+        @Override
+        public String desc() {
+            return Messages.get(this, "desc", dispTurns());
         }
     }
 }

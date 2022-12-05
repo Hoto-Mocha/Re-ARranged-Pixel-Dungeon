@@ -92,17 +92,6 @@ public class RegrowthBomb extends Bomb {
 				plantCandidates.remove(plantPos);
 			}
 		}
-
-		if (Dungeon.hero.hasTalent(Talent.MASS_PRODUCTION)) {
-			for (int i = 0; i < Dungeon.hero.pointsInTalent(Talent.MASS_PRODUCTION); i++) {
-				Integer plantPos = Random.element(plantCandidates);
-				if (plantPos != null) {
-					WandOfRegrowth.Dewcatcher.Seed dewcatcher = new WandOfRegrowth.Dewcatcher.Seed();
-					Dungeon.level.plant(dewcatcher, plantPos);
-					plantCandidates.remove(plantPos);
-				}
-			}
-		}
 		
 		Integer plantPos = Random.element(plantCandidates);
 		if (plantPos != null){

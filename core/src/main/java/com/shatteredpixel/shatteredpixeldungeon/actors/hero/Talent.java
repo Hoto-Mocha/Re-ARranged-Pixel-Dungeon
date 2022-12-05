@@ -288,9 +288,9 @@ public enum Talent {
 	KUNAI_OF_DOOM(242, 4), MYSTICAL_KUNAI(243, 4), POISONED_KUNAI(244, 4),
 
 	//Planter T1
-	FLOWER_BERRY(246), ADVENTURERS_INTUITION(247), ROOT(248), NATURES_PROTECTION(249), SEED_EATING(250),
+	SUDDEN_GROWTH(246), SAFE_POTION(247), ROOT(248), KNOWLEDGE_HERB(249), GRAVEL_THROW(250),
 	//Planter T2
-	NATURAL_MEAL(251), HERBAL_HEALING(252), SPROUT(253), VINE(254), MASS_PRODUCTION(255), NEUROTOXIN(256),
+	NATURAL_MEAL(251), HERBAL_DEW(252), SPROUT(253), BEEKEEPER(254), FLOWER_BED(255), WEAK_POISON(256),
 	//Planter T3
 	BLOOMING_WEAPON(257, 3), FARMER(258, 3),
 	//TreasureHunter T3
@@ -1033,9 +1033,6 @@ public enum Talent {
 			}
 			Dungeon.observe();
 		}
-		if (hero.hasTalent(Talent.HERBAL_HEALING)) {
-			Buff.affect(hero, Sungrass.Health.class).boost(10*hero.pointsInTalent(Talent.HERBAL_HEALING));
-		}
 		if (hero.hasTalent(Talent.SAFE_HEALING)) {
 			Buff.affect(hero, Barrier.class).setShield(10*hero.pointsInTalent(Talent.SAFE_HEALING));
 		}
@@ -1337,7 +1334,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	CRITICAL_MEAL, MASTERS_INTUITION, UNEXPECTED_SLASH, FLOW_AWAY, ADRENALINE_SURGE);
 				break;
 			case PLANTER:
-				Collections.addAll(tierTalents,	FLOWER_BERRY, ADVENTURERS_INTUITION, ROOT, NATURES_PROTECTION, SEED_EATING);
+				Collections.addAll(tierTalents,	SUDDEN_GROWTH, SAFE_POTION, ROOT, KNOWLEDGE_HERB, GRAVEL_THROW);
 				break;
 			case KNIGHT:
 				Collections.addAll(tierTalents,	ON_ALERT, KNIGHTS_INTUITION, BATTLE_STIM, ACTIVE_BARRIER, WAR_CRY);
@@ -1375,7 +1372,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	FOCUSING_MEAL, CRITICAL_UPGRADE, MAGICAL_TRANSFERENCE, PARRY, DETECTION, POWERFUL_CRIT);
 				break;
 			case PLANTER:
-				Collections.addAll(tierTalents,	NATURAL_MEAL, HERBAL_HEALING, SPROUT, VINE, MASS_PRODUCTION, NEUROTOXIN);
+				Collections.addAll(tierTalents,	NATURAL_MEAL, HERBAL_DEW, SPROUT, BEEKEEPER, FLOWER_BED, WEAK_POISON);
 				break;
 			case KNIGHT:
 				Collections.addAll(tierTalents,	IMPREGNABLE_MEAL, SAFE_HEALING, DEFENSE_STANCE, CROSS_SLASH, ENDURING, BLOCKING);

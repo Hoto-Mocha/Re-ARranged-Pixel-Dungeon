@@ -100,6 +100,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnc
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
@@ -198,6 +199,7 @@ public enum HeroClass {
 		//new CrudePistol().identify().collect();
 		//new Rotberry.Seed().collect();
 		//new Sungrass.Seed().quantity(100).collect();
+		//new Recycle().quantity(600).collect();
 		//new AutoHandgun().identify().collect();
 		//for testing
 

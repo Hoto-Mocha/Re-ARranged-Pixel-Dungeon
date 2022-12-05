@@ -282,99 +282,35 @@ public abstract class Level implements Bundlable {
 			if (Dungeon.depth > 1) {
 				//50% chance of getting a level feeling
 				//~7.15% chance for each feeling
-				if (Dungeon.hero.pointsInTalent(Talent.ADVENTURERS_INTUITION) == 1) {
-					switch (Random.Int( 14 )) {
-						case 0:
-							feeling = Feeling.CHASM;
-							break;
-						case 1:
-							feeling = Feeling.WATER;
-							break;
-						case 2: case 3: case 4: case 5:
-							feeling = Feeling.GRASS;
-							break;
-						case 6:
-							feeling = Feeling.DARK;
-							addItemToSpawn(new Torch());
-							viewDistance = Math.round(viewDistance/2f);
-							break;
-						case 7:
-							feeling = Feeling.LARGE;
-							addItemToSpawn(Generator.random(Generator.Category.FOOD));
-							//add a second torch to help with the larger floor
-							if (Dungeon.isChallenged(Challenges.DARKNESS)){
-								addItemToSpawn( new Torch() );
-							}
-							break;
-						case 8:
-							feeling = Feeling.TRAPS;
-							break;
-						case 9:
-							feeling = Feeling.SECRETS;
-							break;
-					}
-				} else if (Dungeon.hero.pointsInTalent(Talent.ADVENTURERS_INTUITION) == 2) {
-						switch (Random.Int( 14 )) {
-							case 0:
-								feeling = Feeling.CHASM;
-								break;
-							case 1:
-								feeling = Feeling.WATER;
-								break;
-							case 2: case 3: case 4: case 5: case 6: case 7: case 8:
-								feeling = Feeling.GRASS;
-								break;
-							case 9:
-								feeling = Feeling.DARK;
-								addItemToSpawn(new Torch());
-								viewDistance = Math.round(viewDistance / 2f);
-								break;
-							case 10:
-								feeling = Feeling.LARGE;
-								addItemToSpawn(Generator.random(Generator.Category.FOOD));
-								//add a second torch to help with the larger floor
-								if (Dungeon.isChallenged(Challenges.DARKNESS)){
-									addItemToSpawn( new Torch() );
-								}
-								break;
-							case 11:
-								feeling = Feeling.TRAPS;
-								break;
-							case 12:
-								feeling = Feeling.SECRETS;
-								break;
+				switch (Random.Int( 14 )) {
+					case 0:
+						feeling = Feeling.CHASM;
+						break;
+					case 1:
+						feeling = Feeling.WATER;
+						break;
+					case 2:
+						feeling = Feeling.GRASS;
+						break;
+					case 3:
+						feeling = Feeling.DARK;
+						addItemToSpawn(new Torch());
+						viewDistance = Math.round(viewDistance/2f);
+						break;
+					case 4:
+						feeling = Feeling.LARGE;
+						addItemToSpawn(Generator.random(Generator.Category.FOOD));
+						//add a second torch to help with the larger floor
+						if (Dungeon.isChallenged(Challenges.DARKNESS)){
+							addItemToSpawn( new Torch() );
 						}
-				} else {
-					switch (Random.Int( 14 )) {
-						case 0:
-							feeling = Feeling.CHASM;
-							break;
-						case 1:
-							feeling = Feeling.WATER;
-							break;
-						case 2:
-							feeling = Feeling.GRASS;
-							break;
-						case 3:
-							feeling = Feeling.DARK;
-							addItemToSpawn(new Torch());
-							viewDistance = Math.round(viewDistance/2f);
-							break;
-						case 4:
-							feeling = Feeling.LARGE;
-							addItemToSpawn(Generator.random(Generator.Category.FOOD));
-							//add a second torch to help with the larger floor
-							if (Dungeon.isChallenged(Challenges.DARKNESS)){
-								addItemToSpawn( new Torch() );
-							}
-							break;
-						case 5:
-							feeling = Feeling.TRAPS;
-							break;
-						case 6:
-							feeling = Feeling.SECRETS;
-							break;
-					}
+						break;
+					case 5:
+						feeling = Feeling.TRAPS;
+						break;
+					case 6:
+						feeling = Feeling.SECRETS;
+						break;
 				}
 			}
 		}
