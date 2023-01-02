@@ -488,8 +488,9 @@ public abstract class Char extends Actor {
 	final public boolean attack( Char enemy ){
 		if (hero.buff(Awake.awakeTracker.class) != null) {
 			return attack(enemy, 1.2f+0.2f*hero.pointsInTalent(Talent.AWAKE_LIMIT), 0f, 1f);
-		} else
-		return attack(enemy, 1f, 0f, 1f);
+		} else {
+			return attack(enemy, 1f, 0f, 1f);
+		}
 	}
 	
 	public boolean attack( Char enemy, float dmgMulti, float dmgBonus, float accMulti ) {
@@ -1009,12 +1010,12 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon() instanceof MissileWeapon && hero.hasTalent(Talent.SNARE)) {
-				Buff.affect(enemy, Cripple.class, 5f);
+			if (this instanceof Hero && hero.belongings.weapon() instanceof MissileWeapon && hero.hasTalent(Talent.SNARE) && hero.buff(Talent.SnareCooldown.class) == null) {
+				Buff.prolong(enemy, Cripple.class, 5f);
 				Buff.affect(hero, Talent.SnareCooldown.class, 10*(4-Dungeon.hero.pointsInTalent(Talent.SNARE)));
 			}
 
-			if (this instanceof Hero && Dungeon.level.map[hero.pos] == Terrain.WATER && Random.Int(10) < hero.pointsInTalent(Talent.WATER_FRIENDLY)) {
+			if (this instanceof Hero && Dungeon.level.map[hero.pos] == Terrain.WATER && Random.Int(5) < hero.pointsInTalent(Talent.WATER_FRIENDLY)) {
 				dmg += 3;
 				Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 			}

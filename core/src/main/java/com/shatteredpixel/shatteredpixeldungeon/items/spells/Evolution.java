@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainWhip;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DoubleGreatSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
@@ -159,6 +160,7 @@ public class Evolution extends InventorySpell {
         if (w instanceof MissileButton
          || w instanceof TacticalShield
          || w instanceof HolySword
+         || w instanceof LanceNShield
         ) {
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 3];
         } else if (w instanceof TacticalHandgun
@@ -173,13 +175,13 @@ public class Evolution extends InventorySpell {
                 || w instanceof RPG7
                 || w instanceof Lance
                 || w instanceof ObsidianShield
-                || w instanceof LanceNShield
                 || w instanceof SharpKatana
                 || w instanceof HugeSword
                 || w instanceof IronHammer
                 || w instanceof BeamSaber
                 || w instanceof ChainFlail
                 || w instanceof ForceGlove
+                || w instanceof DoubleGreatSword
         ) {
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
         } else if (w instanceof Greatsword

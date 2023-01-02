@@ -71,7 +71,7 @@ public class LloydsBeacon extends Artifact {
 		chargeCap = 3+level();
 
 		defaultAction = AC_ZAP;
-		usesTargeting = true;
+		usesTargeting = false;
 	}
 	
 	private static final String DEPTH	= "depth";
@@ -106,17 +106,19 @@ public class LloydsBeacon extends Artifact {
 	
 	@Override
 	public void execute( Hero hero, String action ) {
-
 		super.execute( hero, action );
-
+		if ((action == AC_SET || action == AC_RETURN || action == AC_ZAP) && cursed) {
+			GLog.w( Messages.get(this, "cursed") );
+			return;
+		}
 		if (action == AC_SET || action == AC_RETURN) {
-			
+
 			if (Dungeon.bossLevel() || !Dungeon.interfloorTeleportAllowed()) {
 				hero.spend( LloydsBeacon.TIME_TO_USE );
 				GLog.w( Messages.get(this, "preventing") );
 				return;
 			}
-			
+
 			for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
 				Char ch = Actor.findChar(hero.pos + PathFinder.NEIGHBOURS8[i]);
 				if (ch != null && ch.alignment == Char.Alignment.ENEMY) {
@@ -126,7 +128,7 @@ public class LloydsBeacon extends Artifact {
 			}
 		}
 
-		if (action == AC_ZAP ){
+		if (action == AC_ZAP){
 
 			curUser = hero;
 			int chargesToUse = Dungeon.depth > 20 ? 2 : 1;
@@ -134,30 +136,29 @@ public class LloydsBeacon extends Artifact {
 			if (!isEquipped( hero )) {
 				GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 				QuickSlotButton.cancel();
-
 			} else if (charge < chargesToUse) {
 				GLog.i( Messages.get(this, "no_charge") );
 				QuickSlotButton.cancel();
-
 			} else {
+				usesTargeting = true;
 				GameScene.selectCell(zapper);
 			}
 
 		} else if (action == AC_SET) {
-			
+
 			returnDepth = Dungeon.depth;
 			returnPos = hero.pos;
-			
+
 			hero.spend( LloydsBeacon.TIME_TO_USE );
 			hero.busy();
-			
+
 			hero.sprite.operate( hero.pos );
 			Sample.INSTANCE.play( Assets.Sounds.BEACON );
-			
+
 			GLog.i( Messages.get(this, "return") );
-			
+
 		} else if (action == AC_RETURN) {
-			
+
 			if (returnDepth == Dungeon.depth) {
 				ScrollOfTeleportation.appear( hero, returnPos );
 				for(Mob m : Dungeon.level.mobs){
@@ -176,7 +177,6 @@ public class LloydsBeacon extends Artifact {
 				Dungeon.observe();
 				GameScene.updateFog();
 			} else {
-
 				TimekeepersHourglass.timeFreeze timeFreeze = Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class);
 				if (timeFreeze != null) timeFreeze.disarmPressedTraps();
 				Swiftthistle.TimeBubble timeBubble = Dungeon.hero.buff(Swiftthistle.TimeBubble.class);
@@ -187,9 +187,8 @@ public class LloydsBeacon extends Artifact {
 				InterlevelScene.returnPos = returnPos;
 				Game.switchScene( InterlevelScene.class );
 			}
-			
-			
 		}
+
 	}
 
 	protected CellSelector.Listener zapper = new  CellSelector.Listener() {

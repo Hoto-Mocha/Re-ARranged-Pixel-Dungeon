@@ -104,7 +104,7 @@ public class Shovel extends MeleeWeapon {
 
     @Override
     public int proc(Char attacker, Char defender, int damage) {
-        if (((Hero)attacker).subClass == HeroSubClass.TREASUREHUNTER && damage >= defender.HP) {
+        if (attacker == hero && ((Hero)attacker).subClass == HeroSubClass.TREASUREHUNTER && damage >= defender.HP) {
             if (Random.Float() < (0.1f+0.04f*level()) * (1 + 0.5f * hero.pointsInTalent(Talent.FINDING_TREASURE))) {
                 Buff.affect(defender, Lucky.LuckProc.class);
             }

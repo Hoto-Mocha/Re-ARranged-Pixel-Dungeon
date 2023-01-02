@@ -1497,7 +1497,7 @@ public class Hero extends Char {
 		}
 
 		if (hero.hasTalent(Talent.MOVESPEED_ENHANCE)) {
-			speed *= 1 + 0.05*hero.pointsInTalent(Talent.MOVESPEED_ENHANCE);
+			speed *= 1 + 0.1*hero.pointsInTalent(Talent.MOVESPEED_ENHANCE);
 		}
 
 		if (hero.buff(Riot.riotTracker.class) != null && hero.hasTalent(Talent.HASTE_MOVE)) {
@@ -3750,18 +3750,14 @@ public class Hero extends Char {
 		}
 
 		if (hit && hero.hasTalent(Talent.DESTRUCTIVE_ATK)) {
-			if (Random.Int(40) < hero.pointsInTalent(Talent.DESTRUCTIVE_ATK))
-			Buff.affect(enemy, Vulnerable.class, 20f );
+			if (Random.Int(40) < hero.pointsInTalent(Talent.DESTRUCTIVE_ATK)) {
+				Buff.affect(enemy, Vulnerable.class, 20f);
+			}
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 		}
 
-		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && enemy instanceof Mob) {
-			if (((Mob) enemy).surprisedBy(hero) && Random.Int(10) < hero.pointsInTalent(Talent.JAW_STRIKE)) {
-				Buff.affect(enemy, Paralysis.class, 1f);
-			}
-		}
-		if (!hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && Random.Int(5) == 0 && hero.pointsInTalent(Talent.SWIFT_MOVEMENT) >= 2) {
-
+		if (!hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && Random.Int(5) == 0 && hero.pointsInTalent(Talent.SWIFT_MOVEMENT) > 1) {
+			Buff.prolong(hero, EvasiveMove.class, 0.9999f);
 		}
 		if (hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && hero.hasTalent(Talent.RING_KNUCKLE) && !((hero.belongings.misc instanceof RingOfForce) || (hero.belongings.ring instanceof RingOfForce))) {
 			Buff.prolong(hero, EnhancedRingsCombo.class, (Dungeon.hero.pointsInTalent(Talent.RING_KNUCKLE) >= 2) ? 2f : 1f).hit();
