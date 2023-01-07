@@ -71,7 +71,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class CrudePistol_Energy extends CrudePistol {
-
+    
     {
         image = ItemSpriteSheet.CRUDE_PISTOL_ENERGY;
         hitSound = Assets.Sounds.HIT_CRUSH;

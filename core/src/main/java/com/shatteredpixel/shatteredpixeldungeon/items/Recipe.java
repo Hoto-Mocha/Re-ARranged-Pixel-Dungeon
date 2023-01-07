@@ -80,6 +80,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Xray;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
@@ -259,7 +260,13 @@ public abstract class Recipe {
 		new Alchemize.Recipe(),
 		new Cartridge.Recipe(),
 		new StewedMeat.oneMeat(),
-		new SpellBook_Empty.Recipe()
+		new SpellBook_Empty.Recipe(),
+		new StoneOfEnchantment.Recipe1(),
+		new StoneOfEnchantment.Recipe2(),
+		new StoneOfEnchantment.Recipe3(),
+		new StoneOfEnchantment.Recipe4(),
+		new StoneOfEnchantment.Recipe5(),
+		new StoneOfEnchantment.Recipe6()
 	};
 
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{

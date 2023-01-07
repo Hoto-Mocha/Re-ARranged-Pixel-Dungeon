@@ -24,9 +24,10 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Gloves_Energy extends Gloves {
+public class Gloves_Energy extends EnergyWeapon {
 
 	{
 		image = ItemSpriteSheet.GLOVES_ENERGY;
@@ -37,6 +38,8 @@ public class Gloves_Energy extends Gloves {
 		DLY = 0.5f; //2x speed
 		
 		bones = false;
+		chargePerHit = 1;
+		chargeUsePerHit = 2;
 	}
 
 	@Override

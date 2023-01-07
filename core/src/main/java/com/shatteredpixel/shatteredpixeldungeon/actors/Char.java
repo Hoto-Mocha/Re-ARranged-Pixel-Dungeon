@@ -571,6 +571,10 @@ public abstract class Char extends Actor {
 			
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
+				if (h.belongings.weapon() instanceof RunicDagger
+						&& ((Mob) enemy).surprisedBy(hero)) {
+					dr = 0;
+				}
 				if (h.belongings.weapon() instanceof MissileWeapon
 						&& h.subClass == HeroSubClass.SNIPER
 						&& !Dungeon.level.adjacent(h.pos, enemy.pos)){
@@ -590,8 +594,7 @@ public abstract class Char extends Actor {
 						}
 					}
 					dr = 0;
-				}
-				else if (h.belongings.weapon() instanceof CrudePistolAP.Bullet
+				} else if (h.belongings.weapon() instanceof CrudePistolAP.Bullet
 					  || h.belongings.weapon() instanceof PistolAP.Bullet
 					  || h.belongings.weapon() instanceof GoldenPistolAP.Bullet
 					  || h.belongings.weapon() instanceof HandgunAP.Bullet
@@ -682,12 +685,14 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero && hero.subClass == HeroSubClass.WEAPONMASTER && hero.belongings.weapon != null) {
-				if (Random.Int(100) < Math.min(hero.belongings.weapon.buffedLvl()+1, 10) && (hero.belongings.weapon() instanceof WornKatana
+				if (Random.Int(100) < Math.min(hero.belongings.weapon.buffedLvl()+1, 10) && (
+					hero.belongings.weapon() instanceof WornKatana
 				 || hero.belongings.weapon() instanceof ShortKatana
 				 || hero.belongings.weapon() instanceof Katana
 				 || hero.belongings.weapon() instanceof LongKatana
 				 || hero.belongings.weapon() instanceof LargeKatana
-				 || hero.belongings.weapon() instanceof SharpKatana)) {
+				 || hero.belongings.weapon() instanceof SharpKatana
+				 || hero.belongings.weapon() instanceof WornKatana_Energy)) {
 					dmg *= 2f;
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 					hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );

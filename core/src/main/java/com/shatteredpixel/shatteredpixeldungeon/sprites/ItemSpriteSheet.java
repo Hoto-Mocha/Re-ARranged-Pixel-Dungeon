@@ -234,6 +234,7 @@ public class ItemSpriteSheet {
 	public static final int DIRK            = WEP_TIER2+4;
 	public static final int KNIFE           = WEP_TIER2+5;
 	public static final int NUNCHAKU        = WEP_TIER2+6;
+	public static final int DOUBLE_DAGGER   = WEP_TIER2+7;
 
 	static{
 		assignItemRect(SHORTSWORD,      13, 13);
@@ -243,6 +244,7 @@ public class ItemSpriteSheet {
 		assignItemRect(DIRK,            13, 14);
 		assignItemRect(KNIFE,           12, 13);
 		assignItemRect(NUNCHAKU,        16, 16);
+		assignItemRect(DOUBLE_DAGGER,   16, 16);
 	}
 
 	private static final int WEP_TIER3      =                               xy(1, 8);   //8 slots
@@ -253,6 +255,7 @@ public class ItemSpriteSheet {
 	public static final int SAI             = WEP_TIER3+4;
 	public static final int WHIP            = WEP_TIER3+5;
 	public static final int BIBLE           = WEP_TIER3+6;
+	public static final int RUNICDAGGER     = WEP_TIER3+7;
 
 	static{
 		assignItemRect(SWORD,           14, 14);
@@ -262,6 +265,7 @@ public class ItemSpriteSheet {
 		assignItemRect(SAI,             16, 16);
 		assignItemRect(WHIP,            14, 14);
 		assignItemRect(BIBLE,           13, 16);
+		assignItemRect(RUNICDAGGER,     13, 14);
 	}
 
 	private static final int WEP_TIER4      =                               xy(9, 8);   //8 slots
@@ -271,6 +275,7 @@ public class ItemSpriteSheet {
 	public static final int RUNIC_BLADE     = WEP_TIER4+3;
 	public static final int ASSASSINS_BLADE = WEP_TIER4+4;
 	public static final int CROSSBOW        = WEP_TIER4+5;
+	public static final int SCYTHE	        = WEP_TIER4+6;
 
 	static{
 		assignItemRect(LONGSWORD,       15, 15);
@@ -279,6 +284,7 @@ public class ItemSpriteSheet {
 		assignItemRect(RUNIC_BLADE,     14, 14);
 		assignItemRect(ASSASSINS_BLADE, 14, 15);
 		assignItemRect(CROSSBOW,        15, 15);
+		assignItemRect(SCYTHE,       	16, 16);
 	}
 
 	private static final int WEP_TIER5      =                               xy(1, 9);   //8 slots

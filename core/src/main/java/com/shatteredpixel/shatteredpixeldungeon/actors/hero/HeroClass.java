@@ -115,20 +115,28 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol_Energy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger_Energy;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DoubleDagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves_Energy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicDagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber_Energy;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scythe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Blast;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana_Energy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword_Energy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
@@ -178,16 +186,12 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		//TODO: to delete after testing
-		//new Lighter().collect();
-		//new Cooler().collect();
-		//new RapidGrowth().quantity(50).collect();
-		//new CrudePistol_Energy().identify().collect();
-		//new MagicalBullet().quantity(5).collect();
-		//new ScrollOfMirrorImage().identify().quantity(20).collect();
+		//new RunicDagger().identify().collect();
+		//new Scythe().identify().collect();
+		//new DoubleDagger().identify().collect();
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
 		//new PotionOfExperience().identify().quantity(29).collect();
-		//new Rotberry.Seed().collect();
 		//new ScrollOfMagicMapping().identify().quantity(29).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
@@ -198,8 +202,6 @@ public enum HeroClass {
 		//new PotionOfStrength().identify().quantity(20).collect();
 		//new PotionOfMindVision().identify().quantity(20).collect();
 		//new Dart().quantity(500).collect();
-		//new ExplosiveCrossbow().identify().collect();
-		//new Cross().collect();
 		//new ScrollOfTransmutation().identify().quantity(1000).collect();
 		//new DriedRose().identify().upgrade(10).collect();
 		//new Carbine().identify().collect();
@@ -209,11 +211,7 @@ public enum HeroClass {
 		//new AlchemistsToolkit().upgrade(10).identify().collect();
 		//new RingOfRush().identify().upgrade(50).collect();
 		//new ThrowingStone().identify().quantity(100).collect();
-		//new CrudePistol().identify().collect();
-		//new Rotberry.Seed().collect();
-		//new Sungrass.Seed().quantity(100).collect();
 		//new Recycle().quantity(600).collect();
-		//new AutoHandgun().identify().collect();
 		//for testing
 
 		switch (this) {

@@ -26,7 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class WornKatana_Energy extends WornKatana {
+public class WornKatana_Energy extends EnergyWeapon {
 
     {
         image = ItemSpriteSheet.WORN_KATANA_ENERGY;
@@ -36,12 +36,20 @@ public class WornKatana_Energy extends WornKatana {
         tier = 1;
 
         bones = false;
+
+        chargePerHit = 1;
+        chargeUsePerHit = 4;
     }
 
     @Override
     public int max(int lvl) {
         return  6*(tier+3) +
                 lvl;
+    }
+
+    @Override
+    public int min(int lvl) {
+        return  1;
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

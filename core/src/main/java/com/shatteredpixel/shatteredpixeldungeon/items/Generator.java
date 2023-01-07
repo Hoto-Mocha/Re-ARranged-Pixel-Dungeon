@@ -368,9 +368,10 @@ public class Generator {
 					Revolver.class,
 					ShortKatana.class,
 					Knife.class,
-					Nunchaku.class
+					Nunchaku.class,
+					DoubleDagger.class
 			};
-			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,4 ,4, 4, 5, 4, 4};
+			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 ,4 ,4, 4, 5, 4, 4, 4};
 			
 			WEP_T3.classes = new Class<?>[]{
 					Sword.class,
@@ -384,9 +385,10 @@ public class Generator {
 					ShotGun.class,
 					HuntingRifle.class,
 					Katana.class,
-					Bible.class
+					Bible.class,
+					RunicDagger.class
 			};
-			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,5 ,4, 5, 3};
+			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,5 ,4, 5, 3, 4};
 			
 			WEP_T4.classes = new Class<?>[]{
 					Longsword.class,
@@ -398,9 +400,10 @@ public class Generator {
 					Handgun.class,
 					AssultRifle.class,
 					Carbine.class,
-					LongKatana.class
+					LongKatana.class,
+					Scythe.class
 			};
-			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 5};
+			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 5, 4};
 			
 			WEP_T5.classes = new Class<?>[]{
 					Greatsword.class,
@@ -604,9 +607,15 @@ public class Generator {
 					AutoHandgun.class,
 					AutoRifle.class,
 					MarksmanRifle.class,
-					WA2000.class
+					WA2000.class,
+					WornShortsword_Energy.class,
+					Dagger_Energy.class,
+					Gloves_Energy.class,
+					CrudePistol_Energy.class,
+					WornKatana_Energy.class,
+					Saber_Energy.class
 			};
-			ALCHEMY.defaultProbs = new float[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			ALCHEMY.defaultProbs = new float[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			ALCHEMY.probs = ALCHEMY.defaultProbs.clone();
 
 			SPELLBOOK.classes = new Class<?>[]{

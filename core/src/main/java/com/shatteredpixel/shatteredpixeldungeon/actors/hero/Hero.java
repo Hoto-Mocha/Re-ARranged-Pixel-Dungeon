@@ -3295,6 +3295,7 @@ public class Hero extends Char {
 
 		if (hit && subClass == HeroSubClass.WEAPONMASTER) {
 			if (belongings.weapon() instanceof WornShortsword
+				|| belongings.weapon() instanceof WornShortsword_Energy
 				|| belongings.weapon() instanceof Shortsword
 				|| belongings.weapon() instanceof Sword
 				|| belongings.weapon() instanceof Longsword
@@ -3304,6 +3305,7 @@ public class Hero extends Char {
 				|| belongings.weapon() instanceof Greataxe
 				|| belongings.weapon() instanceof Quarterstaff
 				|| belongings.weapon() instanceof Saber
+				|| belongings.weapon() instanceof Saber_Energy
 				|| belongings.weapon() instanceof RunicBlade
 				|| belongings.weapon() instanceof TrueRunicBlade
 				|| belongings.weapon() instanceof Bible
@@ -3339,6 +3341,7 @@ public class Hero extends Char {
 			}
 
 			if (belongings.weapon() instanceof Gloves
+					|| belongings.weapon() instanceof Gloves_Energy
 					|| belongings.weapon() instanceof Sai
 					|| belongings.weapon() instanceof Gauntlet
 					|| belongings.weapon() instanceof BeamSaber
@@ -3381,6 +3384,7 @@ public class Hero extends Char {
 						|| belongings.weapon() instanceof ExplosiveCrossbow
 						|| belongings.weapon() instanceof Ballista
 						|| belongings.weapon() instanceof CrudePistol
+						|| belongings.weapon() instanceof CrudePistol_Energy
 					  	|| belongings.weapon() instanceof CrudePistolAP
 					  	|| belongings.weapon() instanceof CrudePistolHP
 					  	|| belongings.weapon() instanceof Pistol

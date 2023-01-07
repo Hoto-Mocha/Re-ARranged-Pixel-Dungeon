@@ -29,25 +29,25 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
 
-public class Dagger_Energy extends EnergyWeapon {
+public class RunicDagger extends MeleeWeapon {
 	
 	{
-		image = ItemSpriteSheet.DAGGER_ENERGY;
+		image = ItemSpriteSheet.RUNICDAGGER;
 		hitSound = Assets.Sounds.HIT_STAB;
 		hitSoundPitch = 1.1f;
 
 		tier = 1;
 		
 		bones = false;
+	}
 
-		chargePerHit = 2;
-		chargeUsePerHit = 4;
+	@Override
+	public int max(int lvl) {
+		return  4*(tier) +
+				lvl*(tier);
 	}
 
 	@Override
@@ -61,18 +61,17 @@ public class Dagger_Energy extends EnergyWeapon {
 		}
 		return super.proc( attacker, defender, damage );
 	}
-
+	
 	@Override
 	public int damageRoll(Char owner) {
 		if (owner instanceof Hero) {
 			Hero hero = (Hero)owner;
 			Char enemy = hero.enemy();
 			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-				charge += chargePerHit;
-				//deals 75% toward max to max on surprise, instead of min to max.
+				//deals 67% toward max to max on surprise, instead of min to max.
 				int diff = max() - min();
 				int damage = augment.damageFactor(Random.NormalIntRange(
-						min() + Math.round(diff*0.75f),
+						min() + Math.round(diff*0.67f),
 						max()));
 				int exStr = hero.STR() - STRReq();
 				if (exStr > 0) {
@@ -82,25 +81,6 @@ public class Dagger_Energy extends EnergyWeapon {
 			}
 		}
 		return super.damageRoll(owner);
-	}
-
-	@Override
-	public int max(int lvl) {
-		return  5*(tier+2) +
-				lvl;
-	}
-
-	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-		{
-			inputs =  new Class[]{Dagger.class, ScrollOfUpgrade.class, LiquidMetal.class};
-			inQuantity = new int[]{1, 1, 10};
-
-			cost = 18;
-
-			output = Dagger_Energy.class;
-			outQuantity = 1;
-		}
 	}
 
 }

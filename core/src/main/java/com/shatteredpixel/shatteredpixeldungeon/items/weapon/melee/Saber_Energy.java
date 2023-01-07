@@ -25,10 +25,11 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Saber_Energy extends Saber {
-	
+public class Saber_Energy extends EnergyWeapon {
+
 	{
 		image = ItemSpriteSheet.SABER_ENERGY;
 		hitSound = Assets.Sounds.HIT_SLASH;
@@ -37,6 +38,9 @@ public class Saber_Energy extends Saber {
 		tier = 1;
 		
 		bones = false;
+
+		chargePerHit = 2;
+		chargeUsePerHit = 4;
 	}
 
 	@Override
