@@ -467,12 +467,22 @@ public class ItemSpriteSheet {
 		assignItemRect(DOUBLE_GREATSWORD, 	16, 16);
 	}
 
-	//private static final int ALCHEMYWEAPONS_2 	        =            	           xy(1, 39);
-	//public static final int   	= ALCHEMYWEAPONS_2+0;
+	private static final int ALCHEMYWEAPONS_2 	        =            	           xy(1, 39);
+	public static final int  WORN_SHORTSWORD_ENERGY 	= ALCHEMYWEAPONS_2+0;
+	public static final int  GLOVES_ENERGY 				= ALCHEMYWEAPONS_2+1;
+	public static final int  DAGGER_ENERGY 				= ALCHEMYWEAPONS_2+2;
+	public static final int  SABER_ENERGY 				= ALCHEMYWEAPONS_2+3;
+	public static final int  WORN_KATANA_ENERGY 		= ALCHEMYWEAPONS_2+4;
+	public static final int  CRUDE_PISTOL_ENERGY 		= ALCHEMYWEAPONS_2+5;
 
-	//static{
-	//	assignItemRect( ,  	16, 15);
-	//}
+	static{
+		assignItemRect(WORN_SHORTSWORD_ENERGY,  	13, 13);
+		assignItemRect(GLOVES_ENERGY,  				12, 16);
+		assignItemRect(DAGGER_ENERGY,  				12, 13);
+		assignItemRect(SABER_ENERGY,  				13, 15);
+		assignItemRect(WORN_KATANA_ENERGY,  		13, 13);
+		assignItemRect(CRUDE_PISTOL_ENERGY,  		10, 13);
+	}
 
 	private static final int SPELLBOOKS 	        =            	           xy(1, 40);
 	public static final int EMPTY_SPELLBOOK  		= SPELLBOOKS+0;
@@ -914,10 +924,16 @@ public class ItemSpriteSheet {
 	public static final int FIREIMBUE_SPELL    = SPELLS_2+0;
 	public static final int XRAY			   = SPELLS_2+1;
 	public static final int MAGICAL_BULLET	   = SPELLS_2+2;
+	public static final int RAPID_GROWTH	   = SPELLS_2+3;
+	public static final int LIGHTER			   = SPELLS_2+4;
+	public static final int COOLER			   = SPELLS_2+5;
 	static{
 		assignItemRect(FIREIMBUE_SPELL,     12, 11);
 		assignItemRect(XRAY,		        12, 11);
 		assignItemRect(MAGICAL_BULLET,		13, 13);
+		assignItemRect(RAPID_GROWTH,		8, 16);
+		assignItemRect(LIGHTER,				12, 11);
+		assignItemRect(COOLER,				12, 11);
 	}
 	
 	private static final int SPELLS         =                               xy(1, 27);  //16 slots

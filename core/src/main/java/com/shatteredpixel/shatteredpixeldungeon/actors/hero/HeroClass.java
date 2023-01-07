@@ -100,9 +100,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMysticalEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Cooler;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Lighter;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.RapidGrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
@@ -110,6 +113,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol_Energy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
@@ -174,6 +178,10 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		//TODO: to delete after testing
+		//new Lighter().collect();
+		//new Cooler().collect();
+		//new RapidGrowth().quantity(50).collect();
+		//new CrudePistol_Energy().identify().collect();
 		//new MagicalBullet().quantity(5).collect();
 		//new ScrollOfMirrorImage().identify().quantity(20).collect();
 		//new TengusMask().collect();
@@ -422,6 +430,7 @@ public enum HeroClass {
 		CrudePistol crude = new CrudePistol();
 		(hero.belongings.weapon = crude).identify();
 		RingOfReload reload = new RingOfReload();
+		reload.start = true;
 		(hero.belongings.ring = reload).identify().upgrade(3);
 		hero.belongings.ring.activate( hero );
 		AmmoBelt ammoBelt = new AmmoBelt();
@@ -476,6 +485,7 @@ public enum HeroClass {
 		(hero.belongings.weapon = wornKatana).identify();
 
 		RingOfMight might = new RingOfMight();
+		might.start = true;
 		(hero.belongings.ring = might).identify().upgrade(1);
 		hero.belongings.ring.activate( hero );
 
@@ -503,8 +513,9 @@ public enum HeroClass {
 		Dungeon.quickslot.setSlot(0, stones);
 
 		SandalsOfNature sandals = new SandalsOfNature();
+		sandals.start = true;
 		Generator.Category cat = Generator.Category.ARTIFACT;
-		cat.probs[5]--; //removes SandalsOfNature in pool
+		cat.probs[7]--; //removes SandalsOfNature in pool
 		(hero.belongings.artifact = sandals).identify();
 		hero.belongings.artifact.activate(hero);
 

@@ -108,6 +108,9 @@ public class Item implements Bundlable {
 
 	// whether an item can be included in heroes remains
 	public boolean bones = false;
+
+	// whether an item can be included in heroes remains, this is for only start-items, true = disable bones
+	public boolean start = false;
 	
 	public static final Comparator<Item> itemComparator = new Comparator<Item>() {
 		@Override

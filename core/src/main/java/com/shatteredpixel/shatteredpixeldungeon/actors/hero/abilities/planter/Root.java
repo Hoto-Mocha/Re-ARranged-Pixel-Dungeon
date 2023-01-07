@@ -99,7 +99,7 @@ public class Root extends ArmorAbility {
 				Buff.affect(ch, Poison.class).set(hero.pointsInTalent(Talent.POISONOUS_ROOT));
 			}
 			if (hero.hasTalent(Talent.ROOT_SPREAD)) {
-				GameScene.add( Blob.seed(ch.pos, 10*hero.pointsInTalent(Talent.ROOT_SPREAD), Regrowth.class));
+				GameScene.add( Blob.seed(ch.pos, 30*hero.pointsInTalent(Talent.ROOT_SPREAD), Regrowth.class));
 			}
 			CellEmitter.bottom( ch.pos ).start( EarthParticle.FACTORY, 0.05f, 8 );
 			hero.sprite.zap(target);

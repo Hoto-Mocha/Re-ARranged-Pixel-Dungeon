@@ -92,7 +92,7 @@ public class Bones {
 					item = Dungeon.quickslot.randomNonePlaceholder();
 					break;
 			}
-			if (item == null || !item.bones) {
+			if (item == null || !item.bones || item.start) {
 				return pickItem(hero);
 			}
 		} else {
@@ -102,7 +102,7 @@ public class Bones {
 			ArrayList<Item> items = new ArrayList<>();
 			while (iterator.hasNext()){
 				curItem = iterator.next();
-				if (curItem.bones)
+				if (curItem.bones && !item.start)
 					items.add(curItem);
 			}
 

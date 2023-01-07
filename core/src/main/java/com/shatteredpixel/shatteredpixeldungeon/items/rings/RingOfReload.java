@@ -42,8 +42,6 @@ public class RingOfReload extends Ring {
 
     {
         icon = ItemSpriteSheet.Icons.RING_RELOAD;
-
-        bones = false;
     }
 
     public String statsInfo() {
