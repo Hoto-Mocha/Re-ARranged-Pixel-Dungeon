@@ -90,7 +90,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.KnightsBlocking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LargeSwordBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalEmpower;
@@ -134,7 +133,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EnergyParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PoisonParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
@@ -210,6 +209,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
@@ -224,6 +224,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -246,7 +247,6 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndTradeItem;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
@@ -561,10 +561,6 @@ public class Hero extends Char {
 
 		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
 			accuracy *= 2;
-		}
-
-		if (hero.buff(LargeSwordBuff.class) != null) {
-			accuracy *= hero.buff(LargeSwordBuff.class).getAccuracyFactor();
 		}
 
 		if (hero.buff(Surgery.class) != null) {
@@ -2140,65 +2136,17 @@ public class Hero extends Char {
 
 	public void rest( boolean fullRest ) {
 		spendAndNext( TIME_TO_REST );
-
 		if (hasTalent(Talent.HOLD_FAST)){
 			Buff.affect(this, HoldFast.class);
 		}
-
 		if (Dungeon.level.map[pos] == Terrain.FURROWED_GRASS && hero.hasTalent(Talent.SHADOW) && hero.buff(Shadows.class) == null) {
 			Buff.affect(this, Shadows.class, 1.0001f);
 		}
 
-		if (hero.heroClass == HeroClass.SAMURAI) {
-			if (hero.buff(Sheathing.class) == null && hero.hasTalent(Talent.FLOW_AWAY) && Random.Int(10) < hero.pointsInTalent(Talent.FLOW_AWAY)) {
-				Buff.affect(hero, EvasiveMove.class, 0.9999f);
-			}
-
-			if (hero.buff(Sheathing.class) == null) {
-				SerialAttack serialAttack = hero.buff(SerialAttack.class);
-				if (hero.subClass == HeroSubClass.SLASHER && serialAttack != null) {
-					if (hero.hasTalent(Talent.DETECTIVE_SLASHING) && hero.buff(Talent.DetectiveSlashingCooldown.class) == null) {
-						int count = serialAttack.getCount();
-						if (Random.Int(7) < count) {
-							Buff.affect(hero, EvasiveMove.class, 0.9999f);
-						}
-						serialAttack.detach();
-						Buff.affect(hero, Talent.DetectiveSlashingCooldown.class, 5);
-					} else if (hero.hasTalent(Talent.SLASHING)) {
-						int count = serialAttack.getCount();
-						Buff.affect(hero, Iaido.class).set(count);
-						serialAttack.detach();
-					}
-				}
-			}
-			Buff.affect(hero, Sheathing.class);
-
-			if (hero.subClass == HeroSubClass.MASTER && hero.buff(StanceCooldown.class) == null) {
-				if (hero.buff(Dong.class) == null && hero.buff(Jung.class) == null) {
-
-					Buff.affect(hero, Dong.class);
-
-				} else if (hero.buff(Dong.class) != null) {
-
-					hero.buff(Dong.class).detach();
-					Buff.affect(hero, Jung.class);
-					if (hero.hasTalent(Talent.JUNG_INCISIVE_BLADE)) {
-						Buff.affect(hero, Talent.IncisiveBladeTracker.class);
-					}
-
-				}
-			}
-		}
-
 		if (!fullRest) {
-			if (belongings.weapon instanceof LargeSword){
-				Buff.affect(this, LargeSwordBuff.class).setDamageFactor(belongings.weapon.buffedLvl());
-				if (hero.sprite != null) {
-					Emitter e = hero.sprite.centerEmitter();
-					if (e != null) e.burst(EnergyParticle.FACTORY, 15);
-				}
+			if (sprite != null) {
+				sprite.showStatus(CharSprite.DEFAULT, Messages.get(this, "wait"));
 			}
-
 			if (Dungeon.hero.subClass == HeroSubClass.CHASER
 					&& hero.buff(Talent.ChaseCooldown.class) == null
 					&& hero.buff(Invisibility.class) == null
@@ -2214,7 +2162,46 @@ public class Hero extends Char {
 					Buff.affect(Dungeon.hero, Talent.ChaseCooldown.class, 15f);
 				}
 			}
+			if (hero.heroClass == HeroClass.SAMURAI) {
+				if (hero.buff(Sheathing.class) == null && hero.hasTalent(Talent.FLOW_AWAY) && Random.Int(10) < hero.pointsInTalent(Talent.FLOW_AWAY)) {
+					Buff.affect(hero, EvasiveMove.class, 0.9999f);
+				}
 
+				if (hero.buff(Sheathing.class) == null) {
+					SerialAttack serialAttack = hero.buff(SerialAttack.class);
+					if (hero.subClass == HeroSubClass.SLASHER && serialAttack != null) {
+						if (hero.hasTalent(Talent.DETECTIVE_SLASHING) && hero.buff(Talent.DetectiveSlashingCooldown.class) == null) {
+							int count = serialAttack.getCount();
+							if (Random.Int(7) < count) {
+								Buff.affect(hero, EvasiveMove.class, 0.9999f);
+							}
+							serialAttack.detach();
+							Buff.affect(hero, Talent.DetectiveSlashingCooldown.class, 5);
+						} else if (hero.hasTalent(Talent.SLASHING)) {
+							int count = serialAttack.getCount();
+							Buff.affect(hero, Iaido.class).set(count);
+							serialAttack.detach();
+						}
+					}
+				}
+				Buff.affect(hero, Sheathing.class);
+
+				if (hero.subClass == HeroSubClass.MASTER && hero.buff(StanceCooldown.class) == null) {
+					if (hero.buff(Dong.class) == null && hero.buff(Jung.class) == null) {
+
+						Buff.affect(hero, Dong.class);
+
+					} else if (hero.buff(Dong.class) != null) {
+
+						hero.buff(Dong.class).detach();
+						Buff.affect(hero, Jung.class);
+						if (hero.hasTalent(Talent.JUNG_INCISIVE_BLADE)) {
+							Buff.affect(hero, Talent.IncisiveBladeTracker.class);
+						}
+
+					}
+				}
+			}
 			if (hasTalent(Talent.DISINFECTION)) {
 				if (Random.Int(10) < pointsInTalent(Talent.DISINFECTION)) {
 					for (Buff b : hero.buffs()){
@@ -2226,11 +2213,9 @@ public class Hero extends Char {
 					}
 				}
 			}
-
 			if (hero.hasTalent(Talent.OUTLAW_OF_BARRENLAND)) {
 				Buff.affect(hero, Outlaw.class).count();
 			}
-
 			if (Random.Int(10) < hero.pointsInTalent(Talent.FIRST_AID) && !hero.buff(Hunger.class).isStarving()) {
 				int healAmt = 1;
 				healAmt = Math.min( healAmt, hero.HT - hero.HP );
@@ -2240,9 +2225,8 @@ public class Hero extends Char {
 					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 				}
 			}
-
-			if (sprite != null) {
-				sprite.showStatus(CharSprite.DEFAULT, Messages.get(this, "wait"));
+			if (hero.heroClass != HeroClass.SAMURAI && hero.hasTalent(Talent.FLOW_AWAY) && Random.Int(10) < hero.pointsInTalent(Talent.FLOW_AWAY)) {
+				Buff.affect(hero, EvasiveMove.class, 0.9999f);
 			}
 		}
 		resting = fullRest;
@@ -2454,11 +2438,6 @@ public class Hero extends Char {
 		}
 
 		dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
-
-		LargeSwordBuff largeSwordBuff = hero.buff(LargeSwordBuff.class);
-		if (largeSwordBuff != null) {
-			dmg = (int)Math.ceil(dmg * largeSwordBuff.getDefenseFactor());
-		}
 
 		//TODO improve this when I have proper damage source logic
 		if (belongings.armor() != null && belongings.armor().hasGlyph(AntiMagic.class, this)

@@ -124,7 +124,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicDagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
@@ -187,7 +186,6 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		//TODO: to delete after testing
-		//new LargeSword().identify().collect();
 		//new RunicDagger().identify().collect();
 		//new Scythe().identify().collect();
 		//new DoubleDagger().identify().collect();

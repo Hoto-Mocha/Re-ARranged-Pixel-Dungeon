@@ -102,7 +102,7 @@ public class Bones {
 			ArrayList<Item> items = new ArrayList<>();
 			while (iterator.hasNext()){
 				curItem = iterator.next();
-				if (curItem.bones && !curItem.start)
+				if (curItem.bones && !item.start)
 					items.add(curItem);
 			}
 

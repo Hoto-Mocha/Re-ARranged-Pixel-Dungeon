@@ -419,10 +419,9 @@ public class Generator {
 					FlameThrower.class,
 					PlasmaCannon.class,
 					LargeKatana.class,
-					LargeSword.class,
 					MissileButton.class //may not dropped normally
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 3, 3, 3, 5, 4, 0 };
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 ,4 ,4, 3, 3, 3, 5, 0 };
 
 			GUN_T1.classes = new Class<?>[]{
 					CrudePistol.class
