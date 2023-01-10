@@ -39,15 +39,15 @@ public class RunicDagger extends MeleeWeapon {
 		hitSound = Assets.Sounds.HIT_STAB;
 		hitSoundPitch = 1.1f;
 
-		tier = 1;
+		tier = 3;
 		
 		bones = false;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  4*(tier) +
-				lvl*(tier);
+		return  4*(tier + 1) +
+				lvl*(tier + 1);
 	}
 
 	@Override
