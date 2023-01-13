@@ -21,7 +21,9 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -47,7 +49,7 @@ public class RingOfArcana extends Ring {
 	}
 
 	public static float enchantPowerMultiplier(Char target ){
-		return (float)Math.pow(1.15f, getBuffedBonus(target, Arcana.class));
+		return (float)Math.pow(1.15f, getBuffedBonus(target, Arcana.class)) + (0.1f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER));
 	}
 
 	public class Arcana extends RingBuff {

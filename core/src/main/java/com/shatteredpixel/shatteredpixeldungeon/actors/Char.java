@@ -319,7 +319,7 @@ public abstract class Char extends Actor {
 			Dungeon.hero.busy();
 		}
 
-		if (c == hero && hero.subClass == HeroSubClass.RANGER && Random.Int(100) < hero.pointsInTalent(Talent.QUICK_RELOAD)*hero.speed()) {
+		if (c == hero && hero.subClass == HeroSubClass.RANGER && Random.Int(50) < hero.pointsInTalent(Talent.QUICK_RELOAD)*hero.speed()) {
 			if (hero.belongings.weapon() instanceof CrudePistol && ((CrudePistol)hero.belongings.weapon).round < ((CrudePistol)hero.belongings.weapon).max_round) {
 
 				((CrudePistol)hero.belongings.weapon).round = Math.min(((CrudePistol)hero.belongings.weapon).round+1, ((CrudePistol)hero.belongings.weapon).max_round);

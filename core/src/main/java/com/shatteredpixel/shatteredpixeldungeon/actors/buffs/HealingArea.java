@@ -180,7 +180,7 @@ public class HealingArea extends Buff {
 
         for (Char ch : enemy) {
             if (Dungeon.hero.hasTalent(Talent.ANGEL_AND_DEVIL)) {
-                if (Random.Int(3) < Dungeon.hero.pointsInTalent(Talent.ANGEL_AND_DEVIL)) {
+                if (Random.Int(6) < Dungeon.hero.pointsInTalent(Talent.ANGEL_AND_DEVIL)) {
                     int dmg = (Dungeon.hero.hasTalent(Talent.ANGEL)) ? 2 : 1;
                     ch.damage(dmg, Dungeon.hero);
                     ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 4 );

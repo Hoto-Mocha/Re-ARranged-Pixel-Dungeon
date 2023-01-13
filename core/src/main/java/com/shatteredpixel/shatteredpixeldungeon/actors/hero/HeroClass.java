@@ -75,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
@@ -187,7 +188,11 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		//TODO: to delete after testing
+		//new PotionOfLiquidFlame().identify().quantity(20).collect();
+		//new PotionOfFrost().identify().quantity(20).collect();
+		//new RapidGrowth().quantity(20).collect();
 		//new LargeSword().identify().collect();
+		//new LargeSword().identify().upgrade(1).collect();
 		//new RunicDagger().identify().collect();
 		//new Scythe().identify().collect();
 		//new DoubleDagger().identify().collect();

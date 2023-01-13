@@ -86,10 +86,6 @@ public abstract class Plant implements Bundlable {
 			Buff.affect(Dungeon.hero, Barkskin.class).set(2, 1 + 2*(Dungeon.hero.pointsInTalent(Talent.NATURES_AID)));
 		}
 
-		if (Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.BEEKEEPER)) {
-			Dungeon.level.drop( new Honeypot(), pos ).sprite.drop();
-		}
-
 		wither();
 		activate( ch );
 	}

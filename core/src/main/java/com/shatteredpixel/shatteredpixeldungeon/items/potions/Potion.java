@@ -295,21 +295,7 @@ public class Potion extends Item {
 	}
 	
 	protected void drink( Hero hero ) {
-		int proc = (Dungeon.hero.pointsInTalent(Talent.CLINICAL_TRIAL) == 3) ? 1 : 0;
-		if (this instanceof ExoticPotion || this instanceof Elixir) {
-			if (Dungeon.hero.pointsInTalent(Talent.CLINICAL_TRIAL) >= 2 && (Random.Int(10) <= proc ) && !(this instanceof PotionOfMastery || this instanceof ElixirOfTalent || this instanceof ElixirOfHealth)) {
-				GLog.p(Messages.get(this, "preserve"));
-			} else {
-				detach( hero.belongings.backpack );
-			}
-		} else {
-			if (Dungeon.hero.hasTalent(Talent.CLINICAL_TRIAL) && Random.Int(10) <= proc && !(this instanceof PotionOfStrength)) {
-				GLog.p(Messages.get(this, "preserve"));
-			} else {
-				detach( hero.belongings.backpack );
-			}
-		}
-
+		detach( hero.belongings.backpack );
 
 		hero.spend( TIME_TO_DRINK );
 		hero.busy();

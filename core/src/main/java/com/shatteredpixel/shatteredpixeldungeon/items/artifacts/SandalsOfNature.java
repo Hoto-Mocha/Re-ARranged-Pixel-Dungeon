@@ -26,9 +26,11 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -326,8 +328,8 @@ public class SandalsOfNature extends Artifact {
 		public void onSelect(Integer cell) {
 			if (cell != null){
 				int chargeToUse = seedChargeReqs.get(curSeedEffect);
-				if (Dungeon.hero.hasTalent(Talent.BIO_ENERGY)) {
-					chargeToUse *= 0.67f;
+				if (hero.subClass == HeroSubClass.RESEARCHER) {
+					chargeToUse *= 0.25f;
 				}
 				PathFinder.buildDistanceMap(curUser.pos, BArray.not(Dungeon.level.solid,null), 3);
 
@@ -340,16 +342,40 @@ public class SandalsOfNature extends Artifact {
 					plant.activate(Actor.findChar(cell));
 					Sample.INSTANCE.play(Assets.Sounds.TRAMPLE, 1, Random.Float( 0.96f, 1.05f ) );
 
-					if (Dungeon.hero.subClass == HeroSubClass.RESEARCHER) {
-						Buff.affect(Dungeon.hero, Barkskin.class).set((Dungeon.hero.pointsInTalent(Talent.BIO_ENERGY) > 2) ? Math.round(chargeToUse*1.5f) : chargeToUse, 2);
-					}
-
-					if (Dungeon.hero.pointsInTalent(Talent.BIO_ENERGY) > 1) {
+					if (hero.subClass == HeroSubClass.RESEARCHER) {
+						switch (hero.pointsInTalent(Talent.ROOT_PLANT)) {
+							case 0: default:
+								break;
+							case 1:
+								{
+									Char ch = Actor.findChar( cell );
+									if (ch != null && ch.alignment != Char.Alignment.ALLY){
+										Buff.affect(ch, Roots.class, 5f);
+									}
+								}
+								break;
+							case 2:
+								for (int k : PathFinder.NEIGHBOURS5){
+									Char ch = Actor.findChar( cell+k );
+									if (ch != null && ch.alignment != Char.Alignment.ALLY){
+										Buff.affect(ch, Roots.class, 5f);
+									}
+								}
+								break;
+							case 3:
+								for (int k : PathFinder.NEIGHBOURS9){
+									Char ch = Actor.findChar( cell+k );
+									if (ch != null && ch.alignment != Char.Alignment.ALLY){
+										Buff.affect(ch, Roots.class, 5f);
+									}
+								}
+								break;
+						}
 						for (int i : PathFinder.NEIGHBOURS8) {
 							int c = Dungeon.level.map[cell + i];
 							if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
 									|| c == Terrain.EMBERS || c == Terrain.GRASS){
-								Level.set(cell + i, Terrain.HIGH_GRASS);
+								Level.set(cell + i, Terrain.FURROWED_GRASS);
 								GameScene.updateMap(cell+ i);
 								CellEmitter.get( cell + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
 							}

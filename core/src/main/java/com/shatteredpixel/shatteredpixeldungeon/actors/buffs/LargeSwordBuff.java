@@ -23,6 +23,8 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeSword;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
@@ -53,6 +55,10 @@ public class LargeSwordBuff extends Buff {
 
         if (damageFactor > maxDamage) {
             damageFactor = maxDamage;
+        }
+
+        if (accuracyFactor > maxAccuracy) {
+            accuracyFactor = maxAccuracy;
         }
     }
 
@@ -98,10 +104,15 @@ public class LargeSwordBuff extends Buff {
     }
 
     public int pos = -1;
+    Item item = null;
 
     @Override
     public boolean act() {
         if (pos == -1) pos = target.pos;
+        if (item == null) item = hero.belongings.weapon;
+        if (item != hero.belongings.weapon) {
+            detach();
+        }
         if (pos != target.pos) {
             detach();
         }

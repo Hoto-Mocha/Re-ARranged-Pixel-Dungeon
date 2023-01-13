@@ -36,9 +36,22 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blizzard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ConfusionGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Freezing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Inferno;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ParalyticGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Regrowth;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SacrificialFire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SmokeScreen;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.StenchGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.StormCloud;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Web;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AccuracyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
@@ -128,6 +141,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.En
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tengu;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
@@ -220,6 +234,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.MagicalFireRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
@@ -1430,6 +1445,13 @@ public class Hero extends Char {
 			dr += Random.NormalIntRange(0, 5*pointsInTalent(Talent.PARRY));
 		}
 
+		if (hasTalent(Talent.ARMOR_ENHANCE)) {
+			dr += Random.NormalIntRange(0, 2);
+			if (pointsInTalent(Talent.ARMOR_ENHANCE) > 1) {
+				dr += 1;
+			}
+		}
+
 		dr += RingOfShield.armorMultiplier( this );
 		
 		return dr;
@@ -1463,7 +1485,7 @@ public class Hero extends Char {
 		}
 
 		if (hero.hasTalent(Talent.DONG_SHEATHING) && hero.buff(Dong.class) != null && hero.buff(Sheathing.class) != null) {
-			speed *= 0.25 * hero.pointsInTalent(Talent.DONG_SHEATHING);
+			speed *= 0.25f + 0.25f * hero.pointsInTalent(Talent.DONG_SHEATHING);
 		}
 
 		if (hero.buff(Flurry.class) != null) {
@@ -1599,7 +1621,7 @@ public class Hero extends Char {
 			Buff.affect(hero, Dong.class);
 			Buff.affect(hero, StanceCooldown.class, 9f);
 			buff(Dong.class).actionIcon();
-			return 1f;
+			return 0;
 		}
 
 		if (belongings.weapon() != null) {
@@ -2321,7 +2343,7 @@ public class Hero extends Char {
 
 		if (hasTalent(Talent.HOLY_PROTECTION)) {
 			if (Random.Int(5) < pointsInTalent(Talent.HOLY_PROTECTION)) {
-				damage *= 0.7f;
+				damage *= 0.4f;
 			}
 		}
 
@@ -2375,18 +2397,9 @@ public class Hero extends Char {
 			Buff.prolong(this, Invisibility.class, 3f);
 		}
 
-		if (hero.hasTalent(Talent.BATTLE_STIM) && Random.Int(10) < hero.pointsInTalent(Talent.BATTLE_STIM)) {
-			int healAmt = 1;
-			healAmt = Math.min( healAmt, hero.HT - hero.HP );
-			if (healAmt > 0 && hero.isAlive()) {
-				hero.HP += healAmt;
-				hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-				hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-			}
-		}
-
-		if (hero.hasTalent(Talent.ACTIVE_BARRIER) && Random.Int(10) < hero.pointsInTalent(Talent.ACTIVE_BARRIER)) {
-			Buff.affect(this, Barrier.class).setShield(5);
+		if (hero.hasTalent(Talent.ACTIVE_BARRIER) && enemy.buff(Talent.ActiveBarrierTracker.class) == null) {
+			Buff.affect(this, Barrier.class).setShield(1+2*pointsInTalent(Talent.ACTIVE_BARRIER));
+			Buff.affect(enemy, Talent.ActiveBarrierTracker.class);
 		}
 
 		if (hero.hasTalent(Talent.DEFENSE_STANCE) && Random.Int(20) < hero.pointsInTalent(Talent.DEFENSE_STANCE) && hero.buff(ShieldCoolDown.class) != null) {
@@ -2401,10 +2414,8 @@ public class Hero extends Char {
 			Buff.affect(this, HealingArea.class).setup(this.pos, 5, 1, true);
 		}
 
-		if (hero.hasTalent(Talent.INNER_MIRROR)) {
-			if (Random.Int(50) == 0) {
-				ScrollOfMirrorImage.spawnImages(Dungeon.hero, hero.pointsInTalent(Talent.INNER_MIRROR));
-			}
+		if (hero.hasTalent(Talent.INNER_MIRROR) && Random.Int(10) == 0) {
+			ScrollOfMirrorImage.spawnImages(Dungeon.hero, hero.pointsInTalent(Talent.INNER_MIRROR));
 		}
 
 		if (hero.hasTalent(Talent.ANGEL) && hero.buff(HealingArea.class) != null) {
@@ -2672,7 +2683,7 @@ public class Hero extends Char {
 				Buff.affect(this, Demonization.class).indicate();
 			}
 
-			if (hero.hasTalent(Talent.QUICK_RELOAD) && Random.Int(100) < hero.pointsInTalent(Talent.QUICK_RELOAD)*hero.speed()) {
+			if (hero.hasTalent(Talent.QUICK_RELOAD) && Random.Int(50) < hero.pointsInTalent(Talent.QUICK_RELOAD)*hero.speed()) {
 				if (hero.belongings.weapon() instanceof CrudePistol && ((CrudePistol)hero.belongings.weapon).round < ((CrudePistol)hero.belongings.weapon).max_round) {
 
 					((CrudePistol)hero.belongings.weapon).round = Math.min(((CrudePistol)hero.belongings.weapon).round+1, ((CrudePistol)hero.belongings.weapon).max_round);
@@ -3209,10 +3220,10 @@ public class Hero extends Char {
 
 			if (hit) {
 				if (buff(Talent.IncisiveBladeTracker.class) != null && hasTalent(Talent.JUNG_INCISIVE_BLADE)) {
-					Buff.affect(enemy, Bleeding.class).set(Math.min(3+hero.pointsInTalent(Talent.DEEP_SCAR), exStr*(1+pointsInTalent(Talent.JUNG_INCISIVE_BLADE))));
+					Buff.affect(enemy, Bleeding.class).set(Math.round(Math.min(3, exStr)*(1+0.5f*hero.pointsInTalent(Talent.DEEP_SCAR))*(1+pointsInTalent(Talent.JUNG_INCISIVE_BLADE))));
 					buff(Talent.IncisiveBladeTracker.class).detach();
 				} else {
-					Buff.affect(enemy, Bleeding.class).set(Math.min(3+hero.pointsInTalent(Talent.DEEP_SCAR), exStr));
+					Buff.affect(enemy, Bleeding.class).set(Math.round(Math.min(3, exStr)*(1+0.5f*hero.pointsInTalent(Talent.DEEP_SCAR))));
 				}
 			}
 			if (!enemy.isAlive() && Dungeon.hero.hasTalent(Talent.FAST_LEAD) && Random.Int(3) < Dungeon.hero.pointsInTalent(Talent.FAST_LEAD)) {
@@ -3245,10 +3256,6 @@ public class Hero extends Char {
 			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
 			WandOfBlastWave.throwChar(enemy, trajectory, 3, true, false, hero.getClass());
 			Buff.affect(hero, Talent.PushbackCooldown.class, 35-5*Dungeon.hero.pointsInTalent(Talent.PUSHBACK));
-		}
-
-		if (hero.hasTalent(Talent.SPIN_SLASH) && Random.Int(50) < hero.pointsInTalent(Talent.SPIN_SLASH)) {
-			Buff.affect(Dungeon.hero, Talent.LethalMomentumTracker.class, 1f);
 		}
 
 		if (hit && hero.hasTalent(Talent.ABSOLUTE_ZERO) && Random.Int(10) < hero.pointsInTalent(Talent.ABSOLUTE_ZERO)) {
@@ -3377,7 +3384,8 @@ public class Hero extends Char {
 					|| belongings.weapon() instanceof Mace
 					|| belongings.weapon() instanceof BattleAxe
 					|| belongings.weapon() instanceof WarHammer
-					|| belongings.weapon() instanceof IronHammer)
+					|| belongings.weapon() instanceof IronHammer
+					|| belongings.weapon() instanceof LargeSword)
 			) {
 				if (Random.Int(40) < Math.min(1+belongings.weapon.buffedLvl(), 10)){
 					Buff.affect(enemy, Vulnerable.class, 20f);
@@ -3575,7 +3583,7 @@ public class Hero extends Char {
 			}
 		}
 
-		if (hit && hero.hasTalent(Talent.ELASTIC_WEAPON) && Random.Int(10) < hero.pointsInTalent(Talent.ELASTIC_WEAPON)) {
+		if (hit && hero.hasTalent(Talent.ELASTIC_WEAPON) && Random.Int(5) < hero.pointsInTalent(Talent.ELASTIC_WEAPON)) {
 			if (Dungeon.hero.belongings.weapon() instanceof CrudePistol
 					|| Dungeon.hero.belongings.weapon() instanceof CrudePistolAP
 					|| Dungeon.hero.belongings.weapon() instanceof CrudePistolHP
@@ -4141,7 +4149,7 @@ public class Hero extends Char {
 		if (hit && hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
 
 			int amount = 1 + Math.round(hero.belongings.weapon.level()/2f);
-			if (hero.hasTalent(Talent.GOLD_MINER) && Random.Int(10) == 0) {
+			if (hero.hasTalent(Talent.GOLD_MINER) && Random.Int(5) == 0) {
 				amount *= 1+hero.pointsInTalent(Talent.GOLD_MINER);
 			}
 			Dungeon.level.drop( new Gold(amount), enemy.pos ).sprite.drop();
@@ -4155,8 +4163,8 @@ public class Hero extends Char {
 			Buff.affect(hero, Barrier.class).setShield(1+hero.pointsInTalent(Talent.CRITICAL_SHIELD));
 		}
 
-		if (hit && hero.hasTalent(Talent.WINNERS_FLAG) && !enemy.isAlive() && Random.Int(10) == 0) {
-			Buff.affect(hero, BlessingArea.class).setup(hero.pos, 10, hero.pointsInTalent(Talent.WINNERS_FLAG));
+		if (hit && hero.hasTalent(Talent.WINNERS_FLAG) && !enemy.isAlive() && Random.Int(2) == 0) {
+			Buff.affect(hero, BlessingArea.class).setup(hero.pos, 20, hero.pointsInTalent(Talent.WINNERS_FLAG));
 		}
 
 		if (hero.subClass == HeroSubClass.MEDIC && hit) {
@@ -4338,14 +4346,29 @@ public class Hero extends Char {
 				&& hero.hasTalent(Talent.IMMUNE_SYSTEM)) {
 			return true;
 		}
-		if (effect == Poison.class
+		if (effect == Bleeding.class
 				&& hero != null
 				&& hero.pointsInTalent(Talent.IMMUNE_SYSTEM) > 1) {
 			return true;
 		}
-		if (effect == Bleeding.class
+		if ((effect == Blizzard.class ||
+				effect == ConfusionGas.class ||
+				effect == CorrosiveGas.class ||
+				effect == Electricity.class ||
+				effect == Fire.class ||
+				effect == MagicalFireRoom.EternalFire.class ||
+				effect == Freezing.class ||
+				effect == Inferno.class ||
+				effect == ParalyticGas.class ||
+				effect == Regrowth.class ||
+				effect == SmokeScreen.class ||
+				effect == StenchGas.class ||
+				effect == StormCloud.class ||
+				effect == ToxicGas.class ||
+				effect == Web.class ||
+				effect == Tengu.FireAbility.FireBlob.class)
 				&& hero != null
-				&& hero.pointsInTalent(Talent.IMMUNE_SYSTEM) == 3) {
+				&& hero.pointsInTalent(Talent.IMMUNE_SYSTEM) > 2) {
 			return true;
 		}
 		return super.isImmune(effect);

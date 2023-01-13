@@ -290,7 +290,7 @@ public enum Talent {
 	//Planter T1
 	SUDDEN_GROWTH(246), SAFE_POTION(247), ROOT(248), KNOWLEDGE_HERB(249), GRAVEL_THROW(250),
 	//Planter T2
-	NATURAL_MEAL(251), HERBAL_DEW(252), SPROUT(253), BEEKEEPER(254), FLOWER_BED(255), WEAK_POISON(256),
+	NATURAL_MEAL(251), HERBAL_DEW(252), SPROUT(253), FIREWATCH(254), FLOWER_BED(255), WEAK_POISON(256),
 	//Planter T3
 	BLOOMING_WEAPON(257, 3), FARMER(258, 3),
 	//TreasureHunter T3
@@ -298,7 +298,7 @@ public enum Talent {
 	//Adventurer T3
 	JUNGLE_ADVENTURE(265, 3), SHADOW(266, 3), VINE_WHIP(267, 3), THORNY_VINE(268, 3), SNARE(269, 3), SHARP_INTUITION(270, 3),
 	//Researcher T3
-	ALIVE_GRASS(271, 3), DEW_MAKING(272, 3), BIO_ENERGY(273, 3), CLINICAL_TRIAL(274, 3), BIOLOGY_PROJECT(275, 3), CHEMICAL(276, 3),
+	ALIVE_GRASS(271, 3), DEW_MAKING(272, 3), BIO_ENERGY(273, 3), ROOT_PLANT(274, 3), BIOLOGY_PROJECT(275, 3), CHEMICAL(276, 3),
 	//Sprout T4
 	JUNGLE(277, 4), FOREST(278, 4), REGROWTH(279, 4),
 	//TreasureMap T4
@@ -307,13 +307,13 @@ public enum Talent {
 	POISONOUS_ROOT(283, 4), ROOT_SPREAD(284, 4), ROOT_ARMOR(285, 4),
 
 	//Knight T1
-	ON_ALERT(287), KNIGHTS_INTUITION(288), BATTLE_STIM(289), ACTIVE_BARRIER(290), WAR_CRY(291),
+	ON_ALERT(287), KNIGHTS_INTUITION(288), ARMOR_ENHANCE(289), ACTIVE_BARRIER(290), WAR_CRY(291),
 	//Knight T2
 	IMPREGNABLE_MEAL(292), SAFE_HEALING(293), DEFENSE_STANCE(294), CROSS_SLASH(295), ENDURING(296), BLOCKING(297),
 	//Knight T3
 	CRAFTMANS_SKILLS(298, 3), TACKLE(299, 3),
 	//Weaponmaster T3
-	CLASH(300, 3), SPIN_SLASH(301, 3), ABSOLUTE_ZERO(302, 3), EARTHQUAKE(303, 3), SPEAR_N_SHIELD(304, 3), UPGRADE_SHARE(305, 3),
+	CLASH(300, 3), MYSTICAL_POWER(301, 3), ABSOLUTE_ZERO(302, 3), EARTHQUAKE(303, 3), SPEAR_N_SHIELD(304, 3), UPGRADE_SHARE(305, 3),
 	//Fortress T3
 	IMPREGNABLE_WALL(306, 3), COUNTER_MOMENTUM(307, 3), SHIELD_SLAM(308, 3), PREPARATION(309, 3), FORTRESS(310, 3), MYSTICAL_COUNTER(311, 3),
 	//Crusader T3
@@ -406,6 +406,7 @@ public enum Talent {
 	public static class RollingTracker extends Buff{};
 	public static class DetactiveSlashingTracker extends Buff{};
 	public static class IncisiveBladeTracker extends Buff{};
+	public static class ActiveBarrierTracker extends Buff{};
 	public static class RejuvenatingStepsCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0f, 0.35f, 0.15f); }
@@ -864,13 +865,13 @@ public enum Talent {
 
 		}
 		if (hero.hasTalent(Talent.IMPREGNABLE_MEAL)) {
-			Buff.affect(hero, ArmorEmpower.class).set(hero.pointsInTalent(Talent.IMPREGNABLE_MEAL), 5f);
+			Buff.affect(hero, ArmorEmpower.class).set(hero.pointsInTalent(Talent.IMPREGNABLE_MEAL), 10f);
 		}
 		if (hero.hasTalent(Talent.HEALING_MEAL)) {
-			Buff.affect(hero, HealingArea.class).setup(hero.pos, 1+2*hero.pointsInTalent(Talent.HEALING_MEAL), 1, true);
+			Buff.affect(hero, HealingArea.class).setup(hero.pos, 10*hero.pointsInTalent(Talent.HEALING_MEAL), 1, true);
 		}
 		if (hero.hasTalent(Talent.CHALLENGING_MEAL)) {
-			Buff.affect(hero, ScrollOfChallenge.ChallengeArena.class).setup(hero.pos, 5*hero.pointsInTalent(Talent.CHALLENGING_MEAL));
+			Buff.affect(hero, ScrollOfChallenge.ChallengeArena.class).setup(hero.pos, 10*hero.pointsInTalent(Talent.CHALLENGING_MEAL));
 		}
 	}
 
@@ -1337,7 +1338,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	SUDDEN_GROWTH, SAFE_POTION, ROOT, KNOWLEDGE_HERB, GRAVEL_THROW);
 				break;
 			case KNIGHT:
-				Collections.addAll(tierTalents,	ON_ALERT, KNIGHTS_INTUITION, BATTLE_STIM, ACTIVE_BARRIER, WAR_CRY);
+				Collections.addAll(tierTalents,	ON_ALERT, KNIGHTS_INTUITION, ARMOR_ENHANCE, ACTIVE_BARRIER, WAR_CRY);
 				break;
 			case NURSE:
 				Collections.addAll(tierTalents,	HEALING_MEAL, DOCTORS_INTUITION, INNER_MIRROR, CRITICAL_SHIELD, HEAL_AMP);
@@ -1372,7 +1373,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	FOCUSING_MEAL, CRITICAL_UPGRADE, MAGICAL_TRANSFERENCE, PARRY, DETECTION, POWERFUL_CRIT);
 				break;
 			case PLANTER:
-				Collections.addAll(tierTalents,	NATURAL_MEAL, HERBAL_DEW, SPROUT, BEEKEEPER, FLOWER_BED, WEAK_POISON);
+				Collections.addAll(tierTalents,	NATURAL_MEAL, HERBAL_DEW, SPROUT, FIREWATCH, FLOWER_BED, WEAK_POISON);
 				break;
 			case KNIGHT:
 				Collections.addAll(tierTalents,	IMPREGNABLE_MEAL, SAFE_HEALING, DEFENSE_STANCE, CROSS_SLASH, ENDURING, BLOCKING);
@@ -1506,10 +1507,10 @@ public enum Talent {
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, JUNGLE_ADVENTURE, SHADOW, VINE_WHIP, THORNY_VINE, SNARE, SHARP_INTUITION);
 				break;
 			case RESEARCHER:
-				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, ALIVE_GRASS, DEW_MAKING, BIO_ENERGY, CLINICAL_TRIAL, BIOLOGY_PROJECT, CHEMICAL);
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, ALIVE_GRASS, DEW_MAKING, BIO_ENERGY, ROOT_PLANT, BIOLOGY_PROJECT, CHEMICAL);
 				break;
 			case WEAPONMASTER:
-				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, CLASH, SPIN_SLASH, ABSOLUTE_ZERO, EARTHQUAKE, SPEAR_N_SHIELD, UPGRADE_SHARE);
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, CLASH, MYSTICAL_POWER, ABSOLUTE_ZERO, EARTHQUAKE, SPEAR_N_SHIELD, UPGRADE_SHARE);
 				break;
 			case FORTRESS:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, IMPREGNABLE_WALL, COUNTER_MOMENTUM, SHIELD_SLAM, PREPARATION, FORTRESS, MYSTICAL_COUNTER);

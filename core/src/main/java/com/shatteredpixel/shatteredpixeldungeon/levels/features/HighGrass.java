@@ -37,10 +37,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.ArmoredStatue;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EnergyParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Camouflage;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Berry;
@@ -49,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Random;
 
 public class HighGrass {
@@ -158,9 +161,18 @@ public class HighGrass {
 					Camouflage.activate(statue, statue.armor().buffedLvl());
 				}
 			}
+
 			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
 				Buff.prolong(Dungeon.hero, Invisibility.class, Dungeon.hero.pointsInTalent(Talent.CAMOUFLAGE));
 				Sample.INSTANCE.play( Assets.Sounds.MELD );
+			}
+
+			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.BIO_ENERGY)) {
+				for (Buff b : hero.buffs()){
+					if (b instanceof Artifact.ArtifactBuff && !((Artifact.ArtifactBuff) b).isCursed() ) {
+						((Artifact.ArtifactBuff) b).charge(hero, hero.pointsInTalent(Talent.BIO_ENERGY)/2f);
+					}
+				}
 			}
 
 			//Healing

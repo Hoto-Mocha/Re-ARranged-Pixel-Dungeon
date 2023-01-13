@@ -176,6 +176,9 @@ abstract public class  KindOfWeapon extends EquipableItem {
 		critChance += Math.round(100*RingOfVorpal.vorpalProc( hero ));
 
 		if (owner == hero && Dungeon.hero.belongings.weapon() instanceof MeleeWeapon) {
+			if (hero.buff(Talent.DetactiveSlashingTracker.class) != null && hero.subClass == HeroSubClass.SLASHER && hero.pointsInTalent(Talent.DETECTIVE_SLASHING) > 2) {
+				Buff.affect(hero, SerialAttack.class).maxHit();
+			}
 			if ( critChance > 0 ) {
 				if (Random.Int(100) < critChance) {
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
@@ -185,9 +188,6 @@ abstract public class  KindOfWeapon extends EquipableItem {
 							Buff.affect(hero, IntervalWeaponUpgrade.class).levelUp();
 							Item.updateQuickslot();
 						}
-					}
-					if (hero.buff(Talent.DetactiveSlashingTracker.class) != null && hero.subClass == HeroSubClass.SLASHER) {
-						Buff.affect(hero, SerialAttack.class).maxHit();
 					}
 					if (demonization != null && demonization.isDemonated() && hero.hasTalent(Talent.ENERGY_DRAIN)) {
 						int pointUsed = hero.pointsInTalent(Talent.ENERGY_DRAIN);
