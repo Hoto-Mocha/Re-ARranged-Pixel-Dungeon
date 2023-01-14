@@ -54,106 +54,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Warding_Sword extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Warding_Sword extends SpellBook_Warding {
 
 	{
-		defaultAction = AC_READ;
-
 		image = ItemSpriteSheet.WARDING_SPELLBOOK_SWORD;
-		hitSound = Assets.Sounds.HIT;
+		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.1f;
 
 		tier = 5;
-		alchemy = true;
-	}
-
-	@Override
-	public int proc(Char attacker, Char defender, int damage) {
-		float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
-		if (Random.Float() < procChance) {
-			boolean found = false;
-			for (Mob m : Dungeon.level.mobs.toArray(new Mob[0])){
-				if (m instanceof PrismaticImage){ //if the prismatic image is existing in the floor
-					found = true;
-					if (m.HP < m.HT) {
-						m.HP = Math.min(m.HP+(int)(damage/2), m.HT); //heals the prismatic image
-						m.sprite.emitter().burst(Speck.factory(Speck.HEALING), 4);
-						m.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( Math.min((int)(damage/2), m.HT-m.HP) ) );
-					}
-				}
-			}
-
-			if (!found) {
-				if (hero.buff(PrismaticGuard.class) != null) {
-					Buff.affect(hero, PrismaticGuard.class).extend( (int)(damage/2) ); //heals the buff's hp
-				} else {
-					Buff.affect(hero, PrismaticGuard.class).set( (int)(damage/2) ); //affects a new buff to hero
-				}
-			}
-		}
-		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
-	}
-
-	private static final int NIMAGES	= 3;
-
-	@Override
-	public void execute(Hero hero, String action) {
-
-		super.execute(hero, action);
-
-		if (action.equals(AC_READ)) {
-			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "fail") );
-			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "need_id") );
-			} else {
-				spawnImages(curUser, NIMAGES);
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(100f-5*buffedLvl(), 50f));
-				Invisibility.dispel();
-				curUser.spend( Actor.TICK );
-				curUser.busy();
-				((HeroSprite)curUser.sprite).read();
-				Sample.INSTANCE.play(Assets.Sounds.READ);
-			}
-		}
-	}
-
-	public void spawnImages( Hero hero, int nImages ){
-
-		ArrayList<Integer> respawnPoints = new ArrayList<>();
-
-		for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
-			int p = hero.pos + PathFinder.NEIGHBOURS8[i];
-			if (Actor.findChar( p ) == null && Dungeon.level.passable[p]) {
-				respawnPoints.add( p );
-			}
-		}
-
-		while (nImages > 0 && respawnPoints.size() > 0) {
-			int index = Random.index( respawnPoints );
-
-			MirrorImage mob = new MirrorImage();
-			mob.duplicate( hero );
-			Buff.affect(mob, EvasiveMove.class, (buffedLvl() >= 10) ? 4f : 3f);
-			Buff.affect(mob, Haste.class, (buffedLvl() >= 10) ? 4f : 3f);
-			if(buffedLvl() >= 10) {
-				Buff.affect(mob, Barkskin.class).set(this.buffedLvl(), 1);
-			}
-			GameScene.add( mob );
-			ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );
-
-			respawnPoints.remove( index );
-			nImages--;
-		}
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

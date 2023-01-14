@@ -46,62 +46,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Earth_Sword extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Earth_Sword extends SpellBook_Earth {
 
 	{
-		defaultAction = AC_READ;
-
 		image = ItemSpriteSheet.EARTH_SPELLBOOK_SWORD;
-		hitSound = Assets.Sounds.HIT;
+		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.1f;
 
 		tier = 5;
-		alchemy = true;
-	}
-
-	@Override
-	public int proc(Char attacker, Char defender, int damage) {
-		float procChance = 1/4f; //fixed at 1/4 regardless of lvl
-		if (Random.Float() < procChance) {
-			Buff.affect(hero, Earthroot.Armor.class).level(5+buffedLvl());
-		}
-		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
-	}
-
-	@Override
-	public void execute(Hero hero, String action) {
-
-		super.execute(hero, action);
-
-		if (action.equals(AC_READ)) {
-			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "fail") );
-			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "need_id") );
-			} else {
-				GLog.w( Messages.get(this, "barkskin") );
-				Buff.affect(hero, Barkskin.class).set(Dungeon.depth/2+buffedLvl(), 1);
-				if (buffedLvl() >= 10) {
-					Buff.affect(hero, ArcaneArmor.class).set(Dungeon.depth/2+buffedLvl(), 1);
-				}
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(100f-5*buffedLvl(), 50f));
-				Invisibility.dispel();
-				curUser.spend( Actor.TICK );
-				curUser.busy();
-				((HeroSprite)curUser.sprite).read();
-				Dungeon.hero.sprite.centerEmitter().burst(MagicMissile.EarthParticle.ATTRACT, Dungeon.depth/2+buffedLvl());
-				Sample.INSTANCE.play(Assets.Sounds.READ);
-			}
-		}
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

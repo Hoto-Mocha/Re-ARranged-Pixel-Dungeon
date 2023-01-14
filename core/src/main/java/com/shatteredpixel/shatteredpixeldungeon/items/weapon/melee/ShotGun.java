@@ -82,7 +82,14 @@ public class ShotGun extends MeleeWeapon {
     public boolean flash = false;
     private static final String TXT_STATUS = "%d/%d";
 
+    int shotPerShoot;
+    int crippleChance;
+    float crippleDuration;
+
     {
+        shotPerShoot = 5;
+        crippleChance = 5;
+        crippleDuration = 2f;
 
         defaultAction = AC_SHOOT;
         usesTargeting = true;
@@ -461,7 +468,7 @@ public class ShotGun extends MeleeWeapon {
 
         @Override
         protected void onThrow(int cell) {
-            for (int i=1; i<=5; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+            for (int i=1; i<=shotPerShoot; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
                 Char enemy = Actor.findChar(cell);
                 if (enemy == null || enemy == curUser) {
                     parent = null;
@@ -472,8 +479,8 @@ public class ShotGun extends MeleeWeapon {
                         CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                         CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
                     }
-                    if (Random.Int(20) == 0){
-                        Buff.affect(enemy, Cripple.class, 2f);
+                    if (Random.Int(100) < crippleChance){
+                        Buff.affect(enemy, Cripple.class, crippleDuration);
                     }
                 }
             }

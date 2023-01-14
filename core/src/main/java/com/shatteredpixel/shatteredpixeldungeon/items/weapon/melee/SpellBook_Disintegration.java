@@ -28,16 +28,25 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class SpellBook_Disintegration extends MeleeWeapon {
+import java.util.ArrayList;
+
+public class SpellBook_Disintegration extends SpellBook {
 
 	{
+		defaultAction = null;
 		image = ItemSpriteSheet.DISTRIBUTION_SPELLBOOK;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
 		RCH = 2;
-		alchemy = true;
+	}
+
+	@Override
+	public ArrayList<String> actions(Hero hero) {
+		ArrayList<String> actions = super.actions(hero);
+		actions.remove(AC_READ);
+		return actions;
 	}
 
 	@Override

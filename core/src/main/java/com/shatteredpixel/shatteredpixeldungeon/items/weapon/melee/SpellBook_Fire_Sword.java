@@ -52,20 +52,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Fire_Sword extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Fire_Sword extends SpellBook_Fire {
 
 	{
-		defaultAction = AC_READ;
-		usesTargeting = false;
-
 		image = ItemSpriteSheet.FIRE_SPELLBOOK_SWORD;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
 		tier = 5;
-		alchemy = true;
 	}
 
 	@Override

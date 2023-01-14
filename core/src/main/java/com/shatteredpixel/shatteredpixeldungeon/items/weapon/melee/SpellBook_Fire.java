@@ -51,20 +51,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Fire extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Fire extends SpellBook {
 
 	{
-		defaultAction = AC_READ;
-		usesTargeting = false;
-
 		image = ItemSpriteSheet.FIRE_SPELLBOOK;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
-		alchemy = true;
 	}
 
 	@Override
@@ -81,13 +75,6 @@ public class SpellBook_Fire extends MeleeWeapon {
 			defender.sprite.emitter().burst( FlameParticle.FACTORY, buffedLvl() + 1 );
 		}
 		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
 	}
 
 	@Override

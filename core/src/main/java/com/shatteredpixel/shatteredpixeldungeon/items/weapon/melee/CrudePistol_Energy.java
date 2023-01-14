@@ -74,8 +74,6 @@ public class CrudePistol_Energy extends CrudePistol {
     
     {
         image = ItemSpriteSheet.CRUDE_PISTOL_ENERGY;
-        hitSound = Assets.Sounds.HIT_CRUSH;
-        hitSoundPitch = 0.8f;
 
         tier = 1;
 

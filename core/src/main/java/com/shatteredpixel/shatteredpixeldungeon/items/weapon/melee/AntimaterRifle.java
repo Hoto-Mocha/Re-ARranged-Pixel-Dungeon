@@ -510,6 +510,9 @@ public class AntimaterRifle extends MeleeWeapon {
                 }
             }
             updateQuickslot();
+                if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+                    AntimaterRifle.this.use();
+                }
         }
     }
 

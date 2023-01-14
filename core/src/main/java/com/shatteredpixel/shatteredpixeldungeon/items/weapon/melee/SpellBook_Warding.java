@@ -53,19 +53,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Warding extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Warding extends SpellBook {
 
 	{
-		defaultAction = AC_READ;
-
 		image = ItemSpriteSheet.WARDING_SPELLBOOK;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
-		alchemy = true;
 	}
 
 	@Override
@@ -93,13 +88,6 @@ public class SpellBook_Warding extends MeleeWeapon {
 			}
 		}
 		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
 	}
 
 	private static final int NIMAGES	= 3;
@@ -153,12 +141,6 @@ public class SpellBook_Warding extends MeleeWeapon {
 			respawnPoints.remove( index );
 			nImages--;
 		}
-	}
-
-	@Override
-	public int max(int lvl) {
-		return  3*(tier+1) +     //10 base, down from 20
-				lvl*(tier+1);                   //+2 per level, down from +4
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

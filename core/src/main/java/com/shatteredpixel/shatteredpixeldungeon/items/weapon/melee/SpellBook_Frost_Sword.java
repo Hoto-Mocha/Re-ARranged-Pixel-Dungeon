@@ -52,105 +52,15 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Frost_Sword extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Frost_Sword extends SpellBook_Frost {
 
 	{
-		defaultAction = AC_READ;
-		usesTargeting = false;
-
 		image = ItemSpriteSheet.FROST_SPELLBOOK_SWORD;
-		hitSound = Assets.Sounds.HIT;
+		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.1f;
 
 		tier = 5;
-		alchemy = true;
 	}
-
-	@Override
-	public int proc(Char attacker, Char defender, int damage) {
-		float procChance = (buffedLvl()+1f)/(buffedLvl()+4f);
-		if (Random.Float() < procChance) {
-			//adds 3 turns of chill per proc, with a cap of 6 turns
-			float durationToAdd = 3f;
-			Chill existing = defender.buff(Chill.class);
-			if (existing != null){
-				durationToAdd = Math.min(durationToAdd, 6f-existing.cooldown());
-			}
-
-			Buff.affect( defender, Chill.class, durationToAdd );
-			Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
-		}
-		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
-	}
-
-	@Override
-	public void execute(Hero hero, String action) {
-
-		super.execute(hero, action);
-
-		if (action.equals(AC_READ)) {
-			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "fail") );
-			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "need_id") );
-			} else {
-				usesTargeting = true;
-				curUser = hero;
-				curItem = this;
-				GameScene.selectCell(spell);
-			}
-		}
-	}
-
-	private CellSelector.Listener spell = new CellSelector.Listener() {
-		@Override
-		public void onSelect( Integer cell ) {
-			if (cell != null) {
-				int c = cell;
-				if (Dungeon.level.map[c] != Terrain.WALL && Dungeon.level.heroFOV[c]) {
-					if (Dungeon.level.pit[c]) {
-						GameScene.add(Blob.seed(c, 2, Freezing.class));
-					} else {
-						if (Dungeon.level.water[c]) {
-							if (buffedLvl() >= 10) {
-								GameScene.add(Blob.seed(c, 300 + 20 * buffedLvl(), Blizzard.class));
-							}
-							GameScene.add(Blob.seed(c, 20+buffedLvl(), Freezing.class));
-						} else {
-							if (buffedLvl() >= 10) {
-								GameScene.add(Blob.seed(c, 150 + 10 * buffedLvl(), Blizzard.class));
-							}
-							GameScene.add(Blob.seed(c, 5+buffedLvl(), Freezing.class));
-						}
-						Sample.INSTANCE.play(Assets.Sounds.SHATTER);
-						Splash.at( c, 0xFFB2D6FF, 5);
-					}
-				} else {
-					GLog.w( Messages.get(SpellBook_Frost_Sword.this, "cannot_cast"));
-				}
-				Buff.affect(hero, FrostImbue.class, Math.min(10+2*buffedLvl(), 50));
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(100f-5*buffedLvl(), 50f));
-				Invisibility.dispel();
-				curUser.spend( Actor.TICK );
-				curUser.busy();
-				((HeroSprite)curUser.sprite).read();
-				Sample.INSTANCE.play(Assets.Sounds.READ);
-			}
-		}
-		@Override
-		public String prompt() {
-			return Messages.get(SpiritBow.class, "prompt");
-		}
-	};
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 

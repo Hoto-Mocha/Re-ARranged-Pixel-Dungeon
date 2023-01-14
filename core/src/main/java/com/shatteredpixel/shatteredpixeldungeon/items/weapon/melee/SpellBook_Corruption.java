@@ -56,20 +56,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Corruption extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Corruption extends SpellBook {
 
 	{
-		defaultAction = AC_READ;
-		usesTargeting = false;
-
 		image = ItemSpriteSheet.CORRUPTION_SPELLBOOK;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
-		alchemy = true;
 	}
 
 	@Override
@@ -120,38 +114,6 @@ public class SpellBook_Corruption extends MeleeWeapon {
 			damage = 0;
 		}
 		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
-	}
-
-	@Override
-	public void execute(Hero hero, String action) {
-
-		super.execute(hero, action);
-
-		if (action.equals(AC_READ)) {
-			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "fail") );
-			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
-			} else {
-				usesTargeting = true;
-				curUser = hero;
-				curItem = this;
-				GameScene.selectCell(spell);
-			}
-		}
-	}
-
-	@Override
-	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier);     //+3 per level, down from +4
 	}
 
 	private CellSelector.Listener spell = new CellSelector.Listener() {

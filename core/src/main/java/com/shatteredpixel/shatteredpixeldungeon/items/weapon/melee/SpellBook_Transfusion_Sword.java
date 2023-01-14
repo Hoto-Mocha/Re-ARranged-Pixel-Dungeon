@@ -50,116 +50,15 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Transfusion_Sword extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Transfusion_Sword extends SpellBook_Transfusion {
 
 	{
-		defaultAction = AC_READ;
-		usesTargeting = false;
-
 		image = ItemSpriteSheet.TRANSFUSION_SPELLBOOK_SWORD;
-		hitSound = Assets.Sounds.HIT;
+		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.1f;
 
 		tier = 5;
-		alchemy = true;
 	}
-
-	@Override
-	public int proc(Char attacker, Char defender, int damage) {
-		//chance to heal scales from 5%-30% based on missing HP
-		float missingPercent = (attacker.HT - attacker.HP) / (float)attacker.HT;
-		float procChance = 0.05f + (0.25f+0.01f*buffedLvl())*missingPercent;
-		if (Random.Float() < procChance) {
-
-			//heals for 40% of damage dealt
-			int healAmt = Math.round(damage * 0.4f);
-			healAmt = Math.min( healAmt, attacker.HT - attacker.HP );
-
-			if (healAmt > 0 && attacker.isAlive()) {
-
-				attacker.HP += healAmt;
-				attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-				attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-
-			}
-
-		}
-		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
-	}
-
-	@Override
-	public void execute(Hero hero, String action) {
-
-		super.execute(hero, action);
-
-		if (action.equals(AC_READ)) {
-			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "fail") );
-			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "need_id") );
-			} else {
-				usesTargeting = true;
-				curUser = hero;
-				curItem = this;
-				GameScene.selectCell(spell);
-			}
-		}
-	}
-
-	private CellSelector.Listener spell = new CellSelector.Listener() {
-		@Override
-		public void onSelect( Integer cell ) {
-			if (cell != null) {
-				Mob target = null;
-				Char ch = Actor.findChar(cell);
-				if (ch != null && ch.alignment != Char.Alignment.ALLY && ch instanceof Mob){
-					target = (Mob)ch;
-				}
-				if (ch != null) {
-					if (ch != hero) {
-						if (buffedLvl() >= 10) {
-							if (!target.isImmune(ScrollOfSirensSong.Enthralled.class)){
-								AllyBuff.affectAndLoot(target, curUser, ScrollOfSirensSong.Enthralled.class);
-
-							} else {
-								Buff.affect( target, Charm.class, Charm.DURATION+2*buffedLvl() ).object = curUser.id();
-
-							}
-							target.sprite.centerEmitter().burst( Speck.factory( Speck.HEART ), 10 );
-						} else {
-							Buff.affect( target, Charm.class, Charm.DURATION+buffedLvl() ).object = curUser.id();
-							target.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 5 );
-							Sample.INSTANCE.play(Assets.Sounds.CHARMS);
-						}
-					} else {
-						GLog.w( Messages.get(SpellBook_Transfusion_Sword.this, "cannot_hero") );
-					}
-				} else {
-					GLog.w( Messages.get(SpellBook_Transfusion_Sword.this, "cannot_cast") );
-				}
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(200f-10*buffedLvl(), 100f));
-				Invisibility.dispel();
-				curUser.spend( Actor.TICK );
-				curUser.busy();
-				((HeroSprite)curUser.sprite).read();
-				hero.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 5 );
-				Sample.INSTANCE.play(Assets.Sounds.READ);
-			}
-		}
-		@Override
-		public String prompt() {
-			return Messages.get(SpiritBow.class, "prompt");
-		}
-	};
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 

@@ -90,11 +90,18 @@ public class PlasmaCannon extends MeleeWeapon {
     public static final String AC_RELOAD = "RELOAD";
 
     public int max_round;
+    public int initial_max_round;
     public int round = 0;
     public float reload_time;
     private static final String TXT_STATUS = "%d/%d";
 
+    int maxDistance;
+    int maxDistanceBonus;
+
     {
+        initial_max_round = 2;
+        maxDistanceBonus = buffedLvl();
+        maxDistance = 5;
 
         defaultAction = AC_SHOOT;
         usesTargeting = true;
@@ -166,7 +173,7 @@ public class PlasmaCannon extends MeleeWeapon {
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 2;
+            max_round = initial_max_round;
             if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
                 max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
             }
@@ -179,7 +186,7 @@ public class PlasmaCannon extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 2;
+        max_round = initial_max_round;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -204,7 +211,7 @@ public class PlasmaCannon extends MeleeWeapon {
 
     @Override
     public String status() {
-        max_round = 2;
+        max_round = initial_max_round;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -236,7 +243,7 @@ public class PlasmaCannon extends MeleeWeapon {
     @Override
     public String info() {
 
-        max_round = 2;
+        max_round = initial_max_round;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
@@ -461,7 +468,7 @@ public class PlasmaCannon extends MeleeWeapon {
         protected void onThrow(int cell) {
             Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP); //Always Projecting and no distance limit, see MissileWeapon.throwPos
             ArrayList<Char> chars = new ArrayList<>();
-            int maxDist = 5+PlasmaCannon.curItem.buffedLvl();
+            int maxDist = maxDistance+maxDistanceBonus;
             int dist = Math.min(aim.dist, maxDist);
             int cells = aim.path.get(Math.min(aim.dist, dist));
             boolean terrainAffected = false;

@@ -51,20 +51,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Frost extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Frost extends SpellBook {
 
 	{
-		defaultAction = AC_READ;
-		usesTargeting = false;
-
 		image = ItemSpriteSheet.FROST_SPELLBOOK;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
-		alchemy = true;
 	}
 
 	@Override
@@ -85,13 +79,6 @@ public class SpellBook_Frost extends MeleeWeapon {
 	}
 
 	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
-	}
-
-	@Override
 	public void execute(Hero hero, String action) {
 
 		super.execute(hero, action);
@@ -108,12 +95,6 @@ public class SpellBook_Frost extends MeleeWeapon {
 				GameScene.selectCell(spell);
 			}
 		}
-	}
-
-	@Override
-	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier);     //+3 per level, down from +4
 	}
 
 	private CellSelector.Listener spell = new CellSelector.Listener() {

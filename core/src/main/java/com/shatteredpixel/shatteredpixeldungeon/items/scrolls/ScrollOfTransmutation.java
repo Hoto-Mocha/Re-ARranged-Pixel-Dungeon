@@ -217,14 +217,8 @@ public class ScrollOfTransmutation extends InventoryScroll {
 				c = Generator.wepTiers[((MeleeWeapon) w).tier - 3];
 			} else if (
 				w instanceof TacticalHandgun
-			 || w instanceof TacticalHandgunAP
-			 || w instanceof TacticalHandgunHP
 			 || w instanceof MiniGun
-			 || w instanceof MiniGunAP
-			 || w instanceof MiniGunHP
 			 || w instanceof AntimaterRifle
-			 || w instanceof AntimaterRifleAP
-			 || w instanceof AntimaterRifleHP
 			 || w instanceof RPG7
 			 || w instanceof Lance
 			 || w instanceof ObsidianShield

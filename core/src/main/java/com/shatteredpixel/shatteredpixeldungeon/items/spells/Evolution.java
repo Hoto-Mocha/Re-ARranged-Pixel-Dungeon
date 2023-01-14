@@ -164,14 +164,8 @@ public class Evolution extends InventorySpell {
         ) {
             c = Generator.wepTiers[((MeleeWeapon)w).tier - 3];
         } else if (w instanceof TacticalHandgun
-                || w instanceof TacticalHandgunAP
-                || w instanceof TacticalHandgunHP
                 || w instanceof MiniGun
-                || w instanceof MiniGunAP
-                || w instanceof MiniGunHP
                 || w instanceof AntimaterRifle
-                || w instanceof AntimaterRifleAP
-                || w instanceof AntimaterRifleHP
                 || w instanceof RPG7
                 || w instanceof Lance
                 || w instanceof ObsidianShield
@@ -192,25 +186,13 @@ public class Evolution extends InventorySpell {
                 || w instanceof Greataxe
                 || w instanceof TrueRunicBlade
                 || w instanceof Magnum
-                || w instanceof MagnumAP
-                || w instanceof MagnumHP
                 || w instanceof HeavyMachinegun
-                || w instanceof HeavyMachinegunAP
-                || w instanceof HeavyMachinegunHP
                 || w instanceof SniperRifle
-                || w instanceof SniperRifleAP
-                || w instanceof SniperRifleHP
                 || w instanceof RocketLauncher
                 || w instanceof LargeKatana
                 || w instanceof KSG
-                || w instanceof KSGAP
-                || w instanceof KSGHP
                 || w instanceof FlameThrower
-                || w instanceof FlameThrowerAP
-                || w instanceof FlameThrowerHP
                 || w instanceof PlasmaCannon
-                || w instanceof PlasmaCannonAP
-                || w instanceof PlasmaCannonHP
                 || w instanceof Ballista
                 || w instanceof ChainWhip
         ){

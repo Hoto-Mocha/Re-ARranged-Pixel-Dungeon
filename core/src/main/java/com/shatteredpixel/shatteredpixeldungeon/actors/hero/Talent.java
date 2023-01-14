@@ -628,77 +628,29 @@ public enum Talent {
 		if (talent == GUNNERS_INTUITION && hero.pointsInTalent(GUNNERS_INTUITION) == 2){
 			if (hero.belongings.weapon() != null &&
 					(hero.belongings.weapon() instanceof CrudePistol
-						|| hero.belongings.weapon() instanceof CrudePistolAP
-						|| hero.belongings.weapon() instanceof CrudePistolHP
 						|| hero.belongings.weapon() instanceof Pistol
-						|| hero.belongings.weapon() instanceof PistolAP
-						|| hero.belongings.weapon() instanceof PistolHP
 						|| hero.belongings.weapon() instanceof GoldenPistol
-						|| hero.belongings.weapon() instanceof GoldenPistolAP
-						|| hero.belongings.weapon() instanceof GoldenPistolHP
 						|| hero.belongings.weapon() instanceof Handgun
-						|| hero.belongings.weapon() instanceof HandgunAP
-						|| hero.belongings.weapon() instanceof HandgunHP
 						|| hero.belongings.weapon() instanceof Magnum
-						|| hero.belongings.weapon() instanceof MagnumAP
-						|| hero.belongings.weapon() instanceof MagnumHP
 						|| hero.belongings.weapon() instanceof TacticalHandgun
-						|| hero.belongings.weapon() instanceof TacticalHandgunAP
-						|| hero.belongings.weapon() instanceof TacticalHandgunHP
 						|| hero.belongings.weapon() instanceof AutoHandgun
-						|| hero.belongings.weapon() instanceof AutoHandgunAP
-						|| hero.belongings.weapon() instanceof AutoHandgunHP
 						|| hero.belongings.weapon() instanceof DualPistol
-						|| hero.belongings.weapon() instanceof DualPistolAP
-						|| hero.belongings.weapon() instanceof DualPistolHP
 						|| hero.belongings.weapon() instanceof SubMachinegun
-						|| hero.belongings.weapon() instanceof SubMachinegunAP
-						|| hero.belongings.weapon() instanceof SubMachinegunHP
 						|| hero.belongings.weapon() instanceof AssultRifle
-						|| hero.belongings.weapon() instanceof AssultRifleAP
-						|| hero.belongings.weapon() instanceof AssultRifleHP
 						|| hero.belongings.weapon() instanceof HeavyMachinegun
-						|| hero.belongings.weapon() instanceof HeavyMachinegunAP
-						|| hero.belongings.weapon() instanceof HeavyMachinegunHP
 						|| hero.belongings.weapon() instanceof MiniGun
-						|| hero.belongings.weapon() instanceof MiniGunAP
-						|| hero.belongings.weapon() instanceof MiniGunHP
 						|| hero.belongings.weapon() instanceof AutoRifle
-						|| hero.belongings.weapon() instanceof AutoRifleAP
-						|| hero.belongings.weapon() instanceof AutoRifleHP
 						|| hero.belongings.weapon() instanceof Revolver
-						|| hero.belongings.weapon() instanceof RevolverAP
-						|| hero.belongings.weapon() instanceof RevolverHP
 						|| hero.belongings.weapon() instanceof HuntingRifle
-						|| hero.belongings.weapon() instanceof HuntingRifleAP
-						|| hero.belongings.weapon() instanceof HuntingRifleHP
 						|| hero.belongings.weapon() instanceof Carbine
-						|| hero.belongings.weapon() instanceof CarbineAP
-						|| hero.belongings.weapon() instanceof CarbineHP
 						|| hero.belongings.weapon() instanceof SniperRifle
-						|| hero.belongings.weapon() instanceof SniperRifleAP
-						|| hero.belongings.weapon() instanceof SniperRifleHP
 						|| hero.belongings.weapon() instanceof AntimaterRifle
-						|| hero.belongings.weapon() instanceof AntimaterRifleAP
-						|| hero.belongings.weapon() instanceof AntimaterRifleHP
 						|| hero.belongings.weapon() instanceof MarksmanRifle
-						|| hero.belongings.weapon() instanceof MarksmanRifleAP
-						|| hero.belongings.weapon() instanceof MarksmanRifleHP
 						|| hero.belongings.weapon() instanceof WA2000
-						|| hero.belongings.weapon() instanceof WA2000AP
-						|| hero.belongings.weapon() instanceof WA2000HP
 						|| hero.belongings.weapon() instanceof ShotGun
-						|| hero.belongings.weapon() instanceof ShotGunAP
-						|| hero.belongings.weapon() instanceof ShotGunHP
 						|| hero.belongings.weapon() instanceof KSG
-						|| hero.belongings.weapon() instanceof KSGAP
-						|| hero.belongings.weapon() instanceof KSGHP
 						|| hero.belongings.weapon() instanceof FlameThrower
-						|| hero.belongings.weapon() instanceof FlameThrowerAP
-						|| hero.belongings.weapon() instanceof FlameThrowerHP
 						|| hero.belongings.weapon() instanceof PlasmaCannon
-						|| hero.belongings.weapon() instanceof PlasmaCannonAP
-						|| hero.belongings.weapon() instanceof PlasmaCannonHP
 						|| hero.belongings.weapon() instanceof RPG7
 						|| hero.belongings.weapon() instanceof RocketLauncher)) hero.belongings.weapon().identify();
 		}
@@ -898,82 +850,29 @@ public enum Talent {
 
 		// 3x/instant for Gunner (see onItemEquipped)
 		if (item instanceof CrudePistol
-				|| item instanceof CrudePistolAP
-				|| item instanceof CrudePistolHP
 				|| item instanceof Pistol
-				|| item instanceof PistolAP
-				|| item instanceof PistolHP
 				|| item instanceof GoldenPistol
-				|| item instanceof GoldenPistolAP
-				|| item instanceof GoldenPistolHP
 				|| item instanceof Handgun
-				|| item instanceof HandgunAP
-				|| item instanceof HandgunHP
 				|| item instanceof Magnum
-				|| item instanceof MagnumAP
-				|| item instanceof MagnumHP
 				|| item instanceof TacticalHandgun
-				|| item instanceof TacticalHandgunAP
-				|| item instanceof TacticalHandgunHP
 				|| item instanceof AutoHandgun
-				|| item instanceof AutoHandgunAP
-				|| item instanceof AutoHandgunHP
-
 				|| item instanceof DualPistol
-				|| item instanceof DualPistolAP
-				|| item instanceof DualPistolHP
 				|| item instanceof SubMachinegun
-				|| item instanceof SubMachinegunAP
-				|| item instanceof SubMachinegunHP
 				|| item instanceof AssultRifle
-				|| item instanceof AssultRifleAP
-				|| item instanceof AssultRifleHP
 				|| item instanceof HeavyMachinegun
-				|| item instanceof HeavyMachinegunAP
-				|| item instanceof HeavyMachinegunHP
 				|| item instanceof MiniGun
-				|| item instanceof MiniGunAP
-				|| item instanceof MiniGunHP
 				|| item instanceof AutoRifle
-				|| item instanceof AutoRifleAP
-				|| item instanceof AutoRifleHP
-
 				|| item instanceof Revolver
-				|| item instanceof RevolverAP
-				|| item instanceof RevolverHP
 				|| item instanceof HuntingRifle
-				|| item instanceof HuntingRifleAP
-				|| item instanceof HuntingRifleHP
 				|| item instanceof Carbine
-				|| item instanceof CarbineAP
-				|| item instanceof CarbineHP
 				|| item instanceof SniperRifle
-				|| item instanceof SniperRifleAP
-				|| item instanceof SniperRifleHP
 				|| item instanceof AntimaterRifle
-				|| item instanceof AntimaterRifleAP
-				|| item instanceof AntimaterRifleHP
 				|| item instanceof MarksmanRifle
-				|| item instanceof MarksmanRifleAP
-				|| item instanceof MarksmanRifleHP
 				|| item instanceof WA2000
-				|| item instanceof WA2000AP
-				|| item instanceof WA2000HP
-
 				|| item instanceof ShotGun
-				|| item instanceof ShotGunAP
-				|| item instanceof ShotGunHP
 				|| item instanceof KSG
-				|| item instanceof KSGAP
-				|| item instanceof KSGHP
-
 				|| item instanceof FlameThrower
-				|| item instanceof FlameThrowerAP
-				|| item instanceof FlameThrowerHP
 				|| item instanceof PlasmaCannon
-				|| item instanceof PlasmaCannonAP
-				|| item instanceof PlasmaCannonHP
-
 				|| item instanceof RPG7
 				|| item instanceof RocketLauncher) {
 			factor *= 1f + 2f*hero.pointsInTalent(GUNNERS_INTUITION);
@@ -1118,81 +1017,33 @@ public enum Talent {
 		}
 		if (hero.pointsInTalent(GUNNERS_INTUITION) == 2 &&
 				(item instanceof CrudePistol
-						|| item instanceof CrudePistolAP
-						|| item instanceof CrudePistolHP
 						|| item instanceof Pistol
-						|| item instanceof PistolAP
-						|| item instanceof PistolHP
 						|| item instanceof GoldenPistol
-						|| item instanceof GoldenPistolAP
-						|| item instanceof GoldenPistolHP
 						|| item instanceof Handgun
-						|| item instanceof HandgunAP
-						|| item instanceof HandgunHP
 						|| item instanceof Magnum
-						|| item instanceof MagnumAP
-						|| item instanceof MagnumHP
 						|| item instanceof TacticalHandgun
-						|| item instanceof TacticalHandgunAP
-						|| item instanceof TacticalHandgunHP
 						|| item instanceof AutoHandgun
-						|| item instanceof AutoHandgunAP
-						|| item instanceof AutoHandgunHP
 
 						|| item instanceof DualPistol
-						|| item instanceof DualPistolAP
-						|| item instanceof DualPistolHP
 						|| item instanceof SubMachinegun
-						|| item instanceof SubMachinegunAP
-						|| item instanceof SubMachinegunHP
 						|| item instanceof AssultRifle
-						|| item instanceof AssultRifleAP
-						|| item instanceof AssultRifleHP
 						|| item instanceof HeavyMachinegun
-						|| item instanceof HeavyMachinegunAP
-						|| item instanceof HeavyMachinegunHP
 						|| item instanceof MiniGun
-						|| item instanceof MiniGunAP
-						|| item instanceof MiniGunHP
 						|| item instanceof AutoRifle
-						|| item instanceof AutoRifleAP
-						|| item instanceof AutoRifleHP
 
 						|| item instanceof Revolver
-						|| item instanceof RevolverAP
-						|| item instanceof RevolverHP
 						|| item instanceof HuntingRifle
-						|| item instanceof HuntingRifleAP
-						|| item instanceof HuntingRifleHP
 						|| item instanceof Carbine
-						|| item instanceof CarbineAP
-						|| item instanceof CarbineHP
 						|| item instanceof SniperRifle
-						|| item instanceof SniperRifleAP
-						|| item instanceof SniperRifleHP
 						|| item instanceof AntimaterRifle
-						|| item instanceof AntimaterRifleAP
-						|| item instanceof AntimaterRifleHP
 						|| item instanceof MarksmanRifle
-						|| item instanceof MarksmanRifleAP
-						|| item instanceof MarksmanRifleHP
 						|| item instanceof WA2000
-						|| item instanceof WA2000AP
-						|| item instanceof WA2000HP
 
 						|| item instanceof ShotGun
-						|| item instanceof ShotGunAP
-						|| item instanceof ShotGunHP
 						|| item instanceof KSG
-						|| item instanceof KSGAP
-						|| item instanceof KSGHP
 
 						|| item instanceof FlameThrower
-						|| item instanceof FlameThrowerAP
-						|| item instanceof FlameThrowerHP
 						|| item instanceof PlasmaCannon
-						|| item instanceof PlasmaCannonAP
-						|| item instanceof PlasmaCannonHP
 
 						|| item instanceof RPG7
 						|| item instanceof RocketLauncher)

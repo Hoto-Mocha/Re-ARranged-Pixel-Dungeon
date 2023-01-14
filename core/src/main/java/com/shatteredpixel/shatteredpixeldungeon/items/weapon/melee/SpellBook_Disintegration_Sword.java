@@ -27,23 +27,15 @@ import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class SpellBook_Disintegration_Sword extends MeleeWeapon {
+public class SpellBook_Disintegration_Sword extends SpellBook_Disintegration {
 
 	{
 		image = ItemSpriteSheet.DISTRIBUTION_SPELLBOOK_SWORD;
-		hitSound = Assets.Sounds.HIT;
+		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.1f;
 
 		tier = 5;
 		RCH = 2;
-		alchemy = true;
-	}
-
-	@Override
-	public int reachFactor(Char owner) {
-		int reach = super.reachFactor(owner);
-		reach += Math.min(buffedLvl(), 10); //increases reach per lvl, up to +10 tiles
-		return reach;
 	}
 
 	@Override

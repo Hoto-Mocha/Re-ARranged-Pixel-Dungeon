@@ -414,79 +414,31 @@ abstract public class Weapon extends KindOfWeapon {
 			lvl += intervalWeaponUpgrade.boost();
 		}
 		if (this instanceof CrudePistol
-			|| this instanceof CrudePistolAP
-			|| this instanceof CrudePistolHP
 			|| this instanceof Pistol
-			|| this instanceof PistolAP
-			|| this instanceof PistolHP
 			|| this instanceof GoldenPistol
-			|| this instanceof GoldenPistolAP
-			|| this instanceof GoldenPistolHP
 			|| this instanceof Handgun
-			|| this instanceof HandgunAP
-			|| this instanceof HandgunHP
 			|| this instanceof Magnum
-			|| this instanceof MagnumAP
-			|| this instanceof MagnumHP
 			|| this instanceof TacticalHandgun
-			|| this instanceof TacticalHandgunAP
-			|| this instanceof TacticalHandgunHP
 			|| this instanceof AutoHandgun
-			|| this instanceof AutoHandgunAP
-			|| this instanceof AutoHandgunHP
 			|| this instanceof DualPistol
-			|| this instanceof DualPistolAP
-			|| this instanceof DualPistolHP
 			|| this instanceof SubMachinegun
-			|| this instanceof SubMachinegunAP
-			|| this instanceof SubMachinegunHP
 			|| this instanceof AssultRifle
-			|| this instanceof AssultRifleAP
-			|| this instanceof AssultRifleHP
 			|| this instanceof HeavyMachinegun
-			|| this instanceof HeavyMachinegunAP
-			|| this instanceof HeavyMachinegunHP
 			|| this instanceof MiniGun
-			|| this instanceof MiniGunAP
-			|| this instanceof MiniGunHP
 			|| this instanceof AutoRifle
-			|| this instanceof AutoRifleAP
-			|| this instanceof AutoRifleHP
 			|| this instanceof Revolver
-			|| this instanceof RevolverAP
-			|| this instanceof RevolverHP
 			|| this instanceof HuntingRifle
-			|| this instanceof HuntingRifleAP
-			|| this instanceof HuntingRifleHP
 			|| this instanceof Carbine
-			|| this instanceof CarbineAP
-			|| this instanceof CarbineHP
 			|| this instanceof SniperRifle
-			|| this instanceof SniperRifleAP
-			|| this instanceof SniperRifleHP
 			|| this instanceof AntimaterRifle
-			|| this instanceof AntimaterRifleAP
-			|| this instanceof AntimaterRifleHP
 			|| this instanceof MarksmanRifle
-			|| this instanceof MarksmanRifleAP
-			|| this instanceof MarksmanRifleHP
 			|| this instanceof WA2000
-			|| this instanceof WA2000AP
-			|| this instanceof WA2000HP
 			|| this instanceof ShotGun
-			|| this instanceof ShotGunAP
-			|| this instanceof ShotGunHP
 			|| this instanceof KSG
-			|| this instanceof KSGAP
-			|| this instanceof KSGHP
 			|| this instanceof RocketLauncher
 			|| this instanceof RPG7
 			|| this instanceof FlameThrower
-			|| this instanceof FlameThrowerAP
-			|| this instanceof FlameThrowerHP
-			|| this instanceof PlasmaCannon
-			|| this instanceof PlasmaCannonAP
-			|| this instanceof PlasmaCannonHP) {
+			|| this instanceof PlasmaCannon) {
 			GunEmpower buff = hero.buff(GunEmpower.class);
 			if (buff != null && lvl < buff.boost()) {
 				lvl = buff.boost();

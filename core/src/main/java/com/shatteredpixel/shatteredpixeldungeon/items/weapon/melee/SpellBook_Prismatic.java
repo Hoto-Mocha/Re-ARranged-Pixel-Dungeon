@@ -43,19 +43,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Prismatic extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Prismatic extends SpellBook {
 
 	{
-		defaultAction = AC_READ;
-
 		image = ItemSpriteSheet.PRISMATIC_SPELLBOOK;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
 		tier = 3;
-		alchemy = true;
 	}
 
 	@Override
@@ -71,13 +66,6 @@ public class SpellBook_Prismatic extends MeleeWeapon {
 			damage *= 1.3333f; //deals more damage to the demons and the undeads
 		}
 		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
 	}
 
 	@Override
@@ -110,12 +98,6 @@ public class SpellBook_Prismatic extends MeleeWeapon {
 				Sample.INSTANCE.play(Assets.Sounds.READ);
 			}
 		}
-	}
-
-	@Override
-	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier);     //+3 per level, down from +4
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

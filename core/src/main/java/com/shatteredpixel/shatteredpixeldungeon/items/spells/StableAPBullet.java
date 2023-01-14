@@ -136,57 +136,33 @@ public class StableAPBullet extends InventorySpell {
     @Override
     protected boolean usableOnItem(Item item) {
         return item instanceof CrudePistol
-                || item instanceof CrudePistolHP
                 || item instanceof Pistol
-                || item instanceof PistolHP
                 || item instanceof GoldenPistol
-                || item instanceof GoldenPistolHP
                 || item instanceof Handgun
-                || item instanceof HandgunHP
                 || item instanceof Magnum
-                || item instanceof MagnumHP
                 || item instanceof TacticalHandgun
-                || item instanceof TacticalHandgunHP
                 || item instanceof AutoHandgun
-                || item instanceof AutoHandgunHP
 
                 || item instanceof DualPistol
-                || item instanceof DualPistolHP
                 || item instanceof SubMachinegun
-                || item instanceof SubMachinegunHP
                 || item instanceof AssultRifle
-                || item instanceof AssultRifleHP
                 || item instanceof HeavyMachinegun
-                || item instanceof HeavyMachinegunHP
                 || item instanceof MiniGun
-                || item instanceof MiniGunHP
                 || item instanceof AutoRifle
-                || item instanceof AutoRifleHP
 
                 || item instanceof Revolver
-                || item instanceof RevolverHP
                 || item instanceof HuntingRifle
-                || item instanceof HuntingRifleHP
                 || item instanceof Carbine
-                || item instanceof CarbineHP
                 || item instanceof SniperRifle
-                || item instanceof SniperRifleHP
                 || item instanceof AntimaterRifle
-                || item instanceof AntimaterRifleHP
                 || item instanceof MarksmanRifle
-                || item instanceof MarksmanRifleHP
                 || item instanceof WA2000
-                || item instanceof WA2000HP
 
                 || item instanceof ShotGun
-                || item instanceof ShotGunHP
                 || item instanceof KSG
-                || item instanceof KSGHP
 
                 || item instanceof FlameThrower
-                || item instanceof FlameThrowerHP
                 || item instanceof PlasmaCannon
-                || item instanceof PlasmaCannonHP
 
                 || item instanceof GrenadeLauncher
                 || item instanceof GrenadeLauncherHP
@@ -241,53 +217,53 @@ public class StableAPBullet extends InventorySpell {
 
         Weapon n;
 
-        if (w instanceof CrudePistol || w instanceof CrudePistolHP) {
+        if (w instanceof CrudePistol) {
             n = new CrudePistolAP();
-        } else if (w instanceof Pistol || w instanceof PistolHP) {
+        } else if (w instanceof Pistol) {
             n = new PistolAP();
-        } else if (w instanceof GoldenPistol || w instanceof GoldenPistolHP) {
+        } else if (w instanceof GoldenPistol) {
             n = new GoldenPistolAP();
-        } else if (w instanceof Handgun || w instanceof HandgunHP) {
+        } else if (w instanceof Handgun) {
             n = new HandgunAP();
-        } else if (w instanceof Magnum || w instanceof MagnumHP) {
+        } else if (w instanceof Magnum) {
             n = new MagnumAP();
-        } else if (w instanceof TacticalHandgun || w instanceof TacticalHandgunHP) {
+        } else if (w instanceof TacticalHandgun) {
             n = new TacticalHandgunAP();
-        } else if (w instanceof AutoHandgun || w instanceof AutoHandgunHP) {
+        } else if (w instanceof AutoHandgun) {
             n = new AutoHandgunAP();
-        } else if (w instanceof DualPistol || w instanceof DualPistolHP) {
+        } else if (w instanceof DualPistol) {
             n = new DualPistolAP();
-        } else if (w instanceof SubMachinegun || w instanceof SubMachinegunHP) {
+        } else if (w instanceof SubMachinegun) {
             n = new SubMachinegunAP();
-        } else if (w instanceof AssultRifle || w instanceof AssultRifleHP) {
+        } else if (w instanceof AssultRifle) {
             n = new AssultRifleAP();
-        } else if (w instanceof HeavyMachinegun || w instanceof HeavyMachinegunHP) {
+        } else if (w instanceof HeavyMachinegun) {
             n = new HeavyMachinegunAP();
-        } else if (w instanceof MiniGun || w instanceof MiniGunHP) {
+        } else if (w instanceof MiniGun) {
             n = new MiniGunAP();
-        } else if (w instanceof AutoRifle || w instanceof AutoRifleHP) {
+        } else if (w instanceof AutoRifle) {
             n = new AutoRifleAP();
-        } else if (w instanceof Revolver || w instanceof RevolverHP) {
+        } else if (w instanceof Revolver) {
             n = new RevolverAP();
-        } else if (w instanceof HuntingRifle || w instanceof HuntingRifleHP) {
+        } else if (w instanceof HuntingRifle) {
             n = new HuntingRifleAP();
-        } else if (w instanceof Carbine || w instanceof CarbineHP) {
+        } else if (w instanceof Carbine) {
             n = new CarbineAP();
-        } else if (w instanceof SniperRifle || w instanceof SniperRifleHP) {
+        } else if (w instanceof SniperRifle) {
             n = new SniperRifleAP();
-        } else if (w instanceof AntimaterRifle || w instanceof AntimaterRifleHP) {
+        } else if (w instanceof AntimaterRifle) {
             n = new AntimaterRifleAP();
-        } else if (w instanceof MarksmanRifle || w instanceof MarksmanRifleHP) {
+        } else if (w instanceof MarksmanRifle) {
             n = new MarksmanRifleAP();
-        } else if (w instanceof WA2000 || w instanceof WA2000HP) {
+        } else if (w instanceof WA2000) {
             n = new WA2000AP();
-        } else if (w instanceof ShotGun || w instanceof ShotGunHP) {
+        } else if (w instanceof ShotGun) {
             n = new ShotGunAP();
-        } else if (w instanceof KSG || w instanceof KSGHP) {
+        } else if (w instanceof KSG) {
             n = new KSGAP();
-        } else if (w instanceof FlameThrower || w instanceof FlameThrowerHP) {
+        } else if (w instanceof FlameThrower) {
             n = new FlameThrowerAP();
-        } else if (w instanceof PlasmaCannon || w instanceof PlasmaCannonHP) {
+        } else if (w instanceof PlasmaCannon) {
             n = new PlasmaCannonAP();
         } else if (w instanceof GrenadeLauncher || w instanceof GrenadeLauncherHP){
             n = new GrenadeLauncherAP();

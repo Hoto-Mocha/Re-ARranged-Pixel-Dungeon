@@ -44,73 +44,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Prismatic_Sword extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Prismatic_Sword extends SpellBook_Prismatic {
 
 	{
-		defaultAction = AC_READ;
-
 		image = ItemSpriteSheet.PRISMATIC_SPELLBOOK_SWORD;
-		hitSound = Assets.Sounds.HIT;
+		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.1f;
 
 		tier = 5;
-		alchemy = true;
-	}
-
-	@Override
-	public int proc(Char attacker, Char defender, int damage) {
-		float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
-		if (Random.Float() < procChance) {
-			Buff.affect(defender, Blindness.class, 2+buffedLvl());
-		}
-		if (defender.properties().contains(Char.Property.DEMONIC) || defender.properties().contains(Char.Property.UNDEAD)){
-			defender.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10+buffedLvl() );
-			Sample.INSTANCE.play(Assets.Sounds.BURNING);
-
-			damage *= 1.3333f; //deals more damage to the demons and the undeads
-		}
-		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
-	}
-
-	@Override
-	public void execute(Hero hero, String action) {
-
-		super.execute(hero, action);
-
-		if (action.equals(AC_READ)) {
-			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "fail") );
-			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "need_id") );
-			} else {
-				if (Dungeon.level.viewDistance < 6 ){
-					Buff.prolong( curUser, Light.class, 30f+5*buffedLvl());
-					Sample.INSTANCE.play(Assets.Sounds.BURNING);
-				} else {
-					if (buffedLvl() >= 10) {
-						Buff.affect(hero, Awareness.class ,2f);
-						GLog.p( Messages.get(SpellBook_Empty_Sword.class, "awareness") );
-					} else {
-						GLog.i( Messages.get(this, "nothing") );
-					}
-				}
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(100f-5*buffedLvl(), 50f));
-				Invisibility.dispel();
-				curUser.spend( Actor.TICK );
-				curUser.busy();
-				((HeroSprite)curUser.sprite).read();
-				Sample.INSTANCE.play(Assets.Sounds.READ);
-			}
-		}
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

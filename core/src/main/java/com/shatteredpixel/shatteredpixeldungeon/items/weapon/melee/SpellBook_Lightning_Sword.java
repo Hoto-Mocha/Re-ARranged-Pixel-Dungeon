@@ -51,70 +51,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Lightning_Sword extends MeleeWeapon {
-
-	public static final String AC_READ		= "READ";
+public class SpellBook_Lightning_Sword extends SpellBook_Lightning {
 
 	{
-		defaultAction = AC_READ;
-		usesTargeting = false;
-
 		image = ItemSpriteSheet.LIGHTNING_SPELLBOOK_SWORD;
-		hitSound = Assets.Sounds.HIT;
+		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.1f;
 
 		tier = 5;
-		alchemy = true;
-	}
-
-	@Override
-	public int proc(Char attacker, Char defender, int damage) {
-		ArrayList<Lightning.Arc> arcs = new ArrayList<>();
-		ArrayList<Char> affected = new ArrayList<>();
-		float procChance = (buffedLvl()+1f)/(buffedLvl()+4f);
-		if (Random.Float() < procChance) {
-			affected.clear();
-			arcs.clear();
-
-			Shocking.arc(hero, defender, 2, affected, arcs);
-
-			affected.remove(defender); //defender isn't hurt by lightning
-			for (Char ch : affected) {
-				if (ch.alignment != hero.alignment) {
-					ch.damage(Math.round(damage * 0.4f), this);
-				}
-			}
-
-			hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
-			Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
-		}
-		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add(AC_READ);
-		return actions;
-	}
-
-	@Override
-	public void execute(Hero hero, String action) {
-
-		super.execute(hero, action);
-
-		if (action.equals(AC_READ)) {
-			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "fail") );
-			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty_Sword.class, "need_id") );
-			} else {
-				usesTargeting = true;
-				curUser = hero;
-				curItem = this;
-				GameScene.selectCell(spell);
-			}
-		}
 	}
 
 	@Override
@@ -123,51 +67,6 @@ public class SpellBook_Lightning_Sword extends MeleeWeapon {
 				lvl*(tier+1);   //level scaling unchanged
 	}
 
-	private CellSelector.Listener spell = new CellSelector.Listener() {
-		@Override
-		public void onSelect( Integer cell ) {
-			if (cell != null) {
-				if (buffedLvl() >= 10) {
-					boolean infov = false;
-					for (int n : PathFinder.NEIGHBOURS9) {
-						int c = cell + n;
-						if (Dungeon.level.map[c] != Terrain.WALL && Dungeon.level.heroFOV[c]) {
-							if (Dungeon.level.pit[c]) {
-								GameScene.add(Blob.seed(c, 2, Electricity.class));
-							} else {
-								GameScene.add(Blob.seed(c, 5+buffedLvl(), Electricity.class));
-							}
-							infov = true;
-						}
-					}
-					if (!infov) {
-						GLog.w( Messages.get(SpellBook_Lightning_Sword.this, "cannot_cast"));
-					}
-				} else {
-					if (Dungeon.level.map[cell] != Terrain.WALL && Dungeon.level.heroFOV[cell]) {
-						if (Dungeon.level.pit[cell]) {
-							GameScene.add(Blob.seed(cell, 2, Electricity.class));
-						} else {
-							GameScene.add(Blob.seed(cell, 5+buffedLvl(), Electricity.class));
-						}
-					} else {
-						GLog.w( Messages.get(SpellBook_Lightning_Sword.this, "cannot_cast"));
-					}
-				}
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(200f-10*buffedLvl(), 100f));
-				Invisibility.dispel();
-				curUser.spend( Actor.TICK );
-				curUser.busy();
-				((HeroSprite)curUser.sprite).read();
-				Sample.INSTANCE.play(Assets.Sounds.READ);
-				Sample.INSTANCE.play(Assets.Sounds.LIGHTNING);
-			}
-		}
-		@Override
-		public String prompt() {
-			return Messages.get(SpiritBow.class, "prompt");
-		}
-	};
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{

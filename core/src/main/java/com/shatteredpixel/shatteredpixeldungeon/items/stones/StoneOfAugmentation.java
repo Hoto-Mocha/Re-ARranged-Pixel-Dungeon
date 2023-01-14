@@ -127,84 +127,36 @@ public class StoneOfAugmentation extends InventoryStone {
 	@Override
 	protected boolean usableOnItem(Item item) {
 		if ( item instanceof CrudePistol
-		  || item instanceof CrudePistolAP
-		  || item instanceof CrudePistolHP
 		  || item instanceof Pistol
-		  || item instanceof PistolAP
-		  || item instanceof PistolHP
 		  || item instanceof GoldenPistol
-		  || item instanceof GoldenPistolAP
-		  || item instanceof GoldenPistolHP
 		  || item instanceof Handgun
-		  || item instanceof HandgunAP
-		  || item instanceof HandgunHP
 		  || item instanceof Magnum
-		  || item instanceof MagnumAP
-		  || item instanceof MagnumHP
 		  || item instanceof TacticalHandgun
-		  || item instanceof TacticalHandgunAP
-		  || item instanceof TacticalHandgunHP
 		  || item instanceof AutoHandgun
-		  || item instanceof AutoHandgunAP
-		  || item instanceof AutoHandgunHP
 
 		  || item instanceof DualPistol
-		  || item instanceof DualPistolAP
-		  || item instanceof DualPistolHP
 		  || item instanceof SubMachinegun
-		  || item instanceof SubMachinegunAP
-		  || item instanceof SubMachinegunHP
 		  || item instanceof AssultRifle
-		  || item instanceof AssultRifleAP
-		  || item instanceof AssultRifleHP
 		  || item instanceof HeavyMachinegun
-		  || item instanceof HeavyMachinegunAP
-		  || item instanceof HeavyMachinegunHP
 		  || item instanceof MiniGun
-		  || item instanceof MiniGunAP
-		  || item instanceof MiniGunHP
 		  || item instanceof AutoRifle
-		  || item instanceof AutoRifleAP
-		  || item instanceof AutoRifleHP
 
 		  || item instanceof Revolver
-		  || item instanceof RevolverAP
-		  || item instanceof RevolverHP
 		  || item instanceof HuntingRifle
-		  || item instanceof HuntingRifleAP
-		  || item instanceof HuntingRifleHP
 		  || item instanceof Carbine
-		  || item instanceof CarbineAP
-		  || item instanceof CarbineHP
 		  || item instanceof SniperRifle
-		  || item instanceof SniperRifleAP
-		  || item instanceof SniperRifleHP
 		  || item instanceof AntimaterRifle
-		  || item instanceof AntimaterRifleAP
-		  || item instanceof AntimaterRifleHP
 		  || item instanceof MarksmanRifle
-		  || item instanceof MarksmanRifleAP
-		  || item instanceof MarksmanRifleHP
 		  || item instanceof WA2000
-		  || item instanceof WA2000AP
-		  || item instanceof WA2000HP
 
 		  || item instanceof ShotGun
-		  || item instanceof ShotGunAP
-		  || item instanceof ShotGunHP
 		  || item instanceof KSG
-		  || item instanceof KSGAP
-		  || item instanceof KSGHP
 
 		  || item instanceof RocketLauncher
 		  || item instanceof RPG7
 
 		  || item instanceof FlameThrower
-		  || item instanceof FlameThrowerAP
-		  || item instanceof FlameThrowerHP
 		  || item instanceof PlasmaCannon
-		  || item instanceof PlasmaCannonAP
-		  || item instanceof PlasmaCannonHP
 		  || item instanceof MissileButton
 		  || item instanceof GrenadeLauncher
 		  || item instanceof GrenadeLauncherAP
