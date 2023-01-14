@@ -60,20 +60,20 @@ public class WindBow extends Weapon {
 
 	//힘 2만큼 가볍고 데미지 절반, 공속 2배
 	public static final String AC_SHOOT		= "SHOOT";
-	
+
 	{
 		image = ItemSpriteSheet.WIND_BOW;
-		
+
 		defaultAction = AC_SHOOT;
 		usesTargeting = true;
-		
+
 		unique = true;
 		bones = false;
 	}
-	
+
 	public boolean sniperSpecial = false;
 	public float sniperSpecialBonusDamage = 0f;
-	
+
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
@@ -81,18 +81,18 @@ public class WindBow extends Weapon {
 		actions.add(AC_SHOOT);
 		return actions;
 	}
-	
+
 	@Override
 	public void execute(Hero hero, String action) {
-		
+
 		super.execute(hero, action);
-		
+
 		if (action.equals(AC_SHOOT)) {
-			
+
 			curUser = hero;
 			curItem = this;
 			GameScene.selectCell( shooter );
-			
+
 		}
 	}
 
@@ -139,18 +139,18 @@ public class WindBow extends Weapon {
 	@Override
 	public String info() {
 		String info = desc();
-		
+
 		info += "\n\n" + Messages.get( WindBow.class, "stats",
 				Math.round(augment.damageFactor(min())),
 				Math.round(augment.damageFactor(max())),
 				STRReq());
-		
+
 		if (STRReq() > Dungeon.hero.STR()) {
 			info += " " + Messages.get(Weapon.class, "too_heavy");
 		} else if (Dungeon.hero.STR() > STRReq()){
 			info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
 		}
-		
+
 		switch (augment) {
 			case SPEED:
 				info += "\n\n" + Messages.get(Weapon.class, "faster");
@@ -160,12 +160,12 @@ public class WindBow extends Weapon {
 				break;
 			case NONE:
 		}
-		
+
 		if (enchantment != null && (cursedKnown || !enchantment.curse())){
 			info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
 			info += " " + Messages.get(enchantment, "desc");
 		}
-		
+
 		if (cursed && isEquipped( Dungeon.hero )) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
 		} else if (cursedKnown && cursed) {
@@ -173,12 +173,12 @@ public class WindBow extends Weapon {
 		} else if (!isIdentified() && cursedKnown){
 			info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
 		}
-		
+
 		info += "\n\n" + Messages.get(MissileWeapon.class, "distance");
-		
+
 		return info;
 	}
-	
+
 	@Override
 	public int STRReq(int lvl) {
 		return STRReq(1, lvl)-2; //tier 0
@@ -188,7 +188,7 @@ public class WindBow extends Weapon {
 	public int min(int lvl) {
 		int dmg = 1 + Dungeon.hero.lvl/5
 				+ RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
-				+ (curseInfusionBonus ? 1 : 0);
+				+ (curseInfusionBonus ? 1 + Dungeon.hero.lvl/30 : 0);
 		return Math.max(0, Math.round(dmg*0.5f));
 	}
 
@@ -196,7 +196,7 @@ public class WindBow extends Weapon {
 	public int max(int lvl) {
 		int dmg = 6 + (int)(Dungeon.hero.lvl/2.5f)
 				+ 2*RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
-				+ (curseInfusionBonus ? 2 : 0);
+				+ (curseInfusionBonus ? 2 + Dungeon.hero.lvl/15 : 0);
 		return Math.max(0, Math.round(dmg*0.5f));
 	}
 
@@ -204,13 +204,13 @@ public class WindBow extends Weapon {
 	public int targetingPos(Hero user, int dst) {
 		return knockArrow().targetingPos(user, dst);
 	}
-	
+
 	private int targetPos;
-	
+
 	@Override
 	public int damageRoll(Char owner) {
 		int damage = augment.damageFactor(super.damageRoll(owner));
-		
+
 		if (owner instanceof Hero) {
 			int exStr = ((Hero)owner).STR() - STRReq();
 			if (exStr > 0) {
@@ -237,10 +237,10 @@ public class WindBow extends Weapon {
 					break;
 			}
 		}
-		
+
 		return damage;
 	}
-	
+
 	@Override
 	protected float baseDelay(Char owner) {
 		if (sniperSpecial){
@@ -269,7 +269,9 @@ public class WindBow extends Weapon {
 
 	@Override
 	public int level() {
-		return (Dungeon.hero == null ? 0 : Dungeon.hero.lvl/5) + (curseInfusionBonus ? 1 : 0);
+		int level = Dungeon.hero == null ? 0 : Dungeon.hero.lvl/5;
+		if (curseInfusionBonus) level += 1 + level/6;
+		return level;
 	}
 
 	@Override
@@ -277,18 +279,18 @@ public class WindBow extends Weapon {
 		//level isn't affected by buffs/debuffs
 		return level();
 	}
-	
+
 	@Override
 	public boolean isUpgradable() {
 		return false;
 	}
-	
+
 	public SpiritArrow knockArrow(){
 		return new SpiritArrow();
 	}
-	
+
 	public class SpiritArrow extends MissileWeapon {
-		
+
 		{
 			image = ItemSpriteSheet.WIND_ARROW;
 
@@ -312,22 +314,22 @@ public class WindBow extends Weapon {
 		public int damageRoll(Char owner) {
 			return WindBow.this.damageRoll(owner);
 		}
-		
+
 		@Override
 		public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
 			return WindBow.this.hasEnchant(type, owner);
 		}
-		
+
 		@Override
 		public int proc(Char attacker, Char defender, int damage) {
 			return WindBow.this.proc(attacker, defender, damage);
 		}
-		
+
 		@Override
 		public float delayFactor(Char user) {
 			return WindBow.this.delayFactor(user);
 		}
-		
+
 		@Override
 		public float accuracyFactor(Char owner, Char target) {
 			if (sniperSpecial && WindBow.this.augment == Augment.DAMAGE){
@@ -336,7 +338,7 @@ public class WindBow extends Weapon {
 				return super.accuracyFactor(owner, target);
 			}
 		}
-		
+
 		@Override
 		public int STRReq(int lvl) {
 			return WindBow.this.STRReq(lvl);
@@ -362,16 +364,17 @@ public class WindBow extends Weapon {
 		}
 
 		int flurryCount = -1;
-		
+		Actor flurryActor = null;
+
 		@Override
 		public void cast(final Hero user, final int dst) {
 			final int cell = throwPos( user, dst );
 			WindBow.this.targetPos = cell;
 			if (sniperSpecial && WindBow.this.augment == Augment.SPEED){
 				if (flurryCount == -1) flurryCount = 3;
-				
+
 				final Char enemy = Actor.findChar( cell );
-				
+
 				if (enemy == null){
 					user.spendAndNext(castDelay(user, dst));
 					sniperSpecial = false;
@@ -379,13 +382,13 @@ public class WindBow extends Weapon {
 					return;
 				}
 				QuickSlotButton.target(enemy);
-				
+
 				final boolean last = flurryCount == 1;
-				
+
 				user.busy();
-				
+
 				throwSound();
-				
+
 				((MissileSprite) user.sprite.parent.recycle(MissileSprite.class)).
 						reset(user.sprite,
 								cell,
@@ -397,25 +400,46 @@ public class WindBow extends Weapon {
 											curUser = user;
 											onThrow(cell);
 										}
-										
+
 										if (last) {
 											user.spendAndNext(castDelay(user, dst));
 											sniperSpecial = false;
 											flurryCount = -1;
 										}
+
+										if (flurryActor != null){
+											flurryActor.next();
+											flurryActor = null;
+										}
 									}
 								});
-				
+
 				user.sprite.zap(cell, new Callback() {
 					@Override
 					public void call() {
 						flurryCount--;
 						if (flurryCount > 0){
-							cast(user, dst);
+							Actor.add(new Actor() {
+
+								{
+									actPriority = VFX_PRIO-1;
+								}
+
+								@Override
+								protected boolean act() {
+									flurryActor = this;
+									int target = QuickSlotButton.autoAim(enemy, SpiritArrow.this);
+									if (target == -1) target = cell;
+									cast(user, target);
+									Actor.remove(this);
+									return false;
+								}
+							});
+							curUser.next();
 						}
 					}
 				});
-				
+
 			} else {
 
 				if (user.hasTalent(Talent.SEER_SHOT)
@@ -444,7 +468,7 @@ public class WindBow extends Weapon {
 			}
 		}
 	}
-	
+
 	private CellSelector.Listener shooter = new CellSelector.Listener() {
 		@Override
 		public void onSelect( Integer target ) {

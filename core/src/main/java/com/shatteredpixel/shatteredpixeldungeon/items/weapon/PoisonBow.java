@@ -61,7 +61,7 @@ import java.util.ArrayList;
 public class PoisonBow extends Weapon {
 	
 	public static final String AC_SHOOT		= "SHOOT";
-	//데미지 절반, 공격 시 적에게 1턴의 중독 부여
+	//데미지 절반, 공격 시 적에게 1~3턴의 중독 부여
 
 	{
 		image = ItemSpriteSheet.POISON_BOW;
@@ -190,7 +190,7 @@ public class PoisonBow extends Weapon {
 	public int min(int lvl) {
 		int dmg = 1 + Dungeon.hero.lvl/5
 				+ RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
-				+ (curseInfusionBonus ? 1 : 0);
+				+ (curseInfusionBonus ? 1 + Dungeon.hero.lvl/30 : 0);
 		return Math.max(0, Math.round(dmg*0.5f));
 	}
 
@@ -198,7 +198,7 @@ public class PoisonBow extends Weapon {
 	public int max(int lvl) {
 		int dmg = 6 + (int)(Dungeon.hero.lvl/2.5f)
 				+ 2*RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
-				+ (curseInfusionBonus ? 2 : 0);
+				+ (curseInfusionBonus ? 2 + Dungeon.hero.lvl/15 : 0);
 		return Math.max(0, Math.round(dmg*0.5f));
 	}
 
@@ -271,7 +271,9 @@ public class PoisonBow extends Weapon {
 
 	@Override
 	public int level() {
-		return (Dungeon.hero == null ? 0 : Dungeon.hero.lvl/5) + (curseInfusionBonus ? 1 : 0);
+		int level = Dungeon.hero == null ? 0 : Dungeon.hero.lvl/5;
+		if (curseInfusionBonus) level += 1 + level/6;
+		return level;
 	}
 
 	@Override
@@ -357,7 +359,7 @@ public class PoisonBow extends Weapon {
 				if (sniperSpecial && PoisonBow.this.augment != Augment.SPEED) sniperSpecial = false;
 			}
 			if (enemy != null && enemy.isAlive() && enemy != curUser) {
-				Buff.affect(enemy, Poison.class).extend(1f);
+				Buff.affect(enemy, Poison.class).extend(Random.NormalIntRange(1, 3));
 			}
 		}
 
@@ -367,6 +369,7 @@ public class PoisonBow extends Weapon {
 		}
 
 		int flurryCount = -1;
+		Actor flurryActor = null;
 		
 		@Override
 		public void cast(final Hero user, final int dst) {
@@ -408,6 +411,11 @@ public class PoisonBow extends Weapon {
 											sniperSpecial = false;
 											flurryCount = -1;
 										}
+
+										if (flurryActor != null){
+											flurryActor.next();
+											flurryActor = null;
+										}
 									}
 								});
 				
@@ -416,7 +424,23 @@ public class PoisonBow extends Weapon {
 					public void call() {
 						flurryCount--;
 						if (flurryCount > 0){
-							cast(user, dst);
+							Actor.add(new Actor() {
+
+								{
+									actPriority = VFX_PRIO-1;
+								}
+
+								@Override
+								protected boolean act() {
+									flurryActor = this;
+									int target = QuickSlotButton.autoAim(enemy, SpiritArrow.this);
+									if (target == -1) target = cell;
+									cast(user, target);
+									Actor.remove(this);
+									return false;
+								}
+							});
+							curUser.next();
 						}
 					}
 				});

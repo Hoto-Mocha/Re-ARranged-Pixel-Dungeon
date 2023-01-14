@@ -81,6 +81,12 @@ public class CrudePistol_Energy extends CrudePistol {
     }
 
     @Override
+    public int max(int lvl) {
+        return 5 * (tier + 2) +
+                lvl;
+    }
+
+    @Override
     public int Bulletmax(int lvl) {
         return 5 * (tier+2)   +
                 lvl +

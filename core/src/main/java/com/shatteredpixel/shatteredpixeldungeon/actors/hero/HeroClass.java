@@ -152,12 +152,12 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		//TODO: to delete after testing
-		new FlameThrower().identify().collect();
-		new FlameThrowerAP().identify().collect();
-		new FlameThrowerHP().identify().collect();
-		new HPBullet().quantity(3).collect();
-		new AntimaterRifleAP().identify().collect();
-		new RingOfMight().identify().upgrade(20).collect();
+		//new FlameThrower().identify().collect();
+		//new FlameThrowerAP().identify().collect();
+		//new FlameThrowerHP().identify().collect();
+		//new HPBullet().quantity(3).collect();
+		//new AntimaterRifleAP().identify().collect();
+		//new RingOfMight().identify().upgrade(20).collect();
 		//new PotionOfLiquidFlame().identify().quantity(20).collect();
 		//new PotionOfFrost().identify().quantity(20).collect();
 		//new RapidGrowth().quantity(20).collect();
@@ -166,11 +166,11 @@ public enum HeroClass {
 		//new RunicDagger().identify().collect();
 		//new Scythe().identify().collect();
 		//new DoubleDagger().identify().collect();
-		new TengusMask().collect();
+		//new TengusMask().collect();
 		//new KingsCrown().collect();
-		new PotionOfExperience().identify().quantity(29).collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
 		//new ScrollOfMagicMapping().identify().quantity(29).collect();
-		new PlateArmor().identify().upgrade(100).collect();
+		//new PlateArmor().identify().upgrade(100).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new ScrollOfUpgrade().identify().quantity(1000).collect();
 		//new ScrollOfExtract().quantity(20).collect();
@@ -179,7 +179,7 @@ public enum HeroClass {
 		//new PotionOfStrength().identify().quantity(20).collect();
 		//new PotionOfMindVision().identify().quantity(20).collect();
 		//new Dart().quantity(500).collect();
-		new ScrollOfTransmutation().identify().quantity(1000).collect();
+		//new ScrollOfTransmutation().identify().quantity(1000).collect();
 		//new DriedRose().identify().upgrade(10).collect();
 		//new Carbine().identify().collect();
 		//new ScrollOfEnchantment().identify().quantity(1000).collect();
