@@ -49,13 +49,16 @@ public class Eldritch extends Weapon.Enchantment {
 		} else {
 			procChance = (level+1f)/(level+5f) * procChanceMultiplier(attacker);
 		}
+
+		float powerMulti = Math.max(1f, procChance);
+
 		if (Random.Float() < procChance) {
 
 			if (defender == Dungeon.hero) {
 				Buff.prolong( defender, Terror.class, Terror.DURATION/4 );
 			} else {
 				//damage will reduce by 5 turns, so effectively 10 turns of terror
-				Buff.prolong( defender, Terror.class, 10f*RingOfArcana.enchantPowerMultiplier(attacker) + 5f ).object = attacker.id();
+				Buff.prolong( defender, Terror.class, 10f*powerMulti + 5f ).object = attacker.id();
 			}
 
 		}

@@ -49,9 +49,12 @@ public class Venomous extends Weapon.Enchantment {
 		} else {
 			procChance = (level+1f)/(level+3f) * procChanceMultiplier(attacker);
 		}
+
+		float powerMulti = Math.max(1f, procChance);
+
 		if (Random.Float() < procChance) {
 			
-			Buff.affect( defender, Poison.class ).extend( ((level/2) + 1) * RingOfArcana.enchantPowerMultiplier(attacker) );
+			Buff.affect( defender, Poison.class ).extend( ((int)(level/2) + 1) * powerMulti );
 			CellEmitter.center(defender.pos).burst( PoisonParticle.SPLASH, 5 );
 
 		}

@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -66,5 +67,19 @@ public abstract class AllyBuff extends Buff{
 			if (droppingLoot) AscensionChallenge.processEnemyKill(enemy);
 		}
 	}
+
+	//for Fighter's Ring of Arcana logic
+	public static class AllyBuffTracker extends Buff {
+
+		{
+			actPriority = Actor.VFX_PRIO;
+		}
+
+		@Override
+		public boolean act() {
+			detach();
+			return true;
+		}
+	};
 
 }

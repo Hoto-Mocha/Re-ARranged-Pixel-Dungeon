@@ -46,8 +46,11 @@ public class Stunning extends Weapon.Enchantment {
 		} else {
 			procChance = (1/5f + level/100f) * procChanceMultiplier(attacker);
 		}
+
+		float powerMulti = Math.max(1f, procChance);
+
 		if (Random.Float() < procChance) {
-			Buff.prolong( defender, Paralysis.class, 1f*RingOfArcana.enchantPowerMultiplier(attacker) );
+			Buff.prolong( defender, Paralysis.class, 1f * powerMulti );
 			defender.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 12 );
 		}
 

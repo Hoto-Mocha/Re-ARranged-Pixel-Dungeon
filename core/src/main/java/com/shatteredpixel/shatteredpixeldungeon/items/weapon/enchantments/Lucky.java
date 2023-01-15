@@ -79,7 +79,7 @@ public class Lucky extends Weapon.Enchantment {
 	//used to keep track of whether a luck proc is incoming. see Mob.die()
 	public static class LuckProc extends Buff {
 
-		private int ringLevel = -5;
+		public int ringLevel = -5;
 		
 		@Override
 		public boolean act() {

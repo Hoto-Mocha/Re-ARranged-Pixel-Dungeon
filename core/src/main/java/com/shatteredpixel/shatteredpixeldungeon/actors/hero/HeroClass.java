@@ -90,6 +90,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetributio
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.APBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
@@ -104,6 +106,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -289,13 +293,6 @@ public enum HeroClass {
 
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
-
-		//new TacticalHandgun().identify().collect();
-		//new RingOfMight().identify().upgrade(12).collect();
-		//new Sword().upgrade(2).collect();
-		//new ScrollOfExtract().collect();
-		//new ScrollOfTransmutation().identify().quantity(100).collect();
-		//new LanceNShield().identify().collect();
 	}
 
 	private static void initMage( Hero hero ) {
@@ -316,16 +313,6 @@ public enum HeroClass {
 
 		new ScrollOfUpgrade().identify();
 		new PotionOfLiquidFlame().identify();
-
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new Teleporter().collect();
-		//new ScrollOfUpgrade().identify().quantity(100).collect();
-		//new ScrollOfTransmutation().identify().quantity(100).collect();
-		//new TengusMask().collect();
-		//new PotionOfExperience().identify().quantity(29).collect();
-		//new RingOfRush().identify().upgrade(20).collect();
-		//new WandOfMagicMissile().identify().collect();
-		//new KingsCrown().collect();
 	}
 
 	private static void initRogue( Hero hero ) {
@@ -349,24 +336,6 @@ public enum HeroClass {
 
 		new ScrollOfMagicMapping().identify();
 		new PotionOfInvisibility().identify();
-
-		//new TengusMask().collect();
-		//new RingOfMight().identify().collect();
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
-		//new ElixirOfHoneyedHealing().quantity(50).collect();
-		//new RingOfRush().identify().upgrade(50).collect();
-		//new Teleporter().collect();
-		//new TestWeapon().identify().collect();
-		//new DwarfToken().quantity(5).collect();
-		//new PotionOfMindVision().identify().quantity(30).collect();
-		//new PotionOfExperience().identify().quantity(29).collect();
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new TestWeapon().identify().collect();
-		//new TengusMask().collect();
-		//new PotionOfHealing().identify().quantity(100).collect();
-		//new PotionOfMagicalSight().identify().quantity(100).collect();
-		//new MinersTool().identify().upgrade(20).collect();
 	}
 
 	private static void initHuntress( Hero hero ) {
@@ -385,20 +354,6 @@ public enum HeroClass {
 
 		new PotionOfMindVision().identify();
 		new ScrollOfLullaby().identify();
-
-		//new TengusMask().collect();
-		//new RingOfMight().identify().collect();
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
-		//new Dart().quantity(200).collect();
-		//new SandalsOfNature().identify().upgrade(3).collect();
-		//new PoisonBow().identify().collect();
-		//new RingOfSharpshooting().identify().upgrade(5).collect();
-		//new ExplosiveCrossbow().identify().collect();
-		//new ScrollOfUpgrade().identify().quantity(100).collect();
-		//new ScrollOfEnchantment().identify().quantity(100).collect();
-		//new TengusMask().collect();
-		//new Firebloom.Seed().quantity(200).collect();
 	}
 
 	private static void initGunner( Hero hero ) {
@@ -422,34 +377,6 @@ public enum HeroClass {
 
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
-
-		//new ScrollOfUpgrade().identify().quantity(30).collect();
-		//new MagicalBullet().quantity(20).collect();
-		//new PotionOfExperience().identify().quantity(30).collect();
-		//new CrudePistol().identify().collect();
-		//new CrudePistol().identify().collect();
-		//new CrudePistol().identify().collect();
-		//new CrudePistol().identify().collect();
-		//new Revolver().identify().collect();
-		//new HuntingRifle().identify().collect();
-		//new Carbine().identify().collect();
-		//new SniperRifle().identify().collect();
-		//new WA2000().identify().collect();
-		//new RingOfMight().identify().upgrade(10).collect();
-
-
-		//new GoldenPistol().identify().collect();
-		//new SubMachinegun().identify().collect();
-		//new HuntingRifle().identify().collect();
-
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new TengusMask().collect();
-		//new PotionOfExperience().identify().quantity(29).collect();
-		//new ScrollOfUpgrade().identify().quantity(30).collect();
-		//new ScrollOfTransmutation().identify().quantity(100).collect();
-		//new RingOfSatisfying().identify().collect();
-		//new ScrollOfForesight().identify().quantity(200).collect();
-		//new FrozenCarpaccio().quantity(500).collect();
 	}
 
 	private static void initSamurai( Hero hero ) {

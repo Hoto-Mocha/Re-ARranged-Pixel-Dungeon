@@ -49,9 +49,12 @@ public class Shiny extends Weapon.Enchantment {
 		} else {
 			procChance = (level+1f)/(level+5f) * procChanceMultiplier(attacker);
 		}
+
+		float powerMulti = Math.max(1f, procChance);
+
 		if (Random.Float() < procChance) {
-			Buff.prolong( defender, Blindness.class, Random.Float( 1f, (1f + level) * RingOfArcana.enchantPowerMultiplier(attacker) ) );
-			Buff.prolong( defender, Cripple.class, Random.Float( 1f, (1f + level/2f) * RingOfArcana.enchantPowerMultiplier(attacker) ) );
+			Buff.prolong( defender, Blindness.class, Random.Float( 1f, (1f + level) * powerMulti ) );
+			Buff.prolong( defender, Cripple.class, Random.Float( 1f, (1f + level/2f) * powerMulti ) );
 			defender.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
 		}
 

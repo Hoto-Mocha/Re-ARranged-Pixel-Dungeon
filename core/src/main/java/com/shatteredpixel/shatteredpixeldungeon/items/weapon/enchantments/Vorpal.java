@@ -49,12 +49,12 @@ public class Vorpal extends Weapon.Enchantment {
 		} else {
 			procChance = (level+1f)/(level+8f) * procChanceMultiplier(attacker);
 		}
+
+		float powerMulti = Math.max(1f, procChance);
+
 		if (Random.Float() < procChance) {
-
-			Buff.affect(defender, Bleeding.class).set((damage/10f) * RingOfArcana.enchantPowerMultiplier(attacker));
-			Splash.at( defender.sprite.center(), -PointF.PI / 2, PointF.PI / 6,
-					defender.sprite.blood(), 10 );
-
+			Buff.affect(defender, Bleeding.class).set((damage/10f) * powerMulti);
+			Splash.at( defender.sprite.center(), -PointF.PI / 2, PointF.PI / 6, defender.sprite.blood(), 10 );
 		}
 
 		return damage;
