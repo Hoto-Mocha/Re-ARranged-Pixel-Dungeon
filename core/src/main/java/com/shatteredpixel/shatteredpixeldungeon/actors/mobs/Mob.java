@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
@@ -765,6 +766,11 @@ public abstract class Mob extends Char {
 			if (cause == hero
 					&& hero.hasTalent(Talent.DONG_POLISHING) && hero.buff(Jung.class) == null) {
 				Buff.affect(hero, DamageEnhance.class).set();
+			}
+
+			if (cause == hero
+					&& hero.subClass == HeroSubClass.CRUSADER) {
+				Buff.affect(hero, Bless.class, Math.round(Dungeon.depth/2f)+hero.belongings.armor.buffedLvl());
 			}
 
 		}

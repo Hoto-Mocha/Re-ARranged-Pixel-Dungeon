@@ -109,17 +109,9 @@ public class AdvancedEvolution extends InventorySpell {
     @Override
     protected boolean usableOnItem(Item item) {
         return item instanceof SniperRifle
-            || item instanceof SniperRifleHP
-            || item instanceof SniperRifleAP
             || item instanceof HeavyMachinegun
-            || item instanceof HeavyMachinegunHP
-            || item instanceof HeavyMachinegunAP
             || item instanceof Magnum
-            || item instanceof MagnumAP
-            || item instanceof MagnumHP
             || item instanceof ShotGun
-            || item instanceof ShotGunAP
-            || item instanceof ShotGunHP
             || item instanceof RocketLauncher
             || item instanceof LargeKatana
             || item instanceof Glaive
@@ -136,7 +128,6 @@ public class AdvancedEvolution extends InventorySpell {
             || item instanceof PoisonBow
             || item instanceof Crossbow
             || item instanceof Whip;
-
     }
 
     @Override
@@ -190,90 +181,82 @@ public class AdvancedEvolution extends InventorySpell {
         //Gus Success Rate for Gunner: 100%
 
         Weapon n;
-        if (w instanceof SniperRifle
-                || w instanceof SniperRifleHP
-                || w instanceof SniperRifleAP) {
-            if (w instanceof SniperRifle) {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
-                    n = new AntimaterRifle();
-                } else {
-                    n = Generator.randomWeapon();
-                }
-            } else if (w instanceof SniperRifleAP) {
+        if (w instanceof SniperRifle) {
+            if (w instanceof SniperRifleAP) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
                     n = new AntimaterRifleAP();
                 } else {
                     n = Generator.randomWeapon();
                 }
-            } else { //w instanceof SniperRifleHP
+            } else if (w instanceof SniperRifleHP) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
                     n = new AntimaterRifleHP();
                 } else {
                     n = Generator.randomWeapon();
                 }
-            }
-        } else if (w instanceof HeavyMachinegun
-                || w instanceof HeavyMachinegunAP
-                || w instanceof HeavyMachinegunHP) {
-            if (w instanceof HeavyMachinegun) {
+            } else {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
-                    n = new MiniGun();
+                    n = new AntimaterRifle();
                 } else {
                     n = Generator.randomWeapon();
                 }
-            } else if (w instanceof HeavyMachinegunAP) {
+            }
+        } else if (w instanceof HeavyMachinegun) {
+            if (w instanceof HeavyMachinegunAP) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
                     n = new MiniGunAP();
                 } else {
                     n = Generator.randomWeapon();
                 }
-            } else { //w instanceof HeavyMachinegunHP
+            } else if (w instanceof HeavyMachinegunHP) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
                     n = new MiniGunHP();
                 } else {
                     n = Generator.randomWeapon();
                 }
-            }
-        } else if (w instanceof Magnum
-                || w instanceof MagnumAP
-                || w instanceof MagnumHP) {
-            if (w instanceof Magnum) {
+            } else {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
-                    n = new TacticalHandgun();
+                    n = new MiniGun();
                 } else {
                     n = Generator.randomWeapon();
                 }
-            } else if (w instanceof MagnumAP) {
+            }
+        } else if (w instanceof Magnum) {
+            if (w instanceof MagnumAP) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
                     n = new TacticalHandgunAP();
                 } else {
                     n = Generator.randomWeapon();
                 }
-            } else { //w instanceof MagnumHP
+            } else if (w instanceof MagnumHP) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
                     n = new TacticalHandgunHP();
                 } else {
                     n = Generator.randomWeapon();
                 }
-            }
-        } else if (w instanceof ShotGun
-                || w instanceof ShotGunAP
-                || w instanceof ShotGunHP) {
-            if (w instanceof ShotGun) {
+            } else {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
-                    n = new KSG();
+                    n = new TacticalHandgun();
                 } else {
                     n = Generator.randomWeapon();
                 }
-            } else if (w instanceof ShotGunAP) {
+            }
+        } else if (w instanceof ShotGun) {
+            if (w instanceof ShotGunAP) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
                     n = new KSGAP();
                 } else {
                     n = Generator.randomWeapon();
                 }
-            } else { //w instanceof ShotGunHP
+            } else if (w instanceof ShotGunHP) {
                 if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
                     n = new KSGHP();
+                } else {
+                    n = Generator.randomWeapon();
+                }
+            } else {
+                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                    n = new KSG();
                 } else {
                     n = Generator.randomWeapon();
                 }

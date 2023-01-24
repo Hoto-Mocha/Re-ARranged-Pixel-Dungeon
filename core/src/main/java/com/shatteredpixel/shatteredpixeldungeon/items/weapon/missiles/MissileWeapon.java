@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
@@ -297,74 +298,30 @@ abstract public class MissileWeapon extends Weapon {
 			}
 		}
 		if ((this instanceof CrudePistol.Bullet
-				|| this instanceof CrudePistolAP.Bullet
-				|| this instanceof CrudePistolHP.Bullet
 				|| this instanceof Pistol.Bullet
-				|| this instanceof PistolAP.Bullet
-				|| this instanceof PistolHP.Bullet
 				|| this instanceof GoldenPistol.Bullet
-				|| this instanceof GoldenPistolAP.Bullet
-				|| this instanceof GoldenPistolHP.Bullet
 				|| this instanceof Handgun.Bullet
-				|| this instanceof HandgunAP.Bullet
-				|| this instanceof HandgunHP.Bullet
 				|| this instanceof Magnum.Bullet
-				|| this instanceof MagnumAP.Bullet
-				|| this instanceof MagnumHP.Bullet
 				|| this instanceof TacticalHandgun.Bullet
-				|| this instanceof TacticalHandgunAP.Bullet
-				|| this instanceof TacticalHandgunHP.Bullet
 				|| this instanceof AutoHandgun.Bullet
-				|| this instanceof AutoHandgunAP.Bullet
-				|| this instanceof AutoHandgunHP.Bullet
 
 				|| this instanceof DualPistol.Bullet
-				|| this instanceof DualPistolAP.Bullet
-				|| this instanceof DualPistolHP.Bullet
 				|| this instanceof SubMachinegun.Bullet
-				|| this instanceof SubMachinegunAP.Bullet
-				|| this instanceof SubMachinegunHP.Bullet
 				|| this instanceof AssultRifle.Bullet
-				|| this instanceof AssultRifleAP.Bullet
-				|| this instanceof AssultRifleHP.Bullet
 				|| this instanceof HeavyMachinegun.Bullet
-				|| this instanceof HeavyMachinegunAP.Bullet
-				|| this instanceof HeavyMachinegunHP.Bullet
 				|| this instanceof MiniGun.Bullet
-				|| this instanceof MiniGunAP.Bullet
-				|| this instanceof MiniGunHP.Bullet
 				|| this instanceof AutoRifle.Bullet
-				|| this instanceof AutoRifleAP.Bullet
-				|| this instanceof AutoRifleHP.Bullet
 
 				|| this instanceof Revolver.Bullet
-				|| this instanceof RevolverAP.Bullet
-				|| this instanceof RevolverHP.Bullet
 				|| this instanceof HuntingRifle.Bullet
-				|| this instanceof HuntingRifleAP.Bullet
-				|| this instanceof HuntingRifleHP.Bullet
 				|| this instanceof Carbine.Bullet
-				|| this instanceof CarbineAP.Bullet
-				|| this instanceof CarbineHP.Bullet
 				|| this instanceof SniperRifle.Bullet
-				|| this instanceof SniperRifleAP.Bullet
-				|| this instanceof SniperRifleHP.Bullet
 				|| this instanceof AntimaterRifle.Bullet
-				|| this instanceof AntimaterRifleAP.Bullet
-				|| this instanceof AntimaterRifleHP.Bullet
 				|| this instanceof MarksmanRifle.Bullet
-				|| this instanceof MarksmanRifleAP.Bullet
-				|| this instanceof MarksmanRifleHP.Bullet
 				|| this instanceof WA2000.Bullet
-				|| this instanceof WA2000AP.Bullet
-				|| this instanceof WA2000HP.Bullet
 
 				|| this instanceof ShotGun.Bullet
-				|| this instanceof ShotGunAP.Bullet
-				|| this instanceof ShotGunHP.Bullet
 				|| this instanceof KSG.Bullet
-				|| this instanceof KSGAP.Bullet
-				|| this instanceof KSGHP.Bullet
 
 				|| this instanceof RocketLauncher.Rocket
 				|| this instanceof RPG7.Rocket
@@ -419,6 +376,9 @@ abstract public class MissileWeapon extends Weapon {
 		float accFactor = super.accuracyFactor(owner, target);
 		if (owner instanceof Hero && owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()){
 			accFactor *= 1f + 0.2f*((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM);
+		}
+		if (owner instanceof Hero && owner.buff(Bless.class) != null && ((Hero) owner).hasTalent(Talent.BLESSED_TALENT)){
+			accFactor *= 1f + 0.2f*((Hero) owner).pointsInTalent(Talent.BLESSED_TALENT);
 		}
 
 		accFactor *= adjacentAccFactor(owner, target);
@@ -627,6 +587,9 @@ abstract public class MissileWeapon extends Weapon {
 			}
 			if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
 				damage = Math.round(damage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
+			}
+			if (owner.buff(Bless.class) != null && ((Hero) owner).hasTalent(Talent.BLESSED_TALENT)) {
+				damage = Math.round(damage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.BLESSED_TALENT)));
 			}
 		}
 		

@@ -206,15 +206,6 @@ public abstract class Scroll extends Item {
 				ScrollOfRecharging.charge(hero);
 			}
 		}
-
-		if (curUser.hasTalent(Talent.BLESSING_SCROLLS)) {
-			int duration = 5 * curUser.pointsInTalent(Talent.BLESSING_SCROLLS);
-			if (this instanceof ScrollOfUpgrade || this instanceof ScrollOfEnchantment) {
-				duration *= 2;
-			}
-			Buff.affect(curUser, Bless.class, duration);
-		}
-
 	}
 	
 	public boolean isKnown() {

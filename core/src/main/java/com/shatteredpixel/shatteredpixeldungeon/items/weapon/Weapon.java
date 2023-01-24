@@ -591,6 +591,9 @@ abstract public class Weapon extends KindOfWeapon {
 			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.JUNG_FOCUSING) && ((Hero) attacker).buff(Jung.class) != null) {
 				multi += 0.5f * hero.pointsInTalent(Talent.JUNG_FOCUSING);
 			}
+			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.MYSTICAL_POWER)) {
+				multi += 0.1f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
+			}
 			return multi;
 		}
 

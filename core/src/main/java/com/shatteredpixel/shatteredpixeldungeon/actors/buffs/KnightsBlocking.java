@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -68,6 +70,14 @@ public class KnightsBlocking extends Buff {
         }
     }
 
+    public void add( int amount ) {
+        level += amount;
+        if (level > hero.lvl + hero.belongings.armor.buffedLvl()) {
+            level = hero.lvl + hero.belongings.armor.buffedLvl();
+        }
+        BuffIndicator.refreshHero();
+    }
+
     @Override
     public int icon() {
         return BuffIndicator.KNIGHTSHIELD;
@@ -76,7 +86,7 @@ public class KnightsBlocking extends Buff {
     @Override
     public float iconFadePercent() {
         if (target instanceof Hero){
-            float max = ((Hero) target).lvl + Dungeon.hero.belongings.armor.buffedLvl();
+            float max = ((Hero) target).lvl + hero.belongings.armor.buffedLvl();
             return Math.max(0, (max-level)/max);
         }
         return 0;

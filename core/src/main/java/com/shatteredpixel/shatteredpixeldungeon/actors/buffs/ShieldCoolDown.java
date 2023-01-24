@@ -90,6 +90,11 @@ public class ShieldCoolDown extends Buff {
         BuffIndicator.refreshHero(); //refresh the buff visually on-hit
     }
 
+    public void use(int amount) {
+        coolDown -= amount;
+        BuffIndicator.refreshHero();
+    }
+
     public void set() {
         maxCoolDown = 10f * hero.lvl;
         coolDown = 10f * hero.lvl * (1 - 0.1f * hero.pointsInTalent(Talent.ON_ALERT) - 0.2f * hero.pointsInTalent(Talent.FORTRESS));

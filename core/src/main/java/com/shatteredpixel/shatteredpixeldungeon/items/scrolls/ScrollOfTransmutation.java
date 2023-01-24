@@ -209,27 +209,9 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		Weapon n;
 		Generator.Category c;
 		if (w instanceof MeleeWeapon) {
-			if (w instanceof MissileButton
-			 || w instanceof TacticalShield
-			 || w instanceof HolySword
-			 || w instanceof LanceNShield
-			) {
+			if (((MeleeWeapon) w).tier == 7) {
 				c = Generator.wepTiers[((MeleeWeapon) w).tier - 3];
-			} else if (
-				w instanceof TacticalHandgun
-			 || w instanceof MiniGun
-			 || w instanceof AntimaterRifle
-			 || w instanceof RPG7
-			 || w instanceof Lance
-			 || w instanceof ObsidianShield
-			 ||	w instanceof SharpKatana
-			 || w instanceof HugeSword
-			 || w instanceof IronHammer
-			 || w instanceof BeamSaber
-			 || w instanceof ChainFlail
-			 || w instanceof ForceGlove
-			 || w instanceof DoubleGreatSword
-			) {
+			} else if (((MeleeWeapon) w).tier == 6) {
 				c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
 			} else {
 				c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];

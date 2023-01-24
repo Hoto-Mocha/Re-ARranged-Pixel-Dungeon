@@ -96,6 +96,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GhostSpawner;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GodFury;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
@@ -124,7 +125,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StanceCooldown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Surgery;
@@ -619,6 +622,10 @@ public class Hero extends Char {
 		}
 
 		if (hero.buff(Jung.class) != null && hero.buff(Sheathing.class) != null && wep instanceof MeleeWeapon) {
+			accuracy = INFINITE_ACCURACY;
+		}
+
+		if (hero.buff(GodFury.class) != null) {
 			accuracy = INFINITE_ACCURACY;
 		}
 
@@ -1906,6 +1913,19 @@ public class Hero extends Char {
 			}
 		}
 
+		if (hero.buff(GodFury.class) != null) {
+			Buff.affect(enemy, Slow.class, 3f);
+			hero.buff(GodFury.class).detach();
+		}
+
+		if (hero.subClass == HeroSubClass.CRUSADER && hero.buff(Bless.class) != null && hero.buff(KnightsBlocking.class) != null) {
+			hero.buff(KnightsBlocking.class).add(Math.round(damage*0.2f));
+		}
+
+		if (hero.subClass == HeroSubClass.CRUSADER && hero.buff(GodFury.class) != null && hero.buff(KnightsBlocking.class) != null) {
+			hero.buff(KnightsBlocking.class).add(Math.round((hero.lvl + hero.belongings.armor.buffedLvl())*0.1f));
+		}
+
 		damage = Talent.onAttackProc( this, enemy, damage );
 		
 		switch (subClass) {
@@ -2042,6 +2062,18 @@ public class Hero extends Char {
 			charm.object = hero.id();
 			charm.ignoreHeroAllies = true;
 			enemy.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 3 );
+		}
+
+		if (hero.subClass == HeroSubClass.CRUSADER && hero.buff(KnightsBlocking.class) != null) {
+			Buff.affect(hero, Bless.class, 1+(int)Math.floor(belongings.armor.buffedLvl()/3f));
+		}
+
+		if (hero.subClass == HeroSubClass.CRUSADER && hero.buff(KnightsBlocking.class) != null && Random.Float() < (belongings.armor.buffedLvl()+1f)/(belongings.armor.buffedLvl()+8f)) {
+			Buff.affect(hero, GodFury.class);
+		}
+
+		if (hero.hasTalent(Talent.SHIELD_OF_LIGHT) && hero.buff(ShieldCoolDown.class) != null) {
+			Buff.affect(hero, ShieldCoolDown.class).use(3*hero.pointsInTalent(Talent.SHIELD_OF_LIGHT));
 		}
 		
 		return super.defenseProc( enemy, damage );
@@ -2629,6 +2661,10 @@ public class Hero extends Char {
 		if (belongings.armor() != null){
 			stealth = belongings.armor().stealthFactor(this, stealth);
 		}
+
+		if (hero.buff(Bless.class) != null && hero.hasTalent(Talent.MYSTICAL_VEIL)) {
+			stealth += hero.pointsInTalent(Talent.MYSTICAL_VEIL);
+		}
 		
 		return stealth;
 	}
@@ -2930,10 +2966,6 @@ public class Hero extends Char {
 		if (hit && buff(ParalysisTracker.class) != null) {
 			Buff.affect(enemy, Paralysis.class, 2f);
 			Buff.detach(this, ParalysisTracker.class);
-		}
-
-		if (hit && subClass == HeroSubClass.CRUSADER && Random.Int(10) == 0) {
-			Buff.affect(this, Bless.class, 5f);
 		}
 
 		if (hit && subClass == HeroSubClass.WEAPONMASTER) {

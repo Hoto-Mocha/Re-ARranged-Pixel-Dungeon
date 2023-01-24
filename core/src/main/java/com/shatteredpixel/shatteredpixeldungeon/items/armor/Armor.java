@@ -429,10 +429,6 @@ public class Armor extends EquipableItem {
 		if (armorEmpower != null && isEquipped( hero )) {
 			lvl += armorEmpower.getLvl();
 		}
-		Bless bless = hero.buff(Bless.class);
-		if (bless != null && hero.hasTalent(Talent.PROTECTION_OF_LIGHT)) {
-			lvl += hero.pointsInTalent(Talent.PROTECTION_OF_LIGHT);
-		}
 		return lvl;
 	}
 	
@@ -712,7 +708,14 @@ public class Armor extends EquipableItem {
 		public abstract int proc( Armor armor, Char attacker, Char defender, int damage );
 
 		protected float procChanceMultiplier( Char defender ){
-			return RingOfArcana.enchantPowerMultiplier(defender);
+			float multi = RingOfArcana.enchantPowerMultiplier(defender);
+			if (defender instanceof Hero && ((Hero) defender).hasTalent(Talent.MYSTICAL_POWER)) {
+				multi += 0.1f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
+			}
+			if (defender instanceof Hero && ((Hero) defender).hasTalent(Talent.ARMOR_BLESSING)) {
+				multi += 0.2f * Dungeon.hero.pointsInTalent(Talent.ARMOR_BLESSING);
+			}
+			return multi;
 		}
 		
 		public String name() {

@@ -13,6 +13,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ParalysisTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
@@ -75,8 +76,8 @@ public class KnightsShield extends Item {
 				if (hero.hasTalent(Talent.SHIELD_SLAM) && Random.Int(3) < hero.pointsInTalent(Talent.SHIELD_SLAM)) {
 					Buff.affect(hero, ParalysisTracker.class);
 				}
-				if (hero.hasTalent(Talent.HOLY_SHIELD)) {
-					Buff.affect(hero, Bless.class, 3*hero.pointsInTalent(Talent.HOLY_SHIELD));
+				if (hero.subClass == HeroSubClass.CRUSADER) {
+					Buff.affect(hero, Bless.class, 3*(1+hero.belongings.armor.buffedLvl()));
 				}
 				GLog.p(Messages.get(this, "shield"));
 			}
