@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CertainCrit;
@@ -141,8 +142,13 @@ abstract public class  KindOfWeapon extends EquipableItem {
 		}
 
 		if (Dungeon.hero.heroClass == HeroClass.SAMURAI && Dungeon.hero.belongings.weapon != null) {
-			critChance += 2 * (Dungeon.hero.STR - Dungeon.hero.belongings.weapon.STRReq());
+			critChance += 2 * (Dungeon.hero.STR() - Dungeon.hero.belongings.weapon.STRReq());
 			critChance += Dungeon.hero.lvl;
+		}
+
+		if (hero.buff(Talent.SurpriseStabTracker.class) != null) {
+			critChance += 5 * hero.pointsInTalent(Talent.SURPRISE_STAB);
+			hero.buff(Talent.SurpriseStabTracker.class).detach();
 		}
 
 		if (Dungeon.hero.buff(Sheathing.class) != null) {
@@ -206,11 +212,20 @@ abstract public class  KindOfWeapon extends EquipableItem {
 							hero.sprite.showStatus(CharSprite.POSITIVE, Integer.toString(healAmt));
 						}
 					}
-					if (hero.hasTalent(Talent.POWERFUL_CRIT)) {
-						return Random.NormalIntRange(Math.round(0.75f * max()), max()) + 1 + 2 * hero.pointsInTalent(Talent.POWERFUL_CRIT);
-					} else {
-						return Random.NormalIntRange(Math.round(0.75f * max()), max());
+					if (hero.pointsInTalent(Talent.JUNG_QUICK_DRAW) > 1 && hero.buff(Jung.class) != null && hero.buff(Sheathing.class) != null) {
+						Buff.prolong(hero, Adrenaline.class, 4f);
 					}
+					if (hero.pointsInTalent(Talent.JUNG_QUICK_DRAW) > 2 && hero.buff(Jung.class) != null && hero.buff(Sheathing.class) != null) {
+						Buff.affect(hero, Talent.JungQuickDrawTracker.class);
+					}
+					int damageBonus = 0;
+					if (hero.hasTalent(Talent.POWERFUL_CRIT)) {
+						damageBonus += 1 + 2 * hero.pointsInTalent(Talent.POWERFUL_CRIT);
+					}
+					if (hero.hasTalent(Talent.JUNG_QUICK_DRAW) && hero.buff(Jung.class) != null && hero.buff(Sheathing.class) != null) {
+						damageBonus += Random.NormalIntRange(0, 20);
+					}
+					return Random.NormalIntRange(Math.round(0.75f * max()), max()) + damageBonus;
 				} else {
 					return Random.NormalIntRange( min(), max() );
 				}

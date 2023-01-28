@@ -773,6 +773,11 @@ public abstract class Mob extends Char {
 				Buff.affect(hero, Bless.class, Math.round(Dungeon.depth/2f)+hero.belongings.armor.buffedLvl());
 			}
 
+			if (cause == hero
+					&& hero.hasTalent(Talent.ADRENALINE_SURGE)) {
+				Buff.prolong(hero, Adrenaline.class, 1+2*hero.pointsInTalent(Talent.ADRENALINE_SURGE));
+			}
+
 		}
 
 		if (Dungeon.hero.isAlive() && !Dungeon.level.heroFOV[pos]) {

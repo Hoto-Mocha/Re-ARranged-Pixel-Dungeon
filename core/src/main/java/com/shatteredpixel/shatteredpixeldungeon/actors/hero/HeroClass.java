@@ -108,6 +108,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerH
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HealBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
@@ -181,6 +182,8 @@ public enum HeroClass {
 		//new AntimaterRifle().identify().collect();
 		//new TacticalShield().identify().collect();
 		//new LargeSword().identify().collect();
+		//new ShotGun().identify().collect();
+		//new KSG().identify().collect();
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
 		//new PotionOfExperience().identify().quantity(29).collect();

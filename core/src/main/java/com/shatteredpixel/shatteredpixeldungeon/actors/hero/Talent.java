@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -50,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
@@ -269,7 +271,7 @@ public enum Talent {
 	ADDITIONAL_MEDS(201,4), THERAPEUTIC_BANDAGE(202, 4), FASTER_HEALING(203,4),
 
 	//Samurai T1
-	CRITICAL_MEAL(205), MASTERS_INTUITION(206), UNEXPECTED_SLASH(207), FLOW_AWAY(208), ADRENALINE_SURGE(209),
+	SURPRISE_STAB(205), MASTERS_INTUITION(206), UNEXPECTED_SLASH(207), FLOW_AWAY(208), ADRENALINE_SURGE(209),
 	//Samurai T2
 	FOCUSING_MEAL(210), CRITICAL_UPGRADE(211), MAGICAL_TRANSFERENCE(212), PARRY(213), DETECTION(214), POWERFUL_CRIT(215),
 	//Samurai T3
@@ -277,7 +279,7 @@ public enum Talent {
 	//Slasher T3
 	CONTINUOUS_ATTACK(218, 3), SLASHING_PRACTICE(219, 3), SERIAL_MOMENTUM(220, 3), ARCANE_ATTACK(221, 3), SLASHING(222, 3), DETECTIVE_SLASHING(223, 3),
 	//Master T3
-	DONG_MIND_EYES(224, 3), DONG_SHEATHING(225, 3), DONG_POLISHING(226, 3), JUNG_DETECTION(227, 3), JUNG_FOCUSING(228, 3), JUNG_INCISIVE_BLADE(229, 3),
+	DONG_MIND_EYES(224, 3), DONG_SHEATHING(225, 3), DONG_POLISHING(226, 3), JUNG_DETECTION(227, 3), JUNG_QUICK_DRAW(228, 3), JUNG_INCISIVE_BLADE(229, 3),
 	//Slayer T3
 	AFTERIMAGE(230, 3), ENERGY_DRAIN(231, 3), FTL(232, 3), QUICK_RECOVER(233, 3), HASTE_RECOVER(234, 3), FLURRY(235, 3),
 	//Awake T4
@@ -407,6 +409,8 @@ public enum Talent {
 	public static class DetactiveSlashingTracker extends Buff{};
 	public static class IncisiveBladeTracker extends Buff{};
 	public static class ActiveBarrierTracker extends Buff{};
+	public static class SurpriseStabTracker extends Buff{};
+	public static class JungQuickDrawTracker extends Buff{};
 	public static class RejuvenatingStepsCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0f, 0.35f, 0.15f); }
@@ -513,6 +517,13 @@ public enum Talent {
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
+	public static class FlowAwayCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0xF27318); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (70 - 20 * hero.pointsInTalent(Talent.FLOW_AWAY))); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
 
 	int icon;
 	int maxPoints;
@@ -592,10 +603,6 @@ public enum Talent {
 	}
 		if (talent == MAX_HEALTH) {
 			hero.updateHT(true);
-		}
-		if (talent == ADRENALINE_SURGE) {
-			if (hero.pointsInTalent(ADRENALINE_SURGE) == 1) Buff.affect(hero, AdrenalineSurge.class).reset(1, AdrenalineSurge.DURATION);
-			else 											Buff.affect(hero, AdrenalineSurge.class).reset(2, AdrenalineSurge.DURATION);;
 		}
 		if (talent == NATURES_BOUNTY){
 			if ( hero.pointsInTalent(NATURES_BOUNTY) == 1) Buff.count(hero, NatureBerriesAvailable.class, 4);
@@ -785,10 +792,6 @@ public enum Talent {
 			//effectively 1/2 turns of infiniteBullet
 			Buff.prolong( hero, InfiniteBullet.class, 0.001f+hero.pointsInTalent(IN_THE_GUNFIRE));
 		}
-		if (hero.hasTalent(Talent.CRITICAL_MEAL)) {
-			if (hero.heroClass == HeroClass.SAMURAI) Buff.prolong( hero, CritBonus.class, 10f).set(5f * hero.pointsInTalent(Talent.CRITICAL_MEAL));
-			else Buff.affect( hero, WeaponEmpower.class).set(hero.pointsInTalent(Talent.CRITICAL_MEAL), 10);
-		}
 		if (hero.hasTalent(Talent.FOCUSING_MEAL)) {
 			Buff.prolong( hero, Adrenaline.class, 1f + 2f*hero.pointsInTalent(FOCUSING_MEAL));
 		}
@@ -846,41 +849,6 @@ public enum Talent {
 		// 2x/instant for rogue (see onItemEqupped), also id's type on equip/on pickup
 		if (item instanceof Ring){
 			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
-		}
-
-		// 3x/instant for Gunner (see onItemEquipped)
-		if (item instanceof CrudePistol
-				|| item instanceof Pistol
-				|| item instanceof GoldenPistol
-				|| item instanceof Handgun
-				|| item instanceof Magnum
-				|| item instanceof TacticalHandgun
-				|| item instanceof AutoHandgun
-				|| item instanceof DualPistol
-				|| item instanceof SubMachinegun
-				|| item instanceof AssultRifle
-				|| item instanceof HeavyMachinegun
-				|| item instanceof MiniGun
-				|| item instanceof AutoRifle
-				|| item instanceof Revolver
-				|| item instanceof HuntingRifle
-				|| item instanceof Carbine
-				|| item instanceof SniperRifle
-				|| item instanceof AntimaterRifle
-				|| item instanceof MarksmanRifle
-				|| item instanceof WA2000
-				|| item instanceof ShotGun
-				|| item instanceof KSG
-				|| item instanceof FlameThrower
-				|| item instanceof PlasmaCannon
-				|| item instanceof RPG7
-				|| item instanceof RocketLauncher) {
-			factor *= 1f + 2f*hero.pointsInTalent(GUNNERS_INTUITION);
-		}
-
-		// 3x/instant for Knight (see onItemEquipped)
-		if (item instanceof Armor) {
-			factor *= 1f + 2f*hero.pointsInTalent(KNIGHTS_INTUITION);
 		}
 		return factor;
 	}
@@ -1015,7 +983,7 @@ public enum Talent {
 				((Ring) item).setKnown();
 			}
 		}
-		if (hero.pointsInTalent(GUNNERS_INTUITION) == 2 &&
+		if (hero.pointsInTalent(GUNNERS_INTUITION) >= 1 &&
 				(item instanceof CrudePistol
 						|| item instanceof Pistol
 						|| item instanceof GoldenPistol
@@ -1053,17 +1021,57 @@ public enum Talent {
 		if (hero.pointsInTalent(MASTERS_INTUITION) >= 1 && item instanceof Weapon) {
 			item.identify();
 		}
-		if (hero.pointsInTalent(KNIGHTS_INTUITION) == 2 && (item instanceof Armor)){
+		if (hero.pointsInTalent(KNIGHTS_INTUITION) >= 1 && (item instanceof Armor)){
 			item.identify();
 		}
 	}
 
 	public static void onItemCollected( Hero hero, Item item ){
+		if (hero.pointsInTalent(GUNNERS_INTUITION) == 2 &&
+				(item instanceof CrudePistol
+						|| item instanceof Pistol
+						|| item instanceof GoldenPistol
+						|| item instanceof Handgun
+						|| item instanceof Magnum
+						|| item instanceof TacticalHandgun
+						|| item instanceof AutoHandgun
+
+						|| item instanceof DualPistol
+						|| item instanceof SubMachinegun
+						|| item instanceof AssultRifle
+						|| item instanceof HeavyMachinegun
+						|| item instanceof MiniGun
+						|| item instanceof AutoRifle
+
+						|| item instanceof Revolver
+						|| item instanceof HuntingRifle
+						|| item instanceof Carbine
+						|| item instanceof SniperRifle
+						|| item instanceof AntimaterRifle
+						|| item instanceof MarksmanRifle
+						|| item instanceof WA2000
+
+						|| item instanceof ShotGun
+						|| item instanceof KSG
+
+						|| item instanceof FlameThrower
+						|| item instanceof PlasmaCannon
+
+						|| item instanceof RPG7
+						|| item instanceof RocketLauncher)
+		){
+			item.identify();
+		}
 		if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
 			if (item instanceof Ring) ((Ring) item).setKnown();
 		}
 		if (hero.pointsInTalent(MASTERS_INTUITION) == 2) {
 			if (item instanceof Weapon) {
+				item.identify();
+			}
+		}
+		if (hero.pointsInTalent(KNIGHTS_INTUITION) == 2) {
+			if (item instanceof Armor) {
 				item.identify();
 			}
 		}
@@ -1122,10 +1130,8 @@ public enum Talent {
 			}
 		}
 
-		if (hero.hasTalent(Talent.UNEXPECTED_SLASH)
-				&& enemy.buff(UnexpectedSlashTracker.class) == null){
-			dmg += hero.pointsInTalent(Talent.SUCKER_PUNCH);
-			Buff.affect(enemy, UnexpectedSlashTracker.class);
+		if (hero.hasTalent(Talent.UNEXPECTED_SLASH) && hero.buff(Sheathing.class) != null){
+			dmg += hero.pointsInTalent(Talent.UNEXPECTED_SLASH);
 		}
 
 		if (hero.hasTalent(Talent.SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(ShootTheHeartTracker.class) == null){
@@ -1144,7 +1150,6 @@ public enum Talent {
 	public static class SuckerPunchTracker extends Buff{};
 	public static class PowerfulCritTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
-	public static class UnexpectedSlashTracker extends Buff{};
 	public static class ShootTheHeartTracker extends Buff{};
 	public static class WarCryTracker extends Buff{};
 
@@ -1183,7 +1188,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	REARRANGE, GUNNERS_INTUITION, SPEEDY_MOVE, SAFE_RELOAD, MIND_VISION);
 				break;
 			case SAMURAI:
-				Collections.addAll(tierTalents,	CRITICAL_MEAL, MASTERS_INTUITION, UNEXPECTED_SLASH, FLOW_AWAY, ADRENALINE_SURGE);
+				Collections.addAll(tierTalents,	SURPRISE_STAB, MASTERS_INTUITION, UNEXPECTED_SLASH, FLOW_AWAY, ADRENALINE_SURGE);
 				break;
 			case PLANTER:
 				Collections.addAll(tierTalents,	SUDDEN_GROWTH, SAFE_POTION, ROOT, KNOWLEDGE_HERB, GRAVEL_THROW);
@@ -1346,7 +1351,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, CONTINUOUS_ATTACK, SLASHING_PRACTICE, SERIAL_MOMENTUM, ARCANE_ATTACK, SLASHING, DETECTIVE_SLASHING);
 				break;
 			case MASTER:
-				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, DONG_MIND_EYES, DONG_SHEATHING, DONG_POLISHING, JUNG_DETECTION, JUNG_FOCUSING, JUNG_INCISIVE_BLADE);
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, DONG_MIND_EYES, DONG_SHEATHING, DONG_POLISHING, JUNG_DETECTION, JUNG_QUICK_DRAW, JUNG_INCISIVE_BLADE);
 				break;
 			case SLAYER:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, AFTERIMAGE, ENERGY_DRAIN, FTL, QUICK_RECOVER, HASTE_RECOVER, FLURRY);

@@ -588,9 +588,6 @@ abstract public class Weapon extends KindOfWeapon {
 					&& ((Hero)attacker).pointsInTalent(Talent.STRIKING_WAVE) == 4){
 				multi += 0.2f;
 			}
-			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.JUNG_FOCUSING) && ((Hero) attacker).buff(Jung.class) != null) {
-				multi += 0.5f * hero.pointsInTalent(Talent.JUNG_FOCUSING);
-			}
 			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.MYSTICAL_POWER)) {
 				multi += 0.1f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
 			}

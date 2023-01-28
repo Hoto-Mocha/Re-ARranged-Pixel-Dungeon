@@ -1176,21 +1176,25 @@ public class Hero extends Char {
 
 	@Override
 	public boolean canSurpriseAttack(){
-		if (belongings.weapon() == null || !(belongings.weapon() instanceof Weapon))    return true;
-		if (STR() < ((Weapon)belongings.weapon()).STRReq())                             return false;
-		if (belongings.weapon() instanceof Flail)                                       return false;
-		if (belongings.weapon() instanceof ChainFlail)                                  return false;
-		//if (belongings.weapon() instanceof RocketLauncher.Rocket)					    return false;
-		//if (belongings.weapon() instanceof RPG7.Rocket)				          	    return false;
-		if (belongings.weapon() instanceof MiniGun.Bullet)				          	    return false;
-		if (belongings.weapon() instanceof MiniGunAP.Bullet)				          	return false;
-		if (belongings.weapon() instanceof MiniGunHP.Bullet)				          	return false;
-		if (belongings.weapon() instanceof ShotGun.Bullet)				          	    return false;
-		//if (belongings.weapon() instanceof ShotGunAP.Bullet)				          	return false;           //슬러그 샷건은 기습가능
-		if (belongings.weapon() instanceof ShotGunHP.Bullet)				          	return false;
-		if (belongings.weapon() instanceof KSG.Bullet)				             	 	return false;
-		//if (belongings.weapon() instanceof SPASAP.Bullet)				         	 	return false;
-		if (belongings.weapon() instanceof KSGHP.Bullet)				        	  	return false;
+		if (belongings.weapon() == null || !(belongings.weapon() instanceof Weapon))   return true;
+		if (STR() < ((Weapon)belongings.weapon()).STRReq())                            return false;
+		if (belongings.weapon() instanceof Flail)                                      return false;
+		if (belongings.weapon() instanceof ChainFlail)                                 return false;
+		if (belongings.weapon() instanceof MiniGun.Bullet)				          	   return false;
+		if (belongings.weapon() instanceof ShotGun.Bullet) {
+			if (belongings.weapon instanceof ShotGunAP) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		if (belongings.weapon() instanceof KSG.Bullet){
+			if (belongings.weapon instanceof KSGAP) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		//if (belongings.weapon() instanceof GrenadeLauncher.Rocket)					return false;
 		//if (belongings.weapon() instanceof GrenadeLauncherAP.Rocket)					return false;
 		//if (belongings.weapon() instanceof GrenadeLauncherHP.Rocket)					return false;  			//폭발류도 기습 가능
@@ -1239,10 +1243,14 @@ public class Hero extends Char {
 		}
 
 		if (buff(Sheathing.class) != null && buff(Jung.class) != null) {
-			hero.buff(Jung.class).detach();
-			Buff.affect(hero, Dong.class);
-			Buff.affect(hero, StanceCooldown.class, 9f);
-			buff(Dong.class).actionIcon();
+			if (buff(Talent.JungQuickDrawTracker.class) == null) {
+				hero.buff(Jung.class).detach();
+				Buff.affect(hero, Dong.class);
+				Buff.affect(hero, StanceCooldown.class, 9f);
+				buff(Dong.class).actionIcon();
+			} else {
+				buff(Talent.JungQuickDrawTracker.class).detach();
+			}
 			return 0;
 		}
 
@@ -1794,8 +1802,9 @@ public class Hero extends Char {
 		}
 
 		if (hero.heroClass == HeroClass.SAMURAI) {
-			if (hero.buff(Sheathing.class) == null && hero.hasTalent(Talent.FLOW_AWAY) && Random.Int(10) < hero.pointsInTalent(Talent.FLOW_AWAY)) {
+			if (hero.buff(Sheathing.class) == null && hero.hasTalent(Talent.FLOW_AWAY) && hero.buff(Talent.FlowAwayCooldown.class) == null) {
 				Buff.affect(hero, EvasiveMove.class, 0.9999f);
+				Buff.affect(hero, Talent.FlowAwayCooldown.class, 70 - 20 * hero.pointsInTalent(Talent.FLOW_AWAY));
 			}
 
 			if (hero.buff(Sheathing.class) == null) {
@@ -1815,23 +1824,22 @@ public class Hero extends Char {
 					}
 				}
 			}
-			Buff.affect(hero, Sheathing.class);
 
 			if (hero.subClass == HeroSubClass.MASTER && hero.buff(StanceCooldown.class) == null) {
 				if (hero.buff(Dong.class) == null && hero.buff(Jung.class) == null) {
 
 					Buff.affect(hero, Dong.class);
 
-				} else if (hero.buff(Dong.class) != null) {
-
+				} else if (hero.buff(Dong.class) != null && hero.buff(Sheathing.class) == null) {
 					hero.buff(Dong.class).detach();
 					Buff.affect(hero, Jung.class);
+
 					if (hero.hasTalent(Talent.JUNG_INCISIVE_BLADE)) {
 						Buff.affect(hero, Talent.IncisiveBladeTracker.class);
 					}
-
 				}
 			}
+			Buff.affect(hero, Sheathing.class);
 		}
 
 		if (!fullRest) {
@@ -3182,6 +3190,10 @@ public class Hero extends Char {
 			) {
 				Buff.affect( enemy, Bleeding.class ).set( 4 + hero.pointsInTalent(Talent.BAYONET));
 			}
+		}
+
+		if (hero.hasTalent(Talent.SURPRISE_STAB) && ((Mob) enemy).surprisedBy(hero) && hero.buff(Talent.SurpriseStabTracker.class) == null) {
+			Buff.affect(this, Talent.SurpriseStabTracker.class);
 		}
 
 		if (hero.subClass == HeroSubClass.CHASER && hero.hasTalent(Talent.CHAIN_CLOCK) && ((Mob) enemy).surprisedBy(hero) && hero.buff(Talent.ChainCooldown.class) == null){
