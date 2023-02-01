@@ -35,6 +35,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GildedShovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
@@ -80,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnformedBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -108,7 +111,8 @@ public class AdvancedEvolution extends InventorySpell {
 
     @Override
     protected boolean usableOnItem(Item item) {
-        return item instanceof SniperRifle
+        return !(item instanceof Spade)
+            &&(item instanceof SniperRifle
             || item instanceof HeavyMachinegun
             || item instanceof Magnum
             || item instanceof ShotGun
@@ -117,6 +121,7 @@ public class AdvancedEvolution extends InventorySpell {
             || item instanceof Glaive
             || item instanceof Greatshield
             || item instanceof RunicBlade
+            || item instanceof AssassinsBlade
             || item instanceof Shovel
             || item instanceof Greataxe
             || item instanceof WarHammer
@@ -127,7 +132,7 @@ public class AdvancedEvolution extends InventorySpell {
             || item instanceof GoldenBow
             || item instanceof PoisonBow
             || item instanceof Crossbow
-            || item instanceof Whip;
+            || item instanceof Whip);
     }
 
     @Override
@@ -291,8 +296,16 @@ public class AdvancedEvolution extends InventorySpell {
             } else {
                 n = Generator.randomWeapon();
             }
-        } else if (w instanceof Shovel) {
+        } else if (w instanceof AssassinsBlade){
+            if (Random.Int(10) < 9) {
+                n = new UnformedBlade();
+            } else {
+                n = Generator.randomWeapon();
+            }
+        } else if (w instanceof GildedShovel) {
             n = new Spade();
+        } else if (w instanceof Shovel) {
+            n = new GildedShovel();
         } else if (w instanceof Greataxe) {
             if (Random.Int(10) < 9) {
                 n = new HugeSword();
@@ -375,9 +388,6 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new PoisonBow();
                     break;
             }
-
-            return n;
-
         } else if (w instanceof Crossbow) {
             if (Random.Int(10) < 9) {
                 n = new ExplosiveCrossbow();

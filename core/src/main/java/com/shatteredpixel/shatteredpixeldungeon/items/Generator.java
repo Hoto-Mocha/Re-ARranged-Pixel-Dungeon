@@ -563,11 +563,13 @@ public class Generator {
 			ARTIFACT.probs = ARTIFACT.defaultProbs.clone();
 
 			ADVANCED.classes = new Class<?>[]{
+					GildedShovel.class,
 					Spade.class,
 					MinersTool.class,
 					ExplosiveCrossbow.class,
 					ChainWhip.class,
 					TrueRunicBlade.class,
+					UnformedBlade.class,
 					SharpKatana.class,
 					HugeSword.class,
 					IronHammer.class,

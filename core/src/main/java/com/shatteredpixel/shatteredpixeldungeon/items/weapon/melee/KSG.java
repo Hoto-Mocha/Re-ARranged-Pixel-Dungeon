@@ -241,14 +241,14 @@ public class KSG extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        return 1 +
+        return tier +
                lvl +
                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     public int Bulletmax(int lvl) {
-        return (tier + 2)   +
-               lvl * 3 +
+        return (tier + 3) +
+               3 * lvl +
                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 

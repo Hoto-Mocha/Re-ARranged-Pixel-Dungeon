@@ -76,7 +76,7 @@ public class WornShortsword_Energy extends EnergyWeapon {
 			inputs =  new Class[]{WornShortsword.class, ScrollOfUpgrade.class, LiquidMetal.class};
 			inQuantity = new int[]{1, 1, 10};
 
-			cost = 18;
+			cost = 8;
 
 			output = WornShortsword_Energy.class;
 			outQuantity = 1;

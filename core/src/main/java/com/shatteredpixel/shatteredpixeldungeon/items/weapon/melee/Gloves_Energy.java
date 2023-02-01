@@ -54,7 +54,7 @@ public class Gloves_Energy extends EnergyWeapon {
 			inputs =  new Class[]{Gloves.class, ScrollOfUpgrade.class, LiquidMetal.class};
 			inQuantity = new int[]{1, 1, 10};
 
-			cost = 18;
+			cost = 8;
 
 			output = Gloves_Energy.class;
 			outQuantity = 1;

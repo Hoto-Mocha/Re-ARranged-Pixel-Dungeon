@@ -530,19 +530,23 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 16, 16);
 	}
 
-	private static final int ADVANCED_TIER5 = 								xy(1, 42);
-	public static final int SPADE           = ADVANCED_TIER5+0;
-	public static final int EXCROSSBOW      = ADVANCED_TIER5+1;
-	public static final int TRUE_RUNIC_BLADE= ADVANCED_TIER5+2;
-	public static final int CHAIN_WHIP		= ADVANCED_TIER5+3;
-	public static final int MINERS_TOOL		= ADVANCED_TIER5+4;
+	private static final int ADVANCED_TIER5 	= 								xy(1, 42);
+	public static final int ADVANCED_SHOVEL		= ADVANCED_TIER5+0;
+	public static final int SPADE           	= ADVANCED_TIER5+1;
+	public static final int EXCROSSBOW      	= ADVANCED_TIER5+2;
+	public static final int TRUE_RUNIC_BLADE	= ADVANCED_TIER5+3;
+	public static final int CHAIN_WHIP			= ADVANCED_TIER5+4;
+	public static final int MINERS_TOOL			= ADVANCED_TIER5+5;
+	public static final int UNFORMED_BLADE		= ADVANCED_TIER5+6;
 
 	static{
+		assignItemRect(ADVANCED_SHOVEL,		16, 16);
 		assignItemRect(SPADE,           	16, 16);
 		assignItemRect(EXCROSSBOW,  		15, 16);
 		assignItemRect(TRUE_RUNIC_BLADE,	14, 14);
 		assignItemRect(CHAIN_WHIP,			14, 14);
-		assignItemRect(CHAIN_WHIP,			16, 16);
+		assignItemRect(MINERS_TOOL,			16, 16);
+		assignItemRect(UNFORMED_BLADE,		14, 15);
 	}
 
 	private static final int ADVANCED_TIER6 = 								xy(1, 43);

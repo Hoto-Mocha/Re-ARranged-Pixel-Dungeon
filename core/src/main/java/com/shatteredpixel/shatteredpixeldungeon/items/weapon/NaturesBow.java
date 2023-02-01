@@ -34,7 +34,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.N
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -255,9 +254,9 @@ public class NaturesBow extends Weapon {
 				case NONE: default:
 					return 0f;
 				case SPEED:
-					return 1f * RingOfFuror.attackSpeedMultiplier(owner);
+					return 1f;
 				case DAMAGE:
-					return 2f * RingOfFuror.attackSpeedMultiplier(owner);
+					return 2f;
 			}
 		} else{
 			return super.baseDelay(owner);
@@ -386,6 +385,11 @@ public class NaturesBow extends Weapon {
 					user.spendAndNext(castDelay(user, dst));
 					sniperSpecial = false;
 					flurryCount = -1;
+
+					if (flurryActor != null){
+						flurryActor.next();
+						flurryActor = null;
+					}
 					return;
 				}
 				QuickSlotButton.target(enemy);

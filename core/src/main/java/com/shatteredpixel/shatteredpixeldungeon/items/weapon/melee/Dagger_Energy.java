@@ -96,7 +96,7 @@ public class Dagger_Energy extends EnergyWeapon {
 			inputs =  new Class[]{Dagger.class, ScrollOfUpgrade.class, LiquidMetal.class};
 			inQuantity = new int[]{1, 1, 10};
 
-			cost = 18;
+			cost = 8;
 
 			output = Dagger_Energy.class;
 			outQuantity = 1;

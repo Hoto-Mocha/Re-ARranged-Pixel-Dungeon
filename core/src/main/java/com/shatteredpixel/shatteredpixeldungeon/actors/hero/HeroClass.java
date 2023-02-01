@@ -96,10 +96,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.HandyBarricade;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
@@ -112,6 +115,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
@@ -121,6 +125,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShiel
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.FishingSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.HealingDart;
@@ -166,29 +171,27 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		//TODO: to delete after testing
-		//new AdvancedEvolution().collect();
+		/*
+		.identify()
+		.quantity()
+		.upgrade()
+		.collect();
+		 */
+		//new AdvancedEvolution().quantity(100).collect();
+		//new AssassinsBlade().identify().collect();
+		//new StoneOfAugmentation().quantity(100).collect();
+		//new FishingSpear().quantity(100).collect();
 		//new PotionOfLiquidFlame().identify().quantity(20).collect();
 		//new PotionOfFrost().identify().quantity(20).collect();
 		//new RapidGrowth().quantity(20).collect();
-		//new LargeSword().identify().collect();
-		//new LargeSword().identify().upgrade(1).collect();
-		//new RunicDagger().identify().collect();
-		//new Scythe().identify().collect();
-		//new DoubleDagger().identify().collect();
 		//new APBullet().quantity(2).collect();
 		//new HPBullet().quantity(2).collect();
-		//new CrudePistol().identify().collect();
 		//new Evolution().quantity(50).collect();
-		//new AntimaterRifle().identify().collect();
-		//new TacticalShield().identify().collect();
-		//new LargeSword().identify().collect();
-		//new ShotGun().identify().collect();
-		//new KSG().identify().collect();
+		//new HandyBarricade().quantity(20).collect();
 		//new TengusMask().collect();
 		//new KingsCrown().collect();
 		//new PotionOfExperience().identify().quantity(29).collect();
 		//new ScrollOfMagicMapping().identify().quantity(29).collect();
-		//new PlateArmor().identify().upgrade(100).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new ScrollOfUpgrade().identify().quantity(1000).collect();
 		//new ScrollOfExtract().quantity(20).collect();

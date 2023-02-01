@@ -559,6 +559,9 @@ public abstract class Char extends Actor {
 				Hero h = (Hero)this;
 				KindOfWeapon wep = h.belongings.weapon();
 				KindOfWeapon equippedWep = h.belongings.weapon;
+				if (wep instanceof TrueRunicBlade) {
+					dr = 0;
+				}
 				if (wep instanceof RunicDagger
 						&& ((Mob) enemy).surprisedBy(hero)) {
 					dr = 0;
@@ -582,7 +585,8 @@ public abstract class Char extends Actor {
 						}
 					}
 					dr = 0;
-				} else if ((wep instanceof CrudePistol.Bullet && (equippedWep instanceof CrudePistolAP))
+				}
+				if ((wep instanceof CrudePistol.Bullet && (equippedWep instanceof CrudePistolAP))
 					  || (wep instanceof Pistol.Bullet && (equippedWep instanceof PistolAP))
 					  || (wep instanceof GoldenPistol.Bullet && (equippedWep instanceof GoldenPistolAP))
 					  || (wep instanceof Handgun.Bullet && (equippedWep instanceof HandgunAP))
@@ -606,10 +610,10 @@ public abstract class Char extends Actor {
 					  || (wep instanceof WA2000.Bullet && (equippedWep instanceof WA2000AP))
 
 					  || (wep instanceof ShotGun.Bullet && (equippedWep instanceof ShotGunAP))
-					  || (wep instanceof KSG.Bullet && (equippedWep instanceof KSGAP))
-				) {
+					  || (wep instanceof KSG.Bullet && (equippedWep instanceof KSGAP))) {
 					dr = 0;
-				} else if ((wep instanceof CrudePistol.Bullet && (equippedWep instanceof CrudePistolHP))
+				}
+				if ((wep instanceof CrudePistol.Bullet && (equippedWep instanceof CrudePistolHP))
 						|| (wep instanceof Pistol.Bullet && (equippedWep instanceof PistolHP))
 						|| (wep instanceof GoldenPistol.Bullet && (equippedWep instanceof GoldenPistolHP))
 						|| (wep instanceof Handgun.Bullet && (equippedWep instanceof HandgunHP))
@@ -630,15 +634,12 @@ public abstract class Char extends Actor {
 						|| (wep instanceof SniperRifle.Bullet && (equippedWep instanceof SniperRifleHP))
 						|| (wep instanceof AntimaterRifle.Bullet && (equippedWep instanceof AntimaterRifleHP))
 						|| (wep instanceof MarksmanRifle.Bullet && (equippedWep instanceof MarksmanRifleHP))
-						|| (wep instanceof WA2000.Bullet && (equippedWep instanceof WA2000HP))
-				) {
-					dr *= 3;
-				} else if ((wep instanceof ShotGun.Bullet && (equippedWep instanceof ShotGunHP))
+						|| (wep instanceof WA2000.Bullet && (equippedWep instanceof WA2000HP))) {
+					dr *= 2;
+				}
+				if ((wep instanceof ShotGun.Bullet && (equippedWep instanceof ShotGunHP))
 						|| (wep instanceof KSG.Bullet && (equippedWep instanceof KSGHP))) {
-					dr *= 2.5;
-				} else if ((wep instanceof ShotGun.Bullet && (equippedWep instanceof ShotGun))
-						|| (wep instanceof KSG.Bullet && (equippedWep instanceof KSG))) {
-					dr *= 1.5;
+					dr *= 2;
 				}
 			}
 
@@ -1047,7 +1048,7 @@ public abstract class Char extends Actor {
 			if (this instanceof Hero
 					&& hero.hasTalent(Talent.TAKEDOWN)
 					&& hero.buff(Talent.TakeDownCooldown.class) == null
-					&& (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
+					&& (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof GildedShovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
 				Buff.affect(hero, Talent.TakeDownCooldown.class, 15f);
 			}
 

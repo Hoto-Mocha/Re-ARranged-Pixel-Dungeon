@@ -1134,6 +1134,10 @@ public enum Talent {
 			dmg += hero.pointsInTalent(Talent.UNEXPECTED_SLASH);
 		}
 
+		if (hero.hasTalent(Talent.UNEXPECTED_SLASH) && hero.heroClass != HeroClass.SAMURAI) {
+			dmg += hero.pointsInTalent(Talent.UNEXPECTED_SLASH);
+		}
+
 		if (hero.hasTalent(Talent.SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(ShootTheHeartTracker.class) == null){
 			Buff.affect(enemy, ShootTheHeartTracker.class);
 			Buff.prolong(hero, Haste.class, 1f + hero.pointsInTalent(Talent.SPEEDY_MOVE));

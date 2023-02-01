@@ -22,44 +22,22 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Saber_Energy extends EnergyWeapon {
+public class GildedShovel extends Shovel {
 
-	{
-		image = ItemSpriteSheet.SABER_ENERGY;
-		hitSound = Assets.Sounds.HIT_SLASH;
-		hitSoundPitch = 1.1f;
+    public static final String AC_DIG	= "DIG";
 
-		tier = 1;
-		
-		bones = false;
+    {
+        defaultAction = AC_DIG;
 
-		chargePerHit = 2;
-		chargeUsePerHit = 4;
-	}
+        image = ItemSpriteSheet.ADVANCED_SHOVEL;
+        hitSound = Assets.Sounds.HIT_SLASH;
+        hitSoundPitch = 1.3f;
 
-	@Override
-	public int max(int lvl) {
-		return  5*(tier+2) +
-				lvl;
-	}
+        tier = 3;
 
-	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-		{
-			inputs =  new Class[]{Saber.class, ScrollOfUpgrade.class, LiquidMetal.class};
-			inQuantity = new int[]{1, 1, 10};
-
-			cost = 8;
-
-			output = Saber_Energy.class;
-			outQuantity = 1;
-		}
-	}
-
+        unique = true;
+        bones = false;
+    }
 }

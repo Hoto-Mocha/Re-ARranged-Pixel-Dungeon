@@ -24,23 +24,14 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EnergyParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 
 import java.util.ArrayList;
@@ -54,6 +45,7 @@ public class EnergyWeapon extends MeleeWeapon {
 	int charge = 0;
 	int chargeCap = 100;
 	boolean power = false;
+
 	{
 		defaultAction = AC_POWER;
 		alchemy = true;
@@ -118,7 +110,7 @@ public class EnergyWeapon extends MeleeWeapon {
 			if (!isEquipped(hero)) {
 				GLog.w(Messages.get(this, "not_equipped"));
 			} else {
-				if (charge > chargeUsePerHit) {
+				if (charge >= chargeUsePerHit) {
 					if (power) {
 						power = false;
 						GLog.n(Messages.get(this, "power_off"));
@@ -142,12 +134,14 @@ public class EnergyWeapon extends MeleeWeapon {
 
 	private static final String CHARGE = "charge";
 	private static final String CHARGE_CAP = "chargeCap";
+	private static final String POWER = "power";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 		bundle.put(CHARGE, charge);
 		bundle.put(CHARGE_CAP, chargeCap);
+		bundle.put(POWER, power);
 	}
 
 	@Override
@@ -155,6 +149,7 @@ public class EnergyWeapon extends MeleeWeapon {
 		super.restoreFromBundle(bundle);
 		charge = bundle.getInt(CHARGE);
 		chargeCap = bundle.getInt(CHARGE_CAP);
+		power = bundle.getBoolean(POWER);
 	}
 
 	@Override

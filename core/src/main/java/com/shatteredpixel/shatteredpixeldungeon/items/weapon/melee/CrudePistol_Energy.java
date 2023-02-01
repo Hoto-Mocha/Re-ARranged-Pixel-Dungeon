@@ -99,7 +99,7 @@ public class CrudePistol_Energy extends CrudePistol {
             inputs =  new Class[]{CrudePistol.class, ScrollOfUpgrade.class, LiquidMetal.class};
             inQuantity = new int[]{1, 1, 10};
 
-            cost = 18;
+            cost = 8;
 
             output = CrudePistol_Energy.class;
             outQuantity = 1;

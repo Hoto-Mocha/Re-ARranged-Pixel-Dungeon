@@ -83,7 +83,7 @@ public class MinersTool extends MeleeWeapon {
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 0.9f;
 
-		tier = 3;
+		tier = 5;
 
 		unique = true;
 		bones = false;

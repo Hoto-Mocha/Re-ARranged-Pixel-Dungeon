@@ -125,7 +125,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
@@ -237,7 +236,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Bloomi
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
@@ -281,7 +279,6 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
-import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -789,10 +786,12 @@ public class Hero extends Char {
 			float accMulti;
 
 			if (Dungeon.level.adjacent( pos, target.pos )) {
+				accMulti = (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				if ((wep instanceof ShotGun.Bullet && !(equippedWep instanceof ShotGunAP))
 						|| (wep instanceof KSG.Bullet && !(equippedWep instanceof KSGAP))) {
-					accMulti = (1.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
-				} else if (wep instanceof Revolver.Bullet
+					accMulti += 3;
+				}
+				if (wep instanceof Revolver.Bullet
 						|| wep instanceof HuntingRifle.Bullet
 						|| wep instanceof Carbine.Bullet
 						|| wep instanceof SniperRifle.Bullet
@@ -800,23 +799,18 @@ public class Hero extends Char {
 						|| wep instanceof MarksmanRifle.Bullet
 						|| wep instanceof WA2000.Bullet){
 					accMulti = 0;
-				} else {
-					accMulti = (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 				}
-
 			} else {
-				if ((wep instanceof ShotGun.Bullet && !(equippedWep instanceof ShotGunAP))
-						|| (wep instanceof KSG.Bullet && !(equippedWep instanceof KSGAP))) {
-					accMulti = 0;
-				} else if (wep instanceof Revolver.Bullet
+				accMulti = 1.5f;
+				if (wep instanceof Revolver.Bullet
 						|| wep instanceof Carbine.Bullet
 						|| wep instanceof SniperRifle.Bullet
 						|| wep instanceof AntimaterRifle.Bullet
 						|| wep instanceof MarksmanRifle.Bullet
-						|| wep instanceof WA2000.Bullet
-				) {
+						|| wep instanceof WA2000.Bullet) {
 					accMulti = 2f;
-				} else if (wep instanceof CrudePistol.Bullet
+				}
+				if (wep instanceof CrudePistol.Bullet
 						|| wep instanceof Pistol.Bullet
 						|| wep instanceof GoldenPistol.Bullet
 						|| wep instanceof Handgun.Bullet
@@ -833,12 +827,16 @@ public class Hero extends Char {
 						|| wep instanceof KSG.Bullet
 				) {
 					accMulti = 1f;
-				} else if (wep instanceof TacticalHandgun.Bullet) {
+				}
+				if ((wep instanceof ShotGun.Bullet && !(equippedWep instanceof ShotGunAP))
+						|| (wep instanceof KSG.Bullet && !(equippedWep instanceof KSGAP))) {
+					accMulti = 0;
+				}
+				if (wep instanceof TacticalHandgun.Bullet) {
 					accMulti = 1.3f;
-				} else if (wep instanceof TacticalShield.Bullet) {
+				}
+				if (wep instanceof TacticalShield.Bullet) {
 					accMulti = 0.7f;
-				} else {
-					accMulti = 1.5f;
 				}
 			}
 
@@ -3726,7 +3724,7 @@ public class Hero extends Char {
 			hero.buff(Outlaw.class).detach();
 		}
 
-		if (hit && hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
+		if (hit && hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof GildedShovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
 
 			int amount = 1 + Math.round(hero.belongings.weapon.level()/2f);
 			if (hero.hasTalent(Talent.GOLD_MINER) && Random.Int(5) == 0) {

@@ -114,8 +114,9 @@ public class QuickSlot {
 
 		ArrayList<Item> result = new ArrayList<>();
 		for (int i = 0; i < SIZE; i ++)
-		if (getItem(i) != null && !isPlaceholder(i))
-				result.add(getItem(i));
+		if (getItem(i) != null && !isPlaceholder(i)) {
+			result.add(getItem(i));
+		}
 
 		return Random.element(result);
 	}

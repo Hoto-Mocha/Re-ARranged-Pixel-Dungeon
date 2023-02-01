@@ -58,7 +58,7 @@ public class WornKatana_Energy extends EnergyWeapon {
             inputs =  new Class[]{WornKatana.class, ScrollOfUpgrade.class, LiquidMetal.class};
             inQuantity = new int[]{1, 1, 10};
 
-            cost = 18;
+            cost = 8;
 
             output = WornKatana_Energy.class;
             outQuantity = 1;

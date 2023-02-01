@@ -591,7 +591,7 @@ public class Dungeon {
 			for (int d : droppedItems.keyArray()) {
 				bundle.put(Messages.format(DROPPED, d), droppedItems.get(d));
 			}
-			
+
 			for (int p : portedItems.keyArray()){
 				bundle.put(Messages.format(PORTED, p), portedItems.get(p));
 			}

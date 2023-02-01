@@ -790,7 +790,7 @@ public abstract class Mob extends Char {
 
 		if (!(this instanceof Wraith)
 				&& soulMarked
-				&& Random.Float() < (0.4f*Dungeon.hero.pointsInTalent(Talent.NECROMANCERS_MINIONS)/3f)){
+				&& Random.Float() < (0.4f*hero.pointsInTalent(Talent.NECROMANCERS_MINIONS)/3f)){
 			Wraith w = Wraith.spawnAt(pos);
 			if (w != null) {
 				Buff.affect(w, Corruption.class);
@@ -801,17 +801,20 @@ public abstract class Mob extends Char {
 			}
 		}
 
-		if (!(this instanceof Wraith) && Dungeon.isChallenged(Challenges.CURSED_DUNGEON)
-				&& !(Dungeon.hero.belongings.weapon instanceof CursedSword)
-				&& (hero.buff(MagicImmune.class) == null)
-				&& Random.Int(4) < 3
-		) {
+		if (this instanceof Wraith && Dungeon.isChallenged(Challenges.CURSED_DUNGEON) && Random.Int(5) < 1) {
 			Wraith w = Wraith.spawnAt(pos);
+			if (w != null) {
+				Buff.affect(w, Corruption.class);
+				if (Dungeon.level.heroFOV[pos]) {
+					CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
+					Sample.INSTANCE.play(Assets.Sounds.CURSED);
+				}
+			}
 		}
 
-		if (!(this instanceof Wraith) && Dungeon.hero.belongings.weapon instanceof CursedSword){
-			if (Dungeon.hero.belongings.weapon.cursed) {
-				if (Random.Int(20) <= Dungeon.hero.belongings.weapon.buffedLvl()) {
+		if (!(this instanceof Wraith) && hero.belongings.weapon instanceof CursedSword){
+			if (hero.belongings.weapon.cursed) {
+				if (Random.Int(20) <= hero.belongings.weapon.buffedLvl()) {
 					Wraith w = Wraith.spawnAt(pos);
 					if (w != null) {
 						Buff.affect(w, Corruption.class);
@@ -820,7 +823,7 @@ public abstract class Mob extends Char {
 							CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
 							Sample.INSTANCE.play(Assets.Sounds.CURSED);
 						}
-						if (Dungeon.hero.subClass == HeroSubClass.WEAPONMASTER) {
+						if (hero.subClass == HeroSubClass.WEAPONMASTER) {
 							int healAmt = Math.round((this.HT/40f) * Math.min(hero.belongings.weapon.buffedLvl()+1, 10));
 							healAmt = Math.min( healAmt, hero.HT - hero.HP );
 							if (healAmt > 0 && hero.isAlive()) {
