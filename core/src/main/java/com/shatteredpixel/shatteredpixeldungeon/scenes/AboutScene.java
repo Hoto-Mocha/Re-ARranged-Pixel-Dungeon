@@ -68,9 +68,23 @@ public class AboutScene extends PixelScene {
 				Icons.ARRANGED.get(),
 				"Developed by: _Cocoa_\nBased on Shattered Pixel Dungeon's open source",
 				"github repository",
-				"https://github.com/Hoto-Mocha/shattered-pixel-dungeon-modding");
+				"https://github.com/Hoto-Mocha/ARranged-Pixel-Dungeon");
 		arranged.setRect((w - fullWidth)/2f, 6, 120, 0);
 		content.add(arranged);
+
+		CreditsBlock splash = new CreditsBlock(false, Window.WHITE,
+				"Hero Splash Art",
+				Icons.DCINSIDE.get(),
+				"oo(211.195)",
+				"SPD Gallery",
+				"https://gall.dcinside.com/mgallery/board/lists?id=spd");
+		splash.setSize(colWidth/2f, 0);
+		if (landscape()){
+			splash.setPos(arranged.right(), arranged.top());
+		} else {
+			splash.setPos(w/2f - colWidth/2f, arranged.bottom()+5);
+		}
+		content.add(splash);
 
 		//*** Shattered Pixel Dungeon Credits ***
 
@@ -89,7 +103,7 @@ public class AboutScene extends PixelScene {
 		if (landscape()){
 			shpx.setRect(arranged.left(), arranged.bottom() + 12, colWidth, 0);
 		} else {
-			shpx.setRect(arranged.left(), arranged.bottom() + 12, colWidth, 0);
+			shpx.setRect(splash.left(), splash.bottom() + 12, colWidth, 0);
 		}
 		content.add(shpx);
 		CreditsBlock alex = new CreditsBlock(false, Window.SHPX_COLOR,

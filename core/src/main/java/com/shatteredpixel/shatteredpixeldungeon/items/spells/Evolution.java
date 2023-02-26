@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
@@ -158,13 +159,29 @@ public class Evolution extends InventorySpell {
         Weapon n;
         Generator.Category c;
         if (((MeleeWeapon)w).tier == 7) {
-            c = Generator.wepTiers[((MeleeWeapon)w).tier - 3];
+            if (Dungeon.hero.hasTalent(Talent.TRANSMUTATION_CONTROL)) {
+                c = Generator.gunTiers[((MeleeWeapon)w).tier - 3];
+            } else {
+                c = Generator.wepTiers[((MeleeWeapon)w).tier - 3];
+            }
         } else if (((MeleeWeapon)w).tier == 6) {
-            c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
+            if (Dungeon.hero.hasTalent(Talent.TRANSMUTATION_CONTROL)) {
+                c = Generator.gunTiers[((MeleeWeapon)w).tier - 2];
+            } else {
+                c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
+            }
         } else if (((MeleeWeapon)w).tier == 5){
-            c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
+            if (Dungeon.hero.hasTalent(Talent.TRANSMUTATION_CONTROL)) {
+                c = Generator.gunTiers[((MeleeWeapon)w).tier - 1];
+            } else {
+                c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
+            }
         } else {
-            c = Generator.wepTiers[((MeleeWeapon)w).tier];
+            if (Dungeon.hero.hasTalent(Talent.TRANSMUTATION_CONTROL)) {
+                c = Generator.gunTiers[((MeleeWeapon)w).tier];
+            } else {
+                c = Generator.wepTiers[((MeleeWeapon)w).tier];
+            }
         }
 
         do {

@@ -870,7 +870,7 @@ public class Hero extends Char {
 						|| wep instanceof GrenadeLauncherHP.Rocket
 						|| wep instanceof TacticalShield.Bullet
 				) {
-					accuracy *= 1.05f + 0.05f * hero.pointsInTalent(Talent.BULLET_FOCUS);
+					accuracy *= Math.pow(1.1f, hero.pointsInTalent(Talent.BULLET_FOCUS));
 				}
 			}
 		}
@@ -2081,6 +2081,18 @@ public class Hero extends Char {
 		if (hero.hasTalent(Talent.SHIELD_OF_LIGHT) && hero.buff(ShieldCoolDown.class) != null) {
 			Buff.affect(hero, ShieldCoolDown.class).use(3*hero.pointsInTalent(Talent.SHIELD_OF_LIGHT));
 		}
+
+		if (hero.hasTalent(Talent.HEALING_FACTOR) && !hero.buff(Hunger.class).isStarving()) {
+			if (Random.Float() < 0.5f * ((hero.HT - hero.HP) / (float)hero.HT)) {
+				int healAmt = Random.NormalIntRange(1, hero.pointsInTalent(Talent.HEALING_FACTOR));
+				healAmt = Math.min( healAmt, Dungeon.hero.HT - Dungeon.hero.HP );
+				if (healAmt > 0 && Dungeon.hero.isAlive()) {
+					Dungeon.hero.HP += healAmt;
+					Dungeon.hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+					Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
+			}
+		}
 		
 		return super.defenseProc( enemy, damage );
 	}
@@ -3115,46 +3127,6 @@ public class Hero extends Char {
 			}
 		}
 
-		if (hit && hero.hasTalent(Talent.ELASTIC_WEAPON) && Random.Int(5) < hero.pointsInTalent(Talent.ELASTIC_WEAPON)) {
-			if (Dungeon.hero.belongings.weapon() instanceof CrudePistol
-					|| Dungeon.hero.belongings.weapon() instanceof Pistol
-					|| Dungeon.hero.belongings.weapon() instanceof GoldenPistol
-					|| Dungeon.hero.belongings.weapon() instanceof Handgun
-					|| Dungeon.hero.belongings.weapon() instanceof Magnum
-					|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
-					|| Dungeon.hero.belongings.weapon() instanceof AutoRifle
-					|| Dungeon.hero.belongings.weapon() instanceof DualPistol
-					|| Dungeon.hero.belongings.weapon() instanceof SubMachinegun
-					|| Dungeon.hero.belongings.weapon() instanceof AssultRifle
-					|| Dungeon.hero.belongings.weapon() instanceof HeavyMachinegun
-					|| Dungeon.hero.belongings.weapon() instanceof MiniGun
-					|| Dungeon.hero.belongings.weapon() instanceof AutoRifle
-					|| Dungeon.hero.belongings.weapon() instanceof Revolver
-					|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle
-					|| Dungeon.hero.belongings.weapon() instanceof Carbine
-					|| Dungeon.hero.belongings.weapon() instanceof SniperRifle
-					|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifle
-					|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifle
-					|| Dungeon.hero.belongings.weapon() instanceof WA2000
-					|| Dungeon.hero.belongings.weapon() instanceof ShotGun
-					|| Dungeon.hero.belongings.weapon() instanceof KSG
-					|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
-					|| Dungeon.hero.belongings.weapon() instanceof RPG7
-					|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
-					|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannon
-					|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher
-					|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherAP
-					|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP
-			) {
-				//trace a ballistica to our target (which will also extend past them
-				Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
-				//trim it to just be the part that goes past them
-				trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
-				//knock them back along that ballistica
-				WandOfBlastWave.throwChar(enemy, trajectory, 3, true, false, hero.getClass());
-			}
-		}
-
 		if (hit && hero.hasTalent(Talent.BAYONET) && hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null){
 			if (Dungeon.hero.belongings.weapon() instanceof CrudePistol
 					|| Dungeon.hero.belongings.weapon() instanceof Pistol
@@ -3220,13 +3192,6 @@ public class Hero extends Char {
 			if (hero.pointsInTalent(Talent.LETHAL_SURPRISE) == 3) {
 				Buff.affect(hero, Swiftthistle.TimeBubble.class).twoTurns();
 			}
-		}
-
-		if (hit && hero.hasTalent(Talent.DESTRUCTIVE_ATK)) {
-			if (Random.Int(40) < hero.pointsInTalent(Talent.DESTRUCTIVE_ATK)) {
-				Buff.affect(enemy, Vulnerable.class, 20f);
-			}
-			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 		}
 
 		if (!hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && Random.Int(5) == 0 && hero.pointsInTalent(Talent.SWIFT_MOVEMENT) > 1) {
@@ -3741,8 +3706,8 @@ public class Hero extends Char {
 			Buff.affect(hero, Barrier.class).setShield(1+hero.pointsInTalent(Talent.CRITICAL_SHIELD));
 		}
 
-		if (hit && hero.hasTalent(Talent.WINNERS_FLAG) && !enemy.isAlive() && Random.Int(2) == 0) {
-			Buff.affect(hero, BlessingArea.class).setup(hero.pos, 20, hero.pointsInTalent(Talent.WINNERS_FLAG));
+		if (hit && hero.hasTalent(Talent.WINNERS_FLAG) && !enemy.isAlive()) {
+			Buff.affect(hero, BlessingArea.class).setup(hero.pos, 5, hero.pointsInTalent(Talent.WINNERS_FLAG));
 		}
 
 		if (hero.subClass == HeroSubClass.MEDIC && hit) {

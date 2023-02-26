@@ -134,7 +134,7 @@ public class Shovel extends MeleeWeapon {
                         || c == Terrain.EMBERS || c == Terrain.GRASS
                         || c == Terrain.WATER || c == Terrain.FURROWED_GRASS){
                     if (flowers > 0) {
-                        Dungeon.level.plant((Plant.Seed) Generator.randomUsingDefaults(Generator.Category.SEED), hero.pos + i);
+                        Dungeon.level.plant((Plant.Seed) Generator.randomUsingDefaults(Generator.Category.SEED), hero.pos);
                         flowers--;
                     } else {
                         if (Random.Int(8) < 1+hero.pointsInTalent(Talent.ALIVE_GRASS)) {

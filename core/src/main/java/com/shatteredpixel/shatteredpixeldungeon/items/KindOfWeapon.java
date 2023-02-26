@@ -220,7 +220,7 @@ abstract public class  KindOfWeapon extends EquipableItem {
 					}
 					int damageBonus = 0;
 					if (hero.hasTalent(Talent.POWERFUL_CRIT)) {
-						damageBonus += 1 + 2 * hero.pointsInTalent(Talent.POWERFUL_CRIT);
+						damageBonus += 5 * hero.pointsInTalent(Talent.POWERFUL_CRIT);
 					}
 					if (hero.hasTalent(Talent.JUNG_QUICK_DRAW) && hero.buff(Jung.class) != null && hero.buff(Sheathing.class) != null) {
 						damageBonus += Random.NormalIntRange(0, 20);

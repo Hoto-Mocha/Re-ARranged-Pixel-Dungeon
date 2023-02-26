@@ -522,7 +522,7 @@ public abstract class Char extends Actor {
 			if (rearmor != null)  dr += rearmor.blockingRoll();
 
 			if (this.alignment == Alignment.ALLY && !(this instanceof Hero) && hero.hasTalent(Talent.CHARISMA)) {
-				dr *= 1+0.1f*hero.pointsInTalent(Talent.CHARISMA);
+				dr *= Math.pow(1.1f, hero.pointsInTalent(Talent.CHARISMA));
 			}
 
 			if (this instanceof Hero && hero.subClass == HeroSubClass.WEAPONMASTER) {
@@ -666,14 +666,14 @@ public abstract class Char extends Actor {
 			}
 
 			if (this.alignment == Alignment.ALLY && !(this instanceof Hero) && hero.hasTalent(Talent.POWERFUL_BOND)) {
-				dmg *= 1+0.1f*hero.pointsInTalent(Talent.POWERFUL_BOND);
+				dmg *= Math.pow(1.1f, hero.pointsInTalent(Talent.POWERFUL_BOND));
 			}
 
 			if (Dungeon.isChallenged(Challenges.SUPERMAN) && this instanceof Hero) {
 				dmg *= 3f;
 			}
 
-			if (hero.buff(GodFury.class) != null) {
+			if (this instanceof Hero && hero.buff(GodFury.class) != null) {
 				dmg *= 3f;
 			}
 
@@ -995,7 +995,7 @@ public abstract class Char extends Actor {
 					enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 3 );
 					Sample.INSTANCE.play(Assets.Sounds.BURNING);
 
-					dmg *= 1 + 0.1f * hero.pointsInTalent(Talent.BIOLOGY_PROJECT);
+					dmg *= Math.pow(1.1f, hero.pointsInTalent(Talent.BIOLOGY_PROJECT));
 				}
 			}
 
@@ -1004,8 +1004,8 @@ public abstract class Char extends Actor {
 				Buff.affect(hero, Talent.SnareCooldown.class, 10*(4-Dungeon.hero.pointsInTalent(Talent.SNARE)));
 			}
 
-			if (this instanceof Hero && Dungeon.level.map[hero.pos] == Terrain.WATER && Random.Int(5) < hero.pointsInTalent(Talent.WATER_FRIENDLY)) {
-				dmg += 3;
+			if (this instanceof Hero && Dungeon.level.map[hero.pos] == Terrain.WATER) {
+				dmg += Random.NormalIntRange(1, hero.pointsInTalent(Talent.WATER_FRIENDLY));
 				Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 			}
 
@@ -1072,7 +1072,7 @@ public abstract class Char extends Actor {
 			if (this instanceof Hero) {
 				if (dmg >= enemy.HP
 						&& hero.hasTalent(Talent.DEADS_BLESS)
-						&& hero.buff(Bless.class) != null
+						&& hero.buff(GodFury.class) != null
 						&& !enemy.isImmune(AllyBuff.class)
 						&& enemy.buff(AllyBuff.class) == null
 						&& enemy instanceof Mob

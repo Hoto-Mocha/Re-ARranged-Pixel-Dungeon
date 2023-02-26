@@ -76,9 +76,6 @@ public class KnightsShield extends Item {
 				if (hero.hasTalent(Talent.SHIELD_SLAM) && Random.Int(3) < hero.pointsInTalent(Talent.SHIELD_SLAM)) {
 					Buff.affect(hero, ParalysisTracker.class);
 				}
-				if (hero.subClass == HeroSubClass.CRUSADER) {
-					Buff.affect(hero, Bless.class, 3*(1+hero.belongings.armor.buffedLvl()));
-				}
 				GLog.p(Messages.get(this, "shield"));
 			}
 		}

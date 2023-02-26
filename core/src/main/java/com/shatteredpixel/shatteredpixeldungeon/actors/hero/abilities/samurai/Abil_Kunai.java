@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
@@ -105,15 +106,20 @@ public class Abil_Kunai extends ArmorAbility {
 			Callback callback = new Callback() {
 				@Override
 				public void call() {
-					float dmgMulti = ch == enemy ? 0.5f : 0.25f;
+					float dmgMulti = ch == enemy ? 1f : 0.5f;
 					float accmulti = 1f + 0.25f*hero.pointsInTalent(Talent.MYSTICAL_KUNAI);
 					hero.attack( ch, dmgMulti, 0, accmulti );
 					Buff.affect(enemy, Vulnerable.class, 20f);
 					if (hero.hasTalent(Talent.KUNAI_OF_DOOM) && Random.Int(20) < hero.pointsInTalent(Talent.KUNAI_OF_DOOM)) {
 						Buff.affect(enemy, Doom.class);
 					}
-					if (hero.hasTalent(Talent.POISONED_KUNAI)) {
-						Buff.affect(enemy, Poison.class).set(3f * hero.pointsInTalent(Talent.POISONED_KUNAI));
+					if (hero.hasTalent(Talent.CORROSIVE_KUNAI)) {
+						if (enemy.properties().contains(Char.Property.BOSS)
+								|| enemy.properties().contains(Char.Property.MINIBOSS)){
+							Buff.affect(enemy, Corrosion.class).set(3f, 2*hero.pointsInTalent(Talent.CORROSIVE_KUNAI));
+						} else{
+							Buff.affect(enemy, Corrosion.class).set(5f, 2*hero.pointsInTalent(Talent.CORROSIVE_KUNAI));
+						}
 					}
 					if (hero.hasTalent(Talent.MYSTICAL_KUNAI)) {
 						int dur = 5 + 5*Dungeon.hero.pointsInTalent(Talent.MYSTICAL_KUNAI);
@@ -166,6 +172,6 @@ public class Abil_Kunai extends ArmorAbility {
 
 	@Override
 	public Talent[] talents() {
-		return new Talent[]{Talent.KUNAI_OF_DOOM, Talent.MYSTICAL_KUNAI, Talent.POISONED_KUNAI, Talent.HEROIC_ENERGY};
+		return new Talent[]{Talent.KUNAI_OF_DOOM, Talent.MYSTICAL_KUNAI, Talent.CORROSIVE_KUNAI, Talent.HEROIC_ENERGY};
 	}
 }

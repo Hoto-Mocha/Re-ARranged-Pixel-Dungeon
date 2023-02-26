@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
@@ -210,11 +211,23 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		Generator.Category c;
 		if (w instanceof MeleeWeapon) {
 			if (((MeleeWeapon) w).tier == 7) {
-				c = Generator.wepTiers[((MeleeWeapon) w).tier - 3];
+				if (Dungeon.hero.pointsInTalent(Talent.TRANSMUTATION_CONTROL) > 1) {
+					c = Generator.gunTiers[((MeleeWeapon)w).tier - 3];
+				} else {
+					c = Generator.wepTiers[((MeleeWeapon)w).tier - 3];
+				}
 			} else if (((MeleeWeapon) w).tier == 6) {
-				c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
+				if (Dungeon.hero.pointsInTalent(Talent.TRANSMUTATION_CONTROL) > 1) {
+					c = Generator.gunTiers[((MeleeWeapon)w).tier - 2];
+				} else {
+					c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
+				}
 			} else {
-				c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
+				if (Dungeon.hero.pointsInTalent(Talent.TRANSMUTATION_CONTROL) > 1) {
+					c = Generator.gunTiers[((MeleeWeapon)w).tier - 1];
+				} else {
+					c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
+				}
 			}
 		} else {
 			c = Generator.misTiers[((MissileWeapon)w).tier - 1];
