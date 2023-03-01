@@ -31,8 +31,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cloaking;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
@@ -167,10 +171,10 @@ public class Carbine extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -190,6 +194,35 @@ public class Carbine extends MeleeWeapon {
 
     public void reload() {
         max_round = (magazine) ? 2 : 1;
+
+        Buff.detach(hero, FrostBullet.class);
+        Buff.detach(hero, FireBullet.class);
+        Buff.detach(hero, ElectroBullet.class);
+
+        if (hero.hasTalent(Talent.ELEMENTAL_BULLET) && round == 0) {
+            int chance = Random.Int(6);
+            int point = Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET);
+            switch (chance) {
+                default:
+                    break;
+                case 0:
+                    if (point >= 1) {
+                        Buff.affect(hero, FrostBullet.class, 100f);
+                    }
+                    break;
+                case 1:
+                    if (point >= 2) {
+                        Buff.affect(hero, FireBullet.class, 100f);
+                    }
+                    break;
+                case 2:
+                    if (point >= 3) {
+                        Buff.affect(hero, ElectroBullet.class, 100f);
+                    }
+                    break;
+            }
+        }
+
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -253,7 +286,7 @@ public class Carbine extends MeleeWeapon {
     public String info() {
 
         max_round = (magazine) ? 2 : 1;
-        reload_time = (hero.subClass == HeroSubClass.RIFLEMAN && hero.buff(Invisibility.class) != null) ? (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero)/2f : (2f + hero.pointsInTalent(Talent.ONLY_ONE_SHOT)) * RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
 
         if (levelKnown) {
@@ -456,10 +489,14 @@ public class Carbine extends MeleeWeapon {
 
         @Override
         public float delayFactor(Char user) {
-            if (hero.buff(Riot.riotTracker.class) != null) {
-                return Carbine.this.delayFactor(user)/2f;
+            if (hero.subClass == HeroSubClass.GUNSLINGER && hero.justMoved) {
+                return 0;
             } else {
-                return Carbine.this.delayFactor(user);
+                if (hero.buff(Riot.riotTracker.class) != null) {
+                    return Carbine.this.delayFactor(user)/2f;
+                } else {
+                    return Carbine.this.delayFactor(user);
+                }
             }
         }
 
@@ -479,9 +516,6 @@ public class Carbine extends MeleeWeapon {
 
         @Override
         protected void onThrow( int cell ) {
-            if (Random.Int(3) <= hero.pointsInTalent(Talent.EVASIVE_MOVE)-1) {
-                Buff.affect(hero, EvasiveMove.class, 0.9999f);
-            }
             Char enemy = Actor.findChar( cell );
             if (enemy == null || enemy == curUser) {
                 parent = null;
@@ -500,20 +534,25 @@ public class Carbine extends MeleeWeapon {
             } else {
                 round --;
             }
-            if (hero.hasTalent(Talent.SILENCER)
-                    && (Dungeon.level.map[hero.pos] == Terrain.FURROWED_GRASS || Dungeon.level.map[hero.pos] == Terrain.HIGH_GRASS)
-                    && Random.Int(3) < hero.pointsInTalent(Talent.SILENCER)){
-                Level.set(hero.pos, Terrain.HIGH_GRASS);
-                GameScene.updateMap(hero.pos);
-                //no aggro
+            if (hero.pointsInTalent(Talent.SILENCER) > 1){
+                if (hero.pointsInTalent(Talent.SILENCER) > 2) {
+                    //no aggro
+                } else {
+                    if (hero.buff(Cloaking.class) != null) {
+                        //no aggro
+                    }
+                }
             } else {
                 for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                    int dist = 4;
+                    if (hero.hasTalent(Talent.SILENCER) && hero.buff(Cloaking.class) != null) {
+                        dist *= 0.5;
+                    }
                     if (mob.paralysed <= 0
-                            && Dungeon.level.distance(curUser.pos, mob.pos) <= 4
+                            && Dungeon.level.distance(curUser.pos, mob.pos) <= dist
                             && mob.state != mob.HUNTING
                             && !silencer) {
-                        mob.beckon( curUser.pos );
-                    }
+                        mob.beckon( curUser.pos ); }
                 }
             }
             updateQuickslot();

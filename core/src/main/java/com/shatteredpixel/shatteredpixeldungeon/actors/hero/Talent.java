@@ -256,13 +256,13 @@ public enum Talent {
 	//Gunner T2
 	IN_THE_GUNFIRE(169), ANOTHER_CHANCE(170), BULLET_FOCUS(171), CAMOUFLAGE(172), LARGER_MAGAZINE(173), TRANSMUTATION_CONTROL(174),
 	//Gunner T3
-	STREET_BATTLE(175, 3), HEAVY_ENHANCE(176, 3),
-	//Launcher T3
-	HEAVY_GUNNER(177, 3), ACC_PRACTICE(178, 3), RECOIL_PRACTICE(179, 3), DRUM_MAGAZINE(180, 3), AMMO_SAVE(181, 3), CONCENTRATE_SHOOTING(182, 3),
-	//Ranger T3
-	QUICK_RELOAD(183, 3), RECOIL_CONTROL(184, 3), ELEMENTAL_BULLET(185, 3), OUTLAW_OF_BARRENLAND(186, 3), ROLLING(187, 3), SPECIAL_TRAINING(188, 3),
+	STREET_BATTLE(175, 3), FAST_RELOAD(176, 3),
+	//Marshal T3
+	JUSTICE_BULLET(177, 3), INTIMIDATION(178, 3), SEARCH(179, 3), COVER(180, 3), SURRENDER(181, 3), INVEST_END(182, 3),
+	//Gunslinger T3
+	QUICK_RELOAD(183, 3), MOVING_SHOT(184, 3), ELEMENTAL_BULLET(185, 3), MYSTICAL_THROW(186, 3), SOUL_BULLET(187, 3), LIGHT_MOVEMENT(188, 3),
 	//RifleMan T3
-	SILENCER(189, 3), ONLY_ONE_SHOT(190, 3), EVASIVE_MOVE(191, 3), SURPRISE_BULLET(192, 3), RANGED_SNIPING(193, 3), TELESCOPE(194, 3),
+	SILENCER(189, 3), SKILLFUL_RUNNER(190, 3), STEALTH(191, 3), INTO_THE_SHADOW(192, 3), RANGED_SNIPING(193, 3), TELESCOPE(194, 3),
 	//Riot T4
 	HASTE_MOVE(195, 4), SHOT_CONCENTRATION(196, 4), ROUND_PRESERVE(197, 4),
 	//ReinforcedArmor T4
@@ -405,7 +405,6 @@ public enum Talent {
 	public static class ShootingEyesTracker extends Buff{};
 	public static class MysticalPunchTracker extends Buff{};
 	public static class CounterAttackTracker extends Buff{};
-	public static class RollingTracker extends Buff{};
 	public static class DetactiveSlashingTracker extends Buff{};
 	public static class IncisiveBladeTracker extends Buff{};
 	public static class ActiveBarrierTracker extends Buff{};
@@ -465,6 +464,20 @@ public enum Talent {
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight( 0xB3B3B3 ); }
 		public float iconFadePercent() { return Math.max(0, 1-visualcooldown() / (40-10*Dungeon.hero.pointsInTalent(Talent.STREET_BATTLE))); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class SkillfulRunnerCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight( 0xFFFF00 ); }
+		public float iconFadePercent() { return Math.max(0, 1-visualcooldown() / 30); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class IntoTheShadowCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight( 0x7FA9D2 ); }
+		public float iconFadePercent() { return Math.max(0, 1-visualcooldown() / 15); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
@@ -609,9 +622,6 @@ public enum Talent {
 			else                                           Buff.count(hero, NatureBerriesAvailable.class, 2);
 		}
 		if (talent == LARGER_MAGAZINE) {
-			updateQuickslot();
-		}
-		if (talent == DRUM_MAGAZINE) {
 			updateQuickslot();
 		}
 
@@ -1265,7 +1275,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);
 				break;
 			case GUNNER:
-				Collections.addAll(tierTalents, STREET_BATTLE, HEAVY_ENHANCE);
+				Collections.addAll(tierTalents, STREET_BATTLE, FAST_RELOAD);
 				break;
 			case SAMURAI:
 				Collections.addAll(tierTalents,	DEEP_SCAR, FAST_LEAD);
@@ -1342,14 +1352,14 @@ public enum Talent {
 			case FIGHTER:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, SWIFT_MOVEMENT, LESS_RESIST, RING_KNUCKLE, MYSTICAL_PUNCH, QUICK_STEP, COUNTER_ATTACK);
 				break;
-			case LAUNCHER:
-				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, HEAVY_GUNNER, ACC_PRACTICE, RECOIL_PRACTICE, DRUM_MAGAZINE, AMMO_SAVE, CONCENTRATE_SHOOTING);
+			case MARSHAL:
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, JUSTICE_BULLET, INTIMIDATION, SEARCH, COVER, SURRENDER, INVEST_END);
 				break;
-			case RANGER:
-				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, QUICK_RELOAD, RECOIL_CONTROL, ELEMENTAL_BULLET, OUTLAW_OF_BARRENLAND, ROLLING, SPECIAL_TRAINING);
+			case GUNSLINGER:
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, QUICK_RELOAD, MOVING_SHOT, ELEMENTAL_BULLET, MYSTICAL_THROW, SOUL_BULLET, LIGHT_MOVEMENT);
 				break;
-			case RIFLEMAN:
-				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, SILENCER, ONLY_ONE_SHOT, EVASIVE_MOVE, SURPRISE_BULLET, RANGED_SNIPING, TELESCOPE);
+			case SPECIALIST:
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, SILENCER, SKILLFUL_RUNNER, STEALTH, INTO_THE_SHADOW, RANGED_SNIPING, TELESCOPE);
 				break;
 			case SLASHER:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, CONTINUOUS_ATTACK, SLASHING_PRACTICE, SERIAL_MOMENTUM, ARCANE_ATTACK, SLASHING, DETECTIVE_SLASHING);

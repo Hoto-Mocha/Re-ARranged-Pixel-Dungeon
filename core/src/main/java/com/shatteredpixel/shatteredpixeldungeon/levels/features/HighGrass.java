@@ -67,7 +67,7 @@ public class HighGrass {
 		Char ch = Actor.findChar(pos);
 		
 		if (level.map[pos] == Terrain.FURROWED_GRASS){
-			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.RIFLEMAN || ((Hero) ch).heroClass == HeroClass.PLANTER)){
+			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.SPECIALIST || ((Hero) ch).heroClass == HeroClass.PLANTER)){
 				//Do nothing
 				freezeTrample = true;
 			} else {
@@ -75,7 +75,7 @@ public class HighGrass {
 			}
 			
 		} else {
-			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.RIFLEMAN || ((Hero) ch).heroClass == HeroClass.PLANTER)){
+			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.SPECIALIST || ((Hero) ch).heroClass == HeroClass.PLANTER)){
 				Level.set(pos, Terrain.FURROWED_GRASS);
 				freezeTrample = true;
 			} else {

@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cloaking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasionEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
@@ -142,9 +143,6 @@ public class DualPistol extends MeleeWeapon {
         flash = bundle.getBoolean(FLASH);
     }
 
-
-
-
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
@@ -154,8 +152,6 @@ public class DualPistol extends MeleeWeapon {
         }
         return actions;
     }
-
-
 
     @Override
     public void execute(Hero hero, String action) {
@@ -169,14 +165,10 @@ public class DualPistol extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
-                    if (hero.hasTalent(Talent.ELEMENTAL_BULLET)) {
-                        elementReload();
-                    } else {
-                        reload();
-                    }
+                    reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload();
                 } else {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -189,13 +181,8 @@ public class DualPistol extends MeleeWeapon {
             if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
                 max_round += 2f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
             }
-            if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
-                max_round += 2f * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
-            }
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
-            } else if (round == 0 && hero.hasTalent(Talent.ELEMENTAL_BULLET)){
-                elementReload();
             } else {
                 reload();
             }
@@ -207,35 +194,33 @@ public class DualPistol extends MeleeWeapon {
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 2f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
-        if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
-            max_round += 2f * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
-        }
-        curUser.spend(reload_time);
-        curUser.busy();
-        Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
-        curUser.sprite.operate(curUser.pos);
-        round = Math.max(max_round, round);
 
-        GLog.i(Messages.get(this, "reloading"));
-
-        if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
-            Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
-            Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
-        }
-
-        updateQuickslot();
-    }
-
-    public void elementReload() {
         Buff.detach(hero, FrostBullet.class);
         Buff.detach(hero, FireBullet.class);
         Buff.detach(hero, ElectroBullet.class);
-        max_round = 4;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 2f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
-            max_round += 2f * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
+
+        if (hero.hasTalent(Talent.ELEMENTAL_BULLET) && round == 0) {
+            int chance = Random.Int(6);
+            int point = Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET);
+            switch (chance) {
+                default:
+                    break;
+                case 0:
+                    if (point >= 1) {
+                        Buff.affect(hero, FrostBullet.class, 100f);
+                    }
+                    break;
+                case 1:
+                    if (point >= 2) {
+                        Buff.affect(hero, FireBullet.class, 100f);
+                    }
+                    break;
+                case 2:
+                    if (point >= 3) {
+                        Buff.affect(hero, ElectroBullet.class, 100f);
+                    }
+                    break;
+            }
         }
 
         curUser.spend(reload_time);
@@ -249,17 +234,6 @@ public class DualPistol extends MeleeWeapon {
         if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
             Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
             Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
-        }
-
-        int chance = Random.Int(6);
-        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) >= 1 && chance == 0) {
-            Buff.affect(hero, FrostBullet.class, 100f);
-        }
-        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) >= 2 && chance == 1) {
-            Buff.affect(hero, FireBullet.class, 100f);
-        }
-        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) == 3 && chance == 2) {
-            Buff.affect(hero, ElectroBullet.class, 100f);
         }
 
         updateQuickslot();
@@ -272,9 +246,6 @@ public class DualPistol extends MeleeWeapon {
         max_round = (magazine) ? 10 : 8;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 2f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
-            max_round += 2f * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
         }
 
         return Messages.format(TXT_STATUS, round, max_round);
@@ -320,9 +291,6 @@ public class DualPistol extends MeleeWeapon {
         max_round = (magazine) ? 10 : 8;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 2f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
-            max_round += 2f * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
         }
         reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
@@ -527,12 +495,8 @@ public class DualPistol extends MeleeWeapon {
 
         @Override
         public float delayFactor(Char user) {
-            if (hero.hasTalent(Talent.RECOIL_CONTROL)) {
-                if (hero.buff(Riot.riotTracker.class) != null) {
-                    return DualPistol.this.delayFactor(user)/(2f + 2f * hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
-                } else {
-                    return DualPistol.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
-                }
+            if (hero.subClass == HeroSubClass.GUNSLINGER && hero.justMoved) {
+                return 0;
             } else {
                 if (hero.buff(Riot.riotTracker.class) != null) {
                     return DualPistol.this.delayFactor(user)/2f;
@@ -558,70 +522,48 @@ public class DualPistol extends MeleeWeapon {
 
         @Override
         protected void onThrow( int cell ) {
-            if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3) <= hero.pointsInTalent(Talent.RECOIL_PRACTICE)-1) {
-                for (int i=1; i<=3; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
-                    if (round <= 0) {
-                        break;
-                    }
-                    Char enemy = Actor.findChar(cell);
-                    if (enemy == null || enemy == curUser) {
-                        parent = null;
+            for (int i=1; i<=2; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+                if (round <= 0) {
+                    break;
+                }
+                Char enemy = Actor.findChar(cell);
+                if (enemy == null || enemy == curUser) {
+                    parent = null;
+                    CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                    CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                } else {
+                    if (!curUser.shoot(enemy, this)) {
                         CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                         CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                    } else {
-                        if (!curUser.shoot(enemy, this)) {
-                            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                        }
                     }
-                    if (hero.buff(InfiniteBullet.class) != null) {
-                        //round preserves
-                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
-                        //round preserves
-                    } else {
-                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
-                            //round preserves
-                        } else {
-                            round --;
-                        }
+                }
+                if (hero.buff(InfiniteBullet.class) != null) {
+                    //round preserves
+                } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
+                    //round preserves
+                } else {
+                    round --;
+                }
+            }
+            if (hero.pointsInTalent(Talent.SILENCER) > 1){
+                if (hero.pointsInTalent(Talent.SILENCER) > 2) {
+                    //no aggro
+                } else {
+                    if (hero.buff(Cloaking.class) != null) {
+                        //no aggro
                     }
                 }
             } else {
-                for (int i=1; i<=2; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
-                    if (round <= 0) {
-                        break;
+                for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                    int dist = 4;
+                    if (hero.hasTalent(Talent.SILENCER) && hero.buff(Cloaking.class) != null) {
+                        dist *= 0.5;
                     }
-                    Char enemy = Actor.findChar(cell);
-                    if (enemy == null || enemy == curUser) {
-                        parent = null;
-                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                    } else {
-                        if (!curUser.shoot(enemy, this)) {
-                            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                        }
-                    }
-
-                    if (hero.buff(InfiniteBullet.class) != null) {
-                        //round preserves
-                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
-                        //round preserves
-                    } else {
-                        if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
-                            //round preserves
-                        } else {
-                            round --;
-                        }
-                    }
-                }
-            }
-            for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-                if (mob.paralysed <= 0
-                        && Dungeon.level.distance(curUser.pos, mob.pos) <= 4
-                        && mob.state != mob.HUNTING
-                        && !silencer) {
-                    mob.beckon( curUser.pos );
+                    if (mob.paralysed <= 0
+                            && Dungeon.level.distance(curUser.pos, mob.pos) <= dist
+                            && mob.state != mob.HUNTING
+                            && !silencer) {
+                        mob.beckon( curUser.pos ); }
                 }
             }
             updateQuickslot();
@@ -655,9 +597,6 @@ public class DualPistol extends MeleeWeapon {
                         reload();
                     } else {
                         knockBullet().cast(curUser, target);
-                        if (hero.hasTalent(Talent.ROLLING)) {
-                            Buff.prolong(hero, EvasionEnhance.class, 3f);
-                        }
                     }
                 }
             }

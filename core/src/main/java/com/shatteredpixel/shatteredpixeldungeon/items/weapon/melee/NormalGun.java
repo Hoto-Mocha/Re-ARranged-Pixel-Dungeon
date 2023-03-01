@@ -167,9 +167,6 @@ public class NormalGun extends Gun {
                         reload();
                     } else {
                         knockBullet().cast(curUser, target);
-                        if (hero.hasTalent(Talent.ROLLING)) {
-                            Buff.prolong(hero, EvasionEnhance.class, 3f);
-                        }
                     }
                 }
             }

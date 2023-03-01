@@ -128,7 +128,7 @@ public class GammaRayGun extends Item {
 		int duration;
 
 		{
-			type = buffType.POSITIVE;
+			type = buffType.NEUTRAL;
 		}
 
 		public void set(int time) {

@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cloaking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
@@ -170,10 +171,10 @@ public class AutoRifle extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
                     curUser = hero;
                     curItem = this;
@@ -213,9 +214,6 @@ public class AutoRifle extends MeleeWeapon {
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
-        if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
-            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
-        }
 
         curUser.spend(reload_time);
         curUser.busy();
@@ -241,9 +239,6 @@ public class AutoRifle extends MeleeWeapon {
         max_round = (magazine) ? 15 : 12;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
-            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
         }
 
         return Messages.format(TXT_STATUS, round, max_round);
@@ -295,9 +290,6 @@ public class AutoRifle extends MeleeWeapon {
         max_round = (magazine) ? 15 : 12;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
-            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
         }
         reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
         String info = desc();
@@ -530,62 +522,27 @@ public class AutoRifle extends MeleeWeapon {
         @Override
         protected void onThrow( int cell ) {
             if (auto) {
-                if (hero.hasTalent(Talent.RECOIL_PRACTICE) && Random.Int(3) <= hero.pointsInTalent(Talent.RECOIL_PRACTICE)-1) {
-                    for (int i=1; i<=4; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
-                        if (round <= 0) {
-                            break;
-                        }
-                        Char enemy = Actor.findChar(cell);
-                        if (enemy == null || enemy == curUser) {
-                            parent = null;
+                for (int i=1; i<=3; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
+                    if (round <= 0) {
+                        break;
+                    }
+                    Char enemy = Actor.findChar(cell);
+                    if (enemy == null || enemy == curUser) {
+                        parent = null;
+                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                    } else {
+                        if (!curUser.shoot(enemy, this)) {
                             CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                             CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                        } else {
-                            if (!curUser.shoot(enemy, this)) {
-                                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                            }
-                        }
-                        if (hero.buff(InfiniteBullet.class) != null) {
-                            //round preserves
-                        } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
-                            //round preserves
-                        } else {
-                            if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
-                                //round preserves
-                            } else {
-                                round --;
-                            }
                         }
                     }
-                } else {
-                    for (int i=1; i<=3; i++) {                                                           //i<=n에서 n이 반복하는 횟수, 즉 발사 횟수
-                        if (round <= 0) {
-                            break;
-                        }
-                        Char enemy = Actor.findChar(cell);
-                        if (enemy == null || enemy == curUser) {
-                            parent = null;
-                            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                        } else {
-                            if (!curUser.shoot(enemy, this)) {
-                                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                            }
-                        }
-
-                        if (hero.buff(InfiniteBullet.class) != null) {
-                            //round preserves
-                        } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
-                            //round preserves
-                        } else {
-                            if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
-                                //round preserves
-                            } else {
-                                round --;
-                            }
-                        }
+                    if (hero.buff(InfiniteBullet.class) != null) {
+                        //round preserves
+                    } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
+                        //round preserves
+                    } else {
+                        round --;
                     }
                 }
             } else {
@@ -606,19 +563,28 @@ public class AutoRifle extends MeleeWeapon {
                 } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                     //round preserves
                 } else {
-                    if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
-                        //round preserves
-                    } else {
-                        round --;
-                    }
+                    round --;
                 }
             }
-            for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-                if (mob.paralysed <= 0
-                        && Dungeon.level.distance(curUser.pos, mob.pos) <= 4
-                        && mob.state != mob.HUNTING
-                        && !silencer) {
-                    mob.beckon( curUser.pos );
+            if (hero.pointsInTalent(Talent.SILENCER) > 1){
+                if (hero.pointsInTalent(Talent.SILENCER) > 2) {
+                    //no aggro
+                } else {
+                    if (hero.buff(Cloaking.class) != null) {
+                        //no aggro
+                    }
+                }
+            } else {
+                for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                    int dist = 4;
+                    if (hero.hasTalent(Talent.SILENCER) && hero.buff(Cloaking.class) != null) {
+                        dist *= 0.5;
+                    }
+                    if (mob.paralysed <= 0
+                            && Dungeon.level.distance(curUser.pos, mob.pos) <= dist
+                            && mob.state != mob.HUNTING
+                            && !silencer) {
+                        mob.beckon( curUser.pos ); }
                 }
             }
             updateQuickslot();

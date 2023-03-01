@@ -97,6 +97,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.HandyBarricade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableAPBullet;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
@@ -115,6 +117,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
@@ -139,7 +142,7 @@ public enum HeroClass {
 	MAGE	( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.ENGINEER ),
 	ROGUE	( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.CHASER ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.FIGHTER ),
-	GUNNER	( HeroSubClass.LAUNCHER , HeroSubClass.RANGER , HeroSubClass.RIFLEMAN ),
+	GUNNER	( HeroSubClass.MARSHAL , HeroSubClass.GUNSLINGER , HeroSubClass.SPECIALIST ),
 	SAMURAI	( HeroSubClass.SLASHER , HeroSubClass.MASTER , HeroSubClass.SLAYER ),
 	PLANTER	( HeroSubClass.TREASUREHUNTER, HeroSubClass.ADVENTURER, HeroSubClass.RESEARCHER),
 	KNIGHT	( HeroSubClass.WEAPONMASTER, HeroSubClass.FORTRESS, HeroSubClass.CRUSADER),
@@ -177,6 +180,9 @@ public enum HeroClass {
 		.upgrade()
 		.collect();
 		 */
+		//new FlameThrower().identify().collect();
+		//new PlasmaCannon().identify().collect();
+		//new RingOfMight().identify().collect();
 		//new AdvancedEvolution().quantity(100).collect();
 		//new AssassinsBlade().identify().collect();
 		//new StoneOfAugmentation().quantity(100).collect();
@@ -184,8 +190,8 @@ public enum HeroClass {
 		//new PotionOfLiquidFlame().identify().quantity(20).collect();
 		//new PotionOfFrost().identify().quantity(20).collect();
 		//new RapidGrowth().quantity(20).collect();
-		//new APBullet().quantity(2).collect();
-		//new HPBullet().quantity(2).collect();
+		//new StableAPBullet().quantity(2).collect();
+		//new StableHPBullet().quantity(2).collect();
 		//new Evolution().quantity(50).collect();
 		//new HandyBarricade().quantity(20).collect();
 		//new TengusMask().collect();

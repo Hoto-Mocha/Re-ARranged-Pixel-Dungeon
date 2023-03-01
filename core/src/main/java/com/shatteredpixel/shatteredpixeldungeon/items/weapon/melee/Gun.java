@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -340,12 +341,8 @@ public class Gun extends MeleeWeapon {
 
 		@Override
 		public float delayFactor(Char user) {
-			if (hero.hasTalent(Talent.RECOIL_CONTROL)) {
-				if (hero.buff(Riot.riotTracker.class) != null) {
-					return Gun.this.delayFactor(user)/(2f + 2f * hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
-				} else {
-					return Gun.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
-				}
+			if (hero.subClass == HeroSubClass.GUNSLINGER && hero.justMoved) {
+				return 0;
 			} else {
 				if (hero.buff(Riot.riotTracker.class) != null) {
 					return Gun.this.delayFactor(user)/2f;

@@ -147,7 +147,7 @@ public class FlameThrower extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
                     int STRReq = this.STRReq(this.buffedLvl());
@@ -156,7 +156,7 @@ public class FlameThrower extends MeleeWeapon {
                         usesTargeting = false;
                         GLog.w(Messages.get(this, "heavy_to_shoot"));
                     } else {
-                        reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                         usesTargeting = true;
                         curUser = hero;
                         curItem = this;
@@ -373,10 +373,6 @@ public class FlameThrower extends MeleeWeapon {
                 bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
 
-            if (Dungeon.hero.hasTalent(Talent.HEAVY_ENHANCE)) {
-                bulletdamage *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.HEAVY_ENHANCE);
-            }
-
             if (hero.buff(Riot.riotTracker.class) != null) {
                 bulletdamage *= 0.5f;
             }
@@ -433,10 +429,14 @@ public class FlameThrower extends MeleeWeapon {
 
         @Override
         public float delayFactor(Char user) {
-            if (hero.buff(Riot.riotTracker.class) != null) {
-                return FlameThrower.this.delayFactor(user)/2f;
+            if (hero.subClass == HeroSubClass.GUNSLINGER && hero.justMoved) {
+                return 0;
             } else {
-                return FlameThrower.this.delayFactor(user);
+                if (hero.buff(Riot.riotTracker.class) != null) {
+                    return FlameThrower.this.delayFactor(user)/2f;
+                } else {
+                    return FlameThrower.this.delayFactor(user);
+                }
             }
         }
 
@@ -498,11 +498,7 @@ public class FlameThrower extends MeleeWeapon {
             } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                 //round preserves
             } else {
-                if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
-                    //round preserves
-                } else {
-                    round --;
-                }
+                round --;
             }
             Invisibility.dispel();
             updateQuickslot();

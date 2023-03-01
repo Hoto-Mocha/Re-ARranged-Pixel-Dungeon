@@ -89,7 +89,7 @@ public class PlasmaCannon extends MeleeWeapon {
 
     {
         initial_max_round = 2;
-        maxDistanceBonus = buffedLvl();
+        maxDistanceBonus = 1;
         maxDistance = 5;
 
         defaultAction = AC_SHOOT;
@@ -157,7 +157,7 @@ public class PlasmaCannon extends MeleeWeapon {
                 GLog.w(Messages.get(this, "not_equipped"));
             } else {
                 if (round <= 0) {
-                    reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                    reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                     reload();
                 } else {
                     int STRReq = this.STRReq(this.buffedLvl());
@@ -166,7 +166,7 @@ public class PlasmaCannon extends MeleeWeapon {
                         usesTargeting = false;
                         GLog.w(Messages.get(this, "heavy_to_shoot"));
                     } else {
-                        reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                        reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
                         usesTargeting = true;
                         curUser = hero;
                         curItem = this;
@@ -383,10 +383,6 @@ public class PlasmaCannon extends MeleeWeapon {
                 bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
 
-            if (Dungeon.hero.hasTalent(Talent.HEAVY_ENHANCE)) {
-                bulletdamage *= 1f + 0.05f*Dungeon.hero.pointsInTalent(Talent.HEAVY_ENHANCE);
-            }
-
             if (hero.buff(Recharging.class) != null) {
                 bulletdamage *= 1.2f;
             }
@@ -459,10 +455,14 @@ public class PlasmaCannon extends MeleeWeapon {
 
         @Override
         public float delayFactor(Char user) {
-            if (hero.buff(Riot.riotTracker.class) != null) {
-                return PlasmaCannon.this.delayFactor(user)/2f;
+            if (hero.subClass == HeroSubClass.GUNSLINGER && hero.justMoved) {
+                return 0;
             } else {
-                return PlasmaCannon.this.delayFactor(user);
+                if (hero.buff(Riot.riotTracker.class) != null) {
+                    return PlasmaCannon.this.delayFactor(user)/2f;
+                } else {
+                    return PlasmaCannon.this.delayFactor(user);
+                }
             }
         }
 
@@ -475,7 +475,7 @@ public class PlasmaCannon extends MeleeWeapon {
         protected void onThrow(int cell) {
             Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP); //Always Projecting and no distance limit, see MissileWeapon.throwPos
             ArrayList<Char> chars = new ArrayList<>();
-            int maxDist = maxDistance+maxDistanceBonus;
+            int maxDist = maxDistance+maxDistanceBonus*buffedLvl();
             int dist = Math.min(aim.dist, maxDist);
             int cells = aim.path.get(Math.min(aim.dist, dist));
             boolean terrainAffected = false;
@@ -511,11 +511,7 @@ public class PlasmaCannon extends MeleeWeapon {
             } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                 //round preserves
             } else {
-                if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
-                    //round preserves
-                } else {
-                    round --;
-                }
+                round --;
             }
             for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
                 if (mob.paralysed <= 0

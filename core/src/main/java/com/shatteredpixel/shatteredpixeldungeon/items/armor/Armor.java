@@ -374,6 +374,10 @@ public class Armor extends EquipableItem {
 		if (owner instanceof Hero) {
 			int aEnc = STRReq() - ((Hero) owner).STR();
 			if (aEnc > 0) speed /= Math.pow(1.2, aEnc);
+
+			if (hero.hasTalent(Talent.LIGHT_MOVEMENT) && aEnc < 0) {
+				speed *= Math.pow(1+0.05*hero.pointsInTalent(Talent.LIGHT_MOVEMENT), -aEnc);
+			}
 		}
 		
 		if (hasGlyph(Swiftness.class, owner)) {

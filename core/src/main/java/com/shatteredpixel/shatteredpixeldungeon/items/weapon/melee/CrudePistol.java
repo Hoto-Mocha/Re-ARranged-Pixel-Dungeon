@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cloaking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasionEnhance;
@@ -167,11 +168,7 @@ public class CrudePistol extends MeleeWeapon {
             } else {
                 if (round <= 0) {
                     reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
-                    if (hero.hasTalent(Talent.ELEMENTAL_BULLET)) {
-                        elementReload();
-                    } else {
-                        reload();
-                    }
+                    reload();
                 } else {
                     reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
                     usesTargeting = true;
@@ -188,8 +185,6 @@ public class CrudePistol extends MeleeWeapon {
         }
             if (round == max_round){
                 GLog.w(Messages.get(this, "already_loaded"));
-            } else if (round == 0 && hero.hasTalent(Talent.ELEMENTAL_BULLET)){
-                elementReload();
             } else {
                 reload();
             }
@@ -197,13 +192,39 @@ public class CrudePistol extends MeleeWeapon {
     }
 
     public void reload() {
-        Buff.detach(hero, FrostBullet.class);
-        Buff.detach(hero, FireBullet.class);
-        Buff.detach(hero, ElectroBullet.class);
         max_round = (magazine) ? 4 : 3;
         if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
+
+        Buff.detach(hero, FrostBullet.class);
+        Buff.detach(hero, FireBullet.class);
+        Buff.detach(hero, ElectroBullet.class);
+
+        if (hero.hasTalent(Talent.ELEMENTAL_BULLET) && round == 0) {
+            int chance = Random.Int(6);
+            int point = Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET);
+            switch (chance) {
+                default:
+                    break;
+                case 0:
+                    if (point >= 1) {
+                        Buff.affect(hero, FrostBullet.class, 100f);
+                    }
+                    break;
+                case 1:
+                    if (point >= 2) {
+                        Buff.affect(hero, FireBullet.class, 100f);
+                    }
+                    break;
+                case 2:
+                    if (point >= 3) {
+                        Buff.affect(hero, ElectroBullet.class, 100f);
+                    }
+                    break;
+            }
+        }
+
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -215,41 +236,6 @@ public class CrudePistol extends MeleeWeapon {
         if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
             Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
             Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
-        }
-
-        updateQuickslot();
-    }
-
-    public void elementReload() {
-        Buff.detach(hero, FrostBullet.class);
-        Buff.detach(hero, FireBullet.class);
-        Buff.detach(hero, ElectroBullet.class);
-        max_round = (magazine) ? 4 : 3;
-        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
-            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
-        }
-        curUser.spend(reload_time);
-        curUser.busy();
-        Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
-        curUser.sprite.operate(curUser.pos);
-        round = Math.max(max_round, round);
-
-        GLog.i(Messages.get(this, "reloading"));
-
-        if (Dungeon.hero.hasTalent(Talent.SAFE_RELOAD) && Dungeon.hero.buff(Talent.ReloadCooldown.class) == null) {
-            Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.SAFE_RELOAD));
-            Buff.affect(hero, Talent.ReloadCooldown.class, 5f);
-        }
-
-        int chance = Random.Int(6);
-        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) >= 1 && chance == 0) {
-            Buff.affect(hero, FrostBullet.class, 100f);
-        }
-        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) >= 2 && chance == 1) {
-            Buff.affect(hero, FireBullet.class, 100f);
-        }
-        if (Dungeon.hero.pointsInTalent(Talent.ELEMENTAL_BULLET) == 3 && chance == 2) {
-            Buff.affect(hero, ElectroBullet.class, 100f);
         }
 
         updateQuickslot();
@@ -511,12 +497,8 @@ public class CrudePistol extends MeleeWeapon {
 
         @Override
         public float delayFactor(Char user) {
-            if (hero.hasTalent(Talent.RECOIL_CONTROL)) {
-                if (hero.buff(Riot.riotTracker.class) != null) {
-                    return CrudePistol.this.delayFactor(user)/(2f + 2f * hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
-                } else {
-                    return CrudePistol.this.delayFactor(user)/(1f + hero.pointsInTalent(Talent.RECOIL_CONTROL)/3f);
-                }
+            if (hero.subClass == HeroSubClass.GUNSLINGER && hero.justMoved) {
+                return 0;
             } else {
                 if (hero.buff(Riot.riotTracker.class) != null) {
                     return CrudePistol.this.delayFactor(user)/2f;
@@ -560,12 +542,25 @@ public class CrudePistol extends MeleeWeapon {
             } else {
                 round --;
             }
-            for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-                if (mob.paralysed <= 0
-                        && Dungeon.level.distance(curUser.pos, mob.pos) <= 4
-                        && mob.state != mob.HUNTING
-                        && !silencer) {
-                    mob.beckon( curUser.pos );
+            if (hero.pointsInTalent(Talent.SILENCER) > 1){
+                if (hero.pointsInTalent(Talent.SILENCER) > 2) {
+                    //no aggro
+                } else {
+                    if (hero.buff(Cloaking.class) != null) {
+                        //no aggro
+                    }
+                }
+            } else {
+                for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                    int dist = 4;
+                    if (hero.hasTalent(Talent.SILENCER) && hero.buff(Cloaking.class) != null) {
+                        dist *= 0.5;
+                    }
+                    if (mob.paralysed <= 0
+                            && Dungeon.level.distance(curUser.pos, mob.pos) <= dist
+                            && mob.state != mob.HUNTING
+                            && !silencer) {
+                        mob.beckon( curUser.pos ); }
                 }
             }
             updateQuickslot();
@@ -599,9 +594,6 @@ public class CrudePistol extends MeleeWeapon {
                         reload();
                     } else {
                         knockBullet().cast(curUser, target);
-                        if (hero.hasTalent(Talent.ROLLING)) {
-                            Buff.prolong(hero, EvasionEnhance.class, 3f);
-                        }
                     }
                 }
             }

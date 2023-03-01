@@ -128,7 +128,7 @@ public class GrenadeLauncherHP extends MeleeWeapon {
 
         if (action.equals(AC_SHOOT)) {
             if (round <= 0) {
-                reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 1f;
+                reload_time = 1f;
                 if (hero.buff(GrenadeCoolDown.class) != null){
                     usesTargeting = false;
                     GLog.w(Messages.get(GrenadeLauncherHP.class, "cannot_reload"));
@@ -136,7 +136,7 @@ public class GrenadeLauncherHP extends MeleeWeapon {
                     reload();
                 }
             } else {
-                reload_time = (hero.hasTalent(Talent.HEAVY_GUNNER) && Random.Int(10) < hero.pointsInTalent(Talent.HEAVY_GUNNER)) ? 0 : 1f;
+                reload_time = 1f;
                 usesTargeting = true;
                 curUser = hero;
                 curItem = this;
@@ -202,9 +202,6 @@ public class GrenadeLauncherHP extends MeleeWeapon {
         int dmg = (int)(Dungeon.hero.lvl/2.5f)
                 + 2 * RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
                 + (curseInfusionBonus ? 2 : 0);
-        if (hero.hasTalent(Talent.HEAVY_ENHANCE)) {
-            dmg *= 1 + 0.1f*hero.pointsInTalent(Talent.HEAVY_ENHANCE);
-        }
         return Math.max(0, dmg);
     }
 
@@ -212,9 +209,6 @@ public class GrenadeLauncherHP extends MeleeWeapon {
         int dmg = 18 + (int)(Dungeon.hero.lvl*3/2.5f)
                 + 6 * RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
                 + (curseInfusionBonus ? 6 : 0);
-        if (hero.hasTalent(Talent.HEAVY_ENHANCE)) {
-            dmg *= 1 + 0.1f*hero.pointsInTalent(Talent.HEAVY_ENHANCE);
-        }
         return Math.max(0, dmg);
     }
 
@@ -451,11 +445,7 @@ public class GrenadeLauncherHP extends MeleeWeapon {
             } else if (hero.buff(Riot.riotTracker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.ROUND_PRESERVE)-1) {
                 //round preserves
             } else {
-                if (hero.subClass == HeroSubClass.LAUNCHER && Random.Int(10) <= hero.pointsInTalent(Talent.AMMO_SAVE)) {
-                    //round preserves
-                } else {
-                    round --;
-                }
+                round --;
             }
             updateQuickslot();
         }

@@ -21,10 +21,27 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+
 public class PlasmaCannonHP extends PlasmaCannon {
     {
         initial_max_round = 3;
         maxDistanceBonus = 0;
         maxDistance = 4;
+    }
+
+    @Override
+    public int Bulletmin(int lvl) {
+        return tier +
+                lvl +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+    }
+
+    @Override
+    public int Bulletmax(int lvl) {
+        return Math.round((2 * (tier + 1) +
+                lvl * 2 +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
     }
 }

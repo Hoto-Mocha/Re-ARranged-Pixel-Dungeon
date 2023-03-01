@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WantedTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -1391,46 +1392,31 @@ public abstract class Level implements Bundlable {
 						heroMindFov[mob.pos + i] = true;
 					}
 				}
-			} else if (((Hero) c).hasTalent(Talent.HEIGHTENED_SENSES)) {
+			} else {
 				Hero h = (Hero) c;
-				int range = 1+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
-				for (Mob mob : mobs) {
-					int p = mob.pos;
-					if (!fieldOfView[p] && distance(c.pos, p) <= range) {
-						for (int i : PathFinder.NEIGHBOURS9) {
-							heroMindFov[mob.pos + i] = true;
-						}
-					}
+				int range = 0;
+				if (((Hero) c).hasTalent(Talent.HEIGHTENED_SENSES)) {
+					range += 1+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
 				}
-			} else if (Dungeon.hero.belongings.weapon instanceof SpellBook_Disintegration) {
-				int range = 2;
-				for (Mob mob : mobs) {
-					int p = mob.pos;
-					if (!fieldOfView[p] && distance(c.pos, p) <= range) {
-						for (int i : PathFinder.NEIGHBOURS9) {
-							heroMindFov[mob.pos + i] = true;
-						}
-					}
+				if (Dungeon.hero.belongings.weapon instanceof SpellBook_Disintegration) {
+					range += 2;
 				}
-			} else if (((Hero) c).hasTalent(Talent.TACTICAL_SIGHT) && Dungeon.hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null) {
-				Hero h = (Hero) c;
-				int range = 1+h.pointsInTalent(Talent.TACTICAL_SIGHT);
-				for (Mob mob : mobs) {
-					int p = mob.pos;
-					if (!fieldOfView[p] && distance(c.pos, p) <= range) {
-						for (int i : PathFinder.NEIGHBOURS9) {
-							heroMindFov[mob.pos + i] = true;
-						}
-					}
+				if (((Hero) c).hasTalent(Talent.TACTICAL_SIGHT) && Dungeon.hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null) {
+					range += 1+h.pointsInTalent(Talent.TACTICAL_SIGHT);
 				}
-			} else if (Dungeon.hero.subClass == HeroSubClass.MASTER && Dungeon.hero.buff(Dong.class) != null && Dungeon.hero.buff(Sheathing.class) != null) {
-				Hero h = (Hero) c;
-				int range = 2+h.pointsInTalent(Talent.DONG_MIND_EYES);
-				for (Mob mob : mobs) {
-					int p = mob.pos;
-					if (!fieldOfView[p] && distance(c.pos, p) <= range) {
-						for (int i : PathFinder.NEIGHBOURS9) {
-							heroMindFov[mob.pos + i] = true;
+				if (Dungeon.hero.subClass == HeroSubClass.MASTER && Dungeon.hero.buff(Dong.class) != null && Dungeon.hero.buff(Sheathing.class) != null) {
+					range += 2+h.pointsInTalent(Talent.DONG_MIND_EYES);
+				}
+				if (((Hero) c).hasTalent(Talent.SEARCH)) {
+					range += 1+h.pointsInTalent(Talent.SEARCH);
+				}
+				if (range > 0) {
+					for (Mob mob : mobs) {
+						int p = mob.pos;
+						if (!fieldOfView[p] && distance(c.pos, p) <= range) {
+							for (int i : PathFinder.NEIGHBOURS9) {
+								heroMindFov[mob.pos + i] = true;
+							}
 						}
 					}
 				}
@@ -1439,6 +1425,13 @@ public abstract class Level implements Bundlable {
 			if (c.buff( Awareness.class ) != null) {
 				for (Heap heap : heaps.valueList()) {
 					int p = heap.pos;
+					for (int i : PathFinder.NEIGHBOURS9) heroMindFov[p+i] = true;
+				}
+			}
+
+			for (Mob m : mobs){
+				if (m.buff(WantedTracker.Wanted.class) != null && Dungeon.hero.hasTalent(Talent.SURRENDER) && !(m.properties().contains(Char.Property.BOSS) || m.properties().contains(Char.Property.MINIBOSS))) {
+					int p = m.pos;
 					for (int i : PathFinder.NEIGHBOURS9) heroMindFov[p+i] = true;
 				}
 			}

@@ -77,4 +77,18 @@ public class FlameThrowerHP extends FlameThrower {
         maxDistance = 4;
         degree = 45;
     }
+
+    @Override
+    public int Bulletmin(int lvl) {
+        return tier +
+                lvl +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+    }
+
+    @Override
+    public int Bulletmax(int lvl) {
+        return 3 * (tier + 1) +
+                lvl * 2 +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+    }
 }

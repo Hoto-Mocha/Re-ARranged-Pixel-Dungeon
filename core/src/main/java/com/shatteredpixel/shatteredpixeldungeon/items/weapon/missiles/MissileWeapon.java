@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -42,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
@@ -470,6 +472,24 @@ abstract public class MissileWeapon extends Weapon {
 				}
 			}
 		}
+		if (attacker == hero && Random.Int(3) < hero.pointsInTalent(Talent.MYSTICAL_THROW)) {
+			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(hero)) {
+				//do nothing
+			} else if (this instanceof FishingSpear && ((FishingSpear) this).ballistaHasEnchant(hero)) {
+				//do nothing
+			} else if (this instanceof ThrowingSpear && ((ThrowingSpear) this).ballistaHasEnchant(hero)) {
+				//do nothing
+			} else if (this instanceof Javelin && ((Javelin) this).ballistaHasEnchant(hero)) {
+				//do nothing
+			} else if (this instanceof Trident && ((Trident) this).ballistaHasEnchant(hero)) {
+				//do nothing
+			} else {
+				KindOfWeapon wep = hero.belongings.weapon;
+				if (wep instanceof Weapon && ((Weapon)wep).enchantment != null && hero.buff(MagicImmune.class) == null) {
+					damage = ((Weapon)wep).enchantment.proc(this, attacker, defender, damage);
+				}
+			}
+		}
 
 		return super.proc(attacker, defender, damage);
 	}
@@ -498,7 +518,12 @@ abstract public class MissileWeapon extends Weapon {
 	
 	@Override
 	public float castDelay(Char user, int dst) {
-		return delayFactor( user );
+		if (hero.subClass == HeroSubClass.GUNSLINGER) {
+			if (user instanceof Hero && ((Hero) user).justMoved)  return 0;
+			else                                                  return delayFactor( user );
+		} else {
+			return delayFactor( user );
+		}
 	}
 	
 	protected void rangedHit( Char enemy, int cell ){

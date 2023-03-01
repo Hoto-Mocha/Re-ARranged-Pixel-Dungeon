@@ -21,10 +21,27 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+
 public class FlameThrowerAP extends FlameThrower {
     {
         initial_max_round = 2;
         maxDistance = 8;
         degree = 15;
+    }
+
+    @Override
+    public int Bulletmin(int lvl) {
+        return tier +
+                lvl +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+    }
+
+    @Override
+    public int Bulletmax(int lvl) {
+        return 7 * (tier + 1) +
+                lvl * 4 +
+                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 }

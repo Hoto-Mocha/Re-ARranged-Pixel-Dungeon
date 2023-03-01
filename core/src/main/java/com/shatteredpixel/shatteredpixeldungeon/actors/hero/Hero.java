@@ -75,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cloaking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
@@ -113,7 +114,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Outlaw;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ParalysisTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
@@ -136,6 +136,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.UpgradeShare;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WantedTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
@@ -590,6 +591,10 @@ public class Hero extends Char {
 			accuracy *= 2;
 		}
 
+		if (hero.subClass == HeroSubClass.GUNSLINGER && hero.justMoved && wep instanceof MissileWeapon) {
+			accuracy *= 0.25f*(1+0.5f*hero.pointsInTalent(Talent.MOVING_SHOT));
+		}
+
 		if (hero.buff(LargeSwordBuff.class) != null) {
 			accuracy *= hero.buff(LargeSwordBuff.class).getAccuracyFactor();
 		}
@@ -879,17 +884,6 @@ public class Hero extends Char {
 			accuracy *= 1f + (0.1f * hero.pointsInTalent(Talent.ENHANCED_FOCUSING));
 		}
 
-		if (Dungeon.hero.hasTalent(Talent.ACC_PRACTICE)) {
-			if (wep instanceof SubMachinegun.Bullet
-					|| wep instanceof AssultRifle.Bullet
-					|| wep instanceof HeavyMachinegun.Bullet
-					|| wep instanceof MiniGun.Bullet
-					|| wep instanceof AutoRifle.Bullet
-			) {
-				accuracy *= 1f + (0.1f * hero.pointsInTalent(Talent.ACC_PRACTICE));
-			}
-		}
-
 		if (wep instanceof CrudePistol.Bullet
 				|| wep instanceof Pistol.Bullet
 				|| wep instanceof GoldenPistol.Bullet
@@ -897,11 +891,28 @@ public class Hero extends Char {
 				|| wep instanceof Magnum.Bullet
 				|| wep instanceof TacticalHandgun.Bullet
 				|| wep instanceof AutoHandgun.Bullet
+
+				|| wep instanceof DualPistol.Bullet
+				|| wep instanceof SubMachinegun.Bullet
+				|| wep instanceof AssultRifle.Bullet
+				|| wep instanceof HeavyMachinegun.Bullet
+				|| wep instanceof MiniGun.Bullet
+				|| wep instanceof AutoRifle.Bullet
+
+				|| wep instanceof Revolver.Bullet
+				|| wep instanceof HuntingRifle.Bullet
+				|| wep instanceof Carbine.Bullet
+				|| wep instanceof SniperRifle.Bullet
+				|| wep instanceof AntimaterRifle.Bullet
+				|| wep instanceof WA2000.Bullet
+				|| wep instanceof MarksmanRifle.Bullet
+
+				|| wep instanceof ShotGun.Bullet
+				|| wep instanceof KSG.Bullet
 		) {
 			if (buff(FireBullet.class) != null) buff(FireBullet.class).proc(enemy);
 			if (buff(FrostBullet.class) != null) buff(FrostBullet.class).proc(enemy);
 			if (buff(ElectroBullet.class) != null) buff(ElectroBullet.class).proc(enemy);
-			if (buff(Talent.RollingTracker.class) != null) accuracy *= 1.5f;
 		}
 
 		if (hero.buff(Riot.riotTracker.class) != null && hero.hasTalent(Talent.SHOT_CONCENTRATION)) {
@@ -1083,6 +1094,23 @@ public class Hero extends Char {
 			}
 		}
 
+		if (hasTalent(Talent.COVER)) {
+			boolean isCloseToWall = false;
+			for (int i : PathFinder.NEIGHBOURS9) {
+				if (isCloseToWall) {
+					break;
+				} else {
+					int terrain = level.map[hero.pos + i];
+					if (terrain == Terrain.SOLID) {
+						isCloseToWall = true;
+					}
+				}
+			}
+			if (isCloseToWall) {
+				dr += Random.NormalIntRange(0, (int)( hero.lvl * hero.pointsInTalent(Talent.COVER)/3f ));
+			}
+		}
+
 		dr += RingOfShield.armorMultiplier( this );
 		
 		return dr;
@@ -1126,20 +1154,6 @@ public class Hero extends Char {
 
 		if (hero.buff(Flurry.class) != null) {
 			speed *= 1 + pointsInTalent(Talent.FLURRY);
-		}
-
-		if (hero.subClass == HeroSubClass.RANGER) {
-			if (hero.belongings.weapon instanceof CrudePistol
-			 || hero.belongings.weapon instanceof Pistol
-			 || hero.belongings.weapon instanceof GoldenPistol
-			 || hero.belongings.weapon instanceof Handgun
-			 || hero.belongings.weapon instanceof Magnum
-			 || hero.belongings.weapon instanceof TacticalHandgun
-			 || hero.belongings.weapon instanceof DualPistol
-			 || hero.belongings.weapon instanceof AutoHandgun
-			) {
-				speed *= 1.1f;
-			}
 		}
 
 		if (hero.hasTalent(Talent.MOVESPEED_ENHANCE)) {
@@ -1363,14 +1377,14 @@ public class Hero extends Char {
 			}
 		}
 		
-		if(hasTalent(Talent.BARKSKIN) && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS){
+		if (hasTalent(Talent.BARKSKIN) && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS){
 			Buff.affect(this, Barkskin.class).set( (lvl*pointsInTalent(Talent.BARKSKIN))/2, 1 );
 		}
 
-		if(Dungeon.level.map[pos] == Terrain.FURROWED_GRASS && hero.hasTalent(Talent.SHADOW) && hero.buff(Shadows.class) != null) {
+		if (Dungeon.level.map[pos] == Terrain.FURROWED_GRASS && hero.hasTalent(Talent.SHADOW) && hero.buff(Shadows.class) != null) {
 			Buff.prolong(this, Shadows.class, 1.0001f);
 		}
-		
+
 		return actResult;
 	}
 	
@@ -1409,7 +1423,7 @@ public class Hero extends Char {
 
 	public boolean isStandingOnTrampleableGrass(){
 		return !rooted && !flying &&
-				(Dungeon.level.map[pos] == Terrain.HIGH_GRASS || ((heroClass != HeroClass.HUNTRESS && heroClass != HeroClass.PLANTER && hero.subClass != HeroSubClass.RIFLEMAN) && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS));
+				(Dungeon.level.map[pos] == Terrain.HIGH_GRASS || ((heroClass != HeroClass.HUNTRESS && heroClass != HeroClass.PLANTER && hero.subClass != HeroSubClass.SPECIALIST) && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS));
 	}
 	
 	private boolean actMove( HeroAction.Move action ) {
@@ -1799,6 +1813,15 @@ public class Hero extends Char {
 			Buff.affect(this, Shadows.class, 1.0001f);
 		}
 
+		if (Dungeon.level.map[pos] == Terrain.FURROWED_GRASS && hero.subClass == HeroSubClass.SPECIALIST) {
+			if (hero.hasTalent(Talent.INTO_THE_SHADOW) && hero.buff(Talent.IntoTheShadowCooldown.class) == null) {
+				Buff.affect(this, Invisibility.class, 3f*hero.pointsInTalent(Talent.INTO_THE_SHADOW));
+				Buff.affect(this, Talent.IntoTheShadowCooldown.class, 15);
+			} else {
+				Buff.affect(this, Cloaking.class);
+			}
+		}
+
 		if (hero.heroClass == HeroClass.SAMURAI) {
 			if (hero.buff(Sheathing.class) == null && hero.hasTalent(Talent.FLOW_AWAY) && hero.buff(Talent.FlowAwayCooldown.class) == null) {
 				Buff.affect(hero, EvasiveMove.class, 0.9999f);
@@ -1875,10 +1898,6 @@ public class Hero extends Char {
 						}
 					}
 				}
-			}
-
-			if (hero.hasTalent(Talent.OUTLAW_OF_BARRENLAND)) {
-				Buff.affect(hero, Outlaw.class).count();
 			}
 
 			if (Random.Int(10) < hero.pointsInTalent(Talent.FIRST_AID) && !hero.buff(Hunger.class).isStarving()) {
@@ -2340,113 +2359,12 @@ public class Hero extends Char {
 				Buff.affect(this, LanceBuff.class).setDamageFactor(1+(hero.speed()));
 			}
 
-			if (Dungeon.hero.subClass == HeroSubClass.RANGER && Random.Int(50) <= pointsInTalent(Talent.SPECIAL_TRAINING)){
-				Buff.affect(this, Haste.class,5);
-			}
-
 			if (hero.subClass == HeroSubClass.SLAYER && hero.buff(Demonization.class) == null) {
 				Buff.affect(this, Demonization.class).indicate();
 			}
 
-			if (hero.hasTalent(Talent.QUICK_RELOAD) && Random.Int(50) < hero.pointsInTalent(Talent.QUICK_RELOAD)*hero.speed()) {
-				if (hero.belongings.weapon() instanceof CrudePistol && ((CrudePistol)hero.belongings.weapon).round < ((CrudePistol)hero.belongings.weapon).max_round) {
-
-					((CrudePistol)hero.belongings.weapon).round = Math.min(((CrudePistol)hero.belongings.weapon).round+1, ((CrudePistol)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof CrudePistolAP && ((CrudePistolAP)hero.belongings.weapon).round < ((CrudePistolAP)hero.belongings.weapon).max_round) {
-
-					((CrudePistolAP)hero.belongings.weapon).round = Math.min(((CrudePistolAP)hero.belongings.weapon).round+1, ((CrudePistolAP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof CrudePistolHP && ((CrudePistolHP)hero.belongings.weapon).round < ((CrudePistolHP)hero.belongings.weapon).max_round) {
-
-					((CrudePistolHP)hero.belongings.weapon).round = Math.min(((CrudePistolHP)hero.belongings.weapon).round+1, ((CrudePistolHP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof Pistol && ((Pistol)hero.belongings.weapon).round < ((Pistol)hero.belongings.weapon).max_round) {
-
-					((Pistol)hero.belongings.weapon).round = Math.min(((Pistol)hero.belongings.weapon).round+1, ((Pistol)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof PistolAP && ((PistolAP)hero.belongings.weapon).round < ((PistolAP)hero.belongings.weapon).max_round) {
-
-					((PistolAP)hero.belongings.weapon).round = Math.min(((PistolAP)hero.belongings.weapon).round+1, ((PistolAP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof PistolHP && ((PistolHP)hero.belongings.weapon).round < ((PistolHP)hero.belongings.weapon).max_round) {
-
-					((PistolHP)hero.belongings.weapon).round = Math.min(((PistolHP)hero.belongings.weapon).round+1, ((PistolHP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof GoldenPistol && ((GoldenPistol)hero.belongings.weapon).round < ((GoldenPistol)hero.belongings.weapon).max_round) {
-
-					((GoldenPistol)hero.belongings.weapon).round = Math.min(((GoldenPistol)hero.belongings.weapon).round+1, ((GoldenPistol)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof GoldenPistolAP && ((GoldenPistolAP)hero.belongings.weapon).round < ((GoldenPistolAP)hero.belongings.weapon).max_round) {
-
-					((GoldenPistolAP)hero.belongings.weapon).round = Math.min(((GoldenPistolAP)hero.belongings.weapon).round+1, ((GoldenPistolAP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof GoldenPistolHP && ((GoldenPistolHP)hero.belongings.weapon).round < ((GoldenPistolHP)hero.belongings.weapon).max_round) {
-
-					((GoldenPistolHP)hero.belongings.weapon).round = Math.min(((GoldenPistolHP)hero.belongings.weapon).round+1, ((GoldenPistolHP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof Handgun && ((Handgun)hero.belongings.weapon).round < ((Handgun)hero.belongings.weapon).max_round) {
-
-					((Handgun)hero.belongings.weapon).round = Math.min(((Handgun)hero.belongings.weapon).round+1, ((Handgun)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof HandgunAP && ((HandgunAP)hero.belongings.weapon).round < ((HandgunAP)hero.belongings.weapon).max_round) {
-
-					((HandgunAP)hero.belongings.weapon).round = Math.min(((HandgunAP)hero.belongings.weapon).round+1, ((HandgunAP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof HandgunHP && ((HandgunHP)hero.belongings.weapon).round < ((HandgunHP)hero.belongings.weapon).max_round) {
-
-					((HandgunHP)hero.belongings.weapon).round = Math.min(((HandgunHP)hero.belongings.weapon).round+1, ((HandgunHP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof Magnum && ((Magnum)hero.belongings.weapon).round < ((Magnum)hero.belongings.weapon).max_round) {
-
-					((Magnum)hero.belongings.weapon).round = Math.min(((Magnum)hero.belongings.weapon).round+1, ((Magnum)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof MagnumAP && ((MagnumAP)hero.belongings.weapon).round < ((MagnumAP)hero.belongings.weapon).max_round) {
-
-					((MagnumAP)hero.belongings.weapon).round = Math.min(((MagnumAP)hero.belongings.weapon).round+1, ((MagnumAP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof MagnumHP && ((MagnumHP)hero.belongings.weapon).round < ((MagnumHP)hero.belongings.weapon).max_round) {
-
-					((MagnumHP)hero.belongings.weapon).round = Math.min(((MagnumHP)hero.belongings.weapon).round+1, ((MagnumHP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof TacticalHandgun && ((TacticalHandgun)hero.belongings.weapon).round < ((TacticalHandgun)hero.belongings.weapon).max_round) {
-
-					((TacticalHandgun)hero.belongings.weapon).round = Math.min(((TacticalHandgun)hero.belongings.weapon).round+1, ((TacticalHandgun)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof TacticalHandgunAP && ((TacticalHandgunAP)hero.belongings.weapon).round < ((TacticalHandgunAP)hero.belongings.weapon).max_round) {
-
-					((TacticalHandgunAP)hero.belongings.weapon).round = Math.min(((TacticalHandgunAP)hero.belongings.weapon).round+1, ((TacticalHandgunAP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof TacticalHandgunHP && ((TacticalHandgunHP)hero.belongings.weapon).round < ((TacticalHandgunHP)hero.belongings.weapon).max_round) {
-
-					((TacticalHandgunHP)hero.belongings.weapon).round = Math.min(((TacticalHandgunHP)hero.belongings.weapon).round+1, ((TacticalHandgunHP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof DualPistol && ((DualPistol)hero.belongings.weapon).round < ((DualPistol)hero.belongings.weapon).max_round) {
-
-					((DualPistol)hero.belongings.weapon).round = Math.min(((DualPistol)hero.belongings.weapon).round+1, ((DualPistol)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof DualPistolAP && ((DualPistolAP)hero.belongings.weapon).round < ((DualPistolAP)hero.belongings.weapon).max_round) {
-
-					((DualPistolAP)hero.belongings.weapon).round = Math.min(((DualPistolAP)hero.belongings.weapon).round+1, ((DualPistolAP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof DualPistolHP && ((DualPistolHP)hero.belongings.weapon).round < ((DualPistolHP)hero.belongings.weapon).max_round) {
-
-					((DualPistolHP)hero.belongings.weapon).round = Math.min(((DualPistolHP)hero.belongings.weapon).round+1, ((DualPistolHP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof AutoHandgun && ((AutoHandgun)hero.belongings.weapon).round < ((AutoHandgun)hero.belongings.weapon).max_round) {
-
-					((AutoHandgun)hero.belongings.weapon).round = Math.min(((AutoHandgun)hero.belongings.weapon).round+1, ((AutoHandgun)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof AutoHandgunAP && ((AutoHandgunAP)hero.belongings.weapon).round < ((AutoHandgunAP)hero.belongings.weapon).max_round) {
-
-					((AutoHandgunAP)hero.belongings.weapon).round = Math.min(((AutoHandgunAP)hero.belongings.weapon).round+1, ((AutoHandgunAP)hero.belongings.weapon).max_round);
-
-				} else if (hero.belongings.weapon() instanceof AutoHandgunHP && ((AutoHandgunHP)hero.belongings.weapon).round < ((AutoHandgunHP)hero.belongings.weapon).max_round) {
-
-					((AutoHandgunHP)hero.belongings.weapon).round = Math.min(((AutoHandgunHP)hero.belongings.weapon).round+1, ((AutoHandgunHP)hero.belongings.weapon).max_round);
-
-				}
-				updateQuickslot();
+			if (hero.subClass == HeroSubClass.MARSHAL && hero.buff(WantedTracker.class) == null) {
+				Buff.affect(this, WantedTracker.class).indicate();
 			}
 
 			if (hero.hasTalent(Talent.MIND_VISION) && Random.Int(100) < hero.pointsInTalent(Talent.MIND_VISION)) {
@@ -2682,6 +2600,10 @@ public class Hero extends Char {
 
 		if (hero.buff(Bless.class) != null && hero.hasTalent(Talent.MYSTICAL_VEIL)) {
 			stealth += hero.pointsInTalent(Talent.MYSTICAL_VEIL);
+		}
+
+		if (hero.hasTalent(Talent.STEALTH)) {
+			stealth += hero.pointsInTalent(Talent.STEALTH);
 		}
 		
 		return stealth;
@@ -3684,10 +3606,6 @@ public class Hero extends Char {
 		//	Buff.affect(enemy, Vulnerable.class, Vulnerable.DURATION);
 		//	hero.buff(Talent.SingularStrikeTracker.class).detach();
 		//}
-
-		if (hero.buff(Outlaw.class) != null) {
-			hero.buff(Outlaw.class).detach();
-		}
 
 		if (hit && hero.subClass == HeroSubClass.TREASUREHUNTER && (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof GildedShovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
 

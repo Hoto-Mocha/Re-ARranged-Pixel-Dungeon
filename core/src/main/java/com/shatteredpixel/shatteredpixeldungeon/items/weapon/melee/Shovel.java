@@ -120,7 +120,7 @@ public class Shovel extends MeleeWeapon {
 
         GLog.i(Messages.get(this, "dig"));
 
-        int flowers = (Random.Int(1) < hero.pointsInTalent(Talent.FLOWER_BED)) ? 1 : 0;
+        int flowers = (Random.Int(2) < hero.pointsInTalent(Talent.FLOWER_BED)) ? 1 : 0;
 
         if (hero.subClass == HeroSubClass.RESEARCHER) {
             ArrayList<Integer> positions = new ArrayList<>();
