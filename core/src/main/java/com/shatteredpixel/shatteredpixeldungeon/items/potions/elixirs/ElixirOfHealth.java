@@ -51,17 +51,18 @@ public class ElixirOfHealth extends Elixir {
 	
 	@Override
 	public void apply(Hero hero) {
-		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
+		if (Dungeon.isChallenged(Challenges.SUPERMAN) || hero.buff(ElixirOfHealthHTBoost.class) != null) {
 			hero.STR++;
 			Buff.affect(hero, Hunger.class).satisfy(Hunger.STARVING);
 			Talent.onFoodEaten(hero, Hunger.STARVING, this);
 			GLog.p(Messages.get(this, "food"));
 			hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(PotionOfStrength.class, "msg_1") );
 		} else {
-			hero.HT += 5;
+			hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "max_health") );
+			Buff.affect(hero, ElixirOfHealthHTBoost.class);
+			hero.updateHT( true );
 			Sample.INSTANCE.play( Assets.Sounds.DRINK );
 			hero.sprite.emitter().burst(Speck.factory(HEALING), 2);
-			hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "max_health") );
 		}
 	}
 	
@@ -88,5 +89,16 @@ public class ElixirOfHealth extends Elixir {
 			outQuantity = 1;
 		}
 		
+	}
+
+	public static class ElixirOfHealthHTBoost extends Buff {
+
+		{
+			type = buffType.POSITIVE;
+		}
+
+		public int boost(){
+			return Math.round((20 + 5 * (((Hero)target).lvl-1))/20f);
+		}
 	}
 }

@@ -70,12 +70,7 @@ public class UnstableAnkh extends ArmorAbility {
 
 		if (hero.hasTalent(Talent.BLESSED_ANKH)) {
 			int healAmt = 5*hero.pointsInTalent(Talent.BLESSED_ANKH);
-			healAmt = Math.min( healAmt, hero.HT - hero.HP );
-			if (healAmt > 0 && hero.isAlive()) {
-				hero.HP += healAmt;
-				hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), hero.pointsInTalent(Talent.BLESSED_ANKH) );
-				hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-			}
+			hero.heal(healAmt);
 		}
 		hero.sprite.operate(hero.pos);
 		Sample.INSTANCE.play(Assets.Sounds.TELEPORT);

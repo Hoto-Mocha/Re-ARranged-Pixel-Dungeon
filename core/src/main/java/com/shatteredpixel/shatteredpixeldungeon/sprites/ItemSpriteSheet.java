@@ -918,14 +918,14 @@ public class ItemSpriteSheet {
 	public static final int ELIXIR_TOXIC    = ELIXIRS+4;
 	public static final int ELIXIR_ICY      = ELIXIRS+5;
 	public static final int ELIXIR_ARCANE   = ELIXIRS+6;
-	public static final int ELIXIR_TALENT   = ELIXIRS+7;
 	static{
 		for (int i = BREWS; i < BREWS+16; i++)
 			assignItemRect(i, 12, 14);
 	}
 
-	private static final int NEW_ELIXIRS = 								xy(1, 45);  //16 slots
-	public static final int ELIXIR_HEALTH      = NEW_ELIXIRS+0;
+	private static final int NEW_ELIXIRS = 								xy(1, 46);  //16 slots
+	public static final int ELIXIR_HEALTH     	= NEW_ELIXIRS+0;
+	public static final int ELIXIR_TALENT   	= NEW_ELIXIRS+1;
 
 	static{
 		for (int i = NEW_ELIXIRS; i < NEW_ELIXIRS+16; i++)

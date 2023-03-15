@@ -535,13 +535,7 @@ public abstract class Char extends Actor {
 						dmgBonus += Random.NormalIntRange(0, 5*hero.pointsInTalent(Talent.CRITICAL_SHADOW));
 					}
 					if (hero.hasTalent(Talent.HERBAL_SHADOW)) {
-						int healAmt = hero.pointsInTalent(Talent.HERBAL_SHADOW);
-						healAmt = Math.min( healAmt, hero.HT - hero.HP );
-						if (healAmt > 0 && hero.isAlive()) {
-							hero.HP += healAmt;
-							hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-							hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-						}
+						hero.heal(hero.pointsInTalent(Talent.HERBAL_SHADOW));
 					}
 					dr = 0;
 				}
@@ -825,15 +819,7 @@ public abstract class Char extends Actor {
 
 						//heals for 50% of damage dealt
 						int healAmt = Math.round(dmg * 0.5f);
-						healAmt = Math.min( healAmt, hero.HT - hero.HP );
-
-						if (healAmt > 0 && hero.isAlive()) {
-
-							hero.HP += healAmt;
-							hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-							hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-
-						}
+						hero.heal(healAmt);
 
 					}
 				} else if (hero.belongings.weapon instanceof SpellBook_Prismatic) {
@@ -2254,5 +2240,14 @@ public abstract class Char extends Actor {
 
 	public static boolean hasProp( Char ch, Property p){
 		return (ch != null && ch.properties().contains(p));
+	}
+
+	public void heal(int amount) {
+		amount = Math.min( amount, this.HT - this.HP );
+		if (amount > 0 && this.isAlive()) {
+			this.HP += amount;
+			this.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+			this.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( amount ) );
+		}
 	}
 }

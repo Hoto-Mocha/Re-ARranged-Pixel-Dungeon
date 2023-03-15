@@ -26,17 +26,10 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ToxicImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DwarfKing;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PoisonParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMastery;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -45,7 +38,6 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.StatusPane;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndHero;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Bundle;
 
 public class ElixirOfTalent extends Elixir {
 	
@@ -67,12 +59,13 @@ public class ElixirOfTalent extends Elixir {
 			GameScene.showlevelUpStars();
 		} else {
 			hero.STR += 2;
-			if (!Dungeon.isChallenged(Challenges.SUPERMAN)){
-				hero.HT += 10;
-				hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "str_ht") );
-			} else {
+			if (Dungeon.isChallenged(Challenges.SUPERMAN) || hero.buff(ElixirOfTalentHTBoost.class) != null){
 				hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "str") );
+			} else {
+				Buff.affect(hero, ElixirOfTalentHTBoost.class);
+				hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "str_ht") );
 			}
+			hero.updateHT( true );
 			GLog.p( Messages.get(this, "msg_2") );
 		}
 
@@ -123,6 +116,17 @@ public class ElixirOfTalent extends Elixir {
 			outQuantity = 1;
 		}
 		
+	}
+
+	public static class ElixirOfTalentHTBoost extends Buff {
+
+		{
+			type = buffType.POSITIVE;
+		}
+
+		public int boost(){
+			return Math.round((20 + 5 * (((Hero)target).lvl-1))/10f);
+		}
 	}
 	
 }

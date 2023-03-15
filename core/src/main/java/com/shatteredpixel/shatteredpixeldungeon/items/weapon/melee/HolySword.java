@@ -56,11 +56,7 @@ public class HolySword extends MeleeWeapon {
         if (hero.STR() >= STRReq()) {
             int healAmt = Math.round(damage * 0.4f);
             healAmt = Math.min( healAmt, attacker.HT - hero.HP );
-            if (healAmt > 0 && attacker.isAlive()) {
-                attacker.HP += healAmt;
-                attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-                attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-            }
+            attacker.heal(healAmt);
             //Buff.affect(attacker, HealingArea.class).setup(attacker.pos, 3+buffedLvl(), 1, true);
         }
         return super.proc( attacker, defender, damage );

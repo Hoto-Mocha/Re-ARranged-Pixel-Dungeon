@@ -203,13 +203,7 @@ public class BrokenSeal extends Item {
 				incShield();
 				partialShield--;
 				if (((Hero) target).pointsInTalent(Talent.FOCUS_UPGRADE) > 1 && target.buff(Focusing.class) != null) {
-					int healAmt = 1;
-					healAmt = Math.min( healAmt, Dungeon.hero.HT - Dungeon.hero.HP );
-					if (healAmt > 0 && Dungeon.hero.isAlive()) {
-						Dungeon.hero.HP += healAmt;
-						Dungeon.hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-						Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-					}
+					Dungeon.hero.heal(1);
 				}
 			}
 			

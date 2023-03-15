@@ -63,12 +63,7 @@ public class Bible extends MeleeWeapon {
 			Buff.affect( attacker, Adrenaline.class, 2f);
 		} else {
 			int healAmt = 1;
-			healAmt = Math.min( healAmt, attacker.HT - attacker.HP );
-			if (healAmt > 0 && attacker.isAlive()) {
-				attacker.HP += healAmt;
-				attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-				attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-			}
+			attacker.heal(healAmt);
 		}
 		return super.proc( attacker, defender, damage );
 	}

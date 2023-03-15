@@ -181,8 +181,8 @@ public class Shovel extends MeleeWeapon {
             Lucky.showFlare(hero.sprite);
         }
         Buff.affect(hero, ShovelDigCoolDown.class, Math.max(30-2*buffedLvl(), 10));
-        if (hero.hasTalent(Talent.GRAVEL_THROW)) {
-            Buff.affect(hero, CrippleTracker.class, 1+hero.pointsInTalent(Talent.GRAVEL_THROW));
+        if (hero.hasTalent(Talent.PLANT_SHIELD)) {
+            Buff.affect(hero, Barrier.class).setShield(2+3*hero.pointsInTalent(Talent.PLANT_SHIELD));
         }
     }
 
@@ -195,41 +195,6 @@ public class Shovel extends MeleeWeapon {
         } else {
             return  4*(tier+1) +
                     lvl*(tier+1);
-        }
-    }
-
-    public static class CrippleTracker extends FlavourBuff {
-
-        {
-            type = buffType.POSITIVE;
-            announced = true;
-        }
-
-        public static final float DURATION = 3f;
-
-        @Override
-        public int icon() {
-            return BuffIndicator.THORNS;
-        }
-
-        @Override
-        public float iconFadePercent() {
-            return Math.max(0, (DURATION - visualcooldown()) / DURATION);
-        }
-
-        @Override
-        public void tintIcon(Image icon) {
-            icon.hardlight(0xB3B3B3);
-        }
-
-        @Override
-        public String toString() {
-            return Messages.get(this, "name");
-        }
-
-        @Override
-        public String desc() {
-            return Messages.get(this, "desc", dispTurns());
         }
     }
 }

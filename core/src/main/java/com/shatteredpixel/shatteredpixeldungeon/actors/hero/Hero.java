@@ -196,6 +196,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.keys.SkeletonKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
@@ -359,6 +360,14 @@ public class Hero extends Char {
 		
 		if (buff(ElixirOfMight.HTBoost.class) != null){
 			HT += buff(ElixirOfMight.HTBoost.class).boost();
+		}
+
+		if (buff(ElixirOfTalent.ElixirOfTalentHTBoost.class) != null){
+			HT += buff(ElixirOfTalent.ElixirOfTalentHTBoost.class).boost();
+		}
+
+		if (buff(ElixirOfHealth.ElixirOfHealthHTBoost.class) != null){
+			HT += buff(ElixirOfHealth.ElixirOfHealthHTBoost.class).boost();
 		}
 		
 		if (boostHP){
@@ -1083,10 +1092,6 @@ public class Hero extends Char {
 			dr += Random.NormalIntRange(0, 2*pointsInTalent(Talent.HOLD_FAST));
 		}
 
-		if (buff(Sheathing.class) != null) {
-			dr += Random.NormalIntRange(0, 5*pointsInTalent(Talent.PARRY));
-		}
-
 		if (hasTalent(Talent.ARMOR_ENHANCE)) {
 			dr += Random.NormalIntRange(0, 2);
 			if (pointsInTalent(Talent.ARMOR_ENHANCE) > 1) {
@@ -1124,6 +1129,9 @@ public class Hero extends Char {
 		if (wep != null) {
 			dmg = wep.damageRoll( this );
 			if (!(wep instanceof MissileWeapon)) dmg += RingOfForce.armedDamageBonus(this);
+			if (!(wep instanceof MissileWeapon) && hasTalent(Talent.DETECTION)) {
+				dmg *= 1+0.05f*pointsInTalent(Talent.DETECTION);
+			}
 		} else {
 			if (enemy.buff(AllyBuff.AllyBuffTracker.class) != null) {
 				dmg = 0;
@@ -1901,13 +1909,7 @@ public class Hero extends Char {
 			}
 
 			if (Random.Int(10) < hero.pointsInTalent(Talent.FIRST_AID) && !hero.buff(Hunger.class).isStarving()) {
-				int healAmt = 1;
-				healAmt = Math.min( healAmt, hero.HT - hero.HP );
-				if (healAmt > 0 && hero.isAlive()) {
-					hero.HP += healAmt;
-					hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1);
-					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-				}
+				hero.heal(1);
 			}
 
 			if (sprite != null) {
@@ -1930,12 +1932,6 @@ public class Hero extends Char {
 			SpiritBow bow = belongings.getItem(SpiritBow.class);
 			if (bow != null) damage = bow.proc( this, enemy, damage );
 			buff(Talent.SpiritBladesTracker.class).detach();
-		}
-
-		if (hero.heroClass != HeroClass.SAMURAI && hero.hasTalent(Talent.DETECTION)) {
-			if (Random.Int(4) < 1+hero.pointsInTalent(Talent.DETECTION)) {
-				Buff.affect(hero, WeaponEmpower.class).set(1, 3f);
-			}
 		}
 
 		if (hero.buff(GodFury.class) != null) {
@@ -2004,12 +2000,6 @@ public class Hero extends Char {
 		if (hasTalent(Talent.HOLY_PROTECTION)) {
 			if (Random.Int(5) < pointsInTalent(Talent.HOLY_PROTECTION)) {
 				damage *= 0.4f;
-			}
-		}
-
-		if (hero.heroClass != HeroClass.SAMURAI && hero.hasTalent(Talent.PARRY)) {
-			if (Random.Int(4) < 1+hero.pointsInTalent(Talent.PARRY)) {
-				Buff.affect(hero, ArmorEmpower.class).set(1, 3f);
 			}
 		}
 
@@ -2825,10 +2815,6 @@ public class Hero extends Char {
 			if (hero.buff(Iaido.class) != null) {
 				hero.buff(Iaido.class).detach();
 			}
-		}
-
-		if (hit && buff(Shovel.CrippleTracker.class) != null) {
-			Buff.affect(enemy, Cripple.class, 3f);
 		}
 
 		if (!enemy.isAlive() && hero.hasTalent(Talent.FAST_LEAD) && hero.heroClass != HeroClass.SAMURAI) {

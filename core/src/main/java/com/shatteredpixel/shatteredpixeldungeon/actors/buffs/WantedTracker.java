@@ -134,7 +134,11 @@ public class WantedTracker extends Buff implements ActionIndicator.Action {
         ActionIndicator.clearAction( this );
     }
 
-
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        ActionIndicator.setAction(this);
+    }
 
     public static class Wanted extends Buff {
 

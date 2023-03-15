@@ -1,5 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -31,12 +33,14 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class HealingArea extends Buff {
+public class HealingArea extends Buff implements ActionIndicator.Action {
 
     private ArrayList<Integer> areaPositions = new ArrayList<>();
     private ArrayList<Emitter> areaEmitters = new ArrayList<>();
     private ArrayList<Char> targets = new ArrayList<>();
     private ArrayList<Char> enemy = new ArrayList<>();
+
+    private boolean comp = false;
 
     private static final float DURATION = 20;
     int left = 0;
@@ -70,6 +74,45 @@ public class HealingArea extends Buff {
         return Messages.get(this, "desc", left);
     }
 
+    //
+
+    @Override
+    public boolean attachTo(Char target) {
+        if (((Hero)target).hasTalent(Talent.COMP_RECOVER)) {
+            ActionIndicator.setAction(this);
+            comp = true;
+        }
+        return super.attachTo(target);
+    }
+
+    @Override
+    public void detach() {
+        super.detach();
+        ActionIndicator.clearAction(this);
+    }
+
+    @Override
+    public String actionName() {
+        return Messages.get(this, "action_name");
+    }
+
+    @Override
+    public Image actionIcon() {
+        return Icons.get(Icons.HEAL);
+    }
+
+    @Override
+    public void doAction() {
+        int duration = left;
+        int healAmt = Math.round(duration/10f*hero.pointsInTalent(Talent.COMP_RECOVER));
+        hero.heal(healAmt);
+        detach();
+        hero.sprite.operate(hero.pos);
+        detach();
+    }
+
+    //
+
     public void setup(int pos, int duration, int dist, boolean talent){ //dist's default value is 1
 
         if (Dungeon.depth == 5 || Dungeon.depth == 10 || Dungeon.depth == 20){
@@ -92,8 +135,8 @@ public class HealingArea extends Buff {
                 dist += 1;
             }
 
-            if (talent && Dungeon.hero.hasTalent(Talent.HEALAREA)) {
-                dist += Dungeon.hero.pointsInTalent(Talent.HEALAREA);
+            if (talent && hero.hasTalent(Talent.HEALAREA)) {
+                dist += hero.pointsInTalent(Talent.HEALAREA);
             }
         }
 
@@ -142,29 +185,24 @@ public class HealingArea extends Buff {
 
         for (Char ally : targets) {
             int healAmt = 1;
-            if (Dungeon.hero.hasTalent(Talent.HEAL_AMP)) {
-                if (Random.Int(4) < Dungeon.hero.pointsInTalent(Talent.HEAL_AMP)) {
+            if (hero.hasTalent(Talent.HEAL_AMP)) {
+                if (Random.Int(4) < hero.pointsInTalent(Talent.HEAL_AMP)) {
                     healAmt *= 2;
                 }
             }
-            if (Dungeon.hero.buff(AngelWing.AngelWingBuff.class) != null && Dungeon.hero.hasTalent(Talent.HEALING_WING)) {
-                healAmt *= 1+Dungeon.hero.pointsInTalent(Talent.HEALING_WING);
+            if (hero.buff(AngelWing.AngelWingBuff.class) != null && hero.hasTalent(Talent.HEALING_WING)) {
+                healAmt *= 1+ hero.pointsInTalent(Talent.HEALING_WING);
             }
-            healAmt = Math.min( healAmt, ally.HT - ally.HP );
-            if (healAmt > 0 && ally.isAlive()) {
-                ally.HP += healAmt;
-                ally.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-                ally.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-            }
+            ally.heal(healAmt);
 
-            if (Dungeon.hero.hasTalent(Talent.PROMOTION)) {
-                if (Dungeon.hero.pointsInTalent(Talent.PROMOTION) >= 1) {
+            if (hero.hasTalent(Talent.PROMOTION)) {
+                if (hero.pointsInTalent(Talent.PROMOTION) >= 1) {
                     Buff.prolong(ally, Adrenaline.class, 2);
                 }
-                if (Dungeon.hero.pointsInTalent(Talent.PROMOTION) >= 2) {
+                if (hero.pointsInTalent(Talent.PROMOTION) >= 2) {
                     Buff.prolong(ally, Haste.class, 2);
                 }
-                if (Dungeon.hero.pointsInTalent(Talent.PROMOTION) == 3) {
+                if (hero.pointsInTalent(Talent.PROMOTION) == 3) {
                     if (ally.buff(Barrier.class) != null) {
                         Buff.affect(ally, Barrier.class).incShield(healAmt);
                     } else {
@@ -172,17 +210,13 @@ public class HealingArea extends Buff {
                     }
                 }
             }
-
-            if (Dungeon.hero.hasTalent(Talent.COMP_RECOVER)) {
-                Buff.affect(target, HealAreaUse.class);
-            }
         }
 
         for (Char ch : enemy) {
-            if (Dungeon.hero.hasTalent(Talent.ANGEL_AND_DEVIL)) {
-                if (Random.Int(6) < Dungeon.hero.pointsInTalent(Talent.ANGEL_AND_DEVIL)) {
-                    int dmg = (Dungeon.hero.hasTalent(Talent.ANGEL)) ? 2 : 1;
-                    ch.damage(dmg, Dungeon.hero);
+            if (hero.hasTalent(Talent.ANGEL_AND_DEVIL)) {
+                if (Random.Int(6) < hero.pointsInTalent(Talent.ANGEL_AND_DEVIL)) {
+                    int dmg = (hero.hasTalent(Talent.ANGEL)) ? 2 : 1;
+                    ch.damage(dmg, hero);
                     ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 4 );
                     Sample.INSTANCE.play(Assets.Sounds.BURNING, 0.7f);
 
@@ -214,6 +248,7 @@ public class HealingArea extends Buff {
 
     private static final String AREA_POSITIONS = "area_positions";
     private static final String LEFT = "left";
+    private static final String COMP = "comp";
 
     @Override
     public void storeInBundle(Bundle bundle) {
@@ -225,6 +260,7 @@ public class HealingArea extends Buff {
         bundle.put(AREA_POSITIONS, values);
 
         bundle.put(LEFT, left);
+        bundle.put(COMP, comp);
     }
 
     @Override
@@ -237,5 +273,9 @@ public class HealingArea extends Buff {
         }
 
         left = bundle.getInt(LEFT);
+        comp = bundle.getBoolean(COMP);
+        if (comp) {
+            ActionIndicator.setAction(this);
+        }
     }
 }

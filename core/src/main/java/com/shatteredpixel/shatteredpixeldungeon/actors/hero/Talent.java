@@ -273,7 +273,7 @@ public enum Talent {
 	//Samurai T1
 	SURPRISE_STAB(205), MASTERS_INTUITION(206), UNEXPECTED_SLASH(207), FLOW_AWAY(208), ADRENALINE_SURGE(209),
 	//Samurai T2
-	FOCUSING_MEAL(210), CRITICAL_UPGRADE(211), MAGICAL_TRANSFERENCE(212), PARRY(213), DETECTION(214), POWERFUL_CRIT(215),
+	FOCUSING_MEAL(210), CRITICAL_UPGRADE(211), MAGICAL_TRANSFERENCE(212), EYE_OF_DRAGON(213), DETECTION(214), CRITICAL_THROW(215),
 	//Samurai T3
 	DEEP_SCAR(216, 3), FAST_LEAD(217, 3),
 	//Slasher T3
@@ -290,7 +290,7 @@ public enum Talent {
 	KUNAI_OF_DOOM(242, 4), MYSTICAL_KUNAI(243, 4), CORROSIVE_KUNAI(244, 4),
 
 	//Planter T1
-	SUDDEN_GROWTH(246), SAFE_POTION(247), ROOT(248), KNOWLEDGE_HERB(249), GRAVEL_THROW(250),
+	SUDDEN_GROWTH(246), SAFE_POTION(247), ROOT(248), PLANT_SHIELD(249), KNOWLEDGE_HERB(250),
 	//Planter T2
 	NATURAL_MEAL(251), HERBAL_DEW(252), SPROUT(253), FIREWATCH(254), FLOWER_BED(255), WEAK_POISON(256),
 	//Planter T3
@@ -722,6 +722,10 @@ public enum Talent {
 			}
 		}
 
+		if (talent == COMP_RECOVER && hero.buff(HealingArea.class) != null) {
+			hero.buff(HealingArea.class).attachTo(hero);
+		}
+
 		if (talent == DOCTORS_INTUITION && hero.pointsInTalent(DOCTORS_INTUITION) == 1) {
 			for (int i = 0 ; i < 2 ; i++) {
 				HashSet<Class<? extends Potion>> potions = Potion.getUnknown();
@@ -1112,13 +1116,6 @@ public enum Talent {
 			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
-		if (hero.hasTalent(Talent.POWERFUL_CRIT)
-				&& hero.heroClass != HeroClass.SAMURAI
-				&& enemy.buff(PowerfulCritTracker.class) == null){
-			dmg += 5*hero.pointsInTalent(Talent.POWERFUL_CRIT);
-			Buff.affect(enemy, PowerfulCritTracker.class);
-		}
-
 		if (hero.hasTalent(Talent.POISONOUS_BLADE)
 				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
 		) {
@@ -1205,7 +1202,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	SURPRISE_STAB, MASTERS_INTUITION, UNEXPECTED_SLASH, FLOW_AWAY, ADRENALINE_SURGE);
 				break;
 			case PLANTER:
-				Collections.addAll(tierTalents,	SUDDEN_GROWTH, SAFE_POTION, ROOT, KNOWLEDGE_HERB, GRAVEL_THROW);
+				Collections.addAll(tierTalents,	SUDDEN_GROWTH, SAFE_POTION, ROOT, KNOWLEDGE_HERB, PLANT_SHIELD);
 				break;
 			case KNIGHT:
 				Collections.addAll(tierTalents,	ON_ALERT, KNIGHTS_INTUITION, ARMOR_ENHANCE, ACTIVE_BARRIER, WAR_CRY);
@@ -1240,7 +1237,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	IN_THE_GUNFIRE, ANOTHER_CHANCE, BULLET_FOCUS, CAMOUFLAGE, LARGER_MAGAZINE, TRANSMUTATION_CONTROL);
 				break;
 			case SAMURAI:
-				Collections.addAll(tierTalents,	FOCUSING_MEAL, CRITICAL_UPGRADE, MAGICAL_TRANSFERENCE, PARRY, DETECTION, POWERFUL_CRIT);
+				Collections.addAll(tierTalents,	FOCUSING_MEAL, CRITICAL_UPGRADE, MAGICAL_TRANSFERENCE, EYE_OF_DRAGON, DETECTION, CRITICAL_THROW);
 				break;
 			case PLANTER:
 				Collections.addAll(tierTalents,	NATURAL_MEAL, HERBAL_DEW, SPROUT, FIREWATCH, FLOWER_BED, WEAK_POISON);

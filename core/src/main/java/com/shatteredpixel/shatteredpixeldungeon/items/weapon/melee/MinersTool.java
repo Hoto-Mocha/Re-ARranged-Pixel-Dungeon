@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.WaterOfAwareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.WaterOfHealth;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.WellWater;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MinersToolCoolDown;
@@ -264,8 +265,8 @@ public class MinersTool extends MeleeWeapon {
 			Lucky.showFlare(hero.sprite);
 		}
 		Buff.affect(hero, ShovelDigCoolDown.class, Math.max(20-2*buffedLvl(), 5));
-		if (hero.hasTalent(Talent.GRAVEL_THROW)) {
-			Buff.affect(hero, Shovel.CrippleTracker.class, 1+hero.pointsInTalent(Talent.GRAVEL_THROW));
+		if (hero.hasTalent(Talent.PLANT_SHIELD)) {
+			Buff.affect(hero, Barrier.class).setShield(2+3*hero.pointsInTalent(Talent.PLANT_SHIELD));
 		}
 	}
 

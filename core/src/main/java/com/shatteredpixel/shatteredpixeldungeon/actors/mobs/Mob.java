@@ -791,6 +791,12 @@ public abstract class Mob extends Char {
 					&& hero.hasTalent(Talent.SOUL_BULLET)) {
 				Buff.prolong(hero, InfiniteBullet.class, hero.pointsInTalent(Talent.SOUL_BULLET));
 			}
+
+			if (cause == hero
+					&& hero.hasTalent(Talent.EYE_OF_DRAGON)
+					&& Random.Int(2) < hero.pointsInTalent(Talent.EYE_OF_DRAGON)) {
+				Buff.prolong(hero, MindVision.class, 1);
+			}
 		}
 
 		if (Dungeon.hero.isAlive() && !Dungeon.level.heroFOV[pos]) {
@@ -838,12 +844,7 @@ public abstract class Mob extends Char {
 						}
 						if (hero.subClass == HeroSubClass.WEAPONMASTER) {
 							int healAmt = Math.round((this.HT/40f) * Math.min(hero.belongings.weapon.buffedLvl()+1, 10));
-							healAmt = Math.min( healAmt, hero.HT - hero.HP );
-							if (healAmt > 0 && hero.isAlive()) {
-								hero.HP += healAmt;
-								hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-								hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-							}
+							hero.heal(healAmt);
 						}
 					}
 				}
@@ -859,12 +860,7 @@ public abstract class Mob extends Char {
 					}
 					if (Dungeon.hero.subClass == HeroSubClass.WEAPONMASTER) {
 						int healAmt = Math.round((this.HT/80f) * Math.min(hero.belongings.weapon.buffedLvl()+1, 10));
-						healAmt = Math.min( healAmt, hero.HT - hero.HP );
-						if (healAmt > 0 && hero.isAlive()) {
-							hero.HP += healAmt;
-							hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-							hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-						}
+						hero.heal(healAmt);
 					}
 				}
 			}

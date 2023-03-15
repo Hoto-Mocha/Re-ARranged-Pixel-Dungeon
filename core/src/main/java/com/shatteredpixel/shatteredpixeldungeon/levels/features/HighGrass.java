@@ -179,12 +179,7 @@ public class HighGrass {
 			if (ch instanceof Hero) {
 				if (hero.hasTalent(Talent.KNOWLEDGE_HERB) && Random.Int(10) < 1+hero.pointsInTalent(Talent.KNOWLEDGE_HERB)) {
 					int healAmt = 1;
-					healAmt = Math.min( healAmt, hero.HT - hero.HP );
-					if (healAmt > 0 && hero.isAlive()) {
-						hero.HP += healAmt;
-						hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1);
-						hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-					}
+					hero.heal(healAmt);
 				}
 			}
 		}

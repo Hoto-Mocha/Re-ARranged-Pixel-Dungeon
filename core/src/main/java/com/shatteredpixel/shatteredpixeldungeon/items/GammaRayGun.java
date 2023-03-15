@@ -91,12 +91,7 @@ public class GammaRayGun extends Item {
 							if (hero.hasTalent(Talent.HIGHER_HEAL)) {
 								healAmt *= Math.pow(1.15f, hero.pointsInTalent(Talent.HIGHER_HEAL));
 							}
-							healAmt = Math.min( healAmt, ch.HT - ch.HP );
-							if (healAmt > 0 && ch.isAlive()) {
-								ch.HP += healAmt;
-								ch.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-								ch.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-							}
+							ch.heal(healAmt);
 						}
 					}
 					curUser.sprite.zap(target);

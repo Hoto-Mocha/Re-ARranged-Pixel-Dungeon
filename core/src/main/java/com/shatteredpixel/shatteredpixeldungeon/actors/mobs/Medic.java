@@ -74,14 +74,7 @@ public class Medic extends Mob {
 		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
 			if (mob.alignment == Alignment.ENEMY && Dungeon.level.distance(this.pos, mob.pos) <= 6) {
 				int healAmt = 2*(7-Dungeon.level.distance(pos, mob.pos)); //different per each distance
-				healAmt = Math.min( healAmt, mob.HT - mob.HP );
-				if (healAmt > 0 && mob.isAlive()) {
-					mob.HP += healAmt;
-					if (Dungeon.level.heroFOV[mob.pos]) {
-						mob.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 2 );
-						mob.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-					}
-				}
+				mob.heal(healAmt);
 			}
 		} //heals nearby enemies and herself per every attack
 

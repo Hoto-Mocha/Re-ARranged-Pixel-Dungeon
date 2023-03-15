@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShovelDigCoolDown;
@@ -137,8 +138,8 @@ public class Spade extends Shovel {
             Lucky.showFlare(hero.sprite);
         }
         Buff.affect(hero, ShovelDigCoolDown.class, Math.max(20-2*buffedLvl(), 5));
-        if (hero.hasTalent(Talent.GRAVEL_THROW)) {
-            Buff.affect(hero, CrippleTracker.class, 1+hero.pointsInTalent(Talent.GRAVEL_THROW));
+        if (hero.hasTalent(Talent.PLANT_SHIELD)) {
+            Buff.affect(hero, Barrier.class).setShield(2+3*hero.pointsInTalent(Talent.PLANT_SHIELD));
         }
     }
 }
