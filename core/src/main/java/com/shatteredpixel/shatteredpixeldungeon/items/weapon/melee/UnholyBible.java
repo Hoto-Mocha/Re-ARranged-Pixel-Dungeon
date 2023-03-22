@@ -21,24 +21,28 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
 public class UnholyBible extends MeleeWeapon {
@@ -94,6 +98,46 @@ public class UnholyBible extends MeleeWeapon {
 	public int max(int lvl) {
 		return  3*(tier) +    		//12 base
 				lvl*(tier-1);     	//+3 per level
+	}
+
+	@Override
+	public float abilityChargeUse( Hero hero ) {
+		return 2*super.abilityChargeUse(hero);
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		angelAbility(hero, 5, this);
+	}
+
+	public static void angelAbility(Hero hero, int duration, MeleeWeapon wep){
+		wep.beforeAbilityUsed(hero);
+		Buff.prolong(hero, Demon.class, duration);
+		hero.next();
+		((HeroSprite)hero.sprite).read();
+		SpellSprite.show(hero, SpellSprite.BERSERK);
+		hero.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
+		Sample.INSTANCE.play( Assets.Sounds.CHALLENGE );
+		Sample.INSTANCE.play( Assets.Sounds.READ );
+		wep.afterAbilityUsed(hero);
+	}
+
+	public static class Demon extends FlavourBuff {
+
+		{
+			announced = true;
+			type = buffType.POSITIVE;
+		}
+
+		@Override
+		public int icon() {
+			return BuffIndicator.DUEL_DEMON;
+		}
+
+		@Override
+		public float iconFadePercent() {
+			return Math.max(0, (6 - visualcooldown()) / 6);
+		}
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

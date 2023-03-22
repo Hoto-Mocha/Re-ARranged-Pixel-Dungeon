@@ -1,9 +1,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 
 public class CounterAttackDef extends Buff {
@@ -13,14 +15,17 @@ public class CounterAttackDef extends Buff {
 
     @Override
     public boolean act() {
-        if (Dungeon.hero.attack(enemy)) {
-            target.sprite.attack(enemy.pos, new Callback() {
-                @Override
-                public void call() {
-                    next();
+        target.sprite.attack(enemy.pos, new Callback() {
+            @Override
+            public void call() {
+                AttackIndicator.target(enemy);
+                if (hero.attack(enemy)){
+                    Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
                 }
-            });
-        }
+
+                next();
+            }
+        });
         detach();
         return false;
     }

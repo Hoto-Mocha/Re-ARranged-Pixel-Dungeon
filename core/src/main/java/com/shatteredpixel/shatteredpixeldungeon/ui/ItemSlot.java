@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -234,6 +235,15 @@ public class ItemSlot extends Button {
 			status.hardlight(WARNING);
 		} else {
 			status.resetColor();
+		}
+
+		if (item instanceof MeleeWeapon &&
+				((MeleeWeapon) item).gun &&
+				Dungeon.hero.buff(MeleeWeapon.PrecisionShooting.class) != null &&
+				Dungeon.hero.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
+				Dungeon.hero.buff(MeleeWeapon.Charger.class) != null &&
+				Dungeon.hero.buff(MeleeWeapon.Charger.class).charges > 0) {
+			status.hardlight(ENHANCED);
 		}
 
 		if (item.icon != -1 && (item.isIdentified() || (item instanceof Ring && ((Ring) item).isKnown()))){

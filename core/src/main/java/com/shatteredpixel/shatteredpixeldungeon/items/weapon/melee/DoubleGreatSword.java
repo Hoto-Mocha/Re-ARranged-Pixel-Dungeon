@@ -25,7 +25,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
 
@@ -58,6 +60,25 @@ public class DoubleGreatSword extends MeleeWeapon {
 	public int max(int lvl) {
 		return  5*(tier) +    //base
 				lvl*(tier);   //level scaling
+	}
+
+	@Override
+	public float abilityChargeUse( Hero hero ) {
+		if (hero.buff(Sword.CleaveTracker.class) != null){
+			return 0;
+		} else {
+			return super.abilityChargeUse( hero );
+		}
+	}
+
+	@Override
+	public String targetingPrompt() {
+		return Messages.get(this, "prompt");
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		Sword.cleaveAbility(hero, target, 1.17f, this);
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

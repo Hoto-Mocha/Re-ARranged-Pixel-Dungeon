@@ -159,6 +159,24 @@ public class LanceNShield extends MeleeWeapon {
         stance = bundle.getBoolean( STANCE );
     }
 
+    @Override
+    public String targetingPrompt() {
+        if (stance) {
+            return Messages.get(this, "prompt");
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    protected void duelistAbility(Hero hero, Integer target) {
+        if (stance) {
+            Lance.dashAbility(hero, target, this);
+        } else {
+            RoundShield.guardAbility(hero, 3, this);
+        }
+    }
+
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
         {

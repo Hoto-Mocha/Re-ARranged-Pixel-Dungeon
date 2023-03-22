@@ -26,14 +26,17 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
 public class DoubleDagger extends MeleeWeapon {
-	
+
 	{
 		image = ItemSpriteSheet.DOUBLE_DAGGER;
 		hitSound = Assets.Sounds.HIT_STAB;
@@ -60,7 +63,7 @@ public class DoubleDagger extends MeleeWeapon {
 		}
 		return super.proc( attacker, defender, damage );
 	}
-	
+
 	@Override
 	public int damageRoll(Char owner) {
 		if (owner instanceof Hero) {
@@ -80,6 +83,39 @@ public class DoubleDagger extends MeleeWeapon {
 			}
 		}
 		return super.damageRoll(owner);
+	}
+
+	@Override
+	public float abilityChargeUse(Hero hero) {
+		return 2*super.abilityChargeUse(hero);
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		beforeAbilityUsed(hero);
+		Buff.prolong(hero, ReverseBlade.class, 5f); //5 turns as using the ability is instant
+		hero.sprite.operate(hero.pos);
+		Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
+		hero.next();
+		afterAbilityUsed(hero);
+	}
+
+	public static class ReverseBlade extends FlavourBuff {
+
+		{
+			announced = true;
+			type = buffType.POSITIVE;
+		}
+
+		@Override
+		public int icon() {
+			return BuffIndicator.DUEL_DAGGER;
+		}
+
+		@Override
+		public float iconFadePercent() {
+			return Math.max(0, (6 - visualcooldown()) / 6);
+		}
 	}
 
 }

@@ -29,9 +29,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.watabou.utils.Random;
 
 public class Scythe extends MeleeWeapon {
 	
@@ -51,11 +50,26 @@ public class Scythe extends MeleeWeapon {
 	}
 
 	@Override
+	public float abilityChargeUse(Hero hero) {
+		return 2*super.abilityChargeUse(hero);
+	}
+
+	@Override
 	public int proc( Char attacker, Char defender, int damage ) {
 		if (Dungeon.hero.subClass == HeroSubClass.WEAPONMASTER && defender.alignment != Char.Alignment.ALLY) {
 			Buff.affect( defender, Cripple.class, 2+buffedLvl() );
 		}
 		Buff.affect(defender, Bleeding.class).set(Math.round(damage*0.1f));
 		return super.proc( attacker, defender, damage );
+	}
+
+	@Override
+	public String targetingPrompt() {
+		return Messages.get(this, "prompt");
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		Knife.knifeAbility(hero, target, 0.33f, this);
 	}
 }

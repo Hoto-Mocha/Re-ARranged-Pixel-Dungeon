@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,33 +21,26 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.audio.Sample;
@@ -89,13 +82,15 @@ public class Dart extends MissileWeapon {
 	@Override
 	public int min(int lvl) {
 		if (bow != null || exbow != null){
+			int upgrade = 0;
 			if (bow != null) {
-				return  4 +                    //4 base
-						bow.buffedLvl() + lvl; //+1 per level or bow level
-			} else {
-				return  4 +                    //4 base
-						exbow.buffedLvl() + lvl; //+1 per level or bow level
+				upgrade += bow.buffedLvl();
 			}
+			if (exbow != null){
+				upgrade += exbow.buffedLvl();
+			}
+			return  4 +                    //4 base
+					upgrade + lvl; //+1 per level or bow level
 		} else {
 			return  1 +     //1 base, down from 2
 					lvl;    //scaling unchanged
@@ -105,13 +100,15 @@ public class Dart extends MissileWeapon {
 	@Override
 	public int max(int lvl) {
 		if (bow != null || exbow != null){
+			int upgrade = 0;
 			if (bow != null) {
-				return  12 +                       //12 base
-						3*bow.buffedLvl() + 2*lvl; //+3 per bow level, +2 per level (default scaling +2)
-			} else {
-				return  12 +                       //12 base
-						3*exbow.buffedLvl() + 2*lvl; //+3 per bow level, +2 per level (default scaling +2)
+				upgrade += bow.buffedLvl();
 			}
+			if (exbow != null){
+				upgrade += exbow.buffedLvl();
+			}
+			return  12 +                       //12 base
+					3*upgrade + 2*lvl; //+3 per bow level, +2 per level (default scaling +2)
 		} else {
 			return  2 +     //2 base, down from 5
 					2*lvl;  //scaling unchanged
@@ -124,6 +121,9 @@ public class Dart extends MissileWeapon {
 	private void updateCrossbow(){
 		if (Dungeon.hero.belongings.weapon() instanceof Crossbow){
 			bow = (Crossbow) Dungeon.hero.belongings.weapon();
+		} else if (Dungeon.hero.belongings.secondWep() instanceof Crossbow) {
+			//player can instant swap anyway, so this is just QoL
+			bow = (Crossbow) Dungeon.hero.belongings.secondWep();
 		} else {
 			bow = null;
 		}
@@ -132,6 +132,9 @@ public class Dart extends MissileWeapon {
 	private void updateExplosiveCrossbow(){
 		if (Dungeon.hero.belongings.weapon() instanceof ExplosiveCrossbow){
 			exbow = (ExplosiveCrossbow) Dungeon.hero.belongings.weapon();
+		} else if (Dungeon.hero.belongings.secondWep() instanceof ExplosiveCrossbow) {
+			//player can instant swap anyway, so this is just QoL
+			exbow = (ExplosiveCrossbow) Dungeon.hero.belongings.secondWep();
 		} else {
 			exbow = null;
 		}
@@ -151,7 +154,17 @@ public class Dart extends MissileWeapon {
 			return super.hasEnchant(type, owner);
 		}
 	}
-	
+
+	@Override
+	public float accuracyFactor(Char owner, Char target) {
+		//don't update xbow here, as dart is the active weapon atm
+		if ((bow != null && owner.buff(Crossbow.ChargedShot.class) != null) || (exbow != null && owner.buff(ExplosiveCrossbow.ExplosiveEnhance.class) != null)){
+			return Char.INFINITE_ACCURACY;
+		} else {
+			return super.accuracyFactor(owner, target);
+		}
+	}
+
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
 		if (bow != null){
@@ -160,8 +173,15 @@ public class Dart extends MissileWeapon {
 		if (exbow != null) {
 			damage = exbow.proc(attacker, defender, damage);
 		}
+		if (Dungeon.hero.buff(ExplosiveCrossbow.ExplosiveEnhance.class) != null) {
+			damage *= 1.25f;
+		}
 
-		return super.proc(attacker, defender, damage);
+		int dmg = super.proc(attacker, defender, damage);
+		if (!processingChargedShot) {
+			processChargedShot(defender, damage);
+		}
+		return dmg;
 	}
 
 	@Override
@@ -175,51 +195,108 @@ public class Dart extends MissileWeapon {
 	protected void onThrow(int cell) {
 		updateCrossbow();
 		updateExplosiveCrossbow();
-		if (exbow != null) {
-			Char enemy = Actor.findChar( cell );
-			ArrayList<Char> targets = new ArrayList<>();
-			for (int i : PathFinder.NEIGHBOURS8){
-				if (Actor.findChar(cell + i) != null) targets.add(Actor.findChar(cell + i));
-			}
-			for (Char target : targets){
-				curUser.shoot(target, this);
-				if (target == hero && !target.isAlive()){
-					Dungeon.fail(getClass());
-					GLog.n(Messages.get(ExplosiveCrossbow.class, "ondeath"));
-				}
-			}
-			CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-			CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-			for (int n : PathFinder.NEIGHBOURS9) {
-				int c = cell + n;
-				if (c >= 0 && c < Dungeon.level.length()) {
-					if (Dungeon.level.heroFOV[c]) {
-						CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
-						CellEmitter.center(cell).burst(BlastParticle.FACTORY, 4);
-					}
-					if (Dungeon.level.flamable[c]) {
-						Dungeon.level.destroy(c);
-						GameScene.updateMap(c);
-					}
-				}
-			}
-			if (enemy != null) {
-				if (!curUser.shoot( enemy, this )) {
+		//we have to set this here, as on-hit effects can move the target we aim at
+		chargedShotPos = cell;
+		super.onThrow(cell);
+	}
 
+	private boolean processingChargedShot = false;
+	private int chargedShotPos;
+	protected void processChargedShot( Char target, int dmg ){
+		//don't update xbow here, as dart may be the active weapon atm
+		processingChargedShot = true;
+		if (chargedShotPos != -1 && (bow != null && Dungeon.hero.buff(Crossbow.ChargedShot.class) != null)) {
+			PathFinder.buildDistanceMap(chargedShotPos, Dungeon.level.passable, 1);
+			//necessary to clone as some on-hit effects use Pathfinder
+			int[] distance = PathFinder.distance.clone();
+			for (Char ch : Actor.chars()){
+				if (ch == target){
+					Actor.add(new Actor() {
+						{ actPriority = VFX_PRIO; }
+						@Override
+						protected boolean act() {
+							if (!ch.isAlive()){
+								bow.onAbilityKill(Dungeon.hero);
+							}
+							Actor.remove(this);
+							return true;
+						}
+					});
+				} else if (distance[ch.pos] != Integer.MAX_VALUE){
+					proc(Dungeon.hero, ch, dmg);
 				}
 			}
-			decrementDurability();
-			Sample.INSTANCE.play( Assets.Sounds.BLAST );
-			if (durability <= 0){
-				Dungeon.level.drop(new Dart(), cell).sprite.drop();
+		}
+		if (chargedShotPos != -1 && exbow != null) {
+			int dist = (Dungeon.hero.buff(ExplosiveCrossbow.ExplosiveEnhance.class) != null) ? 2 : 1;
+			PathFinder.buildDistanceMap(chargedShotPos, Dungeon.level.passable, dist);
+			if (Dungeon.hero.buff(ExplosiveCrossbow.ExplosiveEnhance.class) != null) {
+				for (int i : PathFinder.NEIGHBOURS25){
+					int c = chargedShotPos + i;
+					if (c >= 0 && c < Dungeon.level.length()) {
+						if (Dungeon.level.heroFOV[c]) {
+							CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
+							CellEmitter.center(chargedShotPos).burst(BlastParticle.FACTORY, 4);
+						}
+						if (Dungeon.level.flamable[c]) {
+							Dungeon.level.destroy(c);
+							GameScene.updateMap(c);
+						}
+					}
+				}
 			} else {
-				Heap heap = Dungeon.level.drop( this, cell );
-				if (!heap.isEmpty()) {
-					heap.sprite.drop( cell );
+				for (int i : PathFinder.NEIGHBOURS9){
+					int c = chargedShotPos + i;
+					if (c >= 0 && c < Dungeon.level.length()) {
+						if (Dungeon.level.heroFOV[c]) {
+							CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
+							CellEmitter.center(chargedShotPos).burst(BlastParticle.FACTORY, 4);
+						}
+						if (Dungeon.level.flamable[c]) {
+							Dungeon.level.destroy(c);
+							GameScene.updateMap(c);
+						}
+					}
 				}
 			}
-		} else {
-			super.onThrow(cell);
+			//necessary to clone as some on-hit effects use Pathfinder
+			int[] distance = PathFinder.distance.clone();
+			for (Char ch : Actor.chars()){
+				if (ch == target){
+					Actor.add(new Actor() {
+						{ actPriority = VFX_PRIO; }
+						@Override
+						protected boolean act() {
+							if (!ch.isAlive()){
+								exbow.onAbilityKill(Dungeon.hero);
+							}
+							Actor.remove(this);
+							return true;
+						}
+					});
+				} else if (distance[ch.pos] != Integer.MAX_VALUE){
+					proc(Dungeon.hero, ch, dmg);
+				}
+				if (ch != target && distance[ch.pos] != Integer.MAX_VALUE){
+					int damage = damageRoll(Dungeon.hero);
+					damage -= ch.drRoll();
+					ch.damage(damage, Dungeon.hero);
+				}
+			}
+			Sample.INSTANCE.play(Assets.Sounds.BLAST);
+		}
+		chargedShotPos = -1;
+		processingChargedShot = false;
+	}
+
+	@Override
+	protected void decrementDurability() {
+		super.decrementDurability();
+		if (Dungeon.hero.buff(Crossbow.ChargedShot.class) != null) {
+			Dungeon.hero.buff(Crossbow.ChargedShot.class).detach();
+		}
+		if (Dungeon.hero.buff(ExplosiveCrossbow.ExplosiveEnhance.class) != null) {
+			Dungeon.hero.buff(ExplosiveCrossbow.ExplosiveEnhance.class).detach();
 		}
 	}
 

@@ -22,6 +22,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class WornKatana extends MeleeWeapon {
@@ -45,5 +47,15 @@ public class WornKatana extends MeleeWeapon {
     public int max(int lvl) {
         return  5*(tier+2) +
                 lvl*(tier+2);
+    }
+
+    @Override
+    public String targetingPrompt() {
+        return Messages.get(this, "prompt");
+    }
+
+    @Override
+    protected void duelistAbility(Hero hero, Integer target) {
+        Katana.flashSlashAbility(hero, target, 0.6f, this);
     }
 }

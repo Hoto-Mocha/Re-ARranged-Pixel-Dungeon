@@ -68,6 +68,11 @@ public class Focusing extends Buff {
         BuffIndicator.refreshHero(); //refresh the buff visually on-hit
     }
 
+    //@Override
+    //public String iconTextDisplay() {
+    //    return Integer.toString((int)focusTime);
+    //}
+
     @Override
     public void detach() {
         super.detach();

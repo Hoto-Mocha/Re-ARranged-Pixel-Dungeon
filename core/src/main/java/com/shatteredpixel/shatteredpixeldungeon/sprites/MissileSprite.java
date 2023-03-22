@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,6 +122,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Kunai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
@@ -179,6 +180,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 	static {
 		ANGULAR_SPEEDS.put(Dart.class,          0);
 		ANGULAR_SPEEDS.put(ThrowingKnife.class, 0);
+		ANGULAR_SPEEDS.put(ThrowingSpike.class, 0);
 		ANGULAR_SPEEDS.put(FishingSpear.class,  0);
 		ANGULAR_SPEEDS.put(ThrowingSpear.class, 0);
 		ANGULAR_SPEEDS.put(Kunai.class,         0);
@@ -338,7 +340,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		}
 		
 		float speed = SPEED;
-		if (item instanceof Dart && (Dungeon.hero.belongings.weapon() instanceof Crossbow || Dungeon.hero.belongings.weapon() instanceof ExplosiveCrossbow)) {
+		if (item instanceof Dart
+				&& ((Dungeon.hero.belongings.weapon() instanceof Crossbow || Dungeon.hero.belongings.weapon() instanceof ExplosiveCrossbow)
+				|| (Dungeon.hero.belongings.secondWep() instanceof Crossbow || Dungeon.hero.belongings.secondWep() instanceof ExplosiveCrossbow))){
 			speed *= 3f;
 		} else if ((item instanceof FishingSpear
 				|| item instanceof ThrowingSpear
@@ -353,74 +357,30 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				|| item instanceof TenguSprite.TenguShuriken){
 			speed *= 1.5f;
 		} else if (item instanceof CrudePistol.Bullet
-				|| item instanceof CrudePistolAP.Bullet
-				|| item instanceof CrudePistolHP.Bullet
 				|| item instanceof Pistol.Bullet
-				|| item instanceof PistolAP.Bullet
-				|| item instanceof PistolHP.Bullet
 				|| item instanceof GoldenPistol.Bullet
-				|| item instanceof GoldenPistolAP.Bullet
-				|| item instanceof GoldenPistolHP.Bullet
 				|| item instanceof Handgun.Bullet
-				|| item instanceof HandgunAP.Bullet
-				|| item instanceof HandgunHP.Bullet
 				|| item instanceof Magnum.Bullet
-				|| item instanceof MagnumAP.Bullet
-				|| item instanceof MagnumHP.Bullet
 				|| item instanceof TacticalHandgun.Bullet
-				|| item instanceof TacticalHandgunAP.Bullet
-				|| item instanceof TacticalHandgunHP.Bullet
 				|| item instanceof AutoHandgun.Bullet
-				|| item instanceof AutoHandgunAP.Bullet
-				|| item instanceof AutoHandgunHP.Bullet
 
 				|| item instanceof DualPistol.Bullet
-				|| item instanceof DualPistolAP.Bullet
-				|| item instanceof DualPistolHP.Bullet
 				|| item instanceof SubMachinegun.Bullet
-				|| item instanceof SubMachinegunAP.Bullet
-				|| item instanceof SubMachinegunHP.Bullet
 				|| item instanceof AssultRifle.Bullet
-				|| item instanceof AssultRifleAP.Bullet
-				|| item instanceof AssultRifleHP.Bullet
 				|| item instanceof HeavyMachinegun.Bullet
-				|| item instanceof HeavyMachinegunAP.Bullet
-				|| item instanceof HeavyMachinegunHP.Bullet
 				|| item instanceof MiniGun.Bullet
-				|| item instanceof MiniGunAP.Bullet
-				|| item instanceof MiniGunHP.Bullet
 				|| item instanceof AutoRifle.Bullet
-				|| item instanceof AutoRifleAP.Bullet
-				|| item instanceof AutoRifleHP.Bullet
 
 				|| item instanceof Revolver.Bullet
-				|| item instanceof RevolverAP.Bullet
-				|| item instanceof RevolverHP.Bullet
 				|| item instanceof HuntingRifle.Bullet
-				|| item instanceof HuntingRifleAP.Bullet
-				|| item instanceof HuntingRifleHP.Bullet
 				|| item instanceof Carbine.Bullet
-				|| item instanceof CarbineAP.Bullet
-				|| item instanceof CarbineHP.Bullet
 				|| item instanceof SniperRifle.Bullet
-				|| item instanceof SniperRifleAP.Bullet
-				|| item instanceof SniperRifleHP.Bullet
 				|| item instanceof AntimaterRifle.Bullet
-				|| item instanceof AntimaterRifleAP.Bullet
-				|| item instanceof AntimaterRifleHP.Bullet
 				|| item instanceof MarksmanRifle.Bullet
-				|| item instanceof MarksmanRifleAP.Bullet
-				|| item instanceof MarksmanRifleHP.Bullet
 				|| item instanceof WA2000.Bullet
-				|| item instanceof WA2000AP.Bullet
-				|| item instanceof WA2000HP.Bullet
 
 				|| item instanceof ShotGun.Bullet
-				|| item instanceof ShotGunAP.Bullet
-				|| item instanceof ShotGunHP.Bullet
 				|| item instanceof KSG.Bullet
-				|| item instanceof KSGAP.Bullet
-				|| item instanceof KSGHP.Bullet
 
 				|| item instanceof RPG7.Rocket
 				|| item instanceof WindBow.SpiritArrow
@@ -442,11 +402,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		) {
 			speed *= 1.2f;
 		} else if (item instanceof FlameThrower.Bullet
-				|| item instanceof FlameThrowerAP.Bullet
-				|| item instanceof FlameThrowerHP.Bullet
 				|| item instanceof PlasmaCannon.Bullet
-				|| item instanceof PlasmaCannonAP.Bullet
-				|| item instanceof PlasmaCannonHP.Bullet
 				|| item instanceof MissileButton.Rocket
 		) {
 			speed *= 100f;

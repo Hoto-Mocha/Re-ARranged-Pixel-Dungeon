@@ -21,66 +21,62 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Bundle;
-
-import java.util.ArrayList;
 
 public class WornShortsword_Energy extends EnergyWeapon {
 
-	{
-		image = ItemSpriteSheet.WORN_SHORTSWORD_ENERGY;
-		hitSoundPitch = 1.1f;
+    {
+        image = ItemSpriteSheet.WORN_SHORTSWORD_ENERGY;
+        hitSoundPitch = 1.1f;
 
-		tier = 1;
+        tier = 1;
 
-		bones = false;
+        bones = false;
 
-		chargePerHit = 2;
-		chargeUsePerHit = 4;
-	}
+        chargePerHit = 2;
+        chargeUsePerHit = 4;
+    }
 
-	@Override
-	public int max(int lvl) {
-		return  6*(tier+2) +
-				lvl;
-	}
+    @Override
+    public int max(int lvl) {
+        return 6 * (tier + 2) +
+                lvl;
+    }
 
-	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+    @Override
+    public float abilityChargeUse(Hero hero) {
+        if (hero.buff(Sword.CleaveTracker.class) != null) {
+            return 0;
+        } else {
+            return super.abilityChargeUse(hero);
+        }
+    }
 
-		{
-			inputs =  new Class[]{WornShortsword.class, ScrollOfUpgrade.class, LiquidMetal.class};
-			inQuantity = new int[]{1, 1, 10};
+    @Override
+    public String targetingPrompt() {
+        return Messages.get(this, "prompt");
+    }
 
-			cost = 8;
+    @Override
+    protected void duelistAbility(Hero hero, Integer target) {
+        Sword.cleaveAbility(hero, target, 1.33f, this);
+    }
 
-			output = WornShortsword_Energy.class;
-			outQuantity = 1;
-		}
-	}
+    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+        {
+            inputs = new Class[]{WornShortsword.class, ScrollOfUpgrade.class, LiquidMetal.class};
+            inQuantity = new int[]{1, 1, 10};
+
+            cost = 8;
+
+            output = WornShortsword_Energy.class;
+            outQuantity = 1;
+        }
+    }
 
 }

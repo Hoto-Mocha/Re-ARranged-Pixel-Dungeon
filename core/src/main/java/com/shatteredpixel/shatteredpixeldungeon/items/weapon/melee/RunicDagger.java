@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger.sneakAbility;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -81,6 +83,16 @@ public class RunicDagger extends MeleeWeapon {
 			}
 		}
 		return super.damageRoll(owner);
+	}
+
+	@Override
+	public float abilityChargeUse( Hero hero ) {
+		return 2*super.abilityChargeUse(hero);
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		sneakAbility(hero, 5, this);
 	}
 
 }

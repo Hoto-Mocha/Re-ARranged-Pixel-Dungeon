@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,27 +32,27 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GunEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.IntervalWeaponUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.KnightsBlocking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.UpgradeShare;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.TreasureMap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Annoying;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Displacing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Dazzling;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Displacing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Explosive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Friendly;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Polarized;
@@ -77,85 +77,38 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampir
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Venomous;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundlable;
@@ -340,21 +293,25 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 
 	protected float speedMultiplier(Char owner ){
-		return RingOfFuror.attackSpeedMultiplier(owner);
+		float multi = RingOfFuror.attackSpeedMultiplier(owner);
+
+		if (owner.buff(Scimitar.SwordDance.class) != null){
+			multi += 0.6f;
+		}
+
+		return multi;
 	}
 
 	@Override
 	public int reachFactor(Char owner) {
 		int reach = RCH;
-		if (hasEnchant(Projecting.class, owner)) {
-			reach += 1 + Math.round(RingOfArcana.enchantPowerMultiplier(owner));
-		}
 		if (hero.hasTalent(Talent.VINE_WHIP) && owner == hero) {
 			reach += hero.pointsInTalent(Talent.VINE_WHIP);
 		}
 		if (hero.hasTalent(Talent.SPEAR_N_SHIELD) && owner == hero) {
 			switch (hero.pointsInTalent(Talent.SPEAR_N_SHIELD)) {
-				case 1: default:
+				case 1:
+				default:
 					if (hero.buff(KnightsBlocking.class) != null) {
 						reach += 1;
 					}
@@ -369,7 +326,17 @@ abstract public class Weapon extends KindOfWeapon {
 					break;
 			}
 		}
-		return reach;
+		if (owner instanceof Hero && RingOfForce.fightingUnarmed((Hero) owner)) {
+			reach = 1; //brawlers stance benefits from enchantments, but not innate reach
+			if (!RingOfForce.unarmedGetsWeaponEnchantment((Hero) owner)) {
+				return reach;
+			}
+		}
+		if (hasEnchant(Projecting.class, owner)) {
+			return reach + Math.round(enchantment.procChanceMultiplier(owner));
+		} else {
+			return reach;
+		}
 	}
 
 	public int STRReq(){
@@ -473,8 +440,10 @@ abstract public class Weapon extends KindOfWeapon {
 		}
 		
 		cursed = false;
-		
-		return super.upgrade();
+
+		Item result = super.upgrade();
+		Badges.validateDuelistUnlock();
+		return result;
 	}
 	
 	@Override
@@ -569,17 +538,33 @@ abstract public class Weapon extends KindOfWeapon {
 		public abstract int proc( Weapon weapon, Char attacker, Char defender, int damage );
 
 		protected float procChanceMultiplier( Char attacker ){
+			return genericProcChanceMultiplier( attacker );
+		}
+
+		public static float genericProcChanceMultiplier( Char attacker ){
 			float multi = RingOfArcana.enchantPowerMultiplier(attacker);
 			Berserk rage = attacker.buff(Berserk.class);
 			if (rage != null) {
 				multi = rage.enchantFactor(multi);
 			}
+
 			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.ARCANE_ATTACK)) {
 				SerialAttack serialAttack = attacker.buff(SerialAttack.class);
 				if (serialAttack != null) {
 					multi += (serialAttack.getCount() * 0.05f) * ((Hero) attacker).pointsInTalent(Talent.ARCANE_ATTACK);
 				}
 			}
+
+			if (attacker.buff(RunicBlade.RunicSlashTracker.class) != null){
+				multi += 2.5f;
+				attacker.buff(RunicBlade.RunicSlashTracker.class).detach();
+			}
+
+			if (attacker.buff(ElementalStrike.DirectedPowerTracker.class) != null){
+				multi += attacker.buff(ElementalStrike.DirectedPowerTracker.class).enchBoost;
+				attacker.buff(ElementalStrike.DirectedPowerTracker.class).detach();
+			}
+
 			if (attacker.buff(Talent.SpiritBladesTracker.class) != null
 					&& ((Hero)attacker).pointsInTalent(Talent.SPIRIT_BLADES) == 4){
 				multi += 0.1f;
@@ -588,8 +573,17 @@ abstract public class Weapon extends KindOfWeapon {
 					&& ((Hero)attacker).pointsInTalent(Talent.STRIKING_WAVE) == 4){
 				multi += 0.2f;
 			}
+
 			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.MYSTICAL_POWER)) {
 				multi += 0.1f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
+			}
+
+			if (attacker.buff(MonkEnergy.MonkAbility.FlurryEmpowerTracker.class) != null){
+				multi *= 0.75f;
+			}
+
+			if (attacker.buff(TrueRunicBlade.EnchantEmpower.class) != null) {
+				multi += 1.5f;
 			}
 			return multi;
 		}

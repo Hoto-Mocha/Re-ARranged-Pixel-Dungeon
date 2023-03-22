@@ -56,7 +56,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -100,6 +99,9 @@ public class PlasmaCannon extends MeleeWeapon {
         hitSoundPitch = 0.8f;
 
         tier = 5;
+
+        gun = true;
+        heavyGun = true;
     }
 
     private static final String ROUND = "round";
@@ -144,6 +146,16 @@ public class PlasmaCannon extends MeleeWeapon {
             actions.add(AC_RELOAD);
         }
         return actions;
+    }
+
+    @Override
+    public float abilityChargeUse( Hero hero ) {
+        return 0;
+    }
+
+    @Override
+    protected void duelistAbility(Hero hero, Integer target) {
+        CrudePistol.shootAbility(hero, this);
     }
 
     @Override
@@ -251,54 +263,18 @@ public class PlasmaCannon extends MeleeWeapon {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
         reload_time = 3f* RingOfReload.reloadMultiplier(Dungeon.hero);
-        String info = desc();
+        String info = super.info();
 
         if (levelKnown) {
-            info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
-            if (STRReq() > Dungeon.hero.STR()) {
-                info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (Dungeon.hero.STR() > STRReq()){
-                info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
-            }
-            info += "\n\n" + Messages.get(PlasmaCannon.class, "stats_known",
-                    Bulletmin(PlasmaCannon.this.buffedLvl()),
-                    Bulletmax(PlasmaCannon.this.buffedLvl()),
+            info += "\n\n" + Messages.get(CrudePistol.class, "stats_known",
+                    Bulletmin(this.buffedLvl()),
+                    Bulletmax(this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
-            info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-            if (STRReq(0) > Dungeon.hero.STR()) {
-                info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
-            }
-            info += "\n\n" + Messages.get(PlasmaCannon.class, "stats_unknown",
+            info += "\n\n" + Messages.get(CrudePistol.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
-        }
-
-        String statsInfo = statsInfo();
-        if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
-
-        switch (augment) {
-            case SPEED:
-                info += " " + Messages.get(Weapon.class, "faster");
-                break;
-            case DAMAGE:
-                info += " " + Messages.get(Weapon.class, "stronger");
-                break;
-            case NONE:
-        }
-
-        if (enchantment != null && (cursedKnown || !enchantment.curse())){
-            info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
-            info += " " + Messages.get(enchantment, "desc");
-        }
-
-        if (cursed && isEquipped( Dungeon.hero )) {
-            info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
-        } else if (cursedKnown && cursed) {
-            info += "\n\n" + Messages.get(Weapon.class, "cursed");
-        } else if (!isIdentified() && cursedKnown){
-            info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
         }
 
         if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
@@ -502,6 +478,7 @@ public class PlasmaCannon extends MeleeWeapon {
             curUser.sprite.parent.add(new Beam.DeathRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( cells )));
             for (Char ch : chars) {
                 int damage = damageRoll(hero);
+                damage += Random.NormalIntRange(chars.size(), 3*chars.size()); //almost +1 upgrade effect per char
                 ch.damage(damage, hero);
                 ch.sprite.centerEmitter().burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
                 ch.sprite.flash();
@@ -553,6 +530,12 @@ public class PlasmaCannon extends MeleeWeapon {
                             reload();
                         } else {
                             knockBullet().cast(curUser, target);
+                            if (hero.buff(MeleeWeapon.PrecisionShooting.class) != null &&
+                                    hero.buff(MeleeWeapon.Charger.class) != null &&
+                                    hero.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
+                                    hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+                                hero.buff(MeleeWeapon.Charger.class).charges--;
+                            }
                         }
                     }
                 }

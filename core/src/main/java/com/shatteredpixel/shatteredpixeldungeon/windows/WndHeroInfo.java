@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,8 +31,6 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
@@ -41,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.TalentsPane;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.ui.Component;
+import com.watabou.utils.DeviceCompat;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -71,6 +70,9 @@ public class WndHeroInfo extends WndTabbed {
 				break;
 			case HUNTRESS:
 				tabIcon = new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
+				break;
+			case DUELIST:
+				tabIcon = new ItemSprite(ItemSpriteSheet.RAPIER, null);
 				break;
 			case GUNNER:
 				tabIcon = new ItemSprite(ItemSpriteSheet.MAGNUM, null);
@@ -114,7 +116,7 @@ public class WndHeroInfo extends WndTabbed {
 			}
 		});
 
-		if (Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_2)) {
+		if (Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_2) || DeviceCompat.isDebug()) {
 			subclassInfo = new SubclassInfoTab(cl);
 			add(subclassInfo);
 			subclassInfo.setSize(WIDTH, MIN_HEIGHT);
@@ -129,7 +131,7 @@ public class WndHeroInfo extends WndTabbed {
 			});
 		}
 
-		if (Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_4)) {
+		if (Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_4) || DeviceCompat.isDebug()) {
 			abilityInfo = new ArmorAbilityInfoTab(cl);
 			add(abilityInfo);
 			abilityInfo.setSize(WIDTH, MIN_HEIGHT);
@@ -203,32 +205,38 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.GLOVES),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
+				case DUELIST:
+					icons = new Image[]{new ItemSprite(ItemSpriteSheet.RAPIER),
+							new ItemSprite(ItemSpriteSheet.WAR_HAMMER),
+							new ItemSprite(ItemSpriteSheet.THROWING_SPIKE),
+							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
 				case GUNNER:
-					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.RING_SAPPHIRE),
+					icons = new Image[]{new ItemSprite(ItemSpriteSheet.RING_SAPPHIRE),
 							new ItemSprite(ItemSpriteSheet.EVOLUTION),
 							new ItemSprite(ItemSpriteSheet.CRUDE_PISTOL),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 				case SAMURAI:
-					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.RING_RUBY),
+					icons = new Image[]{new ItemSprite(ItemSpriteSheet.RING_RUBY),
 							new ItemSprite(ItemSpriteSheet.SHEATH),
 							new ItemSprite(ItemSpriteSheet.WORN_KATANA),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 				case PLANTER:
-					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.ARTIFACT_GREAVES),
+					icons = new Image[]{new ItemSprite(ItemSpriteSheet.ARTIFACT_GREAVES),
 							new Image(Assets.Environment.TILES_SEWERS, 112, 96, 16, 16),
 							new ItemSprite(ItemSpriteSheet.SHOVEL),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 				case KNIGHT:
-					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.KNIGHT_SHIELD),
+					icons = new Image[]{new ItemSprite(ItemSpriteSheet.KNIGHT_SHIELD),
 							new Image(Assets.Interfaces.BUFFS_LARGE, 112, 0, 16, 16),
 							new ItemSprite(ItemSpriteSheet.SABER),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 				case NURSE:
-					icons = new Image[] { new ItemSprite(ItemSpriteSheet.GAMMA_RAY_GUN),
+					icons = new Image[]{new ItemSprite(ItemSpriteSheet.GAMMA_RAY_GUN),
 							new Image(Assets.Interfaces.BUFFS_LARGE, 80, 64, 16, 16),
 							new ItemSprite(ItemSpriteSheet.HEAL_BOOK),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};

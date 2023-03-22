@@ -24,7 +24,6 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeSword;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
@@ -45,8 +44,14 @@ public class LargeSwordBuff extends Buff {
     float maxAccuracy;
     int turn = 0;
 
-    public void setDamageFactor(float lvl) {
-        turn++;
+    boolean secondWep = false;
+
+    public void setDamageFactor(float lvl, boolean isSecond) {
+        setDamageFactor(lvl, 1, isSecond);
+    }
+    public void setDamageFactor(float lvl, int amount, boolean isSecond) {
+        secondWep = isSecond;
+        turn += amount;
         maxDamage = 1.80f + 0.20f * (lvl + 1);
         maxAccuracy = 1.40f + 0.10f * (lvl + 1);
         damageFactor += 0.20f;
@@ -109,8 +114,14 @@ public class LargeSwordBuff extends Buff {
     @Override
     public boolean act() {
         if (pos == -1) pos = target.pos;
-        if (item == null) item = hero.belongings.weapon;
-        if (item != hero.belongings.weapon) {
+        if (item == null) {
+            if (secondWep) {
+                item = hero.belongings.secondWep;
+            } else {
+                item = hero.belongings.weapon;
+            }
+        }
+        if (item != hero.belongings.weapon && item != hero.belongings.secondWep) {
             detach();
         }
         if (pos != target.pos) {

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
@@ -54,67 +55,28 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetributio
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -171,7 +133,6 @@ public class DriedRose extends Artifact {
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
 		if (!Ghost.Quest.completed()){
-			actions.remove(AC_EQUIP);
 			return actions;
 		}
 		if (isEquipped( hero )
@@ -189,6 +150,15 @@ public class DriedRose extends Artifact {
 		}
 		
 		return actions;
+	}
+
+	@Override
+	public String defaultAction() {
+		if (ghost != null){
+			return AC_DIRECT;
+		} else {
+			return AC_SUMMON;
+		}
 	}
 
 	@Override
@@ -230,7 +200,7 @@ public class DriedRose extends Artifact {
 					hero.sprite.operate(hero.pos);
 
 					if (!firstSummon) {
-						ghost.yell( Messages.get(GhostHero.class, "hello", Dungeon.hero.name()) );
+						ghost.yell( Messages.get(GhostHero.class, "hello", Messages.titleCase(Dungeon.hero.name())) );
 						Sample.INSTANCE.play( Assets.Sounds.GHOST );
 						firstSummon = true;
 						
@@ -242,6 +212,7 @@ public class DriedRose extends Artifact {
 						}
 					}
 
+					Invisibility.dispel(hero);
 					Talent.onArtifactUsed(hero);
 					charge = 0;
 					partialCharge = 0;
@@ -273,7 +244,8 @@ public class DriedRose extends Artifact {
 
 	@Override
 	public String desc() {
-		if (!Ghost.Quest.completed() && !isIdentified()){
+		if (!Ghost.Quest.completed()
+				&& (ShatteredPixelDungeon.scene() instanceof GameScene || ShatteredPixelDungeon.scene() instanceof AlchemyScene)){
 			return Messages.get(this, "desc_no_quest");
 		}
 		
@@ -442,8 +414,6 @@ public class DriedRose extends Artifact {
 		ghostID = bundle.getInt( GHOSTID );
 		droppedPetals = bundle.getInt( PETALS );
 		
-		if (ghostID != 0) defaultAction = AC_DIRECT;
-		
 		if (bundle.contains(WEAPON)) weapon = (MeleeWeapon)bundle.get( WEAPON );
 		if (bundle.contains(ARMOR))  armor = (Armor)bundle.get( ARMOR );
 	}
@@ -470,7 +440,6 @@ public class DriedRose extends Artifact {
 			
 			//rose does not charge while ghost hero is alive
 			if (ghost != null && !cursed && target.buff(MagicImmune.class) == null){
-				defaultAction = AC_DIRECT;
 				
 				//heals to full over 500 turns
 				LockedFloor lock = target.buff(LockedFloor.class);
@@ -487,8 +456,6 @@ public class DriedRose extends Artifact {
 				}
 				
 				return true;
-			} else {
-				defaultAction = AC_SUMMON;
 			}
 			
 			LockedFloor lock = target.buff(LockedFloor.class);
@@ -858,23 +825,22 @@ public class DriedRose extends Artifact {
 		
 		@Override
 		public int drRoll() {
-			int block = 0;
+			int dr = super.drRoll();
 			if (rose != null && rose.armor != null){
 				if (Dungeon.hero.belongings.armor == null) {
-					block += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax());
+					dr += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax());
 				} else {
-					block += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax()) + Math.round(Random.NormalIntRange(Dungeon.hero.belongings.armor.DRMin(), Dungeon.hero.belongings.armor.DRMax())/4f);
+					dr += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax()) + Math.round(Random.NormalIntRange(Dungeon.hero.belongings.armor.DRMin(), Dungeon.hero.belongings.armor.DRMax())/4f);
 				}
 			}
 			if (rose != null && rose.weapon != null){
 				if (Dungeon.hero.belongings.weapon == null) {
-					block += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this ));
+					dr += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this ));
 				} else {
-					block += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this )) + Math.round(Random.NormalIntRange(0, Dungeon.hero.belongings.weapon.defenseFactor(this))/4f);
+					dr += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this )) + Math.round(Random.NormalIntRange(0, Dungeon.hero.belongings.weapon.defenseFactor(this))/4f);
 				}
-
 			}
-			return block;
+			return dr;
 		}
 
 		//used in some glyph calculations
@@ -928,7 +894,6 @@ public class DriedRose extends Artifact {
 				rose.charge = 0;
 				rose.partialCharge = 0;
 				rose.ghostID = -1;
-				rose.defaultAction = AC_SUMMON;
 			}
 			super.destroy();
 		}

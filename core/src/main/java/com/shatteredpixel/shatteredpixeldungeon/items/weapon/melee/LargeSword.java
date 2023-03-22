@@ -24,13 +24,10 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LargeSwordBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.PathFinder;
 
 public class LargeSword extends MeleeWeapon {
 
@@ -44,31 +41,18 @@ public class LargeSword extends MeleeWeapon {
 	}
 
 	@Override
-	public int proc(Char attacker, Char defender, int damage ) {
-		LargeSwordBuff buff = Dungeon.hero.buff(LargeSwordBuff.class);
-		if (attacker instanceof Hero && buff != null) {
-			damage *= buff.getDamageFactor();
-			if (buff.getDamageFactor() > 2) {
-				int cell = defender.pos;
-				for (int k : PathFinder.NEIGHBOURS8){
-					Char ch = Actor.findChar( cell+k );
-					if (ch != null && ch.alignment != Char.Alignment.ALLY){
-						ch.damage(Math.round(damage * 0.4f), Dungeon.hero);
-					}
-				}
-
-				WandOfBlastWave.BlastWave.blast(cell);
-				Sample.INSTANCE.play( Assets.Sounds.BLAST );
-			}
-			buff.detach();
-		}
-		return super.proc( attacker, defender, damage );
-	}
-
-	@Override
 	public int max(int lvl) {
 		return  Math.round(6.67f*(tier+1)) +    //40 base, up from 30
 				lvl*Math.round(1.33f*(tier+1)); //+8 per level, up from +6
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		beforeAbilityUsed(hero);
+		Buff.affect(hero, LargeSwordBuff.class).setDamageFactor(this.buffedLvl(), 4, (Dungeon.hero.belongings.secondWep instanceof LargeSword));
+		hero.sprite.operate(hero.pos);
+		hero.spendAndNext(Actor.TICK);
+		afterAbilityUsed(hero);
 	}
 
 }

@@ -21,8 +21,10 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 import com.watabou.utils.Bundle;
@@ -39,7 +41,9 @@ public class LanceBuff extends Buff {
     float damageFactor = 0;
     float maxDamage    = 2f;
 
-    public void setDamageFactor(float amount) {
+    boolean secondWep = false;
+    public void setDamageFactor(float amount, boolean isSecond) {
+        secondWep = isSecond;
         if (damageFactor < maxDamage && (damageFactor + 0.05f * amount) < maxDamage ) {
             damageFactor += 0.05f * amount;
         } else {
@@ -70,11 +74,22 @@ public class LanceBuff extends Buff {
         return Math.max(0, (maxDamage - damageFactor / maxDamage) - 1);
     }
 
+    Item item = null;
     @Override
     public boolean act() {
         damageFactor-=0.05f*TICK;
         spend(TICK);
         if (damageFactor <= 0) {
+            detach();
+        }
+        if (item == null) {
+            if (secondWep) {
+                item = hero.belongings.secondWep;
+            } else {
+                item = hero.belongings.weapon;
+            }
+        }
+        if (item != hero.belongings.weapon && item != hero.belongings.secondWep) {
             detach();
         }
         return true;

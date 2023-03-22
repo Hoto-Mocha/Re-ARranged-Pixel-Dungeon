@@ -107,7 +107,7 @@ public class SpearNShield extends MeleeWeapon {
         if (stance) {
             return 0;
         } else {
-            return 4+2*buffedLvl();     //4 extra defence, plus 2 per level;
+            return 4+buffedLvl();               //4 extra defence, plus 1 per level
         }
     }
 
@@ -150,6 +150,24 @@ public class SpearNShield extends MeleeWeapon {
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
         stance = bundle.getBoolean( STANCE );
+    }
+
+    @Override
+    public String targetingPrompt() {
+        if (stance) {
+            return Messages.get(this, "prompt");
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    protected void duelistAbility(Hero hero, Integer target) {
+        if (stance) {
+            Spear.spikeAbility(hero, target, 1.15f, this);
+        } else {
+            RoundShield.guardAbility(hero, 3, this);
+        }
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

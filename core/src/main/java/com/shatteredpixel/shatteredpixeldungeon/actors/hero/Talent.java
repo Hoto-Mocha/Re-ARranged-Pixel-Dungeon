@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,17 +28,16 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
+import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CertainCrit;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CritBonus;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ExtraBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
@@ -47,13 +46,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -64,6 +63,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
@@ -74,88 +74,41 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfCha
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrowerHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannonHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -170,188 +123,573 @@ import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 
 public enum Talent {
 
 	//Warrior T1
-	HEARTY_MEAL(0), ARMSMASTERS_INTUITION(1), TEST_SUBJECT(2), IRON_WILL(3), MAX_HEALTH(4),
+	HEARTY_MEAL						(0),
+	VETERANS_INTUITION				(1),
+	TEST_SUBJECT					(2),
+	IRON_WILL						(3),
+	MAX_HEALTH						(4),
 	//Warrior T2
-	IRON_STOMACH(5), RESTORED_WILLPOWER(6), RUNIC_TRANSFERENCE(7), LETHAL_MOMENTUM(8), IMPROVISED_PROJECTILES(9), HEALING_FACTOR(10),
+	IRON_STOMACH					(5),
+	RESTORED_WILLPOWER				(6),
+	RUNIC_TRANSFERENCE				(7),
+	LETHAL_MOMENTUM					(8),
+	IMPROVISED_PROJECTILES			(9),
+	HEALING_FACTOR					(10),
 	//Warrior T3
-	HOLD_FAST(11, 3), STRONGMAN(12, 3),
+	HOLD_FAST						(11, 3),
+	STRONGMAN						(12, 3),
 	//Berserker T3
-	ENDLESS_RAGE(13, 3), DEATHLESS_FURY(14, 3), ENRAGED_CATALYST(15, 3), LETHAL_RAGE(16, 3), MAX_RAGE(17, 3), ENDURANCE(18, 3),
+	ENDLESS_RAGE					(13, 3),
+	DEATHLESS_FURY					(14, 3),
+	ENRAGED_CATALYST				(15, 3),
+	LETHAL_RAGE						(16, 3),
+	MAX_RAGE						(17, 3),
+	ENDURANCE						(18, 3),
 	//Gladiator T3
-	CLEAVE(19, 3), LETHAL_DEFENSE(20, 3), ENHANCED_COMBO(21, 3), QUICK_SWAP(22, 3), OFFENSIVE_DEFENSE(23, 3), SKILL_ENHANCE(24, 3),
+	CLEAVE							(19, 3),
+	LETHAL_DEFENSE					(20, 3),
+	ENHANCED_COMBO					(21, 3),
+	QUICK_SWAP						(22, 3),
+	OFFENSIVE_DEFENSE				(23, 3),
+	SKILL_ENHANCE					(24, 3),
 	//Veteran T3
-	ARM_VETERAN(25, 3), MARTIAL_ARTS(26, 3), ENHANCED_FOCUSING(27, 3), PUSHBACK(28, 3), FOCUS_UPGRADE(29, 3), BARRIER_FORMATION(30, 3),
+	ARM_VETERAN						(25, 3),
+	MARTIAL_ARTS					(26, 3),
+	ENHANCED_FOCUSING				(27, 3),
+	PUSHBACK						(28, 3),
+	FOCUS_UPGRADE					(29, 3),
+	BARRIER_FORMATION				(30, 3),
 	//Heroic Leap T4
-	BODY_SLAM(31, 4), IMPACT_WAVE(32, 4), DOUBLE_JUMP(33, 4),
+	BODY_SLAM						(31, 4),
+	IMPACT_WAVE						(32, 4),
+	DOUBLE_JUMP						(33, 4),
 	//Shockwave T4
-	EXPANDING_WAVE(34, 4), STRIKING_WAVE(35, 4), SHOCK_FORCE(36, 4),
+	EXPANDING_WAVE					(34, 4),
+	STRIKING_WAVE					(35, 4),
+	SHOCK_FORCE						(36, 4),
 	//Endure T4
-	SUSTAINED_RETRIBUTION(37, 4), SHRUG_IT_OFF(38, 4), EVEN_THE_ODDS(39, 4),
+	SUSTAINED_RETRIBUTION			(37, 4),
+	SHRUG_IT_OFF					(38, 4),
+	EVEN_THE_ODDS					(39, 4),
 
 	//Mage T1
-	EMPOWERING_MEAL(41), SCHOLARS_INTUITION(42), TESTED_HYPOTHESIS(43), BACKUP_BARRIER(44), CHARGE_PRESERVE(45),
+	EMPOWERING_MEAL					(44),
+	SCHOLARS_INTUITION				(45),
+	TESTED_HYPOTHESIS				(46),
+	BACKUP_BARRIER					(47),
+	CHARGE_PRESERVE					(48),
 	//Mage T2
-	ENERGIZING_MEAL(46), ENERGIZING_UPGRADE(47), WAND_PRESERVATION(48), ARCANE_VISION(49), SHIELD_BATTERY(50), FASTER_CHARGER(51),
+	ENERGIZING_MEAL					(49),
+	ENERGIZING_UPGRADE				(50),
+	WAND_PRESERVATION				(51),
+	ARCANE_VISION					(52),
+	SHIELD_BATTERY					(53),
+	FASTER_CHARGER					(54),
 	//Mage T3
-	EMPOWERING_SCROLLS(52, 3), ALLY_WARP(53, 3),
+	EMPOWERING_SCROLLS				(55, 3),
+	ALLY_WARP						(56, 3),
 	//Battlemage T3
-	EMPOWERED_STRIKE(54, 3), MYSTICAL_CHARGE(55, 3), EXCESS_CHARGE(56, 3), BATTLE_MAGIC(57, 3), MAGIC_RUSH(58, 3), MAGICAL_CIRCLE(59, 3),
+	EMPOWERED_STRIKE				(57, 3),
+	MYSTICAL_CHARGE					(58, 3),
+	EXCESS_CHARGE					(59, 3),
+	BATTLE_MAGIC					(60, 3),
+	MAGIC_RUSH						(61, 3),
+	MAGICAL_CIRCLE					(62, 3),
 	//Warlock T3
-	SOUL_EATER(60, 3), SOUL_SIPHON(61, 3), NECROMANCERS_MINIONS(62, 3), MADNESS(63, 3), ENHANCED_MARK(64, 3), MARK_OF_WEAKNESS(65, 3),
+	SOUL_EATER						(63, 3),
+	SOUL_SIPHON						(64, 3),
+	NECROMANCERS_MINIONS			(65, 3),
+	MADNESS							(66, 3),
+	ENHANCED_MARK					(67, 3),
+	MARK_OF_WEAKNESS				(68, 3),
 	//Engineer T3
-	AMMO_PRESERVE(66, 3), CONNECTING_CHARGER(67, 3), HIGH_VOLT(68, 3), STATIC_ENERGY(69, 3), BATTERY_CHARGE(70, 3), ELECTRIC_BULLET(71, 3),
+	AMMO_PRESERVE					(69, 3),
+	CONNECTING_CHARGER				(70, 3),
+	HIGH_VOLT						(71, 3),
+	STATIC_ENERGY					(72, 3),
+	BATTERY_CHARGE					(73, 3),
+	ELECTRIC_BULLET					(74, 3),
 	//Elemental Blast T4
-	BLAST_RADIUS(72, 4), ELEMENTAL_POWER(73, 4), REACTIVE_BARRIER(74, 4),
+	BLAST_RADIUS					(75, 4),
+	ELEMENTAL_POWER					(76, 4),
+	REACTIVE_BARRIER				(77, 4),
 	//Wild Magic T4
-	WILD_POWER(75, 4), FIRE_EVERYTHING(76, 4), CONSERVED_MAGIC(77, 4),
+	WILD_POWER						(78, 4),
+	FIRE_EVERYTHING					(79, 4),
+	CONSERVED_MAGIC					(80, 4),
 	//Warp Beacon T4
-	TELEFRAG(78, 4), REMOTE_BEACON(79, 4), LONGRANGE_WARP(80, 4),
+	TELEFRAG						(81, 4),
+	REMOTE_BEACON					(82, 4),
+	LONGRANGE_WARP					(83, 4),
 
 	//Rogue T1
-	CACHED_RATIONS(82), THIEFS_INTUITION(83), SUCKER_PUNCH(84), PROTECTIVE_SHADOWS(85), EMERGENCY_ESCAPE(86),
+	CACHED_RATIONS					(88),
+	THIEFS_INTUITION				(89),
+	SUCKER_PUNCH					(90),
+	PROTECTIVE_SHADOWS				(91),
+	EMERGENCY_ESCAPE				(92),
 	//Rogue T2
-	MYSTICAL_MEAL(87), MYSTICAL_UPGRADE(88), WIDE_SEARCH(89), SILENT_STEPS(90), ROGUES_FORESIGHT(91), MOVESPEED_ENHANCE(92),
+	MYSTICAL_MEAL					(93),
+	MYSTICAL_UPGRADE				(94),
+	WIDE_SEARCH						(95),
+	SILENT_STEPS					(96),
+	ROGUES_FORESIGHT				(97),
+	MOVESPEED_ENHANCE				(98),
 	//Rogue T3
-	ENHANCED_RINGS(93, 3), LIGHT_CLOAK(94, 3),
+	ENHANCED_RINGS					(99, 3),
+	LIGHT_CLOAK						(100, 3),
 	//Assassin T3
-	ENHANCED_LETHALITY(95, 3), ASSASSINS_REACH(96, 3), BOUNTY_HUNTER(97, 3), ENERGY_DRAW(98, 3), PERFECT_ASSASSIN(99, 3), CAUTIOUS_PREP(100, 3),
+	ENHANCED_LETHALITY				(101, 3),
+	ASSASSINS_REACH					(102, 3),
+	BOUNTY_HUNTER					(103, 3),
+	ENERGY_DRAW						(104, 3),
+	PERFECT_ASSASSIN				(105, 3),
+	CAUTIOUS_PREP					(106, 3),
 	//Freerunner T3
-	EVASIVE_ARMOR(101, 3), PROJECTILE_MOMENTUM(102, 3), SPEEDY_STEALTH(103, 3), QUICK_PREP(104, 3), OVERCOMING(105, 3), MOMENTARY_FOCUSING(106, 3),
+	EVASIVE_ARMOR					(107, 3),
+	PROJECTILE_MOMENTUM				(108, 3),
+	SPEEDY_STEALTH					(109, 3),
+	QUICK_PREP						(110, 3),
+	OVERCOMING						(111, 3),
+	MOMENTARY_FOCUSING				(112, 3),
 	//Chaser T3
-	POISONOUS_BLADE(107, 3), LETHAL_SURPRISE(108, 3), CHAIN_CLOCK(109, 3), SOUL_COLLECT(110, 3), TRAIL_TRACKING(111, 3), MASTER_OF_CLOAKING(112, 3),
+	POISONOUS_BLADE					(113, 3),
+	LETHAL_SURPRISE					(114, 3),
+	CHAIN_CLOCK						(115, 3),
+	SOUL_COLLECT					(116, 3),
+	TRAIL_TRACKING					(117, 3),
+	MASTER_OF_CLOAKING				(118, 3),
 	//Smoke Bomb T4
-	HASTY_RETREAT(113, 4), BODY_REPLACEMENT(114, 4), SHADOW_STEP(115, 4),
+	HASTY_RETREAT					(119, 4),
+	BODY_REPLACEMENT				(120, 4),
+	SHADOW_STEP						(121, 4),
 	//Death Mark T4
-	FEAR_THE_REAPER(116, 4), DEATHLY_DURABILITY(117, 4), DOUBLE_MARK(118, 4),
+	FEAR_THE_REAPER					(122, 4),
+	DEATHLY_DURABILITY				(123, 4),
+	DOUBLE_MARK						(124, 4),
 	//Shadow Clone T4
-	SHADOW_BLADE(119, 4), CLONED_ARMOR(120, 4), PERFECT_COPY(121, 4),
+	SHADOW_BLADE					(125, 4),
+	CLONED_ARMOR					(126, 4),
+	PERFECT_COPY					(127, 4),
 
 	//Huntress T1
-	NATURES_BOUNTY(123), SURVIVALISTS_INTUITION(124), FOLLOWUP_STRIKE(125), NATURES_AID(126), WATER_FRIENDLY(127),
+	NATURES_BOUNTY					(132),
+	SURVIVALISTS_INTUITION			(133),
+	FOLLOWUP_STRIKE					(134),
+	NATURES_AID						(135),
+	WATER_FRIENDLY					(136),
 	//Huntress T2
-	INVIGORATING_MEAL(128), RESTORED_NATURE(129), REJUVENATING_STEPS(130), HEIGHTENED_SENSES(131), DURABLE_PROJECTILES(132), ADDED_MEAL(133),
+	INVIGORATING_MEAL				(137),
+	RESTORED_NATURE					(138),
+	REJUVENATING_STEPS				(139),
+	HEIGHTENED_SENSES				(140),
+	DURABLE_PROJECTILES				(141),
+	ADDED_MEAL						(142),
 	//Huntress T3
-	POINT_BLANK(134, 3), SEER_SHOT(135, 3),
+	POINT_BLANK						(143, 3),
+	SEER_SHOT						(144, 3),
 	//Sniper T3
-	FARSIGHT(136, 3), SHARED_ENCHANTMENT(137, 3), SHARED_UPGRADES(138, 3), KICK(139, 3), SHOOTING_EYES(140, 3), TARGET_SPOTTING(141, 3),
+	FARSIGHT						(145, 3),
+	SHARED_ENCHANTMENT				(146, 3),
+	SHARED_UPGRADES					(147, 3),
+	KICK							(148, 3),
+	SHOOTING_EYES					(149, 3),
+	TARGET_SPOTTING					(150, 3),
 	//Warden T3
-	DURABLE_TIPS(142, 3), BARKSKIN(143, 3), SHIELDING_DEW(144, 3), DENSE_GRASS(145, 3), ATTRACTION(146, 3), WITHDRAW_TRAP(147, 3),
+	DURABLE_TIPS					(151, 3),
+	BARKSKIN						(152, 3),
+	SHIELDING_DEW					(153, 3),
+	DENSE_GRASS						(154, 3),
+	ATTRACTION						(155, 3),
+	WITHDRAW_TRAP					(156, 3),
 	//Fighter T3
-	SWIFT_MOVEMENT(148, 3), LESS_RESIST(149, 3), RING_KNUCKLE(150, 3), MYSTICAL_PUNCH(151, 3), QUICK_STEP(152, 3), COUNTER_ATTACK(153, 3),
+	SWIFT_MOVEMENT					(157, 3),
+	LESS_RESIST						(158, 3),
+	RING_KNUCKLE					(159, 3),
+	MYSTICAL_PUNCH					(160, 3),
+	QUICK_STEP						(161, 3),
+	COUNTER_ATTACK					(162, 3),
 	//Spectral Blades T4
-	FAN_OF_BLADES(154, 4), PROJECTING_BLADES(155, 4), SPIRIT_BLADES(156, 4),
+	FAN_OF_BLADES					(163, 4),
+	PROJECTING_BLADES				(164, 4),
+	SPIRIT_BLADES					(165, 4),
 	//Natures Power T4
-	GROWING_POWER(157, 4), NATURES_WRATH(158, 4), WILD_MOMENTUM(159, 4),
+	GROWING_POWER					(166, 4),
+	NATURES_WRATH					(167, 4),
+	WILD_MOMENTUM					(168, 4),
 	//Spirit Hawk T4
-	EAGLE_EYE(160, 4), GO_FOR_THE_EYES(161, 4), SWIFT_SPIRIT(162, 4),
+	EAGLE_EYE						(169, 4),
+	GO_FOR_THE_EYES					(170, 4),
+	SWIFT_SPIRIT					(171, 4),
+	//Duelist T1
+	STRENGTHENING_MEAL				(176),
+	ADVENTURERS_INTUITION			(177),
+	PATIENT_STRIKE					(178),
+	AGGRESSIVE_BARRIER				(179),
+	//???							(180),
+	//Duelist T2
+	FOCUSED_MEAL					(181),
+	RESTORED_AGILITY				(182),
+	WEAPON_RECHARGING				(183),
+	LETHAL_HASTE					(184),
+	SWIFT_EQUIP						(185),
+	//???							(186),
+	//Duelist T3
+	LIGHTWEIGHT_CHARGE				(187, 3),
+	DEADLY_FOLLOWUP					(188, 3),
+	//Champion T3
+	SECONDARY_CHARGE				(189, 3),
+	TWIN_UPGRADES					(190, 3),
+	COMBINED_LETHALITY				(191, 3),
+	//???							(192, 3),
+	//???							(193, 3),
+	//???							(194, 3),
+	//Monk T3
+	UNENCUMBERED_SPIRIT				(195, 3),
+	MONASTIC_VIGOR					(196, 3),
+	COMBINED_ENERGY					(197, 3),
+	//???							(198, 3),
+	//???							(199, 3),
+	//???							(200, 3),
+	//??? T3
+	//???							(201, 3),
+	//???							(202, 3),
+	//???							(203, 3),
+	//???							(204, 3),
+	//???							(205, 3),
+	//???							(206, 3),
+	//Challenge T4
+	CLOSE_THE_GAP					(207, 4),
+	INVIGORATING_VICTORY			(208, 4),
+	ELIMINATION_MATCH				(209, 4),
+	//Elemental Strike T4
+	ELEMENTAL_REACH					(210, 4),
+	STRIKING_FORCE					(211, 4),
+	DIRECTED_POWER					(212, 4),
+	//Feint T4
+	FEIGNED_RETREAT					(213, 4),
+	EXPOSE_WEAKNESS					(214, 4),
+	COUNTER_ABILITY					(215, 4),
+
+	//??? T1
+	//???							(220),
+	//???							(221),
+	//???							(222),
+	//???							(223),
+	//???							(224),
+	//??? T2
+	//???							(225),
+	//???							(226),
+	//???							(227),
+	//???							(228),
+	//???							(229),
+	//???							(230),
+	//??? T3
+	//???							(231, 3),
+	//???							(232, 3),
+	//??? T3
+	//???							(233, 3),
+	//???							(234, 3),
+	//???							(235, 3),
+	//???							(236, 3),
+	//???							(237, 3),
+	//???							(238, 3),
+	//??? T3
+	//???							(239, 3),
+	//???							(240, 3),
+	//???							(241, 3),
+	//???							(242, 3),
+	//???							(243, 3),
+	//???							(244, 3),
+	//??? T3
+	//???							(245, 3),
+	//???							(246, 3),
+	//???							(247, 3),
+	//???							(248, 3),
+	//???							(249, 3),
+	//???							(250, 3),
+	//??? T4
+	//???							(251, 4),
+	//???							(252, 4),
+	//???							(253, 4),
+	//??? T4
+	//???							(254, 4),
+	//???							(255, 4),
+	//???							(256, 4),
+	//??? T4
+	//???							(257, 4),
+	//???							(258, 4),
+	//???							(259, 4),
+
 
 	//Gunner T1
-	REARRANGE(164), GUNNERS_INTUITION(165), SPEEDY_MOVE(166), SAFE_RELOAD(167), MIND_VISION(168),
+	REARRANGE						(264),
+	GUNNERS_INTUITION				(265),
+	SPEEDY_MOVE						(266),
+	SAFE_RELOAD						(267),
+	MIND_VISION						(268),
 	//Gunner T2
-	IN_THE_GUNFIRE(169), ANOTHER_CHANCE(170), BULLET_FOCUS(171), CAMOUFLAGE(172), LARGER_MAGAZINE(173), TRANSMUTATION_CONTROL(174),
+	IN_THE_GUNFIRE					(269),
+	ANOTHER_CHANCE					(270),
+	BULLET_FOCUS					(271),
+	CAMOUFLAGE						(272),
+	LARGER_MAGAZINE					(273),
+	TRANSMUTATION_CONTROL			(274),
 	//Gunner T3
-	STREET_BATTLE(175, 3), FAST_RELOAD(176, 3),
+	STREET_BATTLE					(275, 3),
+	FAST_RELOAD						(276, 3),
 	//Marshal T3
-	JUSTICE_BULLET(177, 3), INTIMIDATION(178, 3), SEARCH(179, 3), COVER(180, 3), SURRENDER(181, 3), INVEST_END(182, 3),
+	JUSTICE_BULLET					(277, 3),
+	INTIMIDATION					(278, 3),
+	SEARCH							(279, 3),
+	COVER							(280, 3),
+	SURRENDER						(281, 3),
+	INVEST_END						(282, 3),
 	//Gunslinger T3
-	QUICK_RELOAD(183, 3), MOVING_SHOT(184, 3), ELEMENTAL_BULLET(185, 3), MYSTICAL_THROW(186, 3), SOUL_BULLET(187, 3), LIGHT_MOVEMENT(188, 3),
+	QUICK_RELOAD					(283, 3),
+	MOVING_SHOT						(284, 3),
+	ELEMENTAL_BULLET				(285, 3),
+	MYSTICAL_THROW					(286, 3),
+	SOUL_BULLET						(287, 3),
+	LIGHT_MOVEMENT					(288, 3),
 	//RifleMan T3
-	SILENCER(189, 3), SKILLFUL_RUNNER(190, 3), STEALTH(191, 3), INTO_THE_SHADOW(192, 3), RANGED_SNIPING(193, 3), TELESCOPE(194, 3),
+	SILENCER						(289, 3),
+	SKILLFUL_RUNNER					(290, 3),
+	STEALTH							(291, 3),
+	INTO_THE_SHADOW					(292, 3),
+	RANGED_SNIPING					(293, 3),
+	TELESCOPE						(294, 3),
 	//Riot T4
-	HASTE_MOVE(195, 4), SHOT_CONCENTRATION(196, 4), ROUND_PRESERVE(197, 4),
+	HASTE_MOVE						(295, 4),
+	SHOT_CONCENTRATION				(296, 4),
+	ROUND_PRESERVE					(297, 4),
 	//ReinforcedArmor T4
-	BAYONET(198, 4), TACTICAL_SIGHT(199, 4), PLATE_ADD(200, 4),
+	BAYONET							(298, 4),
+	TACTICAL_SIGHT					(299, 4),
+	PLATE_ADD						(300, 4),
 	//FirstAidKit T4
-	ADDITIONAL_MEDS(201,4), THERAPEUTIC_BANDAGE(202, 4), FASTER_HEALING(203,4),
+	ADDITIONAL_MEDS					(301,4),
+	THERAPEUTIC_BANDAGE				(302, 4),
+	FASTER_HEALING					(303,4),
 
 	//Samurai T1
-	SURPRISE_STAB(205), MASTERS_INTUITION(206), UNEXPECTED_SLASH(207), FLOW_AWAY(208), ADRENALINE_SURGE(209),
+	SURPRISE_STAB					(308),
+	MASTERS_INTUITION				(309),
+	UNEXPECTED_SLASH				(310),
+	FLOW_AWAY						(311),
+	ADRENALINE_SURGE				(312),
 	//Samurai T2
-	FOCUSING_MEAL(210), CRITICAL_UPGRADE(211), MAGICAL_TRANSFERENCE(212), EYE_OF_DRAGON(213), DETECTION(214), CRITICAL_THROW(215),
+	FOCUSING_MEAL					(313),
+	CRITICAL_UPGRADE				(314),
+	MAGICAL_TRANSFERENCE			(315),
+	EYE_OF_DRAGON					(316),
+	DETECTION						(317),
+	CRITICAL_THROW					(318),
 	//Samurai T3
-	DEEP_SCAR(216, 3), FAST_LEAD(217, 3),
+	DEEP_SCAR						(319, 3),
+	FAST_LEAD						(320, 3),
 	//Slasher T3
-	CONTINUOUS_ATTACK(218, 3), SLASHING_PRACTICE(219, 3), SERIAL_MOMENTUM(220, 3), ARCANE_ATTACK(221, 3), SLASHING(222, 3), DETECTIVE_SLASHING(223, 3),
+	CONTINUOUS_ATTACK				(321, 3),
+	SLASHING_PRACTICE				(322, 3),
+	SERIAL_MOMENTUM					(323, 3),
+	ARCANE_ATTACK					(324, 3),
+	SLASHING						(325, 3),
+	DETECTIVE_SLASHING				(326, 3),
 	//Master T3
-	DONG_MIND_EYES(224, 3), DONG_SHEATHING(225, 3), DONG_POLISHING(226, 3), JUNG_DETECTION(227, 3), JUNG_QUICK_DRAW(228, 3), JUNG_INCISIVE_BLADE(229, 3),
+	DONG_MIND_EYES					(327, 3),
+	DONG_SHEATHING					(328, 3),
+	DONG_POLISHING					(329, 3),
+	JUNG_DETECTION					(330, 3),
+	JUNG_QUICK_DRAW					(331, 3),
+	JUNG_INCISIVE_BLADE				(332, 3),
 	//Slayer T3
-	AFTERIMAGE(230, 3), ENERGY_DRAIN(231, 3), FTL(232, 3), QUICK_RECOVER(233, 3), HASTE_RECOVER(234, 3), FLURRY(235, 3),
+	AFTERIMAGE						(333, 3),
+	ENERGY_DRAIN					(334, 3),
+	FTL								(335, 3),
+	QUICK_RECOVER					(336, 3),
+	HASTE_RECOVER					(337, 3),
+	FLURRY							(338, 3),
 	//Awake T4
-	AWAKE_LIMIT(236, 4), AWAKE_DURATION(237, 4), INSURANCE(238, 4),
+	AWAKE_LIMIT						(339, 4),
+	AWAKE_DURATION					(340, 4),
+	INSURANCE						(341, 4),
 	//ShadowBlade T4
-	DOUBLE_BLADE_PRACTICE(239, 4), CRITICAL_SHADOW(240, 4), HERBAL_SHADOW(241, 4),
+	DOUBLE_BLADE_PRACTICE			(342, 4),
+	CRITICAL_SHADOW					(343, 4),
+	HERBAL_SHADOW					(344, 4),
 	//Kunai T4
-	KUNAI_OF_DOOM(242, 4), MYSTICAL_KUNAI(243, 4), CORROSIVE_KUNAI(244, 4),
+	KUNAI_OF_DOOM					(345, 4),
+	MYSTICAL_KUNAI					(346, 4),
+	CORROSIVE_KUNAI					(347, 4),
 
 	//Planter T1
-	SUDDEN_GROWTH(246), SAFE_POTION(247), ROOT(248), PLANT_SHIELD(249), KNOWLEDGE_HERB(250),
+	SUDDEN_GROWTH					(352),
+	SAFE_POTION						(353),
+	ROOT							(354),
+	PLANT_SHIELD					(355),
+	KNOWLEDGE_HERB					(356),
 	//Planter T2
-	NATURAL_MEAL(251), HERBAL_DEW(252), SPROUT(253), FIREWATCH(254), FLOWER_BED(255), WEAK_POISON(256),
+	NATURAL_MEAL					(357),
+	HERBAL_DEW						(358),
+	SPROUT							(359),
+	FIREWATCH						(360),
+	FLOWER_BED						(361),
+	WEAK_POISON						(362),
 	//Planter T3
-	BLOOMING_WEAPON(257, 3), FARMER(258, 3),
+	BLOOMING_WEAPON					(363, 3),
+	FARMER							(364, 3),
 	//TreasureHunter T3
-	TAKEDOWN(259, 3), DETECTOR(260, 3), GOLD_SHIELD(261, 3), GOLD_MINER(262, 3), FINDING_TREASURE(263, 3), HIDDEN_STASH(264, 3),
+	TAKEDOWN						(365, 3),
+	DETECTOR						(366, 3),
+	GOLD_SHIELD						(367, 3),
+	GOLD_MINER						(368, 3),
+	FINDING_TREASURE				(369, 3),
+	HIDDEN_STASH					(370, 3),
 	//Adventurer T3
-	JUNGLE_ADVENTURE(265, 3), SHADOW(266, 3), VINE_WHIP(267, 3), THORNY_VINE(268, 3), SNARE(269, 3), SHARP_INTUITION(270, 3),
+	JUNGLE_ADVENTURE				(371, 3),
+	SHADOW							(372, 3),
+	VINE_WHIP						(373, 3),
+	THORNY_VINE						(374, 3),
+	SNARE							(375, 3),
+	SHARP_INTUITION					(376, 3),
 	//Researcher T3
-	ALIVE_GRASS(271, 3), DEW_MAKING(272, 3), BIO_ENERGY(273, 3), ROOT_PLANT(274, 3), BIOLOGY_PROJECT(275, 3), CHEMICAL(276, 3),
+	ALIVE_GRASS						(377, 3),
+	DEW_MAKING						(378, 3),
+	BIO_ENERGY						(379, 3),
+	ROOT_PLANT						(380, 3),
+	BIOLOGY_PROJECT					(381, 3),
+	CHEMICAL						(382, 3),
 	//Sprout T4
-	JUNGLE(277, 4), FOREST(278, 4), REGROWTH(279, 4),
+	JUNGLE							(383, 4),
+	FOREST							(384, 4),
+	REGROWTH						(385, 4),
 	//TreasureMap T4
-	LONG_LUCK(280, 4), FORESIGHT(281, 4), GOLD_HUNTER(282, 4),
+	LONG_LUCK						(386, 4),
+	FORESIGHT						(387, 4),
+	GOLD_HUNTER						(388, 4),
 	//Root T4
-	POISONOUS_ROOT(283, 4), ROOT_SPREAD(284, 4), ROOT_ARMOR(285, 4),
+	POISONOUS_ROOT					(389, 4),
+	ROOT_SPREAD						(390, 4),
+	ROOT_ARMOR						(391, 4),
 
 	//Knight T1
-	ON_ALERT(287), KNIGHTS_INTUITION(288), ARMOR_ENHANCE(289), ACTIVE_BARRIER(290), WAR_CRY(291),
+	ON_ALERT						(396),
+	KNIGHTS_INTUITION				(397),
+	ARMOR_ENHANCE					(398),
+	ACTIVE_BARRIER					(399),
+	WAR_CRY							(400),
 	//Knight T2
-	IMPREGNABLE_MEAL(292), SAFE_HEALING(293), DEFENSE_STANCE(294), CROSS_SLASH(295), ENDURING(296), BLOCKING(297),
+	IMPREGNABLE_MEAL				(401),
+	SAFE_HEALING					(402),
+	DEFENSE_STANCE					(403),
+	CROSS_SLASH						(404),
+	ENDURING						(405),
+	BLOCKING						(406),
 	//Knight T3
-	CRAFTMANS_SKILLS(298, 3), TACKLE(299, 3),
+	CRAFTMANS_SKILLS				(407, 3),
+	TACKLE							(408, 3),
 	//Weaponmaster T3
-	CLASH(300, 3), MYSTICAL_POWER(301, 3), ABSOLUTE_ZERO(302, 3), EARTHQUAKE(303, 3), SPEAR_N_SHIELD(304, 3), UPGRADE_SHARE(305, 3),
+	CLASH							(409, 3),
+	MYSTICAL_POWER					(410, 3),
+	ABSOLUTE_ZERO					(411, 3),
+	EARTHQUAKE						(412, 3),
+	SPEAR_N_SHIELD					(413, 3),
+	UPGRADE_SHARE					(414, 3),
 	//Fortress T3
-	IMPREGNABLE_WALL(306, 3), COUNTER_MOMENTUM(307, 3), SHIELD_SLAM(308, 3), PREPARATION(309, 3), FORTRESS(310, 3), MYSTICAL_COUNTER(311, 3),
+	IMPREGNABLE_WALL				(415, 3),
+	COUNTER_MOMENTUM				(416, 3),
+	SHIELD_SLAM						(417, 3),
+	PREPARATION						(418, 3),
+	FORTRESS						(419, 3),
+	MYSTICAL_COUNTER				(420, 3),
 	//Crusader T3
-	DIVINE_SHIELD(312, 3), DEADS_BLESS(313, 3), ARMOR_BLESSING(314, 3), BLESSED_TALENT(315, 3), MYSTICAL_VEIL(316, 3), SHIELD_OF_LIGHT(317, 3),
+	DIVINE_SHIELD					(421, 3),
+	DEADS_BLESS						(422, 3),
+	ARMOR_BLESSING					(423, 3),
+	BLESSED_TALENT					(424, 3),
+	MYSTICAL_VEIL					(425, 3),
+	SHIELD_OF_LIGHT					(426, 3),
 	//HolyShield T4
-	BUFFER_BARRIER(318, 4), HOLY_LIGHT(319, 4), BLESS(320, 4),
+	BUFFER_BARRIER					(427, 4),
+	HOLY_LIGHT						(428, 4),
+	BLESS							(429, 4),
 	//StimPack T4
-	BURDEN_RELIEF(321, 4), LASTING_PACK(322, 4), TIME_STOP(323, 4),
+	BURDEN_RELIEF					(420, 4),
+	LASTING_PACK					(431, 4),
+	TIME_STOP						(432, 4),
 	//UnstableAnkh T4
-	BLESSED_ANKH(324, 4), ANKH_ENHANCE(325, 4), COMPLETE_ANKH(326, 4),
+	BLESSED_ANKH					(433, 4),
+	ANKH_ENHANCE					(434, 4),
+	COMPLETE_ANKH					(435, 4),
 
 	//Nurse T1
-	HEALING_MEAL(328), DOCTORS_INTUITION(329), INNER_MIRROR(330), CRITICAL_SHIELD(331), HEAL_AMP(332),
+	HEALING_MEAL					(440),
+	DOCTORS_INTUITION				(441),
+	INNER_MIRROR					(442),
+	CRITICAL_SHIELD					(443),
+	HEAL_AMP						(444),
 	//Nurse T2
-	CHALLENGING_MEAL(333), POTION_SPREAD(334), HEALAREA(335), ANGEL(336), MEDICAL_SUPPORT(337), WINNERS_FLAG(338),
+	CHALLENGING_MEAL				(445),
+	POTION_SPREAD					(446),
+	HEALAREA						(447),
+	ANGEL							(448),
+	MEDICAL_SUPPORT					(449),
+	WINNERS_FLAG					(450),
 	//Nurse T3
-	POWERFUL_BOND(339, 3), CHARISMA(340, 3),
+	POWERFUL_BOND					(451, 3),
+	CHARISMA						(452, 3),
 	//Medic T3
-	PROMOTION(341, 3), HEALING_SHIELD(342, 3), HEAL_ENHANCE(343, 3), COMP_RECOVER(344, 3), IMMUNE_SYSTEM(345, 3), HIGHER_HEAL(346, 3),
+	PROMOTION						(453, 3),
+	HEALING_SHIELD					(454, 3),
+	HEAL_ENHANCE					(455, 3),
+	COMP_RECOVER					(456, 3),
+	IMMUNE_SYSTEM					(457, 3),
+	HIGHER_HEAL						(458, 3),
 	//Angel T3
-	APPEASE(347, 3), ANGEL_AND_DEVIL(348, 3), AREA_OF_LIGHT(349, 3), BLESS_ENHANCE(350, 3), PERSUASION(351, 3), HOLY_PROTECTION(352, 3),
+	APPEASE							(459, 3),
+	ANGEL_AND_DEVIL					(460, 3),
+	AREA_OF_LIGHT					(461, 3),
+	BLESS_ENHANCE					(462, 3),
+	PERSUASION						(463, 3),
+	HOLY_PROTECTION					(464, 3),
 	//Surgeon T3
-	SCALPEL(353, 3), DEFIBRILLATOR(354, 3), DEATH_DIAGNOSIS(355, 3), FIRST_AID(356, 3), DISINFECTION(357, 3), HASTY_HANDS(358, 3),
+	SCALPEL							(465, 3),
+	DEFIBRILLATOR					(466, 3),
+	DEATH_DIAGNOSIS					(467, 3),
+	FIRST_AID						(468, 3),
+	DISINFECTION					(469, 3),
+	HASTY_HANDS						(470, 3),
 	//HealGenerator T4
-	AREA_AMP(359, 4), SHIELD_GEN(360, 4), DURABLE_GEN(361, 4),
+	AREA_AMP						(471, 4),
+	SHIELD_GEN						(472, 4),
+	DURABLE_GEN						(473, 4),
 	//AngelWing T4
-	LIGHT_LIKE_FEATHER(362, 4), ANGELS_BLESS(363, 4), HEALING_WING(364, 4),
+	LIGHT_LIKE_FEATHER				(474, 4),
+	ANGELS_BLESS					(475, 4),
+	HEALING_WING					(476, 4),
 	//GammaRayEmmit T4
-	TRANSMOG_BIAS(365, 4), IMPRINTING_EFFECT(366, 4), SHEEP_TRANSMOG(367, 4),
+	TRANSMOG_BIAS					(477, 4),
+	IMPRINTING_EFFECT				(478, 4),
+	SHEEP_TRANSMOG					(479, 4),
 
 	//universal T4
-	HEROIC_ENERGY(40, 4), //See icon() and title() for special logic for this one
+	HEROIC_ENERGY					(43, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
-	RATSISTANCE(373, 4), RATLOMACY(374, 4), RATFORCEMENTS(375, 4),
+	RATSISTANCE						(568, 4),
+	RATLOMACY						(569, 4),
+	RATFORCEMENTS					(570, 4),
 	//universal T3
-	ATK_SPEED_ENHANCE(369, 4), ACC_ENHANCE(370, 4), EVA_ENHANCE(371, 4), BETTER_CHOICE(372, 3);
+	ATK_SPEED_ENHANCE				(528, 4),
+	ACC_ENHANCE						(529, 4),
+	EVA_ENHANCE						(530, 4),
+	BETTER_CHOICE					(531, 3);
 
 	public static class ImprovisedProjectileCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
@@ -537,6 +875,57 @@ public enum Talent {
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
+	public static class PatientStrikeTracker extends FlavourBuff{};
+	public static class AggressiveBarrierCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 50); }
+	};;
+	public static class RestoredAgilityTracker extends FlavourBuff{};
+	public static class LethalHasteCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 100); }
+	};
+	public static class SwiftEquipCooldown extends FlavourBuff{
+		public boolean secondUse;
+		public boolean hasSecondUse(){
+			return secondUse && cooldown() > 24f;
+		}
+
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) {
+			if (hasSecondUse()) icon.hardlight(0.85f, 0f, 1.0f);
+			else                icon.hardlight(0.35f, 0f, 0.7f);
+		}
+		public float iconFadePercent() { return GameMath.gate(0, visualcooldown() / 30f, 1); }
+
+		private static final String SECOND_USE = "second_use";
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(SECOND_USE, secondUse);
+		}
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			secondUse = bundle.getBoolean(SECOND_USE);
+		}
+	};
+	public static class DeadlyFollowupTracker extends FlavourBuff{};
+	public static class CombinedLethalityAbilityTracker extends FlavourBuff{
+		public MeleeWeapon weapon;
+	};
+	public static class CombinedLethalityTriggerTracker extends FlavourBuff{
+		{ type = buffType.POSITIVE; }
+		public int icon() { return BuffIndicator.CORRUPT; }
+		public void tintIcon(Image icon) { icon.hardlight(0.6f, 0.15f, 0.6f); }
+	};
+	public static class CombinedEnergyAbilityTracker extends FlavourBuff{
+		public int energySpent = -1;
+		public boolean wepAbilUsed = false;
+	}
+	public static class CounterAbilityTacker extends FlavourBuff{};
 
 	int icon;
 	int maxPoints;
@@ -561,23 +950,27 @@ public enum Talent {
 			HeroClass cls = Dungeon.hero != null ? Dungeon.hero.heroClass : GamesInProgress.selectedClass;
 			switch (cls){
 				case WARRIOR: default:
-					return 40;
+					return 43;
 				case MAGE:
-					return 81;
+					return 87;
 				case ROGUE:
-					return 122;
+					return 131;
 				case HUNTRESS:
-					return 163;
+					return 175;
+				case DUELIST:
+					return 219;
+				//	case ???:
+				//	return 263
 				case GUNNER:
-					return 204;
+					return 307;
 				case SAMURAI:
-					return 245;
+					return 351;
 				case PLANTER:
-					return 286;
+					return 395;
 				case KNIGHT:
-					return 327;
+					return 439;
 				case NURSE:
-					return 368;
+					return 483;
 			}
 		} else {
 			return icon;
@@ -625,8 +1018,7 @@ public enum Talent {
 			updateQuickslot();
 		}
 
-		if (talent == ARMSMASTERS_INTUITION && hero.pointsInTalent(ARMSMASTERS_INTUITION) == 2){
-			if (hero.belongings.weapon() != null) hero.belongings.weapon().identify();
+		if (talent == VETERANS_INTUITION && hero.pointsInTalent(VETERANS_INTUITION) == 2){
 			if (hero.belongings.armor() != null)  hero.belongings.armor.identify();
 		}
 		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 2){
@@ -643,39 +1035,42 @@ public enum Talent {
 			if (hero.belongings.misc instanceof Ring) ((Ring) hero.belongings.misc).setKnown();
 		}
 		if (talent == GUNNERS_INTUITION && hero.pointsInTalent(GUNNERS_INTUITION) == 2){
-			if (hero.belongings.weapon() != null &&
-					(hero.belongings.weapon() instanceof CrudePistol
-						|| hero.belongings.weapon() instanceof Pistol
-						|| hero.belongings.weapon() instanceof GoldenPistol
-						|| hero.belongings.weapon() instanceof Handgun
-						|| hero.belongings.weapon() instanceof Magnum
-						|| hero.belongings.weapon() instanceof TacticalHandgun
-						|| hero.belongings.weapon() instanceof AutoHandgun
-						|| hero.belongings.weapon() instanceof DualPistol
-						|| hero.belongings.weapon() instanceof SubMachinegun
-						|| hero.belongings.weapon() instanceof AssultRifle
-						|| hero.belongings.weapon() instanceof HeavyMachinegun
-						|| hero.belongings.weapon() instanceof MiniGun
-						|| hero.belongings.weapon() instanceof AutoRifle
-						|| hero.belongings.weapon() instanceof Revolver
-						|| hero.belongings.weapon() instanceof HuntingRifle
-						|| hero.belongings.weapon() instanceof Carbine
-						|| hero.belongings.weapon() instanceof SniperRifle
-						|| hero.belongings.weapon() instanceof AntimaterRifle
-						|| hero.belongings.weapon() instanceof MarksmanRifle
-						|| hero.belongings.weapon() instanceof WA2000
-						|| hero.belongings.weapon() instanceof ShotGun
-						|| hero.belongings.weapon() instanceof KSG
-						|| hero.belongings.weapon() instanceof FlameThrower
-						|| hero.belongings.weapon() instanceof PlasmaCannon
-						|| hero.belongings.weapon() instanceof RPG7
-						|| hero.belongings.weapon() instanceof RocketLauncher)) hero.belongings.weapon().identify();
+			if (hero.belongings.weapon != null &&
+					(hero.belongings.weapon instanceof CrudePistol
+						|| hero.belongings.weapon instanceof Pistol
+						|| hero.belongings.weapon instanceof GoldenPistol
+						|| hero.belongings.weapon instanceof Handgun
+						|| hero.belongings.weapon instanceof Magnum
+						|| hero.belongings.weapon instanceof TacticalHandgun
+						|| hero.belongings.weapon instanceof AutoHandgun
+						|| hero.belongings.weapon instanceof DualPistol
+						|| hero.belongings.weapon instanceof SubMachinegun
+						|| hero.belongings.weapon instanceof AssultRifle
+						|| hero.belongings.weapon instanceof HeavyMachinegun
+						|| hero.belongings.weapon instanceof MiniGun
+						|| hero.belongings.weapon instanceof AutoRifle
+						|| hero.belongings.weapon instanceof Revolver
+						|| hero.belongings.weapon instanceof HuntingRifle
+						|| hero.belongings.weapon instanceof Carbine
+						|| hero.belongings.weapon instanceof SniperRifle
+						|| hero.belongings.weapon instanceof AntimaterRifle
+						|| hero.belongings.weapon instanceof MarksmanRifle
+						|| hero.belongings.weapon instanceof WA2000
+						|| hero.belongings.weapon instanceof ShotGun
+						|| hero.belongings.weapon instanceof KSG
+						|| hero.belongings.weapon instanceof FlameThrower
+						|| hero.belongings.weapon instanceof PlasmaCannon
+						|| hero.belongings.weapon instanceof RPG7
+						|| hero.belongings.weapon instanceof RocketLauncher)) hero.belongings.weapon.identify();
 		}
 		if (talent == MASTERS_INTUITION && hero.pointsInTalent(MASTERS_INTUITION) == 1){
 			if (hero.belongings.weapon() != null) hero.belongings.weapon().identify();
 		}
 		if (talent == KNIGHTS_INTUITION && hero.pointsInTalent(KNIGHTS_INTUITION) == 2){
 			if (hero.belongings.armor() != null)  hero.belongings.armor.identify();
+		}
+		if (talent == ADVENTURERS_INTUITION && hero.pointsInTalent(ADVENTURERS_INTUITION) == 2){
+			if (hero.belongings.weapon() != null) hero.belongings.weapon().identify();
 		}
 
 		if (talent == LIGHT_CLOAK && hero.heroClass == HeroClass.ROGUE){
@@ -740,7 +1135,7 @@ public enum Talent {
 		}
 
 		if (talent == DOCTORS_INTUITION && hero.pointsInTalent(DOCTORS_INTUITION) == 2) {
-			for (int i = 0 ; i < 3 ; i++) {
+			for (int i = 0; i < 3; i++) {
 				HashSet<Class<? extends Potion>> potions = Potion.getUnknown();
 				Potion p = Reflection.newInstance(Random.element(potions));
 				if (p == null) {
@@ -751,85 +1146,100 @@ public enum Talent {
 				}
 			}
 		}
-	}
+		if (talent == SECONDARY_CHARGE || talent == TWIN_UPGRADES){
+			Item.updateQuickslot();
+		}
 
+		if (talent == UNENCUMBERED_SPIRIT && hero.pointsInTalent(talent) == 3){
+			Item toGive = new ClothArmor().identify();
+			if (!toGive.collect()){
+				Dungeon.level.drop(toGive, hero.pos).sprite.drop();
+			}
+			toGive = new Gloves().identify();
+			if (!toGive.collect()){
+				Dungeon.level.drop(toGive, hero.pos).sprite.drop();
+			}
+		}
+	}
 	public static class CachedRationsDropped extends CounterBuff{{revivePersists = true;}};
 	public static class NatureBerriesAvailable extends CounterBuff{{revivePersists = true;}}; //for pre-1.3.0 saves
 	public static class NatureBerriesDropped extends CounterBuff{{revivePersists = true;}};
 
-	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
-		if (hero.hasTalent(HEARTY_MEAL)){
+	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ) {
+		if (hero.hasTalent(HEARTY_MEAL)) {
 			//3/5 HP healed, when hero is below 25% health
-			if (hero.HP <= hero.HT/4) {
+			if (hero.HP <= hero.HT / 4) {
 				hero.HP = Math.min(hero.HP + 1 + 2 * hero.pointsInTalent(HEARTY_MEAL), hero.HT);
-				hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1+hero.pointsInTalent(HEARTY_MEAL));
-			//2/3 HP healed, when hero is below 50% health
-			} else if (hero.HP <= hero.HT/2){
+				hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1 + hero.pointsInTalent(HEARTY_MEAL));
+				//2/3 HP healed, when hero is below 50% health
+			} else if (hero.HP <= hero.HT / 2) {
 				hero.HP = Math.min(hero.HP + 1 + hero.pointsInTalent(HEARTY_MEAL), hero.HT);
 				hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), hero.pointsInTalent(HEARTY_MEAL));
 			}
 		}
-		if (hero.hasTalent(IRON_STOMACH)){
+		if (hero.hasTalent(IRON_STOMACH)) {
 			if (hero.cooldown() > 0) {
 				Buff.affect(hero, WarriorFoodImmunity.class, hero.cooldown());
 			}
 		}
-		if (hero.hasTalent(EMPOWERING_MEAL)){
+		if (hero.hasTalent(EMPOWERING_MEAL)) {
 			//2/3 bonus wand damage for next 3 zaps
-			Buff.affect( hero, WandEmpower.class).set(1 + hero.pointsInTalent(EMPOWERING_MEAL), 3);
-			ScrollOfRecharging.charge( hero );
+			Buff.affect(hero, WandEmpower.class).set(1 + hero.pointsInTalent(EMPOWERING_MEAL), 3);
+			ScrollOfRecharging.charge(hero);
 		}
-		if (hero.hasTalent(ENERGIZING_MEAL)){
+		if (hero.hasTalent(ENERGIZING_MEAL)) {
 			//5/8 turns of recharging
-			Buff.prolong( hero, Recharging.class, 2 + 3*(hero.pointsInTalent(ENERGIZING_MEAL)) );
-			ScrollOfRecharging.charge( hero );
+			Buff.prolong(hero, Recharging.class, 2 + 3 * (hero.pointsInTalent(ENERGIZING_MEAL)));
+			ScrollOfRecharging.charge(hero);
 			SpellSprite.show(hero, SpellSprite.CHARGE);
 		}
-		if (hero.hasTalent(MYSTICAL_MEAL)){
+		if (hero.hasTalent(MYSTICAL_MEAL)) {
 			//3/5 turns of recharging
-			ArtifactRecharge buff = Buff.affect( hero, ArtifactRecharge.class);
-			if (buff.left() < 1 + 2*(hero.pointsInTalent(MYSTICAL_MEAL))){
-				Buff.affect( hero, ArtifactRecharge.class).set(1 + 2*(hero.pointsInTalent(MYSTICAL_MEAL))).ignoreHornOfPlenty = foodSource instanceof HornOfPlenty;
+			ArtifactRecharge buff = Buff.affect(hero, ArtifactRecharge.class);
+			if (buff.left() < 1 + 2 * (hero.pointsInTalent(MYSTICAL_MEAL))) {
+				Buff.affect(hero, ArtifactRecharge.class).set(1 + 2 * (hero.pointsInTalent(MYSTICAL_MEAL))).ignoreHornOfPlenty = foodSource instanceof HornOfPlenty;
 			}
-			ScrollOfRecharging.charge( hero );
+			ScrollOfRecharging.charge(hero);
 			SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
 		}
-		if (hero.hasTalent(INVIGORATING_MEAL)){
+		if (hero.hasTalent(INVIGORATING_MEAL)) {
 			//effectively 1/2 turns of haste
-			Buff.prolong( hero, Haste.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
+			Buff.prolong(hero, Haste.class, 0.67f + hero.pointsInTalent(INVIGORATING_MEAL));
 		}
-		if (hero.hasTalent(REARRANGE)){
+		if (hero.hasTalent(REARRANGE)) {
 			//effectively 5/10 turns of ExtraBullet
-			Buff.prolong( hero, ExtraBullet.class, 5f*hero.pointsInTalent(REARRANGE));
+			Buff.prolong(hero, ExtraBullet.class, 5f * hero.pointsInTalent(REARRANGE));
 		}
 		if (hero.hasTalent(IN_THE_GUNFIRE)) {
 			//effectively 1/2 turns of infiniteBullet
-			Buff.prolong( hero, InfiniteBullet.class, 0.001f+hero.pointsInTalent(IN_THE_GUNFIRE));
+			Buff.prolong(hero, InfiniteBullet.class, 0.001f + hero.pointsInTalent(IN_THE_GUNFIRE));
 		}
 		if (hero.hasTalent(Talent.FOCUSING_MEAL)) {
-			Buff.prolong( hero, Adrenaline.class, 1f + 2f*hero.pointsInTalent(FOCUSING_MEAL));
+			Buff.prolong(hero, Adrenaline.class, 1f + 2f * hero.pointsInTalent(FOCUSING_MEAL));
 		}
 		if (hero.hasTalent(Talent.NATURAL_MEAL)) {
 			if (hero.pointsInTalent(Talent.NATURAL_MEAL) == 1) {
 				for (int i : PathFinder.NEIGHBOURS4) {
 					int c = Dungeon.level.map[hero.pos + i];
-					if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
-							|| c == Terrain.EMBERS || c == Terrain.GRASS){
+					if (c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+							|| c == Terrain.EMBERS || c == Terrain.GRASS) {
 						Level.set(hero.pos + i, Terrain.HIGH_GRASS);
 						GameScene.updateMap(hero.pos + i);
-						CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+						CellEmitter.get(hero.pos + i).burst(LeafParticle.LEVEL_SPECIFIC, 4);
 					}
-				};
+				}
+				;
 			} else {
 				for (int i : PathFinder.NEIGHBOURS8) {
 					int c = Dungeon.level.map[hero.pos + i];
-					if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
-							|| c == Terrain.EMBERS || c == Terrain.GRASS){
+					if (c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+							|| c == Terrain.EMBERS || c == Terrain.GRASS) {
 						Level.set(hero.pos + i, Terrain.HIGH_GRASS);
 						GameScene.updateMap(hero.pos + i);
-						CellEmitter.get( hero.pos + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+						CellEmitter.get(hero.pos + i).burst(LeafParticle.LEVEL_SPECIFIC, 4);
 					}
-				};
+				}
+				;
 			}
 
 		}
@@ -837,10 +1247,23 @@ public enum Talent {
 			Buff.affect(hero, ArmorEmpower.class).set(hero.pointsInTalent(Talent.IMPREGNABLE_MEAL), 10f);
 		}
 		if (hero.hasTalent(Talent.HEALING_MEAL)) {
-			Buff.affect(hero, HealingArea.class).setup(hero.pos, 10*hero.pointsInTalent(Talent.HEALING_MEAL), 1, true);
+			Buff.affect(hero, HealingArea.class).setup(hero.pos, 10 * hero.pointsInTalent(Talent.HEALING_MEAL), 1, true);
 		}
 		if (hero.hasTalent(Talent.CHALLENGING_MEAL)) {
-			Buff.affect(hero, ScrollOfChallenge.ChallengeArena.class).setup(hero.pos, 10*hero.pointsInTalent(Talent.CHALLENGING_MEAL));
+			Buff.affect(hero, ScrollOfChallenge.ChallengeArena.class).setup(hero.pos, 10 * hero.pointsInTalent(Talent.CHALLENGING_MEAL));
+		}
+		if (hero.hasTalent(STRENGTHENING_MEAL)) {
+			//2 bonus physical damage for next 2/3 attacks
+			Buff.affect(hero, PhysicalEmpower.class).set(2, 1 + hero.pointsInTalent(STRENGTHENING_MEAL));
+		}
+		if (hero.hasTalent(FOCUSED_MEAL)) {
+			if (hero.heroClass == HeroClass.DUELIST) {
+				//1/1.5 charge for the duelist
+				Buff.affect(hero, MeleeWeapon.Charger.class).gainCharge(0.5f * (hero.pointsInTalent(FOCUSED_MEAL) + 1));
+			} else {
+				// lvl/3 / lvl/2 bonus dmg on next hit for other classes
+				Buff.affect(hero, PhysicalEmpower.class).set(Math.round(hero.lvl / (4f - hero.pointsInTalent(FOCUSED_MEAL))), 1);
+			}
 		}
 	}
 
@@ -849,26 +1272,32 @@ public enum Talent {
 	}
 
 	public static float itemIDSpeedFactor( Hero hero, Item item ){
-		// 1.75x/2.5x speed with huntress talent
-		float factor = 1f + hero.pointsInTalent(SURVIVALISTS_INTUITION)*0.75f;
+		// 1.75x/2.5x speed with Huntress talent
+		float factor = 1f + 0.75f*hero.pointsInTalent(SURVIVALISTS_INTUITION);
 
-		// 2x/instant for Warrior (see onItemEquipped)
-		if (item instanceof MeleeWeapon || item instanceof Armor){
-			factor *= 1f + hero.pointsInTalent(ARMSMASTERS_INTUITION);
+		// Affected by both Warrior(1.75x/2.5x) and Duelist(2.5x/inst.) talents
+		if (item instanceof MeleeWeapon){
+			factor *= 1f + 1.5f*hero.pointsInTalent(ADVENTURERS_INTUITION); //instant at +2 (see onItemEquipped)
+			factor *= 1f + 0.75f*hero.pointsInTalent(VETERANS_INTUITION);
 		}
-		// 3x/instant for mage (see Wand.wandUsed())
+		// Affected by both Warrior(2.5x/inst.) and Duelist(1.75x/2.5x) talents
+		if (item instanceof Armor){
+			factor *= 1f + 0.75f*hero.pointsInTalent(ADVENTURERS_INTUITION);
+			factor *= 1f + hero.pointsInTalent(VETERANS_INTUITION); //instant at +2 (see onItemEquipped)
+		}
+		// 3x/instant for Mage (see Wand.wandUsed())
 		if (item instanceof Wand){
-			factor *= 1f + 2*hero.pointsInTalent(SCHOLARS_INTUITION);
+			factor *= 1f + 2.0f*hero.pointsInTalent(SCHOLARS_INTUITION);
 		}
-		// 2x/instant for rogue (see onItemEqupped), also id's type on equip/on pickup
+		// 2x/instant for Rogue (see onItemEqupped), also id's type on equip/on pickup
 		if (item instanceof Ring){
 			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
 		}
 		return factor;
 	}
 
-	public static void onHealingPotionUsed( Hero hero ){
-		if (hero.hasTalent(RESTORED_WILLPOWER)){
+	public static void onHealingPotionUsed( Hero hero ) {
+		if (hero.hasTalent(RESTORED_WILLPOWER)) {
 			if (hero.heroClass == HeroClass.WARRIOR) {
 				BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
 				if (shield != null) {
@@ -876,39 +1305,39 @@ public enum Talent {
 					shield.supercharge(shieldToGive);
 				}
 			} else {
-				int shieldToGive = Math.round( hero.HT * (0.025f * (1+hero.pointsInTalent(RESTORED_WILLPOWER))));
+				int shieldToGive = Math.round(hero.HT * (0.025f * (1 + hero.pointsInTalent(RESTORED_WILLPOWER))));
 				Buff.affect(hero, Barrier.class).setShield(shieldToGive);
 			}
 		}
-		if (hero.hasTalent(RESTORED_NATURE)){
+		if (hero.hasTalent(RESTORED_NATURE)) {
 			ArrayList<Integer> grassCells = new ArrayList<>();
-			for (int i : PathFinder.NEIGHBOURS8){
-				grassCells.add(hero.pos+i);
+			for (int i : PathFinder.NEIGHBOURS8) {
+				grassCells.add(hero.pos + i);
 			}
 			Random.shuffle(grassCells);
-			for (int cell : grassCells){
+			for (int cell : grassCells) {
 				Char ch = Actor.findChar(cell);
-				if (ch != null && ch.alignment == Char.Alignment.ENEMY){
+				if (ch != null && ch.alignment == Char.Alignment.ENEMY) {
 					Buff.affect(ch, Roots.class, 1f + hero.pointsInTalent(RESTORED_NATURE));
 				}
 				if (Dungeon.level.map[cell] == Terrain.EMPTY ||
 						Dungeon.level.map[cell] == Terrain.EMBERS ||
-						Dungeon.level.map[cell] == Terrain.EMPTY_DECO){
+						Dungeon.level.map[cell] == Terrain.EMPTY_DECO) {
 					Level.set(cell, Terrain.GRASS);
 					GameScene.updateMap(cell);
 				}
 				CellEmitter.get(cell).burst(LeafParticle.LEVEL_SPECIFIC, 4);
 			}
-			if (hero.pointsInTalent(RESTORED_NATURE) == 1){
+			if (hero.pointsInTalent(RESTORED_NATURE) == 1) {
 				grassCells.remove(0);
 				grassCells.remove(0);
 				grassCells.remove(0);
 			}
-			for (int cell : grassCells){
+			for (int cell : grassCells) {
 				int t = Dungeon.level.map[cell];
 				if ((t == Terrain.EMPTY || t == Terrain.EMPTY_DECO || t == Terrain.EMBERS
 						|| t == Terrain.GRASS || t == Terrain.FURROWED_GRASS)
-						&& Dungeon.level.plants.get(cell) == null){
+						&& Dungeon.level.plants.get(cell) == null) {
 					Level.set(cell, Terrain.HIGH_GRASS);
 					GameScene.updateMap(cell);
 				}
@@ -916,10 +1345,13 @@ public enum Talent {
 			Dungeon.observe();
 		}
 		if (hero.hasTalent(Talent.SAFE_HEALING)) {
-			Buff.affect(hero, Barrier.class).setShield(10*hero.pointsInTalent(Talent.SAFE_HEALING));
+			Buff.affect(hero, Barrier.class).setShield(10 * hero.pointsInTalent(Talent.SAFE_HEALING));
 		}
 		if (hero.hasTalent(Talent.POTION_SPREAD) && !Dungeon.isChallenged(Challenges.NO_HEALING)) {
-			Buff.affect(hero, HealingArea.class).setup(hero.pos, Math.round(((0.8f * hero.HT + 14)/3)*(1+hero.pointsInTalent(Talent.POTION_SPREAD))), 2, true);
+			Buff.affect(hero, HealingArea.class).setup(hero.pos, Math.round(((0.8f * hero.HT + 14) / 3) * (1 + hero.pointsInTalent(Talent.POTION_SPREAD))), 2, true);
+			if (hero.hasTalent(RESTORED_AGILITY)) {
+				Buff.prolong(hero, RestoredAgilityTracker.class, hero.cooldown());
+			}
 		}
 	}
 
@@ -987,7 +1419,7 @@ public enum Talent {
 	}
 
 	public static void onItemEquipped( Hero hero, Item item ){
-		if (hero.pointsInTalent(ARMSMASTERS_INTUITION) == 2 && (item instanceof Weapon || item instanceof Armor)){
+		if (hero.pointsInTalent(VETERANS_INTUITION) == 2 && item instanceof Armor){
 			item.identify();
 		}
 		if (hero.hasTalent(THIEFS_INTUITION) && item instanceof Ring){
@@ -997,45 +1429,48 @@ public enum Talent {
 				((Ring) item).setKnown();
 			}
 		}
-		if (hero.pointsInTalent(GUNNERS_INTUITION) >= 1 &&
+		if (hero.hasTalent(GUNNERS_INTUITION) &&
 				(item instanceof CrudePistol
-						|| item instanceof Pistol
-						|| item instanceof GoldenPistol
-						|| item instanceof Handgun
-						|| item instanceof Magnum
-						|| item instanceof TacticalHandgun
-						|| item instanceof AutoHandgun
+				|| item instanceof Pistol
+				|| item instanceof GoldenPistol
+				|| item instanceof Handgun
+				|| item instanceof Magnum
+				|| item instanceof TacticalHandgun
+				|| item instanceof AutoHandgun
 
-						|| item instanceof DualPistol
-						|| item instanceof SubMachinegun
-						|| item instanceof AssultRifle
-						|| item instanceof HeavyMachinegun
-						|| item instanceof MiniGun
-						|| item instanceof AutoRifle
+				|| item instanceof DualPistol
+				|| item instanceof SubMachinegun
+				|| item instanceof AssultRifle
+				|| item instanceof HeavyMachinegun
+				|| item instanceof MiniGun
+				|| item instanceof AutoRifle
 
-						|| item instanceof Revolver
-						|| item instanceof HuntingRifle
-						|| item instanceof Carbine
-						|| item instanceof SniperRifle
-						|| item instanceof AntimaterRifle
-						|| item instanceof MarksmanRifle
-						|| item instanceof WA2000
+				|| item instanceof Revolver
+				|| item instanceof HuntingRifle
+				|| item instanceof Carbine
+				|| item instanceof SniperRifle
+				|| item instanceof AntimaterRifle
+				|| item instanceof MarksmanRifle
+				|| item instanceof WA2000
 
-						|| item instanceof ShotGun
-						|| item instanceof KSG
+				|| item instanceof ShotGun
+				|| item instanceof KSG
 
-						|| item instanceof FlameThrower
-						|| item instanceof PlasmaCannon
+				|| item instanceof FlameThrower
+				|| item instanceof PlasmaCannon
 
-						|| item instanceof RPG7
-						|| item instanceof RocketLauncher)
+				|| item instanceof RPG7
+				|| item instanceof RocketLauncher)
 		){
 			item.identify();
 		}
-		if (hero.pointsInTalent(MASTERS_INTUITION) >= 1 && item instanceof Weapon) {
+		if (hero.hasTalent(MASTERS_INTUITION) && item instanceof Weapon) {
 			item.identify();
 		}
-		if (hero.pointsInTalent(KNIGHTS_INTUITION) >= 1 && (item instanceof Armor)){
+		if (hero.hasTalent(KNIGHTS_INTUITION) && (item instanceof Armor)) {
+			item.identify();
+		}
+		if (hero.pointsInTalent(ADVENTURERS_INTUITION) == 2 && item instanceof Weapon){
 			item.identify();
 		}
 	}
@@ -1123,7 +1558,7 @@ public enum Talent {
 		}
 
 		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE)) {
-			if (hero.belongings.weapon() instanceof MissileWeapon) {
+			if (hero.belongings.attackingWeapon() instanceof MissileWeapon) {
 				Buff.affect(enemy, FollowupStrikeTracker.class);
 			} else if (enemy.buff(FollowupStrikeTracker.class) != null){
 				dmg += 1 + hero.pointsInTalent(FOLLOWUP_STRIKE);
@@ -1152,7 +1587,35 @@ public enum Talent {
 
 		if (hero.hasTalent(Talent.WAR_CRY) && enemy instanceof Mob && enemy.buff(WarCryTracker.class) == null) {
 			Buff.affect(enemy, WarCryTracker.class);
-			Buff.prolong(hero, Adrenaline.class, 1+hero.pointsInTalent(Talent.WAR_CRY));
+			Buff.prolong(hero, Adrenaline.class, 1 + hero.pointsInTalent(Talent.WAR_CRY));
+		}
+		if (hero.buff(Talent.SpiritBladesTracker.class) != null
+				&& Random.Int(10) < 3*hero.pointsInTalent(Talent.SPIRIT_BLADES)){
+			SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
+			if (bow != null) dmg = bow.proc( hero, enemy, dmg );
+			hero.buff(Talent.SpiritBladesTracker.class).detach();
+		}
+
+		if (hero.hasTalent(PATIENT_STRIKE)){
+			if (hero.buff(PatientStrikeTracker.class) != null
+					&& !(hero.belongings.attackingWeapon() instanceof MissileWeapon)){
+				hero.buff(PatientStrikeTracker.class).detach();
+				dmg += Random.IntRange(hero.pointsInTalent(Talent.PATIENT_STRIKE), 2);
+				if (!(enemy instanceof Mob) || !((Mob) enemy).surprisedBy(hero)){
+					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG, 0.75f, 1.2f);
+				}
+			}
+		}
+
+		if (hero.hasTalent(DEADLY_FOLLOWUP)) {
+			if (hero.belongings.attackingWeapon() instanceof MissileWeapon) {
+				Buff.prolong(enemy, DeadlyFollowupTracker.class, 5f);
+			} else if (enemy.buff(DeadlyFollowupTracker.class) != null){
+				dmg = Math.round(dmg * (1.0f + .08f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
+				if (!(enemy instanceof Mob) || !((Mob) enemy).surprisedBy(hero)){
+					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG, 0.75f, 1.2f);
+				}
+			}
 		}
 
 		return dmg;
@@ -1184,7 +1647,7 @@ public enum Talent {
 		//tier 1
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, HEARTY_MEAL, ARMSMASTERS_INTUITION, TEST_SUBJECT, IRON_WILL, MAX_HEALTH);
+				Collections.addAll(tierTalents, HEARTY_MEAL, VETERANS_INTUITION, TEST_SUBJECT, IRON_WILL, MAX_HEALTH);
 				break;
 			case MAGE:
 				Collections.addAll(tierTalents, EMPOWERING_MEAL, SCHOLARS_INTUITION, TESTED_HYPOTHESIS, BACKUP_BARRIER, CHARGE_PRESERVE);
@@ -1209,6 +1672,9 @@ public enum Talent {
 				break;
 			case NURSE:
 				Collections.addAll(tierTalents,	HEALING_MEAL, DOCTORS_INTUITION, INNER_MIRROR, CRITICAL_SHIELD, HEAL_AMP);
+				break;
+			case DUELIST:
+				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, AGGRESSIVE_BARRIER);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1248,6 +1714,9 @@ public enum Talent {
 			case NURSE:
 				Collections.addAll(tierTalents,	CHALLENGING_MEAL, POTION_SPREAD, HEALAREA, ANGEL, MEDICAL_SUPPORT, WINNERS_FLAG);
 				break;
+			case DUELIST:
+				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1271,6 +1740,9 @@ public enum Talent {
 			case HUNTRESS:
 				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);
 				break;
+			case DUELIST:
+				Collections.addAll(tierTalents, LIGHTWEIGHT_CHARGE, DEADLY_FOLLOWUP);
+				break;
 			case GUNNER:
 				Collections.addAll(tierTalents, STREET_BATTLE, FAST_RELOAD);
 				break;
@@ -1285,7 +1757,6 @@ public enum Talent {
 				break;
 			case NURSE:
 				Collections.addAll(tierTalents,	POWERFUL_BOND, CHARISMA);
-				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1394,6 +1865,12 @@ public enum Talent {
 			case SURGEON:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, SCALPEL, DEFIBRILLATOR, DEATH_DIAGNOSIS, FIRST_AID, DISINFECTION, HASTY_HANDS);
 				break;
+			case CHAMPION:
+				Collections.addAll(tierTalents, SECONDARY_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY);
+				break;
+			case MONK:
+				Collections.addAll(tierTalents, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			talents.get(2).put(talent, 0);
@@ -1443,11 +1920,22 @@ public enum Talent {
 		bundle.put("replacements", replacementsBundle);
 	}
 
+	private static final HashMap<String, String> renamedTalents = new HashMap<>();
+	static{
+		//v2.0.0
+		renamedTalents.put("ARMSMASTERS_INTUITION",     "VETERANS_INTUITION");
+		//v2.0.0 BETA
+		renamedTalents.put("LIGHTLY_ARMED",             "UNENCUMBERED_SPIRIT");
+	}
+
 	public static void restoreTalentsFromBundle( Bundle bundle, Hero hero ){
 		if (bundle.contains("replacements")){
 			Bundle replacements = bundle.getBundle("replacements");
 			for (String key : replacements.getKeys()){
-				hero.metamorphedTalents.put(Talent.valueOf(key), replacements.getEnum(key, Talent.class));
+				String value = replacements.getString(key);
+				if (renamedTalents.containsKey(key)) key = renamedTalents.get(key);
+				if (renamedTalents.containsKey(value)) value = renamedTalents.get(value);
+				hero.metamorphedTalents.put(Talent.valueOf(key), Talent.valueOf(value));
 			}
 		}
 
@@ -1460,9 +1948,16 @@ public enum Talent {
 			Bundle tierBundle = bundle.contains(TALENT_TIER+(i+1)) ? bundle.getBundle(TALENT_TIER+(i+1)) : null;
 
 			if (tierBundle != null){
-				for (Talent talent : tier.keySet()){
-					if (tierBundle.contains(talent.name())){
-						tier.put(talent, Math.min(tierBundle.getInt(talent.name()), talent.maxPoints()));
+				for (String tName : tierBundle.getKeys()){
+					int points = tierBundle.getInt(tName);
+					if (renamedTalents.containsKey(tName)) tName = renamedTalents.get(tName);
+					try {
+						Talent talent = Talent.valueOf(tName);
+						if (tier.containsKey(talent)) {
+							tier.put(talent, Math.min(points, talent.maxPoints()));
+						}
+					} catch (Exception e){
+						ShatteredPixelDungeon.reportException(e);
 					}
 				}
 			}

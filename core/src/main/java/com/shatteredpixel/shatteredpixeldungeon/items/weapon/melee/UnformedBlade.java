@@ -249,7 +249,21 @@ public class UnformedBlade extends MeleeWeapon {
 
 	@Override
 	public String status() {
-		return Messages.format(TXT_STATUS, charge);
+		if (super.status() != null) {
+			return super.status();
+		} else {
+			return Messages.format(TXT_STATUS, charge);
+		}
+	}
+
+	@Override
+	public float abilityChargeUse( Hero hero ) {
+		return 2*super.abilityChargeUse(hero);
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		Dagger.sneakAbility(hero, 3, this);
 	}
 
 }

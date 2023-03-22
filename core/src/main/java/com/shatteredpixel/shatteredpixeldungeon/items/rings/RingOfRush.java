@@ -21,11 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -39,7 +35,7 @@ public class RingOfRush extends Ring {
 
 	public String statsInfo() {
 		if (isIdentified()){
-			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100f * (Math.pow(1.3f, soloBuffedBonus()) - 1f)), new DecimalFormat("#.##").format(100f * (1f - Math.max(Math.pow(0.85f, soloBuffedBonus()), 0.1f))));
+			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100f * (Math.pow(1.2829f, soloBuffedBonus()) - 1f)), new DecimalFormat("#.##").format(100f * (1f - Math.max(Math.pow(0.85f, soloBuffedBonus()), 0.1f))));
 		} else {
 			return Messages.get(this, "typical_stats", new DecimalFormat("#.##").format(30f), new DecimalFormat("#.##").format(15f));
 		}
@@ -51,7 +47,7 @@ public class RingOfRush extends Ring {
 	}
 	
 	public static float rushSpeedMultiplier(Char target ){
-		return (float)Math.pow(1.3, getBuffedBonus(target, Rush.class));
+		return (float)Math.pow(1.2829, getBuffedBonus(target, Rush.class));
 	}
 
 	public static float damageMultiplier(Char target ){

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,12 +29,12 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -66,13 +66,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Swiftness;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Thorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -389,9 +389,9 @@ public class Armor extends EquipableItem {
 					break;
 				}
 			}
-			if (!enemyNear) speed *= (1.2f + 0.04f * buffedLvl()) * RingOfArcana.enchantPowerMultiplier(owner);
+			if (!enemyNear) speed *= (1.2f + 0.04f * buffedLvl()) * glyph.procChanceMultiplier(owner);
 		} else if (hasGlyph(Flow.class, owner) && Dungeon.level.water[owner.pos]){
-			speed *= (2f + 0.25f*buffedLvl()) * RingOfArcana.enchantPowerMultiplier(owner);
+			speed *= (2f + 0.5f*buffedLvl()) * glyph.procChanceMultiplier(owner);
 		}
 		
 		if (hasGlyph(Bulk.class, owner) &&
@@ -407,7 +407,7 @@ public class Armor extends EquipableItem {
 	public float stealthFactor( Char owner, float stealth ){
 		
 		if (hasGlyph(Obfuscation.class, owner)){
-			stealth += (1 + buffedLvl()/3f) * RingOfArcana.enchantPowerMultiplier(owner);
+			stealth += (1 + buffedLvl()/3f) * glyph.procChanceMultiplier(owner);
 		}
 		
 		return stealth;
@@ -416,6 +416,8 @@ public class Armor extends EquipableItem {
 	@Override
 	public int level() {
 		int level = super.level();
+		//TODO warrior's seal upgrade should probably be considered here too
+		// instead of being part of true level
 		if (curseInfusionBonus) level += 1 + level/6;
 		return level;
 	}
@@ -450,8 +452,16 @@ public class Armor extends EquipableItem {
 		} else {
 			if (hasCurseGlyph()){
 				if (Random.Int(3) == 0) inscribe(null);
-			} else if (level() >= 4 && Random.Float(10) < Math.pow(2, level()-4)){
-				inscribe(null);
+			} else {
+
+				int lossChanceStart = 4;
+				if (Dungeon.hero != null && Dungeon.hero.heroClass != HeroClass.WARRIOR && Dungeon.hero.hasTalent(Talent.RUNIC_TRANSFERENCE)){
+					lossChanceStart += 1+Dungeon.hero.pointsInTalent(Talent.RUNIC_TRANSFERENCE);
+				}
+
+				if (level() >= lossChanceStart && Random.Float(10) < Math.pow(2, level()-4)) {
+					inscribe(null);
+				}
 			}
 		}
 		
@@ -712,12 +722,19 @@ public class Armor extends EquipableItem {
 		public abstract int proc( Armor armor, Char attacker, Char defender, int damage );
 
 		protected float procChanceMultiplier( Char defender ){
+			return genericProcChanceMultiplier( defender );
+		}
+
+		public static float genericProcChanceMultiplier( Char defender ){
 			float multi = RingOfArcana.enchantPowerMultiplier(defender);
 			if (defender instanceof Hero && ((Hero) defender).hasTalent(Talent.MYSTICAL_POWER)) {
 				multi += 0.1f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
 			}
 			if (defender instanceof Hero && ((Hero) defender).hasTalent(Talent.ARMOR_BLESSING)) {
 				multi += 0.2f * Dungeon.hero.pointsInTalent(Talent.ARMOR_BLESSING);
+			}
+			if (defender instanceof Hero && ((Hero) defender).buff(TrueRunicBlade.EnchantEmpower.class) != null) {
+				multi += 1.5f;
 			}
 			return multi;
 		}

@@ -22,9 +22,13 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.ShockingBrew;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
 public class Ballista extends MeleeWeapon {
 	
@@ -43,6 +47,34 @@ public class Ballista extends MeleeWeapon {
 	public int max(int lvl) {
 		return  4*(tier) +    	//20 base
 				lvl*(tier-1);   //+4 per level
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		if (hero.buff(BallistaShot.class) != null){
+			GLog.w(Messages.get(Crossbow.class, "ability_cant_use"));
+			return;
+		}
+
+		beforeAbilityUsed(hero);
+		Buff.affect(hero, BallistaShot.class);
+		hero.sprite.operate(hero.pos);
+		hero.next();
+		afterAbilityUsed(hero);
+	}
+
+	public static class BallistaShot extends Buff{
+
+		{
+			announced = true;
+			type = buffType.POSITIVE;
+		}
+
+		@Override
+		public int icon() {
+			return BuffIndicator.DUEL_BALLISTA;
+		}
+
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

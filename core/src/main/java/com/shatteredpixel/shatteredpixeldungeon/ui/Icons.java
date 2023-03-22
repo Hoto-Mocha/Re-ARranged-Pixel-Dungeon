@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ public enum Icons {
 	MAGE,
 	ROGUE,
 	HUNTRESS,
+	DUELIST,
 	GUNNER,
 	SAMURAI,
 	PLANTER,
@@ -134,7 +135,7 @@ public enum Icons {
 	public Image get() {
 		return get( this );
 	}
-	
+
 	public static Image get( Icons type ) {
 		Image icon = new Image( Assets.Interfaces.ICONS );
 		switch (type) {
@@ -188,20 +189,23 @@ public enum Icons {
 			case HUNTRESS:
 				icon.frame( icon.texture.uvRectBySize( 64, 16, 16, 16 ) );
 				break;
+			case DUELIST:
+				icon.frame( icon.texture.uvRectBySize( 80, 16, 13, 14 ) );
+				break;
 			case GUNNER:
-				icon.frame( icon.texture.uvRectBySize( 80, 16, 10, 13 ) );
+				icon.frame( icon.texture.uvRectBySize( 96, 16, 10, 13 ) );
 				break;
 			case SAMURAI:
-				icon.frame( icon.texture.uvRectBySize( 96, 16, 14, 14 ) );
+				icon.frame( icon.texture.uvRectBySize( 112, 16, 14, 14 ) );
 				break;
 			case PLANTER:
-				icon.frame( icon.texture.uvRectBySize( 112, 16, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 128, 16, 16, 16 ) );
 				break;
 			case KNIGHT:
-				icon.frame( icon.texture.uvRectBySize( 128, 16, 16, 15 ) );
+				icon.frame( icon.texture.uvRectBySize( 144, 16, 16, 15 ) );
 				break;
 			case NURSE:
-				icon.frame( icon.texture.uvRectBySize( 144, 16, 13, 15 ) );
+				icon.frame( icon.texture.uvRectBySize( 160, 16, 13, 15 ) );
 				break;
 
 			case EXIT:
@@ -383,7 +387,7 @@ public enum Icons {
 			case CHAL_COUNT:
 				icon.frame( icon.texture.uvRectBySize( 112, 64, 7, 7 ) );
 				break;
-		
+
 			case LIBGDX:
 				icon.frame( icon.texture.uvRectBySize( 0, 96, 16, 13 ) );
 				break;
@@ -436,7 +440,7 @@ public enum Icons {
 			return 0;
 		}
 	}
-	
+
 	public static Image get( HeroClass cl ) {
 		switch (cl) {
 		case WARRIOR:
@@ -447,6 +451,8 @@ public enum Icons {
 			return get( ROGUE );
 		case HUNTRESS:
 			return get( HUNTRESS );
+		case DUELIST:
+			return get( Icons.DUELIST );
 		case GUNNER:
 			return get( GUNNER );
 		case SAMURAI:

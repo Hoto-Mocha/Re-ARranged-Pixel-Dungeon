@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -484,6 +484,7 @@ public class PrisonBossLevel extends Level {
 				tengu.state = tengu.HUNTING;
 				tengu.pos = (arena.left + arena.width()/2) + width()*(arena.top+2);
 				GameScene.add(tengu);
+				tengu.timeToNow();
 				tengu.notice();
 				
 				GameScene.flash(0x80FFFFFF);
@@ -554,8 +555,6 @@ public class PrisonBossLevel extends Level {
 	
 	@Override
 	public void occupyCell(Char ch) {
-		super.occupyCell(ch);
-		
 		if (ch == Dungeon.hero){
 			switch (state){
 				case START:
@@ -571,6 +570,8 @@ public class PrisonBossLevel extends Level {
 					break;
 			}
 		}
+
+		super.occupyCell(ch);
 	}
 	
 	@Override

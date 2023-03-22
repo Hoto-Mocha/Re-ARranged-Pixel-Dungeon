@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ public class Assets {
 		public static final String CITY_BOSS        = "environment/custom_tiles/city_boss.png";
 		public static final String HALLS_SP         = "environment/custom_tiles/halls_special.png";
 	}
-	
+
 	//TODO include other font assets here? Some are platform specific though...
 	public static class Fonts {
 		public static final String PIXELFONT= "fonts/pixel_font.png";
@@ -234,6 +234,7 @@ public class Assets {
 		public static final String MAGE		= "splashes/mage.jpg";
 		public static final String ROGUE	= "splashes/rogue.jpg";
 		public static final String HUNTRESS	= "splashes/huntress.jpg";
+		public static final String DUELIST  = "splashes/duelist.jpg";
 		public static final String GUNNER	= "splashes/gunner.jpg";
 		public static final String SAMURAI  = "splashes/samurai.jpg";
 		public static final String PLANTER	= "splashes/planter.jpg";
@@ -249,6 +250,7 @@ public class Assets {
 		public static final String MAGE		= "sprites/mage.png";
 		public static final String ROGUE	= "sprites/rogue.png";
 		public static final String HUNTRESS	= "sprites/huntress.png";
+		public static final String DUELIST  = "sprites/duelist.png";
 		public static final String GUNNER	= "sprites/gunner.png";
 		public static final String SAMURAI	= "sprites/samurai.png";
 		public static final String PLANTER	= "sprites/planter.png";
@@ -278,6 +280,7 @@ public class Assets {
 		public static final String SHEEP	= "sprites/sheep.png";
 		public static final String KEEPER	= "sprites/shopkeeper.png";
 		public static final String BAT		= "sprites/bat.png";
+
 		public static final String ELEMENTAL= "sprites/elemental.png";
 		public static final String MONK     = "sprites/monk.png";
 		public static final String WARLOCK  = "sprites/warlock.png";

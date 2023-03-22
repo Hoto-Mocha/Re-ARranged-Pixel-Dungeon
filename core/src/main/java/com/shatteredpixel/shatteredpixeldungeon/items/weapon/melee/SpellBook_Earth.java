@@ -43,8 +43,6 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
-import java.util.ArrayList;
-
 public class SpellBook_Earth extends SpellBook {
 
 	{
@@ -75,7 +73,7 @@ public class SpellBook_Earth extends SpellBook {
 			} else if (!isIdentified()) {
 				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
 			} else {
-				GLog.w( Messages.get(this, "barkskin") );
+				GLog.p( Messages.get(this, "barkskin") );
 				Buff.affect(hero, Barkskin.class).set(Dungeon.depth/2+buffedLvl(), 1);
 				if (buffedLvl() >= 10) {
 					Buff.affect(hero, ArcaneArmor.class).set(Dungeon.depth/2+buffedLvl(), 1);
@@ -85,7 +83,7 @@ public class SpellBook_Earth extends SpellBook {
 				curUser.spend( Actor.TICK );
 				curUser.busy();
 				((HeroSprite)curUser.sprite).read();
-				Dungeon.hero.sprite.centerEmitter().burst(MagicMissile.EarthParticle.ATTRACT, Dungeon.depth/2+buffedLvl());
+				Dungeon.hero.sprite.centerEmitter().burst(MagicMissile.EarthParticle.ATTRACT, 20);
 				Sample.INSTANCE.play(Assets.Sounds.READ);
 			}
 		}

@@ -22,7 +22,18 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Callback;
 
 public class Katana extends MeleeWeapon {
 
@@ -43,5 +54,53 @@ public class Katana extends MeleeWeapon {
     public int max(int lvl) {
         return  5*(tier+2) +
                 lvl*(tier+2);
+    }
+
+    @Override
+    public String targetingPrompt() {
+        return Messages.get(this, "prompt");
+    }
+
+    @Override
+    protected void duelistAbility(Hero hero, Integer target) {
+        flashSlashAbility(hero, target, 0.5f, this);
+    }
+
+    public static void flashSlashAbility(Hero hero, Integer target, float energy, MeleeWeapon wep){
+        if (target == null) {
+            return;
+        }
+
+        Char enemy = Actor.findChar(target);
+        if (enemy == null || enemy == hero || hero.isCharmedBy(enemy) || !Dungeon.level.heroFOV[target]) {
+            GLog.w(Messages.get(wep, "ability_no_target"));
+            return;
+        }
+
+        hero.belongings.abilityWeapon = wep;
+        if (!hero.canAttack(enemy)){
+            GLog.w(Messages.get(wep, "ability_bad_position"));
+            hero.belongings.abilityWeapon = null;
+            return;
+        }
+        hero.belongings.abilityWeapon = null;
+
+        hero.sprite.attack(enemy.pos, new Callback() {
+            @Override
+            public void call() {
+                wep.beforeAbilityUsed(hero);
+                AttackIndicator.target(enemy);
+                if (hero.attack(enemy)) {
+                    Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+                    if (!enemy.isAlive()){
+                        wep.onAbilityKill(hero);
+                        Buff.affect(hero, MeleeWeapon.Charger.class).gainCharge(energy);
+                    }
+                }
+                Invisibility.dispel();
+                hero.next();
+                wep.afterAbilityUsed(hero);
+            }
+        });
     }
 }

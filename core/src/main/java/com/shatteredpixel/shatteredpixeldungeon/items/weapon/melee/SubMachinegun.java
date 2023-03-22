@@ -24,11 +24,13 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cloaking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
@@ -36,10 +38,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
@@ -48,13 +50,13 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.AmmoBelt;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -64,13 +66,10 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 
 public class SubMachinegun extends MeleeWeapon {
 
@@ -99,6 +98,9 @@ public class SubMachinegun extends MeleeWeapon {
         hitSoundPitch = 0.8f;
 
         tier = 3;
+
+        gun = true;
+        machineGun = true;
     }
 
     private static final String ROUND = "round";
@@ -153,6 +155,16 @@ public class SubMachinegun extends MeleeWeapon {
             actions.add(AC_RELOAD);
         }
         return actions;
+    }
+
+    @Override
+    public float abilityChargeUse( Hero hero ) {
+        return 0;
+    }
+
+    @Override
+    protected void duelistAbility(Hero hero, Integer target) {
+        CrudePistol.shootAbility(hero, this);
     }
 
 
@@ -290,6 +302,21 @@ public class SubMachinegun extends MeleeWeapon {
     }
 
     @Override
+    public int proc( Char attacker, Char defender, int damage ) {
+        if (light) {
+            damage *= 0.75f;
+        }
+        if (heavy) {
+            damage *= 1.1f;
+        }
+        if (flash && attacker.buff(Light.class) == null) {
+            Buff.affect(defender, Blindness.class, 5f);
+            Buff.affect(attacker, Light.class, 50f);
+        }
+        return super.proc( attacker, defender, damage );
+    }
+
+    @Override
     public String info() {
 
         max_round = (magazine) ? 12 : 9;
@@ -298,54 +325,18 @@ public class SubMachinegun extends MeleeWeapon {
         }
 
         reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
-        String info = desc();
+        String info = super.info();
 
         if (levelKnown) {
-            info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
-            if (STRReq() > Dungeon.hero.STR()) {
-                info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (Dungeon.hero.STR() > STRReq()){
-                info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
-            }
-            info += "\n\n" + Messages.get(SubMachinegun.class, "stats_known",
-                    Bulletmin(SubMachinegun.this.buffedLvl()),
-                    Bulletmax(SubMachinegun.this.buffedLvl()),
+            info += "\n\n" + Messages.get(CrudePistol.class, "stats_known",
+                    Bulletmin(this.buffedLvl()),
+                    Bulletmax(this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
-            info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-            if (STRReq(0) > Dungeon.hero.STR()) {
-                info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
-            }
-            info += "\n\n" + Messages.get(SubMachinegun.class, "stats_unknown",
+            info += "\n\n" + Messages.get(CrudePistol.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
-        }
-
-        String statsInfo = statsInfo();
-        if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
-
-        switch (augment) {
-            case SPEED:
-                info += " " + Messages.get(Weapon.class, "faster");
-                break;
-            case DAMAGE:
-                info += " " + Messages.get(Weapon.class, "stronger");
-                break;
-            case NONE:
-        }
-
-        if (enchantment != null && (cursedKnown || !enchantment.curse())){
-            info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
-            info += " " + Messages.get(enchantment, "desc");
-        }
-
-        if (cursed && isEquipped( Dungeon.hero )) {
-            info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
-        } else if (cursedKnown && cursed) {
-            info += "\n\n" + Messages.get(Weapon.class, "cursed");
-        } else if (!isIdentified() && cursedKnown){
-            info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
         }
 
         if (silencer) {
@@ -424,6 +415,9 @@ public class SubMachinegun extends MeleeWeapon {
             hitSound = Assets.Sounds.PUFF;
             tier = 3;
             ACC = 0.7f;
+
+            bullet = true;
+            machineGunBullet = true;
         }
 
         @Override
@@ -459,6 +453,9 @@ public class SubMachinegun extends MeleeWeapon {
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
+            if (silencer) {
+                damage *= 0.75f;
+            }
             SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
             WindBow bow2 = hero.belongings.getItem(WindBow.class);
             GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
@@ -517,6 +514,31 @@ public class SubMachinegun extends MeleeWeapon {
             float accFactor = super.accuracyFactor(owner, target);
             if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
                 accFactor += 0.1f * Dungeon.hero.pointsInTalent(Talent.ENHANCED_FOCUSING);
+            }
+            if (short_barrel) {
+                if (Dungeon.level.adjacent( owner.pos, target.pos )) {
+                    accFactor *= 1.25f;
+                } else {
+                    accFactor *= 0.75f;
+                }
+            }
+            if (long_barrel) {
+                if (Dungeon.level.adjacent( owner.pos, target.pos )) {
+                    accFactor *= 0.75f;
+                } else {
+                    accFactor *= 1.1f;
+                }
+            }
+            if (magazine) {
+                if (!(Dungeon.level.adjacent( owner.pos, target.pos ))) {
+                    accFactor *= 0.85f;
+                }
+            }
+            if (light) {
+                accFactor *= 0.9f;
+            }
+            if (heavy) {
+                accFactor *= 1.1f;
             }
             return accFactor;
         }

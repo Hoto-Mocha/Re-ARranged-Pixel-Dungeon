@@ -20,9 +20,11 @@
  */
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -46,14 +48,13 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.AmmoBelt;
-import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -68,8 +69,6 @@ import com.watabou.utils.Random;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 
 public class RocketLauncher extends MeleeWeapon {
 
@@ -98,6 +97,9 @@ public class RocketLauncher extends MeleeWeapon {
         hitSoundPitch = 0.8f;
 
         tier = 5;
+
+        gun = true;
+        rocketGun = true;
     }
 
     private static final String ROUND = "round";
@@ -131,6 +133,16 @@ public class RocketLauncher extends MeleeWeapon {
             actions.add(AC_RELOAD);
         }
         return actions;
+    }
+
+    @Override
+    public float abilityChargeUse( Hero hero ) {
+        return 0;
+    }
+
+    @Override
+    protected void duelistAbility(Hero hero, Integer target) {
+        CrudePistol.shootAbility(hero, this);
     }
 
 
@@ -322,54 +334,40 @@ public class RocketLauncher extends MeleeWeapon {
             max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
         }
         reload_time = 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
-        String info = desc();
+        String info = super.info();
 
         if (levelKnown) {
-            info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
-            if (STRReq() > hero.STR()) {
-                info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (hero.STR() > STRReq()){
-                info += " " + Messages.get(Weapon.class, "excess_str", hero.STR() - STRReq());
-            }
-            info += "\n\n" + Messages.get(RocketLauncher.class, "stats_known",
-                    Bulletmin(RocketLauncher.this.buffedLvl()),
-                    Bulletmax(RocketLauncher.this.buffedLvl()),
+            info += "\n\n" + Messages.get(CrudePistol.class, "stats_known",
+                    Bulletmin(this.buffedLvl()),
+                    Bulletmax(this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
-            info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-            if (STRReq(0) > hero.STR()) {
-                info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
-            }
-            info += "\n\n" + Messages.get(RocketLauncher.class, "stats_unknown",
+            info += "\n\n" + Messages.get(CrudePistol.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         }
 
-        String statsInfo = statsInfo();
-        if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
-
-        switch (augment) {
-            case SPEED:
-                info += " " + Messages.get(Weapon.class, "faster");
-                break;
-            case DAMAGE:
-                info += " " + Messages.get(Weapon.class, "stronger");
-                break;
-            case NONE:
+        if (silencer) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "silencer");
         }
-
-        if (enchantment != null && (cursedKnown || !enchantment.curse())){
-            info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
-            info += " " + Messages.get(enchantment, "desc");
+        if (short_barrel) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "short_barrel");
         }
-
-        if (cursed && isEquipped( hero )) {
-            info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
-        } else if (cursedKnown && cursed) {
-            info += "\n\n" + Messages.get(Weapon.class, "cursed");
-        } else if (!isIdentified() && cursedKnown){
-            info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
+        if (long_barrel) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "long_barrel");
+        }
+        if (magazine) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "magazine");
+        }
+        if (light) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "light");
+        }
+        if (heavy) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "heavy");
+        }
+        if (flash) {
+            info += "\n\n" + Messages.get(CrudePistol.class, "flash");
         }
 
         if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown) {
@@ -425,6 +423,9 @@ public class RocketLauncher extends MeleeWeapon {
 
             hitSound = Assets.Sounds.PUFF;
             tier = 5;
+
+            bullet = true;
+            rocketGunBullet = true;
         }
 
         @Override

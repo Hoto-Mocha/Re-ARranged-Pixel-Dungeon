@@ -21,20 +21,23 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.watabou.noosa.audio.Sample;
 
 public class Bible extends MeleeWeapon {
 
@@ -72,6 +75,45 @@ public class Bible extends MeleeWeapon {
 	public int max(int lvl) {
 		return  3*(tier+1) +    //12 base, down from 20
 				lvl*(tier);     //+3 per level, down from +4
+	}
+
+	@Override
+	public float abilityChargeUse( Hero hero ) {
+		return 2*super.abilityChargeUse(hero);
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		angelAbility(hero, 5, this);
+	}
+
+	public static void angelAbility(Hero hero, int duration, MeleeWeapon wep){
+		wep.beforeAbilityUsed(hero);
+		Buff.prolong(hero, Angel.class, duration);
+		hero.next();
+		((HeroSprite)hero.sprite).read();
+		CellEmitter.get( Dungeon.hero.pos ).burst( Speck.factory( Speck.WOOL ), 6 );
+		Sample.INSTANCE.play( Assets.Sounds.PUFF );
+		Sample.INSTANCE.play( Assets.Sounds.READ );
+		wep.afterAbilityUsed(hero);
+	}
+
+	public static class Angel extends FlavourBuff {
+
+		{
+			announced = true;
+			type = buffType.POSITIVE;
+		}
+
+		@Override
+		public int icon() {
+			return BuffIndicator.DUEL_ANGEL;
+		}
+
+		@Override
+		public float iconFadePercent() {
+			return Math.max(0, (6 - visualcooldown()) / 6);
+		}
 	}
 
 }

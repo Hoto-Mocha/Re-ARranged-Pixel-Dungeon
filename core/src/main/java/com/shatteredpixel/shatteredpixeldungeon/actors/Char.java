@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,12 +68,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Iaido;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LifeLink;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
@@ -97,6 +96,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.nurse.AngelWing;
@@ -128,7 +128,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFury;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfRush;
@@ -139,7 +138,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfSirensSong;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFrost;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLightning;
@@ -148,6 +146,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
@@ -162,7 +161,6 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrimTrap;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
@@ -183,14 +181,14 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 public abstract class Char extends Actor {
-	
+
 	public int pos = 0;
-	
+
 	public CharSprite sprite;
-	
+
 	public int HT;
 	public int HP;
-	
+
 	protected float baseSpeed	= 1;
 	protected PathFinder.Path path;
 
@@ -198,7 +196,7 @@ public abstract class Char extends Actor {
 	public boolean rooted		= false;
 	public boolean flying		= false;
 	public int invisible		= 0;
-	
+
 	//these are relative to the hero
 	public enum Alignment{
 		ENEMY,
@@ -206,13 +204,13 @@ public abstract class Char extends Actor {
 		ALLY
 	}
 	public Alignment alignment;
-	
+
 	public int viewDistance	= 8;
-	
+
 	public boolean[] fieldOfView = null;
-	
+
 	private LinkedHashSet<Buff> buffs = new LinkedHashSet<>();
-	
+
 	@Override
 	protected boolean act() {
 		if (fieldOfView == null || fieldOfView.length != Dungeon.level.length()){
@@ -256,7 +254,7 @@ public abstract class Char extends Actor {
 			return false;
 		}
 	}
-	
+
 	//swaps places by default
 	public boolean interact(Char c){
 
@@ -294,7 +292,7 @@ public abstract class Char extends Actor {
 
 		moveSprite( pos, c.pos );
 		move( c.pos );
-		
+
 		c.sprite.move( c.pos, curPos );
 		c.move( curPos );
 
@@ -314,7 +312,7 @@ public abstract class Char extends Actor {
 
 		if (c == hero && hero.hasTalent(Talent.QUICK_RELOAD)) {
 			int chance = 2*hero.pointsInTalent(Talent.QUICK_RELOAD);
-			KindOfWeapon wep = hero.belongings.weapon();
+			KindOfWeapon wep = hero.belongings.attackingWeapon();
 			KindOfWeapon eqWep = hero.belongings.weapon;
 			if (wep instanceof CrudePistol && ((CrudePistol)eqWep).round < ((CrudePistol)eqWep).max_round && Random.Int(100) < chance) {
 				((CrudePistol)eqWep).round = Math.min(((CrudePistol)eqWep).round+1, ((CrudePistol)eqWep).max_round);
@@ -403,12 +401,12 @@ public abstract class Char extends Actor {
 			Dungeon.hero.busy();
 		}
 
-		
+
 		return true;
 	}
-	
+
 	protected boolean moveSprite( int from, int to ) {
-		
+
 		if (sprite.isVisible() && (Dungeon.level.heroFOV[from] || Dungeon.level.heroFOV[to])) {
 			sprite.move( from, to );
 			return true;
@@ -426,33 +424,33 @@ public abstract class Char extends Actor {
 	public boolean blockSound( float pitch ) {
 		return false;
 	}
-	
+
 	protected static final String POS       = "pos";
 	protected static final String TAG_HP    = "HP";
 	protected static final String TAG_HT    = "HT";
 	protected static final String TAG_SHLD  = "SHLD";
 	protected static final String BUFFS	    = "buffs";
-	
+
 	@Override
 	public void storeInBundle( Bundle bundle ) {
-		
+
 		super.storeInBundle( bundle );
-		
+
 		bundle.put( POS, pos );
 		bundle.put( TAG_HP, HP );
 		bundle.put( TAG_HT, HT );
 		bundle.put( BUFFS, buffs );
 	}
-	
+
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
-		
+
 		super.restoreFromBundle( bundle );
-		
+
 		pos = bundle.getInt( POS );
 		HP = bundle.getInt( TAG_HP );
 		HT = bundle.getInt( TAG_HT );
-		
+
 		for (Bundlable b : bundle.getCollection( BUFFS )) {
 			if (b != null) {
 				((Buff)b).attachTo( this );
@@ -467,11 +465,11 @@ public abstract class Char extends Actor {
 			return attack(enemy, 1f, 0f, 1f);
 		}
 	}
-	
+
 	public boolean attack( Char enemy, float dmgMulti, float dmgBonus, float accMulti ) {
 
 		if (enemy == null) return false;
-		
+
 		boolean visibleFight = Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[enemy.pos];
 
 		if (enemy.isInvulnerable(getClass())) {
@@ -484,8 +482,8 @@ public abstract class Char extends Actor {
 
 			return false;
 
-		} else if (hit( this, enemy, accMulti )) {
-			
+		} else if (hit( this, enemy, accMulti, false )) {
+
 			int dr = Math.round(enemy.drRoll() * AscensionChallenge.statModifier(enemy));
 
 			Barkskin bark = enemy.buff(Barkskin.class);
@@ -503,9 +501,9 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero && hero.subClass == HeroSubClass.WEAPONMASTER) {
-				if ( hero.belongings.weapon() instanceof Spear
-					|| hero.belongings.weapon() instanceof Glaive
-					|| hero.belongings.weapon() instanceof Lance ) {
+				if ( hero.belongings.attackingWeapon() instanceof Spear
+					|| hero.belongings.attackingWeapon() instanceof Glaive
+					|| hero.belongings.attackingWeapon() instanceof Lance ) {
 					dr *= 1 - 0.1f*(Math.min(hero.belongings.weapon.buffedLvl(), 10));
 				}
 			}
@@ -513,9 +511,9 @@ public abstract class Char extends Actor {
 			if (this instanceof Hero && Dungeon.isChallenged(Challenges.PYRO)) {
 				Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
 			}
-			
-			if (this instanceof Hero){
-				Hero h = (Hero)this;
+
+			if (this instanceof Hero) {
+				Hero h = (Hero) this;
 				KindOfWeapon wep = h.belongings.weapon();
 				KindOfWeapon equippedWep = h.belongings.weapon;
 				if (wep instanceof TrueRunicBlade) {
@@ -525,7 +523,13 @@ public abstract class Char extends Actor {
 						&& ((Mob) enemy).surprisedBy(hero)) {
 					dr = 0;
 				}
-				if (wep instanceof MissileWeapon
+			}
+
+			if (this instanceof Hero){
+				Hero h = (Hero)this;
+				KindOfWeapon wep = h.belongings.attackingWeapon();
+				KindOfWeapon equippedWep = h.belongings.weapon;
+				if (h.belongings.attackingWeapon() instanceof MissileWeapon
 						&& h.subClass == HeroSubClass.SNIPER
 						&& !Dungeon.level.adjacent(h.pos, enemy.pos)){
 					dr = 0;
@@ -594,6 +598,13 @@ public abstract class Char extends Actor {
 						|| (wep instanceof KSG.Bullet && (equippedWep instanceof KSGHP))) {
 					dr *= 2;
 				}
+
+				if (h.buff(MonkEnergy.MonkAbility.UnarmedAbilityTracker.class) != null){
+					dr = 0;
+				} else if (h.subClass == HeroSubClass.MONK) {
+					//3 turns with standard attack delay
+					Buff.prolong(h, MonkEnergy.MonkAbility.JustHitTracker.class, 4f);
+				}
 			}
 
 			//we use a float here briefly so that we don't have to constantly round while
@@ -632,13 +643,13 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero && hero.subClass == HeroSubClass.WEAPONMASTER && hero.belongings.weapon != null) {
 				if (Random.Int(100) < Math.min(hero.belongings.weapon.buffedLvl()+1, 10) && (
-					hero.belongings.weapon() instanceof WornKatana
-				 || hero.belongings.weapon() instanceof ShortKatana
-				 || hero.belongings.weapon() instanceof Katana
-				 || hero.belongings.weapon() instanceof LongKatana
-				 || hero.belongings.weapon() instanceof LargeKatana
-				 || hero.belongings.weapon() instanceof SharpKatana
-				 || hero.belongings.weapon() instanceof WornKatana_Energy)) {
+					hero.belongings.attackingWeapon() instanceof WornKatana
+				 || hero.belongings.attackingWeapon() instanceof ShortKatana
+				 || hero.belongings.attackingWeapon() instanceof Katana
+				 || hero.belongings.attackingWeapon() instanceof LongKatana
+				 || hero.belongings.attackingWeapon() instanceof LargeKatana
+				 || hero.belongings.attackingWeapon() instanceof SharpKatana
+				 || hero.belongings.attackingWeapon() instanceof WornKatana_Energy)) {
 					dmg *= 2f;
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 					hero.sprite.showStatus( CharSprite.NEUTRAL, "!" );
@@ -663,7 +674,7 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon != null && hero.belongings.weapon() instanceof MissileWeapon) {
+			if (this instanceof Hero && hero.belongings.weapon != null && hero.belongings.attackingWeapon() instanceof MissileWeapon) {
 				float procChance; //chance to be activated
 				int lvl = hero.belongings.weapon.buffedLvl();
 				if (hero.belongings.weapon instanceof SpellBook_Corrosion) {
@@ -836,7 +847,7 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon() instanceof Cross) {
+			if (this instanceof Hero && hero.belongings.attackingWeapon() instanceof Cross) {
 				if (enemy.properties().contains(Char.Property.DEMONIC) || enemy.properties().contains(Char.Property.UNDEAD)){
 					enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
 					Sample.INSTANCE.play(Assets.Sounds.BURNING);
@@ -846,9 +857,9 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero) {
-				if (Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleAP.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifleHP.Bullet) {
+				if (Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifle.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifleAP.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifleHP.Bullet) {
 					int distance = Dungeon.level.distance(hero.pos, enemy.pos) - 1;
 					float multiplier = Math.min(4f, (float)Math.pow(1.2f, distance + 1));
 					dmg = Math.round(dmg * multiplier);
@@ -861,18 +872,6 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon() instanceof ForceGlove) {
-				if (Dungeon.level.adjacent( pos, enemy.pos )) {
-					dmg *= 0.5f;
-					//trace a ballistica to our target (which will also extend past them
-					Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
-					//trim it to just be the part that goes past them
-					trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
-					//knock them back along that ballistica
-					WandOfBlastWave.throwChar(enemy, trajectory, 20, true, true, hero.getClass());
-				}
-			}
-
 			if (this instanceof Hero && hero.hasTalent(Talent.BIOLOGY_PROJECT)) {
 				if (!(enemy.properties().contains(Property.INORGANIC) || enemy.properties().contains(Property.UNDEAD))){
 					enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 3 );
@@ -882,7 +881,7 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon() instanceof MissileWeapon && hero.hasTalent(Talent.SNARE) && hero.buff(Talent.SnareCooldown.class) == null) {
+			if (this instanceof Hero && hero.belongings.attackingWeapon() instanceof MissileWeapon && hero.hasTalent(Talent.SNARE) && hero.buff(Talent.SnareCooldown.class) == null) {
 				Buff.prolong(enemy, Cripple.class, 5f);
 				Buff.affect(hero, Talent.SnareCooldown.class, 10*(4-Dungeon.hero.pointsInTalent(Talent.SNARE)));
 			}
@@ -898,16 +897,6 @@ public abstract class Char extends Actor {
 
 			if (buff( Fury.class ) != null) {
 				dmg *= 1.5f;
-			}
-
-			if (this instanceof Hero && hero.buff(LanceBuff.class) != null && hero.belongings.weapon() instanceof Lance) {
-				dmg *= 1f + hero.buff(LanceBuff.class).getDamageFactor();
-				Buff.detach(this, LanceBuff.class);
-			}
-
-			if (this instanceof Hero && hero.buff(LanceBuff.class) != null && hero.belongings.weapon() instanceof LanceNShield && ((LanceNShield)hero.belongings.weapon).stance) {
-				dmg *= 1f + hero.buff(LanceBuff.class).getDamageFactor();
-				Buff.detach(this, LanceBuff.class);
 			}
 
 			if (this instanceof Hero) {
@@ -931,7 +920,7 @@ public abstract class Char extends Actor {
 			if (this instanceof Hero
 					&& hero.hasTalent(Talent.TAKEDOWN)
 					&& hero.buff(Talent.TakeDownCooldown.class) == null
-					&& (hero.belongings.weapon() instanceof Shovel || hero.belongings.weapon() instanceof GildedShovel || hero.belongings.weapon() instanceof Spade || hero.belongings.weapon() instanceof MinersTool)) {
+					&& (hero.belongings.attackingWeapon() instanceof Shovel || hero.belongings.attackingWeapon() instanceof GildedShovel || hero.belongings.attackingWeapon() instanceof Spade || hero.belongings.attackingWeapon() instanceof MinersTool)) {
 				Buff.affect(hero, Talent.TakeDownCooldown.class, 15f);
 			}
 
@@ -989,22 +978,22 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero) {
-				if (Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher.Rocket) {
+				if (Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncher.Rocket) {
 					Buff.prolong(enemy, Vulnerable.class, 5f);
 				}
-				if (Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP.Rocket) {
+				if (Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncherHP.Rocket) {
 					Buff.prolong(enemy, Paralysis.class, 3f);
 				}
-				//if (Dungeon.hero.belongings.weapon() instanceof SleepGun.Dart) {
+				//if (Dungeon.hero.belongings.attackingWeapon() instanceof SleepGun.Dart) {
 				//	{actPriority = VFX_PRIO;}
 				//	Buff.affect(enemy, MagicalSleep.class);
 				//}
-				//if (Dungeon.hero.belongings.weapon() instanceof FrostGun.Dart) {
+				//if (Dungeon.hero.belongings.attackingWeapon() instanceof FrostGun.Dart) {
 				//	{actPriority = VFX_PRIO;}
 				//	Buff.affect(enemy, Frost.class, 20f);
 				//}
 				//ParalysisGun paralysisGun = new ParalysisGun();
-				//if (Dungeon.hero.belongings.weapon() instanceof ParalysisGun.Dart) {
+				//if (Dungeon.hero.belongings.attackingWeapon() instanceof ParalysisGun.Dart) {
 				//	{actPriority = VFX_PRIO;}
 				//	Buff.affect(enemy, Paralysis.class, 5f + paralysisGun.buffedLvl());
 				//}
@@ -1139,118 +1128,11 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero) {
-				if ((hero.belongings.weapon() instanceof CrudePistol.Bullet && ((CrudePistol)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof Pistol.Bullet && ((Pistol)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof GoldenPistol.Bullet && ((GoldenPistol)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof Handgun.Bullet && ((Handgun)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof Magnum.Bullet && ((Magnum)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof TacticalHandgun.Bullet && ((TacticalHandgun)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof DualPistol.Bullet && ((DualPistol)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof SubMachinegun.Bullet && ((SubMachinegun)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof AssultRifle.Bullet && ((AssultRifle)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof HeavyMachinegun.Bullet && ((HeavyMachinegun)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof AutoRifle.Bullet && ((AutoRifle)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof MiniGun.Bullet && ((MiniGun)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof Revolver.Bullet && ((Revolver)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof HuntingRifle.Bullet && ((HuntingRifle)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof Carbine.Bullet && ((Carbine)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof SniperRifle.Bullet && ((SniperRifle)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof AntimaterRifle.Bullet && ((AntimaterRifle)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof MarksmanRifle.Bullet && ((MarksmanRifle)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof WA2000.Bullet && ((WA2000)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof ShotGun.Bullet && ((ShotGun)hero.belongings.weapon).silencer)
-						|| (hero.belongings.weapon() instanceof KSG.Bullet && ((KSG)hero.belongings.weapon).silencer)
-				) {
-					dmg *= 0.75f;
-				}
-
-				if ((hero.belongings.weapon() instanceof CrudePistol && ((CrudePistol)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof Pistol && ((Pistol)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof GoldenPistol && ((GoldenPistol)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof Handgun && ((Handgun)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof Magnum && ((Magnum)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof TacticalHandgun && ((TacticalHandgun)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof AutoHandgun && ((AutoHandgun)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof DualPistol && ((DualPistol)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof SubMachinegun && ((SubMachinegun)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof AssultRifle && ((AssultRifle)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof HeavyMachinegun && ((HeavyMachinegun)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof MiniGun && ((MiniGun)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof AutoRifle && ((AutoRifle)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof Revolver && ((Revolver)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof HuntingRifle && ((HuntingRifle)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof Carbine && ((Carbine)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof SniperRifle && ((SniperRifle)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof AntimaterRifle && ((AntimaterRifle)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof MarksmanRifle && ((MarksmanRifle)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof WA2000 && ((WA2000)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof ShotGun && ((ShotGun)hero.belongings.weapon).light)
-						|| (hero.belongings.weapon() instanceof KSG && ((KSG)hero.belongings.weapon).light)
-				) {
-					dmg *= 0.75f;
-				}
-
-				if ((hero.belongings.weapon() instanceof CrudePistol && ((CrudePistol)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof Pistol && ((Pistol)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof GoldenPistol && ((GoldenPistol)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof Handgun && ((Handgun)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof Magnum && ((Magnum)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof TacticalHandgun && ((TacticalHandgun)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof AutoHandgun && ((AutoHandgun)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof DualPistol && ((DualPistol)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof SubMachinegun && ((SubMachinegun)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof AssultRifle && ((AssultRifle)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof HeavyMachinegun && ((HeavyMachinegun)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof MiniGun && ((MiniGun)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof AutoRifle && ((AutoRifle)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof Revolver && ((Revolver)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof HuntingRifle && ((HuntingRifle)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof Carbine && ((Carbine)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof SniperRifle && ((SniperRifle)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof AntimaterRifle && ((AntimaterRifle)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof MarksmanRifle && ((MarksmanRifle)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof WA2000 && ((WA2000)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof ShotGun && ((ShotGun)hero.belongings.weapon).heavy)
-						|| (hero.belongings.weapon() instanceof KSG && ((KSG)hero.belongings.weapon).heavy)
-				) {
-					dmg *= 1.1f;
-				}
-
-				if (((hero.belongings.weapon() instanceof CrudePistol && ((CrudePistol)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof Pistol && ((Pistol)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof GoldenPistol && ((GoldenPistol)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof Handgun && ((Handgun)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof Magnum && ((Magnum)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof TacticalHandgun && ((TacticalHandgun)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof AutoHandgun && ((AutoHandgun)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof DualPistol && ((DualPistol)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof SubMachinegun && ((SubMachinegun)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof AssultRifle && ((AssultRifle)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof HeavyMachinegun && ((HeavyMachinegun)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof MiniGun && ((MiniGun)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof AutoRifle && ((AutoRifle)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof Revolver && ((Revolver)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof HuntingRifle && ((HuntingRifle)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof Carbine && ((Carbine)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof SniperRifle && ((SniperRifle)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof AntimaterRifle && ((AntimaterRifle)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof MarksmanRifle && ((MarksmanRifle)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof WA2000 && ((WA2000)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof ShotGun && ((ShotGun)hero.belongings.weapon).flash)
-						|| (hero.belongings.weapon() instanceof KSG && ((KSG)hero.belongings.weapon).flash)) && hero.buff(Light.class) == null
-				) {
-					Buff.affect(enemy, Blindness.class, 5f);
-					Buff.affect(hero, Light.class, 50f);
-				}
-			}
-
-			if (this instanceof Hero) {
 				float heroHPPercent = ((float)hero.HP / (float)hero.HT);
-				if (Dungeon.hero.belongings.weapon() instanceof TacticalHandgun.Bullet
-						||Dungeon.hero.belongings.weapon() instanceof TacticalHandgunAP.Bullet
-						||Dungeon.hero.belongings.weapon() instanceof TacticalHandgunHP.Bullet
-						||Dungeon.hero.belongings.weapon() instanceof TacticalShield.Bullet ) {
+				if (Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun.Bullet
+						||Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgunAP.Bullet
+						||Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgunHP.Bullet
+						||Dungeon.hero.belongings.attackingWeapon() instanceof TacticalShield.Bullet ) {
 					dmg *= GameMath.gate(0.125f, 2*heroHPPercent, 1.5f); //0%~6.25% HP : 0.125x, scales defend on Hero health, 75%~100% HP : 1.5x
 				}
 			}
@@ -1258,35 +1140,35 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero) {
 				if (Dungeon.hero.buff(ExtraBullet.class) != null) {
-					if (Dungeon.hero.belongings.weapon() instanceof CrudePistol
-					 || Dungeon.hero.belongings.weapon() instanceof Pistol
-					 || Dungeon.hero.belongings.weapon() instanceof GoldenPistol
-					 || Dungeon.hero.belongings.weapon() instanceof Handgun
-					 || Dungeon.hero.belongings.weapon() instanceof Magnum
-					 || Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
-					 || Dungeon.hero.belongings.weapon() instanceof AutoHandgun
-					 || Dungeon.hero.belongings.weapon() instanceof DualPistol
-					 || Dungeon.hero.belongings.weapon() instanceof SubMachinegun
-					 || Dungeon.hero.belongings.weapon() instanceof AssultRifle
-					 || Dungeon.hero.belongings.weapon() instanceof HeavyMachinegun
-					 || Dungeon.hero.belongings.weapon() instanceof MiniGun
-					 || Dungeon.hero.belongings.weapon() instanceof AutoRifle
-					 || Dungeon.hero.belongings.weapon() instanceof Revolver
-					 || Dungeon.hero.belongings.weapon() instanceof HuntingRifle
-					 || Dungeon.hero.belongings.weapon() instanceof Carbine
-					 || Dungeon.hero.belongings.weapon() instanceof SniperRifle
-					 || Dungeon.hero.belongings.weapon() instanceof AntimaterRifle
-					 || Dungeon.hero.belongings.weapon() instanceof MarksmanRifle
-					 || Dungeon.hero.belongings.weapon() instanceof WA2000
-					 || Dungeon.hero.belongings.weapon() instanceof ShotGun
-					 || Dungeon.hero.belongings.weapon() instanceof KSG
-					 || Dungeon.hero.belongings.weapon() instanceof RocketLauncher
-					 || Dungeon.hero.belongings.weapon() instanceof RPG7
-					 || Dungeon.hero.belongings.weapon() instanceof FlameThrower
-					 || Dungeon.hero.belongings.weapon() instanceof PlasmaCannon
-					 || Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher
-					 || Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherAP
-					 || Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP
+					if (Dungeon.hero.belongings.attackingWeapon() instanceof CrudePistol
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof Pistol
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof GoldenPistol
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof Handgun
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof Magnum
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof AutoHandgun
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof DualPistol
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof SubMachinegun
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof AssultRifle
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof HeavyMachinegun
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof MiniGun
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof AutoRifle
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof Revolver
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof HuntingRifle
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof Carbine
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof SniperRifle
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifle
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof MarksmanRifle
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof WA2000
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof ShotGun
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof KSG
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof RocketLauncher
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof RPG7
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrower
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannon
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncher
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncherAP
+					 || Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncherHP
 					) {
 						dmg += 3;
 					}
@@ -1295,39 +1177,39 @@ public abstract class Char extends Actor {
 			}
 
 			if (Dungeon.hero.buff(Riot.riotTracker.class) != null) {
-				if (Dungeon.hero.belongings.weapon() instanceof CrudePistol.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof Pistol.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof GoldenPistol.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof Handgun.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof Magnum.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof AutoHandgun.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof DualPistol.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof SubMachinegun.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof AssultRifle.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof HeavyMachinegun.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof MiniGun.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof AutoRifle.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof Revolver.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof Carbine.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof SniperRifle.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof WA2000.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifle.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof ShotGun.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof KSG.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher.Rocket
-						|| Dungeon.hero.belongings.weapon() instanceof RPG7.Rocket
-						//|| Dungeon.hero.belongings.weapon() instanceof FlameThrower.Bullet
-						//|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerAP.Bullet
-						//|| Dungeon.hero.belongings.weapon() instanceof FlameThrowerHP.Bullet
-						//|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannon.Bullet
-						//|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannonAP.Bullet
-						//|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannonHP.Bullet
-						|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncher.Rocket
-						|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherAP.Rocket
-						|| Dungeon.hero.belongings.weapon() instanceof GrenadeLauncherHP.Rocket
+				if (Dungeon.hero.belongings.attackingWeapon() instanceof CrudePistol.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof Pistol.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof GoldenPistol.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof Handgun.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof Magnum.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoHandgun.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof DualPistol.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof SubMachinegun.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof AssultRifle.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof HeavyMachinegun.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof MiniGun.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoRifle.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof Revolver.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof HuntingRifle.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof Carbine.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof SniperRifle.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifle.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof WA2000.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof MarksmanRifle.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof ShotGun.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof KSG.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof RocketLauncher.Rocket
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof RPG7.Rocket
+						//|| Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrower.Bullet
+						//|| Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrowerAP.Bullet
+						//|| Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrowerHP.Bullet
+						//|| Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannon.Bullet
+						//|| Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannonAP.Bullet
+						//|| Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannonHP.Bullet
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncher.Rocket
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncherAP.Rocket
+						|| Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncherHP.Rocket
 				) {
 					dmg *= 0.5f;
 				}
@@ -1336,32 +1218,32 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero) {
 				if (hero.heroClass == HeroClass.GUNNER) {
-					if (Dungeon.hero.belongings.weapon() instanceof CrudePistol
-							|| Dungeon.hero.belongings.weapon() instanceof Pistol
-							|| Dungeon.hero.belongings.weapon() instanceof GoldenPistol
-							|| Dungeon.hero.belongings.weapon() instanceof Handgun
-							|| Dungeon.hero.belongings.weapon() instanceof Magnum
-							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun
-							|| Dungeon.hero.belongings.weapon() instanceof AutoHandgun
-							|| Dungeon.hero.belongings.weapon() instanceof DualPistol
-							|| Dungeon.hero.belongings.weapon() instanceof SubMachinegun
-							|| Dungeon.hero.belongings.weapon() instanceof AssultRifle
-							|| Dungeon.hero.belongings.weapon() instanceof HeavyMachinegun
-							|| Dungeon.hero.belongings.weapon() instanceof MiniGun
-							|| Dungeon.hero.belongings.weapon() instanceof AutoRifle
-							|| Dungeon.hero.belongings.weapon() instanceof Revolver
-							|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle
-							|| Dungeon.hero.belongings.weapon() instanceof Carbine
-							|| Dungeon.hero.belongings.weapon() instanceof SniperRifle
-							|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifle
-							|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifle
-							|| Dungeon.hero.belongings.weapon() instanceof WA2000
-							|| Dungeon.hero.belongings.weapon() instanceof ShotGun
-							|| Dungeon.hero.belongings.weapon() instanceof KSG
-							|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher
-							|| Dungeon.hero.belongings.weapon() instanceof RPG7
-							|| Dungeon.hero.belongings.weapon() instanceof FlameThrower
-							|| Dungeon.hero.belongings.weapon() instanceof PlasmaCannon
+					if (Dungeon.hero.belongings.attackingWeapon() instanceof CrudePistol
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof Pistol
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof GoldenPistol
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof Handgun
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof Magnum
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoHandgun
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof DualPistol
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof SubMachinegun
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof AssultRifle
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof HeavyMachinegun
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof MiniGun
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoRifle
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof Revolver
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof HuntingRifle
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof Carbine
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof SniperRifle
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifle
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof MarksmanRifle
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof WA2000
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof ShotGun
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof KSG
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof RocketLauncher
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof RPG7
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrower
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannon
 					) {
 						dmg += Random.NormalIntRange(0, hero.belongings.weapon.buffedLvl());
 					}
@@ -1370,30 +1252,30 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero) {
 				if (hero.subClass == HeroSubClass.ENGINEER && Random.Int(5) < hero.pointsInTalent(Talent.ELECTRIC_BULLET)) {
-					if (Dungeon.hero.belongings.weapon() instanceof CrudePistol.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof Pistol.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof GoldenPistol.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof Handgun.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof Magnum.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof TacticalHandgun.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof AutoHandgun.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof DualPistol.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof SubMachinegun.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof AssultRifle.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof HeavyMachinegun.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof MiniGun.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof AutoRifle.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof Revolver.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof HuntingRifle.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof Carbine.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof SniperRifle.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof AntimaterRifle.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof MarksmanRifle.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof WA2000.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof ShotGun.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof KSG.Bullet
-							|| Dungeon.hero.belongings.weapon() instanceof RocketLauncher.Rocket
-							|| Dungeon.hero.belongings.weapon() instanceof RPG7.Rocket
+					if (Dungeon.hero.belongings.attackingWeapon() instanceof CrudePistol.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof Pistol.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof GoldenPistol.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof Handgun.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof Magnum.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoHandgun.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof DualPistol.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof SubMachinegun.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof AssultRifle.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof HeavyMachinegun.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof MiniGun.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoRifle.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof Revolver.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof HuntingRifle.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof Carbine.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof SniperRifle.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifle.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof MarksmanRifle.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof WA2000.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof ShotGun.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof KSG.Bullet
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof RocketLauncher.Rocket
+							|| Dungeon.hero.belongings.attackingWeapon() instanceof RPG7.Rocket
 					) {
 						ArrayList<Lightning.Arc> arcs = new ArrayList<>();
 						ArrayList<Char> affected = new ArrayList<>();
@@ -1415,18 +1297,18 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon() instanceof MissileWeapon && hero.hasTalent(Talent.SHOOTING_EYES) && enemy.buff(Talent.ShootingEyesTracker.class) == null) {
+			if (this instanceof Hero && hero.belongings.attackingWeapon() instanceof MissileWeapon && hero.hasTalent(Talent.SHOOTING_EYES) && enemy.buff(Talent.ShootingEyesTracker.class) == null) {
 				if (Random.Int(3) < hero.pointsInTalent(Talent.SHOOTING_EYES)) {
 					Buff.affect(enemy, Blindness.class, 2f);
 				}
 				Buff.affect(enemy, Talent.ShootingEyesTracker.class);
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon() instanceof MissileWeapon && hero.hasTalent(Talent.TARGET_SPOTTING) && hero.buff(SnipersMark.class) != null && hero.buff(SnipersMark.class).object == enemy.id()) {
+			if (this instanceof Hero && hero.belongings.attackingWeapon() instanceof MissileWeapon && hero.hasTalent(Talent.TARGET_SPOTTING) && hero.buff(SnipersMark.class) != null && hero.buff(SnipersMark.class).object == enemy.id()) {
 				dmg *= 1+0.1f*hero.pointsInTalent(Talent.TARGET_SPOTTING);
 			}
 
-			if (this instanceof Hero && hero.subClass == HeroSubClass.VETERAN && hero.belongings.weapon() instanceof MissileWeapon && hero.pointsInTalent(Talent.FOCUS_UPGRADE) == 3) {
+			if (this instanceof Hero && hero.subClass == HeroSubClass.VETERAN && hero.belongings.attackingWeapon() instanceof MissileWeapon && hero.pointsInTalent(Talent.FOCUS_UPGRADE) == 3) {
 				BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
 				if (shield != null){
 					Buff.affect( this, Focusing.class ).hit( enemy );
@@ -1438,21 +1320,21 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero && hero.buff(ArrowEnhance.class) != null
-					&& (hero.belongings.weapon() instanceof SpiritBow.SpiritArrow
-						|| hero.belongings.weapon() instanceof GoldenBow.SpiritArrow
-						|| hero.belongings.weapon() instanceof WindBow.SpiritArrow
-						|| hero.belongings.weapon() instanceof PoisonBow.SpiritArrow
-						|| hero.belongings.weapon() instanceof NaturesBow.SpiritArrow)) {
+					&& (hero.belongings.attackingWeapon() instanceof SpiritBow.SpiritArrow
+						|| hero.belongings.attackingWeapon() instanceof GoldenBow.SpiritArrow
+						|| hero.belongings.attackingWeapon() instanceof WindBow.SpiritArrow
+						|| hero.belongings.attackingWeapon() instanceof PoisonBow.SpiritArrow
+						|| hero.belongings.attackingWeapon() instanceof NaturesBow.SpiritArrow)) {
 				dmg *= 1.5f;
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon() instanceof MissileWeapon) {
+			if (this instanceof Hero && hero.belongings.attackingWeapon() instanceof MissileWeapon) {
 				int distance = Dungeon.level.distance(hero.pos, enemy.pos) - 1;
 				float multiplier = Math.min(2f, (float)Math.pow(1 + 0.025f * hero.pointsInTalent(Talent.RANGED_SNIPING), distance));
 				dmg = Math.round(dmg * multiplier);
 			}
 
-			if (this instanceof Hero && hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos) && hero.belongings.armor != null && hero.belongings.weapon() instanceof MeleeWeapon) {
+			if (this instanceof Hero && hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos) && hero.belongings.armor != null && hero.belongings.attackingWeapon() instanceof MeleeWeapon) {
 				dmg += hero.belongings.armor.DRMax()*0.05f*hero.pointsInTalent(Talent.TACKLE);
 			}
 
@@ -1526,6 +1408,10 @@ public abstract class Char extends Actor {
 				dmg *= 0.67f;
 			}
 
+			if (enemy.buff(MonkEnergy.MonkAbility.Meditate.MeditateResistance.class) != null){
+				dmg *= 0.2f;
+			}
+
 			if ( buff(Weakness.class) != null ){
 				dmg *= 0.67f;
 			}
@@ -1539,7 +1425,7 @@ public abstract class Char extends Actor {
 					dmg *= 1-0.1f*hero.pointsInTalent(Talent.MARK_OF_WEAKNESS);
 				}
 			}
-			
+
 			int effectiveDamage = enemy.defenseProc( this, Math.round(dmg) );
 			effectiveDamage = Math.max( effectiveDamage - dr, 0 );
 
@@ -1552,9 +1438,9 @@ public abstract class Char extends Actor {
 			if ( enemy.buff( Vulnerable.class ) != null){
 				effectiveDamage *= 1.33f;
 			}
-			
+
 			effectiveDamage = attackProc( enemy, effectiveDamage );
-			
+
 			if (visibleFight) {
 				if (effectiveDamage > 0 || !enemy.blockSound(Random.Float(0.96f, 1.05f))) {
 					hitSound(Random.Float(0.87f, 1.15f));
@@ -1592,12 +1478,30 @@ public abstract class Char extends Actor {
 				}
 			}
 
+			Talent.CombinedLethalityTriggerTracker combinedLethality = buff(Talent.CombinedLethalityTriggerTracker.class);
+			if (combinedLethality != null){
+				if ( enemy.isAlive() && enemy.alignment != alignment && !Char.hasProp(enemy, Property.BOSS)
+						&& !Char.hasProp(enemy, Property.MINIBOSS) && this instanceof Hero &&
+						(enemy.HP/(float)enemy.HT) <= 0.10f*((Hero)this).pointsInTalent(Talent.COMBINED_LETHALITY)) {
+					enemy.HP = 0;
+					if (!enemy.isAlive()) {
+						enemy.die(this);
+					} else {
+						//helps with triggering any on-damage effects that need to activate
+						enemy.damage(-1, this);
+						DeathMark.processFearTheReaper(enemy);
+					}
+					enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Talent.CombinedLethalityTriggerTracker.class, "executed"));
+				}
+				combinedLethality.detach();
+			}
+
 			enemy.sprite.bloodBurstA( sprite.center(), effectiveDamage );
 			enemy.sprite.flash();
 
 			if (!enemy.isAlive() && visibleFight) {
 				if (enemy == Dungeon.hero) {
-					
+
 					if (this == Dungeon.hero) {
 						return true;
 					}
@@ -1608,14 +1512,14 @@ public abstract class Char extends Actor {
 					}
 					Dungeon.fail( getClass() );
 					GLog.n( Messages.capitalize(Messages.get(Char.class, "kill", name())) );
-					
+
 				} else if (this == Dungeon.hero) {
 					GLog.i( Messages.capitalize(Messages.get(Char.class, "defeat", enemy.name())) );
 				}
 			}
-			
+
 			return true;
-			
+
 		} else {
 
 			if (enemy instanceof Hero) {
@@ -1662,9 +1566,9 @@ public abstract class Char extends Actor {
 				//TODO enemy.defenseSound? currently miss plays for monks/crab even when they parry
 				Sample.INSTANCE.play(Assets.Sounds.MISS);
 			}
-			
+
 			return false;
-			
+
 		}
 	}
 
@@ -1672,16 +1576,20 @@ public abstract class Char extends Actor {
 	public static int INFINITE_EVASION = 1_000_000;
 
 	final public static boolean hit( Char attacker, Char defender, boolean magic ) {
-		return hit(attacker, defender, magic ? 2f : 1f);
+		return hit(attacker, defender, magic ? 2f : 1f, magic);
 	}
 
-	public static boolean hit( Char attacker, Char defender, float accMulti ) {
+	public static boolean hit( Char attacker, Char defender, float accMulti, boolean magic ) {
 		float acuStat = attacker.attackSkill( defender );
 		float defStat = defender.defenseSkill( attacker );
 
 		//invisible chars always hit (for the hero this is surprise attacking)
 		if (attacker.invisible > 0 && attacker.canSurpriseAttack()){
 			acuStat = INFINITE_ACCURACY;
+		}
+
+		if (defender.buff(MonkEnergy.MonkAbility.Focus.FocusBuff.class) != null && !magic){
+			defStat = INFINITE_EVASION;
 		}
 
 		//if accuracy or evasion are large enough, treat them as infinite.
@@ -1709,7 +1617,7 @@ public abstract class Char extends Actor {
 			acuRoll *= buff.evasionAndAccuracyFactor();
 		}
 		acuRoll *= AscensionChallenge.statModifier(attacker);
-		
+
 		float defRoll = Random.Float( defStat );
 		if (defender.buff(Bless.class) != null) {
 			if (defender instanceof Hero) {
@@ -1727,40 +1635,45 @@ public abstract class Char extends Actor {
 			defRoll *= buff.evasionAndAccuracyFactor();
 		}
 		defRoll *= AscensionChallenge.statModifier(defender);
-		
+
 		return (acuRoll * accMulti) >= defRoll;
 	}
-	
+
 	public int attackSkill( Char target ) {
 		return 0;
 	}
-	
+
 	public int defenseSkill( Char enemy ) {
 		return 0;
 	}
-	
+
 	public String defenseVerb() {
 		return Messages.get(this, "def_verb");
 	}
-	
+
 	public int drRoll() {
-		return 0;
+		int dr = 0;
+
+		Barkskin bark = buff(Barkskin.class);
+		if (bark != null)   dr += Random.NormalIntRange( 0 , bark.level() );
+
+		return dr;
 	}
-	
+
 	public int damageRoll() {
 		return 1;
 	}
-	
+
 	//TODO it would be nice to have a pre-armor and post-armor proc.
 	// atm attack is always post-armor and defence is already pre-armor
-	
+
 	public int attackProc( Char enemy, int damage ) {
 		for (ChampionEnemy buff : buffs(ChampionEnemy.class)){
 			buff.onAttackProc( enemy );
 		}
 		return damage;
 	}
-	
+
 	public int defenseProc( Char enemy, int damage ) {
 
 		Earthroot.Armor armor = buff( Earthroot.Armor.class );
@@ -1770,7 +1683,7 @@ public abstract class Char extends Actor {
 
 		return damage;
 	}
-	
+
 	public float speed() {
 		float speed = baseSpeed;
 		if ( buff( Cripple.class ) != null ) speed /= 2f;
@@ -1786,16 +1699,16 @@ public abstract class Char extends Actor {
 	public boolean canSurpriseAttack(){
 		return true;
 	}
-	
+
 	//used so that buffs(Shieldbuff.class) isn't called every time unnecessarily
 	private int cachedShield = 0;
 	public boolean needsShieldUpdate = true;
-	
+
 	public int shielding(){
 		if (!needsShieldUpdate){
 			return cachedShield;
 		}
-		
+
 		cachedShield = 0;
 		for (ShieldBuff s : buffs(ShieldBuff.class)){
 			cachedShield += s.shielding();
@@ -1803,9 +1716,9 @@ public abstract class Char extends Actor {
 		needsShieldUpdate = false;
 		return cachedShield;
 	}
-	
+
 	public void damage( int dmg, Object src ) {
-		
+
 		if (!isAlive() || dmg < 0) {
 			return;
 		}
@@ -1831,9 +1744,11 @@ public abstract class Char extends Actor {
 			dmg = (int)Math.ceil(dmg / (float)(links.size()+1));
 			for (LifeLink link : links){
 				Char ch = (Char)Actor.findById(link.object);
-				ch.damage(dmg, link);
-				if (!ch.isAlive()){
-					link.detach();
+				if (ch != null) {
+					ch.damage(dmg, link);
+					if (!ch.isAlive()) {
+						link.detach();
+					}
 				}
 			}
 		}
@@ -1857,32 +1772,27 @@ public abstract class Char extends Actor {
 			Buff.detach(this, MagicalSleep.class);
 		}
 		if (this.buff(Doom.class) != null && !isImmune(Doom.class)){
-			dmg *= 2;
+			dmg *= 1.67f;
 		}
 		if (alignment != Alignment.ALLY && this.buff(DeathMark.DeathMarkTracker.class) != null){
 			dmg *= 1.25f;
 		}
-		
+
 		Class<?> srcClass = src.getClass();
 		if (isImmune( srcClass )) {
 			dmg = 0;
 		} else {
 			dmg = Math.round( dmg * resist( srcClass ));
 		}
-		
+
 		//TODO improve this when I have proper damage source logic
 		if (AntiMagic.RESISTS.contains(src.getClass()) && buff(ArcaneArmor.class) != null){
 			dmg -= Random.NormalIntRange(0, buff(ArcaneArmor.class).level());
 			if (dmg < 0) dmg = 0;
 		}
-		
+
 		if (buff( Paralysis.class ) != null) {
 			buff( Paralysis.class ).processDamage(dmg);
-		}
-
-		Endure.EndureTracker endure = buff(Endure.EndureTracker.class);
-		if (endure != null){
-			dmg = endure.enforceDamagetakenLimit(dmg);
 		}
 
 		int shielded = dmg;
@@ -1900,14 +1810,14 @@ public abstract class Char extends Actor {
 			if (((Char) src).buff(Kinetic.KineticTracker.class) != null){
 				int dmgToAdd = -HP;
 				dmgToAdd -= ((Char) src).buff(Kinetic.KineticTracker.class).conservedDamage;
-				dmgToAdd = Math.round(dmgToAdd * RingOfArcana.enchantPowerMultiplier((Char) src));
+				dmgToAdd = Math.round(dmgToAdd * Weapon.Enchantment.genericProcChanceMultiplier((Char) src));
 				if (dmgToAdd > 0) {
 					Buff.affect((Char) src, Kinetic.ConservedDamage.class).setBonus(dmgToAdd);
 				}
 				((Char) src).buff(Kinetic.KineticTracker.class).detach();
 			}
 		}
-		
+
 		if (sprite != null) {
 			sprite.showStatus(HP > HT / 2 ?
 							CharSprite.WARNING :
@@ -1923,7 +1833,7 @@ public abstract class Char extends Actor {
 			DeathMark.processFearTheReaper(this);
 		}
 	}
-	
+
 	public void destroy() {
 		HP = 0;
 		Actor.remove( this );
@@ -1943,7 +1853,7 @@ public abstract class Char extends Actor {
 			}
 		}
 	}
-	
+
 	public void die( Object src ) {
 		destroy();
 		if (src != Chasm.class) sprite.die();
@@ -1953,9 +1863,13 @@ public abstract class Char extends Actor {
 	//This is relevant because we call isAlive during drawing, which has both performance
 	//and thread coordination implications
 	public boolean deathMarked = false;
-	
+
 	public boolean isAlive() {
 		return HP > 0 || deathMarked;
+	}
+
+	public boolean isActive() {
+		return isAlive();
 	}
 
 	@Override
@@ -1988,14 +1902,14 @@ public abstract class Char extends Actor {
 		if (buff( Speed.class ) != null) {
 			timeScale *= 2.0f;
 		}
-		
+
 		super.spend( time / timeScale );
 	}
-	
+
 	public synchronized LinkedHashSet<Buff> buffs() {
 		return new LinkedHashSet<>(buffs);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	//returns all buffs assignable from the given buff class
 	public synchronized <T extends Buff> HashSet<T> buffs( Class<T> c ) {
@@ -2039,6 +1953,10 @@ public abstract class Char extends Actor {
 			}
 		}
 
+		if (sprite != null && buff(Challenge.SpectatorFreeze.class) != null){
+			return; //can't add buffs while frozen and game is loaded
+		}
+
 		buffs.add( buff );
 		if (Actor.chars().contains(this)) Actor.add( buff );
 
@@ -2056,33 +1974,33 @@ public abstract class Char extends Actor {
 			}
 
 	}
-	
+
 	public synchronized void remove( Buff buff ) {
-		
+
 		buffs.remove( buff );
 		Actor.remove( buff );
 
 	}
-	
+
 	public synchronized void remove( Class<? extends Buff> buffClass ) {
 		for (Buff buff : buffs( buffClass )) {
 			remove( buff );
 		}
 	}
-	
+
 	@Override
 	protected synchronized void onRemove() {
 		for (Buff buff : buffs.toArray(new Buff[buffs.size()])) {
 			buff.detach();
 		}
 	}
-	
+
 	public synchronized void updateSpriteState() {
 		for (Buff buff:buffs) {
 			buff.fx( true );
 		}
 	}
-	
+
 	public float stealth() {
 		return 0;
 	}
@@ -2112,34 +2030,34 @@ public abstract class Char extends Actor {
 		}
 
 		pos = step;
-		
+
 		if (this != Dungeon.hero) {
 			sprite.visible = Dungeon.level.heroFOV[pos];
 		}
-		
+
 		Dungeon.level.occupyCell(this );
 	}
-	
+
 	public int distance( Char other ) {
 		return Dungeon.level.distance( pos, other.pos );
 	}
-	
+
 	public void onMotionComplete() {
 		//Does nothing by default
 		//The main actor thread already accounts for motion,
 		// so calling next() here isn't necessary (see Actor.process)
 	}
-	
+
 	public void onAttackComplete() {
 		next();
 	}
-	
+
 	public void onOperateComplete() {
 		next();
 	}
-	
+
 	protected final HashSet<Class> resistances = new HashSet<>();
-	
+
 	//returns percent effectiveness after resistances
 	//TODO currently resistances reduce effectiveness by a static 50%, and do not stack.
 	public float resist( Class effect ){
@@ -2150,7 +2068,7 @@ public abstract class Char extends Actor {
 		for (Buff b : buffs()){
 			resists.addAll(b.resistances());
 		}
-		
+
 		float result = 1f;
 		for (Class c : resists){
 			if (c.isAssignableFrom(effect)){
@@ -2159,9 +2077,9 @@ public abstract class Char extends Actor {
 		}
 		return result * RingOfElements.resist(this, effect);
 	}
-	
+
 	protected final HashSet<Class> immunities = new HashSet<>();
-	
+
 	public boolean isImmune(Class effect ){
 		HashSet<Class> immunes = new HashSet<>(immunities);
 		for (Property p : properties()){
@@ -2170,7 +2088,7 @@ public abstract class Char extends Actor {
 		for (Buff b : buffs()){
 			immunes.addAll(b.immunities());
 		}
-		
+
 		for (Class c : immunes){
 			if (c.isAssignableFrom(effect)){
 				return true;
@@ -2182,7 +2100,7 @@ public abstract class Char extends Actor {
 	//similar to isImmune, but only factors in damage.
 	//Is used in AI decision-making
 	public boolean isInvulnerable( Class effect ){
-		return false;
+		return buff(Challenge.SpectatorFreeze.class) != null;
 	}
 
 	protected HashSet<Property> properties = new HashSet<>();
@@ -2201,6 +2119,7 @@ public abstract class Char extends Actor {
 				new HashSet<Class>( Arrays.asList(AllyBuff.class, Dread.class) )),
 		MINIBOSS ( new HashSet<Class>(),
 				new HashSet<Class>( Arrays.asList(AllyBuff.class, Dread.class) )),
+		BOSS_MINION,
 		UNDEAD,
 		DEMONIC,
 		INORGANIC ( new HashSet<Class>(),
@@ -2215,23 +2134,23 @@ public abstract class Char extends Actor {
 				new HashSet<Class>()),
 		LARGE,
 		IMMOVABLE;
-		
+
 		private HashSet<Class> resistances;
 		private HashSet<Class> immunities;
-		
+
 		Property(){
 			this(new HashSet<Class>(), new HashSet<Class>());
 		}
-		
+
 		Property( HashSet<Class> resistances, HashSet<Class> immunities){
 			this.resistances = resistances;
 			this.immunities = immunities;
 		}
-		
+
 		public HashSet<Class> resistances(){
 			return new HashSet<>(resistances);
 		}
-		
+
 		public HashSet<Class> immunities(){
 			return new HashSet<>(immunities);
 		}

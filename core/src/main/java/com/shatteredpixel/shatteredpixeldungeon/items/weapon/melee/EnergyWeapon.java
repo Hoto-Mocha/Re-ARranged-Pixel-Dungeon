@@ -154,6 +154,10 @@ public class EnergyWeapon extends MeleeWeapon {
 
 	@Override
 	public String status() {
-		return Messages.format(TXT_STATUS, charge);
+		if (super.status() != null) {
+			return super.status();
+		} else {
+			return Messages.format(TXT_STATUS, charge);
+		}
 	}
 }

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,17 +25,14 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoBuff;
-import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Image;
-import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.noosa.ui.Component;
@@ -45,9 +42,9 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 
 public class BuffIndicator extends Component {
-	
+
 	//transparent icon
-	public static final int NONE    = 80;
+	public static final int NONE    = 127;
 
 	//FIXME this is becoming a mess, should do a big cleaning pass on all of these
 	//and think about tinting options
@@ -111,48 +108,64 @@ public class BuffIndicator extends Component {
 	public static final int INVERT_MARK = 57;
 	public static final int NATURE_POWER= 58;
 	public static final int AMULET      = 59;
-	public static final int BULLET 		= 60;
-	public static final int PLATE 		= 61;
-	public static final int STATE_DONG	= 62;
-	public static final int STATE_JUNG	= 63;
-	public static final int SHADOWBLADE	= 64;
-	public static final int AWAKE		= 65;
-	public static final int LUCK		= 66;
-	public static final int FLURRY		= 67;
-	public static final int KNIGHTSHIELD= 68;
-	public static final int REGEN		= 69;
-	public static final int ANGELWING	= 70;
-	public static final int STUNNING	= 71;
-	public static final int GODFURY		= 72;
-	public static final int WANTED		= 73;
-	public static final int CLOAKING	= 74;
+	public static final int DUEL_CLEAVE = 60;
+	public static final int DUEL_GUARD  = 61;
+	public static final int DUEL_SPIN   = 62;
+	public static final int DUEL_EVASIVE= 63;
+	public static final int DUEL_DANCE  = 64;
+	public static final int DUEL_BRAWL  = 65;
+	public static final int DUEL_XBOW   = 66;
+	public static final int CHALLENGE   = 67;
+	public static final int MONK_ENERGY = 68;
+	public static final int BULLET 		= 69;
+	public static final int PLATE 		= 70;
+	public static final int STATE_DONG	= 71;
+	public static final int STATE_JUNG	= 72;
+	public static final int SHADOWBLADE	= 73;
+	public static final int AWAKE		= 74;
+	public static final int LUCK		= 75;
+	public static final int FLURRY		= 76;
+	public static final int KNIGHTSHIELD= 77;
+	public static final int REGEN		= 78;
+	public static final int ANGELWING	= 79;
+	public static final int STUNNING	= 80;
+	public static final int GODFURY		= 81;
+	public static final int WANTED		= 82;
+	public static final int CLOAKING	= 83;
+	public static final int DUEL_GUN	= 84;
+	public static final int DUEL_EXBOW	= 85;
+	public static final int DUEL_BALLISTA	= 86;
+	public static final int DUEL_ANGEL	= 87;
+	public static final int DUEL_DEMON	= 88;
+	public static final int DUEL_DAGGER	= 89;
+	public static final int DUEL_SABER	= 90;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;
-	
+
 	private static BuffIndicator heroInstance;
 	private static BuffIndicator bossInstance;
-	
+
 	private LinkedHashMap<Buff, BuffButton> buffButtons = new LinkedHashMap<>();
 	private boolean needsRefresh;
 	private Char ch;
 
 	private boolean large = false;
-	
+
 	public BuffIndicator( Char ch, boolean large ) {
 		super();
-		
+
 		this.ch = ch;
 		this.large = large;
 		if (ch == Dungeon.hero) {
 			heroInstance = this;
 		}
 	}
-	
+
 	@Override
 	public void destroy() {
 		super.destroy();
-		
+
 		if (this == heroInstance) {
 			heroInstance = null;
 		}
@@ -194,19 +207,19 @@ public class BuffIndicator extends Component {
 						super.updateValues( progress );
 						image.scale.set( 1 + 5 * progress );
 					}
-					
+
 					@Override
 					protected void onComplete() {
 						image.killAndErase();
 					}
 				} );
-				
+
 				buffButtons.get( buff ).destroy();
 				remove(buffButtons.get( buff ));
 				buffButtons.remove( buff );
 			}
 		}
-		
+
 		//add new icons
 		for (Buff buff : newBuffs) {
 			if (!buffButtons.containsKey(buff)) {
@@ -215,7 +228,7 @@ public class BuffIndicator extends Component {
 				buffButtons.put( buff, icon );
 			}
 		}
-		
+
 		//layout
 		int pos = 0;
 		float lastIconLeft = 0;
@@ -345,7 +358,7 @@ public class BuffIndicator extends Component {
 			return Messages.titleCase(buff.name());
 		}
 	}
-	
+
 	public static void refreshHero() {
 		if (heroInstance != null) {
 			heroInstance.needsRefresh = true;

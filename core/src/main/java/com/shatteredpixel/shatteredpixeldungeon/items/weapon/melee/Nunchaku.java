@@ -21,18 +21,20 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
 public class Nunchaku extends MeleeWeapon {
@@ -58,6 +60,55 @@ public class Nunchaku extends MeleeWeapon {
 	public int max(int lvl) {
 		return  Math.round(2.5f*(tier+1)) +
 				lvl*Math.round(0.5f*(tier+1));
+	}
+
+	@Override
+	public float abilityChargeUse(Hero hero) {
+		return 2*super.abilityChargeUse(hero);
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		beforeAbilityUsed(hero);
+		Invisibility.dispel();
+		Buff.affect(hero, Nunchaku.ParryTracker.class, Actor.TICK);
+		hero.spendAndNext(Actor.TICK);
+		hero.busy();
+		afterAbilityUsed(hero);
+	}
+
+	public static class ParryTracker extends FlavourBuff {
+		{ actPriority = HERO_PRIO+1;}
+
+		public boolean  parried;
+	}
+
+	public static class RiposteTracker extends Buff{
+		{ actPriority = VFX_PRIO;}
+
+		public Char enemy;
+
+		@Override
+		public boolean act() {
+			target.sprite.attack(enemy.pos, new Callback() {
+				@Override
+				public void call() {
+					AttackIndicator.target(enemy);
+					if (hero.attack(enemy, 0.5f, 0, Char.INFINITE_ACCURACY)){
+						Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+					}
+
+					next();
+					if (!enemy.isAlive()){
+						((MeleeWeapon)hero.belongings.attackingWeapon()).onAbilityKill(hero);
+					} else {
+						Buff.affect(enemy, Cripple.class, 5f);
+					}
+				}
+			});
+			detach();
+			return false;
+		}
 	}
 
 }
