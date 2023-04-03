@@ -847,6 +847,7 @@ public abstract class Mob extends Char {
 			}
 
 			if (cause == hero
+					&& hero.belongings.attackingWeapon() != null
 					&& hero.belongings.attackingWeapon().bullet
 					&& hero.heroClass == HeroClass.DUELIST
 					&& hero.buff(MeleeWeapon.PrecisionShooting.class) != null) {

@@ -10,15 +10,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.nurse.AngelWing;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.HealingParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
@@ -204,9 +199,9 @@ public class HealingArea extends Buff implements ActionIndicator.Action {
                 }
                 if (hero.pointsInTalent(Talent.PROMOTION) == 3) {
                     if (ally.buff(Barrier.class) != null) {
-                        Buff.affect(ally, Barrier.class).incShield(healAmt);
+                        Buff.affect(ally, Barrier.class).incShield(healAmt+1);
                     } else {
-                        Buff.affect(ally, Barrier.class).setShield(healAmt);
+                        Buff.affect(ally, Barrier.class).setShield(healAmt+1);
                     }
                 }
             }

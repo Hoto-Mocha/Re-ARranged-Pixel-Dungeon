@@ -237,7 +237,7 @@ public class WndHeroInfo extends WndTabbed {
 					break;
 				case NURSE:
 					icons = new Image[]{new ItemSprite(ItemSpriteSheet.GAMMA_RAY_GUN),
-							new Image(Assets.Interfaces.BUFFS_LARGE, 80, 64, 16, 16),
+							new Image(Assets.Interfaces.BUFFS_LARGE, 224, 64, 16, 16),
 							new ItemSprite(ItemSpriteSheet.HEAL_BOOK),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;

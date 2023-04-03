@@ -91,6 +91,13 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 
 	@Override
 	public boolean act() {
+		if (Dungeon.hero.hasTalent(Talent.RESTORED_ENERGY)) {
+			energy += 0.0075+Dungeon.hero.pointsInTalent(Talent.RESTORED_ENERGY)*0.0025;
+			if (energy > energyCap()) {
+				energy = energyCap();
+			}
+			BuffIndicator.refreshHero();
+		}
 		if (cooldown > 0){
 			cooldown--;
 			if (cooldown == 0 && energy >= 1){
@@ -202,6 +209,9 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 	public void abilityUsed( MonkAbility abil ){
 		energy -= abil.energyCost();
 		cooldown = abil.cooldown();
+		if (target instanceof Hero && ((Hero) target).hasTalent(Talent.ENERGY_BARRIER)) {
+			Buff.affect(target, Barrier.class).incShield(abil.energyCost()*(3+2*(((Hero) target).pointsInTalent(Talent.ENERGY_BARRIER))));
+		}
 
 		if (target instanceof Hero && ((Hero) target).hasTalent(Talent.COMBINED_ENERGY)
 				&& abil.energyCost() >= 5-((Hero) target).pointsInTalent(Talent.COMBINED_ENERGY)) {

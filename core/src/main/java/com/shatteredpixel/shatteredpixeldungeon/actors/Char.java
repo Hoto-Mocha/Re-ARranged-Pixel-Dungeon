@@ -171,7 +171,6 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
@@ -1082,35 +1081,9 @@ public abstract class Char extends Actor {
 					dmg += Random.IntRange(0, shield.shielding());
 				}
 			}
-
+			KindOfWeapon wep = hero.belongings.attackingWeapon();
 			if (this instanceof Hero && hero.subClass == HeroSubClass.VETERAN && hero.buff(Focusing.class) != null && Random.Int(3) < hero.pointsInTalent(Talent.BARRIER_FORMATION)){
-				Hero h = (Hero) this;
-				KindOfWeapon wep = h.belongings.weapon();
-				if (wep instanceof CrudePistol.Bullet
-						|| wep instanceof Pistol.Bullet
-						|| wep instanceof GoldenPistol.Bullet
-						|| wep instanceof Handgun.Bullet
-						|| wep instanceof Magnum.Bullet
-						|| wep instanceof TacticalHandgun.Bullet
-						|| wep instanceof AutoHandgun.Bullet
-						|| wep instanceof DualPistol.Bullet
-						|| wep instanceof SubMachinegun.Bullet
-						|| wep instanceof AssultRifle.Bullet
-						|| wep instanceof HeavyMachinegun.Bullet
-						|| wep instanceof MiniGun.Bullet
-						|| wep instanceof AutoRifle.Bullet
-						|| wep instanceof Revolver.Bullet
-						|| wep instanceof HuntingRifle.Bullet
-						|| wep instanceof Carbine.Bullet
-						|| wep instanceof SniperRifle.Bullet
-						|| wep instanceof AntimaterRifle.Bullet
-						|| wep instanceof MarksmanRifle.Bullet
-						|| wep instanceof WA2000.Bullet
-						|| wep instanceof ShotGun.Bullet
-						|| wep instanceof KSG.Bullet
-						|| wep instanceof RocketLauncher.Rocket
-						|| wep instanceof RPG7.Rocket
-				) {
+				if (wep.bullet) {
 					BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
 					if (shield.shielding() < shield.maxShield()) {
 						shield.incShield();
@@ -1127,90 +1100,17 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero) {
-				float heroHPPercent = ((float)hero.HP / (float)hero.HT);
-				if (Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun.Bullet
-						||Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgunAP.Bullet
-						||Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgunHP.Bullet
-						||Dungeon.hero.belongings.attackingWeapon() instanceof TacticalShield.Bullet ) {
-					dmg *= GameMath.gate(0.125f, 2*heroHPPercent, 1.5f); //0%~6.25% HP : 0.125x, scales defend on Hero health, 75%~100% HP : 1.5x
-				}
-			}
-
 
 			if (this instanceof Hero) {
 				if (Dungeon.hero.buff(ExtraBullet.class) != null) {
-					if (Dungeon.hero.belongings.attackingWeapon() instanceof CrudePistol
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof Pistol
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof GoldenPistol
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof Handgun
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof Magnum
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof AutoHandgun
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof DualPistol
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof SubMachinegun
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof AssultRifle
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof HeavyMachinegun
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof MiniGun
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof AutoRifle
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof Revolver
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof HuntingRifle
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof Carbine
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof SniperRifle
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifle
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof MarksmanRifle
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof WA2000
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof ShotGun
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof KSG
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof RocketLauncher
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof RPG7
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrower
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannon
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncher
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncherAP
-					 || Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncherHP
-					) {
+					if (wep.bullet) {
 						dmg += 3;
 					}
-
 				}
 			}
 
 			if (Dungeon.hero.buff(Riot.riotTracker.class) != null) {
-				if (Dungeon.hero.belongings.attackingWeapon() instanceof CrudePistol.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof Pistol.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof GoldenPistol.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof Handgun.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof Magnum.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoHandgun.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof DualPistol.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof SubMachinegun.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof AssultRifle.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof HeavyMachinegun.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof MiniGun.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoRifle.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof Revolver.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof HuntingRifle.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof Carbine.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof SniperRifle.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifle.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof WA2000.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof MarksmanRifle.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof ShotGun.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof KSG.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof RocketLauncher.Rocket
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof RPG7.Rocket
-						//|| Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrower.Bullet
-						//|| Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrowerAP.Bullet
-						//|| Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrowerHP.Bullet
-						//|| Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannon.Bullet
-						//|| Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannonAP.Bullet
-						//|| Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannonHP.Bullet
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncher.Rocket
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncherAP.Rocket
-						|| Dungeon.hero.belongings.attackingWeapon() instanceof GrenadeLauncherHP.Rocket
-				) {
+				if (wep.bullet) {
 					dmg *= 0.5f;
 				}
 
@@ -1218,33 +1118,7 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero) {
 				if (hero.heroClass == HeroClass.GUNNER) {
-					if (Dungeon.hero.belongings.attackingWeapon() instanceof CrudePistol
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof Pistol
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof GoldenPistol
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof Handgun
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof Magnum
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoHandgun
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof DualPistol
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof SubMachinegun
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof AssultRifle
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof HeavyMachinegun
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof MiniGun
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoRifle
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof Revolver
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof HuntingRifle
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof Carbine
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof SniperRifle
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifle
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof MarksmanRifle
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof WA2000
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof ShotGun
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof KSG
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof RocketLauncher
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof RPG7
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrower
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannon
-					) {
+					if (wep.gun) {
 						dmg += Random.NormalIntRange(0, hero.belongings.weapon.buffedLvl());
 					}
 				}
@@ -1252,31 +1126,7 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero) {
 				if (hero.subClass == HeroSubClass.ENGINEER && Random.Int(5) < hero.pointsInTalent(Talent.ELECTRIC_BULLET)) {
-					if (Dungeon.hero.belongings.attackingWeapon() instanceof CrudePistol.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof Pistol.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof GoldenPistol.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof Handgun.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof Magnum.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoHandgun.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof DualPistol.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof SubMachinegun.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof AssultRifle.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof HeavyMachinegun.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof MiniGun.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoRifle.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof Revolver.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof HuntingRifle.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof Carbine.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof SniperRifle.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifle.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof MarksmanRifle.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof WA2000.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof ShotGun.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof KSG.Bullet
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof RocketLauncher.Rocket
-							|| Dungeon.hero.belongings.attackingWeapon() instanceof RPG7.Rocket
-					) {
+					if (wep.bullet) {
 						ArrayList<Lightning.Arc> arcs = new ArrayList<>();
 						ArrayList<Char> affected = new ArrayList<>();
 						affected.clear();

@@ -66,6 +66,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.GameMath;
 import com.watabou.utils.Random;
 
 import java.text.DecimalFormat;
@@ -451,6 +452,12 @@ public class TacticalHandgun extends MeleeWeapon {
             if (silencer) {
                 damage *= 0.75f;
             }
+            if (damage >= defender.HP && hero.buff(MeleeWeapon.PrecisionShooting.class) != null && hero.buff(Charger.class).charges >= 1) {
+                TacticalHandgun.this.onAbilityKill(hero);
+            }
+            float heroHPPercent = ((float)hero.HP / (float)hero.HT);
+            damage *= GameMath.gate(0.125f, 2*heroHPPercent, 1.5f); //0%~6.25% HP : 0.125x, scales defend on Hero health, 75%~100% HP : 1.5x
+
             SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
             WindBow bow2 = hero.belongings.getItem(WindBow.class);
             GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
@@ -633,6 +640,14 @@ public class TacticalHandgun extends MeleeWeapon {
                         reload();
                     } else {
                         knockBullet().cast(curUser, target);
+                        if (hero.buff(MeleeWeapon.PrecisionShooting.class) != null &&
+                                hero.buff(MeleeWeapon.Charger.class) != null &&
+                                hero.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
+                                hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+                            beforeAbilityUsed(curUser);
+                            hero.buff(MeleeWeapon.Charger.class).charges--;
+                            afterAbilityUsed(curUser);
+                        }
                     }
                 }
             }

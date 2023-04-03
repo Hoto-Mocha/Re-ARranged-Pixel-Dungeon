@@ -534,7 +534,9 @@ public class PlasmaCannon extends MeleeWeapon {
                                     hero.buff(MeleeWeapon.Charger.class) != null &&
                                     hero.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
                                     hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+                                beforeAbilityUsed(curUser);
                                 hero.buff(MeleeWeapon.Charger.class).charges--;
+                                afterAbilityUsed(curUser);
                             }
                         }
                     }

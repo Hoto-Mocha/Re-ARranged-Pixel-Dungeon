@@ -262,7 +262,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ElectroScimit
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameScimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
@@ -272,9 +271,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves_Energy
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
@@ -298,10 +294,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Nunchaku;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
@@ -480,6 +474,44 @@ public class Hero extends Char {
 		}
 
 		return STR + strBonus;
+	}
+
+	public void onSTRGained() {
+		if (hero != null
+				&& hero.buff(MeleeWeapon.PrecisionShooting.class) == null) {
+			if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
+				if (hero.belongings.weapon.gun && hero.belongings.weapon.STRReq() <= hero.STR()) {
+					Buff.affect(hero, MeleeWeapon.PrecisionShooting.class);
+				}
+			} else if (hero.belongings.weapon == null && hero.belongings.secondWep != null) {
+				if (hero.belongings.secondWep.gun && hero.belongings.secondWep.STRReq() <= hero.STR()) {
+					Buff.affect(hero, MeleeWeapon.PrecisionShooting.class);
+				}
+			} else if (hero.belongings.weapon != null && hero.belongings.secondWep != null) {
+				if ((hero.belongings.weapon.gun && hero.belongings.weapon.STRReq() <= hero.STR()) || (hero.belongings.secondWep.gun && hero.belongings.secondWep.STRReq() <= hero.STR())) {
+					Buff.affect(hero, MeleeWeapon.PrecisionShooting.class);
+				}
+			}
+		}
+	}
+
+	public void onSTRLost() {
+		if (hero != null
+				&& hero.buff(MeleeWeapon.PrecisionShooting.class) != null) {
+			if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
+				if (hero.belongings.weapon.STRReq() > hero.STR()) {
+					hero.buff(MeleeWeapon.PrecisionShooting.class).detach();
+				}
+			} else if (hero.belongings.weapon == null && hero.belongings.secondWep != null) {
+				if (hero.belongings.secondWep.STRReq() > hero.STR()) {
+					hero.buff(MeleeWeapon.PrecisionShooting.class).detach();
+				}
+			} else if (hero.belongings.weapon != null && hero.belongings.secondWep != null) {
+				if ((hero.belongings.weapon.gun && hero.belongings.weapon.STRReq() > hero.STR()) || (hero.belongings.secondWep.gun && hero.belongings.secondWep.STRReq() > hero.STR())) {
+					hero.buff(MeleeWeapon.PrecisionShooting.class).detach();
+				}
+			}
+		}
 	}
 
 	private static final String CLASS       = "class";
@@ -743,18 +775,6 @@ public class Hero extends Char {
 		}
 		
 		if (wep instanceof MissileWeapon){
-			if ((wep instanceof AutoHandgun.Bullet && ((AutoHandgun)hero.belongings.weapon).auto)) {
-				if (Dungeon.level.adjacent( pos, target.pos )) {
-					accuracy *= 2.5f;
-				} else {
-					accuracy *= 0.33f;
-				}
-			}
-
-			if ((wep instanceof AutoHandgun.Bullet && !((AutoHandgun)hero.belongings.weapon).auto)) {
-				accuracy *= 1.25f;
-			}
-
 			float accMulti;
 
 			if (Dungeon.level.adjacent( pos, target.pos )) {
@@ -815,104 +835,20 @@ public class Hero extends Char {
 			accuracy *= accMulti;
 
 			if (this.hasTalent(Talent.BULLET_FOCUS)) {
-				if (wep instanceof CrudePistol.Bullet
-						|| wep instanceof Pistol.Bullet
-						|| wep instanceof GoldenPistol.Bullet
-						|| wep instanceof Handgun.Bullet
-						|| wep instanceof Magnum.Bullet
-						|| wep instanceof TacticalHandgun.Bullet
-						|| wep instanceof AutoHandgun.Bullet
-						|| wep instanceof DualPistol.Bullet
-						|| wep instanceof SubMachinegun.Bullet
-						|| wep instanceof AssultRifle.Bullet
-						|| wep instanceof HeavyMachinegun.Bullet
-						|| wep instanceof MiniGun.Bullet
-						|| wep instanceof AutoRifle.Bullet
-						|| wep instanceof Revolver.Bullet
-						|| wep instanceof HuntingRifle.Bullet
-						|| wep instanceof Carbine.Bullet
-						|| wep instanceof SniperRifle.Bullet
-						|| wep instanceof AntimaterRifle.Bullet
-						|| wep instanceof MarksmanRifle.Bullet
-						|| wep instanceof WA2000.Bullet
-						|| wep instanceof RocketLauncher.Rocket
-						|| wep instanceof RPG7.Rocket
-						|| wep instanceof GrenadeLauncher.Rocket
-						|| wep instanceof GrenadeLauncherAP.Rocket
-						|| wep instanceof GrenadeLauncherHP.Rocket
-						|| wep instanceof TacticalShield.Bullet
-				) {
+				if (wep.bullet) {
 					accuracy *= Math.pow(1.1f, hero.pointsInTalent(Talent.BULLET_FOCUS));
 				}
 			}
 		}
 
-		if (wep instanceof CrudePistol.Bullet
-				|| wep instanceof Pistol.Bullet
-				|| wep instanceof GoldenPistol.Bullet
-				|| wep instanceof Handgun.Bullet
-				|| wep instanceof Magnum.Bullet
-				|| wep instanceof TacticalHandgun.Bullet
-				|| wep instanceof AutoHandgun.Bullet
-
-				|| wep instanceof DualPistol.Bullet
-				|| wep instanceof SubMachinegun.Bullet
-				|| wep instanceof AssultRifle.Bullet
-				|| wep instanceof HeavyMachinegun.Bullet
-				|| wep instanceof MiniGun.Bullet
-				|| wep instanceof AutoRifle.Bullet
-
-				|| wep instanceof Revolver.Bullet
-				|| wep instanceof HuntingRifle.Bullet
-				|| wep instanceof Carbine.Bullet
-				|| wep instanceof SniperRifle.Bullet
-				|| wep instanceof AntimaterRifle.Bullet
-				|| wep instanceof WA2000.Bullet
-				|| wep instanceof MarksmanRifle.Bullet
-
-				|| wep instanceof ShotGun.Bullet
-				|| wep instanceof KSG.Bullet
-		) {
+		if (wep != null && wep.bullet) {
 			if (buff(FireBullet.class) != null) buff(FireBullet.class).proc(enemy);
 			if (buff(FrostBullet.class) != null) buff(FrostBullet.class).proc(enemy);
 			if (buff(ElectroBullet.class) != null) buff(ElectroBullet.class).proc(enemy);
 		}
 
 		if (hero.buff(Riot.riotTracker.class) != null && hero.hasTalent(Talent.SHOT_CONCENTRATION)) {
-			if (wep instanceof CrudePistol.Bullet
-			 || wep instanceof Pistol.Bullet
-			 || wep instanceof GoldenPistol.Bullet
-			 || wep instanceof Handgun.Bullet
-			 || wep instanceof Magnum.Bullet
-			 || wep instanceof TacticalHandgun.Bullet
-			 || wep instanceof AutoHandgun.Bullet
-			 || wep instanceof DualPistol.Bullet
-			 || wep instanceof SubMachinegun.Bullet
-			 || wep instanceof AssultRifle.Bullet
-			 || wep instanceof HeavyMachinegun.Bullet
-			 || wep instanceof MiniGun.Bullet
-			 || wep instanceof AutoRifle.Bullet
-			 || wep instanceof Revolver.Bullet
-			 || wep instanceof HuntingRifle.Bullet
-			 || wep instanceof Carbine.Bullet
-			 || wep instanceof SniperRifle.Bullet
-			 || wep instanceof AntimaterRifle.Bullet
-			 || wep instanceof MarksmanRifle.Bullet
-			 || wep instanceof WA2000.Bullet
-			 || wep instanceof ShotGun.Bullet
-			 || wep instanceof KSG.Bullet
-			 || wep instanceof RocketLauncher.Rocket
-			 || wep instanceof RPG7.Rocket
-			 //|| wep instanceof FlameThrower.Bullet
-			 //|| wep instanceof FlameThrowerAP.Bullet
-			 //|| wep instanceof FlameThrowerHP.Bullet
-			 //|| wep instanceof PlasmaCannon.Bullet
-			 //|| wep instanceof PlasmaCannonAP.Bullet
-			 //|| wep instanceof PlasmaCannonHP.Bullet
-			 || wep instanceof GrenadeLauncher.Rocket
-			 || wep instanceof GrenadeLauncherAP.Rocket
-			 || wep instanceof GrenadeLauncherHP.Rocket
-			) {
+			if (wep != null && wep.bullet) {
 				if (Random.Int(4) < hero.pointsInTalent(Talent.SHOT_CONCENTRATION)) {
 					Riot.riotTracker riot = hero.buff(Riot.riotTracker.class);
 					riot.extend();
@@ -1980,6 +1916,17 @@ public class Hero extends Char {
 			wep = null;
 		} else {
 			wep = belongings.attackingWeapon();
+		}
+
+		if (hero.buff(Talent.SkilledHandTracker.class) != null) {
+			damage += 1+hero.pointsInTalent(Talent.SKILLED_HAND);
+			hero.buff(Talent.SkilledHandTracker.class).detach();
+			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+		}
+
+		if (wep == null && hero.buff(RingOfForce.Force.class) == null && hero.hasTalent(Talent.IRON_PUNCH) && hero.buff(MonkEnergy.class) != null && hero.buff(MonkEnergy.class).energy >= 0.25f) {
+			damage += Random.NormalIntRange(0, Math.round(hero.lvl*(hero.pointsInTalent(Talent.IRON_PUNCH)/3f)));
+			hero.buff(MonkEnergy.class).energy -= 0.25f;
 		}
 
 		if (hero.buff(GodFury.class) != null) {
@@ -3176,33 +3123,8 @@ public class Hero extends Char {
 		}
 
 		if (hit && hero.hasTalent(Talent.BAYONET) && hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null){
-			if (Dungeon.hero.belongings.attackingWeapon() instanceof CrudePistol
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof Pistol
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof GoldenPistol
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof Handgun
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof Magnum
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof TacticalHandgun
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoHandgun
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof DualPistol
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof SubMachinegun
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof AssultRifle
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof HeavyMachinegun
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof MiniGun
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof AutoRifle
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof Revolver
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof HuntingRifle
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof Carbine
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof SniperRifle
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof AntimaterRifle
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof MarksmanRifle
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof WA2000
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof ShotGun
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof KSG
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof RocketLauncher
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof RPG7
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof FlameThrower
-					|| Dungeon.hero.belongings.attackingWeapon() instanceof PlasmaCannon
-			) {
+			KindOfWeapon wep = Dungeon.hero.belongings.attackingWeapon();
+			if (wep.gun) {
 				Buff.affect( enemy, Bleeding.class ).set( 4 + hero.pointsInTalent(Talent.BAYONET));
 			}
 		}

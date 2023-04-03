@@ -330,7 +330,6 @@ abstract public class MissileWeapon extends Weapon {
 					owner.buff(MeleeWeapon.Charger.class) != null &&
 					owner.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
 					owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
-				owner.buff(MeleeWeapon.Charger.class).charges--;
 				return INFINITE_ACCURACY;
 			}
 		}

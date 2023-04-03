@@ -90,6 +90,9 @@ public class RingOfFuror extends Ring {
         if (hero.buff(DoubleDagger.ReverseBlade.class) != null) {
 			speedBonus *= 3;
         }
+        if (hero.buff(Talent.QuickFollowupTracker.class) != null) {
+            speedBonus *= 1+(1/3f)*hero.pointsInTalent(Talent.QUICK_FOLLOWUP);
+        }
         speedBonus *= RingOfRush.rushSpeedMultiplier(hero);
         return speedBonus;
     }

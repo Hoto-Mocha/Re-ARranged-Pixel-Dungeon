@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -32,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -64,7 +67,7 @@ public class MeleeWeapon extends Weapon {
 		if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.DUELIST){
 			Buff.affect(ch, Charger.class);
 		}
-		if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.DUELIST && gun){
+		if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.DUELIST && gun && (hero != null && hero.STR() >= this.STRReq())){
 			Buff.affect(ch, PrecisionShooting.class);
 		}
 		if (ch instanceof Hero && ((Hero) ch).buff(PrecisionShooting.class) != null) {
@@ -239,10 +242,18 @@ public class MeleeWeapon extends Weapon {
 			Buff.affect(hero, Barrier.class).setShield(3);
 		}
 
+		if (hero.hasTalent(Talent.SKILLED_HAND)) {
+			Buff.affect(hero, Talent.SkilledHandTracker.class);
+		}
+
 		if (hero.buff(Talent.CombinedLethalityAbilityTracker.class) != null
 				&& hero.buff(Talent.CombinedLethalityAbilityTracker.class).weapon != null
 				&& hero.buff(Talent.CombinedLethalityAbilityTracker.class).weapon != this){
 			Buff.affect(hero, Talent.CombinedLethalityTriggerTracker.class, 5f);
+		}
+
+		if (hero.hasTalent(Talent.MOMENTARY_UPGRADE)) {
+			Buff.affect(hero, WeaponEmpower.class).set(hero.pointsInTalent(Talent.MOMENTARY_UPGRADE), 3f);
 		}
 
 		updateQuickslot();
@@ -456,7 +467,7 @@ public class MeleeWeapon extends Weapon {
 			LockedFloor lock = target.buff(LockedFloor.class);
 			if (charges < chargeCap()){
 				if (lock == null || lock.regenOn()){
-					partialCharge += 1/(45f-1.5f*(chargeCap()-charges)); // 45 to 30 turns per charge
+					partialCharge += 1/(45f-1.5f*(chargeCap()-charges) * chargeMultiplier()); // 45 to 30 turns per charge
 				}
 
 				int points = ((Hero)target).pointsInTalent(Talent.WEAPON_RECHARGING);
@@ -514,11 +525,20 @@ public class MeleeWeapon extends Weapon {
 		}
 
 		public int chargeCap(){
-			return Math.min(10, 3 + (Dungeon.hero.lvl-1)/3);
+			return Math.min(10, 3 + (Dungeon.hero.lvl-1)/3)+Dungeon.hero.pointsInTalent(Talent.ACCUMULATION);
 		}
 
 		public int secondChargeCap(){
 			return Math.round(chargeCap() * secondChargeMultiplier());
+		}
+
+		public float chargeMultiplier(){
+			//100% - 125%, depending on talent
+			if (secondCharges < secondChargeCap()) {
+				return 1;
+			} else {
+				return 1 + 0.078f * Dungeon.hero.pointsInTalent(Talent.FASTER_CHARGE);
+			}
 		}
 
 		public float secondChargeMultiplier(){
@@ -593,6 +613,15 @@ public class MeleeWeapon extends Weapon {
 
 			Dungeon.hero.sprite.operate(Dungeon.hero.pos);
 			Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
+
+			if (hero.buff(Talent.QuickFollowupTracker.class) != null) {
+				hero.buff(Talent.QuickFollowupTracker.class).detach();
+			}
+
+			if (hero.buff(Talent.QuickFollowupCooldown.class) == null && hero.hasTalent(Talent.QUICK_FOLLOWUP)) {
+				Buff.affect(hero, Talent.QuickFollowupTracker.class);
+				Buff.affect(hero, Talent.QuickFollowupCooldown.class, 10f);
+			}
 
 			ActionIndicator.setAction(this);
 			Item.updateQuickslot();

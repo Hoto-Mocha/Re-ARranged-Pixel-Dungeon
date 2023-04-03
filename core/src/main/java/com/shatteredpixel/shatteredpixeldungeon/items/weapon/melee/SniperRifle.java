@@ -442,6 +442,9 @@ public class SniperRifle extends MeleeWeapon {
             if (silencer) {
                 damage *= 0.75f;
             }
+            if (damage >= defender.HP && hero.buff(MeleeWeapon.PrecisionShooting.class) != null && hero.buff(Charger.class).charges >= 1) {
+                SniperRifle.this.onAbilityKill(hero);
+            }
             SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
             WindBow bow2 = hero.belongings.getItem(WindBow.class);
             GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
@@ -607,6 +610,14 @@ public class SniperRifle extends MeleeWeapon {
                             reload();
                         } else {
                             knockBullet().cast(curUser, target);
+                            if (hero.buff(MeleeWeapon.PrecisionShooting.class) != null &&
+                                    hero.buff(MeleeWeapon.Charger.class) != null &&
+                                    hero.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
+                                    hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+                                beforeAbilityUsed(curUser);
+                                hero.buff(MeleeWeapon.Charger.class).charges--;
+                                afterAbilityUsed(curUser);
+                            }
                         }
                     }
                 }

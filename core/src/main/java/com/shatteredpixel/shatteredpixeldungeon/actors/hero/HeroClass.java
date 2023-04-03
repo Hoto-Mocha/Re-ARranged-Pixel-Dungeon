@@ -162,7 +162,9 @@ public enum HeroClass {
 		//new ForceGlove().identify().collect();
 		//new WornShortsword_Energy().identify().collect();
 		//new UnformedBlade().identify().collect();
+		//new Carbine().identify().collect();
 		//new RingOfMight().upgrade(20).identify().collect();
+		//new SubMachinegun().identify().collect();
 		//new RingOfForce().identify().collect();
 		//new Pasty().quantity(200).collect();
 		//new AdvancedEvolution().quantity(100).collect();
@@ -378,6 +380,12 @@ public enum HeroClass {
 
 		ThrowingSpike spikes = new ThrowingSpike();
 		spikes.quantity(2).collect();
+
+		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+			RingOfWealth wealth = new RingOfWealth();
+			(hero.belongings.ring = wealth).identify();
+			hero.belongings.ring.activate( hero );
+		}
 
 		Dungeon.quickslot.setSlot(0, hero.belongings.weapon);
 		Dungeon.quickslot.setSlot(1, spikes);

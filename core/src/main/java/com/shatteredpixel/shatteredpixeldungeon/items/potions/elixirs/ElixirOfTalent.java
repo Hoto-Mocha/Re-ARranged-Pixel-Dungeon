@@ -49,6 +49,7 @@ public class ElixirOfTalent extends Elixir {
 	public void apply(Hero hero) {
 		if (hero.buff(BonusTalentTracker.class) == null && hero.subClass != HeroSubClass.NONE && hero.lvl >= 20 && hero.armorAbility == null) {
 			hero.STR -= 2;
+			hero.onSTRLost();
 			Buff.affect(hero, BonusTalentTracker.class);
 			Sample.INSTANCE.playDelayed(Assets.Sounds.LEVELUP, 0.2f, 0.7f, 1.2f);
 			Sample.INSTANCE.playDelayed(Assets.Sounds.LEVELUP, 0.4f, 0.7f, 1.2f);
@@ -59,6 +60,7 @@ public class ElixirOfTalent extends Elixir {
 			GameScene.showlevelUpStars();
 		} else {
 			hero.STR += 2;
+			hero.onSTRGained();
 			if (Dungeon.isChallenged(Challenges.SUPERMAN) || hero.buff(ElixirOfTalentHTBoost.class) != null){
 				hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "str") );
 			} else {

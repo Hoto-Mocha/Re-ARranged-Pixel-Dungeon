@@ -333,14 +333,14 @@ public enum Talent {
 	ADVENTURERS_INTUITION			(177),
 	PATIENT_STRIKE					(178),
 	AGGRESSIVE_BARRIER				(179),
-	//???							(180),
+	SKILLED_HAND					(180),
 	//Duelist T2
 	FOCUSED_MEAL					(181),
 	RESTORED_AGILITY				(182),
 	WEAPON_RECHARGING				(183),
 	LETHAL_HASTE					(184),
 	SWIFT_EQUIP						(185),
-	//???							(186),
+	ACCUMULATION					(186),
 	//Duelist T3
 	LIGHTWEIGHT_CHARGE				(187, 3),
 	DEADLY_FOLLOWUP					(188, 3),
@@ -348,16 +348,16 @@ public enum Talent {
 	SECONDARY_CHARGE				(189, 3),
 	TWIN_UPGRADES					(190, 3),
 	COMBINED_LETHALITY				(191, 3),
-	//???							(192, 3),
-	//???							(193, 3),
-	//???							(194, 3),
+	FASTER_CHARGE					(192, 3),
+	QUICK_FOLLOWUP					(193, 3),
+	MOMENTARY_UPGRADE				(194, 3),
 	//Monk T3
 	UNENCUMBERED_SPIRIT				(195, 3),
 	MONASTIC_VIGOR					(196, 3),
 	COMBINED_ENERGY					(197, 3),
-	//???							(198, 3),
-	//???							(199, 3),
-	//???							(200, 3),
+	RESTORED_ENERGY					(198, 3),
+	ENERGY_BARRIER					(199, 3),
+	IRON_PUNCH						(200, 3),
 	//??? T3
 	//???							(201, 3),
 	//???							(202, 3),
@@ -700,6 +700,8 @@ public enum Talent {
 	public static class StrikingWaveTracker extends FlavourBuff{};
 	public static class WandPreservationCounter extends CounterBuff{{revivePersists = true;}};
 	public static class EmpoweredStrikeTracker extends FlavourBuff{};
+
+	public static class SkilledHandTracker extends Buff{};
 	public static class ProtectiveShadowsTracker extends Buff {
 		float barrierInc = 0.5f;
 
@@ -840,6 +842,15 @@ public enum Talent {
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
+	public static class QuickFollowupCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0x651F66); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 10); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class QuickFollowupTracker extends FlavourBuff{};
+
 	public static class MaxRageCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0xFF3333); }
@@ -945,7 +956,7 @@ public enum Talent {
 	public int icon(){
 		if (this == HEROIC_ENERGY){
 			if (Ratmogrify.useRatroicEnergy){
-				return 376;
+				return 571;
 			}
 			HeroClass cls = Dungeon.hero != null ? Dungeon.hero.heroClass : GamesInProgress.selectedClass;
 			switch (cls){
@@ -960,7 +971,7 @@ public enum Talent {
 				case DUELIST:
 					return 219;
 				//	case ???:
-				//	return 263
+				//		return 263;
 				case GUNNER:
 					return 307;
 				case SAMURAI:
@@ -1013,6 +1024,9 @@ public enum Talent {
 		if (talent == NATURES_BOUNTY){
 			if ( hero.pointsInTalent(NATURES_BOUNTY) == 1) Buff.count(hero, NatureBerriesAvailable.class, 4);
 			else                                           Buff.count(hero, NatureBerriesAvailable.class, 2);
+		}
+		if (talent == ACCUMULATION) {
+			updateQuickslot();
 		}
 		if (talent == LARGER_MAGAZINE) {
 			updateQuickslot();
@@ -1674,7 +1688,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	HEALING_MEAL, DOCTORS_INTUITION, INNER_MIRROR, CRITICAL_SHIELD, HEAL_AMP);
 				break;
 			case DUELIST:
-				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, AGGRESSIVE_BARRIER);
+				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, AGGRESSIVE_BARRIER, SKILLED_HAND);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1699,6 +1713,9 @@ public enum Talent {
 			case HUNTRESS:
 				Collections.addAll(tierTalents, INVIGORATING_MEAL, RESTORED_NATURE, REJUVENATING_STEPS, HEIGHTENED_SENSES, DURABLE_PROJECTILES, ADDED_MEAL);
 				break;
+			case DUELIST:
+				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, ACCUMULATION);
+				break;
 			case GUNNER:
 				Collections.addAll(tierTalents,	IN_THE_GUNFIRE, ANOTHER_CHANCE, BULLET_FOCUS, CAMOUFLAGE, LARGER_MAGAZINE, TRANSMUTATION_CONTROL);
 				break;
@@ -1713,9 +1730,6 @@ public enum Talent {
 				break;
 			case NURSE:
 				Collections.addAll(tierTalents,	CHALLENGING_MEAL, POTION_SPREAD, HEALAREA, ANGEL, MEDICAL_SUPPORT, WINNERS_FLAG);
-				break;
-			case DUELIST:
-				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1820,6 +1834,12 @@ public enum Talent {
 			case FIGHTER:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, SWIFT_MOVEMENT, LESS_RESIST, RING_KNUCKLE, MYSTICAL_PUNCH, QUICK_STEP, COUNTER_ATTACK);
 				break;
+			case CHAMPION:
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, SECONDARY_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY, FASTER_CHARGE, QUICK_FOLLOWUP, MOMENTARY_UPGRADE);
+				break;
+			case MONK:
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY, RESTORED_ENERGY, ENERGY_BARRIER, IRON_PUNCH);
+				break;
 			case MARSHAL:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, JUSTICE_BULLET, INTIMIDATION, SEARCH, COVER, SURRENDER, INVEST_END);
 				break;
@@ -1864,12 +1884,6 @@ public enum Talent {
 				break;
 			case SURGEON:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, SCALPEL, DEFIBRILLATOR, DEATH_DIAGNOSIS, FIRST_AID, DISINFECTION, HASTY_HANDS);
-				break;
-			case CHAMPION:
-				Collections.addAll(tierTalents, SECONDARY_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY);
-				break;
-			case MONK:
-				Collections.addAll(tierTalents, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY);
 				break;
 		}
 		for (Talent talent : tierTalents){

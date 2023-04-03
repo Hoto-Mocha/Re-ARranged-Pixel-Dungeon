@@ -22,7 +22,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-import static com.shatteredpixel.shatteredpixeldungeon.actors.Char.INFINITE_ACCURACY;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
@@ -59,7 +58,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -450,6 +448,9 @@ public class GoldenPistol extends MeleeWeapon {
             if (silencer) {
                 damage *= 0.75f;
             }
+            if (damage >= defender.HP && hero.buff(MeleeWeapon.PrecisionShooting.class) != null && hero.buff(Charger.class).charges >= 1) {
+                GoldenPistol.this.onAbilityKill(hero);
+            }
             SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
             WindBow bow2 = hero.belongings.getItem(WindBow.class);
             GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
@@ -614,6 +615,14 @@ public class GoldenPistol extends MeleeWeapon {
                         reload();
                     } else {
                         knockBullet().cast(curUser, target);
+                        if (hero.buff(MeleeWeapon.PrecisionShooting.class) != null &&
+                                hero.buff(MeleeWeapon.Charger.class) != null &&
+                                hero.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
+                                hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+                            beforeAbilityUsed(curUser);
+                            hero.buff(MeleeWeapon.Charger.class).charges--;
+                            afterAbilityUsed(curUser);
+                        }
                     }
                 }
             }

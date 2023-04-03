@@ -38,6 +38,7 @@ public class RingOfMight extends Ring {
 	public boolean doEquip(Hero hero) {
 		if (super.doEquip(hero)){
 			hero.updateHT( false );
+			hero.onSTRGained();
 			return true;
 		} else {
 			return false;
@@ -48,6 +49,7 @@ public class RingOfMight extends Ring {
 	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
 		if (super.doUnequip(hero, collect, single)){
 			hero.updateHT( false );
+			hero.onSTRLost();
 			return true;
 		} else {
 			return false;

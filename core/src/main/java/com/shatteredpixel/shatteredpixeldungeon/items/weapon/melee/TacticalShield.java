@@ -61,6 +61,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.GameMath;
 import com.watabou.utils.Random;
 
 import java.text.DecimalFormat;
@@ -132,7 +133,7 @@ public class TacticalShield extends MeleeWeapon {
 
     @Override
     protected void duelistAbility(Hero hero, Integer target) {
-        CrudePistol.shootAbility(hero, this);
+        RoundShield.guardAbility(hero, 3, this);
     }
 
     @Override
@@ -396,6 +397,9 @@ public class TacticalShield extends MeleeWeapon {
             if (silencer) {
                 damage *= 0.75f;
             }
+            float heroHPPercent = ((float)hero.HP / (float)hero.HT);
+            damage *= GameMath.gate(0.125f, 2*heroHPPercent, 1.5f); //0%~6.25% HP : 0.125x, scales defend on Hero health, 75%~100% HP : 1.5x
+
             SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
             WindBow bow2 = hero.belongings.getItem(WindBow.class);
             GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);

@@ -166,13 +166,11 @@ public class CrudePistol extends MeleeWeapon {
     }
 
     public static void shootAbility(Hero hero, MeleeWeapon wep){
-        wep.beforeAbilityUsed(hero);
         if (hero.buff(PrecisionShooting.class) != null) {
             hero.buff(PrecisionShooting.class).onUse = !hero.buff(PrecisionShooting.class).onUse;
         }
         Sample.INSTANCE.play( Assets.Sounds.UNLOCK );
         hero.sprite.operate(hero.pos);
-        wep.afterAbilityUsed(hero);
     }
 
     @Override
@@ -462,6 +460,9 @@ public class CrudePistol extends MeleeWeapon {
             if (silencer) {
                 damage *= 0.75f;
             }
+            if (damage >= defender.HP && hero.buff(MeleeWeapon.PrecisionShooting.class) != null && hero.buff(Charger.class).charges >= 1) {
+                CrudePistol.this.onAbilityKill(hero);
+            }
             SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
             WindBow bow2 = hero.belongings.getItem(WindBow.class);
             GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
@@ -627,6 +628,14 @@ public class CrudePistol extends MeleeWeapon {
                         reload();
                     } else {
                         knockBullet().cast(curUser, target);
+                        if (hero.buff(MeleeWeapon.PrecisionShooting.class) != null &&
+                                hero.buff(MeleeWeapon.Charger.class) != null &&
+                                hero.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
+                                hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+                            beforeAbilityUsed(curUser);
+                            hero.buff(MeleeWeapon.Charger.class).charges--;
+                            afterAbilityUsed(curUser);
+                        }
                     }
                 }
             }
