@@ -24,8 +24,6 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
@@ -49,7 +47,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTa
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.APBullet;
@@ -68,12 +65,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Lighter;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalPorter;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.RapidGrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableAPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
@@ -290,7 +285,6 @@ public abstract class Recipe {
 		new CurseInfusion.Recipe(),
 		new FeatherFall.Recipe(),
 		new MagicalInfusion.Recipe(),
-		new MagicalPorter.Recipe(),
 		new PhaseShift.Recipe(),
 		new ReclaimTrap.Recipe(),
 		new Recycle.Recipe(),
