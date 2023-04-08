@@ -481,6 +481,7 @@ public class ItemSpriteSheet {
 	public static final int  SABER_ENERGY 				= ALCHEMYWEAPONS_2+3;
 	public static final int  WORN_KATANA_ENERGY 		= ALCHEMYWEAPONS_2+4;
 	public static final int  CRUDE_PISTOL_ENERGY 		= ALCHEMYWEAPONS_2+5;
+	public static final int  RAPIER_ENERGY				= ALCHEMYWEAPONS_2+6;
 
 	static{
 		assignItemRect(WORN_SHORTSWORD_ENERGY,  	13, 13);
@@ -489,6 +490,7 @@ public class ItemSpriteSheet {
 		assignItemRect(SABER_ENERGY,  				13, 15);
 		assignItemRect(WORN_KATANA_ENERGY,  		13, 13);
 		assignItemRect(CRUDE_PISTOL_ENERGY,  		10, 13);
+		assignItemRect(RAPIER_ENERGY,  				13, 14);
 	}
 
 	private static final int SPELLBOOKS 	        =            	           xy(1, 40);

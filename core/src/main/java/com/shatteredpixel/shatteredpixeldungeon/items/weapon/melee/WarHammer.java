@@ -35,6 +35,7 @@ public class WarHammer extends MeleeWeapon {
 
 		tier = 5;
 		ACC = 1.20f; //20% boost to accuracy
+		canAdvance = true;
 	}
 
 	@Override

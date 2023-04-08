@@ -100,6 +100,7 @@ public class Magnum extends MeleeWeapon {
 
         gun = true;
         handGun = true;
+        canAdvance = true;
     }
 
     private static final String ROUND = "round";

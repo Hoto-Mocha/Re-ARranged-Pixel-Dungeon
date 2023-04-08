@@ -100,6 +100,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier_Energy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber_Energy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Blast;
@@ -380,6 +381,7 @@ public abstract class Recipe {
 		new Dagger_Energy.Recipe(),
 		new Gloves_Energy.Recipe(),
 		new Saber_Energy.Recipe(),
+		new Rapier_Energy.Recipe(),
 		new WornKatana_Energy.Recipe(),
 		new CrudePistol_Energy.Recipe()
 	};

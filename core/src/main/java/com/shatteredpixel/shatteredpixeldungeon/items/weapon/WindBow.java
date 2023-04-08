@@ -68,6 +68,7 @@ public class WindBow extends Weapon {
 
 		unique = true;
 		bones = false;
+		canAdvance = true;
 	}
 
 	public boolean sniperSpecial = false;

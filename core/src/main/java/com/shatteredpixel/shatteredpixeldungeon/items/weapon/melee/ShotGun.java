@@ -109,6 +109,7 @@ public class ShotGun extends MeleeWeapon {
 
         gun = true;
         shotGun = true;
+        canAdvance = true;
     }
 
     private static final String ROUND = "round";

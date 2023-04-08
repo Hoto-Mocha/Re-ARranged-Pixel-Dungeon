@@ -69,6 +69,7 @@ public class PoisonBow extends Weapon {
 		
 		unique = true;
 		bones = false;
+		canAdvance = true;
 	}
 	
 	public boolean sniperSpecial = false;

@@ -477,7 +477,7 @@ public class Hero extends Char {
 	}
 
 	public void onSTRGained() {
-		if (hero != null
+		if (hero != null && hero.heroClass == HeroClass.DUELIST
 				&& hero.buff(MeleeWeapon.PrecisionShooting.class) == null) {
 			if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
 				if (hero.belongings.weapon.gun && hero.belongings.weapon.STRReq() <= hero.STR()) {
@@ -496,7 +496,7 @@ public class Hero extends Char {
 	}
 
 	public void onSTRLost() {
-		if (hero != null
+		if (hero != null && hero.heroClass == HeroClass.DUELIST
 				&& hero.buff(MeleeWeapon.PrecisionShooting.class) != null) {
 			if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
 				if (hero.belongings.weapon.STRReq() > hero.STR()) {
@@ -767,6 +767,10 @@ public class Hero extends Char {
 		}
 
 		if (hero.buff(UnholyBible.Demon.class) != null) {
+			accuracy = INFINITE_ACCURACY;
+		}
+
+		if (hero.buff(MeleeWeapon.DashAttack.class) != null) {
 			accuracy = INFINITE_ACCURACY;
 		}
 
@@ -1922,6 +1926,11 @@ public class Hero extends Char {
 			damage += 1+hero.pointsInTalent(Talent.SKILLED_HAND);
 			hero.buff(Talent.SkilledHandTracker.class).detach();
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+		}
+
+		if (hero.buff(MeleeWeapon.DashAttack.class) != null) {
+			damage *= hero.buff(MeleeWeapon.DashAttack.class).getDmgMulti();
+			hero.buff(MeleeWeapon.DashAttack.class).detach();
 		}
 
 		if (wep == null && hero.buff(RingOfForce.Force.class) == null && hero.hasTalent(Talent.IRON_PUNCH) && hero.buff(MonkEnergy.class) != null && hero.buff(MonkEnergy.class).energy >= 0.25f) {

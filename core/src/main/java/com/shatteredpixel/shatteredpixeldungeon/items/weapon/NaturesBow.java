@@ -68,6 +68,7 @@ public class NaturesBow extends Weapon {
 		
 		unique = true;
 		bones = false;
+		canAdvance = true;
 	}
 	
 	public boolean sniperSpecial = false;

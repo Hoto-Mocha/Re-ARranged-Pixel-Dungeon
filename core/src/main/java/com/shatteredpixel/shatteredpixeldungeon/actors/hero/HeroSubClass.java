@@ -50,6 +50,7 @@ public enum HeroSubClass {
 
 	CHAMPION(HeroIcon.CHAMPION),
 	MONK(HeroIcon.MONK),
+	FENCER(HeroIcon.FENCER),
 
 	MARSHAL(HeroIcon.MARSHAL),
 	GUNSLINGER(HeroIcon.GUNSLINGER),

@@ -100,6 +100,7 @@ public class RocketLauncher extends MeleeWeapon {
 
         gun = true;
         rocketGun = true;
+        canAdvance = true;
     }
 
     private static final String ROUND = "round";

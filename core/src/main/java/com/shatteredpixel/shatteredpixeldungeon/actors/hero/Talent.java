@@ -328,6 +328,7 @@ public enum Talent {
 	EAGLE_EYE						(169, 4),
 	GO_FOR_THE_EYES					(170, 4),
 	SWIFT_SPIRIT					(171, 4),
+
 	//Duelist T1
 	STRENGTHENING_MEAL				(176),
 	ADVENTURERS_INTUITION			(177),
@@ -358,13 +359,13 @@ public enum Talent {
 	RESTORED_ENERGY					(198, 3),
 	ENERGY_BARRIER					(199, 3),
 	IRON_PUNCH						(200, 3),
-	//??? T3
-	//???							(201, 3),
-	//???							(202, 3),
-	//???							(203, 3),
-	//???							(204, 3),
-	//???							(205, 3),
-	//???							(206, 3),
+	///Fencer T3
+	CLAM_STEPS						(201, 3),
+	CRITICAL_MOMENTUM				(202, 3),
+	KINETIC_MOVEMENT				(203, 3),
+	AGGRESIVE_MOVEMENT				(204, 3),
+	UNENCUMBERED_MOVEMENT			(205, 3),
+	SOULIZE							(206, 3),
 	//Challenge T4
 	CLOSE_THE_GAP					(207, 4),
 	INVIGORATING_VICTORY			(208, 4),
@@ -934,6 +935,9 @@ public enum Talent {
 	};
 	public static class CombinedEnergyAbilityTracker extends FlavourBuff{
 		public int energySpent = -1;
+		public boolean wepAbilUsed = false;
+	}
+	public static class AgressiveMovementAbilityTracker extends FlavourBuff{
 		public boolean wepAbilUsed = false;
 	}
 	public static class CounterAbilityTacker extends FlavourBuff{};
@@ -1839,6 +1843,9 @@ public enum Talent {
 				break;
 			case MONK:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY, RESTORED_ENERGY, ENERGY_BARRIER, IRON_PUNCH);
+				break;
+			case FENCER:
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, CLAM_STEPS, CRITICAL_MOMENTUM, KINETIC_MOVEMENT, AGGRESIVE_MOVEMENT, UNENCUMBERED_MOVEMENT, SOULIZE);
 				break;
 			case MARSHAL:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, JUSTICE_BULLET, INTIMIDATION, SEARCH, COVER, SURRENDER, INVEST_END);

@@ -24,12 +24,10 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 
 public class Saber_Energy extends EnergyWeapon {
 
@@ -69,24 +67,6 @@ public class Saber_Energy extends EnergyWeapon {
 		hero.sprite.operate(hero.pos);
 		hero.next();
 		afterAbilityUsed(hero);
-	}
-
-	public static class BlockingStance extends FlavourBuff {
-
-		{
-			announced = true;
-			type = buffType.POSITIVE;
-		}
-
-		@Override
-		public int icon() {
-			return BuffIndicator.DUEL_SABER;
-		}
-
-		@Override
-		public float iconFadePercent() {
-			return Math.max(0, (6 - visualcooldown()) / 6);
-		}
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

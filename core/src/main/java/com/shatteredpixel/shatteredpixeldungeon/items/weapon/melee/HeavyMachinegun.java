@@ -101,6 +101,7 @@ public class HeavyMachinegun extends MeleeWeapon {
 
         gun = true;
         machineGun = true;
+        canAdvance = true;
     }
 
     private static final String ROUND = "round";

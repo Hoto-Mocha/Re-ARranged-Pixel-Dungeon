@@ -41,11 +41,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
@@ -57,8 +59,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorrosion;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Annoying;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Dazzling;
@@ -74,13 +74,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Bloomi
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Chilling;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Corrupting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Elastic;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Eldritch;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shiny;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Stunning;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Venomous;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -117,6 +122,12 @@ public class ElementalStrike extends ArmorAbility {
 		effectTypes.put(Corrupting.class,   MagicMissile.SHADOW_CONE);
 		effectTypes.put(Grim.class,         MagicMissile.SHADOW_CONE);
 		effectTypes.put(Vampiric.class,     MagicMissile.BLOOD_CONE);
+
+		effectTypes.put(Shiny.class,     	MagicMissile.RAINBOW_CONE);
+		effectTypes.put(Eldritch.class,     MagicMissile.SHADOW_CONE);
+		effectTypes.put(Stunning.class,     MagicMissile.FORCE_CONE);
+		effectTypes.put(Venomous.class,     MagicMissile.PURPLE_CONE);
+		effectTypes.put(Vorpal.class,    	MagicMissile.BLOOD_CONE);
 
 		effectTypes.put(Annoying.class,     MagicMissile.SHADOW_CONE);
 		effectTypes.put(Displacing.class,   MagicMissile.SHADOW_CONE);
@@ -462,6 +473,42 @@ public class ElementalStrike extends ArmorAbility {
 						ch.sprite.emitter().burst( ShadowParticle.UP, 5 );
 					}
 				}
+			}
+
+		//*** Shiny ***
+		} else if (ench instanceof Shiny){
+			for (Char ch : affected){
+				ch.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
+				Buff.affect(ch, Blindness.class, Math.round(5f*powerMulti));
+			}
+
+		//*** Eldritch ***
+		} else if (ench instanceof Eldritch){
+			for (Char ch : affected){
+				Buff.affect(ch, Terror.class, Math.round(5f*powerMulti));
+				CellEmitter.get(ch.pos).burst(ShadowParticle.UP, 5);
+				Sample.INSTANCE.play(Assets.Sounds.CURSED);
+			}
+
+		//*** Stunning ***
+		} else if (ench instanceof Stunning){
+			for (Char ch : affected){
+				ch.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
+				Buff.affect(ch, Paralysis.class, Math.round(3f*powerMulti));
+			}
+
+		//*** Venomous ***
+		} else if (ench instanceof Venomous){
+			for (Char ch : affected){
+				float hpMissing = 1f - (ch.HP / (float)ch.HT);
+				Buff.affect(ch, Poison.class).set(0.3f*hpMissing);
+			}
+
+		//*** Vorpal ***
+		} else if (ench instanceof Vorpal){
+			for (Char ch : affected){
+				float hpMissing = 1f - (ch.HP / (float)ch.HT);
+				Buff.affect(ch, Bleeding.class).set(0.2f*hpMissing);
 			}
 
 		//*** Annoying ***

@@ -101,6 +101,7 @@ public class SniperRifle extends MeleeWeapon {
 
         gun = true;
         sniperGun = true;
+        canAdvance = true;
     }
 
     private static final String ROUND = "round";

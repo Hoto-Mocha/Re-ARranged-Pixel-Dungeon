@@ -67,6 +67,7 @@ public class SpiritBow extends Weapon {
 		
 		unique = true;
 		bones = false;
+		canAdvance = true;
 	}
 	
 	public boolean sniperSpecial = false;

@@ -68,6 +68,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
@@ -359,6 +360,13 @@ public class Armor extends EquipableItem {
 			Demonization demonization = owner.buff(Demonization.class);
 			if (demonization != null && demonization.isDemonated()) {
 				evasion += demonization.evasionBonus(((Hero) owner).lvl, Math.max(0, -aEnc));
+			}
+
+			MeleeWeapon.Charger charger = owner.buff(MeleeWeapon.Charger.class);
+			if (charger != null && hero.hasTalent(Talent.UNENCUMBERED_MOVEMENT)) {
+				int wEnc = ((Hero) owner).belongings.weapon.STRReq() - ((Hero) owner).STR();
+				evasion += 0.5f*Math.max(0, -aEnc);
+				evasion += 0.5f*Math.max(0, -wEnc);
 			}
 
 			if (hasGlyph(Afterimage.class, owner)){

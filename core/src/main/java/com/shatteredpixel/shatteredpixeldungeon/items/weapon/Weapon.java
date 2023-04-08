@@ -159,6 +159,8 @@ abstract public class Weapon extends KindOfWeapon {
 	public boolean curseInfusionBonus = false;
 	public boolean masteryPotionBonus = false;
 
+	public boolean canAdvance = false;
+
 	@Override
 	public int proc( Char attacker, Char defender, int damage ) {
 		if (enchantment != null && attacker.buff(MagicImmune.class) == null) {

@@ -1082,7 +1082,7 @@ public abstract class Char extends Actor {
 				}
 			}
 			KindOfWeapon wep = hero.belongings.attackingWeapon();
-			if (this instanceof Hero && hero.subClass == HeroSubClass.VETERAN && hero.buff(Focusing.class) != null && Random.Int(3) < hero.pointsInTalent(Talent.BARRIER_FORMATION)){
+			if (this instanceof Hero && hero.subClass == HeroSubClass.VETERAN && hero.buff(Focusing.class) != null && Random.Int(3) < hero.pointsInTalent(Talent.BARRIER_FORMATION) && wep != null){
 				if (wep.bullet) {
 					BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
 					if (shield.shielding() < shield.maxShield()) {
@@ -1102,14 +1102,14 @@ public abstract class Char extends Actor {
 
 
 			if (this instanceof Hero) {
-				if (Dungeon.hero.buff(ExtraBullet.class) != null) {
+				if (Dungeon.hero.buff(ExtraBullet.class) != null && wep != null) {
 					if (wep.bullet) {
 						dmg += 3;
 					}
 				}
 			}
 
-			if (Dungeon.hero.buff(Riot.riotTracker.class) != null) {
+			if (Dungeon.hero.buff(Riot.riotTracker.class) != null && wep != null) {
 				if (wep.bullet) {
 					dmg *= 0.5f;
 				}
@@ -1117,7 +1117,7 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero) {
-				if (hero.heroClass == HeroClass.GUNNER) {
+				if (hero.heroClass == HeroClass.GUNNER && wep != null) {
 					if (wep.gun) {
 						dmg += Random.NormalIntRange(0, hero.belongings.weapon.buffedLvl());
 					}
@@ -1125,7 +1125,7 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero) {
-				if (hero.subClass == HeroSubClass.ENGINEER && Random.Int(5) < hero.pointsInTalent(Talent.ELECTRIC_BULLET)) {
+				if (hero.subClass == HeroSubClass.ENGINEER && Random.Int(5) < hero.pointsInTalent(Talent.ELECTRIC_BULLET) && wep != null) {
 					if (wep.bullet) {
 						ArrayList<Lightning.Arc> arcs = new ArrayList<>();
 						ArrayList<Char> affected = new ArrayList<>();

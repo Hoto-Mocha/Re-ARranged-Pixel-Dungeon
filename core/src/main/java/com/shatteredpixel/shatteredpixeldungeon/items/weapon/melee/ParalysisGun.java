@@ -117,6 +117,7 @@ public class ParalysisGun extends MeleeWeapon {
         actions.add(AC_SHOOT);
         actions.add(AC_RELOAD);
         actions.remove(AC_EQUIP);
+        actions.remove(AC_ABILITY);
         return actions;
     }
 

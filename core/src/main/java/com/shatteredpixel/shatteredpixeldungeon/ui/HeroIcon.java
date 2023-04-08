@@ -55,7 +55,7 @@ public class HeroIcon extends Image {
 	//public static final int ???        	= 15;
 	public static final int CHAMPION    	= 16;
 	public static final int MONK        	= 17;
-	//public static final int ???        	= 18;
+	public static final int FENCER       	= 18;
 	//public static final int ???        	= 19;
 	//public static final int ???		    = 20;
 	//public static final int ???		    = 21;

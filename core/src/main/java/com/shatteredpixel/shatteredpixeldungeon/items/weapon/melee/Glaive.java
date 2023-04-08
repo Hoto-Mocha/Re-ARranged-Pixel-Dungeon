@@ -36,6 +36,7 @@ public class Glaive extends MeleeWeapon {
 		tier = 5;
 		DLY = 1.5f; //0.67x speed
 		RCH = 2;    //extra reach
+		canAdvance = true;
 	}
 
 	@Override

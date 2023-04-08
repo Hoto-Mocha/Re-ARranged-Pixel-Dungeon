@@ -621,9 +621,10 @@ public class Generator {
 					Gloves_Energy.class,
 					CrudePistol_Energy.class,
 					WornKatana_Energy.class,
-					Saber_Energy.class
+					Saber_Energy.class,
+					Rapier_Energy.class
 			};
-			ALCHEMY.defaultProbs = new float[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			ALCHEMY.defaultProbs = new float[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			ALCHEMY.probs = ALCHEMY.defaultProbs.clone();
 
 			SPELLBOOK.classes = new Class<?>[]{

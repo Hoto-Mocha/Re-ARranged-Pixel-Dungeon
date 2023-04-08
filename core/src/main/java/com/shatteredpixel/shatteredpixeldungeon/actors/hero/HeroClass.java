@@ -117,7 +117,7 @@ public enum HeroClass {
 	MAGE	( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.ENGINEER ),
 	ROGUE	( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.CHASER ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.FIGHTER ),
-	DUELIST	( HeroSubClass.CHAMPION, HeroSubClass.MONK ),
+	DUELIST	( HeroSubClass.CHAMPION, HeroSubClass.MONK, HeroSubClass.FENCER ),
 	GUNNER	( HeroSubClass.MARSHAL , HeroSubClass.GUNSLINGER , HeroSubClass.SPECIALIST ),
 	SAMURAI	( HeroSubClass.SLASHER , HeroSubClass.MASTER , HeroSubClass.SLAYER ),
 	PLANTER	( HeroSubClass.TREASUREHUNTER, HeroSubClass.ADVENTURER, HeroSubClass.RESEARCHER),
@@ -185,6 +185,10 @@ public enum HeroClass {
 		//new ScrollOfUpgrade().identify().quantity(1000).collect();
 		//new TestWeapon().identify().collect();
 		//new Teleporter().collect();
+		//new RingOfForce().identify().collect();
+		//new GrenadeLauncher().identify().collect();
+		//new SleepGun().identify().collect();
+		//new AdvancedEvolution().quantity(20).collect();
 		//new PotionOfStrength().identify().quantity(20).collect();
 		//new PotionOfMindVision().identify().quantity(20).collect();
 		//new ThrowingSpear().quantity(500).collect();

@@ -35,16 +35,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GildedShovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainWhip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GildedShovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
@@ -53,10 +53,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachineg
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
@@ -69,9 +69,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShiel
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
@@ -81,10 +78,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnformedBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -111,28 +110,8 @@ public class AdvancedEvolution extends InventorySpell {
 
     @Override
     protected boolean usableOnItem(Item item) {
-        return !(item instanceof Spade)
-            &&(item instanceof SniperRifle
-            || item instanceof HeavyMachinegun
-            || item instanceof Magnum
-            || item instanceof ShotGun
-            || item instanceof RocketLauncher
-            || item instanceof LargeKatana
-            || item instanceof Glaive
-            || item instanceof Greatshield
-            || item instanceof RunicBlade
-            || item instanceof AssassinsBlade
-            || item instanceof Shovel
-            || item instanceof Greataxe
-            || item instanceof WarHammer
-            || item instanceof Gauntlet
-            || item instanceof SpiritBow
-            || item instanceof WindBow
-            || item instanceof NaturesBow
-            || item instanceof GoldenBow
-            || item instanceof PoisonBow
-            || item instanceof Crossbow
-            || item instanceof Whip);
+        return (!(item instanceof Spade)
+            && (item instanceof Weapon && ((Weapon)item).canAdvance));
     }
 
     @Override
@@ -179,28 +158,45 @@ public class AdvancedEvolution extends InventorySpell {
         }
     }
 
+    private static float getGunChance() {
+        float gunChance = 0.7f;
+        if (Dungeon.hero.heroClass == HeroClass.GUNNER) {
+            gunChance = 1;
+        }
+        return gunChance;
+    }
+
+    private static float getWepChance() {
+        float wepChance = 0.9f;
+        if (Dungeon.hero.heroClass == HeroClass.DUELIST){
+            wepChance = 1;
+        }
+        return wepChance;
+    }
+
     private static Weapon changeWeapon( Weapon w ) {
 
         //Normal Weapon Success Rate: 90%
+        //Normal Weapon Success Rate for Duelist: 100%
         //Gun Success Rate: 70%
         //Gus Success Rate for Gunner: 100%
 
         Weapon n;
         if (w instanceof SniperRifle) {
             if (w instanceof SniperRifleAP) {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new AntimaterRifleAP();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else if (w instanceof SniperRifleHP) {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new AntimaterRifleHP();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new AntimaterRifle();
                 } else {
                     n = Generator.randomWeapon();
@@ -208,19 +204,19 @@ public class AdvancedEvolution extends InventorySpell {
             }
         } else if (w instanceof HeavyMachinegun) {
             if (w instanceof HeavyMachinegunAP) {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new MiniGunAP();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else if (w instanceof HeavyMachinegunHP) {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new MiniGunHP();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new MiniGun();
                 } else {
                     n = Generator.randomWeapon();
@@ -228,19 +224,19 @@ public class AdvancedEvolution extends InventorySpell {
             }
         } else if (w instanceof Magnum) {
             if (w instanceof MagnumAP) {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new TacticalHandgunAP();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else if (w instanceof MagnumHP) {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new TacticalHandgunHP();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new TacticalHandgun();
                 } else {
                     n = Generator.randomWeapon();
@@ -248,56 +244,56 @@ public class AdvancedEvolution extends InventorySpell {
             }
         } else if (w instanceof ShotGun) {
             if (w instanceof ShotGunAP) {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new KSGAP();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else if (w instanceof ShotGunHP) {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new KSGHP();
                 } else {
                     n = Generator.randomWeapon();
                 }
             } else {
-                if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+                if (Random.Float() < getGunChance()) {
                     n = new KSG();
                 } else {
                     n = Generator.randomWeapon();
                 }
             }
         } else if (w instanceof RocketLauncher) {
-            if (Dungeon.hero.heroClass == HeroClass.GUNNER || Random.Int(10) < 7) {
+            if (Random.Float() < getGunChance()) {
                 n = new RPG7();
             } else {
                 n = Generator.randomWeapon();
             }
         } else if (w instanceof LargeKatana) {
-            if (Random.Int(10) < 9) {
+            if (Random.Float() < getWepChance()) {
                 n = new SharpKatana();
             } else {
                 n = Generator.randomWeapon();
             }
         } else if (w instanceof Glaive) {
-            if (Random.Int(10) < 9) {
+            if (Random.Float() < getWepChance()) {
                 n = new Lance();
             } else {
                 n = Generator.randomWeapon();
             }
         } else if (w instanceof Greatshield) {
-            if (Random.Int(10) < 9) {
+            if (Random.Float() < getWepChance()) {
                 n = new ObsidianShield();
             } else {
                 n = Generator.randomWeapon();
             }
         } else if (w instanceof RunicBlade){
-            if (Random.Int(10) < 9) {
+            if (Random.Float() < getWepChance()) {
                 n = new TrueRunicBlade();
             } else {
                 n = Generator.randomWeapon();
             }
         } else if (w instanceof AssassinsBlade){
-            if (Random.Int(10) < 9) {
+            if (Random.Float() < getWepChance()) {
                 n = new UnformedBlade();
             } else {
                 n = Generator.randomWeapon();
@@ -307,19 +303,19 @@ public class AdvancedEvolution extends InventorySpell {
         } else if (w instanceof Shovel) {
             n = new GildedShovel();
         } else if (w instanceof Greataxe) {
-            if (Random.Int(10) < 9) {
+            if (Random.Float() < getWepChance()) {
                 n = new HugeSword();
             } else {
                 n = Generator.randomWeapon();
             }
         } else if (w instanceof WarHammer) {
-            if (Random.Int(10) < 9) {
+            if (Random.Float() < getWepChance()) {
                 n = new IronHammer();
             } else {
                 n = Generator.randomWeapon();
             }
         } else if (w instanceof Gauntlet) {
-            if (Random.Int(10) < 9) {
+            if (Random.Float() < getWepChance()) {
                 n = new BeamSaber();
             } else {
                 n = Generator.randomWeapon();
@@ -389,13 +385,13 @@ public class AdvancedEvolution extends InventorySpell {
                     break;
             }
         } else if (w instanceof Crossbow) {
-            if (Random.Int(10) < 9) {
+            if (Random.Float() < getWepChance()) {
                 n = new ExplosiveCrossbow();
             } else {
                 n = Generator.randomWeapon();
             }
         } else { //w instanceof Whip
-            if (Random.Int(10) < 9) {
+            if (Random.Float() < getWepChance()) {
                 n = new ChainWhip();
             } else {
                 n = Generator.randomWeapon();
@@ -421,6 +417,11 @@ public class AdvancedEvolution extends InventorySpell {
 
         return n;
 
+    }
+
+    @Override
+    public String desc() {
+        return super.desc() + "\n\n" + Messages.get(this, "chance", Messages.decimalFormat("#", 100f * getGunChance()), Messages.decimalFormat("#", 100f * getWepChance()));
     }
 
     @Override
