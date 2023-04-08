@@ -183,6 +183,8 @@ public enum HeroClass {
 		//new ScrollOfMagicMapping().identify().quantity(29).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new ScrollOfUpgrade().identify().quantity(1000).collect();
+		//new CrudePistol().identify().collect();
+		//new DualPistol().identify().collect();
 		//new TestWeapon().identify().collect();
 		//new Teleporter().collect();
 		//new RingOfForce().identify().collect();

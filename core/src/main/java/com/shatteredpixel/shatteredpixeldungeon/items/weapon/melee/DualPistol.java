@@ -89,7 +89,6 @@ public class DualPistol extends MeleeWeapon {
     private static final String TXT_STATUS = "%d/%d";
 
     {
-
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 

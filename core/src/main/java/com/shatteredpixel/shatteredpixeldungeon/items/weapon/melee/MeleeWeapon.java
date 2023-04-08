@@ -77,6 +77,9 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public void activate(Char ch) {
 		super.activate(ch);
+		if (ch instanceof Hero && ch.buff(PrecisionShooting.class) != null) {
+			ch.buff(PrecisionShooting.class).detach();
+		}
 		if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.DUELIST){
 			Buff.affect(ch, Charger.class);
 		}
@@ -921,6 +924,7 @@ public class MeleeWeapon extends Weapon {
 			if (hero.heroClass != HeroClass.DUELIST) {
 				detach();
 			}
+			spend(TICK);
 			return true;
 		}
 
