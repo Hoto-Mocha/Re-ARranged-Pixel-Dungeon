@@ -232,6 +232,14 @@ public class RPG7 extends MeleeWeapon {
 
     public int getRound() { return this.round; }
 
+    public void oneReload() {
+        max_round = 1;
+        round ++;
+        if (round > max_round) {
+            round = max_round;
+        }
+    }
+
     @Override
     public String status() {
         max_round = 1;

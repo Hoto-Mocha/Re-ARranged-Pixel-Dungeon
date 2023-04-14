@@ -313,80 +313,80 @@ public abstract class Char extends Actor {
 			int chance = 2*hero.pointsInTalent(Talent.QUICK_RELOAD);
 			KindOfWeapon wep = hero.belongings.attackingWeapon();
 			KindOfWeapon eqWep = hero.belongings.weapon;
-			if (wep instanceof CrudePistol && ((CrudePistol)eqWep).round < ((CrudePistol)eqWep).max_round && Random.Int(100) < chance) {
-				((CrudePistol)eqWep).round = Math.min(((CrudePistol)eqWep).round+1, ((CrudePistol)eqWep).max_round);
+			if (wep instanceof CrudePistol && Random.Int(100) < chance) {
+				((CrudePistol)eqWep).oneReload();
 
-			} else if (wep instanceof Pistol && ((Pistol)eqWep).round < ((Pistol)eqWep).max_round && Random.Int(100) < chance) {
-				((Pistol)eqWep).round = Math.min(((Pistol)eqWep).round+1, ((Pistol)eqWep).max_round);
+			} else if (wep instanceof Pistol && Random.Int(100) < chance) {
+				((Pistol)eqWep).oneReload();
 
-			} else if (wep instanceof GoldenPistol && ((GoldenPistol)eqWep).round < ((GoldenPistol)eqWep).max_round && Random.Int(100) < chance) {
-				((GoldenPistol)eqWep).round = Math.min(((GoldenPistol)eqWep).round+1, ((GoldenPistol)eqWep).max_round);
+			} else if (wep instanceof GoldenPistol && Random.Int(100) < chance) {
+				((GoldenPistol)eqWep).oneReload();
 
-			} else if (wep instanceof Handgun && ((Handgun)eqWep).round < ((Handgun)eqWep).max_round && Random.Int(100) < chance) {
-				((Handgun)eqWep).round = Math.min(((Handgun)eqWep).round+1, ((Handgun)eqWep).max_round);
+			} else if (wep instanceof Handgun && Random.Int(100) < chance) {
+				((Handgun)eqWep).oneReload();
 
-			} else if (wep instanceof Magnum && ((Magnum)eqWep).round < ((Magnum)eqWep).max_round && Random.Int(100) < chance) {
-				((Magnum)eqWep).round = Math.min(((Magnum)eqWep).round+1, ((Magnum)eqWep).max_round);
+			} else if (wep instanceof Magnum && Random.Int(100) < chance) {
+				((Magnum)eqWep).oneReload();
 
-			} else if (wep instanceof TacticalHandgun && ((TacticalHandgun)eqWep).round < ((TacticalHandgun)eqWep).max_round && Random.Int(100) < chance) {
-				((TacticalHandgun)eqWep).round = Math.min(((TacticalHandgun)eqWep).round+1, ((TacticalHandgun)eqWep).max_round);
+			} else if (wep instanceof TacticalHandgun && Random.Int(100) < chance) {
+				((TacticalHandgun)eqWep).oneReload();
 
-			} else if (wep instanceof AutoHandgun && ((AutoHandgun)eqWep).round < ((AutoHandgun)eqWep).max_round && Random.Int(100) < chance) {
-				((AutoHandgun)eqWep).round = Math.min(((AutoHandgun)eqWep).round+1, ((AutoHandgun)eqWep).max_round);
+			} else if (wep instanceof AutoHandgun && Random.Int(100) < chance) {
+				((AutoHandgun)eqWep).oneReload();
 
-			} else if (wep instanceof DualPistol && ((DualPistol)eqWep).round < ((DualPistol)eqWep).max_round && Random.Int(100) < chance*3) {
-				((DualPistol)eqWep).round = Math.min(((DualPistol)eqWep).round+1, ((DualPistol)eqWep).max_round);
+			} else if (wep instanceof DualPistol && Random.Int(100) < chance*3) {
+				((DualPistol)eqWep).oneReload();
 
-			} else if (wep instanceof SubMachinegun && ((SubMachinegun)eqWep).round < ((SubMachinegun)eqWep).max_round && Random.Int(100) < chance*3) {
-				((SubMachinegun)eqWep).round = Math.min(((SubMachinegun)eqWep).round+1, ((SubMachinegun)eqWep).max_round);
+			} else if (wep instanceof SubMachinegun && Random.Int(100) < chance*3) {
+				((SubMachinegun)eqWep).oneReload();
 
-			} else if (wep instanceof AssultRifle && ((AssultRifle)eqWep).round < ((AssultRifle)eqWep).max_round && Random.Int(100) < chance*3) {
-				((AssultRifle)eqWep).round = Math.min(((AssultRifle)eqWep).round+1, ((AssultRifle)eqWep).max_round);
+			} else if (wep instanceof AssultRifle && Random.Int(100) < chance*3) {
+				((AssultRifle)eqWep).oneReload();
 
-			} else if (wep instanceof HeavyMachinegun && ((HeavyMachinegun)eqWep).round < ((HeavyMachinegun)eqWep).max_round && Random.Int(100) < chance*3) {
-				((HeavyMachinegun)eqWep).round = Math.min(((HeavyMachinegun)eqWep).round+1, ((HeavyMachinegun)eqWep).max_round);
+			} else if (wep instanceof HeavyMachinegun && Random.Int(100) < chance*3) {
+				((HeavyMachinegun)eqWep).oneReload();
 
-			} else if (wep instanceof MiniGun && ((MiniGun)eqWep).round < ((MiniGun)eqWep).max_round && Random.Int(100) < chance*3) {
-				((MiniGun)eqWep).round = Math.min(((MiniGun)eqWep).round+1, ((MiniGun)eqWep).max_round);
+			} else if (wep instanceof MiniGun && Random.Int(100) < chance*3) {
+				((MiniGun)eqWep).oneReload();
 
-			} else if (wep instanceof Revolver && ((Revolver)eqWep).round < ((Revolver)eqWep).max_round && Random.Int(100) < chance/2) {
-				((Revolver)eqWep).round = Math.min(((Revolver)eqWep).round+1, ((Revolver)eqWep).max_round);
+			} else if (wep instanceof Revolver && Random.Int(100) < chance/2) {
+				((Revolver)eqWep).oneReload();
 
-			} else if (wep instanceof HuntingRifle && ((HuntingRifle)eqWep).round < ((HuntingRifle)eqWep).max_round && Random.Int(100) < chance/2) {
-				((HuntingRifle)eqWep).round = Math.min(((HuntingRifle)eqWep).round+1, ((HuntingRifle)eqWep).max_round);
+			} else if (wep instanceof HuntingRifle && Random.Int(100) < chance/2) {
+				((HuntingRifle)eqWep).oneReload();
 
-			} else if (wep instanceof Carbine && ((Carbine)eqWep).round < ((Carbine)eqWep).max_round && Random.Int(100) < chance/2) {
-				((Carbine)eqWep).round = Math.min(((Carbine)eqWep).round+1, ((Carbine)eqWep).max_round);
+			} else if (wep instanceof Carbine && Random.Int(100) < chance/2) {
+				((Carbine)eqWep).oneReload();
 
-			} else if (wep instanceof SniperRifle && ((SniperRifle)eqWep).round < ((SniperRifle)eqWep).max_round && Random.Int(100) < chance/2) {
-				((SniperRifle)eqWep).round = Math.min(((SniperRifle)eqWep).round+1, ((SniperRifle)eqWep).max_round);
+			} else if (wep instanceof SniperRifle && Random.Int(100) < chance/2) {
+				((SniperRifle)eqWep).oneReload();
 
-			} else if (wep instanceof AntimaterRifle && ((AntimaterRifle)eqWep).round < ((AntimaterRifle)eqWep).max_round && Random.Int(100) < chance/2) {
-				((AntimaterRifle)eqWep).round = Math.min(((AntimaterRifle)eqWep).round+1, ((AntimaterRifle)eqWep).max_round);
+			} else if (wep instanceof AntimaterRifle && Random.Int(100) < chance/2) {
+				((AntimaterRifle)eqWep).oneReload();
 
-			} else if (wep instanceof WA2000 && ((WA2000)eqWep).round < ((WA2000)eqWep).max_round && Random.Int(100) < chance/2) {
-				((WA2000)eqWep).round = Math.min(((WA2000)eqWep).round+1, ((WA2000)eqWep).max_round);
+			} else if (wep instanceof WA2000 && Random.Int(100) < chance/2) {
+				((WA2000)eqWep).oneReload();
 
-			} else if (wep instanceof MarksmanRifle && ((MarksmanRifle)eqWep).round < ((MarksmanRifle)eqWep).max_round && Random.Int(100) < chance/2) {
-				((MarksmanRifle)eqWep).round = Math.min(((MarksmanRifle)eqWep).round+1, ((MarksmanRifle)eqWep).max_round);
+			} else if (wep instanceof MarksmanRifle && Random.Int(100) < chance/2) {
+				((MarksmanRifle)eqWep).oneReload();
 
-			} else if (wep instanceof ShotGun && ((ShotGun)eqWep).round < ((ShotGun)eqWep).max_round && Random.Int(100) < chance/2) {
-				((ShotGun)eqWep).round = Math.min(((ShotGun)eqWep).round+1, ((ShotGun)eqWep).max_round);
+			} else if (wep instanceof ShotGun && Random.Int(100) < chance/2) {
+				((ShotGun)eqWep).oneReload();
 
-			} else if (wep instanceof KSG && ((KSG)eqWep).round < ((KSG)eqWep).max_round && Random.Int(100) < chance/2) {
-				((KSG)eqWep).round = Math.min(((KSG)eqWep).round+1, ((KSG)eqWep).max_round);
+			} else if (wep instanceof KSG && Random.Int(100) < chance/2) {
+				((KSG)eqWep).oneReload();
 
-			} else if (wep instanceof PlasmaCannon && ((PlasmaCannon)eqWep).round < ((PlasmaCannon)eqWep).max_round && Random.Int(100) < chance/2) {
-				((PlasmaCannon)eqWep).round = Math.min(((PlasmaCannon)eqWep).round+1, ((PlasmaCannon)eqWep).max_round);
+			} else if (wep instanceof PlasmaCannon && Random.Int(100) < chance/2) {
+				((PlasmaCannon)eqWep).oneReload();
 
-			} else if (wep instanceof FlameThrower && ((FlameThrower)eqWep).round < ((FlameThrower)eqWep).max_round && Random.Int(100) < chance/2) {
-				((FlameThrower)eqWep).round = Math.min(((FlameThrower)eqWep).round+1, ((FlameThrower)eqWep).max_round);
+			} else if (wep instanceof FlameThrower && Random.Int(100) < chance/2) {
+				((FlameThrower)eqWep).oneReload();
 
-			} else if (wep instanceof RocketLauncher && ((RocketLauncher)eqWep).round < ((RocketLauncher)eqWep).max_round && Random.Int(100) < chance/2) {
-				((RocketLauncher)eqWep).round = Math.min(((RocketLauncher)eqWep).round+1, ((RocketLauncher)eqWep).max_round);
+			} else if (wep instanceof RocketLauncher && Random.Int(100) < chance/2) {
+				((RocketLauncher)eqWep).oneReload();
 
-			} else if (wep instanceof RPG7 && ((RPG7)eqWep).round < ((RPG7)eqWep).max_round && Random.Int(100) < chance/2) {
-				((RPG7)eqWep).round = Math.min(((RPG7)eqWep).round+1, ((RPG7)eqWep).max_round);
+			} else if (wep instanceof RPG7 && Random.Int(100) < chance/2) {
+				((RPG7)eqWep).oneReload();
 
 			}
 			updateQuickslot();

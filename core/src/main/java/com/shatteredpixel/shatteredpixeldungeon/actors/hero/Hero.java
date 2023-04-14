@@ -262,6 +262,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ElectroScimit
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameScimitar;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
@@ -294,8 +295,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Nunchaku;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
@@ -2556,6 +2559,88 @@ public class Hero extends Char {
 
 			if (subClass == HeroSubClass.FREERUNNER){
 				Buff.affect(this, Momentum.class).gainStack();
+			}
+
+			if (hero.hasTalent(Talent.QUICK_RELOAD)) {
+				int chance = 2*hero.pointsInTalent(Talent.QUICK_RELOAD);
+				KindOfWeapon wep = hero.belongings.weapon;
+				if (wep instanceof CrudePistol && Random.Int(100) < chance) {
+					((CrudePistol)wep).oneReload();
+
+				} else if (wep instanceof Pistol && Random.Int(100) < chance) {
+					((Pistol)wep).oneReload();
+
+				} else if (wep instanceof GoldenPistol && Random.Int(100) < chance) {
+					((GoldenPistol)wep).oneReload();
+
+				} else if (wep instanceof Handgun && Random.Int(100) < chance) {
+					((Handgun)wep).oneReload();
+
+				} else if (wep instanceof Magnum && Random.Int(100) < chance) {
+					((Magnum)wep).oneReload();
+
+				} else if (wep instanceof TacticalHandgun && Random.Int(100) < chance) {
+					((TacticalHandgun)wep).oneReload();
+
+				} else if (wep instanceof AutoHandgun && Random.Int(100) < chance) {
+					((AutoHandgun)wep).oneReload();
+
+				} else if (wep instanceof DualPistol && Random.Int(100) < chance*3) {
+					((DualPistol)wep).oneReload();
+
+				} else if (wep instanceof SubMachinegun && Random.Int(100) < chance*3) {
+					((SubMachinegun)wep).oneReload();
+
+				} else if (wep instanceof AssultRifle && Random.Int(100) < chance*3) {
+					((AssultRifle)wep).oneReload();
+
+				} else if (wep instanceof HeavyMachinegun && Random.Int(100) < chance*3) {
+					((HeavyMachinegun)wep).oneReload();
+
+				} else if (wep instanceof MiniGun && Random.Int(100) < chance*3) {
+					((MiniGun)wep).oneReload();
+
+				} else if (wep instanceof Revolver && Random.Int(100) < chance/2) {
+					((Revolver)wep).oneReload();
+
+				} else if (wep instanceof HuntingRifle && Random.Int(100) < chance/2) {
+					((HuntingRifle)wep).oneReload();
+
+				} else if (wep instanceof Carbine && Random.Int(100) < chance/2) {
+					((Carbine)wep).oneReload();
+
+				} else if (wep instanceof SniperRifle && Random.Int(100) < chance/2) {
+					((SniperRifle)wep).oneReload();
+
+				} else if (wep instanceof AntimaterRifle && Random.Int(100) < chance/2) {
+					((AntimaterRifle)wep).oneReload();
+
+				} else if (wep instanceof WA2000 && Random.Int(100) < chance/2) {
+					((WA2000)wep).oneReload();
+
+				} else if (wep instanceof MarksmanRifle && Random.Int(100) < chance/2) {
+					((MarksmanRifle)wep).oneReload();
+
+				} else if (wep instanceof ShotGun && Random.Int(100) < chance/2) {
+					((ShotGun)wep).oneReload();
+
+				} else if (wep instanceof KSG && Random.Int(100) < chance/2) {
+					((KSG)wep).oneReload();
+
+				} else if (wep instanceof PlasmaCannon && Random.Int(100) < chance/2) {
+					((PlasmaCannon)wep).oneReload();
+
+				} else if (wep instanceof FlameThrower && Random.Int(100) < chance/2) {
+					((FlameThrower)wep).oneReload();
+
+				} else if (wep instanceof RocketLauncher && Random.Int(100) < chance/2) {
+					((RocketLauncher)wep).oneReload();
+
+				} else if (wep instanceof RPG7 && Random.Int(100) < chance/2) {
+					((RPG7)wep).oneReload();
+
+				}
+				updateQuickslot();
 			}
 
 			if ((hero.belongings.weapon instanceof Lance ||

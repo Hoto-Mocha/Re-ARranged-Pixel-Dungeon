@@ -59,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
@@ -702,7 +703,19 @@ public class MeleeWeapon extends Weapon {
 	private static CellSelector.Listener dasher = new CellSelector.Listener() {
 		@Override
 		public void onSelect( Integer target ) {
-			if (target == null || target == -1){
+			if (target == null || target == -1 || (!Dungeon.level.visited[target] && !Dungeon.level.mapped[target])){
+				return;
+			}
+
+			//chains cannot be used to go where it is impossible to walk to
+			PathFinder.buildDistanceMap(target, BArray.or(Dungeon.level.passable, Dungeon.level.avoid, null));
+			if (PathFinder.distance[hero.pos] == Integer.MAX_VALUE){
+				GLog.w( Messages.get(MeleeWeapon.class, "dash_bad_position") );
+				return;
+			}
+
+			if (hero.rooted){
+				GLog.w( Messages.get(MeleeWeapon.class, "rooted") );
 				return;
 			}
 

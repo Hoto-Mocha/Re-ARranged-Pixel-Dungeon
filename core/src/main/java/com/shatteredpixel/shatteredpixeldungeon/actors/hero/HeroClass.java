@@ -182,6 +182,8 @@ public enum HeroClass {
 		//new PotionOfExperience().identify().quantity(29).collect();
 		//new ScrollOfMagicMapping().identify().quantity(29).collect();
 		//new PlateArmor().identify().upgrade(100).collect();
+		//new EtherealChains().identify().upgrade(10).collect();
+		//new ScrollOfMysticalEnergy().identify().quantity(100).collect();
 		//new ScrollOfUpgrade().identify().quantity(1000).collect();
 		//new CrudePistol().identify().collect();
 		//new DualPistol().identify().collect();

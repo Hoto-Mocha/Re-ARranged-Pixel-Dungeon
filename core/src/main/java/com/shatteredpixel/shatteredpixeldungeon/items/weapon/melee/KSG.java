@@ -260,6 +260,13 @@ public class KSG extends MeleeWeapon {
 
     public int getRound() { return this.round; }
 
+    public void oneReload() {
+        round ++;
+        if (round > max_round) {
+            round = max_round;
+        }
+    }
+
     @Override
     public String status() {
         max_round = (magazine) ? 2 : 1;

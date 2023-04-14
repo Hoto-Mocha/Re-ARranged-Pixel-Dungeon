@@ -243,8 +243,17 @@ public class MiniGun extends MeleeWeapon {
     }
 
 
-    public int getRound() {
-        return this.round;
+    public int getRound() { return this.round; }
+
+    public void oneReload() {
+        max_round = (magazine) ? 36 : 30;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 6f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
+        round ++;
+        if (round > max_round) {
+            round = max_round;
+        }
     }
 
     @Override

@@ -66,7 +66,7 @@ public class Knife extends MeleeWeapon {
 
 	@Override
 	public float abilityChargeUse(Hero hero) {
-		return 2*super.abilityChargeUse(hero);
+		return 3*super.abilityChargeUse(hero);
 	}
 
 	@Override
@@ -109,10 +109,14 @@ public class Knife extends MeleeWeapon {
 
 				Invisibility.dispel();
 				hero.spendAndNext(hero.attackDelay());
+				float multi = bleedingAmt;
+				if (enemy.properties().contains(Char.Property.BOSS) || enemy.properties().contains(Char.Property.MINIBOSS)) {
+					multi = 0.05f;
+				}
 				if (!enemy.isAlive()){
 					wep.onAbilityKill(hero);
 				} else {
-					Buff.affect(enemy, Bleeding.class).set(enemy.HP*bleedingAmt);
+					Buff.affect(enemy, Bleeding.class).set(enemy.HP*multi);
 				}
 				wep.afterAbilityUsed(hero);
 			}

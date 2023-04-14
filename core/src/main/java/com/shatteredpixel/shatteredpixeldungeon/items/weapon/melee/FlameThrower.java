@@ -209,6 +209,17 @@ public class FlameThrower extends MeleeWeapon {
 
     public int getRound() { return this.round; }
 
+    public void oneReload() {
+        max_round = initial_max_round;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
+        round ++;
+        if (round > max_round) {
+            round = max_round;
+        }
+    }
+
     @Override
     public String status() {
         max_round = initial_max_round;

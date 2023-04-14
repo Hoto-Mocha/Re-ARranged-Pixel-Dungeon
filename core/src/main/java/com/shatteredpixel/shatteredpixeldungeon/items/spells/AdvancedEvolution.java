@@ -414,6 +414,7 @@ public class AdvancedEvolution extends InventorySpell {
         n.cursed = w.cursed;
         n.augment = w.augment;
         n.isUpgraded = w.isUpgraded;
+        n.fix();
 
         return n;
 

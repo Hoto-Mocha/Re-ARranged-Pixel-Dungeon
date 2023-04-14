@@ -236,6 +236,17 @@ public class AutoRifle extends MeleeWeapon {
 
     public int getRound() { return this.round; }
 
+    public void oneReload() {
+        max_round = (magazine) ? 15 : 12;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 3f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
+        round ++;
+        if (round > max_round) {
+            round = max_round;
+        }
+    }
+
     @Override
     public String status() {
         max_round = (magazine) ? 15 : 12;

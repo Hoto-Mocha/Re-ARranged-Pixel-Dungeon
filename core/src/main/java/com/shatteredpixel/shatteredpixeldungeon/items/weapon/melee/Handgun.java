@@ -251,6 +251,17 @@ public class Handgun extends MeleeWeapon {
 
     public int getRound() { return this.round; }
 
+    public void oneReload() {
+        max_round = (magazine) ? 4 : 3;
+        if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 1f * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
+        round ++;
+        if (round > max_round) {
+            round = max_round;
+        }
+    }
+
     @Override
     public String status() {
         max_round = (magazine) ? 4 : 3;
