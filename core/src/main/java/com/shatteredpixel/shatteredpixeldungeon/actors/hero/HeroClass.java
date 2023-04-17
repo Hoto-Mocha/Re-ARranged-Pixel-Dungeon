@@ -156,6 +156,8 @@ public enum HeroClass {
 		.upgrade()
 		.collect();
 		 */
+		//new Knife().identify().collect();
+
 		//new SpellBook_Blast().identify().upgrade(21).collect();
 		//new SpellBook_Earth().identify().collect();
 		//new SpearNShield().identify().collect();

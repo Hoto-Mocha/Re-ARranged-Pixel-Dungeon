@@ -811,7 +811,7 @@ public abstract class Mob extends Char {
 			if (cause == Dungeon.hero
 					&& Dungeon.hero.hasTalent(Talent.LETHAL_RAGE)){
 				Berserk berserk = Buff.affect(hero, Berserk.class);
-				berserk.add(0.1f*Dungeon.hero.pointsInTalent(Talent.LETHAL_RAGE));
+				berserk.add(0.067f*Dungeon.hero.pointsInTalent(Talent.LETHAL_RAGE));
 			}
 
 			if (cause == hero

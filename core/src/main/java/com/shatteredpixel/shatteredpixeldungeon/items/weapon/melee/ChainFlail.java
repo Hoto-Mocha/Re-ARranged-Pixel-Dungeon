@@ -26,13 +26,16 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Bundle;
 
 public class ChainFlail extends MeleeWeapon {
 
@@ -58,7 +61,7 @@ public class ChainFlail extends MeleeWeapon {
 
 	@Override
 	public float accuracyFactor(Char owner, Char target) {
-		Flail.SpinAbilityTracker spin = owner.buff(Flail.SpinAbilityTracker.class);
+		SpinAbilityTracker spin = owner.buff(SpinAbilityTracker.class);
 		if (spin != null) {
 			//have to handle this in an actor tied to the regular attack =S
 			Actor.add(new Actor() {
@@ -115,6 +118,59 @@ public class ChainFlail extends MeleeWeapon {
 			GLog.w(Messages.get(this, "spin_warn"));
 		}
 		afterAbilityUsed(hero);
+	}
+
+	public static class SpinAbilityTracker extends FlavourBuff {
+
+		{
+			type = buffType.POSITIVE;
+		}
+
+		public int spins = 0;
+
+		@Override
+		public int icon() {
+			return BuffIndicator.DUEL_SPIN;
+		}
+
+		@Override
+		public void tintIcon(Image icon) {
+			switch (spins){
+				case 1: default:
+					icon.hardlight(0, 1, 0);
+					break;
+				case 2:
+					icon.hardlight(1, 1, 0);
+					break;
+				case 3:
+					icon.hardlight(1, 0, 0);
+					break;
+			}
+		}
+
+		@Override
+		public float iconFadePercent() {
+			return Math.max(0, (3 - visualcooldown()) / 3);
+		}
+
+		@Override
+		public String desc() {
+			return Messages.get(this, "desc", spins*0.2f);
+		}
+
+		public static String SPINS = "spins";
+
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(SPINS, spins);
+		}
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			spins = bundle.getInt(SPINS);
+		}
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

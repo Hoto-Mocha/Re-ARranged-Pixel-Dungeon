@@ -230,6 +230,10 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 						if (curTalentsAtTier.contains(talent)){
 							clsTalentsAtTier.remove(talent);
 						}
+						if (restrictedTalents.containsKey(talent)
+								&& restrictedTalents.get(talent) != curUser.heroClass){
+							clsTalentsAtTier.remove(talent);
+						}
 					}
 				}
 				if (!replacingIsInSet && !clsTalentsAtTier.isEmpty()) {
