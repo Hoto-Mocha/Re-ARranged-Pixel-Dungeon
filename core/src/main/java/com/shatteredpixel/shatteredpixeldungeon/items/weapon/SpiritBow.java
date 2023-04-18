@@ -340,7 +340,7 @@ public class SpiritBow extends Weapon {
 		
 		@Override
 		public int STRReq(int lvl) {
-			return SpiritBow.this.STRReq(lvl);
+			return SpiritBow.this.STRReq();
 		}
 
 		@Override

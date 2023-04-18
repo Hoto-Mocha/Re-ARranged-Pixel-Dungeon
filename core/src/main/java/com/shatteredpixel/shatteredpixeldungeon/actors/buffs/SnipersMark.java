@@ -32,12 +32,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
-import com.watabou.noosa.Image;
 import com.watabou.utils.Bundle;
 
 public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
@@ -58,19 +56,19 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 		this.object = object;
 		this.level = level;
 	}
-	
+
 	@Override
 	public boolean attachTo(Char target) {
 		ActionIndicator.setAction(this);
 		return super.attachTo(target);
 	}
-	
+
 	@Override
 	public void detach() {
 		super.detach();
 		ActionIndicator.clearAction(this);
 	}
-	
+
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle( bundle );
@@ -99,7 +97,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 	public String desc() {
 		return Messages.get(this, "desc");
 	}
-	
+
 	@Override
 	public String actionName() {
 		SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
@@ -159,35 +157,21 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 	}
 
 	@Override
-	public Image actionIcon() {
-		Hero hero = Dungeon.hero;
-		SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
-		WindBow windBow = hero.belongings.getItem(WindBow.class);
-		PoisonBow poisonBow = hero.belongings.getItem(PoisonBow.class);
-		GoldenBow goldenBow = hero.belongings.getItem(GoldenBow.class);
-		NaturesBow naturesBow = hero.belongings.getItem(NaturesBow.class);
+	public int actionIcon() {
+		return HeroIcon.SNIPERS_MARK;
+	}
 
-		if (bow != null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) {
-			return new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
-		} else if (bow == null && windBow != null && poisonBow == null && goldenBow == null && naturesBow == null) {
-			return new ItemSprite(ItemSpriteSheet.WIND_BOW, null);
-		} else if (bow == null && windBow == null && poisonBow != null && goldenBow == null && naturesBow == null) {
-			return new ItemSprite(ItemSpriteSheet.POISON_BOW, null);
-		} else if (bow == null && windBow == null && poisonBow == null && goldenBow != null && naturesBow == null) {
-			return new ItemSprite(ItemSpriteSheet.GOLDEN_BOW, null);
-		} else if (bow == null && windBow == null && poisonBow == null && goldenBow == null && naturesBow != null) {
-			return new ItemSprite(ItemSpriteSheet.NATURAL_BOW, null);
-		} else { // if hero doesn't have any bow
-			return new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
-		}
+	@Override
+	public int indicatorColor() {
+		return 0x444444;
 	}
 
 	@Override
 	public void doAction() {
-		
+
 		Hero hero = Dungeon.hero;
 		if (hero == null) return;
-		
+
 		SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
 		WindBow windBow = hero.belongings.getItem(WindBow.class);
 		PoisonBow poisonBow = hero.belongings.getItem(PoisonBow.class);
