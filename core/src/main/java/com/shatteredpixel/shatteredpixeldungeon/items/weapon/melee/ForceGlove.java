@@ -102,7 +102,7 @@ public class ForceGlove extends MeleeWeapon {
 		}
 
 		if (ch.properties().contains(Char.Property.IMMOVABLE)) {
-			GLog.w( Messages.get(ForceGlove.class, "cant_pull") );
+			GLog.w( Messages.get(ForceGlove.class, "immovable") );
 			return;
 		}
 

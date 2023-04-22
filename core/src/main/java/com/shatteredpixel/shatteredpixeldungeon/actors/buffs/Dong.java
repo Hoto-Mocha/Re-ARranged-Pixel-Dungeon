@@ -29,23 +29,21 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Effects;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
+import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
@@ -115,14 +113,25 @@ public class Dong extends Buff implements ActionIndicator.Action {
 	}
 
 	@Override
-	public Image actionIcon() {
-		if (Dungeon.hero.buff(Sheathing.class) != null) {
-			Image actionIco = Effects.get(Effects.Type.WOUND);
-			actionIco.hardlight(1f, 0f, 0f);
-			return actionIco;
-		} else {
-			return new ItemSprite(ItemSpriteSheet.SHEATH, null);
-		}
+	public int actionIcon() {
+		return HeroIcon.PREPARATION;
+	}
+
+	@Override
+	public int indicatorColor() {
+		return 0xFFFFFF;
+	}
+
+	@Override
+	public Visual primaryVisual() {
+		Image actionIco = new HeroIcon(this);
+		tintIcon(actionIco);
+		return actionIco;
+	}
+
+	@Override
+	public void tintIcon(Image icon) {
+		icon.hardlight(1f, 0f, 0f);
 	}
 
 	@Override

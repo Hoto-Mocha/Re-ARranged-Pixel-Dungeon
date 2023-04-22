@@ -2,13 +2,10 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
-import com.watabou.noosa.Image;
+import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 
 public class SurgeryUse extends Buff implements ActionIndicator.Action {
 
@@ -43,8 +40,13 @@ public class SurgeryUse extends Buff implements ActionIndicator.Action {
     }
 
     @Override
-    public Image actionIcon() {
-        return Icons.get(Icons.DEATH_CERTIFICATE);
+    public int actionIcon() {
+        return HeroIcon.DEATH_CERTIFICATE;
+    }
+
+    @Override
+    public int indicatorColor() {
+        return 0xFFFFFF;
     }
 
     @Override

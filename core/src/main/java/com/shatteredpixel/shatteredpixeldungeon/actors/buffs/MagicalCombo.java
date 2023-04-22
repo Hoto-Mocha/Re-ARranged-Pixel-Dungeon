@@ -63,10 +63,10 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndMagicalCombo;
 import com.watabou.noosa.Image;
@@ -178,10 +178,13 @@ public class MagicalCombo extends Buff implements ActionIndicator.Action {
 	}
 
 	@Override
-	public Image actionIcon() {
-		Image icon;
-		icon = new ItemSprite(Dungeon.hero.belongings.weapon().image, null);
-		return icon;
+	public int actionIcon() {
+		return HeroIcon.MAGIC_COMBO;
+	}
+
+	@Override
+	public int indicatorColor() {
+		return 0xFFFF00;
 	}
 
 	@Override

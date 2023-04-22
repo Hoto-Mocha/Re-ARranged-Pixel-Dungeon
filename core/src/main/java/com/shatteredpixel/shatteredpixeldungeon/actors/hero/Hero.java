@@ -884,6 +884,15 @@ public class Hero extends Char {
 			return INFINITE_EVASION;
 		}
 
+		if (buff(Talent.ParryTracker.class) != null){
+			if (canAttack(enemy) && !isCharmedBy(enemy)){
+				Buff.affect(this, Talent.RiposteTracker.class).enemy = enemy;
+				buff(Talent.ParryTracker.class).detach();
+
+				return INFINITE_EVASION;
+			}
+		}
+
 		if (buff(Nunchaku.ParryTracker.class) != null){
 			if (canAttack(enemy) && !isCharmedBy(enemy)){
 				Buff.affect(this, Nunchaku.RiposteTracker.class).enemy = enemy;
@@ -1367,6 +1376,10 @@ public class Hero extends Char {
 		
 		if (hasTalent(Talent.BARKSKIN) && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS){
 			Buff.affect(this, Barkskin.class).set( (lvl*pointsInTalent(Talent.BARKSKIN))/2, 1 );
+		}
+
+		if (hasTalent(Talent.PARRY) && buff(Talent.ParryCooldown.class) == null){
+			Buff.affect(this, Talent.ParryTracker.class);
 		}
 
 		if (Dungeon.level.map[pos] == Terrain.FURROWED_GRASS && hero.hasTalent(Talent.SHADOW) && hero.buff(Shadows.class) != null) {
@@ -2289,18 +2302,6 @@ public class Hero extends Char {
 
 		if (hero.hasTalent(Talent.SHIELD_OF_LIGHT) && hero.buff(ShieldCoolDown.class) != null) {
 			Buff.affect(hero, ShieldCoolDown.class).use(3*hero.pointsInTalent(Talent.SHIELD_OF_LIGHT));
-		}
-
-		if (hero.hasTalent(Talent.HEALING_FACTOR) && !hero.buff(Hunger.class).isStarving()) {
-			if (Random.Float() < 0.5f * ((hero.HT - hero.HP) / (float)hero.HT)) {
-				int healAmt = Random.NormalIntRange(1, hero.pointsInTalent(Talent.HEALING_FACTOR));
-				healAmt = Math.min( healAmt, Dungeon.hero.HT - Dungeon.hero.HP );
-				if (healAmt > 0 && Dungeon.hero.isAlive()) {
-					Dungeon.hero.HP += healAmt;
-					Dungeon.hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-					Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-				}
-			}
 		}
 		
 		return super.defenseProc( enemy, damage );

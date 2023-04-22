@@ -141,6 +141,9 @@ public class HeroIcon extends Image {
 	public static final int SNIPERS_MARK    = 108;
 	public static final int WEAPON_SWAP     = 109;
 	public static final int MONK_ABILITIES  = 110;
+	public static final int SLAYER_ABILITY  = 111;
+	public static final int MAGIC_COMBO		= 112;
+	public static final int DEATH_CERTIFICATE  = 113;
 
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );

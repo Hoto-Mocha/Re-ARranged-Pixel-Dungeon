@@ -37,8 +37,8 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
@@ -70,10 +70,13 @@ public class WantedTracker extends Buff implements ActionIndicator.Action {
     }
 
     @Override
-    public Image actionIcon() {
-        Image icon;
-        icon = new BuffIcon(BuffIndicator.WANTED, true);
-        return icon;
+    public int actionIcon() {
+        return HeroIcon.MARSHAL;
+    }
+
+    @Override
+    public int indicatorColor() {
+        return 0xFFAA33;
     }
 
     @Override

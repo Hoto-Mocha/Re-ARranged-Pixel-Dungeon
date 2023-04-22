@@ -76,46 +76,22 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
@@ -141,7 +117,7 @@ public enum Talent {
 	RUNIC_TRANSFERENCE				(7),
 	LETHAL_MOMENTUM					(8),
 	IMPROVISED_PROJECTILES			(9),
-	HEALING_FACTOR					(10),
+	PARRY							(10),
 	//Warrior T3
 	HOLD_FAST						(11, 3),
 	STRONGMAN						(12, 3),
@@ -363,7 +339,7 @@ public enum Talent {
 	CLAM_STEPS						(201, 3),
 	CRITICAL_MOMENTUM				(202, 3),
 	KINETIC_MOVEMENT				(203, 3),
-	AGGRESIVE_MOVEMENT				(204, 3),
+	AGGRESSIVE_MOVEMENT				(204, 3),
 	UNENCUMBERED_MOVEMENT			(205, 3),
 	SOULIZE							(206, 3),
 	//Challenge T4
@@ -428,7 +404,6 @@ public enum Talent {
 	//???							(257, 4),
 	//???							(258, 4),
 	//???							(259, 4),
-
 
 	//Gunner T1
 	REARRANGE						(264),
@@ -1021,9 +996,12 @@ public enum Talent {
 		//for metamorphosis
 		if (talent == IRON_WILL && hero.heroClass != HeroClass.WARRIOR){
 			Buff.affect(hero, BrokenSeal.WarriorShield.class);
-	}
+		}
 		if (talent == MAX_HEALTH) {
 			hero.updateHT(true);
+		}
+		if (talent == PARRY) {
+			Buff.affect(hero, ParryTracker.class);
 		}
 		if (talent == NATURES_BOUNTY){
 			if ( hero.pointsInTalent(NATURES_BOUNTY) == 1) Buff.count(hero, NatureBerriesAvailable.class, 4);
@@ -1053,33 +1031,8 @@ public enum Talent {
 			if (hero.belongings.misc instanceof Ring) ((Ring) hero.belongings.misc).setKnown();
 		}
 		if (talent == GUNNERS_INTUITION && hero.pointsInTalent(GUNNERS_INTUITION) == 2){
-			if (hero.belongings.weapon != null &&
-					(hero.belongings.weapon instanceof CrudePistol
-						|| hero.belongings.weapon instanceof Pistol
-						|| hero.belongings.weapon instanceof GoldenPistol
-						|| hero.belongings.weapon instanceof Handgun
-						|| hero.belongings.weapon instanceof Magnum
-						|| hero.belongings.weapon instanceof TacticalHandgun
-						|| hero.belongings.weapon instanceof AutoHandgun
-						|| hero.belongings.weapon instanceof DualPistol
-						|| hero.belongings.weapon instanceof SubMachinegun
-						|| hero.belongings.weapon instanceof AssultRifle
-						|| hero.belongings.weapon instanceof HeavyMachinegun
-						|| hero.belongings.weapon instanceof MiniGun
-						|| hero.belongings.weapon instanceof AutoRifle
-						|| hero.belongings.weapon instanceof Revolver
-						|| hero.belongings.weapon instanceof HuntingRifle
-						|| hero.belongings.weapon instanceof Carbine
-						|| hero.belongings.weapon instanceof SniperRifle
-						|| hero.belongings.weapon instanceof AntimaterRifle
-						|| hero.belongings.weapon instanceof MarksmanRifle
-						|| hero.belongings.weapon instanceof WA2000
-						|| hero.belongings.weapon instanceof ShotGun
-						|| hero.belongings.weapon instanceof KSG
-						|| hero.belongings.weapon instanceof FlameThrower
-						|| hero.belongings.weapon instanceof PlasmaCannon
-						|| hero.belongings.weapon instanceof RPG7
-						|| hero.belongings.weapon instanceof RocketLauncher)) hero.belongings.weapon.identify();
+			if (hero.belongings.weapon != null && hero.belongings.weapon.gun)
+				hero.belongings.weapon.identify();
 		}
 		if (talent == MASTERS_INTUITION && hero.pointsInTalent(MASTERS_INTUITION) == 1){
 			if (hero.belongings.weapon() != null) hero.belongings.weapon().identify();
@@ -1447,40 +1400,10 @@ public enum Talent {
 				((Ring) item).setKnown();
 			}
 		}
-		if (hero.hasTalent(GUNNERS_INTUITION) &&
-				(item instanceof CrudePistol
-				|| item instanceof Pistol
-				|| item instanceof GoldenPistol
-				|| item instanceof Handgun
-				|| item instanceof Magnum
-				|| item instanceof TacticalHandgun
-				|| item instanceof AutoHandgun
-
-				|| item instanceof DualPistol
-				|| item instanceof SubMachinegun
-				|| item instanceof AssultRifle
-				|| item instanceof HeavyMachinegun
-				|| item instanceof MiniGun
-				|| item instanceof AutoRifle
-
-				|| item instanceof Revolver
-				|| item instanceof HuntingRifle
-				|| item instanceof Carbine
-				|| item instanceof SniperRifle
-				|| item instanceof AntimaterRifle
-				|| item instanceof MarksmanRifle
-				|| item instanceof WA2000
-
-				|| item instanceof ShotGun
-				|| item instanceof KSG
-
-				|| item instanceof FlameThrower
-				|| item instanceof PlasmaCannon
-
-				|| item instanceof RPG7
-				|| item instanceof RocketLauncher)
-		){
-			item.identify();
+		if (hero.hasTalent(GUNNERS_INTUITION) && item instanceof Weapon) {
+			if (((Weapon) item).gun) {
+				item.identify();
+			}
 		}
 		if (hero.hasTalent(MASTERS_INTUITION) && item instanceof Weapon) {
 			item.identify();
@@ -1494,40 +1417,8 @@ public enum Talent {
 	}
 
 	public static void onItemCollected( Hero hero, Item item ){
-		if (hero.pointsInTalent(GUNNERS_INTUITION) == 2 &&
-				(item instanceof CrudePistol
-						|| item instanceof Pistol
-						|| item instanceof GoldenPistol
-						|| item instanceof Handgun
-						|| item instanceof Magnum
-						|| item instanceof TacticalHandgun
-						|| item instanceof AutoHandgun
-
-						|| item instanceof DualPistol
-						|| item instanceof SubMachinegun
-						|| item instanceof AssultRifle
-						|| item instanceof HeavyMachinegun
-						|| item instanceof MiniGun
-						|| item instanceof AutoRifle
-
-						|| item instanceof Revolver
-						|| item instanceof HuntingRifle
-						|| item instanceof Carbine
-						|| item instanceof SniperRifle
-						|| item instanceof AntimaterRifle
-						|| item instanceof MarksmanRifle
-						|| item instanceof WA2000
-
-						|| item instanceof ShotGun
-						|| item instanceof KSG
-
-						|| item instanceof FlameThrower
-						|| item instanceof PlasmaCannon
-
-						|| item instanceof RPG7
-						|| item instanceof RocketLauncher)
-		){
-			item.identify();
+		if (hero.pointsInTalent(GUNNERS_INTUITION) == 2 && item instanceof Weapon){
+			if (((Weapon) item).gun) item.identify();
 		}
 		if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
 			if (item instanceof Ring) ((Ring) item).setKnown();
@@ -1642,10 +1533,70 @@ public enum Talent {
 	}
 
 	public static class SuckerPunchTracker extends Buff{};
-	public static class PowerfulCritTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
 	public static class ShootTheHeartTracker extends Buff{};
 	public static class WarCryTracker extends Buff{};
+	public static class ParryCooldown extends Buff{
+		float cooldown;
+		public void set() {
+			cooldown = 90-20*hero.pointsInTalent(Talent.PARRY)+1;
+		}
+		@Override
+		public boolean act() {
+			cooldown -= Actor.TICK;
+			if (cooldown <= 0) {
+				Buff.affect(target, ParryTracker.class);
+				detach();
+			}
+			spend(Actor.TICK);
+			return true;
+		}
+	};
+	public static class ParryTracker extends Buff{
+		{
+			type = buffType.NEUTRAL;
+			announced = true;
+		}
+
+		@Override
+		public int icon() {
+			return BuffIndicator.PARRY;
+		}
+
+		@Override
+		public boolean act() {
+			spend(Actor.TICK);
+			return true;
+		}
+
+		@Override
+		public void detach() {
+			super.detach();
+			Buff.affect(target, ParryCooldown.class).set();
+		}
+	};
+	public static class RiposteTracker extends Buff{
+		{ actPriority = VFX_PRIO;}
+
+		public Char enemy;
+
+		@Override
+		public boolean act() {
+			target.sprite.attack(enemy.pos, new Callback() {
+				@Override
+				public void call() {
+					AttackIndicator.target(enemy);
+					if (hero.attack(enemy, 1f, 0, 1)){
+						Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+					}
+
+					next();
+				}
+			});
+			detach();
+			return false;
+		}
+	}
 
 	public static final int MAX_TALENT_TIERS = 4;
 
@@ -1708,7 +1659,7 @@ public enum Talent {
 		//tier 2
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, IRON_STOMACH, RESTORED_WILLPOWER, RUNIC_TRANSFERENCE, LETHAL_MOMENTUM, IMPROVISED_PROJECTILES, HEALING_FACTOR);
+				Collections.addAll(tierTalents, IRON_STOMACH, RESTORED_WILLPOWER, RUNIC_TRANSFERENCE, LETHAL_MOMENTUM, IMPROVISED_PROJECTILES, PARRY);
 				break;
 			case MAGE:
 				Collections.addAll(tierTalents, ENERGIZING_MEAL, ENERGIZING_UPGRADE, WAND_PRESERVATION, ARCANE_VISION, SHIELD_BATTERY, FASTER_CHARGER);
@@ -1847,7 +1798,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY, RESTORED_ENERGY, ENERGY_BARRIER, IRON_PUNCH);
 				break;
 			case FENCER:
-				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, CLAM_STEPS, CRITICAL_MOMENTUM, KINETIC_MOVEMENT, AGGRESIVE_MOVEMENT, UNENCUMBERED_MOVEMENT, SOULIZE);
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, CLAM_STEPS, CRITICAL_MOMENTUM, KINETIC_MOVEMENT, AGGRESSIVE_MOVEMENT, UNENCUMBERED_MOVEMENT, SOULIZE);
 				break;
 			case MARSHAL:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, JUSTICE_BULLET, INTIMIDATION, SEARCH, COVER, SURRENDER, INVEST_END);

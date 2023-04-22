@@ -306,7 +306,7 @@ public class MeleeWeapon extends Weapon {
 				Buff.affect(hero, MonkEnergy.class).processCombinedEnergy(tracker);
 			}
 		}
-		if (hero.hasTalent(Talent.AGGRESIVE_MOVEMENT)) {
+		if (hero.hasTalent(Talent.AGGRESSIVE_MOVEMENT)) {
 			Talent.AgressiveMovementAbilityTracker tracker = hero.buff(Talent.AgressiveMovementAbilityTracker.class);
 			if (tracker == null){
 				Buff.prolong(hero, Talent.AgressiveMovementAbilityTracker.class, hero.cooldown()).wepAbilUsed = true;
@@ -784,12 +784,12 @@ public class MeleeWeapon extends Weapon {
 						Door.leave( hero.pos );
 					}
 					hero.pos = target;
-					if (hero.pointsInTalent(Talent.AGGRESIVE_MOVEMENT) > 1) {
+					if (hero.pointsInTalent(Talent.AGGRESSIVE_MOVEMENT) > 1) {
 						for (int i : PathFinder.NEIGHBOURS8){
 							Char ch = Actor.findChar( target+i );
 							if (ch != null && ch.alignment != Char.Alignment.ALLY){
 								ch.damage(Math.round(hero.belongings.weapon.damageRoll(hero) * 0.1f), Dungeon.hero);
-								if (hero.pointsInTalent(Talent.AGGRESIVE_MOVEMENT) > 2) {
+								if (hero.pointsInTalent(Talent.AGGRESSIVE_MOVEMENT) > 2) {
 									Buff.affect(ch, Vulnerable.class, 3f);
 								}
 							}

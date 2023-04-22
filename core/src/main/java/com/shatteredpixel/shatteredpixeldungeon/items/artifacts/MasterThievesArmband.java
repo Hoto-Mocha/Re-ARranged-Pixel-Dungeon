@@ -39,17 +39,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
-import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -160,18 +156,20 @@ public class MasterThievesArmband extends Artifact {
 								GLog.w(Messages.get(MasterThievesArmband.class, "no_steal"));
 							} else if (Random.Float() <= lootChance){
 								Item loot = ((Mob) ch).createLoot();
-								if (Challenges.isItemBlocked(loot)){
-									GLog.i(Messages.get(MasterThievesArmband.class, "failed_steal"));
-									Buff.affect(ch, StolenTracker.class).setItemStolen(false);
-								} else {
-									if (loot.doPickUp(curUser)) {
-										//item collection happens instantly
-										curUser.spend(-TIME_TO_PICK_UP);
+								if (loot != null) {
+									if (Challenges.isItemBlocked(loot)){
+										GLog.i(Messages.get(MasterThievesArmband.class, "failed_steal"));
+										Buff.affect(ch, StolenTracker.class).setItemStolen(false);
 									} else {
-										Dungeon.level.drop(loot, curUser.pos).sprite.drop();
+										if (loot.doPickUp(curUser)) {
+											//item collection happens instantly
+											curUser.spend(-TIME_TO_PICK_UP);
+										} else {
+											Dungeon.level.drop(loot, curUser.pos).sprite.drop();
+										}
+										GLog.i(Messages.get(MasterThievesArmband.class, "stole_item", loot.name()));
+										Buff.affect(ch, StolenTracker.class).setItemStolen(true);
 									}
-									GLog.i(Messages.get(MasterThievesArmband.class, "stole_item", loot.name()));
-									Buff.affect(ch, StolenTracker.class).setItemStolen(true);
 								}
 							} else {
 								GLog.i(Messages.get(MasterThievesArmband.class, "failed_steal"));

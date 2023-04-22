@@ -22,29 +22,21 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-import static com.watabou.utils.Random.NormalFloat;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.PointF;
 
 public class Demonization extends Buff implements ActionIndicator.Action {
 
@@ -151,21 +143,13 @@ public class Demonization extends Buff implements ActionIndicator.Action {
     }
 
     @Override
-    public Image actionIcon() {
-        Image icon;
-        if (state == State.NORMAL) {
-            if (((Hero)target).belongings.weapon() != null){
-                icon = new ItemSprite(((Hero)target).belongings.weapon().image, null);
-            } else {
-                icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.WEAPON_HOLDER; }});
-            }
+    public int actionIcon() {
+        return HeroIcon.SLAYER_ABILITY;
+    }
 
-            icon.tint(0xFFFF0000);
-        } else {
-            icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.SHEATH; }});
-        }
-
-        return icon;
+    @Override
+    public int indicatorColor() {
+        return 0x26058C;
     }
 
     @Override
@@ -175,7 +159,7 @@ public class Demonization extends Buff implements ActionIndicator.Action {
                 state = State.DEMONATED;
                 hero.sprite.showStatus( CharSprite.NEUTRAL, Messages.get(this, "name") );
                 BuffIndicator.refreshHero();
-                ActionIndicator.updateIcon();
+                ActionIndicator.refresh();
                 Sample.INSTANCE.play( Assets.Sounds.CHALLENGE );
                 hero.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
                 //GameScene.flash(0xFF0000);
@@ -191,7 +175,7 @@ public class Demonization extends Buff implements ActionIndicator.Action {
             Buff.affect(hero, DemonizationCoolDown.class, DemonizationCoolDown.DURATION * (float)Math.pow(0.8f, hero.pointsInTalent(Talent.HASTE_RECOVER)));
             Buff.affect(hero, Vulnerable.class, 5f);
             BuffIndicator.refreshHero();
-            ActionIndicator.updateIcon();
+            ActionIndicator.refresh();
             hero.spendAndNext(Actor.TICK);
         }
     }

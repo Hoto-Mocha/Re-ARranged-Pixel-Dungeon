@@ -40,8 +40,6 @@ public enum Icons {
 	PREFS,
 	SHPX,
 	ARRANGED,
-	HEAL,
-	DEATH_CERTIFICATE,
 
 	//rankings and hero select icons, spacing for 16x16
 	STAIRS,
@@ -166,12 +164,6 @@ public enum Icons {
 				break;
 			case ARRANGED:
 				icon.frame( icon.texture.uvRectBySize( 144, 0, 15, 16 ) );
-				break;
-			case HEAL:
-				icon.frame( icon.texture.uvRectBySize( 160, 0, 16, 16 ) );
-				break;
-			case DEATH_CERTIFICATE:
-				icon.frame( icon.texture.uvRectBySize( 176, 0, 15, 14 ) );
 				break;
 
 			case STAIRS:

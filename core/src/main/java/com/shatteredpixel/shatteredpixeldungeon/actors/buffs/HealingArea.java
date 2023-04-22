@@ -16,9 +16,8 @@ import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
+import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
-import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
@@ -92,8 +91,13 @@ public class HealingArea extends Buff implements ActionIndicator.Action {
     }
 
     @Override
-    public Image actionIcon() {
-        return Icons.get(Icons.HEAL);
+    public int actionIcon() {
+        return HeroIcon.MEDIC;
+    }
+
+    @Override
+    public int indicatorColor() {
+        return 0x00B300;
     }
 
     @Override

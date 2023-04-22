@@ -139,6 +139,7 @@ public class BuffIndicator extends Component {
 	public static final int DUEL_DEMON	= 88;
 	public static final int DUEL_DAGGER	= 89;
 	public static final int DUEL_SABER	= 90;
+	public static final int PARRY		= 91;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;
