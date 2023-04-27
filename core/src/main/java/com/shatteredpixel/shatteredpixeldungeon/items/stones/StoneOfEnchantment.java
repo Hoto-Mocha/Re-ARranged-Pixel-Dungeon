@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.stones;
 
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Enchanting;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -74,7 +76,9 @@ public class StoneOfEnchantment extends InventoryStone {
 			GLog.p(Messages.get(this, "armor"));
 		}
 
-		item.fix();
+		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+			item.fix();
+		}
 		
 		useAnimation();
 		

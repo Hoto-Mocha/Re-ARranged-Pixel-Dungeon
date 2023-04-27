@@ -152,7 +152,9 @@ public class Evolution extends InventorySpell {
         n.cursed = w.cursed;
         n.augment = w.augment;
         n.isUpgraded = w.isUpgraded;
-        n.fix();
+        if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+            n.fix();
+        }
 
         return n;
 

@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -414,7 +415,9 @@ public class AdvancedEvolution extends InventorySpell {
         n.cursed = w.cursed;
         n.augment = w.augment;
         n.isUpgraded = w.isUpgraded;
-        n.fix();
+        if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+            n.fix();
+        }
 
         return n;
 

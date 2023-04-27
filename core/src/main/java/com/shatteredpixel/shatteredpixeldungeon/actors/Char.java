@@ -1276,6 +1276,13 @@ public abstract class Char extends Actor {
 				}
 			}
 
+			if (enemy != hero && enemy.alignment == Alignment.ALLY && Dungeon.level.heroFOV[enemy.pos] && hero.hasTalent(Talent.CHIVALRY)) {
+				enemy = hero;
+				if (hero.pointsInTalent(Talent.CHIVALRY) > 1) {
+					dmg *= 0.5;
+				}
+			}
+
 			int effectiveDamage = enemy.defenseProc( this, Math.round(dmg) );
 			effectiveDamage = Math.max( effectiveDamage - dr, 0 );
 

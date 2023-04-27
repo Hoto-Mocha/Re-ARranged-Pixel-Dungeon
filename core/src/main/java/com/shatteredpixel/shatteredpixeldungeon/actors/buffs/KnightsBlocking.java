@@ -23,9 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.utils.Bundle;
@@ -38,6 +36,7 @@ public class KnightsBlocking extends Buff {
 
     private int level = 0;
     private int interval = 1;
+    private int max_level = 1;
 
     @Override
     public boolean act() {
@@ -61,19 +60,20 @@ public class KnightsBlocking extends Buff {
         return level;
     }
 
-    public void set( int value, int time ) {
+    public void set( int value, int time, int max) {
         //decide whether to override, preferring high value + low interval
         if (Math.sqrt(interval)*level <= Math.sqrt(time)*value) {
             level = value;
             interval = time;
+            max_level = max;
             spend(time - cooldown() - 1);
         }
     }
 
     public void add( int amount ) {
         level += amount;
-        if (level > hero.lvl + hero.belongings.armor.buffedLvl()) {
-            level = hero.lvl + hero.belongings.armor.buffedLvl();
+        if (level > max_level) {
+            level = max_level;
         }
         BuffIndicator.refreshHero();
     }
@@ -104,12 +104,14 @@ public class KnightsBlocking extends Buff {
 
     private static final String LEVEL	    = "level";
     private static final String INTERVAL    = "interval";
+    private static final String MAX_LEVEL    = "max_level";
 
     @Override
     public void storeInBundle( Bundle bundle ) {
         super.storeInBundle( bundle );
         bundle.put( INTERVAL, interval );
         bundle.put( LEVEL, level );
+        bundle.put( MAX_LEVEL, max_level );
     }
 
     @Override
@@ -117,5 +119,6 @@ public class KnightsBlocking extends Buff {
         super.restoreFromBundle( bundle );
         interval = bundle.getInt( INTERVAL );
         level = bundle.getInt( LEVEL );
+        max_level = bundle.getInt( MAX_LEVEL );
     }
 }

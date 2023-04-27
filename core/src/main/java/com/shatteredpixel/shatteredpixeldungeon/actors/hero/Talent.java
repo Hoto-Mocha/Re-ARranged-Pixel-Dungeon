@@ -565,9 +565,9 @@ public enum Talent {
 	IMPREGNABLE_MEAL				(401),
 	SAFE_HEALING					(402),
 	DEFENSE_STANCE					(403),
-	CROSS_SLASH						(404),
-	ENDURING						(405),
-	BLOCKING						(406),
+	FAITH							(404),
+	CHIVALRY						(405),
+	ARMOR_ADAPTION					(406),
 	//Knight T3
 	CRAFTMANS_SKILLS				(407, 3),
 	TACKLE							(408, 3),
@@ -1683,7 +1683,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	NATURAL_MEAL, HERBAL_DEW, SPROUT, FIREWATCH, FLOWER_BED, WEAK_POISON);
 				break;
 			case KNIGHT:
-				Collections.addAll(tierTalents,	IMPREGNABLE_MEAL, SAFE_HEALING, DEFENSE_STANCE, CROSS_SLASH, ENDURING, BLOCKING);
+				Collections.addAll(tierTalents,	IMPREGNABLE_MEAL, SAFE_HEALING, DEFENSE_STANCE, FAITH, CHIVALRY, ARMOR_ADAPTION);
 				break;
 			case NURSE:
 				Collections.addAll(tierTalents,	CHALLENGING_MEAL, POTION_SPREAD, HEALAREA, ANGEL, MEDICAL_SUPPORT, WINNERS_FLAG);

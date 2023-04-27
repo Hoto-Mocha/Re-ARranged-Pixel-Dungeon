@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
@@ -70,17 +71,26 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			boolean hadGoodEnchant = w.hasGoodEnchant();
 			w.isUpgraded = true;
 			if (w.enchantment != null && Random.Int(2) < Dungeon.hero.pointsInTalent(Talent.MAGICAL_TRANSFERENCE)) {
-				if (w.durability() <= 0) {
-					w.fix();
+				if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+					if (w.durability() <= 0) {
+						w.fix();
+					} else {
+						w.upgrade(true);
+					}
 				} else {
 					w.upgrade(true);
 				}
 			} else {
-				if (w.durability() <= 0) {
-					w.fix();
+				if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+					if (w.durability() <= 0) {
+						w.fix();
+					} else {
+						w.upgrade();
+					}
 				} else {
 					w.upgrade();
 				}
+
 			}
 
 			if (w.cursedKnown && hadCursedEnchant && !w.hasCurseEnchant()){
@@ -97,9 +107,12 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			boolean wasCursed = a.cursed;
 			boolean hadCursedGlyph = a.hasCurseGlyph();
 			boolean hadGoodGlyph = a.hasGoodGlyph();
-
-			if (a.durability() <= 0) {
-				a.fix();
+			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+				if (a.durability() <= 0) {
+					a.fix();
+				} else {
+					a.upgrade();
+				}
 			} else {
 				a.upgrade();
 			}
@@ -115,20 +128,28 @@ public class ScrollOfUpgrade extends InventoryScroll {
 
 		} else if (item instanceof Wand || item instanceof Ring) {
 			boolean wasCursed = item.cursed;
-
-			if (item.durability() <= 0) {
-				item.fix();
+			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+				if (item.durability() <= 0) {
+					item.fix();
+				} else {
+					item.upgrade();
+				}
 			} else {
 				item.upgrade();
 			}
+
 
 			if (item.cursedKnown && wasCursed && !item.cursed){
 				removeCurse( Dungeon.hero );
 			}
 
 		} else {
-			if (item.durability() <= 0) {
-				item.fix();
+			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+				if (item.durability() <= 0) {
+					item.fix();
+				} else {
+					item.upgrade();
+				}
 			} else {
 				item.upgrade();
 			}

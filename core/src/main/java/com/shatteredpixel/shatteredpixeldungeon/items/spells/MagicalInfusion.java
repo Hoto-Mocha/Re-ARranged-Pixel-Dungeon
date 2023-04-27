@@ -27,11 +27,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
-import com.shatteredpixel.shatteredpixeldungeon.items.Cartridge;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -61,22 +58,36 @@ public class MagicalInfusion extends InventorySpell {
 
 		if (item instanceof Weapon && ((Weapon) item).enchantment != null) {
 			((Weapon) item).isUpgraded = true;
-			if (item.durability() <= 0) {
-				item.fix();
+			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+				if (item.durability() <= 0) {
+					item.fix();
+				} else {
+					((Weapon) item).upgrade(true);
+				}
 			} else {
 				((Weapon) item).upgrade(true);
 			}
+
 		} else if (item instanceof Armor && ((Armor) item).glyph != null) {
-			if (item.durability() <= 0) {
-				item.fix();
+			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+				if (item.durability() <= 0) {
+					item.fix();
+				} else {
+					((Armor) item).upgrade(true);
+				}
 			} else {
 				((Armor) item).upgrade(true);
 			}
+
 		} else {
 			boolean wasCursed = item.cursed;
 			boolean wasCurseInfused = item instanceof Wand && ((Wand) item).curseInfusionBonus;
-			if (item.durability() <= 0) {
-				item.fix();
+			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+				if (item.durability() <= 0) {
+					item.fix();
+				} else {
+					item.upgrade();
+				}
 			} else {
 				item.upgrade();
 			}

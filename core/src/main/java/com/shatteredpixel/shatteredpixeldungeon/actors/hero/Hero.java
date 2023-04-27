@@ -2229,7 +2229,7 @@ public class Hero extends Char {
 		}
 
 		if (hero.heroClass != HeroClass.KNIGHT && hero.hasTalent(Talent.DEFENSE_STANCE)) {
-			if (Random.Int(20) < hero.pointsInTalent(Talent.DEFENSE_STANCE)) {
+			if (Random.Int(10) < hero.pointsInTalent(Talent.DEFENSE_STANCE)) {
 				Buff.detach(hero, Talent.ImprovisedProjectileCooldown.class);
 				Buff.detach(hero, Talent.RejuvenatingStepsCooldown.class);
 				Buff.detach(hero, Talent.SeerShotCooldown.class);
@@ -2244,18 +2244,6 @@ public class Hero extends Char {
 			}
 		}
 
-		if (hero.heroClass != HeroClass.KNIGHT && hero.hasTalent(Talent.BLOCKING)) {
-			if (!hero.isStarving()) {
-				int healAmt = hero.pointsInTalent(Talent.BLOCKING);
-				healAmt = Math.min( healAmt, hero.HT - hero.HP );
-				if (healAmt > 0 && hero.isAlive()) {
-					hero.HP += healAmt;
-					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-				}
-			}
-		}
-
 		if (hero.hasTalent(Talent.EMERGENCY_ESCAPE) && Random.Int(50) < hero.pointsInTalent(Talent.EMERGENCY_ESCAPE)) {
 			Buff.prolong(this, Invisibility.class, 3f);
 		}
@@ -2265,8 +2253,8 @@ public class Hero extends Char {
 			Buff.affect(enemy, Talent.ActiveBarrierTracker.class);
 		}
 
-		if (hero.hasTalent(Talent.DEFENSE_STANCE) && Random.Int(20) < hero.pointsInTalent(Talent.DEFENSE_STANCE) && hero.buff(ShieldCoolDown.class) != null) {
-			Buff.detach(this, ShieldCoolDown.class);
+		if (hero.hasTalent(Talent.DEFENSE_STANCE) && hero.buff(ShieldCoolDown.class) != null) {
+			hero.buff(ShieldCoolDown.class).use(1+hero.pointsInTalent(Talent.DEFENSE_STANCE));
 		}
 
 		if (hero.hasTalent(Talent.THORNY_VINE) && (level.map[hero.pos] == Terrain.FURROWED_GRASS || level.map[hero.pos] == Terrain.HIGH_GRASS)) {
@@ -2302,6 +2290,10 @@ public class Hero extends Char {
 
 		if (hero.hasTalent(Talent.SHIELD_OF_LIGHT) && hero.buff(ShieldCoolDown.class) != null) {
 			Buff.affect(hero, ShieldCoolDown.class).use(3*hero.pointsInTalent(Talent.SHIELD_OF_LIGHT));
+		}
+
+		if (hero.heroClass != HeroClass.KNIGHT && hero.hasTalent(Talent.FAITH)) {
+			damage *= 1-0.1f*hero.pointsInTalent(Talent.FAITH);
 		}
 		
 		return super.defenseProc( enemy, damage );

@@ -318,6 +318,9 @@ public class Armor extends EquipableItem {
 		}
 		int max;
 		max = (upgradefactor) * (2 + lvl) + augment.defenseFactor(lvl);
+		if (hero.hasTalent(Talent.ARMOR_ADAPTION) && this.STRReq() < hero.STR()) {
+			max += (hero.STR() - this.STRReq())*hero.pointsInTalent(Talent.ARMOR_ADAPTION);
+		}
 		if (lvl > max) {
 			return ((lvl - max) + 1) / 2;
 		} else {
@@ -478,7 +481,9 @@ public class Armor extends EquipableItem {
 		if (seal != null && seal.level() == 0)
 			seal.upgrade();
 
-		upgradeFix();
+		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+			upgradeFix();
+		}
 
 		return super.upgrade();
 	}
@@ -487,10 +492,6 @@ public class Armor extends EquipableItem {
 		
 		if (glyph != null && defender.buff(MagicImmune.class) == null) {
 			damage = glyph.proc( this, attacker, defender, damage );
-		}
-
-		if (hero.hasTalent(Talent.ENDURING)) {
-			damage *= 1 - 0.05f * hero.pointsInTalent(Talent.ENDURING);
 		}
 
 		if (hero.subClass == HeroSubClass.WEAPONMASTER) {

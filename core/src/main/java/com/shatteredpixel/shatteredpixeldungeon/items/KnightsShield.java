@@ -1,32 +1,18 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.KnightsBlocking;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ParalysisTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -62,14 +48,16 @@ public class KnightsShield extends Item {
 			} else if (hero.belongings.armor == null) {
 				GLog.w(Messages.get(this, "no_armor"));
 			} else {
+				int blocking = 5 + hero.lvl/2 + hero.belongings.armor.buffedLvl();
+				if (hero.hasTalent(Talent.FAITH)) {
+					blocking += 2 + 3 * hero.pointsInTalent(Talent.FAITH);
+				}
+				int interval = hero.lvl/6;
 				hero.sprite.operate(hero.pos);
 				hero.spendAndNext(Actor.TICK);
 				Sample.INSTANCE.play(Assets.Sounds.MISS);
-				Buff.affect(hero, KnightsBlocking.class).set( hero.lvl + hero.belongings.armor.buffedLvl(), 1);
+				Buff.affect(hero, KnightsBlocking.class).set(blocking, interval, blocking);
 				Buff.affect(hero, ShieldCoolDown.class).set();
-				if (hero.hasTalent(Talent.BLOCKING)) {
-					Buff.affect(hero, ArmorEmpower.class).set(hero.pointsInTalent(Talent.BLOCKING), 10f);
-				}
 				if (hero.hasTalent(Talent.IMPREGNABLE_WALL)) {
 					Buff.affect(hero, Barrier.class).setShield(Math.round(((hero.lvl + hero.belongings.armor.buffedLvl())/3f)*hero.pointsInTalent(Talent.IMPREGNABLE_WALL)));
 				}

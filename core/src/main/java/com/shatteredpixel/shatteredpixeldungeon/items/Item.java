@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -388,7 +389,9 @@ public class Item implements Bundlable {
 
 	public Item upgrade() {
 
-		upgradeFix();
+		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
+			upgradeFix();
+		}
 
 		this.level++;
 
@@ -693,7 +696,6 @@ public class Item implements Bundlable {
 	};
 
 	public void use() {
-
 		if (level > 0 && !isBroken()) {
 			durability--;
 			int warn = Math.max(1, (int)Math.ceil(maxDurability()/6f));
@@ -702,7 +704,6 @@ public class Item implements Bundlable {
 				durabilityMsg = true;
 			}
 			if (isBroken()) {
-				getBroken();
 				if (levelKnown) {
 					GLog.n( Messages.get(this, "broken", name() ));
 					Dungeon.hero.interrupt();
@@ -720,6 +721,7 @@ public class Item implements Bundlable {
 					}
 					Sample.INSTANCE.play( Assets.Sounds.DEGRADE );
 				}
+				updateQuickslot();
 			}
 		}
 	}
@@ -741,6 +743,7 @@ public class Item implements Bundlable {
 			if (this instanceof Armor) durability = maxDurability()-6;
 			if (this instanceof Wand) durability = maxDurability()-6;
 			if (this instanceof Ring) durability = maxDurability()-100;
+			if (this instanceof MissileWeapon) durability = 100000; //infinite durability
 		} else {
 			durability = maxDurability();
 		}

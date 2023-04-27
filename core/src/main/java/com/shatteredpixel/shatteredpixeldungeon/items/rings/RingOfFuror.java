@@ -75,9 +75,6 @@ public class RingOfFuror extends Ring {
         if (hero.hasTalent(Talent.SLASHING_PRACTICE) && hero.buff(SerialAttack.class) != null) {
             speedBonus *= 1f + 0.02f * hero.pointsInTalent(Talent.SLASHING_PRACTICE) * hero.buff(SerialAttack.class).getCount();
         }
-        if (hero.hasTalent(Talent.CROSS_SLASH) && hero.heroClass != HeroClass.KNIGHT) {
-            speedBonus *= 1f + 0.1f * hero.pointsInTalent(Talent.CROSS_SLASH);
-        }
         if (hero.buff(Surgery.class) != null && hero.hasTalent(Talent.HASTY_HANDS)) {
             speedBonus *= 1 + 0.01f * hero.buff(Surgery.class).getCount() * hero.pointsInTalent(Talent.HASTY_HANDS);
         }
