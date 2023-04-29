@@ -25,8 +25,8 @@ import java.util.Locale;
 
 public enum Languages {
 
-	KOREAN("한국어",      	  "ko", Status._COMPLETE_,   null, null),
-	ENGLISH("english",      "",   Status.UNFINISHED, new String[]{"Cocoa(Hoto-Mocha)"}, new String[]{"Flameblast12", "YouIG", "ArsenicParadigm"}),
+	KOREAN("한국어",      	  "ko", Status._COMPLETE_, null, null),
+	ENGLISH("english",      "",   Status._COMPLETE_, new String[]{"Cocoa(Hoto-Mocha)"}, new String[]{"TrashboxBobylev","Flameblast12", "YouIG", "ArsenicParadigm"}),
 	CHINESE("中文",          "zh", Status.UNFINISHED, new String[]{"Jinkeloid(zdx00793)", "endlesssolitude"}, new String[]{"931451545", "Budding", "Chronie_Lynn_Iwa", "Fatir", "Fishbone", "Hcat", "HoofBumpBlurryface", "Lery", "Lyn_0401", "Ooooscar", "ShatteredFlameBlast", "SpaceAnchor", "hmdzl001", "leo", "tempest102", "户方狸奴"}),
 	RUSSIAN("русский",      "ru", Status.UNFINISHED, new String[]{"ConsideredHamster", "Inevielle", "apxwn", "yarikonline" }, new String[]{"AttHawk46", "BlueberryShortcake", "Dominowood371", "Enwviun", "HerrGotlieb", "HoloTheWise", "Ilbko", "JleHuBbluKoT", "KirStaLong", "MrXantar", "Nikets", "Originalej0name", "Raymundo", "Shamahan", "Thomasg63", "XAutumn", "Ya6lo4ko", "dasfan123", "ifritdiezel", "kirusyaga", "long_live_the_9", "perefrazz", "roman.yagodin", "un_logic", "vivatimperia", "Вoвa"}),
 	SPANISH("español",      "es", Status.UNFINISHED, new String[]{"KeyKai", "Kiroto", "Kohru", "airman12", "grayscales"}, new String[]{"2001sergiobr", "AdventurerKilly", "Alesxanderk", "Bryan092", "CorvosUtopy", "D0n.Kak0", "Dewstend", "Dyrran", "Enddox", "Fervoreking", "Illyatwo2", "JPCHZ", "LastCry", "Marquezo_577_284", "NAVI1237", "STKmonoqui", "Sh4rkill3r", "alfongad", "anauta", "benzarr410", "chepe567.jc", "ctrijueque", "damc0616", "desen90", "dhg121", "javifs", "jonismack1", "magmax", "rechebeltran", "tres.14159"}),
@@ -44,7 +44,7 @@ public enum Languages {
 	HUNGARIAN("magyar",     "hu", Status.UNFINISHED, new String[]{"dorheim", "szalaik"}, new String[]{"Navetelen", "acszoltan111", "clarovani", "dhialub", "nanometer", "nardomaa", "savarall", "summoner001"}),
 	VIETNAMESE("tiếng việt","vi", Status.UNFINISHED, new String[]{"Chuseko", "The_Hood", "nguyenanhkhoapythus"}, new String[]{"BlueSheepAlgodoo", "Phuc2401", "Teh_boi", "Toluu", "bruhwut", "buicongminh_t63", "deadlevel13", "h4ndy_c4ndy", "hniV", "khangxyz3g", "ngolamaz3", "nkhhu", "vdgiapp", "vtvinh24"}),
 	//FINNISH("suomi", 		"fi", Status.UNFINISHED, new String[]{"TenguKnight"}, new String[]{"Allugaattori10", "Dakkus", "Jaskas123", "MailBoxGod", "Oftox", "Sautari", "Tikkari"} ),
-	GREEK("ελληνικά",       "el", Status._COMPLETE_, new String[]{"Aeonius", "Saxy"}, new String[]{"DU_Clouds", "VasKyr", "YiorgosH", "fr3sh", "stefboi", "toumbo", "val.exe"});
+	GREEK("ελληνικά",       "el", Status.UNFINISHED, new String[]{"Aeonius", "Saxy"}, new String[]{"DU_Clouds", "VasKyr", "YiorgosH", "fr3sh", "stefboi", "toumbo", "val.exe"});
 	//CATALAN("català",     "ca", Status.UNFINISHED, new String[]{"Illyatwo2"}, new String[]{"Elosy", "n1ngu"})
 	//GALICIAN("galego",    "gl", Status.UNFINISHED, new String[]{"xecarballido"}, null),
 	//BASQUE("euskara",     "eu", Status.UNFINISHED, new String[]{"Deathrevenge", "Osoitz"}, null),

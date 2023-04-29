@@ -597,7 +597,7 @@ public enum Talent {
 	HOLY_LIGHT						(428, 4),
 	BLESS							(429, 4),
 	//StimPack T4
-	BURDEN_RELIEF					(420, 4),
+	BURDEN_RELIEF					(430, 4),
 	LASTING_PACK					(431, 4),
 	TIME_STOP						(432, 4),
 	//UnstableAnkh T4
