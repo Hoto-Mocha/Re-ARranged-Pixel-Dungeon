@@ -67,12 +67,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
@@ -95,7 +93,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
@@ -182,6 +179,7 @@ public enum HeroClass {
 		//new RapidGrowth().quantity(20).collect();
 		//new StableAPBullet().quantity(2).collect();
 		//new StableHPBullet().quantity(2).collect();
+		//new GunSmithingTool().quantity(20).collect();
 		//new Evolution().quantity(50).collect();
 		//new HandyBarricade().quantity(20).collect();
 		//new TengusMask().collect();
@@ -196,6 +194,9 @@ public enum HeroClass {
 		//new CrudePistol().identify().collect();
 		//new DualPistol().identify().collect();
 		//new TestWeapon().identify().collect();
+		//new Cartridge().quantity(20).collect();
+		//new CrudePistol().identify().collect();
+		//new Carbine().identify().collect();
 		//new Teleporter().collect();
 		//new MasterThievesArmband().identify().upgrade(10).collect();
 		//new RingOfForce().identify().collect();

@@ -227,6 +227,7 @@ public class WndSettings extends WndTabbed {
 		OptionSlider optBrightness;
 		OptionSlider optVisGrid;
 		OptionSlider optFollowIntensity;
+		CheckBox chkFlicking;
 
 		@Override
 		protected void createChildren() {
@@ -331,6 +332,16 @@ public class WndSettings extends WndTabbed {
 			optFollowIntensity.setSelectedValue(SPDSettings.cameraFollow());
 			add(optFollowIntensity);
 
+			chkFlicking = new CheckBox( Messages.get(this, "no_flicking") ) {
+				@Override
+				protected void onClick() {
+					super.onClick();
+					SPDSettings.flicking(!checked());
+				}
+			};
+			chkFlicking.checked(!SPDSettings.flicking());
+			add( chkFlicking );
+
 		}
 
 		@Override
@@ -381,8 +392,9 @@ public class WndSettings extends WndTabbed {
 			}
 
 			optFollowIntensity.setRect(0, optVisGrid.bottom() + GAP, width, SLIDER_HEIGHT);
+			chkFlicking.setRect(0, optFollowIntensity.bottom() + GAP, width, BTN_HEIGHT);
 
-			height = optFollowIntensity.bottom();
+			height = chkFlicking.bottom();
 		}
 
 	}
@@ -1017,8 +1029,6 @@ public class WndSettings extends WndTabbed {
 				optSFX.setRect(optMusic.right()+2, sep2.y + 1 + GAP, width/2-1, SLIDER_HEIGHT);
 				chkMuteSFX.setRect(chkMusicMute.right()+2, optSFX.bottom() + GAP, width/2-1, BTN_HEIGHT);
 
-				chkOldMusic.setRect(0, chkMusicMute.bottom() + GAP, width, BTN_HEIGHT);
-
 			} else {
 				optMusic.setRect(0, sep1.y + 1 + GAP, width, SLIDER_HEIGHT);
 				chkMusicMute.setRect(0, optMusic.bottom() + GAP, width, BTN_HEIGHT);
@@ -1028,20 +1038,21 @@ public class WndSettings extends WndTabbed {
 
 				optSFX.setRect(0, sep2.y + 1 + GAP, width, SLIDER_HEIGHT);
 				chkMuteSFX.setRect(0, optSFX.bottom() + GAP, width, BTN_HEIGHT);
-				chkOldMusic.setRect(0, chkMuteSFX.bottom() + GAP, width, BTN_HEIGHT);
 			}
 
-			height = chkMuteSFX.bottom();
+			chkOldMusic.setRect(0, chkMuteSFX.bottom() + GAP, width, BTN_HEIGHT);
+
+			height = chkOldMusic.bottom();
 
 			if (chkIgnoreSilent != null){
 				sep3.size(width, 1);
-				sep3.y = chkMuteSFX.bottom() + GAP;
+				sep3.y = chkOldMusic.bottom() + GAP;
 
 				chkIgnoreSilent.setRect(0, sep3.y + 1 + GAP, width, BTN_HEIGHT);
 				height = chkIgnoreSilent.bottom();
 			} else if (chkMusicBG != null){
 				sep3.size(width, 1);
-				sep3.y = chkMuteSFX.bottom() + GAP;
+				sep3.y = chkOldMusic.bottom() + GAP;
 
 				chkMusicBG.setRect(0, sep3.y + 1 + GAP, width, BTN_HEIGHT);
 				height = chkMusicBG.bottom();

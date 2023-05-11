@@ -724,7 +724,9 @@ public class Toolbar extends Component {
 			if (active) {
 				base.resetColor();
 			} else {
-				base.tint( BGCOLOR, 0.7f );
+				if (SPDSettings.flicking()) {
+					base.tint( BGCOLOR, 0.7f );
+				}
 			}
 		}
 		
@@ -733,7 +735,9 @@ public class Toolbar extends Component {
 				if (value) {
 					base.resetColor();
 				} else {
-					base.tint( BGCOLOR, 0.7f );
+					if (SPDSettings.flicking()) {
+						base.tint( BGCOLOR, 0.7f );
+					}
 				}
 				active = value;
 			}
