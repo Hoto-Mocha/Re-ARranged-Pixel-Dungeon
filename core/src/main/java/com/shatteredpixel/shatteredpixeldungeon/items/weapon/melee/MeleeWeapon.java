@@ -112,7 +112,7 @@ public class MeleeWeapon extends Weapon {
 
 	@Override
 	public String defaultAction() {
-		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.DUELIST && !gun){
+		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.DUELIST && !gun && !(this instanceof TacticalShield)){
 			return AC_ABILITY;
 		} else {
 			return super.defaultAction();
@@ -442,6 +442,9 @@ public class MeleeWeapon extends Weapon {
 		if (Dungeon.hero.heroClass == HeroClass.DUELIST && !(this instanceof MagesStaff)){
 			info += "\n\n" + Messages.get(this, "ability_desc");
 		}
+		if (critChance() > 0 && isEquipped(Dungeon.hero)) {
+			info += "\n\n" + Messages.get(this, "crit_chance", critChance());
+		}
 		return info;
 	}
 
@@ -628,7 +631,12 @@ public class MeleeWeapon extends Weapon {
 
 		@Override
 		public int actionIcon() {
-			return HeroIcon.WEAPON_SWAP;
+			if (hero.subClass == HeroSubClass.CHAMPION) {
+				return HeroIcon.WEAPON_SWAP;
+			}
+			else {
+				return 0;
+			}
 		}
 
 		@Override
@@ -653,14 +661,18 @@ public class MeleeWeapon extends Weapon {
 		@Override
 		public Visual secondaryVisual() {
 			Image ico;
-			if (Dungeon.hero.belongings.secondWep == null){
-				ico = new HeroIcon(this);
+			if (hero.subClass == HeroSubClass.CHAMPION) {
+				if (Dungeon.hero.belongings.secondWep == null){
+					ico = new HeroIcon(this);
+				} else {
+					ico = new ItemSprite(Dungeon.hero.belongings.secondWep);
+				}
+				ico.scale.set(PixelScene.align(0.51f));
+				ico.brightness(0.6f);
+				return ico;
 			} else {
-				ico = new ItemSprite(Dungeon.hero.belongings.secondWep);
+				return null;
 			}
-			ico.scale.set(PixelScene.align(0.51f));
-			ico.brightness(0.6f);
-			return ico;
 		}
 
 		@Override

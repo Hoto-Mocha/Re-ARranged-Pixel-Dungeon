@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
@@ -48,12 +49,10 @@ import com.watabou.input.KeyEvent;
 import com.watabou.input.PointerEvent;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.ColorBlock;
-import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.NinePatch;
 import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.ui.Component;
-import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Signal;
 
@@ -464,10 +463,12 @@ public class InventoryPane extends Component {
 				b.enable(lastEnabled);
 			}
 
-			goldTxt.alpha( lastEnabled ? 1f : 0.3f );
-			gold.alpha( lastEnabled ? 1f : 0.3f );
-			energyTxt.alpha( lastEnabled ? 1f : 0.3f );
-			energy.alpha( lastEnabled ? 1f : 0.3f );
+			if (SPDSettings.flickering()) {
+				goldTxt.alpha( lastEnabled ? 1f : 0.3f );
+				gold.alpha( lastEnabled ? 1f : 0.3f );
+				energyTxt.alpha( lastEnabled ? 1f : 0.3f );
+				energy.alpha( lastEnabled ? 1f : 0.3f );
+			}
 		}
 
 	}

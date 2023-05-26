@@ -56,7 +56,7 @@ public class SPDSettings extends GameSettings {
 	public static final String KEY_BRIGHTNESS	= "brightness";
 	public static final String KEY_GRID 	    = "visual_grid";
 	public static final String KEY_CAMERA_FOLLOW= "camera_follow";
-	public static final String KEY_FLICKING		= "flicking";
+	public static final String KEY_FLICKERING		= "flickering";
 
 	public static void fullscreen( boolean value ) {
 		put( KEY_FULLSCREEN, value );
@@ -127,13 +127,13 @@ public class SPDSettings extends GameSettings {
 		return getInt( KEY_CAMERA_FOLLOW, 4, 1, 4 );
 	}
 
-	public static void flicking( boolean value ) {
+	public static void flickering( boolean value ) {
 		Sample.INSTANCE.enable( value );
-		put( KEY_FLICKING, value );
+		put( KEY_FLICKERING, value );
 	}
 
-	public static boolean flicking() {
-		return getBoolean(KEY_FLICKING, true);
+	public static boolean flickering() {
+		return getBoolean(KEY_FLICKERING, true);
 	}
 
 	//Interface

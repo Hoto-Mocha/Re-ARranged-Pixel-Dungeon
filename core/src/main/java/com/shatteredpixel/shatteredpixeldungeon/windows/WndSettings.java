@@ -227,7 +227,7 @@ public class WndSettings extends WndTabbed {
 		OptionSlider optBrightness;
 		OptionSlider optVisGrid;
 		OptionSlider optFollowIntensity;
-		CheckBox chkFlicking;
+		CheckBox chkFlickering;
 
 		@Override
 		protected void createChildren() {
@@ -332,15 +332,15 @@ public class WndSettings extends WndTabbed {
 			optFollowIntensity.setSelectedValue(SPDSettings.cameraFollow());
 			add(optFollowIntensity);
 
-			chkFlicking = new CheckBox( Messages.get(this, "no_flicking") ) {
+			chkFlickering = new CheckBox( Messages.get(this, "no_flickering") ) {
 				@Override
 				protected void onClick() {
 					super.onClick();
-					SPDSettings.flicking(!checked());
+					SPDSettings.flickering(!checked());
 				}
 			};
-			chkFlicking.checked(!SPDSettings.flicking());
-			add( chkFlicking );
+			chkFlickering.checked(!SPDSettings.flickering());
+			add( chkFlickering );
 
 		}
 
@@ -392,9 +392,9 @@ public class WndSettings extends WndTabbed {
 			}
 
 			optFollowIntensity.setRect(0, optVisGrid.bottom() + GAP, width, SLIDER_HEIGHT);
-			chkFlicking.setRect(0, optFollowIntensity.bottom() + GAP, width, BTN_HEIGHT);
+			chkFlickering.setRect(0, optFollowIntensity.bottom() + GAP, width, BTN_HEIGHT);
 
-			height = chkFlicking.bottom();
+			height = chkFlickering.bottom();
 		}
 
 	}

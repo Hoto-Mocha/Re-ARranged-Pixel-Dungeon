@@ -55,7 +55,7 @@ public class EnergyWeapon extends MeleeWeapon {
 
 	@Override
 	public String desc() {
-		return super.desc() + "\n\n" + Messages.get(this, "energy", chargePerHit, chargePerHit*2, charge, chargeCap);
+		return super.desc() + "\n\n" + Messages.get(this, "energy", chargePerHit, chargeUsePerHit, charge, chargeCap);
 	}
 
 	@Override

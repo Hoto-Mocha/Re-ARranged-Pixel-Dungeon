@@ -35,9 +35,9 @@ public class RingOfVorpal extends Ring {
 	
 	public String statsInfo() {
 		if (isIdentified()){
-			return Messages.get(this, "stats", new DecimalFormat("#.##").format(Math.min(100f, 100f * (Math.pow(1.03f, soloBuffedBonus()) - 1f))));
+			return Messages.get(this, "stats", new DecimalFormat("#").format(Math.min(100f, 100f * (Math.pow(1.05f, soloBuffedBonus()) - 1f))));
 		} else {
-			return Messages.get(this, "typical_stats", new DecimalFormat("#.##").format(3f));
+			return Messages.get(this, "typical_stats", new DecimalFormat("#").format(3f));
 		}
 	}
 	
@@ -47,7 +47,7 @@ public class RingOfVorpal extends Ring {
 	}
 	
 	public static float vorpalProc( Char target ){
-		return (float)Math.min(1, Math.pow(1.03f, getBuffedBonus(target, Vorpal.class))-1);
+		return (float)Math.min(1, Math.pow(1.05f, getBuffedBonus(target, Vorpal.class))-1);
 	}
 	
 	public class Vorpal extends RingBuff {

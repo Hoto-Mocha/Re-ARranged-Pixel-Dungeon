@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
@@ -311,13 +312,22 @@ public class ItemSlot extends Button {
 	public void enable( boolean value ) {
 		
 		active = value;
-		
-		float alpha = value ? ENABLED : DISABLED;
-		sprite.alpha( alpha );
-		status.alpha( alpha );
-		extra.alpha( alpha );
-		level.alpha( alpha );
-		if (itemIcon != null) itemIcon.alpha( alpha );
+
+		if (SPDSettings.flickering()) {
+			float alpha = value ? ENABLED : DISABLED;
+			sprite.alpha( alpha );
+			status.alpha( alpha );
+			extra.alpha( alpha );
+			level.alpha( alpha );
+			if (itemIcon != null) itemIcon.alpha( alpha );
+		}
+		else {
+			sprite.alpha( ENABLED );
+			status.alpha( ENABLED );
+			extra.alpha( ENABLED );
+			level.alpha( ENABLED );
+			if (itemIcon != null) itemIcon.alpha( ENABLED );
+		}
 	}
 
 	public void showExtraInfo( boolean show ){

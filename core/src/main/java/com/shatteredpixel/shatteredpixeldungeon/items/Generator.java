@@ -442,9 +442,10 @@ public class Generator {
 			GUN_T3.classes = new Class<?>[]{
 					GoldenPistol.class,
 					HuntingRifle.class,
-					SubMachinegun.class
+					SubMachinegun.class,
+					ShotGun.class
 			};
-			GUN_T3.probs = new float[]{ 2, 1, 1 };
+			GUN_T3.probs = new float[]{ 2, 1, 1, 1 };
 
 			GUN_T4.classes = new Class<?>[]{
 					Handgun.class,

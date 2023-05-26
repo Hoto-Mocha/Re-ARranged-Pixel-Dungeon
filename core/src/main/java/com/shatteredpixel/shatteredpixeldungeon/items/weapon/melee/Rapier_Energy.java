@@ -49,6 +49,9 @@ public class Rapier_Energy extends EnergyWeapon {
 		tier = 1;
 
 		bones = false;
+
+		chargePerHit = 2;
+		chargeUsePerHit = 4;
 	}
 
 	@Override

@@ -724,7 +724,7 @@ public class Toolbar extends Component {
 			if (active) {
 				base.resetColor();
 			} else {
-				if (SPDSettings.flicking()) {
+				if (SPDSettings.flickering()) {
 					base.tint( BGCOLOR, 0.7f );
 				}
 			}
@@ -735,7 +735,7 @@ public class Toolbar extends Component {
 				if (value) {
 					base.resetColor();
 				} else {
-					if (SPDSettings.flicking()) {
+					if (SPDSettings.flickering()) {
 						base.tint( BGCOLOR, 0.7f );
 					}
 				}

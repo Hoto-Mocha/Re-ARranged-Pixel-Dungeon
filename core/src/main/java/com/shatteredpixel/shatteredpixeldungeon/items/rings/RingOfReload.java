@@ -23,22 +23,11 @@ package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 import java.text.DecimalFormat;
-import java.util.HashSet;
 
 public class RingOfReload extends Ring {
 
@@ -64,6 +53,9 @@ public class RingOfReload extends Ring {
         float speed = (float)Math.pow(0.825f, getBuffedBonus(target, RingOfReload.Reload.class));
         if (Dungeon.hero.hasTalent(Talent.FAST_RELOAD) && Dungeon.hero.belongings.weapon != null) {
             speed *= Math.pow((1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.FAST_RELOAD)), Math.max(0, (Dungeon.hero.STR() - Dungeon.hero.belongings.weapon.STRReq())));
+        }
+        if (Dungeon.hero.hasTalent(Talent.RELOAD_PRACTICE)) {
+            speed *= 1+0.1*Dungeon.hero.pointsInTalent(Talent.RELOAD_PRACTICE);
         }
         return speed;
     }

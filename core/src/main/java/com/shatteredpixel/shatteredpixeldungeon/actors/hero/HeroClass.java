@@ -79,8 +79,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
@@ -156,63 +156,15 @@ public enum HeroClass {
 		.upgrade()
 		.collect();
 		 */
-		//new Knife().identify().collect();
-
-		//new SpellBook_Blast().identify().upgrade(21).collect();
-		//new SpellBook_Earth().identify().collect();
-		//new SpearNShield().identify().collect();
-		//new ForceGlove().identify().collect();
-		//new WornShortsword_Energy().identify().collect();
-		//new UnformedBlade().identify().collect();
-		//new Carbine().identify().collect();
-		//new ScrollOfMirrorImage().identify().quantity(20).collect();
-		//new HeavyBoomerang().quantity(20).collect();
-		//new RingOfMight().upgrade(20).identify().collect();
-		//new SubMachinegun().identify().collect();
-		//new RingOfForce().identify().collect();
-		//new Pasty().quantity(200).collect();
-		//new AdvancedEvolution().quantity(100).collect();
-		//new StoneOfAugmentation().quantity(100).collect();
-		//new FishingSpear().quantity(100).collect();
-		//new PotionOfLiquidFlame().identify().quantity(20).collect();
-		//new PotionOfFrost().identify().quantity(20).collect();
-		//new RapidGrowth().quantity(20).collect();
-		//new StableAPBullet().quantity(2).collect();
-		//new StableHPBullet().quantity(2).collect();
-		//new GunSmithingTool().quantity(20).collect();
-		//new Evolution().quantity(50).collect();
-		//new HandyBarricade().quantity(20).collect();
-		//new TengusMask().collect();
-		//new KingsCrown().collect();
+		//new TengusMask().identify().collect();
 		//new PotionOfExperience().identify().quantity(29).collect();
-		//new ScrollOfMagicMapping().identify().quantity(29).collect();
+		//new Teleporter().identify().collect();
 		//new PlateArmor().identify().upgrade(100).collect();
-		//new AntimaterRifle().identify().upgrade(100).collect();
-		//new EtherealChains().identify().upgrade(10).collect();
-		//new ScrollOfMysticalEnergy().identify().quantity(100).collect();
-		//new ScrollOfUpgrade().identify().quantity(1000).collect();
-		//new CrudePistol().identify().collect();
-		//new DualPistol().identify().collect();
 		//new TestWeapon().identify().collect();
-		//new Cartridge().quantity(20).collect();
-		//new CrudePistol().identify().collect();
-		//new Carbine().identify().collect();
-		//new Teleporter().collect();
-		//new MasterThievesArmband().identify().upgrade(10).collect();
-		//new RingOfForce().identify().collect();
-		//new GrenadeLauncher().identify().collect();
-		//new SleepGun().identify().collect();
-		//new AdvancedEvolution().quantity(20).collect();
-		//new PotionOfStrength().identify().quantity(20).collect();
-		//new PotionOfMindVision().identify().quantity(20).collect();
-		//new ThrowingSpear().quantity(500).collect();
-		//new ScrollOfTransmutation().identify().quantity(1000).collect();
-		//new ScrollOfEnchantment().identify().quantity(1000).collect();
-		//new Evolution().quantity(100).collect();
-		//new AdvancedEvolution().quantity(20).collect();
-		//new AlchemistsToolkit().upgrade(10).identify().collect();
-		//new ForceCube().quantity(50).collect();
-		//new RingOfRush().identify().upgrade(50).collect();
+
+		//new ScrollOfUpgrade().identify().quantity(1000).collect();
+		//new PotionOfStrength().identify().quantity(1000).collect();
+
 		//for testing
 
 		switch (this) {
@@ -437,14 +389,14 @@ public enum HeroClass {
 
 	private static void initSamurai( Hero hero ) {
 
-		hero.STR = 8;
+		//hero.STR = 8;
 
 		WornKatana wornKatana = new WornKatana();
 		(hero.belongings.weapon = wornKatana).identify();
 
-		RingOfMight might = new RingOfMight();
-		might.start = true;
-		(hero.belongings.ring = might).identify().upgrade(1);
+		RingOfVorpal vorpal = new RingOfVorpal();
+		vorpal.start = true;
+		(hero.belongings.ring = vorpal).identify();
 		hero.belongings.ring.activate( hero );
 
 		ThrowingKnife knives = new ThrowingKnife();

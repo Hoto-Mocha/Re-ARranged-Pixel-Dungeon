@@ -840,12 +840,6 @@ public class Hero extends Char {
 			}
 
 			accuracy *= accMulti;
-
-			if (this.hasTalent(Talent.BULLET_FOCUS)) {
-				if (wep.bullet) {
-					accuracy *= Math.pow(1.1f, hero.pointsInTalent(Talent.BULLET_FOCUS));
-				}
-			}
 		}
 
 		if (wep != null && wep.bullet) {

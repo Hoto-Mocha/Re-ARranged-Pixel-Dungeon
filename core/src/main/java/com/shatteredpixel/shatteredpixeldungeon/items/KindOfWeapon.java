@@ -266,12 +266,12 @@ abstract public class  KindOfWeapon extends EquipableItem {
 	abstract public int min(int lvl);
 	abstract public int max(int lvl);
 
-	public int damageRoll(Char owner) {
+	public int critChance() {
 		int critChance = 0;
 
-		Demonization demonization = owner.buff(Demonization.class);
+		Demonization demonization = hero.buff(Demonization.class);
 		if (demonization != null && demonization.isDemonated()) {
-			critChance += (int)((hero.defenseSkill(owner) - (hero.lvl+5))/2);
+			critChance += (int)((hero.defenseSkill(hero) - (hero.lvl+5))/2);
 		}
 
 		if (hero.heroClass == HeroClass.SAMURAI && hero.belongings.weapon != null) {
@@ -314,12 +314,18 @@ abstract public class  KindOfWeapon extends EquipableItem {
 
 		critChance += Math.round(100*RingOfVorpal.vorpalProc( hero ));
 
+		critChance = Math.min(critChance, 100);
+
+		return critChance;
+	}
+
+	public int damageRoll(Char owner) {
 		if (owner == hero && hero.belongings.weapon() instanceof MeleeWeapon) {
 			if (hero.buff(Talent.DetactiveSlashingTracker.class) != null && hero.subClass == HeroSubClass.SLASHER && hero.pointsInTalent(Talent.DETECTIVE_SLASHING) > 2) {
 				Buff.affect(hero, SerialAttack.class).maxHit();
 			}
-			if ( critChance > 0 ) {
-				if (Random.Int(100) < critChance) {
+			if ( critChance() > 0 ) {
+				if (Random.Int(100) < critChance()) {
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 					hero.sprite.showStatus(CharSprite.NEUTRAL, "!");
 					if (hero.buff(Iaido.class) != null && hero.pointsInTalent(Talent.SLASHING) > 1) {
@@ -328,6 +334,7 @@ abstract public class  KindOfWeapon extends EquipableItem {
 							Item.updateQuickslot();
 						}
 					}
+					Demonization demonization = owner.buff(Demonization.class);
 					if (demonization != null && demonization.isDemonated() && hero.hasTalent(Talent.ENERGY_DRAIN)) {
 						int pointUsed = hero.pointsInTalent(Talent.ENERGY_DRAIN);
 						if (hero.buff(Barrier.class) == null || hero.buff(Barrier.class).shielding() < (10 * pointUsed - pointUsed)) {
@@ -355,7 +362,7 @@ abstract public class  KindOfWeapon extends EquipableItem {
 					return Random.NormalIntRange( min(), max() );
 				}
 			} else {
-				if (Random.Int(100) < -critChance) {
+				if (Random.Int(100) < -critChance()) {
 					hero.sprite.showStatus(CharSprite.NEUTRAL, "?");
 					return Random.NormalIntRange(min(), Math.round(0.5f * max()));
 				} else {
