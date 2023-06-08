@@ -22,14 +22,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -38,74 +39,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -200,36 +133,8 @@ public class Shockwave extends ArmorAbility {
 										Buff.affect( hero, Combo.class ).hit( ch );
 									}
 									if (hero.subClass == HeroSubClass.VETERAN){
-										if (hero.belongings.weapon instanceof CrudePistol
-												|| hero.belongings.weapon instanceof Pistol
-												|| hero.belongings.weapon instanceof GoldenPistol
-												|| hero.belongings.weapon instanceof Handgun
-												|| hero.belongings.weapon instanceof Magnum
-												|| hero.belongings.weapon instanceof TacticalHandgun
-												|| hero.belongings.weapon instanceof AutoHandgun
-
-												|| hero.belongings.weapon instanceof DualPistol
-												|| hero.belongings.weapon instanceof SubMachinegun
-												|| hero.belongings.weapon instanceof AssultRifle
-												|| hero.belongings.weapon instanceof HeavyMachinegun
-												|| hero.belongings.weapon instanceof MiniGun
-												|| hero.belongings.weapon instanceof AutoRifle
-
-												|| hero.belongings.weapon instanceof Revolver
-												|| hero.belongings.weapon instanceof HuntingRifle
-												|| hero.belongings.weapon instanceof Carbine
-												|| hero.belongings.weapon instanceof SniperRifle
-												|| hero.belongings.weapon instanceof AntimaterRifle
-												|| hero.belongings.weapon instanceof MarksmanRifle
-												|| hero.belongings.weapon instanceof WA2000
-
-												|| hero.belongings.weapon instanceof ShotGun
-												|| hero.belongings.weapon instanceof KSG
-
-												|| hero.belongings.weapon instanceof RocketLauncher
-												|| hero.belongings.weapon instanceof RPG7
-										) {
-											Buff.affect( hero, Focusing.class ).hit( ch );
+										if (Dungeon.level.adjacent(ch.pos, hero.pos) && hero.buff(Tackle.class) == null) {
+											Buff.prolong(hero, Tackle.class, 1).set(ch.id());
 										}
 									}
 								} else {

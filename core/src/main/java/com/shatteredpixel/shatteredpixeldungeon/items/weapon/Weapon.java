@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.UpgradeShare;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -575,7 +576,7 @@ abstract public class Weapon extends KindOfWeapon {
 			}
 
 			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.MYSTICAL_POWER)) {
-				multi += 0.1f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
+				multi += 0.2f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
 			}
 
 			if (attacker.buff(MonkEnergy.MonkAbility.FlurryEmpowerTracker.class) != null){
@@ -584,6 +585,10 @@ abstract public class Weapon extends KindOfWeapon {
 
 			if (attacker.buff(TrueRunicBlade.EnchantEmpower.class) != null) {
 				multi += 1.5f;
+			}
+
+			if (attacker instanceof Hero && attacker.buff(Tackle.MysticalTackleTracker.class) != null) {
+				multi += 0.5f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_TACKLE);
 			}
 			return multi;
 		}

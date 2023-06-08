@@ -79,7 +79,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
@@ -91,6 +91,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurs
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
@@ -103,6 +104,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.FishingSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
@@ -161,7 +163,14 @@ public enum HeroClass {
 		//new Teleporter().identify().collect();
 		//new PlateArmor().identify().upgrade(100).collect();
 		//new TestWeapon().identify().collect();
+		//new PotionOfDivineInspiration().identify().quantity(4).collect();
+		//new PotionOfHealing().identify().quantity(100).collect();
 
+		//new FishingSpear().upgrade(1).quantity(200).collect();
+		//new ScrollOfEnchantment().identify().quantity(200).collect();
+		//new RingOfArcana().identify().upgrade(5).collect();
+		//new PotionOfMindVision().identify().quantity(200).collect();
+		//new ScrollOfMagicMapping().identify().quantity(200).collect();
 		//new ScrollOfUpgrade().identify().quantity(1000).collect();
 		//new PotionOfStrength().identify().quantity(1000).collect();
 
@@ -367,10 +376,10 @@ public enum HeroClass {
 	private static void initGunner( Hero hero ) {
 		CrudePistol crude = new CrudePistol();
 		(hero.belongings.weapon = crude).identify();
-		RingOfReload reload = new RingOfReload();
-		reload.start = true;
-		(hero.belongings.ring = reload).identify().upgrade(3);
-		hero.belongings.ring.activate( hero );
+		//RingOfReload reload = new RingOfReload();
+		//reload.start = true;
+		//(hero.belongings.ring = reload).identify().upgrade(3);
+		//hero.belongings.ring.activate( hero );
 		AmmoBelt ammoBelt = new AmmoBelt();
 		ammoBelt.collect();
 

@@ -35,7 +35,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cloaking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ElectroBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
@@ -402,9 +401,6 @@ public class Pistol extends MeleeWeapon {
                 delay *= Math.pow( 1.2, encumbrance );
             }
         }
-        if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
-            delay -= 0.1f * Dungeon.hero.pointsInTalent(Talent.MARTIAL_ARTS);
-        }
         return delay;
     }
 
@@ -441,10 +437,6 @@ public class Pistol extends MeleeWeapon {
 
             if (owner.buff(Bless.class) != null && ((Hero) owner).hasTalent(Talent.BLESSED_TALENT)) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.BLESSED_TALENT)));
-            }
-
-            if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }
@@ -518,9 +510,6 @@ public class Pistol extends MeleeWeapon {
         @Override
         public float accuracyFactor(Char owner, Char target) {
             float accFactor = super.accuracyFactor(owner, target);
-            if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
-                accFactor += 0.1f * Dungeon.hero.pointsInTalent(Talent.ENHANCED_FOCUSING);
-            }
             if (short_barrel) {
                 if (Dungeon.level.adjacent( owner.pos, target.pos )) {
                     accFactor *= 1.25f;

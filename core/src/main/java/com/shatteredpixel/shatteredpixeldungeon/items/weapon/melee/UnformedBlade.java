@@ -94,7 +94,7 @@ public class UnformedBlade extends MeleeWeapon {
 			multi += 0.2f;
 		}
 		if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.MYSTICAL_POWER)) {
-			multi += 0.1f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
+			multi += 0.2f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
 		}
 		return multi;
 	}

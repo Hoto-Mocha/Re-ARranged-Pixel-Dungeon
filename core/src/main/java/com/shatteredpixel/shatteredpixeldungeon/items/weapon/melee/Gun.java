@@ -28,8 +28,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
@@ -51,8 +49,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
-import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
@@ -256,9 +252,6 @@ public class Gun extends MeleeWeapon {
 				delay *= Math.pow( 1.2, encumbrance );
 			}
 		}
-		if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
-			delay -= 0.1f * Dungeon.hero.pointsInTalent(Talent.MARTIAL_ARTS);
-		}
 		return delay;
 	}
 
@@ -287,10 +280,6 @@ public class Gun extends MeleeWeapon {
 
 			if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
 				bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
-			}
-
-			if (owner.buff(Focusing.class) != null) {
-				bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
 			}
 			return bulletdamage;
 		}
@@ -358,9 +347,6 @@ public class Gun extends MeleeWeapon {
 		@Override
 		public float accuracyFactor(Char owner, Char target) {
 			float accFactor = super.accuracyFactor(owner, target);
-			if (Dungeon.hero.hasTalent(Talent.ENHANCED_FOCUSING)) {
-				accFactor += 0.1f * Dungeon.hero.pointsInTalent(Talent.ENHANCED_FOCUSING);
-			}
 			return accFactor;
 		}
 

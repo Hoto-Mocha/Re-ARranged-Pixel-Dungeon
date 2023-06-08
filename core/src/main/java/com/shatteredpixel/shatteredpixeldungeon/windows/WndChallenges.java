@@ -26,7 +26,6 @@ import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
-import com.shatteredpixel.shatteredpixeldungeon.ui.CheckBox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.MiniCheckBox;
@@ -78,7 +77,7 @@ public class WndChallenges extends Window {
 
 			add( cb );
 			boxes.add( cb );
-			
+
 			IconButton info = new IconButton(Icons.get(Icons.MINI_INFO)){
 				@Override
 				protected void onClick() {
@@ -90,7 +89,7 @@ public class WndChallenges extends Window {
 			};
 			info.setRect(cb.right(), pos, 9, BTN_HEIGHT);
 			add(info);
-			
+
 			pos = cb.bottom();
 		}
 

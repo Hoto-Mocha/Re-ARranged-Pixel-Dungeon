@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
@@ -67,10 +68,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
@@ -136,12 +137,12 @@ public enum Talent {
 	OFFENSIVE_DEFENSE				(23, 3),
 	SKILL_ENHANCE					(24, 3),
 	//Veteran T3
-	ARM_VETERAN						(25, 3),
-	MARTIAL_ARTS					(26, 3),
-	ENHANCED_FOCUSING				(27, 3),
-	PUSHBACK						(28, 3),
-	FOCUS_UPGRADE					(29, 3),
-	BARRIER_FORMATION				(30, 3),
+	POWERFUL_TACKLE					(25, 3),
+	MYSTICAL_TACKLE					(26, 3),
+	DELAYED_GRENADE					(27, 3),
+	INCAPACITATION					(28, 3),
+	SUPER_ARMOR						(29, 3),
+	IMPROVED_TACKLE					(30, 3),
 	//Heroic Leap T4
 	BODY_SLAM						(31, 4),
 	IMPACT_WAVE						(32, 4),
@@ -608,15 +609,15 @@ public enum Talent {
 	//Nurse T1
 	HEALING_MEAL					(440),
 	DOCTORS_INTUITION				(441),
-	INNER_MIRROR					(442),
+	PROTECTIVE_HEAL					(442),
 	CRITICAL_SHIELD					(443),
-	HEAL_AMP						(444),
+	PROTECTIVE_CLOTHING				(444),
 	//Nurse T2
-	CHALLENGING_MEAL				(445),
+	DISINFECTING_MEAL				(445),
 	POTION_SPREAD					(446),
 	HEALAREA						(447),
-	ANGEL							(448),
-	MEDICAL_SUPPORT					(449),
+	POISON_INJECT					(448),
+	CHEAT_THE_DEATH					(449),
 	WINNERS_FLAG					(450),
 	//Nurse T3
 	POWERFUL_BOND					(451, 3),
@@ -797,13 +798,6 @@ public enum Talent {
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
-	public static class PushbackCooldown extends FlavourBuff{
-		public int icon() { return BuffIndicator.TIME; }
-		public void tintIcon(Image icon) { icon.hardlight(0.3f, 0.3f, 0.3f); }
-		public float iconFadePercent() { return Math.max(0, 1-visualcooldown() / (30-5*Dungeon.hero.pointsInTalent(Talent.PUSHBACK))); }
-		public String toString() { return Messages.get(this, "name"); }
-		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
-	};
 	public static class QuickSwapCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0xB3B3B3); }
@@ -859,6 +853,13 @@ public enum Talent {
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0xF27318); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / (70 - 20 * hero.pointsInTalent(Talent.FLOW_AWAY))); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class CheatTheDeathCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0x525252); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 1000); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
@@ -1220,8 +1221,17 @@ public enum Talent {
 		if (hero.hasTalent(Talent.HEALING_MEAL)) {
 			Buff.affect(hero, HealingArea.class).setup(hero.pos, 10 * hero.pointsInTalent(Talent.HEALING_MEAL), 1, true);
 		}
-		if (hero.hasTalent(Talent.CHALLENGING_MEAL)) {
-			Buff.affect(hero, ScrollOfChallenge.ChallengeArena.class).setup(hero.pos, 10 * hero.pointsInTalent(Talent.CHALLENGING_MEAL));
+		if (hero.hasTalent(Talent.DISINFECTING_MEAL)) {
+			for (Buff b : hero.buffs()){
+				if (b.type == Buff.buffType.NEGATIVE
+						&& !(b instanceof AllyBuff)
+						&& !(b instanceof LostInventory)){
+					b.detach();
+				}
+			}
+			if (hero.pointsInTalent(Talent.DISINFECTING_MEAL) > 1) {
+				Buff.affect(hero, PotionOfCleansing.Cleanse.class, 3f);
+			}
 		}
 		if (hero.hasTalent(STRENGTHENING_MEAL)){
 			//3 bonus physical damage for next 2/3 attacks
@@ -1553,6 +1563,8 @@ public enum Talent {
 		}
 	};
 	public static class ParryTracker extends Buff{
+		{ actPriority = HERO_PRIO+1;}
+
 		{
 			type = buffType.NEUTRAL;
 			announced = true;
@@ -1642,7 +1654,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	ON_ALERT, KNIGHTS_INTUITION, ARMOR_ENHANCE, ACTIVE_BARRIER, WAR_CRY);
 				break;
 			case NURSE:
-				Collections.addAll(tierTalents,	HEALING_MEAL, DOCTORS_INTUITION, INNER_MIRROR, CRITICAL_SHIELD, HEAL_AMP);
+				Collections.addAll(tierTalents,	HEALING_MEAL, DOCTORS_INTUITION, PROTECTIVE_HEAL, CRITICAL_SHIELD, PROTECTIVE_CLOTHING);
 				break;
 			case DUELIST:
 				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, AGGRESSIVE_BARRIER, SKILLED_HAND);
@@ -1686,7 +1698,7 @@ public enum Talent {
 				Collections.addAll(tierTalents,	IMPREGNABLE_MEAL, SAFE_HEALING, DEFENSE_STANCE, FAITH, CHIVALRY, ARMOR_ADAPTION);
 				break;
 			case NURSE:
-				Collections.addAll(tierTalents,	CHALLENGING_MEAL, POTION_SPREAD, HEALAREA, ANGEL, MEDICAL_SUPPORT, WINNERS_FLAG);
+				Collections.addAll(tierTalents,	DISINFECTING_MEAL, POTION_SPREAD, HEALAREA, POISON_INJECT, CHEAT_THE_DEATH, WINNERS_FLAG);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1762,7 +1774,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, CLEAVE, LETHAL_DEFENSE, ENHANCED_COMBO, QUICK_SWAP, OFFENSIVE_DEFENSE, SKILL_ENHANCE);
 				break;
 			case VETERAN:
-				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, ARM_VETERAN, MARTIAL_ARTS, ENHANCED_FOCUSING, PUSHBACK, FOCUS_UPGRADE, BARRIER_FORMATION);
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, POWERFUL_TACKLE, MYSTICAL_TACKLE, DELAYED_GRENADE, INCAPACITATION, SUPER_ARMOR, IMPROVED_TACKLE);
 				break;
 			case BATTLEMAGE:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, EMPOWERED_STRIKE, MYSTICAL_CHARGE, EXCESS_CHARGE, BATTLE_MAGIC, MAGIC_RUSH, MAGICAL_CIRCLE);

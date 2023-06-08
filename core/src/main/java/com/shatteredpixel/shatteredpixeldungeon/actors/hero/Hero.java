@@ -91,7 +91,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
@@ -134,6 +133,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StanceCooldown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Surgery;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SurgeryTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SurgeryUse;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.UpgradeShare;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
@@ -165,7 +165,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
-import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
@@ -225,7 +224,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
@@ -881,10 +879,8 @@ public class Hero extends Char {
 		if (buff(Talent.ParryTracker.class) != null){
 			if (canAttack(enemy) && !isCharmedBy(enemy)){
 				Buff.affect(this, Talent.RiposteTracker.class).enemy = enemy;
-				buff(Talent.ParryTracker.class).detach();
-
-				return INFINITE_EVASION;
 			}
+			return INFINITE_EVASION;
 		}
 
 		if (buff(Nunchaku.ParryTracker.class) != null){
@@ -989,6 +985,13 @@ public class Hero extends Char {
 		if (subClass == HeroSubClass.FORTRESS) {
 			if (counter != null) {
 				counter.detach();
+			}
+		}
+
+		Talent.ParryTracker parryTracker = buff(Talent.ParryTracker.class);
+		if (hasTalent(Talent.PARRY)) {
+			if (parryTracker != null) {
+				parryTracker.detach();
 			}
 		}
 
@@ -1982,6 +1985,11 @@ public class Hero extends Char {
 			}
 		}
 
+		if (hero.hasTalent(Talent.POISON_INJECT) && hero.buff(Poison.class) != null) {
+			Buff.affect(enemy, Poison.class).set(Math.round(hero.buff(Poison.class).getLeft()*(0.34f+0.33f*hero.pointsInTalent(Talent.POISON_INJECT))));
+			hero.buff(Poison.class).detach();
+		}
+
 		LargeSwordBuff largeSwordBuff = Dungeon.hero.buff(LargeSwordBuff.class);
 		if (largeSwordBuff != null) {
 			damage *= largeSwordBuff.getDamageFactor();
@@ -2109,8 +2117,22 @@ public class Hero extends Char {
 			}
 			break;
 		case VETERAN:
-			if (wep.gun) {
-				Buff.affect( this, Focusing.class ).hit( enemy );
+			if (level.adjacent(enemy.pos, pos) && hero.buff(Tackle.TackleTracker.class) == null) {
+				Actor.add(new Actor() {
+
+					{
+						actPriority = VFX_PRIO;
+					}
+
+					@Override
+					protected boolean act() {
+						if (enemy.isAlive()) {
+							Buff.prolong(Hero.this, Tackle.class, 1).set(enemy.id());
+						}
+						Actor.remove(this);
+						return true;
+					}
+				});
 			}
 			break;
 		case ENGINEER:
@@ -2232,9 +2254,9 @@ public class Hero extends Char {
 				Buff.detach(hero, Talent.ReloadCooldown.class);
 				Buff.detach(hero, Talent.TakeDownCooldown.class);
 				Buff.detach(hero, Talent.StreetBattleCooldown.class);
-				Buff.detach(hero, Talent.PushbackCooldown.class);
 				Buff.detach(hero, Talent.QuickSwapCooldown.class);
 				Buff.detach(hero, Talent.KickCooldown.class);
+				Buff.detach(hero, Talent.CheatTheDeathCooldown.class);
 			}
 		}
 
@@ -2253,18 +2275,6 @@ public class Hero extends Char {
 
 		if (hero.hasTalent(Talent.THORNY_VINE) && (level.map[hero.pos] == Terrain.FURROWED_GRASS || level.map[hero.pos] == Terrain.HIGH_GRASS)) {
 			Buff.affect(enemy, Bleeding.class).set(hero.pointsInTalent(Talent.THORNY_VINE));
-		}
-
-		if (heroClass == HeroClass.NURSE && Random.Int(100) <= 20+lvl+5*hero.pointsInTalent(Talent.MEDICAL_SUPPORT)) {
-			Buff.affect(this, HealingArea.class).setup(this.pos, 5, 1, true);
-		}
-
-		if (hero.hasTalent(Talent.INNER_MIRROR) && Random.Int(10) == 0) {
-			ScrollOfMirrorImage.spawnImages(Dungeon.hero, hero.pointsInTalent(Talent.INNER_MIRROR));
-		}
-
-		if (hero.hasTalent(Talent.ANGEL) && hero.buff(HealingArea.class) != null) {
-			Buff.affect( enemy, Charm.class, Charm.DURATION ).object = hero.id();
 		}
 
 		if (hero.subClass == HeroSubClass.ANGEL && Random.Int(10) <= hero.pointsInTalent(Talent.PERSUASION)) {
@@ -2288,6 +2298,10 @@ public class Hero extends Char {
 
 		if (hero.heroClass != HeroClass.KNIGHT && hero.hasTalent(Talent.FAITH)) {
 			damage *= 1-0.1f*hero.pointsInTalent(Talent.FAITH);
+		}
+
+		if (hero.hasTalent(Talent.PROTECTIVE_HEAL) && hero.HP < hero.HT*(0.1+0.15*hero.pointsInTalent(Talent.PROTECTIVE_HEAL)) && !hero.buff(Hunger.class).isStarving()) {
+			hero.heal(1);
 		}
 		
 		return super.defenseProc( enemy, damage );
@@ -2356,6 +2370,12 @@ public class Hero extends Char {
 		if (buff(Talent.WarriorFoodImmunity.class) != null){
 			if (pointsInTalent(Talent.IRON_STOMACH) == 1)       dmg = Math.round(dmg*0.25f);
 			else if (pointsInTalent(Talent.IRON_STOMACH) == 2)  dmg = Math.round(dmg*0.00f);
+		}
+
+		if (buff(Tackle.SuperArmorTracker.class) != null) {
+			if (pointsInTalent(Talent.SUPER_ARMOR) == 1)       dmg = Math.round(dmg*0.67f);
+			else if (pointsInTalent(Talent.SUPER_ARMOR) == 2)  dmg = Math.round(dmg*0.33f);
+			else if (pointsInTalent(Talent.SUPER_ARMOR) == 3)  dmg = Math.round(dmg*0.00f);
 		}
 
 		int preHP = HP + shielding();
@@ -2914,6 +2934,22 @@ public class Hero extends Char {
 
 		Ankh ankh = null;
 
+		if (hero.hasTalent(Talent.CHEAT_THE_DEATH) &&
+				hero.buff(Talent.CheatTheDeathCooldown.class) == null &&
+				Random.Int(3) < hero.pointsInTalent(Talent.CHEAT_THE_DEATH)) {
+			interrupt();
+			resting = false;
+			this.HP = 1;
+			PotionOfHealing.cure(this);
+			GameScene.flash(0x80FFFF40);
+			Sample.INSTANCE.play(Assets.Sounds.DRINK);
+			hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
+			GLog.w(Messages.get(this, "cheat"));
+			Buff.affect(this, Talent.CheatTheDeathCooldown.class, 1000f);
+
+			return;
+		}
+
 		//look for ankhs in player inventory, prioritize ones which are blessed.
 		for (Ankh i : belongings.getAllItems(Ankh.class)){
 			if (ankh == null || i.isBlessed()) {
@@ -3142,13 +3178,6 @@ public class Hero extends Char {
 			Buff.prolong(enemy, Amok.class, 3f);
 		}
 
-		if (hit && hero.hasTalent(Talent.PUSHBACK) && hero.buff(Talent.PushbackCooldown.class) == null) {
-			Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
-			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
-			WandOfBlastWave.throwChar(enemy, trajectory, 3, true, false, hero.getClass());
-			Buff.affect(hero, Talent.PushbackCooldown.class, 35-5*Dungeon.hero.pointsInTalent(Talent.PUSHBACK));
-		}
-
 		if (hit && hero.hasTalent(Talent.ABSOLUTE_ZERO) && Random.Int(10) < hero.pointsInTalent(Talent.ABSOLUTE_ZERO)) {
 			if (!enemy.properties().contains(Property.BOSS) && !enemy.properties().contains(Property.MINIBOSS)) {
 				new FlavourBuff(){
@@ -3206,13 +3235,6 @@ public class Hero extends Char {
 		if (hit && buff(ParalysisTracker.class) != null) {
 			Buff.affect(enemy, Paralysis.class, 2f);
 			Buff.detach(this, ParalysisTracker.class);
-		}
-
-		if (hit && subClass == HeroSubClass.VETERAN && belongings.weapon() instanceof MissileWeapon && hero.pointsInTalent(Talent.FOCUS_UPGRADE) == 3) {
-			BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
-			if (shield != null){
-				Buff.affect( this, Focusing.class ).hit( enemy );
-			}
 		}
 
 		if (hit && hero.hasTalent(Talent.BAYONET) && hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null){

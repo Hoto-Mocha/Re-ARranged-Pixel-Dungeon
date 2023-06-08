@@ -55,7 +55,7 @@ public class RingOfReload extends Ring {
             speed *= Math.pow((1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.FAST_RELOAD)), Math.max(0, (Dungeon.hero.STR() - Dungeon.hero.belongings.weapon.STRReq())));
         }
         if (Dungeon.hero.hasTalent(Talent.RELOAD_PRACTICE)) {
-            speed *= 1+0.1*Dungeon.hero.pointsInTalent(Talent.RELOAD_PRACTICE);
+            speed *= 1-0.1*Dungeon.hero.pointsInTalent(Talent.RELOAD_PRACTICE);
         }
         return speed;
     }

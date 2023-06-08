@@ -58,7 +58,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ExtraBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
@@ -118,7 +117,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
@@ -1049,57 +1047,7 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.subClass == HeroSubClass.VETERAN && hero.buff(Focusing.class) != null && hero.hasTalent(Talent.FOCUS_UPGRADE)){
-				Hero h = (Hero) this;
-				KindOfWeapon wep = h.belongings.weapon();
-				if (wep instanceof CrudePistol.Bullet
-						|| wep instanceof Pistol.Bullet
-						|| wep instanceof GoldenPistol.Bullet
-						|| wep instanceof Handgun.Bullet
-						|| wep instanceof Magnum.Bullet
-						|| wep instanceof TacticalHandgun.Bullet
-						|| wep instanceof AutoHandgun.Bullet
-						|| wep instanceof DualPistol.Bullet
-						|| wep instanceof SubMachinegun.Bullet
-						|| wep instanceof AssultRifle.Bullet
-						|| wep instanceof HeavyMachinegun.Bullet
-						|| wep instanceof MiniGun.Bullet
-						|| wep instanceof AutoRifle.Bullet
-						|| wep instanceof Revolver.Bullet
-						|| wep instanceof HuntingRifle.Bullet
-						|| wep instanceof Carbine.Bullet
-						|| wep instanceof SniperRifle.Bullet
-						|| wep instanceof AntimaterRifle.Bullet
-						|| wep instanceof MarksmanRifle.Bullet
-						|| wep instanceof WA2000.Bullet
-						|| wep instanceof ShotGun.Bullet
-						|| wep instanceof KSG.Bullet
-						|| wep instanceof RocketLauncher.Rocket
-						|| wep instanceof RPG7.Rocket
-				) {
-					BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
-					dmg += Random.IntRange(0, shield.shielding());
-				}
-			}
 			KindOfWeapon wep = hero.belongings.attackingWeapon();
-			if (this instanceof Hero && hero.subClass == HeroSubClass.VETERAN && hero.buff(Focusing.class) != null && Random.Int(3) < hero.pointsInTalent(Talent.BARRIER_FORMATION) && wep != null){
-				if (wep.bullet) {
-					BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
-					if (shield.shielding() < shield.maxShield()) {
-						shield.incShield();
-						if (hero.pointsInTalent(Talent.FOCUS_UPGRADE) > 1 && hero.buff(Focusing.class) != null) {
-							int healAmt = 1;
-							healAmt = Math.min( healAmt, Dungeon.hero.HT - Dungeon.hero.HP );
-							if (healAmt > 0 && Dungeon.hero.isAlive()) {
-								Dungeon.hero.HP += healAmt;
-								Dungeon.hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-								Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-							}
-						}
-					}
-				}
-			}
-
 
 			if (this instanceof Hero) {
 				if (Dungeon.hero.buff(ExtraBullet.class) != null && wep != null) {
@@ -1156,13 +1104,6 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero && hero.belongings.attackingWeapon() instanceof MissileWeapon && hero.hasTalent(Talent.TARGET_SPOTTING) && hero.buff(SnipersMark.class) != null && hero.buff(SnipersMark.class).object == enemy.id()) {
 				dmg *= 1+0.1f*hero.pointsInTalent(Talent.TARGET_SPOTTING);
-			}
-
-			if (this instanceof Hero && hero.subClass == HeroSubClass.VETERAN && hero.belongings.attackingWeapon() instanceof MissileWeapon && hero.pointsInTalent(Talent.FOCUS_UPGRADE) == 3) {
-				BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
-				if (shield != null){
-					Buff.affect( this, Focusing.class ).hit( enemy );
-				}
 			}
 
 			if (this instanceof Hero && hero.buff(DamageEnhance.class) != null) {

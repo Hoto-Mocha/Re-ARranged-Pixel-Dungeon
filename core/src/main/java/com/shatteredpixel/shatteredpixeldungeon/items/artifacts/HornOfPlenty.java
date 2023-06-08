@@ -134,7 +134,7 @@ public class HornOfPlenty extends Artifact {
 						|| Dungeon.hero.hasTalent(Talent.FOCUSING_MEAL)
 						|| Dungeon.hero.hasTalent(Talent.NATURAL_MEAL)
 						|| Dungeon.hero.hasTalent(Talent.IMPREGNABLE_MEAL)
-						|| Dungeon.hero.hasTalent(Talent.CHALLENGING_MEAL)
+						|| Dungeon.hero.hasTalent(Talent.DISINFECTING_MEAL)
 					){
 					hero.spend(Food.TIME_TO_EAT - 2);
 				} else {

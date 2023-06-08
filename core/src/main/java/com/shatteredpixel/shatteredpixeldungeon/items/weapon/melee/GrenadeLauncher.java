@@ -30,7 +30,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Focusing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GrenadeCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
@@ -274,9 +273,6 @@ public class GrenadeLauncher extends MeleeWeapon {
                 delay *= Math.pow( 1.2, encumbrance );
             }
         }
-        if (Dungeon.hero.hasTalent(Talent.MARTIAL_ARTS)) {
-            delay -= 0.1f * Dungeon.hero.pointsInTalent(Talent.MARTIAL_ARTS);
-        }
         return delay;
     }                   //공격 속도
 
@@ -326,10 +322,6 @@ public class GrenadeLauncher extends MeleeWeapon {
 
             if (owner.buff(Bless.class) != null && ((Hero) owner).hasTalent(Talent.BLESSED_TALENT)) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.BLESSED_TALENT)));
-            }
-
-            if (owner.buff(Focusing.class) != null) {
-                bulletdamage = Math.round(bulletdamage * (1.10f + 0.05f * ((Hero) owner).pointsInTalent(Talent.ARM_VETERAN)));
             }
             return bulletdamage;
         }

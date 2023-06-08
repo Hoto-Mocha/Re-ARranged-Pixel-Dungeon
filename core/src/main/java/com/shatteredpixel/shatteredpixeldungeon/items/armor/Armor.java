@@ -737,7 +737,7 @@ public class Armor extends EquipableItem {
 		public static float genericProcChanceMultiplier( Char defender ){
 			float multi = RingOfArcana.enchantPowerMultiplier(defender);
 			if (defender instanceof Hero && ((Hero) defender).hasTalent(Talent.MYSTICAL_POWER)) {
-				multi += 0.1f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
+				multi += 0.2f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
 			}
 			if (defender instanceof Hero && ((Hero) defender).hasTalent(Talent.ARMOR_BLESSING)) {
 				multi += 0.2f * Dungeon.hero.pointsInTalent(Talent.ARMOR_BLESSING);

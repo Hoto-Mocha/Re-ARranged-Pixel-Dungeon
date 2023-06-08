@@ -184,11 +184,6 @@ public class HealingArea extends Buff implements ActionIndicator.Action {
 
         for (Char ally : targets) {
             int healAmt = 1;
-            if (hero.hasTalent(Talent.HEAL_AMP)) {
-                if (Random.Int(4) < hero.pointsInTalent(Talent.HEAL_AMP)) {
-                    healAmt *= 2;
-                }
-            }
             if (hero.buff(AngelWing.AngelWingBuff.class) != null && hero.hasTalent(Talent.HEALING_WING)) {
                 healAmt *= 1+ hero.pointsInTalent(Talent.HEALING_WING);
             }
@@ -214,7 +209,7 @@ public class HealingArea extends Buff implements ActionIndicator.Action {
         for (Char ch : enemy) {
             if (hero.hasTalent(Talent.ANGEL_AND_DEVIL)) {
                 if (Random.Int(6) < hero.pointsInTalent(Talent.ANGEL_AND_DEVIL)) {
-                    int dmg = (hero.hasTalent(Talent.ANGEL)) ? 2 : 1;
+                    int dmg = 1;
                     ch.damage(dmg, hero);
                     ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 4 );
                     Sample.INSTANCE.play(Assets.Sounds.BURNING, 0.7f);

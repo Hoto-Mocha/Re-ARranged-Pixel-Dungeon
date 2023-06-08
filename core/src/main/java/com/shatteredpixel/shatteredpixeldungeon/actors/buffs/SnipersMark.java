@@ -180,7 +180,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 
 		if (bow == null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) return;
 
-			   if (bow != null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) {
+		if (bow != null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) {
 				   SpiritBow.SpiritArrow arrow = bow.knockArrow();
 				   if (arrow == null) return;
 

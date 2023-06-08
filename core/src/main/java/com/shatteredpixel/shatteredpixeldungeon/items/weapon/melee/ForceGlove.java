@@ -129,19 +129,19 @@ public class ForceGlove extends MeleeWeapon {
 		WandOfBlastWave.BlastWave.blast(target);
 		Sample.INSTANCE.play(Assets.Sounds.BLAST);
 		hero.sprite.zap(target);
-		Actor.add(new Pushing(ch, ch.pos, pulledPos, new Callback() {
-			public void call() {
-				ch.pos = pulledPos;
-				Dungeon.level.occupyCell(ch);
-				Dungeon.observe();
-				GameScene.updateFog();
-				ch.damage(Random.NormalIntRange(finalDist, 2*finalDist), curUser);
-				if (ch.isAlive()) {
-					Paralysis.prolong(ch, Paralysis.class, 1 + finalDist/2f);
+			Actor.add(new Pushing(ch, ch.pos, pulledPos, new Callback() {
+				public void call() {
+					ch.pos = pulledPos;
+					Dungeon.level.occupyCell(ch);
+					Dungeon.observe();
+					GameScene.updateFog();
+					ch.damage(Random.NormalIntRange(finalDist, 2*finalDist), curUser);
+					if (ch.isAlive()) {
+						Paralysis.prolong(ch, Paralysis.class, 1 + finalDist/2f);
+					}
+					hero.spendAndNext(1f);
 				}
-				hero.spendAndNext(1f);
-			}
-		}));
+			}));
 
 		hero.busy();
 		hero.next();

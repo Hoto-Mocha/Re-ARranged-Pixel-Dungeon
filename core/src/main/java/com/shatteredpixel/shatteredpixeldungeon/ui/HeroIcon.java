@@ -144,6 +144,7 @@ public class HeroIcon extends Image {
 	public static final int SLAYER_ABILITY  = 111;
 	public static final int MAGIC_COMBO		= 112;
 	public static final int DEATH_CERTIFICATE  = 113;
+	public static final int TACKLE  = 114;
 
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );
