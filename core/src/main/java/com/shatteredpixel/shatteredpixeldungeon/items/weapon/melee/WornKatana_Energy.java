@@ -61,7 +61,7 @@ public class WornKatana_Energy extends EnergyWeapon {
 
     @Override
     protected void duelistAbility(Hero hero, Integer target) {
-        Katana.flashSlashAbility(hero, target, 0.5f, this);
+        NormalKatana.flashSlashAbility(hero, target, 0.5f, this);
     }
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

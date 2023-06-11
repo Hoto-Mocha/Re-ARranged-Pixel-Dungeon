@@ -387,7 +387,7 @@ public class Generator {
 					SubMachinegun.class,
 					ShotGun.class,
 					HuntingRifle.class,
-					Katana.class,
+					NormalKatana.class,
 					Bible.class,
 					RunicDagger.class
 			};

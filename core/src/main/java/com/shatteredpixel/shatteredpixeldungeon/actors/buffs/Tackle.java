@@ -148,7 +148,7 @@ public class Tackle extends FlavourBuff implements ActionIndicator.Action {
 			public void call() {
 				AttackIndicator.target(ch);
 				float damageMulti = 0.4f + 0.2f*hero.pointsInTalent(Talent.POWERFUL_TACKLE);
-				int damage = Random.NormalIntRange(Math.round(hero.drRoll() * 0.2f), Math.round(hero.drRoll() * damageMulti)); //deals 20% ~ 40%+(20*Talent.POWERFUL_TACKLE level)% of hero's dr
+				int damage = Math.round(hero.drRoll() * damageMulti); //deals 40%+(20*Talent.POWERFUL_TACKLE level)% of hero's dr
 				Buff.affect(hero, TackleTracker.class);
 
 				if (hero.attack(ch, 0f, damage, Char.INFINITE_ACCURACY)){
@@ -178,7 +178,8 @@ public class Tackle extends FlavourBuff implements ActionIndicator.Action {
 				WandOfBlastWave.throwChar(ch, trajectory, dist, true, true, hero.getClass());
 				pushedPos = trajectory.path.get(dist); //checks the position of enemy after pushing
 				if (Actor.findChar(pushedPos) != null) {
-					pushedPos = trajectory.path.get(dist-1);
+					int findPos = Math.max(0, dist-1);
+					pushedPos = trajectory.path.get(findPos);
 				}
 
 				if (ch.isAlive() && hero.hasTalent(Talent.INCAPACITATION)) {

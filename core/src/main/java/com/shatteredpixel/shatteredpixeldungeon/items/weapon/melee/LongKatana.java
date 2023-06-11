@@ -54,6 +54,6 @@ public class LongKatana extends MeleeWeapon {
 
     @Override
     protected void duelistAbility(Hero hero, Integer target) {
-        Katana.flashSlashAbility(hero, target, 0.45f, this);
+        NormalKatana.flashSlashAbility(hero, target, 0.45f, this);
     }
 }

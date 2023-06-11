@@ -642,7 +642,7 @@ public abstract class Char extends Actor {
 				if (Random.Int(100) < Math.min(hero.belongings.weapon.buffedLvl()+1, 10) && (
 					hero.belongings.attackingWeapon() instanceof WornKatana
 				 || hero.belongings.attackingWeapon() instanceof ShortKatana
-				 || hero.belongings.attackingWeapon() instanceof Katana
+				 || hero.belongings.attackingWeapon() instanceof NormalKatana
 				 || hero.belongings.attackingWeapon() instanceof LongKatana
 				 || hero.belongings.attackingWeapon() instanceof LargeKatana
 				 || hero.belongings.attackingWeapon() instanceof SharpKatana

@@ -35,7 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 
-public class Katana extends MeleeWeapon {
+public class NormalKatana extends MeleeWeapon {
 
     {
         image = ItemSpriteSheet.KATANA;
