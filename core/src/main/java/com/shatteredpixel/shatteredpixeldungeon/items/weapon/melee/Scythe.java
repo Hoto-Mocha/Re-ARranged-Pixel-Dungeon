@@ -50,8 +50,8 @@ public class Scythe extends MeleeWeapon {
 	}
 
 	@Override
-	public float abilityChargeUse(Hero hero) {
-		return 3*super.abilityChargeUse(hero);
+	public float abilityChargeUse(Hero hero, Char target) {
+		return 3*super.abilityChargeUse(hero, target);
 	}
 
 	@Override

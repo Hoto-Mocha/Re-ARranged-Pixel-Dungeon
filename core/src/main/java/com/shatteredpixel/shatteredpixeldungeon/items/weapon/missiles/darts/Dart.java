@@ -167,7 +167,9 @@ public class Dart extends MissileWeapon {
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
-		if (bow != null){
+		if (bow != null
+				//only apply enchant effects to enemies when processing charged shot
+				&& (!processingChargedShot || attacker.alignment != defender.alignment)){
 			damage = bow.proc(attacker, defender, damage);
 		}
 		if (exbow != null) {
@@ -200,13 +202,13 @@ public class Dart extends MissileWeapon {
 		super.onThrow(cell);
 	}
 
-	private boolean processingChargedShot = false;
+	protected boolean processingChargedShot = false;
 	private int chargedShotPos;
 	protected void processChargedShot( Char target, int dmg ){
 		//don't update xbow here, as dart may be the active weapon atm
 		processingChargedShot = true;
-		if (chargedShotPos != -1 && (bow != null && Dungeon.hero.buff(Crossbow.ChargedShot.class) != null)) {
-			PathFinder.buildDistanceMap(chargedShotPos, Dungeon.level.passable, 1);
+		if (chargedShotPos != -1 && bow != null && Dungeon.hero.buff(Crossbow.ChargedShot.class) != null) {
+			PathFinder.buildDistanceMap(chargedShotPos, Dungeon.level.passable, 2);
 			//necessary to clone as some on-hit effects use Pathfinder
 			int[] distance = PathFinder.distance.clone();
 			for (Char ch : Actor.chars()){
@@ -216,7 +218,7 @@ public class Dart extends MissileWeapon {
 						@Override
 						protected boolean act() {
 							if (!ch.isAlive()){
-								bow.onAbilityKill(Dungeon.hero);
+								bow.onAbilityKill(Dungeon.hero, ch);
 							}
 							Actor.remove(this);
 							return true;
@@ -268,7 +270,7 @@ public class Dart extends MissileWeapon {
 						@Override
 						protected boolean act() {
 							if (!ch.isAlive()){
-								exbow.onAbilityKill(Dungeon.hero);
+								exbow.onAbilityKill(Dungeon.hero, ch);
 							}
 							Actor.remove(this);
 							return true;

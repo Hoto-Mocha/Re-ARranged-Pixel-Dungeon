@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -53,8 +54,8 @@ public class SpellBook extends MeleeWeapon {
 	}
 
 	@Override
-	public float abilityChargeUse(Hero hero) {
-		return super.abilityChargeUse(hero);
+	public float abilityChargeUse(Hero hero, Char target) {
+		return super.abilityChargeUse(hero, target);
 	}
 
 	@Override
@@ -63,7 +64,7 @@ public class SpellBook extends MeleeWeapon {
 			GLog.i(Messages.get(this, "no_buff"));
 			return;
 		}
-		beforeAbilityUsed(hero);
+		beforeAbilityUsed(hero, null);
 		hero.buff(SpellBookCoolDown.class).detach();
 		hero.sprite.operate(hero.pos);
 		hero.next();

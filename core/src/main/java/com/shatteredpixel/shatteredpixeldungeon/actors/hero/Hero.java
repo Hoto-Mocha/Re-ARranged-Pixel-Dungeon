@@ -396,7 +396,7 @@ public class Hero extends Char {
 	private int defenseSkill = 5;
 
 	public boolean ready = false;
-	private boolean damageInterrupt = true;
+	public boolean damageInterrupt = true;
 	public HeroAction curAction = null;
 	public HeroAction lastAction = null;
 
@@ -709,7 +709,7 @@ public class Hero extends Char {
 		}
 
 		if (hit && heroClass == HeroClass.DUELIST && wasEnemy){
-			Buff.append( this, Sai.ComboStrikeTracker.class, Sai.ComboStrikeTracker.DURATION);
+			Buff.affect( this, Sai.ComboStrikeTracker.class).addHit();
 		}
 
 		return hit;
@@ -856,7 +856,7 @@ public class Hero extends Char {
 		}
 
 		if (buff(Scimitar.SwordDance.class) != null){
-			accuracy *= 0.8f;
+			accuracy *= 1.25f;
 		}
 		
 		if (!RingOfForce.fightingUnarmed(this)) {
@@ -940,7 +940,7 @@ public class Hero extends Char {
 		}
 
 		if (buff(Quarterstaff.DefensiveStance.class) != null){
-			evasion *= 2;
+			evasion *= 3;
 		}
 		
 		if (paralysed > 0) {
@@ -1001,8 +1001,8 @@ public class Hero extends Char {
 			return Messages.get(RoundShield.GuardTracker.class, "guarded");
 		}
 
-		if (buff(MonkEnergy.MonkAbility.Focus.FocusBuff.class) != null){
-			buff(MonkEnergy.MonkAbility.Focus.FocusBuff.class).detach();
+		if (buff(MonkEnergy.MonkAbility.Focus.FocusActivation.class) != null){
+			buff(MonkEnergy.MonkAbility.Focus.FocusActivation.class).detach();
 			if (sprite != null && sprite.visible) {
 				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
 			}
@@ -1071,16 +1071,6 @@ public class Hero extends Char {
 
 		if (!RingOfForce.fightingUnarmed(this)) {
 			dmg = wep.damageRoll( this );
-
-			if (heroClass != HeroClass.DUELIST
-					&& hasTalent(Talent.LIGHTWEIGHT_CHARGE)
-					&& wep instanceof MeleeWeapon) {
-				if (((MeleeWeapon) wep).tier == 2) {
-					dmg = Math.round(dmg * (1f + 0.067f*pointsInTalent(Talent.LIGHTWEIGHT_CHARGE)));
-				} else if (((MeleeWeapon) wep).tier == 3) {
-					dmg = Math.round(dmg * (1f + 0.05f*pointsInTalent(Talent.LIGHTWEIGHT_CHARGE)));
-				}
-			}
 
 			if (!(wep instanceof MissileWeapon)) dmg += RingOfForce.armedDamageBonus(this);
 			if (!(wep instanceof MissileWeapon) && hasTalent(Talent.DETECTION)) {
@@ -1438,7 +1428,7 @@ public class Hero extends Char {
 			return true;
 
 		//Hero moves in place if there is grass to trample
-		} else if (canSelfTrample()){
+		} else if (pos == action.dst && canSelfTrample()){
 			canSelfTrample = false;
 			Dungeon.level.pressCell(pos);
 			spendAndNext( 1 / speed() );
@@ -1819,7 +1809,7 @@ public class Hero extends Char {
 			Buff.affect(this, HoldFast.class).pos = pos;
 		}
 		if (hasTalent(Talent.PATIENT_STRIKE)){
-			Buff.prolong(this, Talent.PatientStrikeTracker.class, cooldown());
+			Buff.affect(Dungeon.hero, Talent.PatientStrikeTracker.class).pos = Dungeon.hero.pos;
 		}
 
 		if (Dungeon.level.map[pos] == Terrain.FURROWED_GRASS && hero.hasTalent(Talent.SHADOW) && hero.buff(Shadows.class) == null) {
@@ -2241,7 +2231,6 @@ public class Hero extends Char {
 			if (momentum != null && momentum.freerunning()) {
 				Buff.affect(this, EvasiveMove.class, 1f);
 			}
-
 		}
 
 		if (hero.heroClass != HeroClass.KNIGHT && hero.hasTalent(Talent.DEFENSE_STANCE)) {
@@ -2302,6 +2291,10 @@ public class Hero extends Char {
 
 		if (hero.hasTalent(Talent.PROTECTIVE_HEAL) && hero.HP < hero.HT*(0.1+0.15*hero.pointsInTalent(Talent.PROTECTIVE_HEAL)) && !hero.buff(Hunger.class).isStarving()) {
 			hero.heal(1);
+		}
+
+		if (hero.buff(Saber.BlockingStance.class) != null) {
+			damage *= 0.5f;
 		}
 		
 		return super.defenseProc( enemy, damage );
@@ -2777,8 +2770,11 @@ public class Hero extends Char {
 	}
 	
 	public void earnExp( int exp, Class source ) {
-		
-		this.exp += exp;
+
+		//xp granted by ascension challenge is only for on-exp gain effects
+		if (source != AscensionChallenge.class) {
+			this.exp += exp;
+		}
 		float percent = exp/(float)maxExp();
 
 		EtherealChains.chainsRecharge chains = buff(EtherealChains.chainsRecharge.class);
@@ -3789,7 +3785,7 @@ public class Hero extends Char {
 		}
 
 		if (hit && heroClass == HeroClass.DUELIST && wasEnemy){
-			Buff.append( this, Sai.ComboStrikeTracker.class, Sai.ComboStrikeTracker.DURATION);
+			Buff.affect( this, Sai.ComboStrikeTracker.class).addHit();
 		}
 
 		RingOfForce.BrawlersStance brawlStance = buff(RingOfForce.BrawlersStance.class);

@@ -63,13 +63,13 @@ public class Nunchaku extends MeleeWeapon {
 	}
 
 	@Override
-	public float abilityChargeUse(Hero hero) {
-		return 2*super.abilityChargeUse(hero);
+	public float abilityChargeUse(Hero hero, Char target) {
+		return 2*super.abilityChargeUse(hero, target);
 	}
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		beforeAbilityUsed(hero);
+		beforeAbilityUsed(hero, null);
 		Invisibility.dispel();
 		Buff.affect(hero, Nunchaku.ParryTracker.class, Actor.TICK);
 		hero.spendAndNext(Actor.TICK);
@@ -100,7 +100,7 @@ public class Nunchaku extends MeleeWeapon {
 
 					next();
 					if (!enemy.isAlive()){
-						((MeleeWeapon)hero.belongings.attackingWeapon()).onAbilityKill(hero);
+						((MeleeWeapon)hero.belongings.attackingWeapon()).onAbilityKill(hero, enemy);
 					} else {
 						Buff.affect(enemy, Cripple.class, 5f);
 					}

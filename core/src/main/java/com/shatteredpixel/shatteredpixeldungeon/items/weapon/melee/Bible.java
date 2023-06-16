@@ -78,8 +78,8 @@ public class Bible extends MeleeWeapon {
 	}
 
 	@Override
-	public float abilityChargeUse( Hero hero ) {
-		return 2*super.abilityChargeUse(hero);
+	public float abilityChargeUse( Hero hero, Char target ) {
+		return 2*super.abilityChargeUse(hero, null);
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class Bible extends MeleeWeapon {
 	}
 
 	public static void angelAbility(Hero hero, int duration, MeleeWeapon wep){
-		wep.beforeAbilityUsed(hero);
+		wep.beforeAbilityUsed(hero, null);
 		Buff.prolong(hero, Angel.class, duration);
 		hero.next();
 		((HeroSprite)hero.sprite).read();

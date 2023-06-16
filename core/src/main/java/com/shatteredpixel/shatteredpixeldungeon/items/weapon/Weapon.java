@@ -129,9 +129,9 @@ abstract public class Weapon extends KindOfWeapon {
 	public boolean isUpgraded = false;
 
 	public enum Augment {
-		SPEED   (0.7f, 0.6667f),
-		DAMAGE  (1.5f, 1.6667f),
-		NONE	(1.0f, 1.0000f);
+		SPEED   (0.7f, 2/3f),
+		DAMAGE  (1.5f, 5/3f),
+		NONE	(1.0f, 1f);
 
 		private float damageFactor;
 		private float delayFactor;
@@ -557,7 +557,7 @@ abstract public class Weapon extends KindOfWeapon {
 			}
 
 			if (attacker.buff(RunicBlade.RunicSlashTracker.class) != null){
-				multi += 2.5f;
+				multi += 3f;
 				attacker.buff(RunicBlade.RunicSlashTracker.class).detach();
 			}
 
@@ -570,6 +570,7 @@ abstract public class Weapon extends KindOfWeapon {
 					&& ((Hero)attacker).pointsInTalent(Talent.SPIRIT_BLADES) == 4){
 				multi += 0.1f;
 			}
+
 			if (attacker.buff(Talent.StrikingWaveTracker.class) != null
 					&& ((Hero)attacker).pointsInTalent(Talent.STRIKING_WAVE) == 4){
 				multi += 0.2f;
@@ -590,6 +591,7 @@ abstract public class Weapon extends KindOfWeapon {
 			if (attacker instanceof Hero && attacker.buff(Tackle.MysticalTackleTracker.class) != null) {
 				multi += 0.5f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_TACKLE);
 			}
+
 			return multi;
 		}
 

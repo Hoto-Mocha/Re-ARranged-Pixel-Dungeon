@@ -153,7 +153,7 @@ public class TacticalHandgun extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse( Hero hero ) {
+    public float abilityChargeUse( Hero hero, Char target ) {
         return 0;
     }
 
@@ -456,7 +456,7 @@ public class TacticalHandgun extends MeleeWeapon {
                 damage *= 0.75f;
             }
             if (damage >= defender.HP && hero.buff(MeleeWeapon.PrecisionShooting.class) != null && hero.buff(Charger.class).charges >= 1) {
-                TacticalHandgun.this.onAbilityKill(hero);
+                TacticalHandgun.this.onAbilityKill(hero, defender);
             }
             float heroHPPercent = ((float)hero.HP / (float)hero.HT);
             damage *= GameMath.gate(0.125f, 2*heroHPPercent, 1.5f); //0%~6.25% HP : 0.125x, scales defend on Hero health, 75%~100% HP : 1.5x
@@ -644,7 +644,7 @@ public class TacticalHandgun extends MeleeWeapon {
                                 hero.buff(MeleeWeapon.Charger.class) != null &&
                                 hero.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
                                 hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
-                            beforeAbilityUsed(curUser);
+                            beforeAbilityUsed(curUser, Actor.findChar(target));
                             hero.buff(MeleeWeapon.Charger.class).charges--;
                             afterAbilityUsed(curUser);
                         }

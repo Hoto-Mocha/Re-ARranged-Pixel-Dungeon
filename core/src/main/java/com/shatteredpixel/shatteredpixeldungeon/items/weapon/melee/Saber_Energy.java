@@ -56,13 +56,13 @@ public class Saber_Energy extends EnergyWeapon {
 	}
 
 	@Override
-	public float abilityChargeUse(Hero hero) {
-		return 2*super.abilityChargeUse(hero);
+	public float abilityChargeUse(Hero hero, Char target) {
+		return 2*super.abilityChargeUse(hero, target);
 	}
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		beforeAbilityUsed(hero);
+		beforeAbilityUsed(hero, null);
 		Buff.prolong(hero, Saber.BlockingStance.class, 5f); //4 turns as using the ability is instant
 		hero.sprite.operate(hero.pos);
 		hero.next();

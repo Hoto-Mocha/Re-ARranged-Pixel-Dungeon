@@ -177,15 +177,16 @@ public class HolySword extends MeleeWeapon {
     @Override
     public int STRReq(int lvl) {
         return 24;
-    }@Override
+    }
 
-    public float abilityChargeUse(Hero hero) {
-        return 2*super.abilityChargeUse(hero);
+    @Override
+    public float abilityChargeUse(Hero hero, Char target) {
+        return 2*super.abilityChargeUse(hero, target);
     }
 
     @Override
     protected void duelistAbility(Hero hero, Integer target) {
-        beforeAbilityUsed(hero);
+        beforeAbilityUsed(hero, null);
         Buff.affect(hero, Barrier.class).setShield(Math.round(curUser.HT*0.2f));
         hero.sprite.operate(hero.pos);
         Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);

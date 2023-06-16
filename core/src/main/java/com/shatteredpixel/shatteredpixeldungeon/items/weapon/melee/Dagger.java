@@ -89,17 +89,17 @@ public class Dagger extends MeleeWeapon {
 	}
 
 	@Override
-	public float abilityChargeUse( Hero hero ) {
-		return 2*super.abilityChargeUse(hero);
+	public float abilityChargeUse(Hero hero, Char target) {
+		return 2*super.abilityChargeUse(hero, target);
 	}
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		sneakAbility(hero, 8, this);
+		sneakAbility(hero, 10, this);
 	}
 
 	public static void sneakAbility(Hero hero, int invisTurns, MeleeWeapon wep){
-		wep.beforeAbilityUsed(hero);
+		wep.beforeAbilityUsed(hero, null);
 		Buff.affect(hero, Invisibility.class, invisTurns);
 		hero.spendAndNext(Actor.TICK);
 		CellEmitter.get( Dungeon.hero.pos ).burst( Speck.factory( Speck.WOOL ), 6 );

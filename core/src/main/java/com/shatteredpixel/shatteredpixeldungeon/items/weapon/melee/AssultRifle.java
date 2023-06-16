@@ -157,7 +157,7 @@ public class AssultRifle extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse( Hero hero ) {
+    public float abilityChargeUse( Hero hero, Char target ) {
         return 0;
     }
 
@@ -461,7 +461,7 @@ public class AssultRifle extends MeleeWeapon {
                 damage *= 0.75f;
             }
             if (damage >= defender.HP && hero.buff(MeleeWeapon.PrecisionShooting.class) != null && hero.buff(Charger.class).charges >= 1) {
-                AssultRifle.this.onAbilityKill(hero);
+                AssultRifle.this.onAbilityKill(hero, defender);
             }
             SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
             WindBow bow2 = hero.belongings.getItem(WindBow.class);
@@ -634,7 +634,7 @@ public class AssultRifle extends MeleeWeapon {
                                     hero.buff(MeleeWeapon.Charger.class) != null &&
                                     hero.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
                                     hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
-                                beforeAbilityUsed(curUser);
+                                beforeAbilityUsed(curUser, Actor.findChar(target));
                                 hero.buff(MeleeWeapon.Charger.class).charges--;
                                 afterAbilityUsed(curUser);
                             }

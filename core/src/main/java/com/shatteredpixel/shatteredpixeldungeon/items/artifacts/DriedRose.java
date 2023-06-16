@@ -485,7 +485,7 @@ public class DriedRose extends Artifact {
 				}
 
 				if (spawnPoints.size() > 0) {
-					Wraith.spawnAt(Random.element(spawnPoints));
+					Wraith.spawnAt(Random.element(spawnPoints), false);
 					Sample.INSTANCE.play(Assets.Sounds.CURSED);
 				}
 
@@ -754,7 +754,7 @@ public class DriedRose extends Artifact {
 			if (rose != null && rose.weapon != null) {
 				damage = rose.weapon.proc( this, enemy, damage );
 				if (!enemy.isAlive() && enemy == Dungeon.hero){
-					Dungeon.fail(getClass());
+					Dungeon.fail(this);
 					GLog.n( Messages.capitalize(Messages.get(Char.class, "kill", name())) );
 				}
 			}

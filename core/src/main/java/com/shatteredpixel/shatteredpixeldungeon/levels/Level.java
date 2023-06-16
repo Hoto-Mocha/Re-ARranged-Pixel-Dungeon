@@ -1192,7 +1192,7 @@ public abstract class Level implements Bundlable {
 		}
 
 		if (ch.isAlive() && ch instanceof Piranha && !water[ch.pos]){
-			ch.die(null);
+			((Piranha) ch).dieOnLand();
 		}
 	}
 	

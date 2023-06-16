@@ -69,7 +69,7 @@ public class ChainFlail extends MeleeWeapon {
 				@Override
 				protected boolean act() {
 					if (owner instanceof Hero && !target.isAlive()){
-						onAbilityKill((Hero)owner);
+						onAbilityKill((Hero)owner, target);
 					}
 					Actor.remove(this);
 					return true;
@@ -89,27 +89,27 @@ public class ChainFlail extends MeleeWeapon {
 		}
 	}
 
-	public float abilityChargeUse( Hero hero ) {
-		if (Dungeon.hero.buff(Flail.SpinAbilityTracker.class) != null){
+	public float abilityChargeUse( Hero hero, Char target ) {
+		if (Dungeon.hero.buff(SpinAbilityTracker.class) != null){
 			return 0;
 		} else {
-			return 2*super.abilityChargeUse(hero);
+			return 2*super.abilityChargeUse(hero, target);
 		}
 	}
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 
-		beforeAbilityUsed(hero);
-		Flail.SpinAbilityTracker spin = hero.buff(Flail.SpinAbilityTracker.class);
+		beforeAbilityUsed(hero, null);
+		SpinAbilityTracker spin = hero.buff(SpinAbilityTracker.class);
 
 		if (spin == null){
-			spin = Buff.affect(hero, Flail.SpinAbilityTracker.class, 3f);
+			spin = Buff.affect(hero, SpinAbilityTracker.class, 3f);
 		}
 
 		if (spin.spins < 3){
 			spin.spins++;
-			Buff.prolong(hero, Flail.SpinAbilityTracker.class, 3f);
+			Buff.prolong(hero, SpinAbilityTracker.class, 3f);
 			Sample.INSTANCE.play(Assets.Sounds.CHAINS, 1, 1, 0.9f + 0.1f*spin.spins);
 			hero.sprite.operate(hero.pos);
 			hero.spendAndNext(Actor.TICK);

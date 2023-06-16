@@ -84,7 +84,7 @@ public class Lance extends MeleeWeapon {
             GLog.w(Messages.get(MeleeWeapon.class, "ability_bad_position"));
             return;
         }
-        wep.beforeAbilityUsed(hero);
+        wep.beforeAbilityUsed(hero, null);
 
         Buff.affect(hero, LanceBuff.class).setDamageFactor(2*(1+Dungeon.level.distance(hero.pos, target)), hero.belongings.secondWep == wep);
 

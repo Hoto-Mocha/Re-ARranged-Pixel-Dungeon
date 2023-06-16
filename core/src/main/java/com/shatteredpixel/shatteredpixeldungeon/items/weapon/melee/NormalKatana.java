@@ -38,7 +38,7 @@ import com.watabou.utils.Callback;
 public class NormalKatana extends MeleeWeapon {
 
     {
-        image = ItemSpriteSheet.KATANA;
+        image = ItemSpriteSheet.NORMAL_KATANA;
         hitSound = Assets.Sounds.HIT_SLASH;
         hitSoundPitch = 1.3f;
 
@@ -88,12 +88,12 @@ public class NormalKatana extends MeleeWeapon {
         hero.sprite.attack(enemy.pos, new Callback() {
             @Override
             public void call() {
-                wep.beforeAbilityUsed(hero);
+                wep.beforeAbilityUsed(hero, enemy);
                 AttackIndicator.target(enemy);
                 if (hero.attack(enemy)) {
                     Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
                     if (!enemy.isAlive()){
-                        wep.onAbilityKill(hero);
+                        wep.onAbilityKill(hero, enemy);
                         Buff.affect(hero, MeleeWeapon.Charger.class).gainCharge(energy);
                     }
                 }

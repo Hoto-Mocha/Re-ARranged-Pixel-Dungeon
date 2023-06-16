@@ -124,7 +124,7 @@ public class AssassinsSpear extends MeleeWeapon {
 		hero.sprite.attack(enemy.pos, new Callback() {
 			@Override
 			public void call() {
-				wep.beforeAbilityUsed(hero);
+				wep.beforeAbilityUsed(hero, enemy);
 				AttackIndicator.target(enemy);
 				if (hero.attack(enemy, dmgMulti, 0, 0.25f)){
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
@@ -133,7 +133,7 @@ public class AssassinsSpear extends MeleeWeapon {
 				Invisibility.dispel();
 				hero.spendAndNext(hero.attackDelay());
 				if (!enemy.isAlive()){
-					wep.onAbilityKill(hero);
+					wep.onAbilityKill(hero, enemy);
 				}
 				wep.afterAbilityUsed(hero);
 			}

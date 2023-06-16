@@ -117,29 +117,34 @@ public class BuffIndicator extends Component {
 	public static final int DUEL_XBOW   = 66;
 	public static final int CHALLENGE   = 67;
 	public static final int MONK_ENERGY = 68;
-	public static final int BULLET 		= 69;
-	public static final int PLATE 		= 70;
-	public static final int STATE_DONG	= 71;
-	public static final int STATE_JUNG	= 72;
-	public static final int SHADOWBLADE	= 73;
-	public static final int AWAKE		= 74;
-	public static final int LUCK		= 75;
-	public static final int FLURRY		= 76;
-	public static final int KNIGHTSHIELD= 77;
-	public static final int REGEN		= 78;
-	public static final int ANGELWING	= 79;
-	public static final int STUNNING	= 80;
-	public static final int GODFURY		= 81;
-	public static final int WANTED		= 82;
-	public static final int CLOAKING	= 83;
-	public static final int DUEL_GUN	= 84;
-	public static final int DUEL_EXBOW	= 85;
-	public static final int DUEL_BALLISTA	= 86;
-	public static final int DUEL_ANGEL	= 87;
-	public static final int DUEL_DEMON	= 88;
-	public static final int DUEL_DAGGER	= 89;
-	public static final int DUEL_SABER	= 90;
-	public static final int PARRY		= 91;
+	public static final int DUEL_COMBO  = 69;
+	public static final int DAZE        = 70;
+
+
+	//arranged buffs
+	public static final int BULLET 		= 136;
+	public static final int PLATE 		= 137;
+	public static final int STATE_DONG	= 138;
+	public static final int STATE_JUNG	= 139;
+	public static final int SHADOWBLADE	= 140;
+	public static final int AWAKE		= 141;
+	public static final int LUCK		= 142;
+	public static final int FLURRY		= 143;
+	public static final int KNIGHTSHIELD= 144;
+	public static final int REGEN		= 145;
+	public static final int ANGELWING	= 146;
+	public static final int STUNNING	= 147;
+	public static final int GODFURY		= 148;
+	public static final int WANTED		= 149;
+	public static final int CLOAKING	= 150;
+	public static final int DUEL_GUN	= 151;
+	public static final int DUEL_EXBOW	= 152;
+	public static final int DUEL_BALLISTA	= 153;
+	public static final int DUEL_ANGEL	= 154;
+	public static final int DUEL_DEMON	= 155;
+	public static final int DUEL_DAGGER	= 156;
+	public static final int DUEL_SABER	= 157;
+	public static final int PARRY		= 158;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

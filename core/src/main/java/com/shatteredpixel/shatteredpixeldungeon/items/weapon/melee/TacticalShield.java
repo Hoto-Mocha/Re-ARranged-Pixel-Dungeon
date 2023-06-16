@@ -126,7 +126,7 @@ public class TacticalShield extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse( Hero hero ) {
+    public float abilityChargeUse( Hero hero, Char target ) {
         return 0;
     }
 

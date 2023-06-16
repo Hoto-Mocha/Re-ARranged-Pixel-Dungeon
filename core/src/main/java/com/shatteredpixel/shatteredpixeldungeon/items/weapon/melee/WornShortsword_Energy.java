@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
@@ -48,11 +49,11 @@ public class WornShortsword_Energy extends EnergyWeapon {
     }
 
     @Override
-    public float abilityChargeUse(Hero hero) {
-        if (hero.buff(Sword.CleaveTracker.class) != null) {
+    public float abilityChargeUse(Hero hero, Char target) {
+        if (hero.buff(Sword.CleaveTracker.class) != null){
             return 0;
         } else {
-            return super.abilityChargeUse(hero);
+            return super.abilityChargeUse( hero, target);
         }
     }
 

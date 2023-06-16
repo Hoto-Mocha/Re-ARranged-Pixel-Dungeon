@@ -127,7 +127,13 @@ public class ScrollOfTransmutation extends InventoryScroll {
 				int slot = Dungeon.quickslot.getSlot(item);
 				if (item.isEquipped(Dungeon.hero)) {
 					item.cursed = false; //to allow it to be unequipped
-					if (item instanceof KindOfWeapon && Dungeon.hero.belongings.secondWep() == item){
+					if (item instanceof Artifact && result instanceof Ring){
+						//if we turned an equipped artifact into a ring, ring goes into inventory
+						((EquipableItem) item).doUnequip(Dungeon.hero, false);
+						if (!result.collect()){
+							Dungeon.level.drop(result, curUser.pos).sprite.drop();
+						}
+					} else if (item instanceof KindOfWeapon && Dungeon.hero.belongings.secondWep() == item){
 						((EquipableItem) item).doUnequip(Dungeon.hero, false);
 						((KindOfWeapon) result).equipSecondary(Dungeon.hero);
 					} else {
@@ -182,7 +188,13 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		} else if (item instanceof Artifact) {
 			Artifact a = changeArtifact( (Artifact)item );
 			if (a == null){
-				return Generator.random(Generator.Category.RING);
+				//if no artifacts are left, generate a random +0 ring with shared ID/curse state
+				Item result = Generator.randomUsingDefaults(Generator.Category.RING);
+				result.levelKnown = item.levelKnown;
+				result.cursed = item.cursed;
+				result.cursedKnown = item.cursedKnown;
+				result.level(0);
+				return result;
 			} else {
 				return a;
 			}
@@ -199,7 +211,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		} else {
 			Wand n;
 			do {
-				n = (Wand) Generator.random(Generator.Category.WAND);
+				n = (Wand) Generator.randomUsingDefaults(Generator.Category.WAND);
 			} while (Challenges.isItemBlocked(n) || n.getClass() == wandClass);
 			n.level(0);
 			n.identify();
@@ -247,9 +259,11 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		}
 		
 		do {
-			n = (Weapon) Reflection.newInstance(c.classes[Random.chances(c.probs)]);
+			n = (Weapon)Generator.randomUsingDefaults(c);
 		} while (Challenges.isItemBlocked(n) || n.getClass() == w.getClass());
-		
+
+		n.level(0);
+		n.quantity(1);
 		int level = w.trueLevel();
 		if (level > 0) {
 			n.upgrade( level );
@@ -273,7 +287,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 	private static Ring changeRing( Ring r ) {
 		Ring n;
 		do {
-			n = (Ring)Generator.random( Generator.Category.RING );
+			n = (Ring)Generator.randomUsingDefaults( Generator.Category.RING );
 		} while (Challenges.isItemBlocked(n) || n.getClass() == r.getClass());
 		
 		n.level(0);

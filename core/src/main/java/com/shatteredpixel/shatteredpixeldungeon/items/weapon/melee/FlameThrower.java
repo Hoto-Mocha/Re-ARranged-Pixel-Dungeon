@@ -132,7 +132,7 @@ public class FlameThrower extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse( Hero hero ) {
+    public float abilityChargeUse( Hero hero, Char target ) {
         return 0;
     }
 

@@ -125,7 +125,7 @@ public class ForceGlove extends MeleeWeapon {
 		final int pulledPos = bestPos;
 		int finalDist = Dungeon.level.distance(target, bestPos);
 
-		wep.beforeAbilityUsed(hero);
+		wep.beforeAbilityUsed(hero, ch);
 		WandOfBlastWave.BlastWave.blast(target);
 		Sample.INSTANCE.play(Assets.Sounds.BLAST);
 		hero.sprite.zap(target);

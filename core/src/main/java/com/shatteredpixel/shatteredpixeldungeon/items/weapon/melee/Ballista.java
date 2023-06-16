@@ -56,7 +56,7 @@ public class Ballista extends MeleeWeapon {
 			return;
 		}
 
-		beforeAbilityUsed(hero);
+		beforeAbilityUsed(hero, null);
 		Buff.affect(hero, BallistaShot.class);
 		hero.sprite.operate(hero.pos);
 		hero.next();
