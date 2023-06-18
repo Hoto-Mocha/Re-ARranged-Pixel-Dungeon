@@ -13,9 +13,8 @@ allprojects {
     ext {
         appName = 'ARranged Pixel Dungeon'
         appPackageName = 'com.arrangedpixel.arrangedpixeldungeon'
-
-        appVersionCode = 723
-        appVersionName = '2.1.1_based_2.61.0'
+        appVersionCode = 731
+        appVersionName = '2.1.2_based_2.61.0'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
