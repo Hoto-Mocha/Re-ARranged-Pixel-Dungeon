@@ -84,6 +84,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticG
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfVorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
@@ -95,6 +96,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurs
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
@@ -105,6 +107,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook_Corruption_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TestWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -168,13 +172,19 @@ public enum HeroClass {
 		new TestWeapon().identify().collect();
 		new PotionOfDivineInspiration().identify().quantity(4).collect();
 		new PotionOfHealing().identify().quantity(100).collect();
+		new RingOfMight().identify().upgrade(20).collect();
 
 		//new FishingSpear().upgrade(1).quantity(200).collect();
 		//new ScrollOfEnchantment().identify().quantity(200).collect();
 		//new RingOfArcana().identify().upgrade(5).collect();
 		//new PotionOfMindVision().identify().quantity(200).collect();
 		//new ScrollOfMagicMapping().identify().quantity(200).collect();
-		//new ScrollOfUpgrade().identify().quantity(1000).collect();
+		new ScrollOfExtract().quantity(20).collect();
+		new ScrollOfUpgrade().identify().quantity(1000).collect();
+		new ScrollOfIdentify().identify().quantity(1000).collect();
+		new SpellBook_Corruption().identify().collect();
+		new SpellBook_Corruption_Sword().identify().collect();
+
 		//new PotionOfStrength().identify().quantity(1000).collect();
 
 		//for testing

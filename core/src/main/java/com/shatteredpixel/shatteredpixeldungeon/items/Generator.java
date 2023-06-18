@@ -40,11 +40,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.WarriorArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
@@ -375,7 +377,7 @@ public class Generator {
 					Nunchaku.class,
 					DoubleDagger.class
 			};
-			WEP_T2.probs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+			WEP_T2.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
 			WEP_T2.probs = WEP_T2.defaultProbs.clone();
 
 			WEP_T3.classes = new Class<?>[]{
@@ -393,6 +395,7 @@ public class Generator {
 					Bible.class,
 					RunicDagger.class
 			};
+			WEP_T3.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
 			WEP_T3.probs = WEP_T1.defaultProbs.clone();
 
 			WEP_T4.classes = new Class<?>[]{
@@ -409,7 +412,7 @@ public class Generator {
 					LongKatana.class,
 					Scythe.class
 			};
-			WEP_T4.probs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+			WEP_T4.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
 			WEP_T4.probs = WEP_T4.defaultProbs.clone();
 
 			WEP_T5.classes = new Class<?>[]{
@@ -436,7 +439,7 @@ public class Generator {
 			GUN_T1.classes = new Class<?>[]{
 					CrudePistol.class
 			};
-			GUN_T1.probs = new float[]{ 2 };
+			GUN_T1.defaultProbs = new float[]{ 2 };
 			GUN_T1.probs = GUN_T1.defaultProbs.clone();
 
 			GUN_T2.classes = new Class<?>[]{
@@ -444,7 +447,7 @@ public class Generator {
 					Revolver.class,
 					DualPistol.class
 			};
-			GUN_T2.probs = new float[]{ 2, 2, 2 };
+			GUN_T2.defaultProbs = new float[]{ 2, 2, 2 };
 			GUN_T2.probs = GUN_T2.defaultProbs.clone();
 
 			GUN_T3.classes = new Class<?>[]{
@@ -453,7 +456,7 @@ public class Generator {
 					SubMachinegun.class,
 					ShotGun.class
 			};
-			GUN_T3.probs = new float[]{ 2, 2, 2, 2 };
+			GUN_T3.defaultProbs = new float[]{ 2, 2, 2, 2 };
 			GUN_T3.probs = GUN_T3.defaultProbs.clone();
 
 			GUN_T4.classes = new Class<?>[]{
@@ -461,7 +464,7 @@ public class Generator {
 					Carbine.class,
 					AssultRifle.class
 			};
-			GUN_T4.probs = new float[]{ 2, 2, 2 };
+			GUN_T4.defaultProbs = new float[]{ 2, 2, 2 };
 			GUN_T4.probs = GUN_T4.defaultProbs.clone();
 
 			GUN_T5.classes = new Class<?>[]{
@@ -472,7 +475,7 @@ public class Generator {
 					FlameThrower.class,
 					PlasmaCannon.class
 			};
-			GUN_T5.probs = new float[]{ 2, 2, 2, 2, 2, 2 };
+			GUN_T5.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2 };
 			GUN_T5.probs = GUN_T5.defaultProbs.clone();
 
 			//see Generator.randomArmor

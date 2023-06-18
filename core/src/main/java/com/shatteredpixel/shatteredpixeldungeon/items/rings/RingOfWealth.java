@@ -33,9 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfWeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfArmorUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
@@ -126,7 +124,7 @@ public class RingOfWealth extends Ring {
 
 		triesToDrop -= tries;
 		while ( triesToDrop <= 0 ){
-			if (dropsToEquip <= 0){
+			if (dropsToEquip <= 0) {
 				int equipBonus = 0;
 
 				//A second ring of wealth can be at most +1 when calculating wealth bonus for equips
@@ -153,7 +151,10 @@ public class RingOfWealth extends Ring {
 				} else {
 					drops.add(i);
 				}
-				dropsToEquip = (Dungeon.isChallenged(Challenges.GAMBLER)) ? 8 : Random.NormalIntRange(5, 10);
+				dropsToEquip = Random.NormalIntRange(5, 10);
+				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
+					dropsToEquip -= 2; //need 3~8 drop
+				}
 			} else {
 				Item i;
 				do {

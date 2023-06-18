@@ -189,7 +189,7 @@ public class Tackle extends FlavourBuff implements ActionIndicator.Action {
 						case 2:
 							Buff.affect(ch, Weakness.class, 2f);
 						case 1:
-							Buff.affect(ch, Hex.class, 2f);
+							Buff.affect(ch, Daze.class, 2f);
 						case 0: default:
 							break;
 					}

@@ -54,8 +54,6 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
-import java.util.ArrayList;
-
 public class SpellBook_Corruption extends SpellBook {
 
 	{
@@ -114,6 +112,25 @@ public class SpellBook_Corruption extends SpellBook {
 			damage = 0;
 		}
 		return super.proc( attacker, defender, damage );
+	}
+
+	@Override
+	public void execute(Hero hero, String action) {
+
+		super.execute(hero, action);
+
+		if (action.equals(AC_READ)) {
+			if (hero.buff(SpellBookCoolDown.class) != null) {
+				GLog.w( Messages.get(SpellBook_Empty.class, "fail") );
+			} else if (!isIdentified()) {
+				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
+			} else {
+				usesTargeting = true;
+				curUser = hero;
+				curItem = this;
+				GameScene.selectCell(spell);
+			}
+		}
 	}
 
 	private CellSelector.Listener spell = new CellSelector.Listener() {
