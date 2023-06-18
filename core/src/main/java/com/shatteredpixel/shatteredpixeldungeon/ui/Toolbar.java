@@ -462,6 +462,7 @@ public class Toolbar extends Component {
 									if (alt && item.defaultAction() != null) {
 										item.execute(Dungeon.hero);
 									} else {
+										InventoryPane.clearTargetingSlot();
 										Game.scene().addToFront(new WndUseItem(null, item));
 									}
 								}

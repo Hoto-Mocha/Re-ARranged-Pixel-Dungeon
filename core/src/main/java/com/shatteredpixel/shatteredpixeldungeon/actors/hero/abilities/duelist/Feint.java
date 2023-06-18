@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.MirrorSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TargetHealthIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.Camera;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.noosa.tweeners.Delayer;
@@ -83,7 +84,13 @@ public class Feint extends ArmorAbility {
 			return;
 		}
 
-		if (!Dungeon.level.passable[target] || Actor.findChar(target) != null){
+		if (Dungeon.hero.rooted){
+			Camera.main.shake( 1, 1f );
+			GLog.w(Messages.get(this, "bad_location"));
+			return;
+		}
+
+		if (!Dungeon.level.solid[target] || Actor.findChar(target) != null){
 			GLog.w(Messages.get(this, "bad_location"));
 			return;
 		}

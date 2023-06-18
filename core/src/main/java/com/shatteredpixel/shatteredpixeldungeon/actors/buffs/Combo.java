@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndCombo;
 import com.watabou.noosa.BitmapText;
+import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
@@ -340,6 +341,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 				break;
 		}
 
+		int oldPos = enemy.pos;
 		if (hero.attack(enemy, dmgMulti, dmgBonus, Char.INFINITE_ACCURACY)){
 			//special on-hit effects
 			switch (moveBeingUsed) {
@@ -360,7 +362,9 @@ public class Combo extends Buff implements ActionIndicator.Action {
 							dist--;
 						}
 					}
-					WandOfBlastWave.throwChar(enemy, trajectory, dist, true, false, hero);
+					if (enemy.pos == oldPos) {
+						WandOfBlastWave.throwChar(enemy, trajectory, dist, true, false, hero);
+					}
 					break;
 				case PARRY:
 					hit(enemy);
@@ -468,7 +472,10 @@ public class Combo extends Buff implements ActionIndicator.Action {
 					Ballistica c = new Ballistica(target.pos, enemy.pos, Ballistica.PROJECTILE);
 					if (c.collisionPos == enemy.pos){
 						final int leapPos = c.path.get(c.dist-1);
-						if (!Dungeon.level.passable[leapPos]){
+						if (!Dungeon.level.passable[leapPos] && !(target.flying && Dungeon.level.avoid[leapPos])){
+							GLog.w(Messages.get(Combo.class, "bad_target"));
+						} else if (Dungeon.hero.rooted) {
+							Camera.main.shake( 1, 1f );
 							GLog.w(Messages.get(Combo.class, "bad_target"));
 						} else {
 							Dungeon.hero.busy();

@@ -23,7 +23,6 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.utils.Random;
 import com.watabou.noosa.Image;
@@ -66,5 +65,16 @@ public class FrostImbue extends FlavourBuff {
 	{
 		immunities.add( Frost.class );
 		immunities.add( Chill.class );
+	}
+
+	@Override
+	public boolean attachTo(Char target) {
+		if (super.attachTo(target)){
+			Buff.detach(target, Frost.class);
+			Buff.detach(target, Chill.class);
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

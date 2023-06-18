@@ -23,10 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.ui.changelist;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Feint;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.ChangesScene;
@@ -36,7 +33,6 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ShopkeeperSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.TormentedSpiritSprite;
-import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TalentIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
@@ -66,7 +62,7 @@ public class v2_X_Changes {
 		changes.addButton( new ChangeButton(Icons.get(Icons.CHANGES), "Larger Patches",
 				"There is a decent amount of technical work that still needs to be done for v2.2.0, and I can easily introduce that into the game via some patches to v2.1.0. Because of this, I expect that v2.1 is going to have a longer patch cycle than usual, as I'll be both including those technical changes and taking the opportunity to fix a bunch of smaller issues sooner than if I waiting to release them in v2.2.0."));
 
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.PICKAXE), "Blacksmith Questt",
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.PICKAXE), "Blacksmith Quest",
 				"I plan to completely rework the blacksmith's quest in v2.2.0, to feature a new sub area and a unique mining mechanic. The player will need to mine out walls both to collect treasure and to navigate around hazards. I expect the quest will be notably more involved and challenging, but there will be new rewards on offer a well!"));
 
 		changes.addButton( new ChangeButton(Icons.get(Icons.PREFS), "Smaller Changes/Fixes",
@@ -80,6 +76,42 @@ public class v2_X_Changes {
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
+		changes = new ChangeInfo("", false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes = new ChangeInfo("v2.1.1", false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.PICKAXE), "Early Blacksmith Quest",
+				"In v2.1.1 I've made some internal changes that will better support creating a sublevel for the blacksmith's quest.\n\n" +
+				"This should have no impact on gameplay currently, so please let me know if anything seems amiss with level saving/loading!"));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"_- Barkskin_ can now stack from multiple sources. Only the strongest instance of barkskin is used when calculating defense, but this means that very strong short-term barkskin no longer totally overrides weaker long-term barkskin.\n\n" +
+				"_- Rooted_ has had a big consistency pass. It now properly presents movement from dash, blink, and leap abilities. Teleportation still works while rooted.\n\n" +
+				"_-_ Various abilities that automatically move the hero closer to a target now consider whether the hero is levitating when determining what hazards to avoid."));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"Fixed the following bugs:\n" +
+				"_Caused by v2.1.0:_\n" +
+				"_-_ Various rare crash errors\n" +
+				"_-_ Rare cases where enemies could get infinite actions during ascension\n" +
+				"_-_ Grim enchantment incorrectly applying to enemies that are immune to magic\n" +
+				"_-_ Cases where phantom piranhas could be knocked back right after teleporting\n\n" +
+				"_Existed Prior to v2.1.0:_\n" +
+				"_-_ Specific exploits involving moving between floors on a partial turn\n" +
+				"_-_ Enemy AI quirks which caused them to not switch away from inaccessible targets in some cases\n" +
+				"_-_ Various cases where the hero would not lose a debuff after becoming immune to it\n" +
+				"_-_ Hidden mimics not triggering some talents that only occur against enemies\n" +
+				"_-_ Challenge ability having a range of 4 tiles, instead of 5 as stated\n" +
+				"_-_ Shield battery talent being usable with an empty wand\n" +
+				"_-_ Elemental strike not working correctly with a friendly weapon\n" +
+				"_-_ Ally AI errors when told to attack while repositioning\n" +
+				"_-_ Visual bugs when multiple arcane bombs were used at once\n" +
+				"_-_ Various minor textual errors"));
+
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "new"), false, null);
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
@@ -92,7 +124,7 @@ public class v2_X_Changes {
 		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.WAR_SCYTHE), "New Weapons!",
 				"Three new weapons have been added to the game!\n" +
 				"\n" +
-				"_The Katana_ is a tier-4 defensive weapon that was designed to respond to the common feedback point of players wanting a higher tier weapon with the rapier's ability. Just like with her rapier, the Duelist can _lunge_ at enemies with a katana, dealing +50% damage.\n" +
+				"_The Katana_ is a tier-4 defensive weapon that was designed to respond to the common feedback point of players wanting a higher tier weapon with the rapier's ability. Just like with her rapier, the Duelist can _lunge_ at enemies with a katana, dealing bonus damage.\n" +
 				"\n" +
 				"_The Sickle_ and _War Scythe_ are T2 and T5 weapons that trade in some accuracy for increased base damage. The Duelist can use the _harvest_ ability with these weapons, which deals a large amount of bleeding instead of direct damage, but costs 2 charges."));
 
