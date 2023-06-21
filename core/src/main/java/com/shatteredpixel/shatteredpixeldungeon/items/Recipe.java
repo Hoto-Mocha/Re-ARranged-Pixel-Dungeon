@@ -384,6 +384,7 @@ public abstract class Recipe {
 		new Rapier_Energy.Recipe(),
 		new WornKatana_Energy.Recipe(),
 		new CrudePistol_Energy.Recipe()
+		//new MissileWeapon.Duplicate()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){

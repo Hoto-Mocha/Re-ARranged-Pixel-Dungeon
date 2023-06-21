@@ -285,7 +285,7 @@ public class AboutScene extends PixelScene {
 		content.add(line);
 	}
 
-	private static class CreditsBlock extends Component {
+	public static class CreditsBlock extends Component {
 
 		boolean large;
 		RenderedTextBlock title;

@@ -90,6 +90,7 @@ public enum Icons {
 	ENERGY,
 	COPY,
 	PASTE,
+	SEED_FIND,
 	COIN_SML,
 	ENERGY_SML,
 	BACKPACK,
@@ -303,6 +304,9 @@ public enum Icons {
 				break;
 			case PASTE:
 				icon.frame( icon.texture.uvRectBySize( 208, 48, 13, 13 ) );
+				break;
+			case SEED_FIND:
+				icon.frame( icon.texture.uvRectBySize( 240, 48, 10, 10 ) );
 				break;
 			case COIN_SML:
 				icon.frame( icon.texture.uvRectBySize( 192, 64, 7, 7 ) );

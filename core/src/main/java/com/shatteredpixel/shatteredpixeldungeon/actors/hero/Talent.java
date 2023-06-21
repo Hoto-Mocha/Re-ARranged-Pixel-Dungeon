@@ -1605,6 +1605,9 @@ public enum Talent {
 				Buff.affect(target, ParryTracker.class);
 				detach();
 			}
+			if (!hero.hasTalent(Talent.PARRY)) {
+				detach();
+			}
 			spend(Actor.TICK);
 			return true;
 		}
@@ -1624,6 +1627,9 @@ public enum Talent {
 
 		@Override
 		public boolean act() {
+			if (!hero.hasTalent(Talent.PARRY)) {
+				detach();
+			}
 			spend(Actor.TICK);
 			return true;
 		}

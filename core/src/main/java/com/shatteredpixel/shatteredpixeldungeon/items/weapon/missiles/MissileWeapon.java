@@ -704,4 +704,73 @@ abstract public class MissileWeapon extends Weapon {
 			return "";
 		}
 	}
+	//TODO 투척무기 복제 메커니즘
+	/*public static class Duplicate extends Recipe {
+
+		@Override
+		//also sorts ingredients if it can
+		public boolean testIngredients(ArrayList<Item> ingredients) {
+			if (ingredients.size() != 3) return false;
+			for (int i = 0; i < 3; i++) {
+				if (!(ingredients.get(i) instanceof MissileWeapon || ingredients.get(i) instanceof LiquidMetal || ingredients.get(i) instanceof StoneOfAugmentation)) {
+					return false;
+				} else {
+					if (ingredients.get(i) instanceof MissileWeapon && i != 0) {
+						Item temp = ingredients.get(0);
+						ingredients.set(0, ingredients.get(i));
+						ingredients.set(i, temp);
+					}
+					if (ingredients.get(i) instanceof LiquidMetal && i != 1) {
+						Item temp = ingredients.get(1);
+						ingredients.set(1, ingredients.get(i));
+						ingredients.set(i, temp);
+					}
+					if (ingredients.get(i) instanceof StoneOfAugmentation && i != 2) {
+						Item temp = ingredients.get(2);
+						ingredients.set(2, ingredients.get(i));
+						ingredients.set(i, temp);
+					}
+				}
+			}
+
+			if (ingredients.get(0) == ingredients.get(1)) return false;
+			if (ingredients.get(1) == ingredients.get(2)) return false;
+			if (ingredients.get(2) == ingredients.get(0)) return false;
+
+			MissileWeapon missile = (MissileWeapon) ingredients.get(0);
+			LiquidMetal liquidMetal = (LiquidMetal) ingredients.get(1);
+			StoneOfAugmentation stone = (StoneOfAugmentation) ingredients.get(2);
+
+			if (missile.quantity() >= 1 && liquidMetal.quantity() >= 5*(missile.tier+1) && stone.quantity() >= 1){
+				return true;
+			}
+
+			return false;
+		}
+
+		@Override
+		public int cost(ArrayList<Item> ingredients) {
+			return 2;
+		}
+
+		@Override
+		public Item brew(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+
+			MissileWeapon missile = (MissileWeapon) ingredients.get(0);
+			ingredients.get(0).quantity(ingredients.get(0).quantity() - 1);
+			ingredients.get(1).quantity(ingredients.get(1).quantity() - 5*(missile.tier+1));
+			ingredients.get(2).quantity(ingredients.get(2).quantity() - 1);
+
+
+			return ingredients.get(0).quantity(2);
+		}
+
+		@Override
+		public Item sampleOutput(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+
+			return ingredients.get(0).quantity(2);
+		}
+	}*/
 }

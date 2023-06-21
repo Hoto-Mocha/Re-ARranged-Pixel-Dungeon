@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.watabou.utils.Random;
 
@@ -76,7 +77,7 @@ public class SeedFinder {
 				if (((i instanceof Armor && ((Armor) i).hasGoodGlyph()) ||
 					(i instanceof Weapon && ((Weapon) i).hasGoodEnchant()) ||
 					(i instanceof Ring) || (i instanceof Wand)) && i.cursed)
-					builder.append("- 저주받은 ").append(i.title().toLowerCase());
+					builder.append("- " + Messages.get(this, "cursed")).append(i.title().toLowerCase());
 
 				else
 					builder.append("- ").append(i.title().toLowerCase());
@@ -97,7 +98,7 @@ public class SeedFinder {
 
 			for (Item i : items) {
 				if (i.cursed)
-					builder.append("- 저주받은 ").append(i.title().toLowerCase()).append("\n");
+					builder.append("- " + Messages.get(this, "cursed")).append(i.title().toLowerCase()).append("\n");
 
 				else
 					builder.append("- ").append(i.title().toLowerCase()).append("\n");
@@ -202,17 +203,17 @@ public class SeedFinder {
 							break;
 						}
 					}	
-					if(Wandmaker.Quest.type == 1 && "시체먼지".contains(itemList.get(j).replaceAll(" ",""))){
+					if(Wandmaker.Quest.type == 1 && Messages.get(this, "corpsedust").contains(itemList.get(j).replaceAll(" ",""))){
 						if (itemsFound[j] == false) {
 							itemsFound[j] = true;
 							break;
 						}
-					}else if(Wandmaker.Quest.type == 2 && "정령의잉걸불".contains(itemList.get(j).replaceAll(" ",""))){
+					}else if(Wandmaker.Quest.type == 2 && Messages.get(this, "embers").contains(itemList.get(j).replaceAll(" ",""))){
 						if (itemsFound[j] == false) {
 							itemsFound[j] = true;
 							break;
 						}
-					}else if(Wandmaker.Quest.type == 3 && "썩은열매의씨앗".contains(itemList.get(j).replaceAll(" ",""))){
+					}else if(Wandmaker.Quest.type == 3 && Messages.get(this, "rotberry").contains(itemList.get(j).replaceAll(" ",""))){
 						if (itemsFound[j] == false) {
 							itemsFound[j] = true;
 							break;
@@ -324,17 +325,17 @@ public class SeedFinder {
 							}
 						}
 					}
-					if(Wandmaker.Quest.type == 1 && "시체먼지".contains(wantingItem.replaceAll(" ",""))){
+					if(Wandmaker.Quest.type == 1 && Messages.get(this, "corpsedust").contains(wantingItem.replaceAll(" ",""))){
 						if (itemsFound[j] == false) {
 							itemsFound[j] = true;
 							break;
 						}
-					}else if(Wandmaker.Quest.type == 2 && "정령의잉걸불".contains(wantingItem.replaceAll(" ",""))){
+					}else if(Wandmaker.Quest.type == 2 && Messages.get(this, "embers").contains(wantingItem.replaceAll(" ",""))){
 						if (itemsFound[j] == false) {
 							itemsFound[j] = true;
 							break;
 						}
-					}else if(Wandmaker.Quest.type == 3 && "썩은열매의씨앗".contains(wantingItem.replaceAll(" ",""))){
+					}else if(Wandmaker.Quest.type == 3 && Messages.get(this, "rotberry").contains(wantingItem.replaceAll(" ",""))){
 						if (itemsFound[j] == false) {
 							itemsFound[j] = true;
 							break;
@@ -395,14 +396,14 @@ public class SeedFinder {
 		SPDSettings.customSeed(seed);
 		GamesInProgress.selectedClass = HeroClass.WARRIOR;
 		Dungeon.init();
-		StringBuilder result = new StringBuilder("시드 " + DungeonSeed.convertToCode(Dungeon.seed) + " (" + Dungeon.seed + ") 의 아이템들:\n\n");
+		StringBuilder result = new StringBuilder(Messages.get(this, "seed") + DungeonSeed.convertToCode(Dungeon.seed) + " (" + Dungeon.seed + ") " + Messages.get(this, "items") + ":\n\n");
 
 		blacklist = Arrays.asList(Gold.class, Dewdrop.class, IronKey.class, GoldenKey.class, CrystalKey.class, EnergyCrystal.class,
 								  CorpseDust.class, Embers.class, CeremonialCandle.class, Pickaxe.class);
 
 
 		for (int i = 0; i < floors; i++) {
-			result.append("\n_----- ").append(Long.toString(Dungeon.depth)).append("층 -----_\n\n");
+			result.append("\n_----- ").append(Long.toString(Dungeon.depth)).append(" ").append(Messages.get(this, "floor") + " -----_\n\n");
 
 			Level l = Dungeon.newLevel();
 			ArrayList<Heap> heaps = new ArrayList<>(l.heaps.valueList());
@@ -423,7 +424,7 @@ public class SeedFinder {
 				rewards.add(Ghost.Quest.weapon.identify());
 				Ghost.Quest.complete();
 
-				addTextQuest("[ 슬픈 유령 퀘스트 보상 ]", rewards, builder);
+				addTextQuest("[ " + Messages.get(this, "sad_ghost_reward") + " ]", rewards, builder);
 			}
 
 			if (Wandmaker.Quest.wand1 != null) {
@@ -432,21 +433,21 @@ public class SeedFinder {
 				rewards.add(Wandmaker.Quest.wand2.identify());
 				Wandmaker.Quest.complete();
 
-				builder.append("[ 지팡이 깎는 노인의 요구 아이템 ]:\n ");
+				builder.append("[ " + Messages.get(this, "wandmaker_need") +" ]:\n ");
 
 
 				switch (Wandmaker.Quest.type) {
 					case 1: default:
-						builder.append("시체 먼지\n\n");
+						builder.append(Messages.get(this, "corpsedust") + "\n\n");
 						break;
 					case 2:
-						builder.append("정령의 잉걸불\n\n");
+						builder.append(Messages.get(this, "embers") + "\n\n");
 						break;
 					case 3:
-						builder.append("썩은열매의 씨앗\n\n");
+						builder.append(Messages.get(this, "rotberry") + "\n\n");
 				}
 
-				addTextQuest("[ 지팡이 깎는 노인의 퀘스트 보상 ]", rewards, builder);
+				addTextQuest("[ "+ Messages.get(this, "wandmaker_reward") +" ]", rewards, builder);
 			}
 
 			if (Imp.Quest.reward != null) {
@@ -454,7 +455,7 @@ public class SeedFinder {
 				rewards.add(Imp.Quest.reward.identify());
 				Imp.Quest.complete();
 
-				addTextQuest("[ 임프 퀘스트 보상 ]", rewards, builder);
+				addTextQuest("[ "+ Messages.get(this, "imp_reward") +" ]", rewards, builder);
 			}
 
 			heaps.addAll(getMobDrops(l));
@@ -476,14 +477,14 @@ public class SeedFinder {
 				}
 			}
 
-			addTextItems("[ 주문서 ]", scrolls, builder);
-			addTextItems("[ 물약 ]", potions, builder);
-			addTextItems("[ 장비 ]", equipment, builder);
-			addTextItems("[ 반지 ]", rings, builder);
-			addTextItems("[ 유물 ]", artifacts, builder);
-			addTextItems("[ 마법 막대 ]", wands, builder);
-			addTextItems("[ 상점 ]", forSales, builder);
-			addTextItems("[ 그 외 ]", others, builder);
+			addTextItems("[ "+ Messages.get(this, "scrolls") +" ]", scrolls, builder);
+			addTextItems("[ "+ Messages.get(this, "potions") +" ]", potions, builder);
+			addTextItems("[ "+ Messages.get(this, "equipment") +" ]", equipment, builder);
+			addTextItems("[ "+ Messages.get(this, "rings") +" ]", rings, builder);
+			addTextItems("[ "+ Messages.get(this, "artifacts") +" ]", artifacts, builder);
+			addTextItems("[ "+ Messages.get(this, "wands") +" ]", wands, builder);
+			addTextItems("[ "+ Messages.get(this, "for_sales") +" ]", forSales, builder);
+			addTextItems("[ "+ Messages.get(this, "others") +" ]", others, builder);
 
 			result.append("\n").append(builder);
 
