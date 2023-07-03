@@ -368,8 +368,7 @@ abstract public class Weapon extends KindOfWeapon {
 		if (curseInfusionBonus) level += 1 + level/6;
 		return level;
 	}
-	
-	//overrides as other things can equip these
+
 	@Override
 	public int buffedLvl() {
 		int lvl;
@@ -425,7 +424,7 @@ abstract public class Weapon extends KindOfWeapon {
 
 		return lvl;
 	}
-	
+
 	@Override
 	public Item upgrade() {
 		return upgrade(false);

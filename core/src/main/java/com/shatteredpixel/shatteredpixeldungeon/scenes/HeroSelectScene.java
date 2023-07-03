@@ -136,7 +136,7 @@ public class HeroSelectScene extends PixelScene {
 
 				Dungeon.hero = null;
 				Dungeon.daily = Dungeon.dailyReplay = false;
-				ActionIndicator.action = null;
+				ActionIndicator.clearAction();
 				InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
 
 				Game.switchScene( InterlevelScene.class );
@@ -674,7 +674,7 @@ public class HeroSelectScene extends PixelScene {
 
 									Dungeon.hero = null;
 									Dungeon.daily = true;
-									ActionIndicator.action = null;
+									ActionIndicator.clearAction();
 									InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
 
 									Game.switchScene( InterlevelScene.class );

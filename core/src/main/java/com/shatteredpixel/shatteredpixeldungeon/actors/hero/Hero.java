@@ -203,6 +203,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHe
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.DarkGold;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
@@ -327,6 +329,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWea
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.MiningLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
@@ -339,6 +342,7 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.SurfaceScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -354,7 +358,6 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndResurrect;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTradeItem;
-import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
@@ -1347,7 +1350,10 @@ public class Hero extends Char {
 			} else if (curAction instanceof HeroAction.Unlock) {
 				actResult = actUnlock((HeroAction.Unlock) curAction);
 				
-			} else if (curAction instanceof HeroAction.LvlTransition) {
+			} else if (curAction instanceof HeroAction.Mine) {
+				actResult = actMine( (HeroAction.Mine)curAction );
+
+			}else if (curAction instanceof HeroAction.LvlTransition) {
 				actResult = actTransition( (HeroAction.LvlTransition)curAction );
 				
 			} else if (curAction instanceof HeroAction.Attack) {
@@ -1593,6 +1599,7 @@ public class Hero extends Char {
 	private boolean actOpenChest( HeroAction.OpenChest action ) {
 		int dst = action.dst;
 		if (Dungeon.level.adjacent( pos, dst ) || pos == dst) {
+			path = null;
 			
 			Heap heap = Dungeon.level.heaps.get( dst );
 			if (heap != null && (heap.type != Type.HEAP && heap.type != Type.FOR_SALE)) {
@@ -1609,7 +1616,7 @@ public class Hero extends Char {
 				switch (heap.type) {
 				case TOMB:
 					Sample.INSTANCE.play( Assets.Sounds.TOMB );
-					Camera.main.shake( 1, 0.5f );
+					PixelScene.shake( 1, 0.5f );
 					break;
 				case SKELETON:
 				case REMAINS:
@@ -1639,6 +1646,7 @@ public class Hero extends Char {
 	private boolean actUnlock( HeroAction.Unlock action ) {
 		int doorCell = action.dst;
 		if (Dungeon.level.adjacent( pos, doorCell )) {
+			path = null;
 			
 			boolean hasKey = false;
 			int door = Dungeon.level.map[doorCell];
@@ -1682,13 +1690,65 @@ public class Hero extends Char {
 			return false;
 		}
 	}
+
+	public boolean actMine(HeroAction.Mine action){
+		if (Dungeon.level.adjacent(pos, action.dst)){
+			path = null;
+			if ((Dungeon.level.map[action.dst] == Terrain.WALL || Dungeon.level.map[action.dst] == Terrain.WALL_DECO)
+				&& Dungeon.level.insideMap(action.dst)){
+				sprite.attack(action.dst, new Callback() {
+					@Override
+					public void call() {
+
+						if (Dungeon.level.map[action.dst] == Terrain.WALL_DECO){
+							DarkGold gold = new DarkGold();
+							if (gold.doPickUp( Dungeon.hero )) {
+								GLog.i( Messages.capitalize(Messages.get(Dungeon.hero, "you_now_have", gold.name())) );
+							} else {
+								Dungeon.level.drop( gold, pos ).sprite.drop();
+							}
+							CellEmitter.center( action.dst ).burst( Speck.factory( Speck.STAR ), 7 );
+							Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+						} else {
+							CellEmitter.get( action.dst ).burst( Speck.factory( Speck.ROCK ), 2 );
+							Sample.INSTANCE.play( Assets.Sounds.MINE );
+						}
+
+						PixelScene.shake(0.5f, 0.5f);
+
+						Level.set( action.dst, Terrain.EMPTY_DECO );
+						for (int i : PathFinder.NEIGHBOURS9) {
+							Dungeon.level.discoverable[action.dst + i] = true;
+						}
+						for (int i : PathFinder.NEIGHBOURS9) {
+							GameScene.updateMap( action.dst+i );
+						}
+
+						Dungeon.observe();
+
+						spendAndNext(TICK);
+					}
+				});
+			} else {
+				ready();
+			}
+			return false;
+		} else if (getCloser( action.dst )) {
+
+			return true;
+
+		} else {
+			ready();
+			return false;
+		}
+	}
 	
 	private boolean actTransition(HeroAction.LvlTransition action ) {
 		int stairs = action.dst;
 		LevelTransition transition = Dungeon.level.getTransition(stairs);
 
 		if (rooted) {
-			Camera.main.shake(1, 1f);
+			PixelScene.shake(1, 1f);
 			ready();
 			return false;
 		} else if (!Dungeon.level.locked && transition != null && transition.inside(pos)) {
@@ -2479,7 +2539,7 @@ public class Hero extends Char {
 			return false;
 
 		if (rooted) {
-			Camera.main.shake( 1, 1f );
+			PixelScene.shake( 1, 1f );
 			return false;
 		}
 		
@@ -2707,7 +2767,7 @@ public class Hero extends Char {
 		
 		Char ch = Actor.findChar( cell );
 		Heap heap = Dungeon.level.heaps.get( cell );
-		
+
 		if (Dungeon.level.map[cell] == Terrain.ALCHEMY && cell != pos) {
 			
 			curAction = new HeroAction.Alchemy( cell );
@@ -2719,6 +2779,13 @@ public class Hero extends Char {
 			} else {
 				curAction = new HeroAction.Attack( ch );
 			}
+
+		//TODO perhaps only trigger this if hero is already adjacent? reducing mistaps
+		} else if (Dungeon.level instanceof MiningLevel &&
+					belongings.getItem(Pickaxe.class) != null &&
+				(Dungeon.level.map[cell] == Terrain.WALL || Dungeon.level.map[cell] == Terrain.WALL_DECO)){
+
+			curAction = new HeroAction.Mine( cell );
 
 		} else if (heap != null
 				//moving to an item doesn't auto-pickup when enemies are near...
