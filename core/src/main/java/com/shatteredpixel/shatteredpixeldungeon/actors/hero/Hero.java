@@ -2185,68 +2185,70 @@ public class Hero extends Char {
 			}
 			break;
 		case ENGINEER:
-			if (wep.gun) {
-				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
-					Buff.affect(this, Recharging.class, 1f);
-				}
-				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 2 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
-					Buff.affect(this, ArtifactRecharge.class).set( 1 );
-				}
-				if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 3) {
-					if (Random.Int(4) == 0) {
-						Buff.affect(this, Recharging.class, 2f);
+			if (wep != null) {
+				if (wep.gun) {
+					if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
+						Buff.affect(this, Recharging.class, 1f);
 					}
-					if (Random.Int(4) == 0) {
-						Buff.affect(this, ArtifactRecharge.class).prolong( 2 );
+					if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 2 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
+						Buff.affect(this, ArtifactRecharge.class).set( 1 );
 					}
-				}
-				if (hero.hasTalent(Talent.BATTERY_CHARGE)) {
-					MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
-					if (staff != null) {
-						staff.gainCharge(0.5f, false);
-						ScrollOfRecharging.charge(hero);
+					if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 3) {
+						if (Random.Int(4) == 0) {
+							Buff.affect(this, Recharging.class, 2f);
+						}
+						if (Random.Int(4) == 0) {
+							Buff.affect(this, ArtifactRecharge.class).prolong( 2 );
+						}
 					}
-				}
-				if (Random.Int(5) == 0) {
-					MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
-					int chance = 50;
-					if (hero.pointsInTalent(Talent.BATTERY_CHARGE) == 3) {
-						chance += 4*staff.getCurCharges();
+					if (hero.hasTalent(Talent.BATTERY_CHARGE)) {
+						MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
+						if (staff != null) {
+							staff.gainCharge(0.5f, false);
+							ScrollOfRecharging.charge(hero);
+						}
 					}
-					if (Random.Int(100) < chance) {
-						Buff.affect(enemy, Paralysis.class, 2f + hero.pointsInTalent(Talent.HIGH_VOLT));
-						enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
-						enemy.sprite.flash();
-						Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
-					}
-					int shield = 10;
-					if (hero.pointsInTalent(Talent.BATTERY_CHARGE) > 1) {
-						shield += staff.getCurCharges();
-					}
-					Buff.affect(this, Barrier.class).setShield(shield);
-					if (hero.hasTalent(Talent.STATIC_ENERGY)) {
-						ArrayList<Lightning.Arc> arcs = new ArrayList<>();
-						ArrayList<Char> affected = new ArrayList<>();
-						affected.clear();
-						arcs.clear();
+					if (Random.Int(5) == 0) {
+						MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
+						int chance = 50;
+						if (hero.pointsInTalent(Talent.BATTERY_CHARGE) == 3) {
+							chance += 4*staff.getCurCharges();
+						}
+						if (Random.Int(100) < chance) {
+							Buff.affect(enemy, Paralysis.class, 2f + hero.pointsInTalent(Talent.HIGH_VOLT));
+							enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+							enemy.sprite.flash();
+							Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+						}
+						int shield = 10;
+						if (hero.pointsInTalent(Talent.BATTERY_CHARGE) > 1) {
+							shield += staff.getCurCharges();
+						}
+						Buff.affect(this, Barrier.class).setShield(shield);
+						if (hero.hasTalent(Talent.STATIC_ENERGY)) {
+							ArrayList<Lightning.Arc> arcs = new ArrayList<>();
+							ArrayList<Char> affected = new ArrayList<>();
+							affected.clear();
+							arcs.clear();
 
-						Shocking.arc(hero, enemy, 2, affected, arcs);
+							Shocking.arc(hero, enemy, 2, affected, arcs);
 
-						affected.remove(enemy); //defender isn't hurt by lightning
-						for (Char ch : affected) {
-							if (ch.alignment != hero.alignment) {
-								ch.damage(Math.round(5), this);
-								if (hero.pointsInTalent(Talent.STATIC_ENERGY) >= 2 ) {
-									Buff.affect(ch, Paralysis.class, 2f + hero.pointsInTalent(Talent.HIGH_VOLT));
+							affected.remove(enemy); //defender isn't hurt by lightning
+							for (Char ch : affected) {
+								if (ch.alignment != hero.alignment) {
+									ch.damage(Math.round(5), this);
+									if (hero.pointsInTalent(Talent.STATIC_ENERGY) >= 2 ) {
+										Buff.affect(ch, Paralysis.class, 2f + hero.pointsInTalent(Talent.HIGH_VOLT));
+									}
 								}
 							}
-						}
-						if (hero.pointsInTalent((Talent.STATIC_ENERGY)) == 3 ) {
-							GameScene.add( Blob.seed( enemy.pos, 3, Electricity.class ) );
-						}
+							if (hero.pointsInTalent((Talent.STATIC_ENERGY)) == 3 ) {
+								GameScene.add( Blob.seed( enemy.pos, 3, Electricity.class ) );
+							}
 
-						hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
-						Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+							hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
+							Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+						}
 					}
 				}
 			}
@@ -3819,14 +3821,14 @@ public class Hero extends Char {
 			Buff.affect(enemy, Bleeding.class).set(hero.pointsInTalent(Talent.SCALPEL));
 		}
 
-		if (hit && hero.belongings.attackingWeapon() instanceof MeleeWeapon && hero.buff(StunGun.StunningTracker.class) != null) {
+		if (hit && hero.buff(StunGun.StunningTracker.class) != null) {
 			Buff.affect(enemy, Paralysis.class, 2f);
 			enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
 			enemy.sprite.flash();
 			Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
 		}
 
-		if (hit && hero.belongings.attackingWeapon() instanceof MeleeWeapon && hero.buff(StunGunAP.ShockingTracker.class) != null) {
+		if (hit && hero.buff(StunGunAP.ShockingTracker.class) != null) {
 			Buff.affect(enemy, Paralysis.class, 3f);
 			enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
 			enemy.sprite.flash();

@@ -951,7 +951,7 @@ public class ItemSpriteSheet {
 	static{
 		assignItemRect(WORN_KATANA,    	13, 13);
 		assignItemRect(SHORT_KATANA,    14, 14);
-		assignItemRect(KATANA,          14, 15);
+		assignItemRect(NORMAL_KATANA,   14, 15);
 		assignItemRect(LONG_KATANA,     15, 16);
 		assignItemRect(LARGE_KATANA,	12, 16);
 	}
