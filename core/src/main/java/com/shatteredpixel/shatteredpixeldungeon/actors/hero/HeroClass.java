@@ -164,15 +164,15 @@ public enum HeroClass {
 		.upgrade()
 		.collect();
 		 */
-		new TengusMask().identify().collect();
-		new PotionOfExperience().identify().quantity(29).collect();
-		new Teleporter().identify().collect();
-		new PlateArmor().identify().upgrade(100).collect();
-		new TestWeapon().identify().collect();
-		new PotionOfDivineInspiration().identify().quantity(4).collect();
-		new PotionOfHealing().identify().quantity(100).collect();
-		new RingOfMight().identify().upgrade(20).collect();
-		new KingsCrown().collect();
+		//new TengusMask().identify().collect();
+		//new PotionOfExperience().identify().quantity(29).collect();
+		//new Teleporter().identify().collect();
+		//new PlateArmor().identify().upgrade(100).collect();
+		//new TestWeapon().identify().collect();
+		//new PotionOfDivineInspiration().identify().quantity(4).collect();
+		//new PotionOfHealing().identify().quantity(100).collect();
+		//new RingOfMight().identify().upgrade(20).collect();
+		//new KingsCrown().collect();
 
 		//new AntimaterRifle().identify().collect();
 		//new ScrollOfMetamorphosis().identify().quantity(20).collect();
