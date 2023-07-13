@@ -19,31 +19,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class SpellBook_Corrosion_Sword extends SpellBook_Corrosion {
+public class SpellBook_Disintegration_Sword extends SpellBook_Disintegration {
 
 	{
-		image = ItemSpriteSheet.CORROSION_SPELLBOOK_SWORD;
+		image = ItemSpriteSheet.DISTRIBUTION_SPELLBOOK_SWORD;
 		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.1f;
 
 		tier = 5;
 	}
 
+	@Override
+	public int max(int lvl) {
+		return  6*(tier+1) +    //36 base
+				lvl*(tier+1);   //level scaling unchanged
+	}
+
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{Greatsword.class, SpellBook_Corrosion.class, ArcaneResin.class};
+			inputs =  new Class[]{Greatsword.class, SpellBook_Disintegration.class, ArcaneResin.class};
 			inQuantity = new int[]{1, 1, 4};
 
 			cost = 10;
 
-			output = SpellBook_Corrosion_Sword.class;
+			output = SpellBook_Disintegration_Sword.class;
 			outQuantity = 1;
 		}
 	}

@@ -33,7 +33,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArcaneArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArrowEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
@@ -49,11 +48,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DamageEnhance;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Daze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ExtraBullet;
@@ -77,8 +75,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PrismaticGuard;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.QuickStep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
@@ -111,11 +107,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tengu;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.MirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.PrismaticImage;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -148,13 +141,102 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazing;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BeamSaber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CarbineHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GildedShovel;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.IronHammer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSGHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LongKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagnumHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MinersTool;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.NormalKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PistolHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RevolverHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicDagger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SharpKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShortKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifleHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunAP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgunHP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000AP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000HP;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana_Energy;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -174,7 +256,6 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -675,179 +756,6 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (this instanceof Hero && hero.belongings.weapon != null && hero.belongings.attackingWeapon() instanceof MissileWeapon) {
-				float procChance; //chance to be activated
-				int lvl = hero.belongings.weapon.buffedLvl();
-				if (hero.belongings.weapon instanceof SpellBook_Corrosion) {
-					procChance = (lvl+1f)/(lvl+5f);
-					if (Random.Float() < procChance) {
-						Buff.affect(enemy, Ooze.class).set(3+lvl);
-					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Corruption) {
-					int procBonus = 0; //used for adding chances to corrupt
-					if (enemy.buff(Weakness.class) != null) {
-						procBonus += 1;
-					}
-					if (enemy.buff(Vulnerable.class) != null) {
-						procBonus += 1;
-					}
-					if (enemy.buff(Cripple.class) != null) {
-						procBonus += 1;
-					}
-					if (enemy.buff(Blindness.class) != null) {
-						procBonus += 1;
-					}
-					if (enemy.buff(Terror.class) != null) {
-						procBonus += 1;
-					}
-					if (enemy.buff(Amok.class) != null) {
-						procBonus += 2;
-					}
-					if (enemy.buff(Slow.class) != null) {
-						procBonus += 2;
-					}
-					if (enemy.buff(Hex.class) != null) {
-						procBonus += 2;
-					}
-					if (enemy.buff(Paralysis.class) != null) {
-						procBonus += 2;
-					}
-					if (enemy.buff(com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom.class) != null) {
-						procChance = 1; //100% chance when enemy has a Doom debuff
-					} else {
-						procChance = (lvl+5f+procBonus)/(lvl+25f);
-					}
-					if (dmg >= enemy.HP
-							&& Random.Float() < procChance
-							&& !enemy.isImmune(Corruption.class)
-							&& enemy.buff(Corruption.class) == null
-							&& enemy instanceof Mob
-							&& enemy.isAlive()){
-						Mob mob = (Mob) enemy;
-						Corruption.corruptionHeal(mob);
-						AllyBuff.affectAndLoot(mob, hero, Corruption.class);
-						dmg = 0;
-					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Blast) {
-					procChance = (lvl+1f)/(lvl+5f);
-					if (Random.Float() < procChance) {
-						Buff.affect(enemy, Paralysis.class, (lvl >= 10) ? 1f : 2f);
-					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Earth) {
-					procChance = 1/4f; //fixed at 1/4 regardless of lvl
-					if (Random.Float() < procChance) {
-						Buff.affect(hero, Earthroot.Armor.class).level(5+lvl);
-					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Fire) {
-					procChance = (lvl+1f)/(lvl+3f);
-					if (Random.Float() < procChance) {
-						if (enemy.buff(Burning.class) != null){
-							Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
-							int burnDamage = Random.NormalIntRange( 1, 3 + Dungeon.depth/4 );
-							enemy.damage( Math.round(burnDamage * 0.67f), this );
-						} else {
-							Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
-						}
-						enemy.sprite.emitter().burst( FlameParticle.FACTORY, lvl + 1 );
-					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Frost) {
-					procChance = (lvl+1f)/(lvl+4f);
-					if (Random.Float() < procChance) {
-						//adds 3 turns of chill per proc, with a cap of 6 turns
-						float durationToAdd = 3f;
-						Chill existing = enemy.buff(Chill.class);
-						if (existing != null){
-							durationToAdd = Math.min(durationToAdd, 6f-existing.cooldown());
-						}
-
-						Buff.affect( enemy, Chill.class, durationToAdd );
-						Splash.at( enemy.sprite.center(), 0xFFB2D6FF, 5);
-					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Lightning) {
-					ArrayList<Lightning.Arc> arcs = new ArrayList<>();
-					ArrayList<Char> affected = new ArrayList<>();
-					procChance = (lvl+1f)/(lvl+4f);
-					if (Random.Float() < procChance) {
-						affected.clear();
-						arcs.clear();
-
-						Shocking.arc(hero, enemy, 2, affected, arcs);
-
-						affected.remove(enemy); //defender isn't hurt by lightning
-						for (Char ch : affected) {
-							if (ch.alignment != hero.alignment) {
-								ch.damage(Math.round(dmg * 0.4f), this);
-							}
-						}
-
-						hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
-						Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
-					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Warding) {
-					procChance = (lvl+1f)/(lvl+3f);
-					if (Random.Float() < procChance) {
-						boolean found = false;
-						for (Mob m : Dungeon.level.mobs.toArray(new Mob[0])){
-							if (m instanceof PrismaticImage){ //if the prismatic image is existing in the floor
-								found = true;
-								if (m.HP < m.HT) {
-									m.HP = Math.min(m.HP+(int)(dmg/2), m.HT); //heals the prismatic image
-									m.sprite.emitter().burst(Speck.factory(Speck.HEALING), 4);
-									m.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( Math.min((int)(dmg/2), m.HT-m.HP) ) );
-								}
-							}
-						}
-
-						if (!found) {
-							if (hero.buff(PrismaticGuard.class) != null) {
-								Buff.affect(hero, PrismaticGuard.class).extend( (int)(dmg/2) ); //heals the buff's hp
-							} else {
-								Buff.affect(hero, PrismaticGuard.class).set( (int)(dmg/2) ); //affects a new buff to hero
-							}
-						}
-					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Regrowth) {
-					procChance = (lvl+1f)/(lvl+3f);
-					if (Random.Float() < procChance) {
-						boolean secondPlant = Random.Int(3) == 0;
-						ArrayList<Integer> positions = new ArrayList<>();
-						Blooming blooming = new Blooming();
-						for (int i : PathFinder.NEIGHBOURS8) {
-							positions.add(i);
-						}
-						Random.shuffle(positions);
-						for (int i : positions) {
-							if (blooming.plantGrass(enemy.pos + i)) {
-								if (secondPlant) secondPlant = false;
-								else break;
-							}
-						}
-					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Transfusion) {
-					//chance to heal scales from 5%-30% based on missing HP
-					float missingPercent = (hero.HT - hero.HP) / (float)hero.HT;
-					procChance = 0.05f + (0.25f+0.01f*lvl)*missingPercent;
-					if (Random.Float() < procChance) {
-
-						//heals for 50% of damage dealt
-						int healAmt = Math.round(dmg * 0.5f);
-						hero.heal(healAmt);
-
-					}
-				} else if (hero.belongings.weapon instanceof SpellBook_Prismatic) {
-					procChance = (lvl+1f)/(lvl+3f);
-					if (Random.Float() < procChance) {
-						Buff.affect(enemy, Blindness.class, 2+lvl);
-					}
-					if (enemy.properties().contains(Char.Property.DEMONIC) || enemy.properties().contains(Char.Property.UNDEAD)){
-						enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10+lvl );
-						Sample.INSTANCE.play(Assets.Sounds.BURNING);
-
-						dmg *= 1.3333f; //deals more damage to the demons and the undeads
-					}
-				}
-			}
-
 			if (this instanceof Hero && hero.belongings.attackingWeapon() instanceof Cross) {
 				if (enemy.properties().contains(Char.Property.DEMONIC) || enemy.properties().contains(Char.Property.UNDEAD)){
 					enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
@@ -1072,29 +980,6 @@ public abstract class Char extends Actor {
 				if (hero.heroClass == HeroClass.GUNNER && wep != null) {
 					if (wep.gun) {
 						dmg += Random.NormalIntRange(0, hero.belongings.weapon.buffedLvl());
-					}
-				}
-			}
-
-			if (this instanceof Hero) {
-				if (hero.subClass == HeroSubClass.ENGINEER && Random.Int(5) < hero.pointsInTalent(Talent.ELECTRIC_BULLET) && wep != null) {
-					if (wep.bullet) {
-						ArrayList<Lightning.Arc> arcs = new ArrayList<>();
-						ArrayList<Char> affected = new ArrayList<>();
-						affected.clear();
-						arcs.clear();
-
-						Shocking.arc(hero, enemy, 2, affected, arcs);
-
-						affected.remove(enemy); //defender isn't hurt by lightning
-						for (Char ch : affected) {
-							if (ch.alignment != hero.alignment) {
-								ch.damage(Math.round(dmg*0.2f), this);
-							}
-						}
-
-						hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
-						Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
 					}
 				}
 			}

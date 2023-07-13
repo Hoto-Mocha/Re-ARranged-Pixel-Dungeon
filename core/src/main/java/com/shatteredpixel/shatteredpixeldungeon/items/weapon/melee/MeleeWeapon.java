@@ -317,8 +317,8 @@ public class MeleeWeapon extends Weapon {
 				tracker.wepAbilUsed = true;
 			}
 		}
-		if (hero.buff(Talent.CounterAbilityTacker.class) != null){
-			hero.buff(Talent.CounterAbilityTacker.class).detach();
+		if (hero.buff(Talent.CounterAbilityTracker.class) != null){
+			hero.buff(Talent.CounterAbilityTracker.class).detach();
 		}
 	}
 
@@ -331,7 +331,7 @@ public class MeleeWeapon extends Weapon {
 
 	public float abilityChargeUse(Hero hero, Char target){
 		float chargeUse = 1f;
-		if (hero.buff(Talent.CounterAbilityTacker.class) != null){
+		if (hero.buff(Talent.CounterAbilityTracker.class) != null){
 			chargeUse = Math.max(0, chargeUse-0.5f*hero.pointsInTalent(Talent.COUNTER_ABILITY));
 		}
 		return chargeUse;
@@ -356,6 +356,7 @@ public class MeleeWeapon extends Weapon {
 	}
 
 	private static boolean evaluatingTwinUpgrades = false;
+	private static boolean evaluatingWizardUpgrades = false;
 	@Override
 	public int buffedLvl() {
 		if (!evaluatingTwinUpgrades && isEquipped(Dungeon.hero) && Dungeon.hero.hasTalent(Talent.TWIN_UPGRADES)){
@@ -374,6 +375,19 @@ public class MeleeWeapon extends Weapon {
 					return otherLevel;
 				}
 
+			}
+		}
+		if (!evaluatingWizardUpgrades && isEquipped(Dungeon.hero) && hero.subClass == HeroSubClass.WIZARD){
+			KindOfWeapon other = null;
+			if (Dungeon.hero.belongings.weapon() != this) other = Dungeon.hero.belongings.weapon();
+			if (Dungeon.hero.belongings.secondWep() != this) other = Dungeon.hero.belongings.secondWep();
+
+			if (other instanceof MeleeWeapon) {
+				evaluatingWizardUpgrades = true;
+				int otherLevel = other.buffedLvl();
+				evaluatingWizardUpgrades = false;
+
+				return otherLevel;
 			}
 		}
 		return super.buffedLvl();

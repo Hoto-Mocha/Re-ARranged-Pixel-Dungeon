@@ -19,16 +19,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class SpellBook_Earth_Sword extends SpellBook_Earth {
+public class SpellBook_Empty_Sword extends SpellBook_Empty {
+
+	public static final String AC_READ		= "READ";
 
 	{
-		image = ItemSpriteSheet.EARTH_SPELLBOOK_SWORD;
+		image = ItemSpriteSheet.EMPTY_SPELLBOOK_SWORD;
 		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.1f;
 
@@ -38,13 +41,14 @@ public class SpellBook_Earth_Sword extends SpellBook_Earth {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{Greatsword.class, SpellBook_Earth.class, ArcaneResin.class};
+			inputs =  new Class[]{Greatsword.class, SpellBook_Empty.class, ArcaneResin.class};
 			inQuantity = new int[]{1, 1, 4};
 
-			cost = 10;
+			cost = 5;
 
-			output = SpellBook_Earth_Sword.class;
+			output = SpellBook_Empty_Sword.class;
 			outQuantity = 1;
 		}
 	}
+
 }

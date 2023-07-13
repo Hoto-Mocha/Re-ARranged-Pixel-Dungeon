@@ -29,7 +29,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalCircle;
@@ -217,6 +216,15 @@ public abstract class Wand extends Item {
 				//standard 1 - 0.92^x chance, plus 7%. Starts at 15%
 				Random.Float() > (Math.pow(0.92f, (wandLevel*chargesUsed)+1) - 0.07f)){
 			SoulMark.prolong(target, SoulMark.class, SoulMark.DURATION + wandLevel);
+		}
+		if (target != Dungeon.hero &&
+				Random.Int(3) < Dungeon.hero.pointsInTalent(Talent.SOUL_OF_WARLOCK) &&
+				//standard 1 - 0.92^x chance, plus 7%. Starts at 15%
+				Random.Float() > (Math.pow(0.92f, (wandLevel*chargesUsed)+1) - 0.07f)){
+			SoulMark.prolong(target, SoulMark.class, SoulMark.DURATION + wandLevel);
+		}
+		if (target != Dungeon.hero && Dungeon.hero.hasTalent(Talent.LIFE_ENERGY)) {
+			curUser.heal(chargesUsed*Dungeon.hero.pointsInTalent(Talent.LIFE_ENERGY));
 		}
 	}
 
@@ -622,9 +630,6 @@ public abstract class Wand extends Item {
 						float shield = curUser.HT * (0.04f*curWand.curCharges);
 						if (curUser.pointsInTalent(Talent.SHIELD_BATTERY) == 2) shield *= 1.5f;
 						Buff.affect(curUser, Barrier.class).setShield(Math.round(shield));
-						if (Dungeon.hero.subClass == HeroSubClass.ENGINEER && Dungeon.hero.hasTalent(Talent.AMMO_PRESERVE)) {
-							Buff.affect(curUser, InfiniteBullet.class, Math.round(curWand.curCharges / 3f * Dungeon.hero.pointsInTalent(Talent.AMMO_PRESERVE)));
-						}
 						if (Dungeon.hero.subClass == HeroSubClass.BATTLEMAGE && Dungeon.hero.hasTalent(Talent.MAGICAL_CIRCLE)) {
 							Buff.affect(curUser, MagicalCircle.class).setup(curUser.pos, curWand.curCharges*3);
 						}

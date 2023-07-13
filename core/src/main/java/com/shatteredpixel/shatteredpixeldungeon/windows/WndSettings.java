@@ -333,16 +333,6 @@ public class WndSettings extends WndTabbed {
 			optFollowIntensity.setSelectedValue(SPDSettings.cameraFollow());
 			add(optFollowIntensity);
 
-			chkFlickering = new CheckBox( Messages.get(this, "no_flickering") ) {
-				@Override
-				protected void onClick() {
-					super.onClick();
-					SPDSettings.flickering(!checked());
-				}
-			};
-			chkFlickering.checked(!SPDSettings.flickering());
-			add( chkFlickering );
-
 			optScreenShake = new OptionSlider(Messages.get(this, "screenshake"),
 					Messages.get(this, "off"), Messages.get(this, "high"), 0, 4) {
 				@Override
@@ -352,6 +342,16 @@ public class WndSettings extends WndTabbed {
 			};
 			optScreenShake.setSelectedValue(SPDSettings.screenShake());
 			add(optScreenShake);
+
+			chkFlickering = new CheckBox( Messages.get(this, "no_flickering") ) {
+				@Override
+				protected void onClick() {
+					super.onClick();
+					SPDSettings.flickering(!checked());
+				}
+			};
+			chkFlickering.checked(!SPDSettings.flickering());
+			add( chkFlickering );
 
 		}
 
@@ -400,6 +400,7 @@ public class WndSettings extends WndTabbed {
 
 				optFollowIntensity.setRect(0, optVisGrid.bottom() + GAP, width/2-GAP/2, SLIDER_HEIGHT);
 				optScreenShake.setRect(optFollowIntensity.right() + GAP, optFollowIntensity.top(), width/2-GAP/2, SLIDER_HEIGHT);
+				chkFlickering.setRect(0, optScreenShake.bottom() + GAP, width, BTN_HEIGHT);
 			} else {
 				optBrightness.setRect(0, bottom + GAP, width, SLIDER_HEIGHT);
 				optVisGrid.setRect(0, optBrightness.bottom() + GAP, width, SLIDER_HEIGHT);
@@ -409,7 +410,7 @@ public class WndSettings extends WndTabbed {
 				chkFlickering.setRect(0, optScreenShake.bottom() + GAP, width, BTN_HEIGHT);
 			}
 
-			height = optScreenShake.bottom();
+			height = chkFlickering.bottom();
 		}
 
 	}

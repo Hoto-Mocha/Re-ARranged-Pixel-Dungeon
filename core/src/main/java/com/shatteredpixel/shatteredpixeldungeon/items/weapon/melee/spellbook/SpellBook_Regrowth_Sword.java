@@ -19,16 +19,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class SpellBook_Blast_Sword extends SpellBook_Blast {
+public class SpellBook_Regrowth_Sword extends SpellBook_Regrowth {
 
 	{
-		image = ItemSpriteSheet.BLAST_SPELLBOOK_SWORD;
+		image = ItemSpriteSheet.REGROWTH_SPELLBOOK_SWORD;
 		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.1f;
 
@@ -38,14 +39,13 @@ public class SpellBook_Blast_Sword extends SpellBook_Blast {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{Greatsword.class, SpellBook_Blast.class, ArcaneResin.class};
+			inputs =  new Class[]{Greatsword.class, SpellBook_Regrowth.class, ArcaneResin.class};
 			inQuantity = new int[]{1, 1, 4};
 
 			cost = 10;
 
-			output = SpellBook_Blast_Sword.class;
+			output = SpellBook_Regrowth_Sword.class;
 			outQuantity = 1;
 		}
 	}
-
 }

@@ -55,6 +55,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WantedTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.ArtifactRechargeArea;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.BarrierRechargeArea;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.WandRechargeArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -82,6 +85,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
@@ -832,6 +836,30 @@ public abstract class Mob extends Char {
 						&& Dungeon.hero.buff(Talent.LethalHasteCooldown.class) == null){
 					Buff.affect(Dungeon.hero, Talent.LethalHasteCooldown.class, 100f);
 					Buff.affect(Dungeon.hero, Haste.class, 1.67f + Dungeon.hero.pointsInTalent(Talent.LETHAL_HASTE));
+				}
+			}
+
+			if (Dungeon.level.map[pos] != Terrain.PIT && hero.hasTalent(Talent.ENERGY_REMAINS)) {
+				int chance = Random.Int(3);
+				int point = Dungeon.hero.pointsInTalent(Talent.ENERGY_REMAINS);
+				switch (chance) {
+					default:
+						break;
+					case 0:
+						if (point >= 1) {
+							Buff.affect(hero, WandRechargeArea.class).setup(pos);
+						}
+						break;
+					case 1:
+						if (point >= 2) {
+							Buff.affect(hero, ArtifactRechargeArea.class).setup(pos);
+						}
+						break;
+					case 2:
+						if (point >= 3) {
+							Buff.affect(hero, BarrierRechargeArea.class).setup(pos);
+						}
+						break;
 				}
 			}
 

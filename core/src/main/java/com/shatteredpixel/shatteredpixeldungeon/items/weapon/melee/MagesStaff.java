@@ -84,6 +84,10 @@ public class MagesStaff extends MeleeWeapon {
 		bones = false;
 	}
 
+	public Wand getWand() {
+		return wand;
+	}
+
 	public MagesStaff() {
 		wand = null;
 	}
@@ -190,6 +194,11 @@ public class MagesStaff extends MeleeWeapon {
 				attacker instanceof Hero && ((Hero)attacker).subClass == HeroSubClass.BATTLEMAGE) {
 			if (wand.curCharges < wand.maxCharges) wand.partialCharge += 0.5f;
 			ScrollOfRecharging.charge((Hero)attacker);
+			wand.onHit(this, attacker, defender, damage);
+		}
+
+		if (wand != null &&
+				attacker instanceof Hero && Random.Int(3) < ((Hero)attacker).pointsInTalent(Talent.SOUL_OF_BATTLEMAGE)) {
 			wand.onHit(this, attacker, defender, damage);
 		}
 

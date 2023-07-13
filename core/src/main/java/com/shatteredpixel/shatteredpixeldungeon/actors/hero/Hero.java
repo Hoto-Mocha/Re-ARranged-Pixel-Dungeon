@@ -129,6 +129,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StanceCooldown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Surgery;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SurgeryTracker;
@@ -313,7 +314,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGunAP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpellBook;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
@@ -325,6 +326,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword_Energy;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Disintegration;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
@@ -1187,8 +1189,12 @@ public class Hero extends Char {
 			return false;
 		}
 
-		//can always attack adjaceadjacent enemies
+		//can always attack adjacent enemies
 		if (Dungeon.level.adjacent(pos, enemy.pos)) {
+			return true;
+		}
+
+		if (enemy.buff(SpellBook_Disintegration.VisionBuff.class) != null) {
 			return true;
 		}
 
@@ -1984,6 +1990,11 @@ public class Hero extends Char {
 			wep = belongings.attackingWeapon();
 		}
 
+		if (hero.hasTalent(Talent.BRIG_BOOST) && hero.buff(SpellBookCoolDown.class) != null) {
+			hero.buff(SpellBookCoolDown.class).use(2);
+			BuffIndicator.refreshHero(); //refresh the buff visually on-hit
+		}
+
 		if (hero.buff(Talent.SkilledHandTracker.class) != null) {
 			damage += 1+hero.pointsInTalent(Talent.SKILLED_HAND);
 			hero.buff(Talent.SkilledHandTracker.class).detach();
@@ -2014,6 +2025,12 @@ public class Hero extends Char {
 		}
 
 		if (wep != null) damage = wep.proc( this, enemy, damage );
+
+		if (hero.belongings.weapon != null) {
+			if (hero.belongings.weapon instanceof SpellBook || hero.belongings.secondWep instanceof SpellBook) {
+				damage = hero.belongings.weapon.proc(this, enemy, damage);
+			}
+		}
 
 		damage = Talent.onAttackProc( this, enemy, damage );
 
@@ -2182,75 +2199,6 @@ public class Hero extends Char {
 						return true;
 					}
 				});
-			}
-			break;
-		case ENGINEER:
-			if (wep != null) {
-				if (wep.gun) {
-					if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) >= 1 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
-						Buff.affect(this, Recharging.class, 1f);
-					}
-					if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 2 && Random.Int(5) == 0 && hero.pointsInTalent(Talent.CONNECTING_CHARGER) < 3) {
-						Buff.affect(this, ArtifactRecharge.class).set( 1 );
-					}
-					if (hero.pointsInTalent(Talent.CONNECTING_CHARGER) == 3) {
-						if (Random.Int(4) == 0) {
-							Buff.affect(this, Recharging.class, 2f);
-						}
-						if (Random.Int(4) == 0) {
-							Buff.affect(this, ArtifactRecharge.class).prolong( 2 );
-						}
-					}
-					if (hero.hasTalent(Talent.BATTERY_CHARGE)) {
-						MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
-						if (staff != null) {
-							staff.gainCharge(0.5f, false);
-							ScrollOfRecharging.charge(hero);
-						}
-					}
-					if (Random.Int(5) == 0) {
-						MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
-						int chance = 50;
-						if (hero.pointsInTalent(Talent.BATTERY_CHARGE) == 3) {
-							chance += 4*staff.getCurCharges();
-						}
-						if (Random.Int(100) < chance) {
-							Buff.affect(enemy, Paralysis.class, 2f + hero.pointsInTalent(Talent.HIGH_VOLT));
-							enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
-							enemy.sprite.flash();
-							Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
-						}
-						int shield = 10;
-						if (hero.pointsInTalent(Talent.BATTERY_CHARGE) > 1) {
-							shield += staff.getCurCharges();
-						}
-						Buff.affect(this, Barrier.class).setShield(shield);
-						if (hero.hasTalent(Talent.STATIC_ENERGY)) {
-							ArrayList<Lightning.Arc> arcs = new ArrayList<>();
-							ArrayList<Char> affected = new ArrayList<>();
-							affected.clear();
-							arcs.clear();
-
-							Shocking.arc(hero, enemy, 2, affected, arcs);
-
-							affected.remove(enemy); //defender isn't hurt by lightning
-							for (Char ch : affected) {
-								if (ch.alignment != hero.alignment) {
-									ch.damage(Math.round(5), this);
-									if (hero.pointsInTalent(Talent.STATIC_ENERGY) >= 2 ) {
-										Buff.affect(ch, Paralysis.class, 2f + hero.pointsInTalent(Talent.HIGH_VOLT));
-									}
-								}
-							}
-							if (hero.pointsInTalent((Talent.STATIC_ENERGY)) == 3 ) {
-								GameScene.add( Blob.seed( enemy.pos, 3, Electricity.class ) );
-							}
-
-							hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
-							Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
-						}
-					}
-				}
 			}
 			break;
 		default:

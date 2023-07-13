@@ -19,50 +19,91 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class SpellBook_Regrowth_Sword extends SpellBook_Regrowth {
+public class SpellBook_Regrowth extends SpellBook {
 
 	{
-		image = ItemSpriteSheet.REGROWTH_SPELLBOOK_SWORD;
-		hitSound = Assets.Sounds.HIT_SLASH;
+		image = ItemSpriteSheet.REGROWTH_SPELLBOOK;
+		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
-		tier = 5;
+		tier = 3;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
+		if (Random.Float() < procChance) {
+			boolean secondPlant = Random.Int(3) == 0;
+			ArrayList<Integer> positions = new ArrayList<>();
+			Blooming blooming = new Blooming();
+			for (int i : PathFinder.NEIGHBOURS8) {
+				positions.add(i);
+			}
+			Random.shuffle(positions);
+			for (int i : positions) {
+				if (blooming.plantGrass(defender.pos + i)) {
+					if (secondPlant) secondPlant = false;
+					else break;
+				}
+			}
+		}
+		return super.proc( attacker, defender, damage );
+	}
+
+	@Override
+	public void execute(Hero hero, String action) {
+
+		super.execute(hero, action);
+
+		if (action.equals(AC_READ)) {
+			if (hero.buff(SpellBookCoolDown.class) != null) {
+				return;
+			} else if (!isIdentified()) {
+				return;
+			}
+			readEffect(hero, true);
+		}
+	}
+
+	@Override
+	public void readEffect(Hero hero, boolean busy) {
+		Buff.affect(hero, Sungrass.Health.class).boost(Dungeon.depth+2*buffedLvl());
+		if (buffedLvl() >= 10) {
+			Buff.affect(hero, Earthroot.Armor.class).level(20+buffedLvl());
+		}
+		needAnimation = busy;
+		if (needAnimation) {
+			readAnimation();
+		}
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{Greatsword.class, SpellBook_Regrowth.class, ArcaneResin.class};
-			inQuantity = new int[]{1, 1, 4};
+			inputs =  new Class[]{SpellBook_Empty.class, WandOfRegrowth.class};
+			inQuantity = new int[]{1, 1};
 
 			cost = 10;
 
-			output = SpellBook_Regrowth_Sword.class;
+			output = SpellBook_Regrowth.class;
 			outQuantity = 1;
 		}
 	}

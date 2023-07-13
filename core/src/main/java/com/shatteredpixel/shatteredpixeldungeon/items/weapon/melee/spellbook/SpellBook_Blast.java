@@ -19,34 +19,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
-import java.util.ArrayList;
-
-public class SpellBook_Regrowth extends SpellBook {
+public class SpellBook_Blast extends SpellBook {
 
 	{
-		image = ItemSpriteSheet.REGROWTH_SPELLBOOK;
+		image = ItemSpriteSheet.BLAST_SPELLBOOK;
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
@@ -55,21 +47,9 @@ public class SpellBook_Regrowth extends SpellBook {
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
-		float procChance = (buffedLvl()+1f)/(buffedLvl()+3f);
+		float procChance = (buffedLvl()+1f)/(buffedLvl()+5f);
 		if (Random.Float() < procChance) {
-			boolean secondPlant = Random.Int(3) == 0;
-			ArrayList<Integer> positions = new ArrayList<>();
-			Blooming blooming = new Blooming();
-			for (int i : PathFinder.NEIGHBOURS8) {
-				positions.add(i);
-			}
-			Random.shuffle(positions);
-			for (int i : positions) {
-				if (blooming.plantGrass(defender.pos + i)) {
-					if (secondPlant) secondPlant = false;
-					else break;
-				}
-			}
+			Buff.affect(defender, Paralysis.class, (buffedLvl() >= 10) ? 1f : 2f);
 		}
 		return super.proc( attacker, defender, damage );
 	}
@@ -81,34 +61,59 @@ public class SpellBook_Regrowth extends SpellBook {
 
 		if (action.equals(AC_READ)) {
 			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "fail") );
+				return;
 			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
-			} else {
-				Buff.affect(hero, Sungrass.Health.class).boost(Dungeon.depth+2*buffedLvl());
-				if (buffedLvl() >= 10) {
-					Buff.affect(hero, Earthroot.Armor.class).level(20+buffedLvl());
-				}
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(200f-10*buffedLvl(), 100f));
-				Invisibility.dispel();
-				curUser.spend( Actor.TICK );
-				curUser.busy();
-				((HeroSprite)curUser.sprite).read();
-				Sample.INSTANCE.play(Assets.Sounds.READ);
+				return;
 			}
+			readEffect(hero, true);
+		}
+	}
+
+	@Override
+	public void readEffect(Hero hero, boolean busy) {
+		needAnimation = busy;
+
+		int[] pathFinder;
+		if (buffedLvl() >= 10) {
+			pathFinder = PathFinder.NEIGHBOURS24;
+		} else {
+			pathFinder = PathFinder.NEIGHBOURS8;
+		}
+
+		for (int i : pathFinder) {
+			Char ch = Actor.findChar(hero.pos+i);
+			if (ch != null) {
+				//trace a ballistica to our target (which will also extend past them
+				Ballistica trajectory = new Ballistica(hero.pos, ch.pos, Ballistica.STOP_TARGET);
+				//trim it to just be the part that goes past them
+				trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
+				//knock them back along that ballistica
+				if (buffedLvl() >= 10) {
+					WandOfBlastWave.throwChar(ch, trajectory, 3 + buffedLvl(), true, true, hero.getClass());
+				} else {
+					WandOfBlastWave.throwChar(ch, trajectory, 2 + buffedLvl() / 2, true, true, hero.getClass());
+				}
+			}
+		}
+		Sample.INSTANCE.play( Assets.Sounds.BLAST );
+		WandOfBlastWave.BlastWave.blast(hero.pos);
+
+		if (needAnimation) {
+			readAnimation();
 		}
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{SpellBook_Empty.class, WandOfRegrowth.class};
+			inputs =  new Class[]{SpellBook_Empty.class, WandOfBlastWave.class};
 			inQuantity = new int[]{1, 1};
 
 			cost = 10;
 
-			output = SpellBook_Regrowth.class;
+			output = SpellBook_Blast.class;
 			outQuantity = 1;
 		}
 	}
+
 }

@@ -19,13 +19,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
-
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
@@ -33,23 +30,16 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Inferno;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
-
-import java.util.ArrayList;
 
 public class SpellBook_Fire extends SpellBook {
 
@@ -84,59 +74,47 @@ public class SpellBook_Fire extends SpellBook {
 
 		if (action.equals(AC_READ)) {
 			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "fail") );
+				return;
 			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
-			} else {
-				usesTargeting = true;
-				curUser = hero;
-				curItem = this;
-				GameScene.selectCell(spell);
+				return;
 			}
+			readEffect(hero, true);
 		}
 	}
 
 	@Override
-	public int max(int lvl) {
-		return  3*(tier+1) +    //12 base, down from 20
-				lvl*(tier);     //+3 per level, down from +4
-	}
+	public void readEffect(Hero hero, boolean busy) {
+		needAnimation = busy;
 
-	private CellSelector.Listener spell = new CellSelector.Listener() {
-		@Override
-		public void onSelect( Integer cell ) {
-			if (cell != null) {
-				int c = cell;
-				if (Dungeon.level.map[c] != Terrain.WALL && Dungeon.level.heroFOV[c]) {
-					if (Dungeon.level.pit[c]) {
-						GameScene.add(Blob.seed(c, 1, Fire.class));
-					} else {
-						if (buffedLvl() >= 10) {
-							GameScene.add(Blob.seed(c, 300 + 20 * buffedLvl(), Inferno.class));
-						} else {
-							GameScene.add(Blob.seed(c, 5, Fire.class));
-						}
-					}
-					Sample.INSTANCE.play(Assets.Sounds.BURNING);
+		int[] pathFinder;
+		if (buffedLvl() >= 10) {
+			pathFinder = PathFinder.NEIGHBOURS25;
+		} else {
+			pathFinder = PathFinder.NEIGHBOURS9;
+		}
+
+		for (int i : pathFinder) {
+			int c = hero.pos + i;
+			if (Dungeon.level.map[c] != Terrain.WALL && Dungeon.level.heroFOV[c]) {
+				if (Dungeon.level.pit[c]) {
+					GameScene.add(Blob.seed(c, 1, Fire.class));
 				} else {
-					GLog.w( Messages.get(SpellBook_Fire.this, "cannot_cast"));
+					if (buffedLvl() >= 10) {
+						GameScene.add(Blob.seed(c, 50 + 20 * buffedLvl(), Inferno.class));
+					} else {
+						GameScene.add(Blob.seed(c, 5, Fire.class));
+					}
 				}
-				Buff.affect(hero, FireImbue.class).set(Math.min(10+2*buffedLvl(), 50));
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(100f-5*buffedLvl(), 50f));
-				Invisibility.dispel();
-				curUser.spend( Actor.TICK );
-				curUser.busy();
-				((HeroSprite)curUser.sprite).read();
-				hero.sprite.emitter().burst( FlameParticle.FACTORY, buffedLvl() + 3 );
-				Sample.INSTANCE.play(Assets.Sounds.READ);
 			}
 		}
-		@Override
-		public String prompt() {
-			return Messages.get(SpiritBow.class, "prompt");
-		}
+		Sample.INSTANCE.play(Assets.Sounds.BURNING);
+		Buff.affect(hero, FireImbue.class).set(Math.min(10+3*buffedLvl(), 80));
+		hero.sprite.emitter().burst( FlameParticle.FACTORY, buffedLvl() + 3 );
 
-	};
+		if (needAnimation) {
+			readAnimation();
+		}
+	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 

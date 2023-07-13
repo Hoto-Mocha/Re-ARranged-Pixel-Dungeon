@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
@@ -33,7 +33,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellBookCoolDown;
@@ -48,7 +47,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
@@ -121,16 +119,21 @@ public class SpellBook_Corruption extends SpellBook {
 
 		if (action.equals(AC_READ)) {
 			if (hero.buff(SpellBookCoolDown.class) != null) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "fail") );
+				return;
 			} else if (!isIdentified()) {
-				GLog.w( Messages.get(SpellBook_Empty.class, "need_id") );
-			} else {
-				usesTargeting = true;
-				curUser = hero;
-				curItem = this;
-				GameScene.selectCell(spell);
+				return;
 			}
+			readEffect(hero, true);
 		}
+	}
+
+	@Override
+	public void readEffect(Hero hero, boolean busy) {
+		usesTargeting = true;
+		curUser = hero;
+		curItem = this;
+		needAnimation = busy;
+		GameScene.selectCell(spell);
 	}
 
 	private CellSelector.Listener spell = new CellSelector.Listener() {
@@ -180,15 +183,13 @@ public class SpellBook_Corruption extends SpellBook {
 				} else {
 					GLog.p( Messages.get(SpellBook_Corruption.this, "cannot_cast") );
 				}
-				Buff.affect(hero, SpellBookCoolDown.class, Math.max(50f-2.5f*buffedLvl(), 25f));
-				Invisibility.dispel();
-				curUser.spend( Actor.TICK );
-				curUser.busy();
-				((HeroSprite)curUser.sprite).read();
 				hero.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
-				Sample.INSTANCE.play(Assets.Sounds.READ);
+				if (needAnimation) {
+					readAnimation();
+				}
 			}
 		}
+
 		@Override
 		public String prompt() {
 			return Messages.get(SpiritBow.class, "prompt");

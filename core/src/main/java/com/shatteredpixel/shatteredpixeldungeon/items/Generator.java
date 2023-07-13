@@ -136,6 +136,32 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Blast;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Blast_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Corrosion_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Corruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Corruption_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Disintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Disintegration_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Earth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Earth_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Empty;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Empty_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Fire;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Fire_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Frost;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Frost_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Lightning;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Lightning_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Prismatic;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Prismatic_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Regrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Regrowth_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Transfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Transfusion_Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Warding;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Warding_Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Bolas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.FishingSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ForceCube;
@@ -677,7 +703,7 @@ public class Generator {
 					SpellBook_Warding_Sword.class,
 					SpellBook_Earth_Sword.class,
 			};
-			SPELLBOOK.defaultProbs = new float[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			SPELLBOOK.defaultProbs = new float[]{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			SPELLBOOK.probs = SPELLBOOK.defaultProbs.clone();
 
 			SUBWEAPON.classes = new Class<?>[]{

@@ -186,13 +186,13 @@ public enum Talent {
 	MADNESS							(66, 3),
 	ENHANCED_MARK					(67, 3),
 	MARK_OF_WEAKNESS				(68, 3),
-	//Engineer T3
-	AMMO_PRESERVE					(69, 3),
-	CONNECTING_CHARGER				(70, 3),
-	HIGH_VOLT						(71, 3),
-	STATIC_ENERGY					(72, 3),
-	BATTERY_CHARGE					(73, 3),
-	ELECTRIC_BULLET					(74, 3),
+	//Wizard T3
+	SPELL_ENHANCE					(69, 3),
+	BRIG_BOOST						(70, 3),
+	ENERGY_REMAINS					(71, 3),
+	SOUL_OF_BATTLEMAGE				(72, 3),
+	SOUL_OF_WARLOCK					(73, 3),
+	LIFE_ENERGY						(74, 3),
 	//Elemental Blast T4
 	BLAST_RADIUS					(75, 4),
 	ELEMENTAL_POWER					(76, 4),
@@ -965,7 +965,7 @@ public enum Talent {
 	public static class AgressiveMovementAbilityTracker extends FlavourBuff{
 		public boolean wepAbilUsed = false;
 	}
-	public static class CounterAbilityTacker extends FlavourBuff{};
+	public static class CounterAbilityTracker extends FlavourBuff{};
 
 	int icon;
 	int maxPoints;
@@ -1853,8 +1853,8 @@ public enum Talent {
 			case WARLOCK:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, SOUL_EATER, SOUL_SIPHON, NECROMANCERS_MINIONS, MADNESS, ENHANCED_MARK, MARK_OF_WEAKNESS);
 				break;
-			case ENGINEER:
-				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, AMMO_PRESERVE, CONNECTING_CHARGER, HIGH_VOLT, STATIC_ENERGY, BATTERY_CHARGE, ELECTRIC_BULLET);
+			case WIZARD:
+				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, SPELL_ENHANCE, BRIG_BOOST, ENERGY_REMAINS, SOUL_OF_BATTLEMAGE, SOUL_OF_WARLOCK, LIFE_ENERGY);
 				break;
 			case ASSASSIN:
 				Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE, ENHANCED_LETHALITY, ASSASSINS_REACH, BOUNTY_HUNTER, ENERGY_DRAW, PERFECT_ASSASSIN, CAUTIOUS_PREP);
