@@ -155,24 +155,25 @@ public enum HeroClass {
 		.upgrade()
 		.collect();
 		 */
-		//new TengusMask().identify().collect();
-		//new PotionOfExperience().identify().quantity(29).collect();
-		//new Teleporter().identify().collect();
-		//new PlateArmor().identify().upgrade(100).collect();
-		//new TestWeapon().identify().collect();
-		//new PotionOfDivineInspiration().identify().quantity(4).collect();
-		//new PotionOfHealing().identify().quantity(100).collect();
-		//new RingOfMight().identify().upgrade(20).collect();
-		//new KingsCrown().collect();
-		//new ScrollOfUpgrade().identify().quantity(200).collect();
-
-		//new SpellBook_Disintegration().identify().collect();
-		//new ScrollOfTeleportation().identify().quantity(200).collect();
-		//new WandOfDisintegration().identify().collect();
-		//new SpellBook_Empty().identify().collect();
-		//new SpellBook_Transfusion().identify().collect();
-		//new WandOfTransfusion().identify().quantity(200).upgrade(10).collect();
-		//new ScrollOfChallenge().identify().collect();
+//		new TengusMask().identify().collect();
+//		new PotionOfExperience().identify().quantity(29).collect();
+//		new Teleporter().identify().collect();
+//		new PlateArmor().identify().upgrade(100).collect();
+//		new TestWeapon().identify().collect();
+//		new PotionOfDivineInspiration().identify().quantity(4).collect();
+//		new PotionOfHealing().identify().quantity(100).collect();
+//		new RingOfMight().identify().upgrade(20).collect();
+//		new KingsCrown().collect();
+//		new ScrollOfUpgrade().identify().quantity(200).collect();
+//
+//		new SpellBook_Disintegration().identify().collect();
+//		new ScrollOfTeleportation().identify().quantity(200).collect();
+//		new WandOfDisintegration().identify().collect();
+//		new SpellBook_Empty().identify().collect();
+//		new SpellBook_Transfusion().identify().collect();
+//		new WandOfTransfusion().identify().quantity(200).upgrade(10).collect();
+//		new ScrollOfChallenge().identify().collect();
+//		new ScrollOfTransmutation().identify().quantity(200).collect();
 
 		//new AntimaterRifle().identify().collect();
 		//new ScrollOfMetamorphosis().identify().quantity(20).collect();

@@ -52,7 +52,7 @@ public class KnightsShield extends Item {
 				if (hero.hasTalent(Talent.FAITH)) {
 					blocking += 2 + 3 * hero.pointsInTalent(Talent.FAITH);
 				}
-				int interval = hero.lvl/6;
+				int interval = (int)Math.ceil(hero.lvl/6f);
 				hero.sprite.operate(hero.pos);
 				hero.spendAndNext(Actor.TICK);
 				Sample.INSTANCE.play(Assets.Sounds.MISS);

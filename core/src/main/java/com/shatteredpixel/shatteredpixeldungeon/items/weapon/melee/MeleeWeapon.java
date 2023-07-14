@@ -377,17 +377,19 @@ public class MeleeWeapon extends Weapon {
 
 			}
 		}
+
 		if (!evaluatingWizardUpgrades && isEquipped(Dungeon.hero) && hero.subClass == HeroSubClass.WIZARD){
 			KindOfWeapon other = null;
 			if (Dungeon.hero.belongings.weapon() != this) other = Dungeon.hero.belongings.weapon();
-			if (Dungeon.hero.belongings.secondWep() != this) other = Dungeon.hero.belongings.secondWep();
 
 			if (other instanceof MeleeWeapon) {
 				evaluatingWizardUpgrades = true;
 				int otherLevel = other.buffedLvl();
 				evaluatingWizardUpgrades = false;
 
-				return otherLevel;
+				if (otherLevel > super.buffedLvl()) {
+					return otherLevel;
+				}
 			}
 		}
 		return super.buffedLvl();

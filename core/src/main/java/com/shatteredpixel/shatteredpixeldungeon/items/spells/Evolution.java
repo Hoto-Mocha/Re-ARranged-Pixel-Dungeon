@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
@@ -55,6 +56,15 @@ public class Evolution extends InventorySpell {
 
     @Override
     protected boolean usableOnItem(Item item) {
+        Item second = null;
+        if (Dungeon.hero.belongings.secondWep != null) {
+            second = Dungeon.hero.belongings.secondWep;
+        }
+        if (Dungeon.hero.subClass == HeroSubClass.WIZARD && second != null) {
+            if (item == second) {
+                return false;
+            }
+        }
         return (item instanceof MeleeWeapon
                 && (!(item instanceof GrenadeLauncher))
                 && (!(item instanceof GrenadeLauncherAP))
