@@ -44,7 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.CorrosionBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
@@ -227,7 +227,7 @@ abstract public class MissileWeapon extends Weapon {
 				WindBow	bow2 = hero.belongings.getItem(WindBow.class);
 				GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
 				NaturesBow bow4 = hero.belongings.getItem(NaturesBow.class);
-				PoisonBow bow5 = hero.belongings.getItem(PoisonBow.class);
+				CorrosionBow bow5 = hero.belongings.getItem(CorrosionBow.class);
 				if (bow != null && bow.hasEnchant(Projecting.class, user)) {
 					projecting = true;
 				}
@@ -405,7 +405,7 @@ abstract public class MissileWeapon extends Weapon {
 				WindBow	bow2 = hero.belongings.getItem(WindBow.class);
 				GoldenBow bow3 = hero.belongings.getItem(GoldenBow.class);
 				NaturesBow bow4 = hero.belongings.getItem(NaturesBow.class);
-				PoisonBow bow5 = hero.belongings.getItem(PoisonBow.class);
+				CorrosionBow bow5 = hero.belongings.getItem(CorrosionBow.class);
 				if (bow != null && bow.enchantment != null && hero.buff(MagicImmune.class) == null) {
 					damage = bow.enchantment.proc(this, attacker, defender, damage);
 				}

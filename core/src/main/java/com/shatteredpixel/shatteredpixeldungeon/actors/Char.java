@@ -136,7 +136,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLightning;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.CorrosionBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
@@ -1003,7 +1003,7 @@ public abstract class Char extends Actor {
 					&& (hero.belongings.attackingWeapon() instanceof SpiritBow.SpiritArrow
 						|| hero.belongings.attackingWeapon() instanceof GoldenBow.SpiritArrow
 						|| hero.belongings.attackingWeapon() instanceof WindBow.SpiritArrow
-						|| hero.belongings.attackingWeapon() instanceof PoisonBow.SpiritArrow
+						|| hero.belongings.attackingWeapon() instanceof CorrosionBow.SpiritArrow
 						|| hero.belongings.attackingWeapon() instanceof NaturesBow.SpiritArrow)) {
 				dmg *= 1.5f;
 			}

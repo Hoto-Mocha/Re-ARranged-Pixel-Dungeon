@@ -34,7 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.InventoryScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.CorrosionBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
@@ -76,7 +76,7 @@ public class ScrollOfEnchantment extends ExoticScroll {
 		return ((item instanceof MeleeWeapon && !(item instanceof MissileButton))
 				|| item instanceof SpiritBow
 				|| item instanceof WindBow
-				|| item instanceof PoisonBow
+				|| item instanceof CorrosionBow
 				|| item instanceof GoldenBow
 				|| item instanceof NaturesBow
 				|| item instanceof Armor);

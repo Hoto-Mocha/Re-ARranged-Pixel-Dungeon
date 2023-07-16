@@ -234,7 +234,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.CorrosionBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
@@ -2026,9 +2026,12 @@ public class Hero extends Char {
 
 		if (wep != null) damage = wep.proc( this, enemy, damage );
 
-		if (hero.belongings.weapon != null) {
-			if (hero.belongings.weapon instanceof SpellBook || hero.belongings.secondWep instanceof SpellBook) {
-				damage = hero.belongings.weapon.proc(this, enemy, damage);
+		if (wep != hero.belongings.weapon && hero.belongings.weapon instanceof SpellBook) {
+			damage = hero.belongings.weapon.proc(this, enemy, damage);
+		}
+		if (hero.belongings.secondWep != null) {
+			if (hero.belongings.secondWep instanceof SpellBook) {
+				damage = hero.belongings.secondWep.proc(this, enemy, damage);
 			}
 		}
 
@@ -2087,7 +2090,7 @@ public class Hero extends Char {
 		case SNIPER:
 			if (wep instanceof MissileWeapon && !(wep instanceof SpiritBow.SpiritArrow
 					|| wep instanceof WindBow.SpiritArrow
-					|| wep instanceof PoisonBow.SpiritArrow
+					|| wep instanceof CorrosionBow.SpiritArrow
 					|| wep instanceof GoldenBow.SpiritArrow
 					|| wep instanceof NaturesBow.SpiritArrow) && enemy != this) {
 				Actor.add(new Actor() {

@@ -762,7 +762,7 @@ public class ItemSpriteSheet {
 	public static final int WIND_ARROW		= BULLETS+8;
 	public static final int NATURAL_ARROW	= BULLETS+9;
 	public static final int GOLDEN_ARROW	= BULLETS+10;
-	public static final int	POISON_ARROW	= BULLETS+11;
+	public static final int	CORROSION_ARROW	= BULLETS+11;
 	public static final int GRENADE 		= BULLETS+12;
 	public static final int HE_GRENADE 		= BULLETS+13;
 	public static final int SMOKE_GRENADE 	= BULLETS+14;
@@ -779,7 +779,7 @@ public class ItemSpriteSheet {
 		assignItemRect(WIND_ARROW,		11, 11);
 		assignItemRect(NATURAL_ARROW,	11, 11);
 		assignItemRect(GOLDEN_ARROW,	11, 11);
-		assignItemRect(POISON_ARROW,	11, 11);
+		assignItemRect(CORROSION_ARROW,	11, 11);
 		assignItemRect(GRENADE,			7,  7 );
 		assignItemRect(HE_GRENADE,		7,  7 );
 		assignItemRect(SMOKE_GRENADE,	7,  7 );
@@ -910,13 +910,13 @@ public class ItemSpriteSheet {
 	public static final int WIND_BOW    	= ETC+1;
 	public static final int NATURAL_BOW   	= ETC+2;
 	public static final int GOLDEN_BOW    	= ETC+3;
-	public static final int POISON_BOW    	= ETC+4;
+	public static final int CORROSION_BOW   = ETC+4;
 	static{
 		assignItemRect(MISSILE_BUTTON      ,14, 14);
 		assignItemRect(WIND_BOW            ,16, 16);
 		assignItemRect(NATURAL_BOW         ,16, 16);
 		assignItemRect(GOLDEN_BOW          ,16, 16);
-		assignItemRect(POISON_BOW          ,16, 16);
+		assignItemRect(CORROSION_BOW       ,16, 16);
 	}
 
 	private static final int SUBWEAPONS         =                               xy(1, 36);

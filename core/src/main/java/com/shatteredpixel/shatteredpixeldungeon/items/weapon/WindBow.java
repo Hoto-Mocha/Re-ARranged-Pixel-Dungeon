@@ -57,7 +57,7 @@ import java.util.ArrayList;
 
 public class WindBow extends Weapon {
 
-	//힘 2만큼 가볍고 데미지 절반, 공속 2배
+	//힘 2만큼 가볍고 데미지 0.7배
 	public static final String AC_SHOOT		= "SHOOT";
 
 	{
@@ -189,7 +189,7 @@ public class WindBow extends Weapon {
 		int dmg = 1 + Dungeon.hero.lvl/5
 				+ RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
 				+ (curseInfusionBonus ? 1 + Dungeon.hero.lvl/30 : 0);
-		return Math.max(0, Math.round(dmg*0.5f));
+		return Math.max(0, Math.round(dmg*0.7f));
 	}
 
 	@Override
@@ -197,7 +197,7 @@ public class WindBow extends Weapon {
 		int dmg = 6 + (int)(Dungeon.hero.lvl/2.5f)
 				+ 2*RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
 				+ (curseInfusionBonus ? 2 + Dungeon.hero.lvl/15 : 0);
-		return Math.max(0, Math.round(dmg*0.5f));
+		return Math.max(0, Math.round(dmg*0.7f));
 	}
 
 	@Override
@@ -248,12 +248,12 @@ public class WindBow extends Weapon {
 				case NONE: default:
 					return 0f;
 				case SPEED:
-					return 0.5f;
-				case DAMAGE:
 					return 1f;
+				case DAMAGE:
+					return 2f;
 			}
 		} else {
-			return super.baseDelay(owner)/2f;
+			return super.baseDelay(owner);
 		}
 	}
 
@@ -349,10 +349,13 @@ public class WindBow extends Weapon {
 			Char enemy = Actor.findChar( cell );
 			if (enemy == null || enemy == curUser) {
 				parent = null;
-				Splash.at( cell, 0xCC99FFFF, 1 );
+				Splash.at( cell, 0xCCFFFFFF, 1 );
 			} else {
-				if (!curUser.shoot( enemy, this )) {
-					Splash.at(cell, 0xCC99FFFF, 1);
+				for (int i = 0; i < 1+Random.Int(3); i++) { //hits 1~3 times in a row
+					if (!enemy.isAlive()) break;
+					if (!curUser.shoot( enemy, this )) {
+						Splash.at(cell, 0xCCFFFFFF, 1+Random.Int(2));
+					}
 				}
 				if (sniperSpecial && WindBow.this.augment != Augment.SPEED) sniperSpecial = false;
 			}

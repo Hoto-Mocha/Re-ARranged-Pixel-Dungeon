@@ -349,10 +349,11 @@ public class GoldenBow extends Weapon {
 			Char enemy = Actor.findChar( cell );
 			if (enemy == null || enemy == curUser) {
 				parent = null;
-				Splash.at( cell, 0xCC99FFFF, 1 );
+				Splash.at( cell, 0xCCFFFF9C, 1 );
+
 			} else {
 				if (!curUser.shoot( enemy, this )) {
-					Splash.at(cell, 0xCC99FFFF, 1);
+					Splash.at(cell, 0xCCFFFF9C, 1);
 				}
 				if (sniperSpecial && GoldenBow.this.augment != Augment.SPEED) sniperSpecial = false;
 			}

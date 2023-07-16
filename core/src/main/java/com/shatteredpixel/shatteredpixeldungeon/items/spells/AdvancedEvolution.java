@@ -31,9 +31,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.CorrosionBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
@@ -135,14 +138,37 @@ public class AdvancedEvolution extends InventorySpell {
             GLog.n( Messages.get(this, "nothing") );
             curItem.collect( curUser.belongings.backpack );
         } else {
-            if (item.isEquipped(Dungeon.hero)){
-                item.cursed = false; //to allow it to be unequipped
-                ((EquipableItem)item).doUnequip(Dungeon.hero, false);
-                ((EquipableItem)result).doEquip(Dungeon.hero);
-            } else {
-                item.detach(Dungeon.hero.belongings.backpack);
-                if (!result.collect()){
-                    Dungeon.level.drop(result, curUser.pos).sprite.drop();
+            if (result != item) {
+                int slot = Dungeon.quickslot.getSlot(item);
+                if (item.isEquipped(Dungeon.hero)) {
+                    item.cursed = false; //to allow it to be unequipped
+                    if (item instanceof Artifact && result instanceof Ring){
+                        //if we turned an equipped artifact into a ring, ring goes into inventory
+                        ((EquipableItem) item).doUnequip(Dungeon.hero, false);
+                        if (!result.collect()){
+                            Dungeon.level.drop(result, curUser.pos).sprite.drop();
+                        }
+                    } else if (item instanceof KindOfWeapon && Dungeon.hero.belongings.secondWep() == item){
+                        ((EquipableItem) item).doUnequip(Dungeon.hero, false);
+                        ((KindOfWeapon) result).equipSecondary(Dungeon.hero);
+                    } else {
+                        ((EquipableItem) item).doUnequip(Dungeon.hero, false);
+                        ((EquipableItem) result).doEquip(Dungeon.hero);
+                    }
+                    Dungeon.hero.spend(-Dungeon.hero.cooldown()); //cancel equip/unequip time
+                } else {
+                    item.detach(Dungeon.hero.belongings.backpack);
+                    if (!result.collect()) {
+                        Dungeon.level.drop(result, curUser.pos).sprite.drop();
+                    } else if (Dungeon.hero.belongings.getSimilar(result) != null){
+                        result = Dungeon.hero.belongings.getSimilar(result);
+                    }
+                }
+                if (slot != -1
+                        && result.defaultAction() != null
+                        && !Dungeon.quickslot.isNonePlaceholder(slot)
+                        && Dungeon.hero.belongings.contains(result)){
+                    Dungeon.quickslot.setSlot(slot, result);
                 }
             }
             if (result.isIdentified()){
@@ -161,7 +187,7 @@ public class AdvancedEvolution extends InventorySpell {
                 || item instanceof WindBow
                 || item instanceof NaturesBow
                 || item instanceof GoldenBow
-                || item instanceof PoisonBow
+                || item instanceof CorrosionBow
                 || item instanceof MissileWeapon ) {
             return changeWeapon((Weapon) item);
         } else {
@@ -341,7 +367,7 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new NaturesBow();
                     break;
                 case 2:
-                    n = new PoisonBow();
+                    n = new CorrosionBow();
                     break;
                 case 3:
                     n = new GoldenBow();
@@ -353,7 +379,7 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new NaturesBow();
                     break;
                 case 1:
-                    n = new PoisonBow();
+                    n = new CorrosionBow();
                     break;
                 case 2:
                     n = new GoldenBow();
@@ -365,13 +391,13 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new WindBow();
                     break;
                 case 1:
-                    n = new PoisonBow();
+                    n = new CorrosionBow();
                     break;
                 case 2:
                     n = new GoldenBow();
                     break;
             }
-        } else if (w instanceof PoisonBow) {
+        } else if (w instanceof CorrosionBow) {
             switch (Random.Int(3)) {
                 case 0: default:
                     n = new WindBow();
@@ -392,7 +418,7 @@ public class AdvancedEvolution extends InventorySpell {
                     n = new NaturesBow();
                     break;
                 case 2:
-                    n = new PoisonBow();
+                    n = new CorrosionBow();
                     break;
             }
         } else if (w instanceof Crossbow) {
@@ -409,8 +435,9 @@ public class AdvancedEvolution extends InventorySpell {
             }
         }
 
-        int level = w.level();
-        if (w.curseInfusionBonus) level--;
+        n.level(0);
+        n.quantity(1);
+        int level = w.trueLevel();
         if (level > 0) {
             n.upgrade( level );
         } else if (level < 0) {

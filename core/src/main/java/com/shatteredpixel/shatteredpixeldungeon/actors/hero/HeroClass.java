@@ -162,16 +162,22 @@ public enum HeroClass {
 //		new TestWeapon().identify().collect();
 //		new PotionOfDivineInspiration().identify().quantity(4).collect();
 //		new PotionOfHealing().identify().quantity(100).collect();
-//		new RingOfMight().identify().upgrade(20).collect();
+//		new RingOfMight().identify().upgrade(10).collect();
 //		new KingsCrown().collect();
 //		new ScrollOfUpgrade().identify().quantity(200).collect();
-//
+
+//		new AdvancedEvolution().quantity(20).collect();
+//		new HeavyBoomerang().upgrade(10).collect();
+
 //		new SpellBook_Disintegration().identify().collect();
 //		new ScrollOfTeleportation().identify().quantity(200).collect();
 //		new WandOfDisintegration().identify().collect();
 //		new SpellBook_Empty().identify().collect();
+//		new SpellBook_Empty().identify().collect();
+//		new SpellBook_Empty().identify().collect();
+//		new SpellBook_Empty().identify().collect();
 //		new SpellBook_Transfusion().identify().collect();
-//		new WandOfTransfusion().identify().quantity(200).upgrade(10).collect();
+//		new WandOfTransfusion().identify().upgrade(10).collect();
 //		new ScrollOfChallenge().identify().collect();
 //		new ScrollOfTransmutation().identify().quantity(200).collect();
 
@@ -179,7 +185,7 @@ public enum HeroClass {
 		//new ScrollOfMetamorphosis().identify().quantity(20).collect();
 		//new Katana().identify().collect();
 		//new Crossbow().identify().collect();
-		//new ThrowingKnife().collect();
+		//new ThrowingKnife().quantity(200).collect();
 		//new FishingSpear().collect();
 		//new ThrowingSpear().collect();
 		//new Javelin().collect();

@@ -59,7 +59,7 @@ import java.util.ArrayList;
 public class NaturesBow extends Weapon {
 	
 	public static final String AC_SHOOT		= "SHOOT";
-	//데미지 감소 없음, 적 명중 시 20% 확률로 부정적 식물 효과 및 속박 3턴
+	//데미지 감소 없음, 적 명중 시 33% 확률로 부정적 식물 효과 및 속박 3턴
 	{
 		image = ItemSpriteSheet.NATURAL_BOW;
 		
@@ -133,11 +133,11 @@ public class NaturesBow extends Weapon {
 
 		}
 
-		if (Random.Int(5) == 0) {
+		if (Random.Int(3) == 0) {
 			Plant plant = (Plant) Reflection.newInstance(Random.element(harmfulPlants));
 			plant.pos = defender.pos;
 			plant.activate( defender.isAlive() ? defender : null );
-			Buff.affect(defender, Roots.class, 2f);
+			Buff.affect(defender, Roots.class, 3f);
 		}
 
 		return super.proc(attacker, defender, damage);
@@ -356,10 +356,10 @@ public class NaturesBow extends Weapon {
 			Char enemy = Actor.findChar( cell );
 			if (enemy == null || enemy == curUser) {
 				parent = null;
-				Splash.at( cell, 0xCC99FFFF, 1 );
+				Splash.at( cell, 0xCC00B43A, 1 );
 			} else {
 				if (!curUser.shoot( enemy, this )) {
-					Splash.at(cell, 0xCC99FFFF, 1);
+					Splash.at(cell, 0xCC00B43A, 1);
 				}
 				if (sniperSpecial && NaturesBow.this.augment != Augment.SPEED) sniperSpecial = false;
 			}

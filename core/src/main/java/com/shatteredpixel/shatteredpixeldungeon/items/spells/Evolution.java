@@ -30,6 +30,9 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
@@ -84,14 +87,37 @@ public class Evolution extends InventorySpell {
             GLog.n( Messages.get(this, "nothing") );
             curItem.collect( curUser.belongings.backpack );
         } else {
-            if (item.isEquipped(Dungeon.hero)){
-                item.cursed = false; //to allow it to be unequipped
-                ((EquipableItem)item).doUnequip(Dungeon.hero, false);
-                ((EquipableItem)result).doEquip(Dungeon.hero);
-            } else {
-                item.detach(Dungeon.hero.belongings.backpack);
-                if (!result.collect()){
-                    Dungeon.level.drop(result, curUser.pos).sprite.drop();
+            if (result != item) {
+                int slot = Dungeon.quickslot.getSlot(item);
+                if (item.isEquipped(Dungeon.hero)) {
+                    item.cursed = false; //to allow it to be unequipped
+                    if (item instanceof Artifact && result instanceof Ring){
+                        //if we turned an equipped artifact into a ring, ring goes into inventory
+                        ((EquipableItem) item).doUnequip(Dungeon.hero, false);
+                        if (!result.collect()){
+                            Dungeon.level.drop(result, curUser.pos).sprite.drop();
+                        }
+                    } else if (item instanceof KindOfWeapon && Dungeon.hero.belongings.secondWep() == item){
+                        ((EquipableItem) item).doUnequip(Dungeon.hero, false);
+                        ((KindOfWeapon) result).equipSecondary(Dungeon.hero);
+                    } else {
+                        ((EquipableItem) item).doUnequip(Dungeon.hero, false);
+                        ((EquipableItem) result).doEquip(Dungeon.hero);
+                    }
+                    Dungeon.hero.spend(-Dungeon.hero.cooldown()); //cancel equip/unequip time
+                } else {
+                    item.detach(Dungeon.hero.belongings.backpack);
+                    if (!result.collect()) {
+                        Dungeon.level.drop(result, curUser.pos).sprite.drop();
+                    } else if (Dungeon.hero.belongings.getSimilar(result) != null){
+                        result = Dungeon.hero.belongings.getSimilar(result);
+                    }
+                }
+                if (slot != -1
+                        && result.defaultAction() != null
+                        && !Dungeon.quickslot.isNonePlaceholder(slot)
+                        && Dungeon.hero.belongings.contains(result)){
+                    Dungeon.quickslot.setSlot(slot, result);
                 }
             }
             if (result.isIdentified()){
@@ -146,8 +172,9 @@ public class Evolution extends InventorySpell {
             n = (Weapon) Reflection.newInstance(c.classes[Random.chances(c.probs)]);
         } while (Challenges.isItemBlocked(n) || n.getClass() == w.getClass());
 
-        int level = w.level();
-        if (w.curseInfusionBonus) level--;
+        n.level(0);
+        n.quantity(1);
+        int level = w.trueLevel();
         if (level > 0) {
             n.upgrade( level );
         } else if (level < 0) {

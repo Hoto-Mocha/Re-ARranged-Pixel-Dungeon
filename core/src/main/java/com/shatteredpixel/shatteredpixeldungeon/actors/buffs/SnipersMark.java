@@ -28,7 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.GoldenBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.NaturesBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PoisonBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.CorrosionBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -102,11 +102,11 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 	public String actionName() {
 		SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
 		WindBow windBow = Dungeon.hero.belongings.getItem(WindBow.class);
-		PoisonBow poisonBow = Dungeon.hero.belongings.getItem(PoisonBow.class);
+		CorrosionBow corrosionBow = Dungeon.hero.belongings.getItem(CorrosionBow.class);
 		GoldenBow goldenBow = Dungeon.hero.belongings.getItem(GoldenBow.class);
 		NaturesBow naturesBow = Dungeon.hero.belongings.getItem(NaturesBow.class);
 
-		if (bow != null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) {
+		if (bow != null && windBow == null && corrosionBow == null && goldenBow == null && naturesBow == null) {
 			switch (bow.augment){
 				case NONE: default:
 					return Messages.get(this, "action_name_snapshot");
@@ -115,7 +115,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 				case DAMAGE:
 					return Messages.get(this, "action_name_sniper");
 			}
-		} else if (bow == null && windBow != null && poisonBow == null && goldenBow == null && naturesBow == null) {
+		} else if (bow == null && windBow != null && corrosionBow == null && goldenBow == null && naturesBow == null) {
 			switch (windBow.augment){
 				case NONE: default:
 					return Messages.get(this, "action_name_snapshot");
@@ -124,8 +124,8 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 				case DAMAGE:
 					return Messages.get(this, "action_name_sniper");
 			}
-		} else if (bow == null && windBow == null && poisonBow != null && goldenBow == null && naturesBow == null) {
-			switch (poisonBow.augment){
+		} else if (bow == null && windBow == null && corrosionBow != null && goldenBow == null && naturesBow == null) {
+			switch (corrosionBow.augment){
 				case NONE: default:
 					return Messages.get(this, "action_name_snapshot");
 				case SPEED:
@@ -133,7 +133,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 				case DAMAGE:
 					return Messages.get(this, "action_name_sniper");
 			}
-		} else if (bow == null && windBow == null && poisonBow == null && goldenBow != null && naturesBow == null) {
+		} else if (bow == null && windBow == null && corrosionBow == null && goldenBow != null && naturesBow == null) {
 			switch (goldenBow.augment){
 				case NONE: default:
 					return Messages.get(this, "action_name_snapshot");
@@ -142,7 +142,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 				case DAMAGE:
 					return Messages.get(this, "action_name_sniper");
 			}
-		} else if (bow == null && windBow == null && poisonBow == null && goldenBow == null && naturesBow != null) {
+		} else if (bow == null && windBow == null && corrosionBow == null && goldenBow == null && naturesBow != null) {
 			switch (naturesBow.augment){
 				case NONE: default:
 					return Messages.get(this, "action_name_snapshot");
@@ -174,13 +174,13 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 
 		SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
 		WindBow windBow = hero.belongings.getItem(WindBow.class);
-		PoisonBow poisonBow = hero.belongings.getItem(PoisonBow.class);
+		CorrosionBow corrosionBow = hero.belongings.getItem(CorrosionBow.class);
 		GoldenBow goldenBow = hero.belongings.getItem(GoldenBow.class);
 		NaturesBow naturesBow = hero.belongings.getItem(NaturesBow.class);
 
-		if (bow == null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) return;
+		if (bow == null && windBow == null && corrosionBow == null && goldenBow == null && naturesBow == null) return;
 
-		if (bow != null && windBow == null && poisonBow == null && goldenBow == null && naturesBow == null) {
+		if (bow != null && windBow == null && corrosionBow == null && goldenBow == null && naturesBow == null) {
 				   SpiritBow.SpiritArrow arrow = bow.knockArrow();
 				   if (arrow == null) return;
 
@@ -195,7 +195,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 
 				   arrow.cast(hero, cell);
 				   detach();
-		} else if (bow == null && windBow != null && poisonBow == null && goldenBow == null && naturesBow == null) {
+		} else if (bow == null && windBow != null && corrosionBow == null && goldenBow == null && naturesBow == null) {
 				   WindBow.SpiritArrow arrow = windBow.knockArrow();
 				   if (arrow == null) return;
 
@@ -210,8 +210,8 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 
 				   arrow.cast(hero, cell);
 				   detach();
-		} else if (bow == null && windBow == null && poisonBow != null && goldenBow == null && naturesBow == null) {
-				   PoisonBow.SpiritArrow arrow = poisonBow.knockArrow();
+		} else if (bow == null && windBow == null && corrosionBow != null && goldenBow == null && naturesBow == null) {
+				   CorrosionBow.SpiritArrow arrow = corrosionBow.knockArrow();
 				   if (arrow == null) return;
 
 				   Char ch = (Char) Actor.findById(object);
@@ -220,12 +220,12 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 				   int cell = QuickSlotButton.autoAim(ch, arrow);
 				   if (cell == -1) return;
 
-				   poisonBow.sniperSpecial = true;
-				   poisonBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/10f;
+				   corrosionBow.sniperSpecial = true;
+				   corrosionBow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/10f;
 
 				   arrow.cast(hero, cell);
 				   detach();
-		} else if (bow == null && windBow == null && poisonBow == null && goldenBow != null && naturesBow == null) {
+		} else if (bow == null && windBow == null && corrosionBow == null && goldenBow != null && naturesBow == null) {
 				   GoldenBow.SpiritArrow arrow = goldenBow.knockArrow();
 				   if (arrow == null) return;
 
@@ -240,7 +240,7 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 
 				   arrow.cast(hero, cell);
 				   detach();
-		} else if (bow == null && windBow == null && poisonBow == null && goldenBow == null && naturesBow != null) {
+		} else if (bow == null && windBow == null && corrosionBow == null && goldenBow == null && naturesBow != null) {
 				   NaturesBow.SpiritArrow arrow = naturesBow.knockArrow();
 				   if (arrow == null) return;
 

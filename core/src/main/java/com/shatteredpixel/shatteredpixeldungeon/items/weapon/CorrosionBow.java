@@ -26,7 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -56,13 +56,13 @@ import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 
-public class PoisonBow extends Weapon {
+public class CorrosionBow extends Weapon {
 	
 	public static final String AC_SHOOT		= "SHOOT";
-	//데미지 절반, 공격 시 적에게 1~3턴의 중독 부여
+	//데미지 70%, 공격 시 적에게 1~3턴의 부식 부여
 
 	{
-		image = ItemSpriteSheet.POISON_BOW;
+		image = ItemSpriteSheet.CORROSION_BOW;
 		
 		defaultAction = AC_SHOOT;
 		usesTargeting = true;
@@ -104,6 +104,14 @@ public class PoisonBow extends Weapon {
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
 
+		if (defender != null && defender.isAlive() && defender != curUser) {
+			if (defender.buff(Corrosion.class) != null) {
+				Buff.affect(defender, Corrosion.class).add(1+Random.Int(3), 1);
+			} else {
+				Buff.affect(defender, Corrosion.class).set(1+Random.Int(3), 1);
+			}
+		}
+
 		if (attacker.buff(NaturesPower.naturesPowerTracker.class) != null && !sniperSpecial){
 
 			Actor.add(new Actor() {
@@ -141,7 +149,7 @@ public class PoisonBow extends Weapon {
 	public String info() {
 		String info = desc();
 		
-		info += "\n\n" + Messages.get( PoisonBow.class, "stats",
+		info += "\n\n" + Messages.get( CorrosionBow.class, "stats",
 				Math.round(augment.damageFactor(min())),
 				Math.round(augment.damageFactor(max())),
 				STRReq());
@@ -190,7 +198,7 @@ public class PoisonBow extends Weapon {
 		int dmg = 1 + Dungeon.hero.lvl/5
 				+ RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
 				+ (curseInfusionBonus ? 1 + Dungeon.hero.lvl/30 : 0);
-		return Math.max(0, Math.round(dmg*0.5f));
+		return Math.max(0, Math.round(dmg*0.7f));
 	}
 
 	@Override
@@ -198,7 +206,7 @@ public class PoisonBow extends Weapon {
 		int dmg = 6 + (int)(Dungeon.hero.lvl/2.5f)
 				+ 2*RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
 				+ (curseInfusionBonus ? 2 + Dungeon.hero.lvl/15 : 0);
-		return Math.max(0, Math.round(dmg*0.5f));
+		return Math.max(0, Math.round(dmg*0.7f));
 	}
 
 	@Override
@@ -293,7 +301,7 @@ public class PoisonBow extends Weapon {
 	public class SpiritArrow extends MissileWeapon {
 		
 		{
-			image = ItemSpriteSheet.POISON_ARROW;
+			image = ItemSpriteSheet.CORROSION_ARROW;
 
 			hitSound = Assets.Sounds.HIT_ARROW;
 		}
@@ -313,27 +321,27 @@ public class PoisonBow extends Weapon {
 
 		@Override
 		public int damageRoll(Char owner) {
-			return PoisonBow.this.damageRoll(owner);
+			return CorrosionBow.this.damageRoll(owner);
 		}
 		
 		@Override
 		public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-			return PoisonBow.this.hasEnchant(type, owner);
+			return CorrosionBow.this.hasEnchant(type, owner);
 		}
 		
 		@Override
 		public int proc(Char attacker, Char defender, int damage) {
-			return PoisonBow.this.proc(attacker, defender, damage);
+			return CorrosionBow.this.proc(attacker, defender, damage);
 		}
 		
 		@Override
 		public float delayFactor(Char user) {
-			return PoisonBow.this.delayFactor(user);
+			return CorrosionBow.this.delayFactor(user);
 		}
 		
 		@Override
 		public float accuracyFactor(Char owner, Char target) {
-			if (sniperSpecial && PoisonBow.this.augment == Augment.DAMAGE){
+			if (sniperSpecial && CorrosionBow.this.augment == Augment.DAMAGE){
 				return Float.POSITIVE_INFINITY;
 			} else {
 				return super.accuracyFactor(owner, target);
@@ -342,7 +350,7 @@ public class PoisonBow extends Weapon {
 		
 		@Override
 		public int STRReq(int lvl) {
-			return PoisonBow.this.STRReq(lvl);
+			return CorrosionBow.this.STRReq(lvl);
 		}
 
 		@Override
@@ -350,15 +358,12 @@ public class PoisonBow extends Weapon {
 			Char enemy = Actor.findChar( cell );
 			if (enemy == null || enemy == curUser) {
 				parent = null;
-				Splash.at( cell, 0xCC99FFFF, 1 );
+				Splash.at( cell, 0xCCD98151, 1 );
 			} else {
 				if (!curUser.shoot( enemy, this )) {
-					Splash.at(cell, 0xCC99FFFF, 1);
+					Splash.at(cell, 0xCCD98151, 1);
 				}
-				if (sniperSpecial && PoisonBow.this.augment != Augment.SPEED) sniperSpecial = false;
-			}
-			if (enemy != null && enemy.isAlive() && enemy != curUser) {
-				Buff.affect(enemy, Poison.class).extend(Random.NormalIntRange(1, 3));
+				if (sniperSpecial && CorrosionBow.this.augment != Augment.SPEED) sniperSpecial = false;
 			}
 		}
 
@@ -373,8 +378,8 @@ public class PoisonBow extends Weapon {
 		@Override
 		public void cast(final Hero user, final int dst) {
 			final int cell = throwPos( user, dst );
-			PoisonBow.this.targetPos = cell;
-			if (sniperSpecial && PoisonBow.this.augment == Augment.SPEED){
+			CorrosionBow.this.targetPos = cell;
+			if (sniperSpecial && CorrosionBow.this.augment == Augment.SPEED){
 				if (flurryCount == -1) flurryCount = 3;
 				
 				final Char enemy = Actor.findChar( cell );
@@ -487,7 +492,7 @@ public class PoisonBow extends Weapon {
 		}
 		@Override
 		public String prompt() {
-			return Messages.get(PoisonBow.class, "prompt");
+			return Messages.get(CorrosionBow.class, "prompt");
 		}
 	};
 }

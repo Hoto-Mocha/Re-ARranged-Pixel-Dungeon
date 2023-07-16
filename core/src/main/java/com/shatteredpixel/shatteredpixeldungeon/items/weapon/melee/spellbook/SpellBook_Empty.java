@@ -210,8 +210,9 @@ public class SpellBook_Empty extends SpellBook {
 		Weapon n;
 		n = (Weapon)Generator.randomUsingDefaults(Generator.Category.SPELLBOOK);
 
-		int level = w.level();
-		if (w.curseInfusionBonus) level--;
+		n.level(0);
+		n.quantity(1);
+		int level = w.trueLevel();
 		if (level > 0) {
 			n.upgrade( level );
 		} else if (level < 0) {
