@@ -34,13 +34,25 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.painters.CavesPainter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.CaveRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
 import com.watabou.noosa.Group;
+import com.watabou.noosa.Image;
+import com.watabou.noosa.Tilemap;
+import com.watabou.noosa.audio.Music;
 
 public class MiningLevel extends Level {
 
 	{
 		color1 = 0x534f3e;
 		color2 = 0xb9d661;
+	}
+
+	@Override
+	public void playLevelMusic() {
+		Music.INSTANCE.playTracks(
+				new String[]{Assets.Music.CAVES_1, Assets.Music.CAVES_2, Assets.Music.CAVES_2},
+				new float[]{1, 1, 0.5f},
+				false);
 	}
 
 	@Override
@@ -79,6 +91,10 @@ public class MiningLevel extends Level {
 				.setGrass(0.10f, 3);
 
 		painter.paint(this, null);
+
+		BorderDarken vis = new BorderDarken();
+		vis.setRect(0, 0, width, height);
+		customWalls.add(vis);
 
 		return true;
 	}
@@ -155,5 +171,36 @@ public class MiningLevel extends Level {
 		super.addVisuals();
 		CavesLevel.addCavesVisuals(this, visuals);
 		return visuals;
+	}
+
+	public static class BorderDarken extends CustomTilemap{
+
+		{
+			texture = Assets.Environment.CAVES_QUEST;
+		}
+
+		@Override
+		public Tilemap create() {
+			Tilemap v = super.create();
+			int[] data = new int[tileW*tileH];
+			for (int i = 0; i < data.length; i++){
+				if (i < tileW){
+					data[i] = 2;
+				} else if (i % tileW == 0 || i % tileW == tileW-1){
+					data[i] = 1;
+				} else if (i + 2*tileW > data.length) {
+					data[i] = 3;
+				} else {
+					data[i] = -1;
+				}
+			}
+			v.map( data, tileW );
+			return v;
+		}
+
+		@Override
+		public Image image(int tileX, int tileY) {
+			return null;
+		}
 	}
 }

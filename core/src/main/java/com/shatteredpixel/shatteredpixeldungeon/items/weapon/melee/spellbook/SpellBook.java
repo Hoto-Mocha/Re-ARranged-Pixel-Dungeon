@@ -530,8 +530,8 @@ public class SpellBook extends MeleeWeapon {
 	}
 
 	@Override
-	public float abilityChargeUse(Hero hero, Char target) {
-		return super.abilityChargeUse(hero, target);
+	protected int baseChargeUse(Hero hero, Char target){
+		return 1;
 	}
 
 	@Override

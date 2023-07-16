@@ -83,11 +83,11 @@ public class ChaosSword extends MeleeWeapon {
 	}
 
 	@Override
-	public float abilityChargeUse(Hero hero, Char target) {
+	protected int baseChargeUse(Hero hero, Char target){
 		if (hero.buff(Sword.CleaveTracker.class) != null){
 			return 0;
 		} else {
-			return super.abilityChargeUse( hero, target);
+			return 1;
 		}
 	}
 

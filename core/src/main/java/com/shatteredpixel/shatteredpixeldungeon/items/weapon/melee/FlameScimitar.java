@@ -68,8 +68,8 @@ public class FlameScimitar extends MeleeWeapon {
 	}
 
 	@Override
-	public float abilityChargeUse(Hero hero, Char target) {
-		return 2*super.abilityChargeUse(hero, target);
+	protected int baseChargeUse(Hero hero, Char target){
+		return 2;
 	}
 
 	@Override

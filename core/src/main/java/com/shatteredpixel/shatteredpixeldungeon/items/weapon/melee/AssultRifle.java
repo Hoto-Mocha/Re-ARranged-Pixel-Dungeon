@@ -157,7 +157,7 @@ public class AssultRifle extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse( Hero hero, Char target ) {
+    protected int baseChargeUse(Hero hero, Char target){
         return 0;
     }
 

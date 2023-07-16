@@ -390,9 +390,11 @@ public class TalismanOfForesight extends Artifact {
 
 		public int pos;
 		public int depth = Dungeon.depth;
+		public int branch = Dungeon.branch;
 
 		private static final String POS = "pos";
 		private static final String DEPTH = "depth";
+		private static final String BRANCH = "branch";
 
 		@Override
 		public void detach() {
@@ -406,6 +408,7 @@ public class TalismanOfForesight extends Artifact {
 			super.restoreFromBundle(bundle);
 			pos = bundle.getInt(POS);
 			depth = bundle.getInt(DEPTH);
+			branch = bundle.getInt(BRANCH);
 		}
 
 		@Override
@@ -413,6 +416,7 @@ public class TalismanOfForesight extends Artifact {
 			super.storeInBundle(bundle);
 			bundle.put(POS, pos);
 			bundle.put(DEPTH, depth);
+			bundle.put(BRANCH, branch);
 		}
 	}
 
