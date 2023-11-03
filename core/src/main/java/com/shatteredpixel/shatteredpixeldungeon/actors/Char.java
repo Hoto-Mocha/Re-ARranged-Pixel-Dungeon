@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DamageEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Daze;
@@ -1908,6 +1909,21 @@ public abstract class Char extends Actor {
 			this.HP += amount;
 			this.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
 			this.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( amount ) );
+		}
+	}
+
+	public void corrupt(Char attacker) {
+		if (!this.isImmune(Corruption.class)
+				&& this.buff(Corruption.class) == null
+				&& this instanceof Mob
+				&& this.isAlive()){
+
+			Mob enemy = (Mob) this;
+			Hero hero = (attacker instanceof Hero) ? (Hero) attacker : Dungeon.hero;
+
+			Corruption.corruptionHeal(enemy);
+
+			AllyBuff.affectAndLoot(enemy, hero, Corruption.class);
 		}
 	}
 }

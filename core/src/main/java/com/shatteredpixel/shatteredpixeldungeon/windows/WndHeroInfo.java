@@ -225,7 +225,7 @@ public class WndHeroInfo extends WndTabbed {
 					break;
 				case PLANTER:
 					icons = new Image[]{new ItemSprite(ItemSpriteSheet.ARTIFACT_GREAVES),
-							new Image(Assets.Environment.TILES_SEWERS, 112, 96, 16, 16),
+							new Image(Assets.Environment.TILES_SEWERS, 112, 80, 16, 16),
 							new ItemSprite(ItemSpriteSheet.SHOVEL),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
