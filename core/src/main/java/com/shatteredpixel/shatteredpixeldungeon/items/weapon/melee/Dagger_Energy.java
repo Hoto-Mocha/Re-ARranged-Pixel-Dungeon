@@ -98,7 +98,7 @@ public class Dagger_Energy extends EnergyWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		sneakAbility(hero, 6, this);
+		sneakAbility(hero, target, 6, this);
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {

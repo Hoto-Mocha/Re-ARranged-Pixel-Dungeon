@@ -165,6 +165,8 @@ public enum HeroClass {
 		 */
 		if (SPDSettings.customSeed().equals("test")) {
 			new TengusMask().identify().collect();
+			new CrudePistol().identify().collect();
+			new CrudePistol().identify().collect();
 			new PotionOfExperience().identify().quantity(29).collect();
 			new Teleporter().identify().collect();
 			new PlateArmor().identify().upgrade(100).collect();

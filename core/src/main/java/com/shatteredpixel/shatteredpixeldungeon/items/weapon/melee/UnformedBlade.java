@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger.sneakAbility;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -263,7 +264,7 @@ public class UnformedBlade extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		Dagger.sneakAbility(hero, 3, this);
+		sneakAbility(hero, target, 3, this);
 	}
 
 }

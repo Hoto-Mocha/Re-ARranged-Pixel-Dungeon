@@ -92,7 +92,7 @@ public class RunicDagger extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		sneakAbility(hero, 5, this);
+		sneakAbility(hero, target, 5, this);
 	}
 
 }

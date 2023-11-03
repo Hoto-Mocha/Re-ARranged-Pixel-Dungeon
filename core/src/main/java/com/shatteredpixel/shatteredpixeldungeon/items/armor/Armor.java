@@ -720,15 +720,15 @@ public class Armor extends EquipableItem {
 		
 		public static final Class<?>[] common = new Class<?>[]{
 				Obfuscation.class, Swiftness.class, Viscosity.class, Potential.class };
-		
-		private static final Class<?>[] uncommon = new Class<?>[]{
+
+		public static final Class<?>[] uncommon = new Class<?>[]{
 				Brimstone.class, Stone.class, Entanglement.class, Mirrorimage.class,
 				Repulsion.class, Camouflage.class, Flow.class, Afterimage.class };
-		
-		private static final Class<?>[] rare = new Class<?>[]{
+
+		public static final Class<?>[] rare = new Class<?>[]{
 				Affection.class, AntiMagic.class, Thorns.class, Satisfying.class };
-		
-		private static final float[] typeChances = new float[]{
+
+		public static final float[] typeChances = new float[]{
 				50, //12.5% each
 				40, //5% each
 				10  //2.5% each
