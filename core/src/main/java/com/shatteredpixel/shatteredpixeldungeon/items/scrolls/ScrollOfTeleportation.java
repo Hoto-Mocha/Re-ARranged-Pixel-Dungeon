@@ -40,7 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
+import com.watabou.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.tweeners.AlphaTweener;
@@ -59,6 +59,7 @@ public class ScrollOfTeleportation extends Scroll {
 	@Override
 	public void doRead() {
 
+		detach(curUser.belongings.backpack);
 		Sample.INSTANCE.play( Assets.Sounds.READ );
 		
 		if (teleportPreferringUnseen( curUser )){
@@ -291,7 +292,10 @@ public class ScrollOfTeleportation extends Scroll {
 		}
 
 		ch.move( pos, false );
-		if (ch.pos == pos) ch.sprite.place( pos );
+		if (ch.pos == pos) {
+			ch.sprite.interruptMotion();
+			ch.sprite.place(pos);
+		}
 
 		if (ch.invisible == 0) {
 			ch.sprite.alpha( 0 );

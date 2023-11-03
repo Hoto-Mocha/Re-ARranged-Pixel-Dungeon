@@ -26,6 +26,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslo
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -45,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HealingArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
@@ -53,6 +55,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
@@ -114,7 +117,7 @@ public enum Talent {
 	MAX_HEALTH						(4),
 	//Warrior T2
 	IRON_STOMACH					(5),
-	RESTORED_WILLPOWER				(6),
+	LIQUID_WILLPOWER				(6),
 	RUNIC_TRANSFERENCE				(7),
 	LETHAL_MOMENTUM					(8),
 	IMPROVISED_PROJECTILES			(9),
@@ -164,13 +167,13 @@ public enum Talent {
 	CHARGE_PRESERVE					(48),
 	//Mage T2
 	ENERGIZING_MEAL					(49),
-	ENERGIZING_UPGRADE				(50),
+	INSCRIBED_POWER					(50),
 	WAND_PRESERVATION				(51),
 	ARCANE_VISION					(52),
 	SHIELD_BATTERY					(53),
 	FASTER_CHARGER					(54),
 	//Mage T3
-	EMPOWERING_SCROLLS				(55, 3),
+	DESPERATE_POWER					(55, 3),
 	ALLY_WARP						(56, 3),
 	//Battlemage T3
 	EMPOWERED_STRIKE				(57, 3),
@@ -214,7 +217,7 @@ public enum Talent {
 	EMERGENCY_ESCAPE				(92),
 	//Rogue T2
 	MYSTICAL_MEAL					(93),
-	MYSTICAL_UPGRADE				(94),
+	INSCRIBED_STEALTH				(94),
 	WIDE_SEARCH						(95),
 	SILENT_STEPS					(96),
 	ROGUES_FORESIGHT				(97),
@@ -264,7 +267,7 @@ public enum Talent {
 	WATER_FRIENDLY					(136),
 	//Huntress T2
 	INVIGORATING_MEAL				(137),
-	RESTORED_NATURE					(138),
+	LIQUID_NATURE					(138),
 	REJUVENATING_STEPS				(139),
 	HEIGHTENED_SENSES				(140),
 	DURABLE_PROJECTILES				(141),
@@ -314,13 +317,13 @@ public enum Talent {
 	SKILLED_HAND					(180),
 	//Duelist T2
 	FOCUSED_MEAL					(181),
-	RESTORED_AGILITY				(182),
+	LIQUID_AGILITY					(182),
 	WEAPON_RECHARGING				(183),
 	LETHAL_HASTE					(184),
 	SWIFT_EQUIP						(185),
 	ACCUMULATION					(186),
 	//Duelist T3
-	PRECISE_ASSAULT				(187, 3),
+	PRECISE_ASSAULT					(187, 3),
 	DEADLY_FOLLOWUP					(188, 3),
 	//Champion T3
 	SECONDARY_CHARGE				(189, 3),
@@ -1101,7 +1104,7 @@ public enum Talent {
 		if (talent == LIGHT_CLOAK && hero.heroClass == HeroClass.ROGUE){
 			for (Item item : Dungeon.hero.belongings.backpack){
 				if (item instanceof CloakOfShadows){
-					if (hero.buff(LostInventory.class) == null || item.keptThoughLostInvent) {
+					if (hero.buff(LostInventory.class) == null || item.keptThroughLostInventory()) {
 						((CloakOfShadows) item).activate(Dungeon.hero);
 					}
 				}
@@ -1171,7 +1174,7 @@ public enum Talent {
 				}
 			}
 		}
-		if (talent == SECONDARY_CHARGE || talent == TWIN_UPGRADES){
+		if (talent == SECONDARY_CHARGE || talent == TWIN_UPGRADES || talent == DESPERATE_POWER){
 			Item.updateQuickslot();
 		}
 
@@ -1330,50 +1333,54 @@ public enum Talent {
 		return factor;
 	}
 
-	public static void onHealingPotionUsed( Hero hero ) {
-		if (hero.hasTalent(RESTORED_WILLPOWER)) {
+
+	public static void onPotionUsed( Hero hero, int cell, float factor ){
+		if (hero.hasTalent(LIQUID_WILLPOWER)){
 			if (hero.heroClass == HeroClass.WARRIOR) {
 				BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
 				if (shield != null) {
-					int shieldToGive = Math.round(shield.maxShield() * 0.33f * (1 + hero.pointsInTalent(RESTORED_WILLPOWER)));
+					// 50/75% of total shield
+					int shieldToGive = Math.round(factor * shield.maxShield() * 0.25f * (1 + hero.pointsInTalent(LIQUID_WILLPOWER)));
 					shield.supercharge(shieldToGive);
 				}
 			} else {
-				int shieldToGive = Math.round(hero.HT * (0.025f * (1 + hero.pointsInTalent(RESTORED_WILLPOWER))));
+				// 5/7.5% of max HP
+				int shieldToGive = Math.round( factor * hero.HT * (0.025f * (1+hero.pointsInTalent(LIQUID_WILLPOWER))));
 				Buff.affect(hero, Barrier.class).setShield(shieldToGive);
 			}
 		}
-		if (hero.hasTalent(RESTORED_NATURE)) {
+		if (hero.hasTalent(LIQUID_NATURE)){
 			ArrayList<Integer> grassCells = new ArrayList<>();
-			for (int i : PathFinder.NEIGHBOURS8) {
-				grassCells.add(hero.pos + i);
+			for (int i : PathFinder.NEIGHBOURS9){
+				grassCells.add(cell+i);
 			}
 			Random.shuffle(grassCells);
-			for (int cell : grassCells) {
-				Char ch = Actor.findChar(cell);
-				if (ch != null && ch.alignment == Char.Alignment.ENEMY) {
-					Buff.affect(ch, Roots.class, 1f + hero.pointsInTalent(RESTORED_NATURE));
+			for (int grassCell : grassCells){
+				Char ch = Actor.findChar(grassCell);
+				if (ch != null && ch.alignment == Char.Alignment.ENEMY){
+					//1/2 turns of roots
+					Buff.affect(ch, Roots.class, factor * hero.pointsInTalent(LIQUID_NATURE));
 				}
-				if (Dungeon.level.map[cell] == Terrain.EMPTY ||
-						Dungeon.level.map[cell] == Terrain.EMBERS ||
-						Dungeon.level.map[cell] == Terrain.EMPTY_DECO) {
-					Level.set(cell, Terrain.GRASS);
-					GameScene.updateMap(cell);
+				if (Dungeon.level.map[grassCell] == Terrain.EMPTY ||
+						Dungeon.level.map[grassCell] == Terrain.EMBERS ||
+						Dungeon.level.map[grassCell] == Terrain.EMPTY_DECO){
+					Level.set(grassCell, Terrain.GRASS);
+					GameScene.updateMap(grassCell);
 				}
-				CellEmitter.get(cell).burst(LeafParticle.LEVEL_SPECIFIC, 4);
+				CellEmitter.get(grassCell).burst(LeafParticle.LEVEL_SPECIFIC, 4);
 			}
-			if (hero.pointsInTalent(RESTORED_NATURE) == 1) {
-				grassCells.remove(0);
-				grassCells.remove(0);
+			// 4/6 cells total
+			int totalGrassCells = (int) (factor * (2 + 2 * hero.pointsInTalent(LIQUID_NATURE)));
+			while (grassCells.size() > totalGrassCells){
 				grassCells.remove(0);
 			}
-			for (int cell : grassCells) {
-				int t = Dungeon.level.map[cell];
+			for (int grassCell : grassCells){
+				int t = Dungeon.level.map[grassCell];
 				if ((t == Terrain.EMPTY || t == Terrain.EMPTY_DECO || t == Terrain.EMBERS
 						|| t == Terrain.GRASS || t == Terrain.FURROWED_GRASS)
-						&& Dungeon.level.plants.get(cell) == null) {
-					Level.set(cell, Terrain.HIGH_GRASS);
-					GameScene.updateMap(cell);
+						&& Dungeon.level.plants.get(grassCell) == null){
+					Level.set(grassCell, Terrain.HIGH_GRASS);
+					GameScene.updateMap(grassCell);
 				}
 			}
 			Dungeon.observe();
@@ -1381,11 +1388,23 @@ public enum Talent {
 		if (hero.hasTalent(Talent.SAFE_HEALING)) {
 			Buff.affect(hero, Barrier.class).setShield(10 * hero.pointsInTalent(Talent.SAFE_HEALING));
 		}
-		if (hero.hasTalent(Talent.POTION_SPREAD) && !Dungeon.isChallenged(Challenges.NO_HEALING)) {
+		if (hero.hasTalent(Talent.POTION_SPREAD)) {
 			Buff.affect(hero, HealingArea.class).setup(hero.pos, Math.round(((0.8f * hero.HT + 14) / 3) * (1 + hero.pointsInTalent(Talent.POTION_SPREAD))), 2, true);
-			if (hero.hasTalent(RESTORED_AGILITY)) {
-				Buff.prolong(hero, RestoredAgilityTracker.class, hero.cooldown());
-			}
+		}
+		if (hero.hasTalent(LIQUID_AGILITY)){
+			Buff.prolong(hero, RestoredAgilityTracker.class, hero.cooldown() + Math.max(0, factor-1));
+		}
+	}
+
+	public static void onScrollUsed( Hero hero, int pos, float factor ){
+		if (hero.hasTalent(INSCRIBED_POWER)){
+			// 2/3 empowered wand zaps
+			Buff.affect(hero, ScrollEmpower.class).reset((int) (factor * (1 + hero.pointsInTalent(INSCRIBED_POWER))));
+		}
+		if (hero.hasTalent(INSCRIBED_STEALTH)){
+			// 3/5 turns of stealth
+			Buff.affect(hero, Invisibility.class, factor * (1 + 2*hero.pointsInTalent(INSCRIBED_STEALTH)));
+			Sample.INSTANCE.play( Assets.Sounds.MELD );
 		}
 	}
 
@@ -1394,30 +1413,16 @@ public enum Talent {
 		if (hero.pointsInTalent(ANOTHER_CHANCE) == 2) {
 			upgradeUsed ++;
 		}
-		if (hero.hasTalent(ENERGIZING_UPGRADE)){
+		if (hero.hasTalent(INSCRIBED_POWER)){
 			if (hero.heroClass == HeroClass.MAGE) {
 				MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
 				if (staff != null) {
-					staff.gainCharge(2 + 2 * hero.pointsInTalent(ENERGIZING_UPGRADE), true);
+					staff.gainCharge(2 + 2 * hero.pointsInTalent(INSCRIBED_POWER), true);
 					ScrollOfRecharging.charge(Dungeon.hero);
 					SpellSprite.show(hero, SpellSprite.CHARGE);
 				}
 			} else {
-				Buff.affect(hero, Recharging.class, 4 + 8 * hero.pointsInTalent(ENERGIZING_UPGRADE));
-			}
-		}
-		if (hero.hasTalent(MYSTICAL_UPGRADE)){
-			if (hero.heroClass == HeroClass.ROGUE) {
-				CloakOfShadows cloak = hero.belongings.getItem(CloakOfShadows.class);
-				if (cloak != null) {
-					cloak.overCharge(1 + hero.pointsInTalent(MYSTICAL_UPGRADE));
-					ScrollOfRecharging.charge(Dungeon.hero);
-					SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
-				}
-			} else {
-				Buff.affect(hero, ArtifactRecharge.class).set( 2 + 4*hero.pointsInTalent(MYSTICAL_UPGRADE) ).ignoreHornOfPlenty = false;
-				ScrollOfRecharging.charge(Dungeon.hero);
-				SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
+				Buff.affect(hero, Recharging.class, 4 + 8 * hero.pointsInTalent(INSCRIBED_POWER));
 			}
 		}
 		if (hero.hasTalent(ANOTHER_CHANCE)) {
@@ -1528,7 +1533,7 @@ public enum Talent {
 		) {
 			Buff.affect(enemy, Poison.class).set(2+hero.pointsInTalent(Talent.POISONOUS_BLADE));
 		}
-		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE) && enemy.alignment == Char.Alignment.ENEMY) {
+		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE) && enemy.isAlive() && enemy.alignment == Char.Alignment.ENEMY) {
 			if (hero.belongings.attackingWeapon() instanceof MissileWeapon) {
 				Buff.prolong(hero, FollowupStrikeTracker.class, 5f).object = enemy.id();
 			} else if (hero.buff(FollowupStrikeTracker.class) != null
@@ -1742,19 +1747,19 @@ public enum Talent {
 		//tier 2
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, IRON_STOMACH, RESTORED_WILLPOWER, RUNIC_TRANSFERENCE, LETHAL_MOMENTUM, IMPROVISED_PROJECTILES, PARRY);
+				Collections.addAll(tierTalents, IRON_STOMACH, LIQUID_WILLPOWER, RUNIC_TRANSFERENCE, LETHAL_MOMENTUM, IMPROVISED_PROJECTILES, PARRY);
 				break;
 			case MAGE:
-				Collections.addAll(tierTalents, ENERGIZING_MEAL, ENERGIZING_UPGRADE, WAND_PRESERVATION, ARCANE_VISION, SHIELD_BATTERY, FASTER_CHARGER);
+				Collections.addAll(tierTalents, ENERGIZING_MEAL, INSCRIBED_POWER, WAND_PRESERVATION, ARCANE_VISION, SHIELD_BATTERY, FASTER_CHARGER);
 				break;
 			case ROGUE:
-				Collections.addAll(tierTalents, MYSTICAL_MEAL, MYSTICAL_UPGRADE, WIDE_SEARCH, SILENT_STEPS, ROGUES_FORESIGHT, MOVESPEED_ENHANCE);
+				Collections.addAll(tierTalents, MYSTICAL_MEAL, INSCRIBED_STEALTH, WIDE_SEARCH, SILENT_STEPS, ROGUES_FORESIGHT, MOVESPEED_ENHANCE);
 				break;
 			case HUNTRESS:
-				Collections.addAll(tierTalents, INVIGORATING_MEAL, RESTORED_NATURE, REJUVENATING_STEPS, HEIGHTENED_SENSES, DURABLE_PROJECTILES, ADDED_MEAL);
+				Collections.addAll(tierTalents, INVIGORATING_MEAL, LIQUID_NATURE, REJUVENATING_STEPS, HEIGHTENED_SENSES, DURABLE_PROJECTILES, ADDED_MEAL);
 				break;
 			case DUELIST:
-				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, ACCUMULATION);
+				Collections.addAll(tierTalents, FOCUSED_MEAL, LIQUID_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, ACCUMULATION);
 				break;
 			case GUNNER:
 				Collections.addAll(tierTalents,	IN_THE_GUNFIRE, ANOTHER_CHANCE, RELOAD_PRACTICE, CAMOUFLAGE, LARGER_MAGAZINE, TRANSMUTATION_CONTROL);
@@ -1786,7 +1791,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN);
 				break;
 			case MAGE:
-				Collections.addAll(tierTalents, EMPOWERING_SCROLLS, ALLY_WARP);
+				Collections.addAll(tierTalents, DESPERATE_POWER, ALLY_WARP);
 				break;
 			case ROGUE:
 				Collections.addAll(tierTalents, ENHANCED_RINGS, LIGHT_CLOAK);
@@ -1979,18 +1984,26 @@ public enum Talent {
 
 	private static final HashSet<String> removedTalents = new HashSet<>();
 	static{
+		//v2.2.0
+		removedTalents.add("EMPOWERING_SCROLLS");
 		//v1.4.0
 		removedTalents.add("BERSERKING_STAMINA");
 	}
 
 	private static final HashMap<String, String> renamedTalents = new HashMap<>();
 	static{
-		//v2.0.0
-		renamedTalents.put("ARMSMASTERS_INTUITION",     "VETERANS_INTUITION");
+		//v2.2.0
+		renamedTalents.put("RESTORED_WILLPOWER",        "LIQUID_WILLPOWER");
+		renamedTalents.put("ENERGIZING_UPGRADE",        "INSCRIBED_POWER");
+		renamedTalents.put("MYSTICAL_UPGRADE",          "INSCRIBED_STEALTH");
+		renamedTalents.put("RESTORED_NATURE",           "LIQUID_NATURE");
+		renamedTalents.put("RESTORED_AGILITY",          "LIQUID_AGILITY");
+		//v2.1.0
+		renamedTalents.put("LIGHTWEIGHT_CHARGE",        "PRECISE_ASSAULT");
 		//v2.0.0 BETA
 		renamedTalents.put("LIGHTLY_ARMED",             "UNENCUMBERED_SPIRIT");
-		//v2.1.0
-		renamedTalents.put("LIGHTWEIGHT_CHARGE",             "PRECISE_ASSAULT");
+		//v2.0.0
+		renamedTalents.put("ARMSMASTERS_INTUITION",     "VETERANS_INTUITION");
 	}
 
 	public static void restoreTalentsFromBundle( Bundle bundle, Hero hero ){

@@ -140,6 +140,7 @@ public class StoneOfAugmentation extends InventoryStone {
 			weapon.fix();
 		}
 		ScrollOfUpgrade.upgrade(curUser);
+		curItem.detach( curUser.belongings.backpack );
 		
 	}
 	
@@ -151,6 +152,7 @@ public class StoneOfAugmentation extends InventoryStone {
 			armor.fix();
 		}
 		ScrollOfUpgrade.upgrade(curUser);
+		curItem.detach( curUser.belongings.backpack );
 	}
 	
 	@Override

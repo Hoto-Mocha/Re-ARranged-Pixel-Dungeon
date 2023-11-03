@@ -84,7 +84,7 @@ public class LoopBuilder extends RegularBuilder {
 		float startAngle = Random.Float(0, 360);
 
 		mainPathRooms.add(0, entrance);
-		mainPathRooms.add((mainPathRooms.size()+1)/2, exit);
+		if (exit != null) mainPathRooms.add((mainPathRooms.size()+1)/2, exit);
 
 		ArrayList<Room> loop = new ArrayList<>();
 		float[] pathTunnels = pathTunnelChances.clone();
@@ -155,7 +155,9 @@ public class LoopBuilder extends RegularBuilder {
 		roomsToBranch.addAll(multiConnections);
 		roomsToBranch.addAll(singleConnections);
 		weightRooms(branchable);
-		createBranches(rooms, branchable, roomsToBranch, branchTunnelChances);
+		if (!createBranches(rooms, branchable, roomsToBranch, branchTunnelChances)){
+			return null;
+		}
 		
 		findNeighbours(rooms);
 		

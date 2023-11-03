@@ -28,7 +28,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -48,6 +47,8 @@ public class ScrollOfUpgrade extends InventoryScroll {
 		preferredBag = Belongings.Backpack.class;
 
 		unique = true;
+
+		talentFactor = 2f;
 	}
 
 	@Override
@@ -67,6 +68,7 @@ public class ScrollOfUpgrade extends InventoryScroll {
 		if (item instanceof Weapon){
 			Weapon w = (Weapon) item;
 			boolean wasCursed = w.cursed;
+			boolean wasHardened = w.enchantHardened;
 			boolean hadCursedEnchant = w.hasCurseEnchant();
 			boolean hadGoodEnchant = w.hasGoodEnchant();
 			w.isUpgraded = true;
@@ -98,13 +100,16 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			} else if (w.cursedKnown && wasCursed && !w.cursed){
 				weakenCurse( Dungeon.hero );
 			}
-			if (hadGoodEnchant && !w.hasGoodEnchant()){
+			if (wasHardened && !w.enchantHardened){
+				GLog.w( Messages.get(Weapon.class, "hardening_gone") );
+			} else if (hadGoodEnchant && !w.hasGoodEnchant()){
 				GLog.w( Messages.get(Weapon.class, "incompatible") );
 			}
 
 		} else if (item instanceof Armor){
 			Armor a = (Armor) item;
 			boolean wasCursed = a.cursed;
+			boolean wasHardened = a.glyphHardened;
 			boolean hadCursedGlyph = a.hasCurseGlyph();
 			boolean hadGoodGlyph = a.hasGoodGlyph();
 			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
@@ -122,7 +127,9 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			} else if (a.cursedKnown && wasCursed && !a.cursed){
 				weakenCurse( Dungeon.hero );
 			}
-			if (hadGoodGlyph && !a.hasGoodGlyph()){
+			if (wasHardened && !a.glyphHardened){
+				GLog.w( Messages.get(Armor.class, "hardening_gone") );
+			} else if (hadGoodGlyph && !a.hasGoodGlyph()){
 				GLog.w( Messages.get(Armor.class, "incompatible") );
 			}
 
@@ -154,8 +161,6 @@ public class ScrollOfUpgrade extends InventoryScroll {
 				item.upgrade();
 			}
 		}
-
-		Talent.onUpgradeScrollUsed( Dungeon.hero );
 		
 		Badges.validateItemLevelAquired( item );
 		Statistics.upgradesUsed++;

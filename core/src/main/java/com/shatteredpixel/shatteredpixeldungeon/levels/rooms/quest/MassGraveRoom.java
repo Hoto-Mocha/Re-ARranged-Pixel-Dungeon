@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special;
+package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Skeleton;
@@ -32,6 +32,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.quest.CorpseDust;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.EntranceRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
 import com.watabou.noosa.Image;
@@ -55,7 +58,7 @@ public class MassGraveRoom extends SpecialRoom {
 		level.addItemToSpawn(new PotionOfLiquidFlame());
 
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.EMPTY_SP);
+		Painter.fill(level, this, 1, Terrain.CUSTOM_DECO_EMPTY);
 
 		Bones b = new Bones();
 
@@ -69,7 +72,7 @@ public class MassGraveRoom extends SpecialRoom {
 			int pos;
 			do {
 				pos = level.pointToCell(random());
-			} while (level.map[pos] != Terrain.EMPTY_SP || level.findMob(pos) != null);
+			} while (level.map[pos] != Terrain.CUSTOM_DECO_EMPTY || level.findMob(pos) != null);
 			skele.pos = pos;
 			level.mobs.add( skele );
 		}
@@ -88,11 +91,37 @@ public class MassGraveRoom extends SpecialRoom {
 			int pos;
 			do {
 				pos = level.pointToCell(random());
-			} while (level.map[pos] != Terrain.EMPTY_SP || level.heaps.get(pos) != null);
+			} while (level.map[pos] != Terrain.CUSTOM_DECO_EMPTY || level.heaps.get(pos) != null);
 			Heap h = level.drop(item, pos);
 			h.setHauntedIfCursed();
 			h.type = Heap.Type.SKELETON;
 		}
+	}
+
+	@Override
+	public boolean canConnect(Room r) {
+		if (r instanceof EntranceRoom){
+			return false;
+		}
+
+		//must have at least 3 rooms between it and the entrance room
+		for (Room r1 : r.connected.keySet()) {
+			if (r1 instanceof EntranceRoom){
+				return false;
+			}
+			for (Room r2 : r1.connected.keySet()) {
+				if (r2 instanceof EntranceRoom){
+					return false;
+				}
+				for (Room r3 : r2.connected.keySet()) {
+					if (r3 instanceof EntranceRoom){
+						return false;
+					}
+				}
+			}
+		}
+
+		return super.canConnect(r);
 	}
 
 	public static class Bones extends CustomTilemap {

@@ -31,8 +31,9 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.RitualSiteRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.RitualSiteRoom;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
@@ -186,6 +187,10 @@ public class CeremonialCandle extends Item {
 			}
 			elemental.state = elemental.HUNTING;
 			GameScene.add(elemental, 1);
+
+			if (Dungeon.level instanceof PrisonLevel){
+				((PrisonLevel) Dungeon.level).updateWandmakerQuestMusic();
+			}
 
 			for (int i : PathFinder.NEIGHBOURS9){
 				CellEmitter.get(ritualPos+i).burst(ElmoParticle.FACTORY, 10);

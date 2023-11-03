@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.windows;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
@@ -31,11 +32,11 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.HeroSelectScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.RankingsScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.TitleScene;
-import com.shatteredpixel.shatteredpixeldungeon.services.updates.Updates;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.watabou.noosa.Game;
+import com.watabou.noosa.audio.Music;
 
 import java.io.IOException;
 
@@ -61,18 +62,6 @@ public class WndGame extends Window {
 			}
 		});
 		curBtn.icon(Icons.get(Icons.PREFS));
-
-		//install prompt
-		if (Updates.isInstallable()){
-			addButton( curBtn = new RedButton( Messages.get(this, "install") ) {
-				@Override
-				protected void onClick() {
-					Updates.launchInstall();
-				}
-			} );
-			curBtn.textColor(Window.SHPX_COLOR);
-			curBtn.icon(Icons.get(Icons.CHANGES));
-		}
 
 		// Challenges window
 		if (Dungeon.challenges > 0) {
@@ -104,6 +93,10 @@ public class WndGame extends Window {
 				@Override
 				protected void onClick() {
 					InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
+					Music.INSTANCE.playTracks(
+							new String[]{Assets.Music.THEME_1, Assets.Music.THEME_2},
+							new float[]{1, 1},
+							false);
 					Game.switchScene( RankingsScene.class );
 				}
 			} );

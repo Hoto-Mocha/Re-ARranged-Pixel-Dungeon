@@ -343,28 +343,24 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.SurfaceScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StatusPane;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndHero;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndResurrect;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTradeItem;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
+import com.watabou.noosa.tweeners.Delayer;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.ColorMath;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
@@ -937,9 +933,9 @@ public class Hero extends Char {
 			evasion *= 1 + 0.05f * hero.pointsInTalent(Talent.EVA_ENHANCE);
 		}
 		if (buff(Talent.RestoredAgilityTracker.class) != null){
-			if (pointsInTalent(Talent.RESTORED_AGILITY) == 1){
+			if (pointsInTalent(Talent.LIQUID_AGILITY) == 1){
 				evasion *= 4f;
-			} else if (pointsInTalent(Talent.RESTORED_AGILITY) == 2){
+			} else if (pointsInTalent(Talent.LIQUID_AGILITY) == 2){
 				return INFINITE_EVASION;
 			}
 		}
@@ -1700,29 +1696,68 @@ public class Hero extends Char {
 	public boolean actMine(HeroAction.Mine action){
 		if (Dungeon.level.adjacent(pos, action.dst)){
 			path = null;
-			if ((Dungeon.level.map[action.dst] == Terrain.WALL || Dungeon.level.map[action.dst] == Terrain.WALL_DECO)
+			if ((Dungeon.level.map[action.dst] == Terrain.WALL
+					|| Dungeon.level.map[action.dst] == Terrain.WALL_DECO
+					|| Dungeon.level.map[action.dst] == Terrain.MINE_CRYSTAL
+					|| Dungeon.level.map[action.dst] == Terrain.MINE_BOULDER)
 				&& Dungeon.level.insideMap(action.dst)){
 				sprite.attack(action.dst, new Callback() {
 					@Override
 					public void call() {
 
+						boolean crystalAdjacent = false;
+						for (int i : PathFinder.NEIGHBOURS8) {
+							if (Dungeon.level.map[action.dst + i] == Terrain.MINE_CRYSTAL){
+								crystalAdjacent = true;
+								break;
+							}
+						}
+
+						//1 hunger spent total
 						if (Dungeon.level.map[action.dst] == Terrain.WALL_DECO){
 							DarkGold gold = new DarkGold();
 							if (gold.doPickUp( Dungeon.hero )) {
-								GLog.i( Messages.capitalize(Messages.get(Dungeon.hero, "you_now_have", gold.name())) );
+								DarkGold existing = Dungeon.hero.belongings.getItem(DarkGold.class);
+								if (existing != null && existing.quantity()%5 == 0){
+									if (existing.quantity() >= 40) {
+										GLog.p(Messages.get(DarkGold.class, "you_now_have", existing.quantity()));
+									} else {
+										GLog.i(Messages.get(DarkGold.class, "you_now_have", existing.quantity()));
+									}
+								}
+								spend(-Actor.TICK); //picking up the gold doesn't spend a turn here
 							} else {
 								Dungeon.level.drop( gold, pos ).sprite.drop();
 							}
+							PixelScene.shake(0.5f, 0.5f);
 							CellEmitter.center( action.dst ).burst( Speck.factory( Speck.STAR ), 7 );
 							Sample.INSTANCE.play( Assets.Sounds.EVOKE );
-						} else {
+							Level.set( action.dst, Terrain.EMPTY_DECO );
+
+							//mining gold doesn't break crystals
+							crystalAdjacent = false;
+
+						//4 hunger spent total
+						} else if (Dungeon.level.map[action.dst] == Terrain.WALL){
+							buff(Hunger.class).affectHunger(-3);
+							PixelScene.shake(0.5f, 0.5f);
 							CellEmitter.get( action.dst ).burst( Speck.factory( Speck.ROCK ), 2 );
 							Sample.INSTANCE.play( Assets.Sounds.MINE );
+							Level.set( action.dst, Terrain.EMPTY_DECO );
+
+						//1 hunger spent total
+						} else if (Dungeon.level.map[action.dst] == Terrain.MINE_CRYSTAL){
+							Splash.at(action.dst, 0xFFFFFF, 5);
+							Sample.INSTANCE.play( Assets.Sounds.SHATTER );
+							Level.set( action.dst, Terrain.EMPTY );
+
+						//1 hunger spent total
+						} else if (Dungeon.level.map[action.dst] == Terrain.MINE_BOULDER){
+							Splash.at(action.dst, ColorMath.random( 0x444444, 0x777766 ), 5);
+							Sample.INSTANCE.play( Assets.Sounds.MINE, 0.6f );
+							Level.set( action.dst, Terrain.EMPTY );
 						}
 
-						PixelScene.shake(0.5f, 0.5f);
-
-						Level.set( action.dst, Terrain.EMPTY_DECO );
 						for (int i : PathFinder.NEIGHBOURS9) {
 							Dungeon.level.discoverable[action.dst + i] = true;
 						}
@@ -1730,9 +1765,35 @@ public class Hero extends Char {
 							GameScene.updateMap( action.dst+i );
 						}
 
-						Dungeon.observe();
+						if (crystalAdjacent){
+							sprite.parent.add(new Delayer(0.2f){
+								@Override
+								protected void onComplete() {
+									boolean broke = false;
+									for (int i : PathFinder.NEIGHBOURS8) {
+										if (Dungeon.level.map[action.dst+i] == Terrain.MINE_CRYSTAL){
+											Splash.at(action.dst+i, 0xFFFFFF, 5);
+											Level.set( action.dst+i, Terrain.EMPTY );
+											broke = true;
+										}
+									}
+									if (broke){
+										Sample.INSTANCE.play( Assets.Sounds.SHATTER );
+									}
 
-						spendAndNext(TICK);
+									for (int i : PathFinder.NEIGHBOURS9) {
+										GameScene.updateMap( action.dst+i );
+									}
+									spendAndNext(TICK);
+									ready();
+								}
+							});
+						} else {
+							spendAndNext(TICK);
+							ready();
+						}
+
+						Dungeon.observe();
 					}
 				});
 			} else {
@@ -1757,67 +1818,13 @@ public class Hero extends Char {
 			PixelScene.shake(1, 1f);
 			ready();
 			return false;
+
 		} else if (!Dungeon.level.locked && transition != null && transition.inside(pos)) {
 
-			if (transition.type == LevelTransition.Type.SURFACE){
-				if (belongings.getItem( Amulet.class ) == null) {
-					Game.runOnRenderThread(new Callback() {
-						@Override
-						public void call() {
-							GameScene.show( new WndMessage( Messages.get(Hero.this, "leave") ) );
-						}
-					});
-					ready();
-				} else {
-					Statistics.ascended = true;
-					Badges.silentValidateHappyEnd();
-					Dungeon.win( Amulet.class );
-					Dungeon.deleteGame( GamesInProgress.curSlot, true );
-					Game.switchScene( SurfaceScene.class );
-				}
-
-			} else if (transition.type == LevelTransition.Type.REGULAR_ENTRANCE
-					&& Dungeon.depth == 30
-					//ascension challenge only works on runs started on v1.3+
-					&& Dungeon.initialVersion > ShatteredPixelDungeon.v1_2_3
-					&& belongings.getItem(Amulet.class) != null
-					&& buff(AscensionChallenge.class) == null) {
-
-				Game.runOnRenderThread(new Callback() {
-					@Override
-					public void call() {
-						GameScene.show( new WndOptions( new ItemSprite(ItemSpriteSheet.AMULET),
-								Messages.get(Amulet.class, "ascent_title"),
-								Messages.get(Amulet.class, "ascent_desc"),
-								Messages.get(Amulet.class, "ascent_yes"),
-								Messages.get(Amulet.class, "ascent_no")){
-							@Override
-							protected void onSelect(int index) {
-								if (index == 0){
-									Buff.affect(Hero.this, AscensionChallenge.class);
-									Statistics.highestAscent = 30;
-									actTransition(action);
-								}
-							}
-						} );
-					}
-				});
-				ready();
-
-			} else {
-
+			if (Dungeon.level.activateTransition(this, transition)){
 				curAction = null;
-
-				Level.beforeTransition();
-				InterlevelScene.curTransition = transition;
-				if (transition.type == LevelTransition.Type.REGULAR_EXIT
-					|| transition.type == LevelTransition.Type.BRANCH_EXIT) {
-					InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-				} else {
-					InterlevelScene.mode = InterlevelScene.Mode.ASCEND;
-				}
-				Game.switchScene(InterlevelScene.class);
-
+			} else {
+				ready();
 			}
 
 			return false;
@@ -2736,7 +2743,10 @@ public class Hero extends Char {
 		//TODO perhaps only trigger this if hero is already adjacent? reducing mistaps
 		} else if (Dungeon.level instanceof MiningLevel &&
 					belongings.getItem(Pickaxe.class) != null &&
-				(Dungeon.level.map[cell] == Terrain.WALL || Dungeon.level.map[cell] == Terrain.WALL_DECO)){
+				(Dungeon.level.map[cell] == Terrain.WALL
+						|| Dungeon.level.map[cell] == Terrain.WALL_DECO
+						|| Dungeon.level.map[cell] == Terrain.MINE_CRYSTAL
+						|| Dungeon.level.map[cell] == Terrain.MINE_BOULDER)){
 
 			curAction = new HeroAction.Mine( cell );
 
@@ -4106,15 +4116,15 @@ public class Hero extends Char {
 		for (Item i : belongings){
 			if (i instanceof EquipableItem && i.isEquipped(this)){
 				((EquipableItem) i).activate(this);
-			} else if (i instanceof CloakOfShadows && i.keptThoughLostInvent && hasTalent(Talent.LIGHT_CLOAK)){
+			} else if (i instanceof CloakOfShadows && i.keptThroughLostInventory() && hasTalent(Talent.LIGHT_CLOAK)){
 				((CloakOfShadows) i).activate(this);
-			} else if (i instanceof Wand && i.keptThoughLostInvent){
+			} else if (i instanceof Wand && i.keptThroughLostInventory()){
 				if (holster != null && holster.contains(i)){
 					((Wand) i).charge(this, MagicalHolster.HOLSTER_SCALE_FACTOR);
 				} else {
 					((Wand) i).charge(this);
 				}
-			} else if (i instanceof MagesStaff && i.keptThoughLostInvent){
+			} else if (i instanceof MagesStaff && i.keptThroughLostInventory()){
 				((MagesStaff) i).applyWandChargeBuff(this);
 			}
 		}

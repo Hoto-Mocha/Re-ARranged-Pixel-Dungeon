@@ -107,13 +107,14 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.BArray;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.GameMath;
@@ -191,6 +192,7 @@ public abstract class Level implements Bundlable {
 	protected ArrayList<Item> itemsToSpawn = new ArrayList<>();
 
 	protected Group visuals;
+	protected Group wallVisuals;
 	
 	public int color1 = 0x004400;
 	public int color2 = 0x88CC44;
@@ -221,25 +223,27 @@ public abstract class Level implements Bundlable {
 
 			addItemToSpawn(Generator.random(Generator.Category.FOOD));
 
-			if (Dungeon.isChallenged(Challenges.DARKNESS)){
-				addItemToSpawn( new Torch() );
-			}
-
 			if (Dungeon.posNeeded()) {
-				addItemToSpawn( new PotionOfStrength() );
 				Dungeon.LimitedDrops.STRENGTH_POTIONS.count++;
+				addItemToSpawn( new PotionOfStrength() );
 			}
 			if (Dungeon.souNeeded()) {
-				addItemToSpawn( new ScrollOfUpgrade() );
 				Dungeon.LimitedDrops.UPGRADE_SCROLLS.count++;
+				//every 2nd scroll of upgrade is removed with forbidden runes challenge on
+				//TODO while this does significantly reduce this challenge's levelgen impact, it doesn't quite remove it
+				//for 0 levelgen impact, we need to do something like give the player all SOU, but nerf them
+				//or give a random scroll (from a separate RNG) instead of every 2nd SOU
+				if (!Dungeon.isChallenged(Challenges.NO_SCROLLS) || Dungeon.LimitedDrops.UPGRADE_SCROLLS.count%2 != 0){
+					addItemToSpawn(new ScrollOfUpgrade());
+				}
 			}
 			if (Dungeon.soeNeeded()) {
 				addItemToSpawn( new StoneOfEnchantment() );
 				Dungeon.LimitedDrops.ENCHANT_STONES.count++;
 			}
 			if (Dungeon.asNeeded()) {
-				addItemToSpawn( new Stylus() );
 				Dungeon.LimitedDrops.ARCANE_STYLI.count++;
+				addItemToSpawn( new Stylus() );
 			}
 			//one stone of enchantment is guaranteed to spawn somewhere on chapter 2-4
 			int enchChapter = (int)((Dungeon.seed / 10) % 3) + 1;
@@ -304,10 +308,6 @@ public abstract class Level implements Bundlable {
 					case 4:
 						feeling = Feeling.LARGE;
 						addItemToSpawn(Generator.random(Generator.Category.FOOD));
-						//add a second torch to help with the larger floor
-						if (Dungeon.isChallenged(Challenges.DARKNESS)){
-							addItemToSpawn( new Torch() );
-						}
 						break;
 					case 5:
 						feeling = Feeling.TRAPS;
@@ -599,6 +599,24 @@ public abstract class Level implements Bundlable {
 		return null;
 	}
 
+	//returns true if we immediately transition, false otherwise
+	public boolean activateTransition(Hero hero, LevelTransition transition){
+		if (locked){
+			return false;
+		}
+
+		beforeTransition();
+		InterlevelScene.curTransition = transition;
+		if (transition.type == LevelTransition.Type.REGULAR_EXIT
+				|| transition.type == LevelTransition.Type.BRANCH_EXIT) {
+			InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
+		} else {
+			InterlevelScene.mode = InterlevelScene.Mode.ASCEND;
+		}
+		Game.switchScene(InterlevelScene.class);
+		return true;
+	}
+
 	//some buff effects have special logic or are cancelled from the hero before transitioning levels
 	public static void beforeTransition(){
 
@@ -677,6 +695,18 @@ public abstract class Level implements Bundlable {
 		}
 		return visuals;
 	}
+
+	//for visual effects that should render above wall overhang tiles
+	public Group addWallVisuals(){
+		if (wallVisuals == null || wallVisuals.parent == null){
+			wallVisuals = new Group();
+		} else {
+			wallVisuals.clear();
+			wallVisuals.camera = null;
+		}
+		return wallVisuals;
+	}
+
 	
 	public int mobLimit() {
 		return 0;
@@ -1046,10 +1076,6 @@ public abstract class Level implements Bundlable {
 	}
 	
 	public Plant plant( Plant.Seed seed, int pos ) {
-		
-		if (Dungeon.isChallenged(Challenges.NO_HERBALISM)){
-			return null;
-		}
 
 		Plant plant = plants.get( pos );
 		if (plant != null) {
@@ -1063,6 +1089,11 @@ public abstract class Level implements Bundlable {
 				map[pos] == Terrain.EMPTY_DECO) {
 			set(pos, Terrain.GRASS, this);
 			GameScene.updateMap(pos);
+		}
+
+		//we have to get this far as grass placement has RNG implications in levelgen
+		if (Dungeon.isChallenged(Challenges.NO_HERBALISM)){
+			return null;
 		}
 		
 		plant = seed.couch( pos, this );
@@ -1575,6 +1606,7 @@ public abstract class Level implements Bundlable {
 			case Terrain.EMPTY:
 			case Terrain.EMPTY_SP:
 			case Terrain.EMPTY_DECO:
+			case Terrain.CUSTOM_DECO_EMPTY:
 			case Terrain.SECRET_TRAP:
 				return Messages.get(Level.class, "floor_name");
 			case Terrain.GRASS:
@@ -1611,8 +1643,6 @@ public abstract class Level implements Bundlable {
 				return Messages.get(Level.class, "locked_exit_name");
 			case Terrain.UNLOCKED_EXIT:
 				return Messages.get(Level.class, "unlocked_exit_name");
-			case Terrain.SIGN:
-				return Messages.get(Level.class, "sign_name");
 			case Terrain.WELL:
 				return Messages.get(Level.class, "well_name");
 			case Terrain.EMPTY_WELL:
@@ -1658,8 +1688,6 @@ public abstract class Level implements Bundlable {
 				return Messages.get(Level.class, "locked_exit_desc");
 			case Terrain.BARRICADE:
 				return Messages.get(Level.class, "barricade_desc");
-			case Terrain.SIGN:
-				return Messages.get(Level.class, "sign_desc");
 			case Terrain.INACTIVE_TRAP:
 				return Messages.get(Level.class, "inactive_trap_desc");
 			case Terrain.STATUE:

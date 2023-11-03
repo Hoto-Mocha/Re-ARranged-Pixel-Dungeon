@@ -51,7 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TargetHealthIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
+import com.watabou.utils.BArray;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
@@ -95,10 +95,7 @@ public class PrisonBossLevel extends Level {
 		if (state == State.START){
 			Music.INSTANCE.end();
 		} else if (state == State.WON) {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.PRISON_1, Assets.Music.PRISON_2, Assets.Music.PRISON_2},
-					new float[]{1, 1, 0.5f},
-					false);
+			Music.INSTANCE.playTracks(PrisonLevel.PRISON_TRACK_LIST, PrisonLevel.PRISON_TRACK_CHANCES, false);
 		} else {
 			Music.INSTANCE.play(Assets.Music.PRISON_BOSS, true);
 		}
@@ -544,7 +541,12 @@ public class PrisonBossLevel extends Level {
 				Game.runOnRenderThread(new Callback() {
 					@Override
 					public void call() {
-						Music.INSTANCE.end();
+						Music.INSTANCE.fadeOut(5f, new Callback() {
+							@Override
+							public void call() {
+								Music.INSTANCE.end();
+							}
+						});
 					}
 				});
 				break;

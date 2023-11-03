@@ -76,9 +76,9 @@ public class DisintegrationTrap extends Trap {
 				ShatteredPixelDungeon.scene().add(new Beam.DeathRay(DungeonTilemap.tileCenterToWorld(pos), target.sprite.center()));
 			}
 			if (target instanceof Rebel) {
-				target.damage( Random.NormalIntRange(1, 5) + Dungeon.depth, this );
+				target.damage( Random.NormalIntRange(1, 5) + scalingDepth(), this );
 			} else {
-				target.damage( Random.NormalIntRange(30, 50) + Dungeon.depth, this );
+				target.damage( Random.NormalIntRange(30, 50) + scalingDepth(), this );
 			}
 			if (target == Dungeon.hero){
 				Hero hero = (Hero)target;

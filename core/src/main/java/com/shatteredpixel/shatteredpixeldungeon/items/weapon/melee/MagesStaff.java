@@ -123,6 +123,11 @@ public class MagesStaff extends MeleeWeapon {
 	}
 
 	@Override
+	public String defaultAction() {
+		return AC_ZAP;
+	}
+
+	@Override
 	public void activate( Char ch ) {
 		super.activate(ch);
 		applyWandChargeBuff(ch);
@@ -161,20 +166,16 @@ public class MagesStaff extends MeleeWeapon {
 	}
 
 	@Override
-	public int buffedLvl() {
+	public int buffedVisiblyUpgraded() {
 		int lvl;
 		if (wand != null){
-			int wandLvl = wand.buffedLvl();
-			if (Dungeon.hero.buff(Degrade.class) != null) {
-				wandLvl = Degrade.reduceLevel(wandLvl);
-			}
-			lvl = Math.max(super.buffedLvl(), wandLvl);
+			lvl =  Math.max(super.buffedVisiblyUpgraded(), wand.buffedVisiblyUpgraded());
 		} else {
-			lvl = super.buffedLvl();
-		}
+			lvl =  super.buffedVisiblyUpgraded();
 		WeaponEmpower weaponEmpower = Dungeon.hero.buff(WeaponEmpower.class);
 		if (weaponEmpower != null && this.isEquipped( Dungeon.hero )) {
 			lvl += weaponEmpower.getLvl();
+		}
 		}
 		return lvl;
 	}

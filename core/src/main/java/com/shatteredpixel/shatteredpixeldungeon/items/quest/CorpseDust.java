@@ -32,8 +32,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.Game;
+import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -107,20 +110,29 @@ public class CorpseDust extends Item {
 				}
 			}
 
-			int powerNeeded = Math.min(25, wraiths*wraiths);
-
+			//summoning a new wraith requires 1/4/9/16/25/36/49/49/... turns of energy
+			//note that logic for summoning wraiths kind of has an odd, undocumented balance history:
+			//v0.3.1-v0.6.5: wraith every 1/4/9/16/25/25... turns, basically guaranteed
+			//v0.7.0-v2.1.4: bugged, same rate as above but high (often >50%) chance that spawning fails. failed spawning resets delay!
+			//v2.2.0+: fixed bug, increased summon delay cap to counteract a bit, wraiths also now have to spawn at a slight distance
+			int powerNeeded = Math.min(49, wraiths*wraiths);
 			if (powerNeeded <= spawnPower){
-				spawnPower -= powerNeeded;
-				int pos = 0;
-				//FIXME this seems like old bad code (why not more checks at least?) but corpse dust may be balanced around it
-				int tries = 20;
-				do{
-					pos = Random.Int(Dungeon.level.length());
-					tries --;
-				} while (tries > 0 && (!Dungeon.level.heroFOV[pos] || Dungeon.level.solid[pos] || Actor.findChar( pos ) != null));
-				if (tries > 0) {
-					Wraith.spawnAt(pos, false);
+				ArrayList<Integer> candidates = new ArrayList<>();
+				//min distance scales based on hero's view distance
+				// wraiths must spawn at least 4/3/2/1 tiles away at view distance of 8(default)/7/4/1
+				int minDist = Math.round(Dungeon.hero.viewDistance/3f);
+				for (int i = 0; i < Dungeon.level.length(); i++){
+					if (Dungeon.level.heroFOV[i]
+							&& !Dungeon.level.solid[i]
+							&& Actor.findChar( i ) == null
+							&& Dungeon.level.distance(i, Dungeon.hero.pos) > minDist){
+						candidates.add(i);
+					}
+				}
+				if (!candidates.isEmpty()){
+					Wraith.spawnAt(Random.element(candidates), false);
 					Sample.INSTANCE.play(Assets.Sounds.CURSED);
+					spawnPower -= powerNeeded;
 				}
 			}
 
@@ -135,6 +147,19 @@ public class CorpseDust extends Item {
 					mob.die(null);
 				}
 			}
+			Game.runOnRenderThread(new Callback() {
+				@Override
+				public void call() {
+					Music.INSTANCE.fadeOut(1f, new Callback() {
+						@Override
+						public void call() {
+							if (Dungeon.level != null) {
+								Dungeon.level.playLevelMusic();
+							}
+						}
+					});
+				}
+			});
 		}
 
 		private static String SPAWNPOWER = "spawnpower";

@@ -66,7 +66,7 @@ public class StoneOfIntuition extends InventoryStone {
 	
 	@Override
 	protected void onItemSelected(Item item) {
-		
+
 		GameScene.show( new WndGuess(item));
 		
 	}
@@ -110,12 +110,13 @@ public class StoneOfIntuition extends InventoryStone {
 
 						if (curUser.buff(IntuitionUseTracker.class) == null){
 							GLog.h( Messages.get(WndGuess.class, "preserved") );
-							new StoneOfIntuition().collect();
 							Buff.affect(curUser, IntuitionUseTracker.class);
 						} else {
+							curItem.detach( curUser.belongings.backpack );
 							curUser.buff(IntuitionUseTracker.class).detach();
 						}
 					} else {
+						curItem.detach( curUser.belongings.backpack );
 						if (curUser.buff(IntuitionUseTracker.class) != null) {
 							curUser.buff(IntuitionUseTracker.class).detach();
 						}
@@ -204,12 +205,6 @@ public class StoneOfIntuition extends InventoryStone {
 			resize(WIDTH, 100);
 			
 		}
-		
-		
-		@Override
-		public void onBackPressed() {
-			super.onBackPressed();
-			new StoneOfIntuition().collect();
-		}
+
 	}
 }

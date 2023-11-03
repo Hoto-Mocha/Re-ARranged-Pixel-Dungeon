@@ -21,22 +21,27 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.ui.changelist;
 
+import com.badlogic.gdx.Gdx;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.ChangesScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.BlacksmithSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.BruteSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ShopkeeperSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.TormentedSpiritSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.WandmakerSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TalentIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.watabou.noosa.Image;
+import com.watabou.utils.DeviceCompat;
 
 import java.util.ArrayList;
 
@@ -44,6 +49,7 @@ public class v2_X_Changes {
 
 	public static void addAllChanges( ArrayList<ChangeInfo> changeInfos ){
 		add_Coming_Soon(changeInfos);
+		add_v2_2_Changes(changeInfos);
 		add_v2_1_Changes(changeInfos);
 		add_v2_0_Changes(changeInfos);
 	}
@@ -54,19 +60,241 @@ public class v2_X_Changes {
 		changes.hardlight(0xCCCCCC);
 		changeInfos.add(changes);
 
+		if (DeviceCompat.isiOS() && Gdx.app.getVersion() < 11){
+			changes.addButton( new ChangeButton(Icons.WARNING.get(), "32-bit iOS support",
+					"v2.3 will be the last version of Shattered Pixel Dungeon that will supports 32-bit iOS devices. As a result, future Shattered updates will require iOS 11+, up from 9+.\n\n" +
+					"Players on iOS 9 and 10 will be able to continue playing Shattered Pixel Dungeon v2.3, and can check the news section for information on future versions."));
+		}
+
 		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Overview",
-				"The next update will be v2.2.0, and will include a complete rework of the blacksmith quest!\n" +
+				"The next update will be v2.3.0, and will add two new variants to the new caves quest!\n" +
 				"\n" +
-				"I'll probably start to have a more clear idea of how long v2.2.0 will take after I finish releasing patches for v2.1.0, but I think that a total dev time of 3 months or so is a relatively safe bet. Please keep in mind that while I always try to keep to the ETAs I provide, they are just estimates. If you don't hear from me by the ETA, it means I'm still busy with the update!"));
+				"The new caves quest ended up taking quite a lot longer than intended, so I'm a bit hesitant to commit to an ETA for v2.3.0 currently. I should hopefully be able to announce something later in November or early December. Please keep in mind that while I always try to keep to the ETAs I provide, they are just estimates. If you don't hear from me by the ETA, it means I'm still busy with the update!"));
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.CHANGES), "Larger Patches",
-				"There is a decent amount of technical work that still needs to be done for v2.2.0, and I can easily introduce that into the game via some patches to v2.1.0. Because of this, I expect that v2.1 is going to have a longer patch cycle than usual, as I'll be both including those technical changes and taking the opportunity to fix a bunch of smaller issues sooner than if I waiting to release them in v2.2.0."));
+		changes.addButton( new ChangeButton(new Image(new BruteSprite()), "Gnoll Encampment",
+				"The first of the upcoming caves quest variants is an unstable gnoll encampment. The gnolls have taken to trying to mine out some gold themselves, but are preferring to use earth-moving magic with little care for cave stability. Expect a lot of closed in walls and fallen rocks, as well as gnolls that'll be able to use those rocks against you."));
 
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.PICKAXE), "Blacksmith Quest",
-				"I plan to completely rework the blacksmith's quest in v2.2.0, to feature a new sub area and a unique mining mechanic. The player will need to mine out walls both to collect treasure and to navigate around hazards. I expect the quest will be notably more involved and challenging, but there will be new rewards on offer a well!"));
+		changes.addButton( new ChangeButton(new Image(Assets.Environment.TILES_CAVES, 32, 64, 16, 16), "Mushroom Forest",
+				"The second upcoming variant is a mushroom forest. A large mycellium network has grown in this area, creating lots of hostile plant life. The abundance of tall vegetation isn't just pretty tough, you'll want to use it (or the cave walls themselves) to keep out of sight from the powerful, yet stationary, mushroom sentries."));
 
 		changes.addButton( new ChangeButton(Icons.get(Icons.PREFS), "Smaller Changes/Fixes",
-				"As always, there will be some amount of smaller improvements, fixes, and additions both in v2.2.0 and during v2.1's longer than usual patch cycle. I expect that v2.2.0 is going to be mainly focused on the blacksmith quest though, so any new additions aside from that will be relatively minor. In terms of fixes, I plan to keep an eye on the Duelist and weapons in general after the changes in v2.1.0."));
+				"I also expect v2.3.0 will include followup changes to the initial new quest variant, as well as the usual assortment of other smaller improvements, fixes, and additions. I'd like for v2.3.0 to be fairly quick, so the other changes will probably be lighter than usual."));
+
+	}
+
+	public static void add_v2_2_Changes( ArrayList<ChangeInfo> changeInfos ) {
+
+		ChangeInfo changes = new ChangeInfo("v2.2", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes = new ChangeInfo("", false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes = new ChangeInfo("v2.2.1", false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton( new Image(new BlacksmithSprite()), "Blacksmith Reward Changes",
+				"Overall I'm fairly happy with the level of challenge and reward the new quest offers, but from looking at gameplay data the rewards are a bit overtuned currently.\n\n" +
+				"I certainly don't plan to reduce the blacksmith rewards back to being similar to before this new quest, but for now I am making some initial changes to get them into a better place balance-wise. This will make it easier to fine-tune the overall quest difficulty and rewards in v2.3.0.\n\n" +
+				"_-_ Cost for second reforge/harden up to 1500 from 1000\n" +
+				"_-_ Upgrade now caps at +2, down from +3\n" +
+				"_-_ Chance for smith to produce a +0 item up to 30%, from 20%\n" +
+				"_-_ Chance for smith to produce a +1 item down to 45%, from 55%"));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"_-_ The Crystal Spire now awards 20 exp when it is defeated\n\n" +
+				"_-_ Increased the amount of toxic gas that the rot heart can produce\n\n" +
+				"_-_ New quest bosses now interrupt the hero when they are telegraphing an attack\n\n" +
+				"_-_ Updated translations and translator credits"));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"Fixed the following bugs:\n" +
+				"_Caused by v2.2.0:_\n" +
+				"_-_ Various rare crash bugs in new quest\n" +
+				"_-_ Hardening not being preserved when transmuting weapons\n" +
+				"_-_ Items rarely spawning on new quest entrance\n" +
+				"_-_ Hero getting teleported to quest entrance if game was loaded while they were inside a crystal spike\n" +
+				"_-_ Various minor visual bugs in new quest\n" +
+				"\n" +
+				"_Existed Prior to v2.2.0:_\n" +
+				"_-_ System gestures in iOS sometimes registering as taps within the game\n" +
+				"_-_ Endure ability not working properly when used twice quickly\n" +
+				"_-_ Melee damage of Mage's Staff benefiting from talents that boost wand levels\n" +
+				"_-_ Various blink effects allowing movement over magical fire\n" +
+				"_-_ Some game actions being possible while meditating\n" +
+				"_-_ Various minor visual and textual errors"));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "new"), false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Developer Commentary",
+				"_-_ Released October 18th, 2023\n" +
+				"_-_ 138 days after Shattered v2.1.0\n\n" +
+				"Dev commentary will be added here in the future."));
+
+		changes.addButton( new ChangeButton(new Image(Assets.Environment.TILES_CAVES, 192, 64, 16, 16), "New Blacksmith Quest!",
+				"_Shattered Pixel Dungeon's blacksmith quest has been completely redone!_\n" +
+				"\n" +
+				"_The quest now takes place in a new sublevel, with one entirely new environment, and two more on the way in v2.3!_ Each environment has its own set of hazards, level generation logic, and unique enemies.\n" +
+				"\n" +
+				"_The quest area features a new mining mechanic._ In addition to digging out gold, you can tunnel through walls to create new routes and evade hazards.\n" +
+				"\n" +
+				"_The quest rewards are also massively expanded._ The better you do on the quest, the more favor you'll earn in exchange for blacksmithing services. The old reforge option is still available, but there are several new options too."));
+
+		changes.addButton( new ChangeButton(Icons.AUDIO.get(), "New Music!",
+				"_Shattered Pixel Dungeon's soundtrack has been massively expanded!_ The game's soundtrack runtime has doubled in total, with almost 20 minutes of new audio by the game's composer: Kristjan Thomas Haaristo.\n" +
+				"\n" +
+				"_The existing region tracks have been expanded._ Each track now has three total segments, instead of two. All of these segments play in a semi-random pattern, increasing variety for the game's more frequently heard music.\n" +
+				"\n" +
+				"_Each region also has a new 'intense' track._ These tracks play while completing region quests and also during the ascension challenge.\n" +
+				"\n" +
+				"_Lastly, four 'finale' tracks have been added._ Three of these tracks play when you are about to defeat the game's three later bosses, and one plays right before securing victory (either grabbing the amulet or reaching the end of ascension)."));
+
+		changes.addButton( new ChangeButton(new Image(new WandmakerSprite()), "Prison Quest Changes",
+				"The game's second quest has received a bunch of adjustments to make it more engaging.\n" +
+				"\n" +
+				"_Corpse Dust Quest:_ The mass grave room now always spawns at least a bit away from the entrance, and wraith spawning is more consistent.\n" +
+				"\n" +
+				"_Elemental Embers Quest:_ The newborn elemental has been reworked:\n" +
+				"_-_ HP up to 60 from 30, attacking power reduced, no longer ignites on-hit\n" +
+				"_-_ Now shoots an avoidable fireball in a 3x3 area\n" +
+				"_-_ The summon elemental spell is unchanged\n" +
+				"\n" +
+				"_Rotberry Quest:_ Overhauled the rot garden room:\n" +
+				"_-_ Rot lashers are now much stronger, but take 1 turn to notice an adjacent enemy before attacking\n" +
+				"_-_ Room layout is now much more chaotic, with more grass and crumbling walls\n" +
+				"_-_ There is now a guaranteed safe path to the rot heart"));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "changes"), false, null);
+		changes.hardlight(CharSprite.WARNING);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(Icons.CHALLENGE_ON.get(), "Hostile Champions",
+				"I've decided to make some changes to the hostile champions challenge, to better balance the difficulty of each of the champion types, and address some common feedback about difficulty spikes:\n" +
+				"\n" +
+				"_- Projecting Champions_ now have +3 attack range, instead of infinite range\n" +
+				"_- Blazing Champions_ now cannot spread fire onto water tiles\n" +
+				"_- Growing Champions_ now gain stats 25% more slowly\n" +
+				"_- Blessed Champions_ now have 4x accuracy and evasion, up from 3x\n" +
+				"_- Giant Champions_ now take 80% reduced damage, up from 75%\n" +
+				"_- Antimagic Champions_ now take 50% reduced damage, up from 25%"));
+
+		changes.addButton( new ChangeButton(Icons.TALENT.get(), "T2 Potion and Scroll Talents",
+				"The T2 potion and scroll talents have been reworked to trigger on a more broad range of items, and have had their names and effects changed as a result:\n" +
+				"\n" +
+				"_-_ Warrior, Huntress, and Duelist talents now trigger on any potion, not just potions of healing. Their effects are doubled when using potions of strength or experience.\n" +
+				"_-_ Mage and Rogue talents now trigger on any scroll, not just scrolls of upgrade. Their effects are doubled when using scrolls of upgrade or transmutation.\n" +
+				"\n" +
+				"_-_ Warrior effect reduced to 50/75% shield, from 67/100%\n" +
+				"_-_ Mage effect changed to +2 levels on the next 2/3 wand zaps\n" +
+				"_-_ Rogue effect changed to 3/5 turns of invisibility\n" +
+				"_-_ Huntress effect reduced to 1/2 turns of rooting and 4/6 grass, from 2/3 root and 5/8 grass\n" +
+				"_-_ Duelist effect unchanged\n" +
+				"\n" +
+				"_-_ The Mage now also has a new T3 talent: 'desperate power', as the above change effectively moves the Empowering Scrolls talent to T2."));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"_Highlights:_\n" +
+				"_-_ Shopkeepers now warn the player once before fleeing when they are damaged\n" +
+				"_-_ The sad ghost now always spawns at the end of the level it appears in and does not leave the exit room\n" +
+				"_-_ Bosses from the sad ghost's quest now tend to wander toward the hero\n" +
+				"_-_ Crystal path rooms have been redesigned to give the player more choice over the items they get\n" +
+				"_-_ Increased the value of lower-exp enemies in sacrifice rooms. This is most noticeable in early floors, especially when sacrificing rats.\n" +
+				"_-_ Equipping two of the same ring now shows their combined effect in their descriptions\n" +
+				"_-_ Added a new Language: Belarusian!",
+
+				"_UI/VFX:_\n" +
+				"_-_ There is now a Google Play achievements button in the badges screen, if Google Play Games is enabled\n" +
+				"_-_ Indicators now lower into empty space below them after the hero takes an action, not whenever new indicators appear\n" +
+				"_-_ The game's tutorial is now skipped if there is existing gameplay data (e.g. via Google Play Games sync)\n" +
+				"_-_ Heroes other than the duelist can now quickslot weapons if they get the swift equip talent.",
+
+				"_Misc.:_\n" +
+				"_-_ Overhauled retreating enemy AI. Retreating enemies should get stuck far less often, and terrified enemies are unable to approach the hero.\n" +
+				"_-_ Substantially reduced the forbidden runes challenge's effect on levelgen\n" +
+				"_-_ Healing effects still do not stack, but now combine more effectively\n" +
+				"_-_ Added dev commentary for v1.1.0\n" +
+				"_-_ The Google Play version of Shattered now uses Google Play Games v2, which requires Android 4.4+\n" +
+				"_-_ Removed support for Android Instant Apps\n" +
+				"_-_ Updated some links in the game's credits"));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"Fixed the following bugs:\n" +
+				"_Highlights:_\n" +
+				"_-_ Some items being incorrectly consumed when the game is closed while they are being used\n" +
+				"_-_ Mage's Staff not being affected by the degrade debuff\n" +
+				"_-_ Further characters sometimes rendering on top of closer large characters\n" +
+				"\n" +
+				"_Items:_\n" +
+				"_-_ Dwarf King's Crown rarely triggering the effect of the runic transference talent\n" +
+				"_-_ Exploit where multiplicity curse could be used to skip some of Dwarf King's second phase\n" +
+				"_-_ Various errors with class armor conversion and Warrior's broken seal\n" +
+				"_-_ Ring of Force incorrectly displaying +99.99% when at +7, instead of +100%\n" +
+				"_-_ Living Earth and Transfusion wands granting their self-buffs when shooting NPCs\n" +
+				"_-_ Several obscure issues with noisemakers\n" +
+				"_-_ Trap effects from reclaim trap spell not scaling with ascension challenge\n" +
+				"_-_ Horn of Plenty occasionally having the wrong visuals for its charge state",
+
+				"_Allies & Enemies:_\n" +
+				"_-_ Damage caused to Yog's fists not correctly adding time to boss regen limit\n" +
+				"_-_ Ambitious Imp sometimes calling out to the hero when not visible\n" +
+				"_-_ Phantom Piranhas rapidly teleporting when corrupted\n" +
+				"_-_ DM-300 fight sometimes not having a safe route to a power pylon\n" +
+				"_-_ Mimics not dropping loot when they are killed via chasm while hiding\n" +
+				"_-_ Tengu very rarely throwing bombs ontop of each other\n" +
+				"_-_ Piranhas throwing themselves off chasms in very rare cases\n" +
+				"_-_ The Rogue's body replacement talent not triggering effects like chasms and traps\n" +
+				"_-_ Followup strike buff rarely not clearing when enemies die",
+
+				"_Misc.:_\n" +
+				"_-_ Various rare crash issues\n" +
+				"_-_ Various minor visual and textual errors\n" +
+				"_-_ Various rare cases where levelgen could differ between two runs on the same seed\n" +
+				"_-_ Into Darkness and Barren Land challenges affecting levelgen\n" +
+				"_-_ Items in Imp's shop not being affected by dungeon seed\n" +
+				"_-_ Gold ore appearing on the back face of walls in regular caves levels\n" +
+				"_-_ Starflower plant VFX triggering even when out of the hero's FOV\n" +
+				"_-_ Storm Clouds not correctly clearing fire or harming fiery enemies\n" +
+				"_-_ Cases where pushing effects could cause pitfalls to trigger early\n" +
+				"_-_ Combining diagonal direction keys on desktop causing rare errors\n" +
+				"_-_ Cases where default keybindings could override custom ones\n" +
+				"_-_ Crashes caused by text input windows for controller users"));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
+		changes.hardlight(CharSprite.POSITIVE);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.DIRK), "Weapon Ability Buffs",
+				"Weapon abilities are overall in a much better place now, but there are still a couple that need a boost:\n" +
+				"\n" +
+				"_- Sneak_ ability (Dagger, Dirk, and Assassin's blade) reworked. Now lets the Duelist instantly blink for 6/5/4 tiles of distance and grants 1 turn of invisibility, instead of granting 10/8/6 turns of invisibility.\n" +
+				"\n" +
+				"_- Harvest_ ability (Sickle and War Scythe) bleeding amount increased to 110%/90% of damage, from 100%/80% of damage.\n" +
+				"\n" +
+				"_- Brawler's Stance_ ability (Ring of Force) charge use down to 1/6 per attack, from 1/4 per attack."));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "nerfs"), false, null);
+		changes.hardlight(CharSprite.NEGATIVE);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.KATANA), "Weapon & Curse Nerfs",
+				"Relatively mild changes here, a slight nerf to a new weapon and nerfs to the two most harmful curses (i.e. they are less detrimental now).\n" +
+				"\n" +
+				"_- Katana_ blocking down to 0-3 from 0-4\n" +
+				"\n" +
+				"_- Sacrificial_ curse bleeding amount reduced by ~25%\n" +
+				"_- Sacrificial_ curse no longer always deals a minimum of 1 bleeding when it triggers\n" +
+				"\n" +
+				"_- Corrosion_ curse turns of ooze down to 10, from 20."));
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.STAIRS), "Ascension Challenge",
+				"The combination of enemy stat scaling adjustments and the switch to boosting HP instead of reducing damage taken has made the earlier floors in the ascension challenge a little harder than intended, so I'm scaling things back:\n" +
+				"\n" +
+				"_-_ Reverted the v2.1.0 increase to enemy stats in the caves and prison during the ascension challenge."));
 
 	}
 
@@ -75,108 +303,6 @@ public class v2_X_Changes {
 		ChangeInfo changes = new ChangeInfo("v2.1", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
-
-		changes = new ChangeInfo("v2.1.4", false, null);
-		changes.hardlight(Window.TITLE_COLOR);
-		changeInfos.add(changes);
-
-		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
-				"_-_ The stairs down to the blacksmith tester area now use custom visuals\n" +
-				"_-_ The mining test area now has darkened walls at the non-mineable borders\n\n" +
-				"_-_ Made the new boss regen limit vs. Tengu a bit less strict when badder bosses is enabled.\n\n" +
-				"_-_ Adjusted the new gold visuals to only appear in the mining test area for now."));
-
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Caused by v2.1.3:_\n" +
-				"_-_ Various rare crash bugs relating to the mining test area\n" +
-				"_-_ Pitfall traps working in the mining test area\n" +
-				"_-_ Music not always playing correctly in the mining test area\n" +
-				"_-_ Weapon spawns sometimes being inconsistent with the same dungeon seed\n" +
-				"_-_ A couple visual errors in the changes screen and Huntress description\n\n" +
-				"_Existed Prior to v2.1.0:_\n" +
-				"_-_ various rare crash bugs\n" +
-				"_-_ Specific exploits that allowed noisemakers to alter enemies as they were defused\n" +
-				"_-_ Regen-disabling effects not affecting the warrior's shield\n" +
-				"_-_ Counter Ability talent incorrectly making all abilities cost 0 charge when upgraded to +2\n" +
-				"_-_ Visual bugs when hiding mimics were magically slept"));
-
-		changes = new ChangeInfo("v2.1.3", false, null);
-		changes.hardlight(Window.TITLE_COLOR);
-		changeInfos.add(changes);
-
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.PICKAXE), "Blacksmith Quest",
-				"While the blacksmith quest rework isn't coming until v2.2.0, I've added a new area so players can test out some of the quest's new mechanics!\n\n" +
-				"Next to the blacksmith's anvil you'll find a set of stairs that take you down to a special sub-floor. In this sub-floor you can try out the new mining mechanic to your heart's content.\n\n" +
-				"Note that a pickaxe is required, and there isn't currently any reward to doing this. It's purely to test the mechanics out. Hunger and regen effects are also disabled while in the test area."));
-
-		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
-				"_-_ Heroes remains can now appear in more cases, such as during challenge or seeded runs. Remains will always contain 10 gold in challenge or seeded runs however.\n\n" +
-				"_-_ Dark gold veins can now be seen from the side and behind, not just the front\n\n" +
-				"_-_ Added a setting for screen shake intensity"));
-
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Caused by v2.1.0:_\n" +
-				"_-_ Rare cases of enemies getting massively boosted health during ascension challenge.\n" +
-				"_-_ Rare cases of magical fire burning items that spawn next to it\n\n" +
-				"_Existed Prior to v2.1.0:_\n" +
-				"_-_ Various rare crash and hang bugs\n" +
-				"_-_ Weaker healing effects overiding stronger ones\n" +
-				"_-_ Divine inspiration potion not being cancellable if it was already identified\n" +
-				"_-_ Very rare cases where tapping a location wouldn't cause the hero to move\n" +
-				"_-_ Armored brutes blocking more damage than intended"));
-
-		changes = new ChangeInfo("v2.1.2", false, null);
-		changes.hardlight(Window.TITLE_COLOR);
-		changeInfos.add(changes);
-
-		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
-				"_-_ Teleportation effects now the cleanse the rooted debuff.\n\n" +
-				"_-_ The active effect of Sandals of Nature has new vfx, and can now target visible tiles through walls.\n\n" +
-				"_-_ Armors now include their tier in the description."));
-
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Caused by v2.1.1:_\n" +
-				"_-_ Feint ability not working\n" +
-				"_-_ Large enemies moving into small spaces when retreating\n\n" +
-				"_Caused by v2.1.0:_\n" +
-				"_-_ Various rare crash errors\n\n" +
-				"_Existed Prior to v2.1.0:_\n" +
-				"_-_ Rare visual errors with lunge ability"));
-
-		changes = new ChangeInfo("v2.1.1", false, null);
-		changes.hardlight(Window.TITLE_COLOR);
-		changeInfos.add(changes);
-
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.PICKAXE), "Early Blacksmith Quest",
-				"In v2.1.1 I've made some internal changes that will better support creating a sublevel for the blacksmith's quest.\n\n" +
-				"This should have no impact on gameplay currently, so please let me know if anything seems amiss with level saving/loading!"));
-
-		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
-				"_- Barkskin_ can now stack from multiple sources. Only the strongest instance of barkskin is used when calculating defense, but this means that very strong short-term barkskin no longer totally overrides weaker long-term barkskin.\n\n" +
-				"_- Rooted_ has had a big consistency pass. It now properly prevents movement from dash, blink, and leap abilities. Teleportation still works while rooted.\n\n" +
-				"_-_ Various abilities that automatically move the hero closer to a target now consider whether the hero is levitating when determining what hazards to avoid."));
-
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Caused by v2.1.0:_\n" +
-				"_-_ Various rare crash errors\n" +
-				"_-_ Rare cases where enemies could get infinite actions during ascension\n" +
-				"_-_ Grim enchantment incorrectly applying to enemies that are immune to magic\n" +
-				"_-_ Cases where phantom piranhas could be knocked back right after teleporting\n\n" +
-				"_Existed Prior to v2.1.0:_\n" +
-				"_-_ Specific exploits involving moving between floors on a partial turn\n" +
-				"_-_ Enemy AI quirks which caused them to not switch away from inaccessible targets in some cases\n" +
-				"_-_ Various cases where the hero would not lose a debuff after becoming immune to it\n" +
-				"_-_ Hidden mimics not triggering some talents that only occur against enemies\n" +
-				"_-_ Challenge ability having a range of 4 tiles, instead of 5 as stated\n" +
-				"_-_ Shield battery talent being usable with an empty wand\n" +
-				"_-_ Elemental strike not working correctly with a friendly weapon\n" +
-				"_-_ Ally AI errors when told to attack while repositioning\n" +
-				"_-_ Visual bugs when multiple arcane bombs were used at once\n" +
-				"_-_ Various minor textual errors"));
 
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "new"), false, null);
 		changes.hardlight(Window.TITLE_COLOR);
@@ -226,19 +352,34 @@ public class v2_X_Changes {
 				"_-_ Enemy misses now interrupt the hero, just like hits\n" +
 				"_-_ Boss regen limits are now less permissive, especially with badder bosses enabled\n" +
 				"_-_ Certain Weapons and Wands are no longer slightly more likely to spawn than others\n" +
-				"_-_ Players are now less likely to encounter multiple of the same weapon/wand/ring in a run\n" +
+				"_-_ Players are now less likely to find multiple of the same weapon/wand/ring\n" +
 				"_-_ Slightly improved the final loot from crystal path rooms\n" +
 				"_-_ The toolbar's dimming behaviour is now less visually disruptive\n" +
 				"_-_ Added visual buffs for some Duelist and Huntress talents\n" +
-				"_-_ Shattered Supporters on Google Play now have access to 10 Hall of Heroes pages, up from 4\n" +
-				"\n" +
+				"_-_ Shattered Supporters on Google Play now have access to 10 HoH pages, up from 4",
+
 				"_Other:_\n" +
 				"_-_ Water effects now damage fiery enemies\n" +
 				"_-_ Enemies no longer randomly spawn on plants or traps\n" +
-				"_-_ Adjusted UI of Gladiator's combo window to be consistent with Monk's ability window\n" +
+				"_-_ Adjusted Gladiator's combo window to be consistent with Monk's ability window\n" +
 				"_-_ Adjusted tutorialization relating to surprise attacks\n" +
 				"_-_ Improved the icon for the locked floor status\n" +
-				"_-_ Magical fire can now burn items placed next to it by the player"));
+				"_-_ Magical fire can now burn items placed next to it by the player",
+
+				"_v2.1.1:_\n" +
+				"_-_ Internal code changes to support content coming in v2.2.0\n" +
+				"_-_ Barkskin can now be applied from multiple sources at once\n" +
+				"_-_ Rooted debuff now more consistently prevents movement abilities\n" +
+				"_-_ Various movement effects now take levitation into account\n" +
+				"\n" +
+				"_v2.1.2:_\n" +
+				"_-_ Teleportation effects now the cleanse the rooted debuff\n" +
+				"_-_ The Sandals of Nature have new vfx, and can now target visible tiles through walls.\n" +
+				"_-_ Armors now include their tier in the description\n" +
+				"\n" +
+				"_v2.1.3:_\n" +
+				"_-_ Heroes remains can now appear in more cases, but always contain 10 gold in challenge or seeded runs\n" +
+				"_-_ Added a setting for screen shake intensity"));
 
 		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
 				"Fixed the following bugs:\n" +
@@ -257,7 +398,7 @@ public class v2_X_Changes {
 				"_-_ Wand of Lightning not spreading correctly to flying enemies over water\n" +
 				"_-_ Errors when transmuting an equipped artifact into a ring\n" +
 				"_-_ Displacing darts not properly granting vision of teleported enemies in some cases\n" +
-				"_-_ Empty item spots on the floor 20 shop\n",
+				"_-_ Empty item spots on the floor 20 shop",
 
 				"_Effects:_\n" +
 				"_-_ Some Duelist abilities not clearing invisibility\n" +
@@ -286,7 +427,36 @@ public class v2_X_Changes {
 				"_-_ Particle FX failing to appear after loading during the 4th boss fight\n" +
 				"_-_ Action indicator not updating properly from Speedy Stealth talent\n" +
 				"_-_ Incorrect error messages when the game tries to report crashes on desktop\n" +
-				"_-_ Invalid move actions (e.g. into unknown areas) causing self-trample to activate"));
+				"_-_ Invalid move actions (e.g. into unknown areas) causing self-trample to activate",
+
+				"_v2.1.1_:\n" +
+				"_-_ Specific exploits involving moving between floors on a partial turn\n" +
+				"_-_ Enemy AI quirks which caused them to not switch away from inaccessible targets in some cases\n" +
+				"_-_ Various cases where the hero would not lose a debuff after becoming immune to it\n" +
+				"_-_ Hidden mimics not triggering some talents that only occur against enemies\n" +
+				"_-_ Challenge ability having a range of 4 tiles, instead of 5 as stated\n" +
+				"_-_ Shield battery talent being usable with an empty wand\n" +
+				"_-_ Elemental strike not working correctly with a friendly weapon\n" +
+				"_-_ Ally AI errors when told to attack while repositioning\n" +
+				"_-_ Visual bugs when multiple arcane bombs were used at once\n" +
+				"_-_ Various minor textual errors\n" +
+				"\n" +
+				"_v2.1.2:_\n" +
+				"_-_ Rare visual errors with the lunge ability",
+
+				"_v2.1.3:_\n" +
+				"_-_ Various rare crash and hang bugs\n" +
+				"_-_ Weaker healing effects overiding stronger ones\n" +
+				"_-_ Divine inspiration potion not being cancellable if it was already identified\n" +
+				"_-_ Very rare cases where tapping a location wouldn't cause the hero to move\n" +
+				"_-_ Armored brutes blocking more damage than intended\n" +
+				"\n" +
+				"_v2.1.4:_\n" +
+				"_-_ Various rare crash bugs\n" +
+				"_-_ Specific exploits that allowed noisemakers to alert enemies as they were defused\n" +
+				"_-_ Regen-disabling effects not affecting the warrior's shield\n" +
+				"_-_ Counter Ability talent incorrectly making all abilities cost 0 charge when upgraded to +2\n" +
+				"_-_ Visual bugs when hiding mimics were magically slept"));
 
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
 		changes.hardlight(CharSprite.POSITIVE);

@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.PylonSprite;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BossHealthBar;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
@@ -77,15 +78,16 @@ public class CavesBossLevel extends Level {
 	@Override
 	public void playLevelMusic() {
 		if (locked){
-			Music.INSTANCE.play(Assets.Music.CAVES_BOSS, true);
+			if (BossHealthBar.isBleeding()){
+				Music.INSTANCE.play(Assets.Music.CAVES_BOSS_FINALE, true);
+			} else {
+				Music.INSTANCE.play(Assets.Music.CAVES_BOSS, true);
+			}
 		//if wall isn't broken
-		} else if (map[14 + 13*width()] == Terrain.SIGN){
+		} else if (map[14 + 13*width()] == Terrain.CUSTOM_DECO){
 			Music.INSTANCE.end();
 		} else {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.CAVES_1, Assets.Music.CAVES_2, Assets.Music.CAVES_2},
-					new float[]{1, 1, 0.5f},
-					false);
+			Music.INSTANCE.playTracks(CavesLevel.CAVES_TRACK_LIST, CavesLevel.CAVES_TRACK_CHANCES, false);
 		}
 	}
 
@@ -114,8 +116,7 @@ public class CavesBossLevel extends Level {
 
 		setSize(WIDTH, HEIGHT);
 
-		//These signs are visually overridden with custom tile visuals
-		Painter.fill(this, gate, Terrain.SIGN);
+		Painter.fill(this, gate, Terrain.CUSTOM_DECO);
 
 		//set up main boss arena
 		Painter.fillEllipse(this, mainArena, Terrain.EMPTY);
@@ -169,6 +170,17 @@ public class CavesBossLevel extends Level {
 		customVisuals.setRect(0, 12, width(), 27);
 		customTiles.add(customVisuals);
 
+		//ensures that all pylons can be reached without stepping over water or wires
+		boolean[] pass = new boolean[length];
+		for (int i = 0; i < length; i++){
+			pass[i] = map[i] == Terrain.EMPTY || map[i] == Terrain.EMPTY_SP || map[i] == Terrain.EMPTY_DECO;
+		}
+		PathFinder.buildDistanceMap(16 + 25*width(), pass);
+		for (int i : pylonPositions){
+			if (PathFinder.distance[i] == Integer.MAX_VALUE){
+				return false;
+			}
+		}
 		return true;
 
 	}
@@ -337,7 +349,12 @@ public class CavesBossLevel extends Level {
 		Game.runOnRenderThread(new Callback() {
 			@Override
 			public void call() {
-				Music.INSTANCE.end();
+				Music.INSTANCE.fadeOut(5f, new Callback() {
+					@Override
+					public void call() {
+						Music.INSTANCE.end();
+					}
+				});
 			}
 		});
 
@@ -365,7 +382,7 @@ public class CavesBossLevel extends Level {
 		}
 
 		for( int i = (mainArena.top-1)*width; i <length; i++){
-			if (map[i] == Terrain.INACTIVE_TRAP || map[i] == Terrain.WATER || map[i] == Terrain.SIGN){
+			if (map[i] == Terrain.INACTIVE_TRAP || map[i] == Terrain.WATER || map[i] == Terrain.CUSTOM_DECO){
 				GameScene.add(Blob.seed(i, 1, PylonEnergy.class));
 			}
 		}

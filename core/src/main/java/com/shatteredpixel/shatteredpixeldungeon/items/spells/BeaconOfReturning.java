@@ -132,7 +132,7 @@ public class BeaconOfReturning extends Spell {
 					if (toPush == hero){
 						returnPos = candidates.get(0);
 					} else {
-						Actor.addDelayed( new Pushing( toPush, toPush.pos, candidates.get(0) ), -1 );
+						Actor.add( new Pushing( toPush, toPush.pos, candidates.get(0) ) );
 						toPush.pos = candidates.get(0);
 						Dungeon.level.occupyCell(toPush);
 					}
@@ -152,6 +152,12 @@ public class BeaconOfReturning extends Spell {
 
 			if (!Dungeon.interfloorTeleportAllowed()) {
 				GLog.w( Messages.get(this, "preventing") );
+				return;
+			}
+
+			//cannot return to mining level
+			if (returnDepth >= 11 && returnDepth <= 14 && returnBranch == 1){
+				GLog.w( Messages.get(ScrollOfTeleportation.class, "no_tele") );
 				return;
 			}
 
@@ -183,12 +189,14 @@ public class BeaconOfReturning extends Spell {
 	}
 	
 	private static final String DEPTH	= "depth";
+	private static final String BRANCH	= "branch";
 	private static final String POS		= "pos";
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle( bundle );
 		bundle.put( DEPTH, returnDepth );
+		bundle.put( BRANCH, returnBranch );
 		if (returnDepth != -1) {
 			bundle.put( POS, returnPos );
 		}
@@ -198,6 +206,7 @@ public class BeaconOfReturning extends Spell {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle(bundle);
 		returnDepth	= bundle.getInt( DEPTH );
+		returnBranch = bundle.getInt( BRANCH );
 		returnPos	= bundle.getInt( POS );
 	}
 	

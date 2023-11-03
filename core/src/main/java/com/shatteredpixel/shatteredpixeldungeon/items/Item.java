@@ -99,6 +99,7 @@ public class Item implements Bundlable {
 	public boolean unique = false;
 
 	// These items are preserved even if the hero's inventory is lost via unblessed ankh
+	// this is largely set by the resurrection window, items can override this to always be kept
 	public boolean keptThoughLostInvent = false;
 
 	// Alchemy items takes advantage for upgrading them
@@ -154,6 +155,10 @@ public class Item implements Bundlable {
 	//resets an item's properties, to ensure consistency between runs
 	public void reset(){
 		keptThoughLostInvent = false;
+	}
+
+	public boolean keptThroughLostInventory(){
+		return keptThoughLostInvent;
 	}
 
 	public void doThrow( Hero hero ) {

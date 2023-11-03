@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard;
+package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -29,7 +29,9 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.StandardRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BurningTrap;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
 import com.watabou.noosa.Tilemap;
 import com.watabou.utils.Point;
@@ -51,6 +53,12 @@ public class BlacksmithRoom extends StandardRoom {
 
 		Painter.fill( level, this, Terrain.WALL );
 		Painter.fill( level, this, 1, Terrain.TRAP );
+
+		for (Door door : connected.values()) {
+			door.set( Door.Type.REGULAR );
+			Painter.drawInside( level, this, door, 2, Terrain.EMPTY );
+		}
+
 		Painter.fill( level, this, 2, Terrain.EMPTY_SP );
 		
 		for (int i=0; i < 2; i++) {
@@ -66,23 +74,16 @@ public class BlacksmithRoom extends StandardRoom {
 				) ), pos );
 		}
 		
-		for (Door door : connected.values()) {
-			door.set( Door.Type.REGULAR );
-			Painter.drawInside( level, this, door, 1, Terrain.EMPTY );
-		}
-		
 		Blacksmith npc = new Blacksmith();
 		do {
 			npc.pos = level.pointToCell(random( 2 ));
 		} while (level.heaps.get( npc.pos ) != null);
 		level.mobs.add( npc );
 
-		Random.pushGenerator(Dungeon.seedCurDepth()+1);
-			int entrancePos;
-			do {
-				entrancePos = level.pointToCell(random( 2 ));
-			} while (level.heaps.get( npc.pos ) != null || entrancePos == npc.pos);
-		Random.popGenerator();
+		int entrancePos;
+		do {
+			entrancePos = level.pointToCell(random( 2 ));
+		} while (level.heaps.get( npc.pos ) != null || entrancePos == npc.pos);
 
 		QuestEntrance vis = new QuestEntrance();
 		vis.pos(entrancePos, level);
@@ -92,7 +93,7 @@ public class BlacksmithRoom extends StandardRoom {
 				entrancePos,
 				LevelTransition.Type.BRANCH_EXIT,
 				Dungeon.depth,
-				Dungeon.branch+1,
+				Dungeon.branch + 1,
 				LevelTransition.Type.BRANCH_ENTRANCE));
 		Painter.set(level, entrancePos, Terrain.EXIT);
 
@@ -101,6 +102,15 @@ public class BlacksmithRoom extends StandardRoom {
 			if (level.map[cell] == Terrain.TRAP){
 				level.setTrap(new BurningTrap().reveal(), cell);
 			}
+		}
+	}
+
+	@Override
+	public boolean canPlaceCharacter(Point p, Level l) {
+		if (l.map[l.pointToCell(p)] == Terrain.EXIT){
+			return false;
+		} else {
+			return super.canPlaceCharacter(p, l);
 		}
 	}
 
@@ -119,6 +129,15 @@ public class BlacksmithRoom extends StandardRoom {
 			return v;
 		}
 
-		//TODO add some text here in v2.2.0
+		@Override
+		public String name(int tileX, int tileY) {
+			return Messages.get(this, "name");
+		}
+
+		@Override
+		public String desc(int tileX, int tileY) {
+			return Messages.get(this, "desc");
+		}
+
 	}
 }

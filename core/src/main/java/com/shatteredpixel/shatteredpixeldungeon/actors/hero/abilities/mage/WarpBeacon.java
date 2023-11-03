@@ -41,7 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
-import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
+import com.watabou.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.Game;
@@ -147,7 +147,7 @@ public class WarpBeacon extends ArmorAbility {
 
 									if (!candidates.isEmpty()){
 										ScrollOfTeleportation.appear(hero, tracker.pos);
-										Actor.addDelayed( new Pushing( toPush, toPush.pos, candidates.get(0) ), -1 );
+										Actor.add( new Pushing( toPush, toPush.pos, candidates.get(0) ));
 
 										toPush.pos = candidates.get(0);
 										Dungeon.level.occupyCell(toPush);

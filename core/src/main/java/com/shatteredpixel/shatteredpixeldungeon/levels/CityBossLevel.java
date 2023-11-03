@@ -39,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.ImpShopRoo
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BossHealthBar;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.Tilemap;
@@ -88,15 +89,16 @@ public class CityBossLevel extends Level {
 	@Override
 	public void playLevelMusic() {
 		if (locked){
-			Music.INSTANCE.play(Assets.Music.CITY_BOSS, true);
+			if (BossHealthBar.isBleeding()){
+				Music.INSTANCE.play(Assets.Music.CITY_BOSS_FINALE, true);
+			} else {
+				Music.INSTANCE.play(Assets.Music.CITY_BOSS, true);
+			}
 		//if top door isn't unlocked
 		} else if (map[topDoor] == Terrain.LOCKED_DOOR){
 			Music.INSTANCE.end();
 		} else {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.CITY_1, Assets.Music.CITY_2, Assets.Music.CITY_2},
-					new float[]{1, 1, 0.5f},
-					false);
+			Music.INSTANCE.playTracks(CityLevel.CITY_TRACK_LIST, CityLevel.CITY_TRACK_CHANCES, false);
 		}
 	}
 
@@ -163,7 +165,7 @@ public class CityBossLevel extends Level {
 		Painter.fillDiamond(this, arena, 1, Terrain.EMPTY);
 
 		Painter.fill(this, arena, 5, Terrain.EMPTY_SP);
-		Painter.fill(this, arena, 6, Terrain.SIGN);
+		Painter.fill(this, arena, 6, Terrain.CUSTOM_DECO);
 
 		c = arena.center();
 		Painter.set(this, c.x-3, c.y, Terrain.STATUE);
@@ -198,6 +200,7 @@ public class CityBossLevel extends Level {
 		Painter.fill(this, end.left+5, end.bottom+1, 5, 1, Terrain.EMPTY);
 		Painter.fill(this, end.left+6, end.bottom+2, 3, 1, Terrain.EMPTY);
 
+		impShop.paint(this);
 		new CityPainter().paint(this, null);
 
 		//pillars last, no deco on these
@@ -354,7 +357,12 @@ public class CityBossLevel extends Level {
 		Game.runOnRenderThread(new Callback() {
 			@Override
 			public void call() {
-				Music.INSTANCE.end();
+				Music.INSTANCE.fadeOut(5f, new Callback() {
+					@Override
+					public void call() {
+						Music.INSTANCE.end();
+					}
+				});
 			}
 		});
 	}
@@ -513,13 +521,13 @@ public class CityBossLevel extends Level {
 						data[++i] = 13 * 8 + 2;
 						data[++i] = 13 * 8 + 3;
 
-						//mid row of DK's throne
-					}else if (map[i + 1] == Terrain.SIGN) {
+					//mid row of DK's throne
+					}else if (map[i + 1] == Terrain.CUSTOM_DECO) {
 						data[i] = 14 * 8 + 1;
 						data[++i] = 14 * 8 + 2;
 						data[++i] = 14 * 8 + 3;
 
-						//bottom row of DK's throne
+					//bottom row of DK's throne
 					} else if (map[i+1] == Terrain.EMPTY_SP && map[i-tileW] == Terrain.EMPTY_SP){
 						data[i] = 15*8 + 1;
 						data[++i] = 15*8 + 2;
@@ -556,7 +564,7 @@ public class CityBossLevel extends Level {
 
 				//DK arena tiles
 			} else {
-				if (Dungeon.level.map[cell] == Terrain.SIGN){
+				if (Dungeon.level.map[cell] == Terrain.CUSTOM_DECO){
 					return Messages.get(CityBossLevel.class, "throne_name");
 				} else if (Dungeon.level.map[cell] == Terrain.PEDESTAL){
 					return Messages.get(CityBossLevel.class, "summoning_name");
@@ -582,7 +590,7 @@ public class CityBossLevel extends Level {
 
 				//DK arena tiles
 			} else {
-				if (Dungeon.level.map[cell] == Terrain.SIGN){
+				if (Dungeon.level.map[cell] == Terrain.CUSTOM_DECO){
 					return Messages.get(CityBossLevel.class, "throne_desc");
 				} else if (Dungeon.level.map[cell] == Terrain.PEDESTAL){
 					return Messages.get(CityBossLevel.class, "summoning_desc");
@@ -658,7 +666,7 @@ public class CityBossLevel extends Level {
 				//Statues that need to face left instead of right
 				if (map[i] == Terrain.STATUE && i%tileW > 7){
 					data[i-tileW] = 14*8 + 4;
-				} else if (map[i] == Terrain.SIGN){
+				} else if (map[i] == Terrain.CUSTOM_DECO){
 					data[i-tileW] = 13*8 + 5;
 				}
 

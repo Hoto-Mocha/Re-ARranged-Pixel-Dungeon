@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -60,11 +61,10 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 	@Override
 	//need to override drink so that time isn't spent right away
 	protected void drink(final Hero hero) {
-		curUser = hero;
-		curItem = detach( hero.belongings.backpack );
 
 		if (!isKnown()) {
 			identify();
+			curItem = detach( hero.belongings.backpack );
 			identifiedByUse = true;
 		} else {
 			identifiedByUse = false;
@@ -116,9 +116,10 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 						} );
 					}
 				});
-			} else if (cell == null && !anonymous){
-				curItem.collect( curUser.belongings.backpack );
 			} else if (cell != null) {
+				if (!identifiedByUse) {
+					curItem.detach(curUser.belongings.backpack);
+				}
 				potionAlreadyUsed = true;
 				identifiedByUse = false;
 				curUser.busy();
@@ -126,8 +127,6 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 				curUser.sprite.operate(curUser.pos, new Callback() {
 					@Override
 					public void call() {
-
-						curItem.detach(curUser.belongings.backpack);
 
 						curUser.sprite.idle();
 						curUser.sprite.zap(cell);
@@ -198,6 +197,10 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 										}
 
 										curUser.spendAndNext(1f);
+
+										if (!anonymous){
+											Talent.onPotionUsed(curUser, curUser.pos, talentFactor);
+										}
 									}
 								});
 						

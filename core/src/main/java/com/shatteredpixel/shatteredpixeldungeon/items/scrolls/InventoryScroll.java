@@ -40,6 +40,7 @@ public abstract class InventoryScroll extends Scroll {
 		
 		if (!isKnown()) {
 			identify();
+			curItem = detach( curUser.belongings.backpack );
 			identifiedByUse = true;
 		} else {
 			identifiedByUse = false;
@@ -109,7 +110,10 @@ public abstract class InventoryScroll extends Scroll {
 			}
 			
 			if (item != null) {
-				
+
+				if (!identifiedByUse) {
+					curItem = detach(curUser.belongings.backpack);
+				}
 				((InventoryScroll)curItem).onItemSelected( item );
 				((InventoryScroll)curItem).readAnimation();
 				
@@ -119,11 +123,7 @@ public abstract class InventoryScroll extends Scroll {
 				
 				((InventoryScroll)curItem).confirmCancelation();
 				
-			} else if (!((Scroll)curItem).anonymous) {
-				
-				curItem.collect( curUser.belongings.backpack );
-				
-			} else {
+			} else if (((Scroll)curItem).anonymous) {
 
 				curUser.spendAndNext( TIME_TO_READ );
 

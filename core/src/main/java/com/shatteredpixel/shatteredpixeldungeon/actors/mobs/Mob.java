@@ -1125,6 +1125,9 @@ public abstract class Mob extends Char {
 			for (Buff b : buffs()){
 				if (b.type == Buff.buffType.NEGATIVE){
 					awaken(enemyInFOV);
+					if (state == SLEEPING){
+						spend(TICK); //wait if we can't wake up for some reason
+					}
 					return true;
 				}
 			}
@@ -1141,6 +1144,9 @@ public abstract class Mob extends Char {
 
 				if (Random.Float( distance( enemy ) + enemyStealth ) < 1) {
 					awaken(enemyInFOV);
+					if (state == SLEEPING){
+						spend(TICK); //wait if we can't wake up for some reason
+					}
 					return true;
 				}
 
@@ -1223,11 +1229,15 @@ public abstract class Mob extends Char {
 				spend( 1 / speed() );
 				return moveSprite( oldPos, pos );
 			} else {
-				target = Dungeon.level.randomDestination( Mob.this );
+				target = randomDestination();
 				spend( TICK );
 			}
 			
 			return true;
+		}
+
+		protected int randomDestination(){
+			return Dungeon.level.randomDestination( Mob.this );
 		}
 		
 	}
@@ -1293,7 +1303,6 @@ public abstract class Mob extends Char {
 		}
 	}
 
-	//FIXME this works fairly well but is coded poorly. Should refactor
 	protected class Fleeing implements AiState {
 
 		public static final String TAG	= "FLEEING";
@@ -1301,9 +1310,13 @@ public abstract class Mob extends Char {
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
 			enemySeen = enemyInFOV;
-			//loses target when 0-dist rolls a 6 or greater.
+			//triggers escape logic when 0-dist rolls a 6 or greater.
 			if (enemy == null || !enemyInFOV && 1 + Random.Int(Dungeon.level.distance(pos, target)) >= 6){
-				target = -1;
+				escaped();
+				if (state != FLEEING){
+					spend( TICK );
+					return true;
+				}
 			
 			//if enemy isn't in FOV, keep running from their previous position.
 			} else if (enemyInFOV) {
@@ -1325,7 +1338,22 @@ public abstract class Mob extends Char {
 			}
 		}
 
+		protected void escaped(){
+			//does nothing by default, some enemies have special logic for this
+		}
+
+		//enemies will turn and fight if they have nowhere to run and aren't affect by terror
 		protected void nowhereToRun() {
+			if (buff( Terror.class ) == null
+					&& buffs( AllyBuff.class ).isEmpty()
+					&& buff( Dread.class ) == null) {
+				if (enemySeen) {
+					sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Mob.class, "rage"));
+					state = HUNTING;
+				} else {
+					state = WANDERING;
+				}
+			}
 		}
 	}
 

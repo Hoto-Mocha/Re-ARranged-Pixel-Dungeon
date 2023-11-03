@@ -837,7 +837,7 @@ public class WndSettings extends WndTabbed {
 			chkNews.checked(SPDSettings.news());
 			add(chkNews);
 
-			if (Updates.supportsUpdates() && Updates.isUpdateable()) {
+			if (Updates.supportsUpdates() && Updates.supportsUpdatePrompts()) {
 				chkUpdates = new CheckBox(Messages.get(this, "updates")) {
 					@Override
 					protected void onClick() {
@@ -1128,7 +1128,7 @@ public class WndSettings extends WndTabbed {
 			lanBtns = new RedButton[langs.size()];
 			for (int i = 0; i < langs.size(); i++){
 				final int langIndex = i;
-				RedButton btn = new RedButton(Messages.titleCase(langs.get(i).nativeName()), 7){
+				RedButton btn = new RedButton(Messages.titleCase(langs.get(i).nativeName()), 6){
 					@Override
 					protected void onClick() {
 						super.onClick();

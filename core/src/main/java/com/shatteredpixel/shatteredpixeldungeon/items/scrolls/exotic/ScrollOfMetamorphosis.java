@@ -51,6 +51,8 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 
 	{
 		icon = ItemSpriteSheet.Icons.SCROLL_METAMORPH;
+
+		talentFactor = 2f;
 	}
 
 	protected static boolean identifiedByUse = false;
@@ -59,6 +61,7 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 	public void doRead() {
 		if (!isKnown()) {
 			identify();
+			curItem = detach(curUser.belongings.backpack);
 			identifiedByUse = true;
 		} else {
 			identifiedByUse = false;
@@ -158,7 +161,6 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 				((ScrollOfMetamorphosis)curItem).confirmCancelation(this);
 			} else {
 				super.onBackPressed();
-				curItem.collect();
 			}
 		}
 
@@ -207,6 +209,11 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 
 		public WndMetamorphReplace(Talent replacing, int tier){
 			super();
+
+			if (!identifiedByUse) {
+				curItem.detach(curUser.belongings.backpack);
+			}
+			identifiedByUse = false;
 
 			INSTANCE = this;
 

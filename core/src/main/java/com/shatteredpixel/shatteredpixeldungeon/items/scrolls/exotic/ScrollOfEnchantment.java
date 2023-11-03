@@ -25,7 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Enchanting;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
@@ -57,6 +56,8 @@ public class ScrollOfEnchantment extends ExoticScroll {
 		icon = ItemSpriteSheet.Icons.SCROLL_ENCHANT;
 
 		unique = true;
+
+		talentFactor = 2f;
 	}
 
 	protected static boolean identifiedByUse = false;
@@ -65,6 +66,7 @@ public class ScrollOfEnchantment extends ExoticScroll {
 	public void doRead() {
 		if (!isKnown()) {
 			identify();
+			curItem = detach(curUser.belongings.backpack);
 			identifiedByUse = true;
 		} else {
 			identifiedByUse = false;
@@ -125,6 +127,10 @@ public class ScrollOfEnchantment extends ExoticScroll {
 		public void onSelect(final Item item) {
 			
 			if (item instanceof Weapon){
+				if (!identifiedByUse) {
+					curItem.detach(curUser.belongings.backpack);
+				}
+				identifiedByUse = false;
 				
 				final Weapon.Enchantment enchants[] = new Weapon.Enchantment[3];
 				
@@ -136,6 +142,10 @@ public class ScrollOfEnchantment extends ExoticScroll {
 				GameScene.show(new WndEnchantSelect((Weapon) item, enchants[0], enchants[1], enchants[2]));
 			
 			} else if (item instanceof Armor) {
+				if (!identifiedByUse) {
+					curItem.detach(curUser.belongings.backpack);
+				}
+				identifiedByUse = false;
 				
 				final Armor.Glyph glyphs[] = new Armor.Glyph[3];
 				
@@ -145,12 +155,8 @@ public class ScrollOfEnchantment extends ExoticScroll {
 				glyphs[2] = Armor.Glyph.random( existing, glyphs[0].getClass(), glyphs[1].getClass());
 				
 				GameScene.show(new WndGlyphSelect((Armor) item, glyphs[0], glyphs[1], glyphs[2]));
-			} else {
-				if (!identifiedByUse){
-					curItem.collect();
-				} else {
-					((ScrollOfEnchantment)curItem).confirmCancelation();
-				}
+			} else if (identifiedByUse){
+				((ScrollOfEnchantment)curItem).confirmCancelation();
 			}
 
 			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
@@ -198,7 +204,6 @@ public class ScrollOfEnchantment extends ExoticScroll {
 
 				Sample.INSTANCE.play( Assets.Sounds.READ );
 				Enchanting.show(curUser, wep);
-				Talent.onUpgradeScrollUsed( Dungeon.hero );
 			}
 
 			wep = null;
@@ -262,7 +267,6 @@ public class ScrollOfEnchantment extends ExoticScroll {
 
 				Sample.INSTANCE.play( Assets.Sounds.READ );
 				Enchanting.show(curUser, arm);
-				Talent.onUpgradeScrollUsed( Dungeon.hero );
 			}
 
 			arm = null;

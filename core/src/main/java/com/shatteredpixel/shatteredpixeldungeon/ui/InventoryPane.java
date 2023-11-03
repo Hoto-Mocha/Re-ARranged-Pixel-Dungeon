@@ -366,13 +366,13 @@ public class InventoryPane extends Component {
 			b.enable(lastEnabled
 					&& !(b.item() instanceof WndBag.Placeholder)
 					&& (selector == null || selector.itemSelectable(b.item()))
-					&& (!lostInvent || b.item().keptThoughLostInvent));
+					&& (!lostInvent || b.item().keptThroughLostInventory()));
 		}
 		for (InventorySlot b : bagItems){
 			b.enable(lastEnabled
 					&& b.item() != null
 					&& (selector == null || selector.itemSelectable(b.item()))
-					&& (!lostInvent || b.item().keptThoughLostInvent));
+					&& (!lostInvent || b.item().keptThroughLostInventory()));
 		}
 		for (BagButton b : bags){
 			b.enable(lastEnabled);
@@ -456,13 +456,13 @@ public class InventoryPane extends Component {
 				b.enable(lastEnabled
 						&& !(b.item() instanceof WndBag.Placeholder)
 						&& (selector == null || selector.itemSelectable(b.item()))
-						&& (!lostInvent || b.item().keptThoughLostInvent));
+						&& (!lostInvent || b.item().keptThroughLostInventory()));
 			}
 			for (InventorySlot b : bagItems){
 				b.enable(lastEnabled
 						&& b.item() != null
 						&& (selector == null || selector.itemSelectable(b.item()))
-						&& (!lostInvent || b.item().keptThoughLostInvent));
+						&& (!lostInvent || b.item().keptThroughLostInventory()));
 			}
 			for (BagButton b : bags){
 				b.enable(lastEnabled);
@@ -658,6 +658,7 @@ public class InventoryPane extends Component {
 		@Override
 		protected void onClick() {
 			super.onClick();
+			GameScene.cancel();
 			lastBag = bag;
 			refresh();
 		}

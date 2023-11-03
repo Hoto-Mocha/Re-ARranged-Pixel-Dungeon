@@ -135,7 +135,12 @@ public class RingOfForce extends Ring {
 		float tier = tier(Dungeon.hero.STR());
 		if (isIdentified()) {
 			int level = soloBuffedBonus();
-			return Messages.get(this, "stats", min(level, tier), max(level, tier), level);
+			String info = Messages.get(this, "stats", min(level, tier), max(level, tier), level);
+			if (isEquipped(Dungeon.hero) && soloBuffedBonus() != combinedBuffedBonus(Dungeon.hero, Force.class)){
+				level = combinedBuffedBonus(Dungeon.hero, Force.class);
+				info += "\n\n" + Messages.get(this, "combined_stats", min(level, tier), max(level, tier), level);
+			}
+			return info;
 		} else {
 			return Messages.get(this, "typical_stats", min(1, tier), max(1, tier), 1);
 		}
@@ -267,7 +272,7 @@ public class RingOfForce extends Ring {
 
 	public static class BrawlersStance extends Buff {
 
-		public static float HIT_CHARGE_USE = 0.25f;
+		public static float HIT_CHARGE_USE = 1/6f;
 
 		{
 			announced = true;
