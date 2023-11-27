@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.stones;
 
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Enchanting;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -30,12 +28,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword_Energy;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -76,10 +68,6 @@ public class StoneOfEnchantment extends InventoryStone {
 		} else {
 			GLog.p(Messages.get(this, "armor"));
 		}
-
-		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-			item.fix();
-		}
 		
 		useAnimation();
 		
@@ -95,83 +83,4 @@ public class StoneOfEnchantment extends InventoryStone {
 		return 4 * quantity;
 	}
 
-
-
-	public static class Recipe1 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-		{
-			inputs =  new Class[]{WornShortsword_Energy.class};
-			inQuantity = new int[]{1};
-
-			cost = 15;
-
-			output = StoneOfEnchantment.class;
-			outQuantity = 2;
-		}
-	}
-
-	public static class Recipe2 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-		{
-			inputs =  new Class[]{Dagger_Energy.class};
-			inQuantity = new int[]{1};
-
-			cost = 15;
-
-			output = StoneOfEnchantment.class;
-			outQuantity = 2;
-		}
-	}
-
-	public static class Recipe3 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-		{
-			inputs =  new Class[]{Gloves_Energy.class};
-			inQuantity = new int[]{1};
-
-			cost = 15;
-
-			output = StoneOfEnchantment.class;
-			outQuantity = 2;
-		}
-	}
-
-	public static class Recipe4 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-		{
-			inputs =  new Class[]{CrudePistol_Energy.class};
-			inQuantity = new int[]{1};
-
-			cost = 15;
-
-			output = StoneOfEnchantment.class;
-			outQuantity = 2;
-		}
-	}
-
-	public static class Recipe5 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-		{
-			inputs =  new Class[]{WornKatana_Energy.class};
-			inQuantity = new int[]{1};
-
-			cost = 15;
-
-			output = StoneOfEnchantment.class;
-			outQuantity = 2;
-		}
-	}
-
-	public static class Recipe6 extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-		{
-			inputs =  new Class[]{Saber_Energy.class};
-			inQuantity = new int[]{1};
-
-			cost = 15;
-
-			output = StoneOfEnchantment.class;
-			outQuantity = 2;
-		}
-	}
 }

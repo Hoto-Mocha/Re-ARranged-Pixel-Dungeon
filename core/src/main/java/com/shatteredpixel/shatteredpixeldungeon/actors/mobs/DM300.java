@@ -614,7 +614,7 @@ public class DM300 extends Mob {
 
 				Rect gate = CavesBossLevel.gate;
 				for (int i : PathFinder.NEIGHBOURS9){
-					if (Dungeon.level.map[pos+i] == Terrain.WALL || Dungeon.level.map[pos+i] == Terrain.WALL_DECO || Dungeon.level.map[pos+i] == Terrain.CUSTOM_WALL){
+					if (Dungeon.level.map[pos+i] == Terrain.WALL || Dungeon.level.map[pos+i] == Terrain.WALL_DECO){
 						Point p = Dungeon.level.cellToPoint(pos+i);
 						if (p.y < gate.bottom && p.x >= gate.left-2 && p.x < gate.right+2){
 							continue; //don't break the gate or walls around the gate

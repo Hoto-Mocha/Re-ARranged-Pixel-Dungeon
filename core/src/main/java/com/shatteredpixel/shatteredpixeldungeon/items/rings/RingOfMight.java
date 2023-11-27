@@ -39,7 +39,6 @@ public class RingOfMight extends Ring {
 	public boolean doEquip(Hero hero) {
 		if (super.doEquip(hero)){
 			hero.updateHT( false );
-			hero.onSTRGained();
 			return true;
 		} else {
 			return false;
@@ -50,7 +49,6 @@ public class RingOfMight extends Ring {
 	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
 		if (super.doUnequip(hero, collect, single)){
 			hero.updateHT( false );
-			hero.onSTRLost();
 			return true;
 		} else {
 			return false;
@@ -94,10 +92,9 @@ public class RingOfMight extends Ring {
 	protected RingBuff buff( ) {
 		return new Might();
 	}
-
-	//녹픽던에서는 버프의 영향을 받지 않도록 되어 있음
+	
 	public static int strengthBonus( Char target ){
-		return getBuffedBonus( target, Might.class );
+		return getBonus( target, Might.class );
 	}
 	
 	public static float HTMultiplier( Char target ){

@@ -528,20 +528,19 @@ public abstract class RegularLevel extends Level {
 		//lore pages
 		//TODO a fair bit going on here, I might want to refactor/externalize this in the future
 		Random.pushGenerator( Random.Long() );
-		if (Document.ADVENTURERS_GUIDE.allPagesFound()){
+			if (Document.ADVENTURERS_GUIDE.allPagesFound()){
 
-			int region = 1+(Dungeon.depth-1)/5;
+				int region = 1+(Dungeon.depth-1)/5;
 
-			Document regionDoc;
-			switch( region ){
-				default: regionDoc = null; break;
-				case 1: regionDoc = Document.SEWERS_GUARD; break;
-				case 2: regionDoc = Document.PRISON_WARDEN; break;
-				case 3: regionDoc = Document.CAVES_EXPLORER; break;
-				case 4: regionDoc = Document.CITY_WARLOCK; break;
-				case 5: regionDoc = Document.HALLS_KING; break;
-				case 6: regionDoc = Document.LABS_MEDIC; break;
-			}
+				Document regionDoc;
+				switch( region ){
+					default: regionDoc = null; break;
+					case 1: regionDoc = Document.SEWERS_GUARD; break;
+					case 2: regionDoc = Document.PRISON_WARDEN; break;
+					case 3: regionDoc = Document.CAVES_EXPLORER; break;
+					case 4: regionDoc = Document.CITY_WARLOCK; break;
+					case 5: regionDoc = Document.HALLS_KING; break;
+				}
 
 				if (regionDoc != null && !regionDoc.allPagesFound()) {
 
@@ -597,7 +596,6 @@ public abstract class RegularLevel extends Level {
 		limitedDocs.put(Document.CAVES_EXPLORER, Dungeon.LimitedDrops.LORE_CAVES);
 		limitedDocs.put(Document.CITY_WARLOCK, Dungeon.LimitedDrops.LORE_CITY);
 		limitedDocs.put(Document.HALLS_KING, Dungeon.LimitedDrops.LORE_HALLS);
-		limitedDocs.put(Document.LABS_MEDIC, Dungeon.LimitedDrops.LORE_LABS);
 	}
 	
 	public ArrayList<Room> rooms() {

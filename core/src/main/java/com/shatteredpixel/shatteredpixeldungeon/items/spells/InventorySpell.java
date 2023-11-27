@@ -79,17 +79,15 @@ public abstract class InventorySpell extends Spell {
 			if (item != null) {
 
 				curItem = detach(curUser.belongings.backpack);
-
+				
 				((InventorySpell)curItem).onItemSelected( item );
-				if (!(InventorySpell.this instanceof GunSmithingTool)) {
-					curUser.spend( 1f );
-					curUser.busy();
-					(curUser.sprite).operate( curUser.pos );
-
-					Sample.INSTANCE.play( Assets.Sounds.READ );
-					Invisibility.dispel();
-				}
-
+				curUser.spend( 1f );
+				curUser.busy();
+				(curUser.sprite).operate( curUser.pos );
+				
+				Sample.INSTANCE.play( Assets.Sounds.READ );
+				Invisibility.dispel();
+				
 			}
 		}
 	};

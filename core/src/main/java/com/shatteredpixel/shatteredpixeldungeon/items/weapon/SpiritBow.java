@@ -30,7 +30,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -67,7 +66,6 @@ public class SpiritBow extends Weapon {
 		
 		unique = true;
 		bones = false;
-		canAdvance = true;
 	}
 	
 	public boolean sniperSpecial = false;
@@ -457,17 +455,6 @@ public class SpiritBow extends Weapon {
 						a.depth = Dungeon.depth;
 						a.pos = shotPos;
 						Buff.affect(user, Talent.SeerShotCooldown.class, 20f);
-					}
-				}
-
-				if (user.hasTalent(Talent.ATTRACTION)) {
-					int shotPos = throwPos(user, dst);
-					for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-						if (mob.paralysed <= 0
-								&& Dungeon.level.distance(shotPos, mob.pos) <= user.pointsInTalent(Talent.ATTRACTION)
-								&& mob.state != mob.HUNTING) {
-							mob.beckon( shotPos );
-						}
 					}
 				}
 

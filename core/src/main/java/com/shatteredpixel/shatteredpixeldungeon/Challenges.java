@@ -36,13 +36,8 @@ public class Challenges {
 	public static final int NO_SCROLLS		    = 64;
 	public static final int CHAMPION_ENEMIES	= 128;
 	public static final int STRONGER_BOSSES 	= 256;
-	public static final int GAMBLER			 	= 512;
-	public static final int SUPERMAN			= 1024;
-	public static final int PYRO				= 2048;
-	public static final int CURSED_DUNGEON		= 4096;
-	public static final int DURABILITY			= 8192;
 
-	public static final int MAX_VALUE           = 16383;
+	public static final int MAX_VALUE           = 511;
 
 	public static final String[] NAME_IDS = {
 			"champion_enemies",
@@ -53,16 +48,11 @@ public class Challenges {
 			"no_herbalism",
 			"swarm_intelligence",
 			"darkness",
-			"no_scrolls",
-			"gambler",
-			"superman",
-			"pyro",
-			"cursed_dungeon",
-			"durability"
+			"no_scrolls"
 	};
 
 	public static final int[] MASKS = {
-			CHAMPION_ENEMIES, STRONGER_BOSSES, NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, GAMBLER, SUPERMAN, PYRO, CURSED_DUNGEON, DURABILITY
+			CHAMPION_ENEMIES, STRONGER_BOSSES, NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS
 	};
 
 	public static int activeChallenges(){

@@ -43,7 +43,7 @@ import com.watabou.noosa.Image;
 import com.watabou.utils.PathFinder;
 
 public class QuickSlotButton extends Button {
-
+	
 	private static QuickSlotButton[] instance = new QuickSlotButton[QuickSlot.SIZE];
 	private int slotNum;
 
@@ -196,10 +196,6 @@ public class QuickSlotButton extends Button {
 				return SPDAction.QUICKSLOT_5;
 			case 5:
 				return SPDAction.QUICKSLOT_6;
-			case 6:
-				return SPDAction.QUICKSLOT_7;
-			case 7:
-				return SPDAction.QUICKSLOT_8;
 			default:
 				return super.keyAction();
 		}

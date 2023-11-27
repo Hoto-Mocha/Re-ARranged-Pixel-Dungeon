@@ -58,10 +58,8 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.CityLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.DeadEndLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.HallsBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.HallsLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.LabsBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.LabsLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.LastLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
-import com.shatteredpixel.shatteredpixeldungeon.levels.NewLastLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.MiningLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonLevel;
@@ -103,7 +101,6 @@ public class Dungeon {
 		//limited world drops
 		STRENGTH_POTIONS,
 		UPGRADE_SCROLLS,
-		ENCHANT_STONES,
 		ARCANE_STYLI,
 
 		//Health potion sources
@@ -115,7 +112,6 @@ public class Dungeon {
 		//Demon spawners are already limited in their spawnrate, no need to limit their health drops
 		//alchemy
 		COOKING_HP,
-		MEDIC_HP,
 		BLANDFRUIT_SEED,
 
 		//Other limited enemy drops
@@ -126,7 +122,6 @@ public class Dungeon {
 		SHAMAN_WAND,
 		DM200_EQUIP,
 		GOLEM_EQUIP,
-		SOLDIER_WEP,
 
 		//containers
 		VELVET_POUCH,
@@ -139,8 +134,7 @@ public class Dungeon {
 		LORE_PRISON,
 		LORE_CAVES,
 		LORE_CITY,
-		LORE_HALLS,
-		LORE_LABS;
+		LORE_HALLS;
 
 		public int count = 0;
 
@@ -350,16 +344,7 @@ public class Dungeon {
 					level = new HallsBossLevel();
 					break;
 				case 26:
-				case 27:
-				case 28:
-				case 29:
-					level = new LabsLevel();
-					break;
-				case 30:
-					level = new LabsBossLevel();
-					break;
-				case 31:
-					level = new NewLastLevel();
+					level = new LastLevel();
 					break;
 				default:
 					level = new DeadEndLevel();
@@ -434,7 +419,7 @@ public class Dungeon {
 	}
 	
 	public static boolean shopOnLevel() {
-		return depth == 6 || depth == 11 || depth == 16 || depth == 26;
+		return depth == 6 || depth == 11 || depth == 16;
 	}
 	
 	public static boolean bossLevel() {
@@ -442,14 +427,14 @@ public class Dungeon {
 	}
 	
 	public static boolean bossLevel( int depth ) {
-		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25 || depth == 30;
+		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25;
 	}
 
 	//value used for scaling of damage values and other effects.
 	//is usually the dungeon depth, but can be set to 26 when ascending
 	public static int scalingDepth(){
 		if (Dungeon.hero != null && Dungeon.hero.buff(AscensionChallenge.class) != null){
-			return 31;
+			return 26;
 		} else {
 			return depth;
 		}
@@ -548,28 +533,11 @@ public class Dungeon {
 		int souLeftThisSet;
 		//3 SOU each floor set
 		souLeftThisSet = 3 - (LimitedDrops.UPGRADE_SCROLLS.count - (depth / 5) * 3);
-		if (isChallenged(Challenges.GAMBLER)) {
-			souLeftThisSet = 0;
-		}
 		if (souLeftThisSet <= 0) return false;
 
 		int floorThisSet = (depth % 5);
 		//chance is floors left / scrolls left
 		return Random.Int(5 - floorThisSet) < souLeftThisSet;
-	}
-
-	public static boolean soeNeeded() {
-		int soeLeftThisSet;
-		if (isChallenged(Challenges.DURABILITY)){
-			soeLeftThisSet = 3 - (LimitedDrops.ENCHANT_STONES.count - (depth / 5) * 3);
-		} else {
-			soeLeftThisSet = 0;
-		}
-		if (soeLeftThisSet <= 0) return false;
-
-		int floorThisSet = (depth % 5);
-		//chance is floors left / scrolls left
-		return Random.Int(5 - floorThisSet) < soeLeftThisSet;
 	}
 	
 	public static boolean asNeeded() {
@@ -802,7 +770,7 @@ public class Dungeon {
 		}
 
 		droppedItems = new SparseArray<>();
-		for (int i=1; i <= 31; i++) {
+		for (int i=1; i <= 26; i++) {
 			
 			//dropped items
 			ArrayList<Item> items = new ArrayList<>();

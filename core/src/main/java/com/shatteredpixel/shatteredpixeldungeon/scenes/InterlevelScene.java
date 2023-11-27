@@ -157,7 +157,6 @@ public class InterlevelScene extends PixelScene {
 		else if (lastRegion == 3)    loadingAsset = Assets.Interfaces.LOADING_CAVES;
 		else if (lastRegion == 4)    loadingAsset = Assets.Interfaces.LOADING_CITY;
 		else if (lastRegion == 5)    loadingAsset = Assets.Interfaces.LOADING_HALLS;
-		else if (lastRegion == 6)    loadingAsset = Assets.Interfaces.LOADING_LABS;
 		else                         loadingAsset = Assets.Interfaces.SHADOW;
 		
 		if (DeviceCompat.isDebug()){

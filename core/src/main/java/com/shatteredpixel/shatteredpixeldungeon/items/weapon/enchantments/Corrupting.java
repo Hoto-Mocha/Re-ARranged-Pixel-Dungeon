@@ -30,7 +30,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.watabou.utils.Random;
 
@@ -45,12 +44,7 @@ public class Corrupting extends Weapon.Enchantment {
 		// lvl 0 - 20%
 		// lvl 1 ~ 23%
 		// lvl 2 ~ 26%
-		float procChance;
-		if (weapon instanceof TrueRunicBlade) {
-			procChance = (level+1f)/(level+5f) * procChanceMultiplier(attacker);
-		} else {
-			procChance = (level+5f)/(level+25f) * procChanceMultiplier(attacker);
-		}
+		float procChance = (level+5f)/(level+25f) * procChanceMultiplier(attacker);
 		if (damage >= defender.HP
 				&& Random.Float() < procChance
 				&& !defender.isImmune(Corruption.class)

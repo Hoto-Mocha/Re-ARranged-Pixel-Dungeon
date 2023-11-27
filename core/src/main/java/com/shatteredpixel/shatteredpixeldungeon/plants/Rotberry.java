@@ -29,7 +29,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -44,7 +43,7 @@ public class Rotberry extends Plant {
 
 	@Override
 	public void activate( Char ch ) {
-		if (ch instanceof Hero && (((Hero) ch).subClass == HeroSubClass.WARDEN || Dungeon.hero.pointsInTalent(Talent.FARMER) == 3)){
+		if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN){
 			Buff.affect(ch, AdrenalineSurge.class).reset(1, AdrenalineSurge.DURATION);
 		} else {
 			GameScene.add( Blob.seed( pos, 100, ToxicGas.class ) );

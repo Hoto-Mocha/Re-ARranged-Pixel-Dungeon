@@ -203,7 +203,7 @@ public class PrisonLevel extends RegularLevel {
 
 	public static void addPrisonVisuals(Level level, Group group){
 		for (int i=0; i < level.length(); i++) {
-			if (level.map[i] == Terrain.WALL_DECO || level.map[i] == Terrain.CUSTOM_WALL) {
+			if (level.map[i] == Terrain.WALL_DECO) {
 				group.add( new Torch( i ) );
 			}
 		}

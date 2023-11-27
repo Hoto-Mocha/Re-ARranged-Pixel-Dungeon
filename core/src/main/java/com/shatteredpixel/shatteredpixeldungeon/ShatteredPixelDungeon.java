@@ -37,13 +37,12 @@ public class ShatteredPixelDungeon extends Game {
 	//versions older than v1.2.3 are no longer supported, and data from them is ignored
 	public static final int v1_2_3  = 628;
 	public static final int v1_3_2  = 648;
-	public static final int v1_4_0  = 660;
 	public static final int v1_4_3  = 668;
-	public static final int v2_0_0  = 684;
+
 	public static final int v2_0_2  = 700;
 	public static final int v2_1_4  = 737; //iOS was 737, other platforms were 736
 	public static final int v2_2_0  = 753;
-
+	
 	public ShatteredPixelDungeon( PlatformSupport platform ) {
 		super( sceneClass == null ? WelcomeScene.class : sceneClass, platform );
 
@@ -88,21 +87,21 @@ public class ShatteredPixelDungeon extends Game {
 				com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Explosive.class,
 				"com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Fragile" );
 	}
-
+	
 	@Override
 	public void create() {
 		super.create();
 
 		updateSystemUI();
 		SPDAction.loadBindings();
-
+		
 		Music.INSTANCE.enable( SPDSettings.music() );
 		Music.INSTANCE.volume( SPDSettings.musicVol()*SPDSettings.musicVol()/100f );
 		Sample.INSTANCE.enable( SPDSettings.soundFx() );
 		Sample.INSTANCE.volume( SPDSettings.SFXVol()*SPDSettings.SFXVol()/100f );
 
 		Sample.INSTANCE.load( Assets.Sounds.all );
-
+		
 	}
 
 	@Override
@@ -123,7 +122,7 @@ public class ShatteredPixelDungeon extends Game {
 		PixelScene.noFade = true;
 		switchScene( c, callback );
 	}
-
+	
 	public static void seamlessResetScene(SceneChangeCallback callback) {
 		if (scene() instanceof PixelScene){
 			((PixelScene) scene()).saveWindows();
@@ -132,11 +131,11 @@ public class ShatteredPixelDungeon extends Game {
 			resetScene();
 		}
 	}
-
+	
 	public static void seamlessResetScene(){
 		seamlessResetScene(null);
 	}
-
+	
 	@Override
 	protected void switchScene() {
 		super.switchScene();
@@ -144,7 +143,7 @@ public class ShatteredPixelDungeon extends Game {
 			((PixelScene) scene).restoreWindows();
 		}
 	}
-
+	
 	@Override
 	public void resize( int width, int height ) {
 		if (width == 0 || height == 0){
@@ -162,13 +161,13 @@ public class ShatteredPixelDungeon extends Game {
 		updateDisplaySize();
 
 	}
-
+	
 	@Override
 	public void destroy(){
 		super.destroy();
 		GameScene.endActorThread();
 	}
-
+	
 	public void updateDisplaySize(){
 		platform.updateDisplaySize();
 	}

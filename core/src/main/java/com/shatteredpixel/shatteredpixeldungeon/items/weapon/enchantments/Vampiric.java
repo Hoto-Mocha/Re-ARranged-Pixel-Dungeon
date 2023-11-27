@@ -24,7 +24,6 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite.Glowing;
@@ -39,12 +38,7 @@ public class Vampiric extends Weapon.Enchantment {
 		
 		//chance to heal scales from 5%-30% based on missing HP
 		float missingPercent = (attacker.HT - attacker.HP) / (float)attacker.HT;
-		float healChance;
-		if (weapon instanceof TrueRunicBlade) {
-			healChance = 1;
-		} else {
-			healChance = 0.05f + .25f*missingPercent;
-		}
+		float healChance = 0.05f + .25f*missingPercent;
 
 		healChance *= procChanceMultiplier(attacker);
 		
@@ -54,7 +48,15 @@ public class Vampiric extends Weapon.Enchantment {
 			
 			//heals for 50% of damage dealt
 			int healAmt = Math.round(damage * 0.5f * powerMulti);
-			attacker.heal(healAmt);
+			healAmt = Math.min( healAmt, attacker.HT - attacker.HP );
+			
+			if (healAmt > 0 && attacker.isAlive()) {
+				
+				attacker.HP += healAmt;
+				attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+				attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				
+			}
 		}
 
 		return damage;

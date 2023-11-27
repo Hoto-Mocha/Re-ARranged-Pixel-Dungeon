@@ -22,13 +22,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -39,7 +37,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.watabou.utils.Random;
 
 public class ScrollOfUpgrade extends InventoryScroll {
 	
@@ -72,29 +69,8 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			boolean wasHardened = w.enchantHardened;
 			boolean hadCursedEnchant = w.hasCurseEnchant();
 			boolean hadGoodEnchant = w.hasGoodEnchant();
-			w.isUpgraded = true;
-			if (w.enchantment != null && Random.Int(2) < Dungeon.hero.pointsInTalent(Talent.MAGICAL_TRANSFERENCE)) {
-				if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-					if (w.durability() <= 0) {
-						w.fix();
-					} else {
-						w.upgrade(true);
-					}
-				} else {
-					w.upgrade(true);
-				}
-			} else {
-				if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-					if (w.durability() <= 0) {
-						w.fix();
-					} else {
-						w.upgrade();
-					}
-				} else {
-					w.upgrade();
-				}
 
-			}
+			w.upgrade();
 
 			if (w.cursedKnown && hadCursedEnchant && !w.hasCurseEnchant()){
 				removeCurse( Dungeon.hero );
@@ -113,15 +89,8 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			boolean wasHardened = a.glyphHardened;
 			boolean hadCursedGlyph = a.hasCurseGlyph();
 			boolean hadGoodGlyph = a.hasGoodGlyph();
-			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-				if (a.durability() <= 0) {
-					a.fix();
-				} else {
-					a.upgrade();
-				}
-			} else {
-				a.upgrade();
-			}
+
+			a.upgrade();
 
 			if (a.cursedKnown && hadCursedGlyph && !a.hasCurseGlyph()){
 				removeCurse( Dungeon.hero );
@@ -136,31 +105,15 @@ public class ScrollOfUpgrade extends InventoryScroll {
 
 		} else if (item instanceof Wand || item instanceof Ring) {
 			boolean wasCursed = item.cursed;
-			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-				if (item.durability() <= 0) {
-					item.fix();
-				} else {
-					item.upgrade();
-				}
-			} else {
-				item.upgrade();
-			}
 
+			item.upgrade();
 
 			if (item.cursedKnown && wasCursed && !item.cursed){
 				removeCurse( Dungeon.hero );
 			}
 
 		} else {
-			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-				if (item.durability() <= 0) {
-					item.fix();
-				} else {
-					item.upgrade();
-				}
-			} else {
-				item.upgrade();
-			}
+			item.upgrade();
 		}
 		
 		Badges.validateItemLevelAquired( item );

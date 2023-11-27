@@ -65,12 +65,7 @@ public class Terrain {
 	public static final int MINE_BOULDER    = 36;
 
 	public static final int WATER		    = 29;
-
-	public static final int CUSTOM_TILE_1	= 37;
-	public static final int CUSTOM_TILE_2	= 38;
-	public static final int CUSTOM_TILE_3	= 39;
-	public static final int CUSTOM_WALL		= 40;
-
+	
 	public static final int PASSABLE		= 0x01;
 	public static final int LOS_BLOCKING	= 0x02;
 	public static final int FLAMABLE		= 0x04;
@@ -96,10 +91,6 @@ public class Terrain {
 		flags[LOCKED_DOOR]	= LOS_BLOCKING | SOLID;
 		flags[CRYSTAL_DOOR]	= SOLID;
 		flags[PEDESTAL]		= PASSABLE;
-		flags[CUSTOM_TILE_1]= PASSABLE;
-		flags[CUSTOM_TILE_2]= PASSABLE;
-		flags[CUSTOM_TILE_3]= PASSABLE;
-		flags[CUSTOM_WALL]  = flags[WALL];
 		flags[WALL_DECO]	= flags[WALL];
 		flags[BARRICADE]	= FLAMABLE | SOLID | LOS_BLOCKING;
 		flags[EMPTY_SP]		= flags[EMPTY];

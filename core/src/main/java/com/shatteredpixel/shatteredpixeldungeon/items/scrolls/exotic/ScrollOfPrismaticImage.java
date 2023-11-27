@@ -46,7 +46,7 @@ public class ScrollOfPrismaticImage extends ExoticScroll {
 			if (m instanceof PrismaticImage){
 				found = true;
 				m.HP = m.HT;
-				m.sprite.emitter().burst(Speck.factory(Speck.HEALING), 2);
+				m.sprite.emitter().burst(Speck.factory(Speck.HEALING), 4);
 			}
 		}
 		

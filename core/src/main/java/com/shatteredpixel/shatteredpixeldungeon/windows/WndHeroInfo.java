@@ -74,18 +74,6 @@ public class WndHeroInfo extends WndTabbed {
 			case DUELIST:
 				tabIcon = new ItemSprite(ItemSpriteSheet.RAPIER, null);
 				break;
-			case GUNNER:
-				tabIcon = new ItemSprite(ItemSpriteSheet.MAGNUM, null);
-				break;
-			case SAMURAI:
-				tabIcon = new ItemSprite(ItemSpriteSheet.LONG_KATANA, null);
-				break;
-			case PLANTER:
-				tabIcon = new ItemSprite(ItemSpriteSheet.SPADE, null);
-				break;
-			case KNIGHT:
-				tabIcon = new ItemSprite(ItemSpriteSheet.KNIGHT_SHIELD, null);
-				break;
 		}
 
 		int finalHeight = MIN_HEIGHT;
@@ -206,38 +194,9 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 				case DUELIST:
-					icons = new Image[]{new ItemSprite(ItemSpriteSheet.RAPIER),
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.RAPIER),
 							new ItemSprite(ItemSpriteSheet.WAR_HAMMER),
 							new ItemSprite(ItemSpriteSheet.THROWING_SPIKE),
-							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
-					break;
-				case GUNNER:
-					icons = new Image[]{new ItemSprite(ItemSpriteSheet.CARTRIDGE_BELT),
-							new ItemSprite(ItemSpriteSheet.EVOLUTION),
-							new ItemSprite(ItemSpriteSheet.CRUDE_PISTOL),
-							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
-					break;
-				case SAMURAI:
-					icons = new Image[]{new ItemSprite(ItemSpriteSheet.RING_RUBY),
-							new ItemSprite(ItemSpriteSheet.SHEATH),
-							new ItemSprite(ItemSpriteSheet.WORN_KATANA),
-							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
-					break;
-				case PLANTER:
-					icons = new Image[]{new ItemSprite(ItemSpriteSheet.ARTIFACT_GREAVES),
-							new Image(Assets.Environment.TILES_SEWERS, 112, 80, 16, 16),
-							new ItemSprite(ItemSpriteSheet.SHOVEL),
-							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
-					break;
-				case KNIGHT:
-					icons = new Image[]{new ItemSprite(ItemSpriteSheet.KNIGHT_SHIELD),
-							new Image(Assets.Interfaces.BUFFS_LARGE, 112, 0, 16, 16),
-							new ItemSprite(ItemSpriteSheet.SABER),
-							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
-					break;
-				case NURSE:
-					icons = new Image[]{new ItemSprite(ItemSpriteSheet.GAMMA_RAY_GUN),
-							new ItemSprite(ItemSpriteSheet.HEAL_BOOK),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 			}

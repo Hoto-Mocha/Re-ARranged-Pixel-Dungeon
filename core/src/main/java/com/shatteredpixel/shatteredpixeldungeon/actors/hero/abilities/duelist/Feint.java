@@ -199,7 +199,7 @@ public class Feint extends ArmorAbility {
 					Buff.prolong(enemy, Vulnerable.class, 2f * Dungeon.hero.pointsInTalent(Talent.EXPOSE_WEAKNESS));
 				}
 				if (Dungeon.hero.hasTalent(Talent.COUNTER_ABILITY)) {
-					Buff.prolong(Dungeon.hero, Talent.CounterAbilityTracker.class, 3f);
+					Buff.prolong(Dungeon.hero, Talent.CounterAbilityTacker.class, 3f);
 				}
 			}
 			return 0;

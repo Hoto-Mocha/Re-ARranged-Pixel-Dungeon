@@ -111,10 +111,6 @@ public class WandOfMagicMissile extends DamageWand {
 			}
 		}
 
-		public void set(int amount) {
-			this.level = amount;
-		}
-
 		@Override
 		public void detach() {
 			super.detach();

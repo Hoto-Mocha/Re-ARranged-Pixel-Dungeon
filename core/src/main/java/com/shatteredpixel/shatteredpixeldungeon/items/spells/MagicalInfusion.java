@@ -22,8 +22,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -56,40 +54,13 @@ public class MagicalInfusion extends InventorySpell {
 		Degrade.detach( curUser, Degrade.class );
 
 		if (item instanceof Weapon && ((Weapon) item).enchantment != null) {
-			((Weapon) item).isUpgraded = true;
-			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-				if (item.durability() <= 0) {
-					item.fix();
-				} else {
-					((Weapon) item).upgrade(true);
-				}
-			} else {
-				((Weapon) item).upgrade(true);
-			}
-
+			((Weapon) item).upgrade(true);
 		} else if (item instanceof Armor && ((Armor) item).glyph != null) {
-			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-				if (item.durability() <= 0) {
-					item.fix();
-				} else {
-					((Armor) item).upgrade(true);
-				}
-			} else {
-				((Armor) item).upgrade(true);
-			}
-
+			((Armor) item).upgrade(true);
 		} else {
 			boolean wasCursed = item.cursed;
 			boolean wasCurseInfused = item instanceof Wand && ((Wand) item).curseInfusionBonus;
-			if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-				if (item.durability() <= 0) {
-					item.fix();
-				} else {
-					item.upgrade();
-				}
-			} else {
-				item.upgrade();
-			}
+			item.upgrade();
 			if (wasCursed) item.cursed = true;
 			if (wasCurseInfused) ((Wand) item).curseInfusionBonus = true;
 		}
@@ -117,5 +88,6 @@ public class MagicalInfusion extends InventorySpell {
 			output = MagicalInfusion.class;
 			outQuantity = 1;
 		}
+		
 	}
 }

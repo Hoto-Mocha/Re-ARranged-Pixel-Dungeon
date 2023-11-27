@@ -27,11 +27,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -93,25 +90,6 @@ public abstract class EquipableItem extends Item {
 			}
 		} else if (action.equals( AC_UNEQUIP )) {
 			doUnequip( hero, true );
-			if (hero.buff(MeleeWeapon.PrecisionShooting.class) != null) {
-				if (hero.belongings.weapon == null && hero.belongings.secondWep == null) {
-					hero.buff(MeleeWeapon.PrecisionShooting.class).detach();
-				} else {
-					if (hero.belongings.weapon == null) {
-						if (!hero.belongings.secondWep.gun) {
-							hero.buff(MeleeWeapon.PrecisionShooting.class).detach();
-						}
-					} else if (hero.belongings.secondWep == null) {
-						if (!hero.belongings.weapon.gun) {
-							hero.buff(MeleeWeapon.PrecisionShooting.class).detach();
-						}
-					} else {
-						if (!hero.belongings.weapon.gun && !hero.belongings.secondWep.gun) {
-							hero.buff(MeleeWeapon.PrecisionShooting.class).detach();
-						}
-					}
-				}
-			}
 		}
 	}
 
@@ -154,14 +132,10 @@ public abstract class EquipableItem extends Item {
 			return false;
 		}
 
-		if ((hero.subClass == HeroSubClass.WEAPONMASTER || hero.hasTalent(Talent.QUICK_SWAP)) && this instanceof MeleeWeapon) {
-			//do nothing
+		if (single) {
+			hero.spendAndNext( time2equip( hero ) );
 		} else {
-			if (single) {
-				hero.spendAndNext( time2equip( hero ) );
-			} else {
-				hero.spend( time2equip( hero ) );
-			}
+			hero.spend( time2equip( hero ) );
 		}
 
 		slotOfUnequipped = Dungeon.quickslot.getSlot(this);

@@ -35,9 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -119,18 +117,16 @@ public class RingOfWealth extends Ring {
 
 		//reset (if needed), decrement, and store counts
 		if (triesToDrop == Float.MIN_VALUE) {
-			triesToDrop = (Dungeon.isChallenged(Challenges.GAMBLER)) ? Random.NormalIntRange(0, 10) : Random.NormalIntRange(0, 20);
-			dropsToEquip = (Dungeon.isChallenged(Challenges.GAMBLER)) ? 8 : Random.NormalIntRange(5, 10);
+			triesToDrop = Random.NormalIntRange(0, 20);
+			dropsToEquip = Random.NormalIntRange(5, 10);
 		}
 
 		//now handle reward logic
 		ArrayList<Item> drops = new ArrayList<>();
-		ScrollOfUpgrade scl = new ScrollOfUpgrade();
-		ScrollOfEnchantment enchantment = new ScrollOfEnchantment();
 
 		triesToDrop -= tries;
 		while ( triesToDrop <= 0 ){
-			if (dropsToEquip <= 0) {
+			if (dropsToEquip <= 0){
 				int equipBonus = 0;
 
 				//A second ring of wealth can be at most +1 when calculating wealth bonus for equips
@@ -148,19 +144,8 @@ public class RingOfWealth extends Ring {
 				do {
 					i = genEquipmentDrop(equipBonus - 1);
 				} while (Challenges.isItemBlocked(i));
-				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
-					if (Dungeon.isChallenged(Challenges.NO_SCROLLS) && Random.Int(2) == 0) {
-						drops.add(enchantment);
-					} else {
-						drops.add(scl);
-					}
-				} else {
-					drops.add(i);
-				}
+				drops.add(i);
 				dropsToEquip = Random.NormalIntRange(5, 10);
-				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
-					dropsToEquip -= 2; //need 3~8 drop
-				}
 			} else {
 				Item i;
 				do {
@@ -169,7 +154,7 @@ public class RingOfWealth extends Ring {
 				drops.add(i);
 				dropsToEquip--;
 			}
-			triesToDrop += (Dungeon.isChallenged(Challenges.GAMBLER)) ? Random.NormalIntRange(0, 10) : Random.NormalIntRange(0, 20);
+			triesToDrop += Random.NormalIntRange(0, 20);
 		}
 
 		//store values back into rings
@@ -225,41 +210,16 @@ public class RingOfWealth extends Ring {
 	}
 
 	private static Item genLowValueConsumable(){
-		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
-			switch (Random.Int(4)){
-				case 0: default:
-					return Generator.randomUsingDefaults(Generator.Category.SEED);
-				case 1:
-					return Generator.randomUsingDefaults(Generator.Category.STONE);
-				case 2:
-					return Generator.randomUsingDefaults(Generator.Category.POTION);
-				case 3:
-					if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
-						if (Random.Int(16) == 0) {
-							return new ScrollOfUpgrade();
-						} else {
-							return Generator.randomUsingDefaults(Generator.Category.SCROLL);
-						}
-					} else {
-						if (Random.Int(8) == 0) {
-							return new ScrollOfUpgrade();
-						} else {
-							return Generator.randomUsingDefaults(Generator.Category.SCROLL);
-						}
-					}
-			}
-		} else {
-			switch (Random.Int(4)){
-				case 0: default:
-					Item i = new Gold().random();
-					return i.quantity(i.quantity()/2);
-				case 1:
-					return Generator.randomUsingDefaults(Generator.Category.STONE);
-				case 2:
-					return Generator.randomUsingDefaults(Generator.Category.POTION);
-				case 3:
-					return Generator.randomUsingDefaults(Generator.Category.SCROLL);
-			}
+		switch (Random.Int(4)){
+			case 0: default:
+				Item i = new Gold().random();
+				return i.quantity(i.quantity()/2);
+			case 1:
+				return Generator.randomUsingDefaults(Generator.Category.STONE);
+			case 2:
+				return Generator.randomUsingDefaults(Generator.Category.POTION);
+			case 3:
+				return Generator.randomUsingDefaults(Generator.Category.SCROLL);
 		}
 	}
 
@@ -273,24 +233,7 @@ public class RingOfWealth extends Ring {
 				return Reflection.newInstance(ExoticPotion.regToExo.get(i.getClass()));
 			case 2:
 				i = Generator.randomUsingDefaults(Generator.Category.SCROLL);
-				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
-					if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
-						if (Random.Int(8) == 0) {
-							return new ScrollOfUpgrade();
-						} else {
-							return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
-						}
-					} else {
-						if (Random.Int(4) == 0) {
-							return new ScrollOfUpgrade();
-						} else {
-							return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
-						}
-					}
-				} else {
-					return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
-				}
-
+				return Reflection.newInstance(ExoticScroll.regToExo.get(i.getClass()));
 			case 3:
 				return Random.Int(2) == 0 ? new ArcaneCatalyst() : new AlchemicalCatalyst();
 			case 4:
@@ -301,62 +244,20 @@ public class RingOfWealth extends Ring {
 	}
 
 	private static Item genHighValueConsumable(){
-		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
-			if (Dungeon.isChallenged(Challenges.NO_SCROLLS)) {
-				switch (Random.Int(10)){
-					case 0: case 1: default:
-						Item i = genMidValueConsumable();
-						if (i instanceof Bomb){
-							return new Bomb.DoubleBomb();
-						} else {
-							return i.quantity(i.quantity()*2);
-						}
-					case 2: case 3:
-						return new StoneOfEnchantment();
-					case 4: case 5:
-						return new PotionOfExperience();
-					case 6: case 7:
-						return new ScrollOfTransmutation();
-					case 8:
-						return new ScrollOfUpgrade();
-					case 9:
-						return new ScrollOfEnchantment();
+		switch (Random.Int(4)){
+			case 0: default:
+				Item i = genMidValueConsumable();
+				if (i instanceof Bomb){
+					return new Bomb.DoubleBomb();
+				} else {
+					return i.quantity(i.quantity()*2);
 				}
-			} else {
-				switch (Random.Int(5)){
-					case 0: default:
-						Item i = genMidValueConsumable();
-						if (i instanceof Bomb){
-							return new Bomb.DoubleBomb();
-						} else {
-							return i.quantity(i.quantity()*2);
-						}
-					case 1:
-						return new StoneOfEnchantment();
-					case 2:
-						return new PotionOfExperience();
-					case 3:
-						return new ScrollOfTransmutation();
-					case 4:
-						return new ScrollOfUpgrade();
-				}
-			}
-		} else {
-			switch (Random.Int(4)){
-				case 0: default:
-					Item i = genMidValueConsumable();
-					if (i instanceof Bomb){
-						return new Bomb.DoubleBomb();
-					} else {
-						return i.quantity(i.quantity()*2);
-					}
-				case 1:
-					return new StoneOfEnchantment();
-				case 2:
-					return new PotionOfExperience();
-				case 3:
-					return new ScrollOfTransmutation();
-			}
+			case 1:
+				return new StoneOfEnchantment();
+			case 2:
+				return new PotionOfExperience();
+			case 3:
+				return new ScrollOfTransmutation();
 		}
 	}
 
@@ -381,11 +282,7 @@ public class RingOfWealth extends Ring {
 				result = Generator.randomUsingDefaults(Generator.Category.RING);
 				break;
 			case 4:
-				if (Dungeon.isChallenged(Challenges.GAMBLER)) {
-					result = Generator.random(Generator.Category.RING);
-				} else {
-					result = Generator.random(Generator.Category.ARTIFACT);
-				}
+				result = Generator.random(Generator.Category.ARTIFACT);
 				break;
 		}
 		//minimum level is 1/2/3/4/5/6 when ring level is 1/3/5/7/9/11
@@ -397,7 +294,7 @@ public class RingOfWealth extends Ring {
 		}
 		result.cursed = false;
 		result.cursedKnown = true;
-		if (result.level() >= 2 || Dungeon.isChallenged(Challenges.GAMBLER)) {
+		if (result.level() >= 2) {
 			latestDropTier = 4;
 		} else {
 			latestDropTier = 3;

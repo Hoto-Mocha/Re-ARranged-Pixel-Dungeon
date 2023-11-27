@@ -73,18 +73,6 @@ public enum Catalog {
 		for (Class weapon : Generator.Category.WEP_T5.classes){
 			WEAPONS.seen.put( weapon, false);
 		}
-		for (Class weapon : Generator.Category.ADVANCED.classes){
-			WEAPONS.seen.put( weapon, false);
-		}
-		for (Class weapon : Generator.Category.ALCHEMY.classes){
-			WEAPONS.seen.put( weapon, false);
-		}
-		for (Class weapon : Generator.Category.SPELLBOOK.classes){
-			WEAPONS.seen.put( weapon, false);
-		}
-		for (Class weapon : Generator.Category.SUBWEAPON.classes){
-			WEAPONS.seen.put( weapon, false);
-		}
 
 		for (Class armor : Generator.Category.ARMOR.classes){
 			ARMOR.seen.put( armor, false);
@@ -109,6 +97,7 @@ public enum Catalog {
 		for (Class scroll : Generator.Category.SCROLL.classes){
 			SCROLLS.seen.put( scroll, false);
 		}
+
 	}
 	
 	public static LinkedHashMap<Catalog, Badges.Badge> catalogBadges = new LinkedHashMap<>();

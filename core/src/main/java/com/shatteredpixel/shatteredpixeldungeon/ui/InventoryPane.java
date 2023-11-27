@@ -24,7 +24,6 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
-import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
@@ -82,10 +81,10 @@ public class InventoryPane extends Component {
 	private ArrayList<BagButton> bags;
 
 	public static final int WIDTH = 187;
-	public static final int HEIGHT = 107; //인벤토리 창 높이
+	public static final int HEIGHT = 82;
 
-	private static final int SLOT_WIDTH = 17; //가방 칸 너비
-	private static final int SLOT_HEIGHT = 24; //가방 칸 높이
+	private static final int SLOT_WIDTH = 17;
+	private static final int SLOT_HEIGHT = 24;
 
 	private WndBag.ItemSelector selector;
 
@@ -180,7 +179,7 @@ public class InventoryPane extends Component {
 		add(promptTxt);
 
 		bagItems = new ArrayList<>();
-		for (int i = 0; i < 25; i++){ //가방 칸 수
+		for (int i = 0; i < 20; i++){
 			InventorySlot btn = new InventoryPaneSlot(null);
 			bagItems.add(btn);
 			add(btn);
@@ -316,7 +315,7 @@ public class InventoryPane extends Component {
 		}
 
 		int j = 0;
-		for (int i = 0; i < 25; i++){
+		for (int i = 0; i < 20; i++){
 			if (i == 0 && lastBag != stuff.backpack){
 				bagItems.get(i).item(lastBag);
 				continue;
@@ -468,12 +467,10 @@ public class InventoryPane extends Component {
 				b.enable(lastEnabled);
 			}
 
-			if (SPDSettings.flickering()) {
-				goldTxt.alpha( lastEnabled ? 1f : 0.3f );
-				gold.alpha( lastEnabled ? 1f : 0.3f );
-				energyTxt.alpha( lastEnabled ? 1f : 0.3f );
-				energy.alpha( lastEnabled ? 1f : 0.3f );
-			}
+			goldTxt.alpha( lastEnabled ? 1f : 0.3f );
+			gold.alpha( lastEnabled ? 1f : 0.3f );
+			energyTxt.alpha( lastEnabled ? 1f : 0.3f );
+			energy.alpha( lastEnabled ? 1f : 0.3f );
 		}
 
 	}
@@ -595,8 +592,8 @@ public class InventoryPane extends Component {
 
 	private class BagButton extends IconButton {
 
-		private static final int ACTIVE		= 0x992E2E2E;
-		private static final int INACTIVE	= 0x993D3D3D;
+		private static final int ACTIVE		= 0x9953564D;
+		private static final int INACTIVE	= 0x9942443D;
 
 		private ColorBlock bgTop;
 		private ColorBlock bgBottom;

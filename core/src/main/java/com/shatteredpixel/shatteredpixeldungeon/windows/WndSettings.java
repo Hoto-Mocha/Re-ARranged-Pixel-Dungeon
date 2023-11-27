@@ -227,7 +227,6 @@ public class WndSettings extends WndTabbed {
 		OptionSlider optBrightness;
 		OptionSlider optVisGrid;
 		OptionSlider optFollowIntensity;
-		CheckBox chkFlickering;
 		OptionSlider optScreenShake;
 
 		@Override
@@ -343,16 +342,6 @@ public class WndSettings extends WndTabbed {
 			optScreenShake.setSelectedValue(SPDSettings.screenShake());
 			add(optScreenShake);
 
-			chkFlickering = new CheckBox( Messages.get(this, "no_flickering") ) {
-				@Override
-				protected void onClick() {
-					super.onClick();
-					SPDSettings.flickering(!checked());
-				}
-			};
-			chkFlickering.checked(!SPDSettings.flickering());
-			add( chkFlickering );
-
 		}
 
 		@Override
@@ -400,17 +389,15 @@ public class WndSettings extends WndTabbed {
 
 				optFollowIntensity.setRect(0, optVisGrid.bottom() + GAP, width/2-GAP/2, SLIDER_HEIGHT);
 				optScreenShake.setRect(optFollowIntensity.right() + GAP, optFollowIntensity.top(), width/2-GAP/2, SLIDER_HEIGHT);
-				chkFlickering.setRect(0, optScreenShake.bottom() + GAP, width, BTN_HEIGHT);
 			} else {
 				optBrightness.setRect(0, bottom + GAP, width, SLIDER_HEIGHT);
 				optVisGrid.setRect(0, optBrightness.bottom() + GAP, width, SLIDER_HEIGHT);
 
 				optFollowIntensity.setRect(0, optVisGrid.bottom() + GAP, width, SLIDER_HEIGHT);
 				optScreenShake.setRect(0, optFollowIntensity.bottom() + GAP, width, SLIDER_HEIGHT);
-				chkFlickering.setRect(0, optScreenShake.bottom() + GAP, width, BTN_HEIGHT);
 			}
 
-			height = chkFlickering.bottom();
+			height = optScreenShake.bottom();
 		}
 
 	}
@@ -922,8 +909,6 @@ public class WndSettings extends WndTabbed {
 		CheckBox chkMuteSFX;
 		ColorBlock sep3;
 		CheckBox chkIgnoreSilent;
-		ColorBlock sep4;
-		CheckBox chkOldMusic;
 		CheckBox chkMusicBG;
 
 		@Override
@@ -1017,16 +1002,6 @@ public class WndSettings extends WndTabbed {
 				chkMusicBG.checked(SPDSettings.playMusicInBackground());
 				add(chkMusicBG);
 			}
-
-			chkOldMusic = new CheckBox( Messages.get(this, "old_music") ) {
-				@Override
-				protected void onClick() {
-					super.onClick();
-					SPDSettings.oldMusic(!checked());
-				}
-			};
-			chkOldMusic.checked(!SPDSettings.oldMusic());
-			add( chkOldMusic );
 		}
 
 		@Override
@@ -1056,19 +1031,17 @@ public class WndSettings extends WndTabbed {
 				chkMuteSFX.setRect(0, optSFX.bottom() + GAP, width, BTN_HEIGHT);
 			}
 
-			chkOldMusic.setRect(0, chkMuteSFX.bottom() + GAP, width, BTN_HEIGHT);
-
-			height = chkOldMusic.bottom();
+			height = chkMuteSFX.bottom();
 
 			if (chkIgnoreSilent != null){
 				sep3.size(width, 1);
-				sep3.y = chkOldMusic.bottom() + GAP;
+				sep3.y = chkMuteSFX.bottom() + GAP;
 
 				chkIgnoreSilent.setRect(0, sep3.y + 1 + GAP, width, BTN_HEIGHT);
 				height = chkIgnoreSilent.bottom();
 			} else if (chkMusicBG != null){
 				sep3.size(width, 1);
-				sep3.y = chkOldMusic.bottom() + GAP;
+				sep3.y = chkMuteSFX.bottom() + GAP;
 
 				chkMusicBG.setRect(0, sep3.y + 1 + GAP, width, BTN_HEIGHT);
 				height = chkMusicBG.bottom();
@@ -1113,11 +1086,12 @@ public class WndSettings extends WndTabbed {
 
 			txtLangInfo = PixelScene.renderTextBlock(6);
 			String info = "_" + Messages.titleCase(currLang.nativeName()) + "_ - ";
-			if (currLang == Languages.KOREAN) info += "This is the source language, written by the developer.";
+			if (currLang == Languages.ENGLISH) info += "This is the source language, written by the developer.";
 			else if (currLang.status() == Languages.Status._COMPLETE_) info += Messages.get(this, "completed");
 			else if (currLang.status() == Languages.Status.UNREVIEWED) info += Messages.get(this, "unreviewed");
 			else if (currLang.status() == Languages.Status.UNFINISHED) info += Messages.get(this, "unfinished");
 			txtLangInfo.text(info);
+
 			if (currLang.status() == Languages.Status.UNREVIEWED) txtLangInfo.setHightlighting(true, CharSprite.WARNING);
 			else if (currLang.status() == Languages.Status.UNFINISHED) txtLangInfo.setHightlighting(true, CharSprite.NEGATIVE);
 			add(txtLangInfo);
@@ -1170,7 +1144,7 @@ public class WndSettings extends WndTabbed {
 			txtTranifex.text(Messages.get(this, "transifex"));
 			add(txtTranifex);
 
-			if (currLang != Languages.KOREAN) {
+			if (currLang != Languages.ENGLISH) {
 				String credText = Messages.titleCase(Messages.get(this, "credits"));
 				btnCredits = new RedButton(credText, credText.length() > 9 ? 6 : 9) {
 					@Override

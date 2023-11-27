@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.journal;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -44,9 +43,8 @@ public enum Document {
 	PRISON_WARDEN(ItemSpriteSheet.PRISON_PAGE, true),
 	CAVES_EXPLORER(ItemSpriteSheet.CAVES_PAGE, true),
 	CITY_WARLOCK(ItemSpriteSheet.CITY_PAGE, true),
-	HALLS_KING(ItemSpriteSheet.HALLS_PAGE, true),
-	LABS_MEDIC(ItemSpriteSheet.LABS_PAGE, true);
-
+	HALLS_KING(ItemSpriteSheet.HALLS_PAGE, true);
+	
 	Document( int sprite, boolean lore ){
 		pageIcon = null;
 		pageSprite = sprite;
@@ -270,7 +268,6 @@ public enum Document {
 		INTROS.pagesStates.put("Caves",                         debug ? READ : NOT_FOUND);
 		INTROS.pagesStates.put("City",                          debug ? READ : NOT_FOUND);
 		INTROS.pagesStates.put("Halls",                         debug ? READ : NOT_FOUND);
-		INTROS.pagesStates.put("Labs",                          debug ? READ : NOT_FOUND);
 
 		SEWERS_GUARD.pagesStates.put("new_position",            debug ? READ : NOT_FOUND);
 		SEWERS_GUARD.pagesStates.put("dangerous",               debug ? READ : NOT_FOUND);
@@ -306,13 +303,6 @@ public enum Document {
 		HALLS_KING.pagesStates.put("new_king",                  debug ? READ : NOT_FOUND);
 		HALLS_KING.pagesStates.put("thing",                     debug ? READ : NOT_FOUND);
 		HALLS_KING.pagesStates.put("attrition",                 debug ? READ : NOT_FOUND);
-
-		LABS_MEDIC.pagesStates.put("suspicious",                debug ? READ : NOT_FOUND);
-		LABS_MEDIC.pagesStates.put("evidence",                  debug ? READ : NOT_FOUND);
-		LABS_MEDIC.pagesStates.put("rebel",                     debug ? READ : NOT_FOUND);
-		LABS_MEDIC.pagesStates.put("truth",                  	debug ? READ : NOT_FOUND);
-		LABS_MEDIC.pagesStates.put("almighty_power",            debug ? READ : NOT_FOUND);
-		LABS_MEDIC.pagesStates.put("salvation", 				debug ? READ : NOT_FOUND);
 
 	}
 	

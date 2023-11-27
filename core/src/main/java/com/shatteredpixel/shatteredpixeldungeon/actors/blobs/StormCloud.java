@@ -26,7 +26,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BlobEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 
 public class StormCloud extends Blob {
@@ -41,11 +40,7 @@ public class StormCloud extends Blob {
 		for (int i = area.left; i < area.right; i++){
 			for (int j = area.top; j < area.bottom; j++){
 				cell = i + j*Dungeon.level.width();
-				if (cur[cell] > 0
-						&& Dungeon.level.map[cell] != Terrain.CUSTOM_TILE_1
-						&& Dungeon.level.map[cell] != Terrain.CUSTOM_TILE_2
-						&& Dungeon.level.map[cell] != Terrain.CUSTOM_TILE_3 //커스텀 타일은 물로 변하지 않음
-				) {
+				if (cur[cell] > 0) {
 					Dungeon.level.setCellToWater(true, cell);
 					if (fire != null){
 						fire.clear(cell);

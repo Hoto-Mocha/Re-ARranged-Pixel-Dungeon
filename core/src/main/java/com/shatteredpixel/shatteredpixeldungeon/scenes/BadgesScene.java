@@ -23,7 +23,6 @@ package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
@@ -41,17 +40,10 @@ public class BadgesScene extends PixelScene {
 
 		super.create();
 
-		if (!SPDSettings.oldMusic()) {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.OLD_MAIN},
-					new float[]{1},
-					false);
-		} else {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.THEME_1, Assets.Music.THEME_2},
-					new float[]{1, 1},
-					false);
-		}
+		Music.INSTANCE.playTracks(
+				new String[]{Assets.Music.THEME_1, Assets.Music.THEME_2},
+				new float[]{1, 1},
+				false);
 
 		uiCamera.visible = false;
 

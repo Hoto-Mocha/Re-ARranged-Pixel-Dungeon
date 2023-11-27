@@ -24,7 +24,6 @@ package com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfArmorEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
@@ -37,7 +36,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticG
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfWeaponEnhance;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -87,12 +85,6 @@ public class ExoticPotion extends Potion {
 		
 		regToExo.put(PotionOfParalyticGas.class, PotionOfEarthenArmor.class);
 		exoToReg.put(PotionOfEarthenArmor.class, PotionOfParalyticGas.class);
-
-		regToExo.put(PotionOfWeaponEnhance.class, PotionOfWeaponUpgrade.class);
-		exoToReg.put(PotionOfWeaponUpgrade.class, PotionOfWeaponEnhance.class);
-
-		regToExo.put(PotionOfArmorEnhance.class, PotionOfArmorUpgrade.class);
-		exoToReg.put(PotionOfArmorUpgrade.class, PotionOfArmorEnhance.class);
 	}
 	
 	@Override

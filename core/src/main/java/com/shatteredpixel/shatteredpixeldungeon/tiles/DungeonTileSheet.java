@@ -67,9 +67,6 @@ public class DungeonTileSheet {
 	public static final int WELL            = GROUND +18;
 	public static final int EMPTY_WELL      = GROUND +19;
 	public static final int PEDESTAL        = GROUND +20;
-	public static final int CUSTOM_TILE_1   = GROUND +21;
-	public static final int CUSTOM_TILE_2   = GROUND +22;
-	public static final int CUSTOM_TILE_3   = GROUND +23;
 
 	public static final int CHASM           =                               xy(9, 2);   //8 slots
 	//chasm stitching visuals...
@@ -99,9 +96,6 @@ public class DungeonTileSheet {
 		chasmStitcheable.put( Terrain.BOOKSHELF,    CHASM_FLOOR );
 		chasmStitcheable.put( Terrain.BARRICADE,    CHASM_FLOOR );
 		chasmStitcheable.put( Terrain.PEDESTAL,     CHASM_FLOOR );
-		chasmStitcheable.put( Terrain.CUSTOM_TILE_1,CHASM_FLOOR );
-		chasmStitcheable.put( Terrain.CUSTOM_TILE_2,CHASM_FLOOR );
-		chasmStitcheable.put( Terrain.CUSTOM_TILE_3,CHASM_FLOOR );
 		chasmStitcheable.put( Terrain.CUSTOM_DECO_EMPTY,CHASM_FLOOR );
 		chasmStitcheable.put( Terrain.MINE_BOULDER, CHASM_FLOOR );
 		chasmStitcheable.put( Terrain.MINE_CRYSTAL, CHASM_FLOOR );
@@ -117,7 +111,6 @@ public class DungeonTileSheet {
 		chasmStitcheable.put( Terrain.LOCKED_DOOR,  CHASM_WALL );
 		chasmStitcheable.put( Terrain.SECRET_DOOR,  CHASM_WALL );
 		chasmStitcheable.put( Terrain.WALL_DECO,    CHASM_WALL );
-		chasmStitcheable.put( Terrain.CUSTOM_WALL,	CHASM_WALL );
 
 		//water
 		chasmStitcheable.put( Terrain.WATER,        CHASM_WATER );
@@ -173,14 +166,13 @@ public class DungeonTileSheet {
 	public static final int FLAT_WALL_ALT       = FLAT_WALLS+4;
 	public static final int FLAT_WALL_DECO_ALT  = FLAT_WALLS+5;
 	public static final int FLAT_BOOKSHELF_ALT  = FLAT_WALLS+6;
-	public static final int FLAT_CUSTOM_WALL  	= FLAT_WALLS+7;
+
 	public static final int FLAT_DOOR           = FLAT_WALLS+8;
 	public static final int FLAT_DOOR_OPEN      = FLAT_WALLS+9;
 	public static final int FLAT_DOOR_LOCKED    = FLAT_WALLS+10;
 	public static final int FLAT_DOOR_CRYSTAL   = FLAT_WALLS+11;
 	public static final int UNLOCKED_EXIT       = FLAT_WALLS+12;
 	public static final int LOCKED_EXIT         = FLAT_WALLS+13;
-	public static final int CUSTOM_WALL         = FLAT_WALLS+14;
 
 	public static final int FLAT_OTHER          =                           xy(1, 5);   //16 slots
 	public static final int FLAT_ALCHEMY_POT    = FLAT_OTHER+0;
@@ -222,7 +214,7 @@ public class DungeonTileSheet {
 	//These tiles count as wall for the purposes of wall stitching
 	private static int[] wallStitcheable = new int[]{
 			Terrain.WALL, Terrain.WALL_DECO, Terrain.SECRET_DOOR,
-			Terrain.LOCKED_EXIT, Terrain.UNLOCKED_EXIT, Terrain.BOOKSHELF, Terrain.CUSTOM_WALL, NULL_TILE
+			Terrain.LOCKED_EXIT, Terrain.UNLOCKED_EXIT, Terrain.BOOKSHELF, NULL_TILE
 	};
 
 	public static boolean wallStitcheable(int tile){
@@ -397,10 +389,6 @@ public class DungeonTileSheet {
 		directVisuals.put(Terrain.EMBERS,           EMBERS);
 		directVisuals.put(Terrain.PEDESTAL,         PEDESTAL);
 		directVisuals.put(Terrain.EMPTY_SP,         FLOOR_SP);
-		directVisuals.put(Terrain.CUSTOM_TILE_1,    CUSTOM_TILE_1);
-		directVisuals.put(Terrain.CUSTOM_TILE_2,    CUSTOM_TILE_2);
-		directVisuals.put(Terrain.CUSTOM_TILE_3,    CUSTOM_TILE_3);
-		directVisuals.put(Terrain.CUSTOM_WALL,   	CUSTOM_WALL);
 
 		directVisuals.put(Terrain.SECRET_TRAP,      directVisuals.get(Terrain.EMPTY));
 		directVisuals.put(Terrain.TRAP,             directVisuals.get(Terrain.EMPTY));
@@ -429,7 +417,6 @@ public class DungeonTileSheet {
 		directFlatVisuals.put(Terrain.BARRICADE,        FLAT_BARRICADE);
 		directFlatVisuals.put(Terrain.HIGH_GRASS,       FLAT_HIGH_GRASS);
 		directFlatVisuals.put(Terrain.FURROWED_GRASS,   FLAT_FURROWED_GRASS);
-		directFlatVisuals.put(Terrain.CUSTOM_WALL,   	FLAT_CUSTOM_WALL);
 
 		directFlatVisuals.put(Terrain.STATUE,           FLAT_STATUE);
 		directFlatVisuals.put(Terrain.STATUE_SP,        FLAT_STATUE_SP);

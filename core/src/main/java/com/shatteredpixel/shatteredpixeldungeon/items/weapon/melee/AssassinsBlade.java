@@ -22,12 +22,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -41,25 +37,12 @@ public class AssassinsBlade extends MeleeWeapon {
 		hitSoundPitch = 0.9f;
 
 		tier = 4;
-		canAdvance = true;
 	}
 
 	@Override
 	public int max(int lvl) {
 		return  4*(tier+1) +    //20 base, down from 25
 				lvl*(tier+1);   //scaling unchanged
-	}
-
-	@Override
-	public int proc( Char attacker, Char defender, int damage ) {
-		if (attacker instanceof Hero && Dungeon.hero.subClass == HeroSubClass.WEAPONMASTER) {
-			Hero hero = (Hero)attacker;
-			Char enemy = hero.enemy();
-			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-				Buff.affect( defender, Bleeding.class ).set( Math.round( 1f+(damage*0.2f)) );
-			}
-		}
-		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

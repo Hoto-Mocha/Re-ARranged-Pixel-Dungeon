@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
@@ -34,30 +32,20 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DamageEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Jung;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WantedTracker;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.ArtifactRechargeArea;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.BarrierRechargeArea;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.WandRechargeArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -73,19 +61,15 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedSword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
@@ -718,7 +702,6 @@ public abstract class Mob extends Char {
 				Buff.affect(Dungeon.hero, Hunger.class).affectHunger(restoration*Dungeon.hero.pointsInTalent(Talent.SOUL_EATER)/3f);
 				Dungeon.hero.HP = (int) Math.ceil(Math.min(Dungeon.hero.HT, Dungeon.hero.HP + (restoration * 0.4f)));
 				Dungeon.hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
-				Dungeon.hero.sprite.emitter().burst(Speck.factory(Speck.HUNGER), 1);
 			}
 		}
 
@@ -839,81 +822,6 @@ public abstract class Mob extends Char {
 				}
 			}
 
-			if (Dungeon.level.map[pos] != Terrain.PIT && hero.hasTalent(Talent.ENERGY_REMAINS)) {
-				int chance = Random.Int(6);
-				int point = Dungeon.hero.pointsInTalent(Talent.ENERGY_REMAINS);
-				switch (chance) {
-					default:
-						break;
-					case 0:
-						if (point >= 1) {
-							Buff.affect(hero, WandRechargeArea.class).setup(pos);
-						}
-						break;
-					case 1:
-						if (point >= 2) {
-							Buff.affect(hero, ArtifactRechargeArea.class).setup(pos);
-						}
-						break;
-					case 2:
-						if (point >= 3) {
-							Buff.affect(hero, BarrierRechargeArea.class).setup(pos);
-						}
-						break;
-				}
-			}
-
-			if (cause == Dungeon.hero
-					&& Dungeon.hero.hasTalent(Talent.LETHAL_RAGE)){
-				Berserk berserk = Buff.affect(hero, Berserk.class);
-				berserk.add(0.067f*Dungeon.hero.pointsInTalent(Talent.LETHAL_RAGE));
-			}
-
-			if (cause == hero
-					&& hero.hasTalent(Talent.CLASH)){
-				Buff.affect(hero, WeaponEmpower.class).set(hero.pointsInTalent(Talent.CLASH), 10f);
-			}
-
-			if (cause == hero
-					&& hero.hasTalent(Talent.DONG_POLISHING) && hero.buff(Jung.class) == null) {
-				Buff.affect(hero, DamageEnhance.class).set();
-			}
-
-			if (cause == hero
-					&& hero.subClass == HeroSubClass.CRUSADER) {
-				Buff.affect(hero, Bless.class, Math.round(Dungeon.depth/2f)+hero.belongings.armor.buffedLvl());
-			}
-
-			if (cause == hero
-					&& hero.hasTalent(Talent.ADRENALINE_SURGE)) {
-				Buff.prolong(hero, Adrenaline.class, 1+2*hero.pointsInTalent(Talent.ADRENALINE_SURGE));
-			}
-
-			if (cause == hero
-					&& hero.hasTalent(Talent.INVEST_END)
-					&& this.buff(WantedTracker.Wanted.class) != null
-					&& hero.buff(WantedTracker.WantedCoolDown.class) != null) {
-				hero.buff(WantedTracker.WantedCoolDown.class).reduce();
-			}
-
-			if (cause == hero
-					&& hero.hasTalent(Talent.SOUL_BULLET)) {
-				Buff.prolong(hero, InfiniteBullet.class, hero.pointsInTalent(Talent.SOUL_BULLET));
-			}
-
-			if (cause == hero
-					&& hero.hasTalent(Talent.EYE_OF_DRAGON)
-					&& Random.Int(2) < hero.pointsInTalent(Talent.EYE_OF_DRAGON)) {
-				Buff.prolong(hero, MindVision.class, 1);
-			}
-
-			if (cause == hero
-					&& hero.belongings.attackingWeapon() != null
-					&& hero.belongings.attackingWeapon().bullet
-					&& hero.heroClass == HeroClass.DUELIST
-					&& hero.buff(MeleeWeapon.PrecisionShooting.class) != null) {
-				Buff.affect(hero, MeleeWeapon.Charger.class).charges++;
-			}
 		}
 
 		if (Dungeon.hero.isAlive() && !Dungeon.level.heroFOV[pos]) {
@@ -933,52 +841,6 @@ public abstract class Mob extends Char {
 				if (Dungeon.level.heroFOV[pos]) {
 					CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
 					Sample.INSTANCE.play(Assets.Sounds.CURSED);
-				}
-			}
-		}
-
-		if (this instanceof Wraith && Dungeon.isChallenged(Challenges.CURSED_DUNGEON) && Random.Int(5) < 1) {
-			Wraith w = Wraith.spawnAt(pos, false);
-			if (w != null) {
-				Buff.affect(w, Corruption.class);
-				if (Dungeon.level.heroFOV[pos]) {
-					CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
-					Sample.INSTANCE.play(Assets.Sounds.CURSED);
-				}
-			}
-		}
-
-		if (!(this instanceof Wraith) && hero.belongings.weapon instanceof CursedSword){
-			if (hero.belongings.weapon.cursed) {
-				if (Random.Int(20) <= hero.belongings.weapon.buffedLvl()) {
-					Wraith w = Wraith.spawnAt(pos, false);
-					if (w != null) {
-						Buff.affect(w, Corruption.class);
-						Buff.affect(w, Adrenaline.class, 30f);
-						if (Dungeon.level.heroFOV[pos]) {
-							CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
-							Sample.INSTANCE.play(Assets.Sounds.CURSED);
-						}
-						if (hero.subClass == HeroSubClass.WEAPONMASTER) {
-							int healAmt = Math.round((this.HT/40f) * Math.min(hero.belongings.weapon.buffedLvl()+1, 10));
-							hero.heal(healAmt);
-						}
-					}
-				}
-			} else {
-				if (Random.Int(40) <= Dungeon.hero.belongings.weapon.buffedLvl()) {
-					Wraith w = Wraith.spawnAt(pos, false);
-					if (w != null) {
-						Buff.affect(w, Corruption.class);
-						if (Dungeon.level.heroFOV[pos]) {
-							CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
-							Sample.INSTANCE.play(Assets.Sounds.CURSED);
-						}
-					}
-					if (Dungeon.hero.subClass == HeroSubClass.WEAPONMASTER) {
-						int healAmt = Math.round((this.HT/80f) * Math.min(hero.belongings.weapon.buffedLvl()+1, 10));
-						hero.heal(healAmt);
-					}
 				}
 			}
 		}
@@ -1031,10 +893,6 @@ public abstract class Mob extends Char {
 		//lucky enchant logic
 		if (buff(Lucky.LuckProc.class) != null){
 			Dungeon.level.drop(buff(Lucky.LuckProc.class).genLoot(), pos).sprite.drop();
-			if (Random.Int(10) < hero.pointsInTalent(Talent.HIDDEN_STASH)) {
-				SmallRation food = new SmallRation();
-				Dungeon.level.drop(food, pos);
-			}
 			Lucky.showFlare(sprite);
 		}
 

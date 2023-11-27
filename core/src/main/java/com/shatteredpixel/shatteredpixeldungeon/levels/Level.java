@@ -36,8 +36,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dong;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sheathing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
@@ -45,13 +43,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WantedTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bestiary;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -63,38 +57,16 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.WindParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.StunGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.Stylus;
 import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.ScrollOfExtract;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Blast;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Corrosion;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Corruption;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Disintegration;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Earth;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Empty;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Fire;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Frost;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Lightning;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Prismatic;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Regrowth;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Transfusion;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Warding;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.HeavyBoomerang;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
@@ -237,50 +209,15 @@ public abstract class Level implements Bundlable {
 					addItemToSpawn(new ScrollOfUpgrade());
 				}
 			}
-			if (Dungeon.soeNeeded()) {
-				addItemToSpawn( new StoneOfEnchantment() );
-				Dungeon.LimitedDrops.ENCHANT_STONES.count++;
-			}
 			if (Dungeon.asNeeded()) {
 				Dungeon.LimitedDrops.ARCANE_STYLI.count++;
 				addItemToSpawn( new Stylus() );
 			}
-			//one stone of enchantment is guaranteed to spawn somewhere on chapter 2-4
+			//one scroll of transmutation is guaranteed to spawn somewhere on chapter 2-4
 			int enchChapter = (int)((Dungeon.seed / 10) % 3) + 1;
 			if ( Dungeon.depth / 5 == enchChapter &&
 					Dungeon.seed % 4 + 1 == Dungeon.depth % 5){
 				addItemToSpawn( new StoneOfEnchantment() );
-			}
-			//one scroll of transmutation is guaranteed to spawn somewhere on chapter 2-4
-			if ( Dungeon.depth / 5 == enchChapter &&
-					Dungeon.seed % 4 + 1 == Dungeon.depth % 5){
-				addItemToSpawn( new ScrollOfTransmutation() );
-			}
-			//one subweapon is guaranteed to spawn somewhere on chapter 2-4
-			if ( Dungeon.depth / 5 == enchChapter &&
-					Dungeon.seed % 4 + 1 == Dungeon.depth % 5){
-				switch (Random.Int(3)) {
-					case 0: default:
-						addItemToSpawn( new GrenadeLauncher().identify() );
-						break;
-					case 1:
-						addItemToSpawn( new SleepGun().identify() );
-						break;
-					case 2:
-						addItemToSpawn( new StunGun().identify() );
-				}
-			}
-			//one extractor is guaranteed to spawn somewhere on chapter 2-4
-			if ( Dungeon.depth / 5 == enchChapter &&
-					Dungeon.seed % 4 + 1 == Dungeon.depth % 5){
-				addItemToSpawn(new ScrollOfExtract());
-			}
-
-			//one missile button has 5% chance to spawn somewhere on chapter 2-4
-			if ( Dungeon.depth / 5 == enchChapter &&
-					Dungeon.seed % 4 + 1 == Dungeon.depth % 5 &&
-					Random.Int(10) == 0){
-				addItemToSpawn(new MissileButton());
 			}
 			
 			if ( Dungeon.depth == ((Dungeon.seed % 3) + 1)){
@@ -630,9 +567,6 @@ public abstract class Level implements Bundlable {
 		Talent.WarriorFoodImmunity foodImmune = Dungeon.hero.buff(Talent.WarriorFoodImmunity.class);
 		if (foodImmune != null) foodImmune.detach();
 
-		Tackle.SuperArmorTracker superArmorTracker = Dungeon.hero.buff(Tackle.SuperArmorTracker.class);
-		if (superArmorTracker != null) superArmorTracker.detach();
-
 		//spend the hero's partial turns,  so the hero cannot take partial turns between floors
 		Dungeon.hero.spendToWhole();
 		for (Char ch : Actor.chars()){
@@ -670,9 +604,6 @@ public abstract class Level implements Bundlable {
 			}
 		}
 		for (HeavyBoomerang.CircleBack b : Dungeon.hero.buffs(HeavyBoomerang.CircleBack.class)){
-			if (b.activeDepth() == Dungeon.depth) items.add(b.cancel());
-		}
-		for (Cross.CircleBack b : Dungeon.hero.buffs(Cross.CircleBack.class)){
 			if (b.activeDepth() == Dungeon.depth) items.add(b.cancel());
 		}
 		return items;
@@ -923,37 +854,9 @@ public abstract class Level implements Bundlable {
 
 	public void destroy( int pos ) {
 		//if raw tile type is flammable or empty
-		Item prize = Random.oneOf(
-				Generator.random(Generator.Category.SCROLL),
-				Generator.random(Generator.Category.SCROLL),
-				Generator.random(Generator.Category.SCROLL),
-				Generator.random(Generator.Category.SCROLL),
-				Generator.random(Generator.Category.SCROLL),
-				Generator.random(Generator.Category.SCROLL),
-				Generator.random(Generator.Category.SCROLL),
-				Generator.random(Generator.Category.SCROLL),
-				new ScrollOfTransmutation(),
-				Random.oneOf(new SpellBook_Empty(),
-							 new SpellBook_Fire(),
-							 new SpellBook_Frost(),
-							 new SpellBook_Earth(),
-							 new SpellBook_Warding(),
-							 new SpellBook_Disintegration(),
-							 new SpellBook_Corrosion(),
-							 new SpellBook_Corruption(),
-							 new SpellBook_Blast(),
-							 new SpellBook_Lightning(),
-							 new SpellBook_Regrowth(),
-							 new SpellBook_Transfusion(),
-							 new SpellBook_Prismatic(),
-							 new Bible())
-		);
 		int terr = map[pos];
 		if (terr == Terrain.EMPTY || terr == Terrain.EMPTY_DECO
 				|| (Terrain.flags[map[pos]] & Terrain.FLAMABLE) != 0) {
-			if (terr == Terrain.BOOKSHELF && Random.Int(20) <= Math.min(5, Math.round(0.5f*RingOfWealth.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class)))) {
-				Dungeon.level.drop(prize, pos).sprite.drop();
-			} //generates prize for 10% chance when a bookshelf has destroyed
 			set(pos, Terrain.EMBERS);
 		}
 		Blob web = blobs.get(Web.class);
@@ -1005,23 +908,17 @@ public abstract class Level implements Bundlable {
 		level.water[cell]			= terrain == Terrain.WATER;
 
 		for (int i : PathFinder.NEIGHBOURS9){
-			if (i < 0) {
-				continue;
-			}
 			i = cell + i;
 			if (level.solid[i]){
 				level.openSpace[i] = false;
 			} else {
 				for (int j = 1; j < PathFinder.CIRCLE8.length; j += 2){
-					int k = i+PathFinder.CIRCLE8[j];
-					if (k > 0) {
-						if (level.solid[k]) {
-							level.openSpace[i] = false;
-						} else if (!level.solid[i+PathFinder.CIRCLE8[(j+1)%8]]
-								&& !level.solid[i+PathFinder.CIRCLE8[(j+2)%8]]){
-							level.openSpace[i] = true;
-							break;
-						}
+					if (level.solid[i+PathFinder.CIRCLE8[j]]) {
+						level.openSpace[i] = false;
+					} else if (!level.solid[i+PathFinder.CIRCLE8[(j+1)%8]]
+							&& !level.solid[i+PathFinder.CIRCLE8[(j+2)%8]]){
+						level.openSpace[i] = true;
+						break;
 					}
 				}
 			}
@@ -1102,13 +999,9 @@ public abstract class Level implements Bundlable {
 		GameScene.plantSeed( pos );
 
 		for (Char ch : Actor.chars()){
-			if ((ch instanceof WandOfRegrowth.Lotus
+			if (ch instanceof WandOfRegrowth.Lotus
 					&& ((WandOfRegrowth.Lotus) ch).inRange(pos)
-					&& Actor.findChar(pos) != null)
-					||
-				   (Dungeon.level.heroFOV[pos]
-					&& Dungeon.hero.subClass == HeroSubClass.ADVENTURER
-					&& Actor.findChar(pos) != null)){
+					&& Actor.findChar(pos) != null){
 				plant.trigger();
 				return null;
 			}
@@ -1213,11 +1106,6 @@ public abstract class Level implements Bundlable {
 				}
 				GameScene.updateMap(ch.pos);
 				Buff.affect(ch, Talent.RejuvenatingStepsCooldown.class, 15f - 5f*Dungeon.hero.pointsInTalent(Talent.REJUVENATING_STEPS));
-			} else if (map[ch.pos] == Terrain.GRASS || map[ch.pos] == Terrain.EMBERS) {
-				if (Dungeon.hero.pointsInTalent(Talent.JUNGLE_ADVENTURE) == 3 && ch == Dungeon.hero) {
-					set(ch.pos, Terrain.FURROWED_GRASS);
-					GameScene.updateMap(ch.pos);
-				}
 			}
 			
 			if (pit[ch.pos]){
@@ -1336,7 +1224,7 @@ public abstract class Level implements Bundlable {
 		int cx = c.pos % width();
 		int cy = c.pos / width();
 		
-		boolean sighted = c.buff( Sheathing.class ) == null && c.buff( Blindness.class ) == null && c.buff( Shadows.class ) == null
+		boolean sighted = c.buff( Blindness.class ) == null && c.buff( Shadows.class ) == null
 						&& c.buff( TimekeepersHourglass.timeStasis.class ) == null && c.isAlive();
 		if (sighted) {
 			boolean[] blocking = null;
@@ -1378,15 +1266,8 @@ public abstract class Level implements Bundlable {
 			}
 			
 			int viewDist = c.viewDistance;
-			float viewDistBonus = 1f;
 			if (c instanceof Hero){
-
-				viewDistBonus += 0.25f*((Hero) c).pointsInTalent(Talent.FARSIGHT);
-				viewDistBonus += 0.25f*((Hero) c).pointsInTalent(Talent.TELESCOPE);
-				if (((Hero) c).hasTalent(Talent.ON_ALERT) && ((Hero) c).heroClass != HeroClass.KNIGHT) {
-					viewDistBonus += 0.125f*((Hero) c).pointsInTalent(Talent.ON_ALERT);
-				}
-				viewDist *= viewDistBonus;
+				viewDist *= 1f + 0.25f*((Hero) c).pointsInTalent(Talent.FARSIGHT);
 			}
 			
 			ShadowCaster.castShadow( cx, cy, fieldOfView, blocking, viewDist );
@@ -1399,12 +1280,6 @@ public abstract class Level implements Bundlable {
 		if (c.isAlive() && c == Dungeon.hero) {
 			for (Buff b : c.buffs( MindVision.class )) {
 				sense = Math.max( ((MindVision)b).distance, sense );
-			}
-			if (Dungeon.hero.subClass == HeroSubClass.ADVENTURER) {
-				sense += 1;
-				if (Dungeon.hero.pointsInTalent(Talent.JUNGLE_ADVENTURE) > 1) {
-					sense += 1;
-				}
 			}
 			if (c.buff(MagicalSight.class) != null){
 				sense = Math.max( MagicalSight.DISTANCE, sense );
@@ -1463,31 +1338,14 @@ public abstract class Level implements Bundlable {
 						heroMindFov[mob.pos + i] = true;
 					}
 				}
-			} else {
+			} else if (((Hero) c).hasTalent(Talent.HEIGHTENED_SENSES)) {
 				Hero h = (Hero) c;
-				int range = 0;
-				if (((Hero) c).hasTalent(Talent.HEIGHTENED_SENSES)) {
-					range += 1+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
-				}
-				if (Dungeon.hero.belongings.weapon instanceof SpellBook_Disintegration) {
-					range += 2;
-				}
-				if (((Hero) c).hasTalent(Talent.TACTICAL_SIGHT) && Dungeon.hero.buff(ReinforcedArmor.reinforcedArmorTracker.class) != null) {
-					range += 1+h.pointsInTalent(Talent.TACTICAL_SIGHT);
-				}
-				if (Dungeon.hero.subClass == HeroSubClass.MASTER && Dungeon.hero.buff(Dong.class) != null && Dungeon.hero.buff(Sheathing.class) != null) {
-					range += 2+h.pointsInTalent(Talent.DONG_MIND_EYES);
-				}
-				if (((Hero) c).hasTalent(Talent.SEARCH)) {
-					range += 1+h.pointsInTalent(Talent.SEARCH);
-				}
-				if (range > 0) {
-					for (Mob mob : mobs) {
-						int p = mob.pos;
-						if (!fieldOfView[p] && distance(c.pos, p) <= range) {
-							for (int i : PathFinder.NEIGHBOURS9) {
-								heroMindFov[mob.pos + i] = true;
-							}
+				int range = 1+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
+				for (Mob mob : mobs) {
+					int p = mob.pos;
+					if (!fieldOfView[p] && distance(c.pos, p) <= range) {
+						for (int i : PathFinder.NEIGHBOURS9) {
+							heroMindFov[mob.pos + i] = true;
 						}
 					}
 				}
@@ -1496,13 +1354,6 @@ public abstract class Level implements Bundlable {
 			if (c.buff( Awareness.class ) != null) {
 				for (Heap heap : heaps.valueList()) {
 					int p = heap.pos;
-					for (int i : PathFinder.NEIGHBOURS9) heroMindFov[p+i] = true;
-				}
-			}
-
-			for (Mob m : mobs){
-				if (m.buff(WantedTracker.Wanted.class) != null && Dungeon.hero.hasTalent(Talent.SURRENDER) && !(m.properties().contains(Char.Property.BOSS) || m.properties().contains(Char.Property.MINIBOSS))) {
-					int p = m.pos;
 					for (int i : PathFinder.NEIGHBOURS9) heroMindFov[p+i] = true;
 				}
 			}
@@ -1656,8 +1507,6 @@ public abstract class Level implements Bundlable {
 				return Messages.get(Level.class, "bookshelf_name");
 			case Terrain.ALCHEMY:
 				return Messages.get(Level.class, "alchemy_name");
-			case Terrain.CUSTOM_WALL:
-				return Messages.get(Level.class, "custom_wall_name");
 			default:
 				return Messages.get(Level.class, "default_name");
 		}
@@ -1697,8 +1546,6 @@ public abstract class Level implements Bundlable {
 				return Messages.get(Level.class, "alchemy_desc");
 			case Terrain.EMPTY_WELL:
 				return Messages.get(Level.class, "empty_well_desc");
-			case Terrain.CUSTOM_WALL:
-				return Messages.get(Level.class, "custom_wall_desc");
 			default:
 				return "";
 		}

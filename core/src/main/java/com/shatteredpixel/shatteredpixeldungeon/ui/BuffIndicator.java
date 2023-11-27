@@ -42,7 +42,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 
 public class BuffIndicator extends Component {
-
+	
 	//transparent icon
 	public static final int NONE    = 127;
 
@@ -120,58 +120,32 @@ public class BuffIndicator extends Component {
 	public static final int DUEL_COMBO  = 69;
 	public static final int DAZE        = 70;
 
-
-	//arranged buffs
-	public static final int BULLET 		= 136;
-	public static final int PLATE 		= 137;
-	public static final int STATE_DONG	= 138;
-	public static final int STATE_JUNG	= 139;
-	public static final int SHADOWBLADE	= 140;
-	public static final int AWAKE		= 141;
-	public static final int LUCK		= 142;
-	public static final int FLURRY		= 143;
-	public static final int KNIGHTSHIELD= 144;
-	public static final int REGEN		= 145;
-	public static final int ANGELWING	= 146;
-	public static final int STUNNING	= 147;
-	public static final int GODFURY		= 148;
-	public static final int WANTED		= 149;
-	public static final int CLOAKING	= 150;
-	public static final int DUEL_GUN	= 151;
-	public static final int DUEL_EXBOW	= 152;
-	public static final int DUEL_BALLISTA	= 153;
-	public static final int DUEL_ANGEL	= 154;
-	public static final int DUEL_DEMON	= 155;
-	public static final int DUEL_DAGGER	= 156;
-	public static final int DUEL_SABER	= 157;
-	public static final int PARRY		= 158;
-
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;
-
+	
 	private static BuffIndicator heroInstance;
 	private static BuffIndicator bossInstance;
-
+	
 	private LinkedHashMap<Buff, BuffButton> buffButtons = new LinkedHashMap<>();
 	private boolean needsRefresh;
 	private Char ch;
 
 	private boolean large = false;
-
+	
 	public BuffIndicator( Char ch, boolean large ) {
 		super();
-
+		
 		this.ch = ch;
 		this.large = large;
 		if (ch == Dungeon.hero) {
 			heroInstance = this;
 		}
 	}
-
+	
 	@Override
 	public void destroy() {
 		super.destroy();
-
+		
 		if (this == heroInstance) {
 			heroInstance = null;
 		}
@@ -213,19 +187,19 @@ public class BuffIndicator extends Component {
 						super.updateValues( progress );
 						image.scale.set( 1 + 5 * progress );
 					}
-
+					
 					@Override
 					protected void onComplete() {
 						image.killAndErase();
 					}
 				} );
-
+				
 				buffButtons.get( buff ).destroy();
 				remove(buffButtons.get( buff ));
 				buffButtons.remove( buff );
 			}
 		}
-
+		
 		//add new icons
 		for (Buff buff : newBuffs) {
 			if (!buffButtons.containsKey(buff)) {
@@ -234,7 +208,7 @@ public class BuffIndicator extends Component {
 				buffButtons.put( buff, icon );
 			}
 		}
-
+		
 		//layout
 		int pos = 0;
 		float lastIconLeft = 0;
@@ -366,7 +340,7 @@ public class BuffIndicator extends Component {
 			return Messages.titleCase(buff.name());
 		}
 	}
-
+	
 	public static void refreshHero() {
 		if (heroInstance != null) {
 			heroInstance.needsRefresh = true;

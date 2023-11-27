@@ -27,14 +27,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ExplosiveCrossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
@@ -81,16 +77,9 @@ public class Dart extends MissileWeapon {
 	
 	@Override
 	public int min(int lvl) {
-		if (bow != null || exbow != null){
-			int upgrade = 0;
-			if (bow != null) {
-				upgrade += bow.buffedLvl();
-			}
-			if (exbow != null){
-				upgrade += exbow.buffedLvl();
-			}
+		if (bow != null){
 			return  4 +                    //4 base
-					upgrade + lvl; //+1 per level or bow level
+					bow.buffedLvl() + lvl; //+1 per level or bow level
 		} else {
 			return  1 +     //1 base, down from 2
 					lvl;    //scaling unchanged
@@ -99,16 +88,9 @@ public class Dart extends MissileWeapon {
 
 	@Override
 	public int max(int lvl) {
-		if (bow != null || exbow != null){
-			int upgrade = 0;
-			if (bow != null) {
-				upgrade += bow.buffedLvl();
-			}
-			if (exbow != null){
-				upgrade += exbow.buffedLvl();
-			}
+		if (bow != null){
 			return  12 +                       //12 base
-					3*upgrade + 2*lvl; //+3 per bow level, +2 per level (default scaling +2)
+					3*bow.buffedLvl() + 2*lvl; //+3 per bow level, +2 per level (default scaling +2)
 		} else {
 			return  2 +     //2 base, down from 5
 					2*lvl;  //scaling unchanged
@@ -116,7 +98,6 @@ public class Dart extends MissileWeapon {
 	}
 	
 	private static Crossbow bow;
-	private static ExplosiveCrossbow exbow;
 	
 	private void updateCrossbow(){
 		if (Dungeon.hero.belongings.weapon() instanceof Crossbow){
@@ -129,26 +110,13 @@ public class Dart extends MissileWeapon {
 		}
 	}
 
-	private void updateExplosiveCrossbow(){
-		if (Dungeon.hero.belongings.weapon() instanceof ExplosiveCrossbow){
-			exbow = (ExplosiveCrossbow) Dungeon.hero.belongings.weapon();
-		} else if (Dungeon.hero.belongings.secondWep() instanceof ExplosiveCrossbow) {
-			//player can instant swap anyway, so this is just QoL
-			exbow = (ExplosiveCrossbow) Dungeon.hero.belongings.secondWep();
-		} else {
-			exbow = null;
-		}
-	}
-
 	public boolean crossbowHasEnchant( Char owner ){
-		return (bow != null && bow.enchantment != null && owner.buff(MagicImmune.class) == null) || (exbow != null && exbow.enchantment != null && owner.buff(MagicImmune.class) == null);
+		return bow != null && bow.enchantment != null && owner.buff(MagicImmune.class) == null;
 	}
 	
 	@Override
 	public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
 		if (bow != null && bow.hasEnchant(type, owner)){
-			return true;
-		} else if (exbow != null && exbow.hasEnchant(type, owner)){
 			return true;
 		} else {
 			return super.hasEnchant(type, owner);
@@ -158,7 +126,7 @@ public class Dart extends MissileWeapon {
 	@Override
 	public float accuracyFactor(Char owner, Char target) {
 		//don't update xbow here, as dart is the active weapon atm
-		if ((bow != null && owner.buff(Crossbow.ChargedShot.class) != null) || (exbow != null && owner.buff(ExplosiveCrossbow.ExplosiveEnhance.class) != null)){
+		if (bow != null && owner.buff(Crossbow.ChargedShot.class) != null){
 			return Char.INFINITE_ACCURACY;
 		} else {
 			return super.accuracyFactor(owner, target);
@@ -172,12 +140,6 @@ public class Dart extends MissileWeapon {
 				&& (!processingChargedShot || attacker.alignment != defender.alignment)){
 			damage = bow.proc(attacker, defender, damage);
 		}
-		if (exbow != null) {
-			damage = exbow.proc(attacker, defender, damage);
-		}
-		if (Dungeon.hero.buff(ExplosiveCrossbow.ExplosiveEnhance.class) != null) {
-			damage *= 1.25f;
-		}
 
 		int dmg = super.proc(attacker, defender, damage);
 		if (!processingChargedShot) {
@@ -189,14 +151,12 @@ public class Dart extends MissileWeapon {
 	@Override
 	public int throwPos(Hero user, int dst) {
 		updateCrossbow();
-		updateExplosiveCrossbow();
 		return super.throwPos(user, dst);
 	}
 
 	@Override
 	protected void onThrow(int cell) {
 		updateCrossbow();
-		updateExplosiveCrossbow();
 		//we have to set this here, as on-hit effects can move the target we aim at
 		chargedShotPos = cell;
 		super.onThrow(cell);
@@ -229,64 +189,6 @@ public class Dart extends MissileWeapon {
 				}
 			}
 		}
-		if (chargedShotPos != -1 && exbow != null) {
-			int dist = (Dungeon.hero.buff(ExplosiveCrossbow.ExplosiveEnhance.class) != null) ? 2 : 1;
-			PathFinder.buildDistanceMap(chargedShotPos, Dungeon.level.passable, dist);
-			if (Dungeon.hero.buff(ExplosiveCrossbow.ExplosiveEnhance.class) != null) {
-				for (int i : PathFinder.NEIGHBOURS25){
-					int c = chargedShotPos + i;
-					if (c >= 0 && c < Dungeon.level.length()) {
-						if (Dungeon.level.heroFOV[c]) {
-							CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
-							CellEmitter.center(chargedShotPos).burst(BlastParticle.FACTORY, 4);
-						}
-						if (Dungeon.level.flamable[c]) {
-							Dungeon.level.destroy(c);
-							GameScene.updateMap(c);
-						}
-					}
-				}
-			} else {
-				for (int i : PathFinder.NEIGHBOURS9){
-					int c = chargedShotPos + i;
-					if (c >= 0 && c < Dungeon.level.length()) {
-						if (Dungeon.level.heroFOV[c]) {
-							CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
-							CellEmitter.center(chargedShotPos).burst(BlastParticle.FACTORY, 4);
-						}
-						if (Dungeon.level.flamable[c]) {
-							Dungeon.level.destroy(c);
-							GameScene.updateMap(c);
-						}
-					}
-				}
-			}
-			//necessary to clone as some on-hit effects use Pathfinder
-			int[] distance = PathFinder.distance.clone();
-			for (Char ch : Actor.chars()){
-				if (ch == target){
-					Actor.add(new Actor() {
-						{ actPriority = VFX_PRIO; }
-						@Override
-						protected boolean act() {
-							if (!ch.isAlive()){
-								exbow.onAbilityKill(Dungeon.hero, ch);
-							}
-							Actor.remove(this);
-							return true;
-						}
-					});
-				} else if (distance[ch.pos] != Integer.MAX_VALUE){
-					proc(Dungeon.hero, ch, dmg);
-				}
-				if (ch != target && distance[ch.pos] != Integer.MAX_VALUE){
-					int damage = damageRoll(Dungeon.hero);
-					damage -= ch.drRoll();
-					ch.damage(damage, Dungeon.hero);
-				}
-			}
-			Sample.INSTANCE.play(Assets.Sounds.BLAST);
-		}
 		chargedShotPos = -1;
 		processingChargedShot = false;
 	}
@@ -297,16 +199,12 @@ public class Dart extends MissileWeapon {
 		if (Dungeon.hero.buff(Crossbow.ChargedShot.class) != null) {
 			Dungeon.hero.buff(Crossbow.ChargedShot.class).detach();
 		}
-		if (Dungeon.hero.buff(ExplosiveCrossbow.ExplosiveEnhance.class) != null) {
-			Dungeon.hero.buff(ExplosiveCrossbow.ExplosiveEnhance.class).detach();
-		}
 	}
 
 	@Override
 	public void throwSound() {
 		updateCrossbow();
-		updateExplosiveCrossbow();
-		if (bow != null || exbow != null) {
+		if (bow != null) {
 			Sample.INSTANCE.play(Assets.Sounds.ATK_CROSSBOW, 1, Random.Float(0.87f, 1.15f));
 		} else {
 			super.throwSound();
@@ -316,20 +214,12 @@ public class Dart extends MissileWeapon {
 	@Override
 	public String info() {
 		updateCrossbow();
-		updateExplosiveCrossbow();
 		if (bow != null && !bow.isIdentified()){
 			int level = bow.level();
 			//temporarily sets the level of the bow to 0 for IDing purposes
 			bow.level(0);
 			String info = super.info();
 			bow.level(level);
-			return info;
-		} else if (exbow != null && !exbow.isIdentified()) {
-			int level = exbow.level();
-			//temporarily sets the level of the bow to 0 for IDing purposes
-			exbow.level(0);
-			String info = super.info();
-			exbow.level(level);
 			return info;
 		} else {
 			return super.info();

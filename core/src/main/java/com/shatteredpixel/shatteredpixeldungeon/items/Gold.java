@@ -25,11 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.TreasureMap;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -72,19 +68,6 @@ public class Gold extends Item {
 		hero.spendAndNext( TIME_TO_PICK_UP );
 		
 		Sample.INSTANCE.play( Assets.Sounds.GOLD, 1, 1, Random.Float( 0.9f, 1.1f ) );
-		if (hero.hasTalent(Talent.GOLD_SHIELD)) {
-			int maxShield = 15*hero.pointsInTalent(Talent.GOLD_SHIELD);
-			int curShield = 0;
-			if (hero.buff(Barrier.class) != null) curShield = hero.buff(Barrier.class).shielding();
-			int shield = Math.min(quantity, maxShield-curShield);
-			if (curShield < maxShield) {
-				Buff.affect(hero, Barrier.class).incShield(shield);
-			}
-		}
-
-		if (hero.buff(TreasureMap.LuckTracker.class) != null && hero.hasTalent(Talent.GOLD_HUNTER)) {
-			Buff.prolong(hero, TreasureMap.GoldTracker.class, TreasureMap.GoldTracker.DURATION);
-		}
 		updateQuickslot();
 		
 		return true;

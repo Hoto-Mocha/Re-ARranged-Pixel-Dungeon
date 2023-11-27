@@ -35,7 +35,7 @@ public class StatueSprite extends MobSprite {
 		TextureFilm frames = new TextureFilm( texture, 12, 15 );
 		
 		idle = new Animation( 2, true );
-		idle.frames( frames, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 );
+		idle.frames( frames, 0, 0, 0, 0, 0, 1, 1 );
 		
 		run = new Animation( 15, true );
 		run.frames( frames, 2, 3, 4, 5, 6, 7 );

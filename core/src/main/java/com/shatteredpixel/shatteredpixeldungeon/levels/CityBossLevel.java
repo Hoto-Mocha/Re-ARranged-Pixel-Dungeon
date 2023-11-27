@@ -452,15 +452,15 @@ public class CityBossLevel extends Level {
 					data[i] = 15*8 + 6;
 					data[++i] = 15*8 + 7;
 
-					//imp's pedestal
+				//imp's pedestal
 				} else if (map[i] == Terrain.PEDESTAL) {
 					data[i] = 12*8 + 5;
 
-					//skull piles
+				//skull piles
 				} else if (map[i] == Terrain.STATUE) {
 					data[i] = 15*8 + 5;
 
-					//ground tiles
+				//ground tiles
 				} else if (map[i] == Terrain.EMPTY || map[i] == Terrain.EMPTY_DECO
 						|| map[i] == Terrain.EMBERS || map[i] == Terrain.GRASS
 						|| map[i] == Terrain.HIGH_GRASS || map[i] == Terrain.FURROWED_GRASS){
@@ -509,11 +509,11 @@ public class CityBossLevel extends Level {
 				if (map[i] == Terrain.PEDESTAL){
 					data[i] = 13*8 + 4;
 
-					//statues that should face left instead of right
+				//statues that should face left instead of right
 				} else if (map[i] == Terrain.STATUE && i%tileW > 7) {
 					data[i] = 15 * 8 + 4;
 
-					//carpet tiles
+				//carpet tiles
 				} else if (map[i] == Terrain.EMPTY_SP) {
 					//top row of DK's throne
 					if (map[i + 1] == Terrain.EMPTY_SP && map[i + tileW] == Terrain.EMPTY_SP) {
@@ -533,7 +533,7 @@ public class CityBossLevel extends Level {
 						data[++i] = 15*8 + 2;
 						data[++i] = 15*8 + 3;
 
-						//otherwise entrance carpet
+					//otherwise entrance carpet
 					} else if (map[i-tileW] != Terrain.EMPTY_SP){
 						data[i] = 13*8 + 0;
 					} else if (map[i+tileW] != Terrain.EMPTY_SP){
@@ -588,7 +588,7 @@ public class CityBossLevel extends Level {
 					return "";
 				}
 
-				//DK arena tiles
+			//DK arena tiles
 			} else {
 				if (Dungeon.level.map[cell] == Terrain.CUSTOM_DECO){
 					return Messages.get(CityBossLevel.class, "throne_desc");
@@ -632,11 +632,11 @@ public class CityBossLevel extends Level {
 					data[i] = 13 * 8 + 6;
 					data[++i] = 13 * 8 + 7;
 
-					//skull tops
+				//skull tops
 				} else if (map[i+tileW] == Terrain.STATUE) {
 					data[i] = 14*8 + 5;
 
-					//otherwise no tile here
+				//otherwise no tile here
 				} else {
 					data[i] = -1;
 				}

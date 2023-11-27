@@ -41,7 +41,7 @@ public class ArmoredStatue extends Statue {
 		spriteClass = StatueSprite.class;
 	}
 
-	public Armor armor;
+	protected Armor armor;
 
 	public ArmoredStatue(){
 		super();

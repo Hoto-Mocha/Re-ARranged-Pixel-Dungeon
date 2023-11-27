@@ -21,13 +21,10 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpellEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
@@ -50,7 +47,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFear;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFlock;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfShock;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -194,18 +190,6 @@ public abstract class Scroll extends Item {
 			Talent.onScrollUsed(curUser, curUser.pos, talentFactor);
 		}
 
-		if (curUser.hasTalent(Talent.SPELL_ENHANCE)) {
-			Buff.affect(curUser, SpellEnhance.class).reset();
-			updateQuickslot();
-		}
-
-		if (curUser.hasTalent(Talent.MAGIC_RUSH)) {
-			MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
-			if (staff != null) {
-				staff.gainCharge(hero.pointsInTalent(Talent.MAGIC_RUSH), false);
-				ScrollOfRecharging.charge(hero);
-			}
-		}
 	}
 	
 	public boolean isKnown() {
@@ -219,7 +203,7 @@ public abstract class Scroll extends Item {
 				updateQuickslot();
 			}
 			
-			if (hero.isAlive()) {
+			if (Dungeon.hero.isAlive()) {
 				Catalog.setSeen(getClass());
 			}
 		}

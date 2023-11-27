@@ -70,16 +70,16 @@ public class TengusMask extends Item {
 			curUser = hero;
 
 			GameScene.show( new WndChooseSubclass( this, hero ) );
-
+			
 		}
 	}
-
+	
 	@Override
 	public boolean doPickUp(Hero hero, int pos) {
 		Badges.validateMastery();
 		return super.doPickUp( hero, pos );
 	}
-
+	
 	@Override
 	public boolean isUpgradable() {
 		return false;
@@ -111,5 +111,6 @@ public class TengusMask extends Item {
 		e.pos(e.x-2, e.y-6, 4, 4);
 		e.start(Speck.factory(Speck.MASK), 0.05f, 20);
 		GLog.p( Messages.get(this, "used"));
+		
 	}
 }

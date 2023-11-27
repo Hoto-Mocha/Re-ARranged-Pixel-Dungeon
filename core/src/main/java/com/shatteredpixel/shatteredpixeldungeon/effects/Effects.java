@@ -35,8 +35,7 @@ public class Effects {
 		ETHEREAL_CHAIN,
 		DEATH_RAY,
 		LIGHT_RAY,
-		HEALTH_RAY,
-		GREEN_RAY
+		HEALTH_RAY
 	}
 	
 	public static Image get( Type type ) {
@@ -69,10 +68,6 @@ public class Effects {
 			case HEALTH_RAY:
 				icon.frame(icon.texture.uvRect(16, 30, 32, 38));
 				break;
-			case GREEN_RAY:
-				icon.frame(icon.texture.uvRect(16, 37, 32, 45));
-				break;
-
 		}
 		return icon;
 	}

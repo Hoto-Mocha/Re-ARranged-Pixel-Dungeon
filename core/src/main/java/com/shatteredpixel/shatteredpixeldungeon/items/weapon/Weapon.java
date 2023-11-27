@@ -21,31 +21,14 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
-
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GunEmpower;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.IntervalWeaponUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.KnightsBlocking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldCoolDown;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.UpgradeShare;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.planter.TreasureMap;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
@@ -65,56 +48,20 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Bloomi
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Chilling;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Corrupting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Elastic;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Eldritch;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shiny;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Stunning;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Venomous;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vorpal;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
@@ -126,7 +73,6 @@ abstract public class Weapon extends KindOfWeapon {
 	public float    ACC = 1f;	// Accuracy modifier
 	public float	DLY	= 1f;	// Speed modifier
 	public int      RCH = 1;    // Reach modifier (only applies to melee hits)
-	public boolean isUpgraded = false;
 
 	public enum Augment {
 		SPEED   (0.7f, 2/3f),
@@ -160,11 +106,10 @@ abstract public class Weapon extends KindOfWeapon {
 	public boolean enchantHardened = false;
 	public boolean curseInfusionBonus = false;
 	public boolean masteryPotionBonus = false;
-
-	public boolean canAdvance = false;
-
+	
 	@Override
 	public int proc( Char attacker, Char defender, int damage ) {
+		
 		if (enchantment != null && attacker.buff(MagicImmune.class) == null) {
 			damage = enchantment.proc( this, attacker, defender, damage );
 		}
@@ -178,40 +123,6 @@ abstract public class Weapon extends KindOfWeapon {
 				GLog.p( Messages.get(Weapon.class, "identify") );
 				Badges.validateItemLevelAquired( this );
 			}
-		}
-
-		if (	(hero.hasTalent(Talent.BLOOMING_WEAPON)
-				&& Random.Int(20) < hero.pointsInTalent(Talent.BLOOMING_WEAPON)) //Talent.BLOOMING_WEAPON
-			|| ((level.map[defender.pos] == Terrain.GRASS || level.map[defender.pos] == Terrain.HIGH_GRASS || level.map[defender.pos] == Terrain.FURROWED_GRASS)
-				&& (defender instanceof Mob && ((Mob) defender).surprisedBy(attacker))
-				&& hero.hasTalent(Talent.SUDDEN_GROWTH)
-				&& Random.Int(2) < hero.pointsInTalent(Talent.SUDDEN_GROWTH))) { //Talent.SUDDEN_GROWTH
-			boolean secondPlant = Random.Int(3) == 0;
-			ArrayList<Integer> positions = new ArrayList<>();
-			Blooming blooming = new Blooming();
-			for (int i : PathFinder.NEIGHBOURS8){
-				positions.add(i);
-			}
-			Random.shuffle( positions );
-			for (int i : positions){
-				if (blooming.plantGrass(defender.pos + i)){
-					if (secondPlant) secondPlant = false;
-					else return damage;
-				}
-			}
-		}
-
-		if (attacker.buff(TreasureMap.LuckTracker.class) != null
-				&& defender.HP <= damage) {
-			Buff.affect(defender, Lucky.LuckProc.class);
-		}
-
-		if (hero.hasTalent(Talent.DEW_MAKING) && Random.Int(25) < hero.pointsInTalent(Talent.DEW_MAKING)) {
-			Dungeon.level.drop( new Dewdrop(), defender.pos).sprite.drop();
-		}
-
-		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-			use();
 		}
 
 		return damage;
@@ -232,7 +143,6 @@ abstract public class Weapon extends KindOfWeapon {
 	private static final String CURSE_INFUSION_BONUS = "curse_infusion_bonus";
 	private static final String MASTERY_POTION_BONUS = "mastery_potion_bonus";
 	private static final String AUGMENT	        = "augment";
-	private static final String ISUPGRADED	        = "isUpgraded";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -244,7 +154,6 @@ abstract public class Weapon extends KindOfWeapon {
 		bundle.put( CURSE_INFUSION_BONUS, curseInfusionBonus );
 		bundle.put( MASTERY_POTION_BONUS, masteryPotionBonus );
 		bundle.put( AUGMENT, augment );
-		bundle.put( ISUPGRADED, isUpgraded );
 	}
 	
 	@Override
@@ -258,7 +167,6 @@ abstract public class Weapon extends KindOfWeapon {
 		masteryPotionBonus = bundle.getBoolean( MASTERY_POTION_BONUS );
 
 		augment = bundle.getEnum(AUGMENT, Augment.class);
-		isUpgraded = bundle.getBoolean(ISUPGRADED);
 	}
 	
 	@Override
@@ -299,6 +207,7 @@ abstract public class Weapon extends KindOfWeapon {
 				delay *= Math.pow( 1.2, encumbrance );
 			}
 		}
+
 		return delay;
 	}
 
@@ -315,34 +224,13 @@ abstract public class Weapon extends KindOfWeapon {
 	@Override
 	public int reachFactor(Char owner) {
 		int reach = RCH;
-		if (hero.hasTalent(Talent.VINE_WHIP) && owner == hero) {
-			reach += hero.pointsInTalent(Talent.VINE_WHIP);
-		}
-		if (hero.hasTalent(Talent.SPEAR_N_SHIELD) && owner == hero) {
-			switch (hero.pointsInTalent(Talent.SPEAR_N_SHIELD)) {
-				case 1:
-				default:
-					if (hero.buff(KnightsBlocking.class) != null) {
-						reach += 1;
-					}
-					break;
-				case 2:
-					if (hero.buff(KnightsBlocking.class) != null || hero.buff(ShieldCoolDown.class) != null) {
-						reach += 1;
-					}
-					break;
-				case 3:
-					reach += 1;
-					break;
-			}
-		}
-		if (owner instanceof Hero && RingOfForce.fightingUnarmed((Hero) owner)) {
+		if (owner instanceof Hero && RingOfForce.fightingUnarmed((Hero) owner)){
 			reach = 1; //brawlers stance benefits from enchantments, but not innate reach
-			if (!RingOfForce.unarmedGetsWeaponEnchantment((Hero) owner)) {
+			if (!RingOfForce.unarmedGetsWeaponEnchantment((Hero) owner)){
 				return reach;
 			}
 		}
-		if (hasEnchant(Projecting.class, owner)) {
+		if (hasEnchant(Projecting.class, owner)){
 			return reach + Math.round(enchantment.procChanceMultiplier(owner));
 		} else {
 			return reach;
@@ -372,63 +260,7 @@ abstract public class Weapon extends KindOfWeapon {
 		if (curseInfusionBonus) level += 1 + level/6;
 		return level;
 	}
-
-	@Override
-	public int buffedLvl() {
-		int lvl;
-		if (isEquipped( Dungeon.hero ) || Dungeon.hero.belongings.contains( this )){
-			lvl = super.buffedLvl();
-		} else {
-			lvl = level();
-		}
-		WeaponEmpower weaponEmpower = hero.buff(WeaponEmpower.class);
-		if (weaponEmpower != null && isEquipped( hero ) && !(this instanceof MagesStaff)) {
-			lvl += weaponEmpower.getLvl();
-		}
-		IntervalWeaponUpgrade intervalWeaponUpgrade = hero.buff(IntervalWeaponUpgrade.class);
-		if (intervalWeaponUpgrade != null && isEquipped( hero ) && !(this instanceof MagesStaff)) {
-			lvl += intervalWeaponUpgrade.boost();
-		}
-		if (this instanceof CrudePistol
-			|| this instanceof Pistol
-			|| this instanceof GoldenPistol
-			|| this instanceof Handgun
-			|| this instanceof Magnum
-			|| this instanceof TacticalHandgun
-			|| this instanceof AutoHandgun
-			|| this instanceof DualPistol
-			|| this instanceof SubMachinegun
-			|| this instanceof AssultRifle
-			|| this instanceof HeavyMachinegun
-			|| this instanceof MiniGun
-			|| this instanceof AutoRifle
-			|| this instanceof Revolver
-			|| this instanceof HuntingRifle
-			|| this instanceof Carbine
-			|| this instanceof SniperRifle
-			|| this instanceof AntimaterRifle
-			|| this instanceof MarksmanRifle
-			|| this instanceof WA2000
-			|| this instanceof ShotGun
-			|| this instanceof KSG
-			|| this instanceof RocketLauncher
-			|| this instanceof RPG7
-			|| this instanceof FlameThrower
-			|| this instanceof PlasmaCannon) {
-			GunEmpower buff = hero.buff(GunEmpower.class);
-			if (buff != null && lvl < buff.boost()) {
-				lvl = buff.boost();
-			}
-		}
-
-		UpgradeShare upgradeShare = hero.buff(UpgradeShare.class);
-		if (upgradeShare != null && lvl < upgradeShare.level() && this instanceof MeleeWeapon) {
-			lvl = upgradeShare.level();
-		}
-
-		return lvl;
-	}
-
+	
 	@Override
 	public Item upgrade() {
 		return upgrade(false);
@@ -528,20 +360,21 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 
 	public static abstract class Enchantment implements Bundlable {
+
 		public static final Class<?>[] common = new Class<?>[]{
-				Blazing.class, Chilling.class, Kinetic.class, Shocking.class, Eldritch.class};
+				Blazing.class, Chilling.class, Kinetic.class, Shocking.class};
 
 		public static final Class<?>[] uncommon = new Class<?>[]{
 				Blocking.class, Blooming.class, Elastic.class,
-				Lucky.class, Projecting.class, Unstable.class, Stunning.class, Venomous.class};
+				Lucky.class, Projecting.class, Unstable.class};
 
 		public static final Class<?>[] rare = new Class<?>[]{
-				Corrupting.class, Grim.class, Vampiric.class, Vorpal.class, Shiny.class};
-		
-		private static final float[] typeChances = new float[]{
-				50, //10% each
-				40, //5% each
-				10  //1.7% each
+				Corrupting.class, Grim.class, Vampiric.class};
+
+		public static final float[] typeChances = new float[]{
+				50, //12.5% each
+				40, //6.67% each
+				10  //3.33% each
 		};
 		
 		private static final Class<?>[] curses = new Class<?>[]{
@@ -563,13 +396,6 @@ abstract public class Weapon extends KindOfWeapon {
 				multi = rage.enchantFactor(multi);
 			}
 
-			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.ARCANE_ATTACK)) {
-				SerialAttack serialAttack = attacker.buff(SerialAttack.class);
-				if (serialAttack != null) {
-					multi += (serialAttack.getCount() * 0.05f) * ((Hero) attacker).pointsInTalent(Talent.ARCANE_ATTACK);
-				}
-			}
-
 			if (attacker.buff(RunicBlade.RunicSlashTracker.class) != null){
 				multi += 3f;
 				attacker.buff(RunicBlade.RunicSlashTracker.class).detach();
@@ -584,26 +410,9 @@ abstract public class Weapon extends KindOfWeapon {
 					&& ((Hero)attacker).pointsInTalent(Talent.SPIRIT_BLADES) == 4){
 				multi += 0.1f;
 			}
-
 			if (attacker.buff(Talent.StrikingWaveTracker.class) != null
 					&& ((Hero)attacker).pointsInTalent(Talent.STRIKING_WAVE) == 4){
 				multi += 0.2f;
-			}
-
-			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.MYSTICAL_POWER)) {
-				multi += 0.2f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
-			}
-
-			if (attacker.buff(MonkEnergy.MonkAbility.FlurryEmpowerTracker.class) != null){
-				multi *= 0.75f;
-			}
-
-			if (attacker.buff(TrueRunicBlade.EnchantEmpower.class) != null) {
-				multi += 1.5f;
-			}
-
-			if (attacker instanceof Hero && attacker.buff(Tackle.MysticalTackleTracker.class) != null) {
-				multi += 0.5f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_TACKLE);
 			}
 
 			return multi;

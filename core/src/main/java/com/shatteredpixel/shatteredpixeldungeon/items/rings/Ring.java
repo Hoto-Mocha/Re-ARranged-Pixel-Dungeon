@@ -22,12 +22,10 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRingsCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -64,13 +62,6 @@ public class Ring extends KindofMisc {
 			put("quartz",ItemSpriteSheet.RING_QUARTZ);
 			put("agate",ItemSpriteSheet.RING_AGATE);
 			put("diamond",ItemSpriteSheet.RING_DIAMOND);
-			put("obsidian",ItemSpriteSheet.RING_OBSIDIAN);
-			put("pearl",ItemSpriteSheet.RING_PEARL);
-			put("gold",ItemSpriteSheet.RING_GOLD);
-			put("ember",ItemSpriteSheet.RING_EMBER);
-			put("iolite",ItemSpriteSheet.RING_IOLITE);
-			put("aquamarine",ItemSpriteSheet.RING_AQUAMARINE);
-			put("jade",ItemSpriteSheet.RING_JADE);
 		}
 	};
 	
@@ -188,10 +179,6 @@ public class Ring extends KindofMisc {
 		
 		if (isKnown()) {
 			desc += "\n\n" + statsInfo();
-		}
-
-		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown && this.buffedLvl() > 0) {
-			desc += "\n\n" + Messages.get(Item.class, "durability_ring", durability(), maxDurability());
 		}
 		
 		return desc;
@@ -313,10 +300,6 @@ public class Ring extends KindofMisc {
 		if (Dungeon.hero.buff(EnhancedRings.class) != null){
 			lvl++;
 		}
-		EnhancedRingsCombo enhancedRingsCombo = Dungeon.hero.buff(EnhancedRingsCombo.class);
-		if (enhancedRingsCombo != null){
-			lvl += enhancedRingsCombo.getCombo();
-		}
 		return lvl;
 	}
 
@@ -382,9 +365,6 @@ public class Ring extends KindofMisc {
 		@Override
 		public boolean act() {
 			spend( TICK );
-			if (Dungeon.isChallenged(Challenges.DURABILITY) && Ring.this.buffedLvl() > 0) {
-				use();
-			}
 			return true;
 		}
 
@@ -396,10 +376,5 @@ public class Ring extends KindofMisc {
 			return Ring.this.soloBuffedBonus();
 		}
 
-	}
-
-	@Override
-	public int maxDurability( int lvl ) {
-		return 100 * (lvl < 16 ? 16 - lvl : 1);
 	}
 }

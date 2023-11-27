@@ -26,7 +26,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -48,9 +47,6 @@ public class Blooming extends Weapon.Enchantment {
 		// lvl 1 - 50%
 		// lvl 2 - 60%
 		float procChance = (level+1f)/(level+3f) * procChanceMultiplier(attacker);
-		if (weapon instanceof TrueRunicBlade) {
-			procChance = 1;
-		}
 		if (Random.Float() < procChance) {
 
 			float powerMulti = Math.max(1f, procChance);
@@ -96,7 +92,7 @@ public class Blooming extends Weapon.Enchantment {
 		return damage;
 	}
 	
-	public boolean plantGrass(int cell){
+	private boolean plantGrass(int cell){
 		int t = Dungeon.level.map[cell];
 		if ((t == Terrain.EMPTY || t == Terrain.EMPTY_DECO || t == Terrain.EMBERS
 				|| t == Terrain.GRASS || t == Terrain.FURROWED_GRASS)

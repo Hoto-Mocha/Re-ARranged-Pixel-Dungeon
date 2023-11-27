@@ -26,7 +26,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite.Glowing;
 import com.watabou.noosa.Visual;
@@ -43,12 +42,7 @@ public class Lucky extends Weapon.Enchantment {
 		// lvl 0 - 10%
 		// lvl 1 ~ 12%
 		// lvl 2 ~ 14%
-		float procChance;
-		if (weapon instanceof TrueRunicBlade) {
-			procChance = 1;
-		} else {
-			procChance = (level+4f)/(level+40f) * procChanceMultiplier(attacker);
-		}
+		float procChance = (level+4f)/(level+40f) * procChanceMultiplier(attacker);
 		if (defender.HP <= damage && Random.Float() < procChance){
 
 			float powerMulti = Math.max(1f, procChance);
@@ -79,7 +73,7 @@ public class Lucky extends Weapon.Enchantment {
 	//used to keep track of whether a luck proc is incoming. see Mob.die()
 	public static class LuckProc extends Buff {
 
-		public int ringLevel = -5;
+		private int ringLevel = -5;
 		
 		@Override
 		public boolean act() {

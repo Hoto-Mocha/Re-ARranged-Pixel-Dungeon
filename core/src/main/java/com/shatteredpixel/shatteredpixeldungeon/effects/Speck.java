@@ -48,8 +48,7 @@ public class Speck extends Image {
 	public static final int BUBBLE      = 12;
 	public static final int STEAM       = 13;
 	public static final int COIN        = 14;
-	public static final int HUNGER      = 15;
-
+	
 	public static final int DISCOVER    = 101;
 	public static final int EVOKE       = 102;
 	public static final int MASK        = 103;
@@ -157,7 +156,7 @@ public class Speck extends Image {
 		
 		switch (type) {
 			
-		case HEALING: case HUNGER:
+		case HEALING:
 			speed.set( 0, -20 );
 			lifespan = 1f;
 			break;
@@ -410,7 +409,7 @@ public class Speck extends Image {
 				
 			case EVOKE:
 				
-			case HEALING: case HUNGER:
+			case HEALING:
 				am = p < 0.5f ? 1 : 2 - p * 2;
 				break;
 

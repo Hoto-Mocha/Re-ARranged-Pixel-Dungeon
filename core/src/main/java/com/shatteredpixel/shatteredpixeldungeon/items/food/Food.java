@@ -30,7 +30,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
@@ -76,7 +75,6 @@ public class Food extends Item {
 			detach( hero.belongings.backpack );
 			
 			satisfy(hero);
-			Dungeon.hero.sprite.emitter().burst(Speck.factory(Speck.HUNGER), 3);
 			GLog.i( Messages.get(this, "eat_msg") );
 			
 			hero.sprite.operate( hero.pos );
@@ -99,13 +97,7 @@ public class Food extends Item {
 			|| Dungeon.hero.hasTalent(Talent.ENERGIZING_MEAL)
 			|| Dungeon.hero.hasTalent(Talent.MYSTICAL_MEAL)
 			|| Dungeon.hero.hasTalent(Talent.INVIGORATING_MEAL)
-			|| Dungeon.hero.hasTalent(Talent.FOCUSED_MEAL)
-			|| Dungeon.hero.hasTalent(Talent.IN_THE_GUNFIRE)
-			|| Dungeon.hero.hasTalent(Talent.FOCUSING_MEAL)
-			|| Dungeon.hero.hasTalent(Talent.NATURAL_MEAL)
-			|| Dungeon.hero.hasTalent(Talent.IMPREGNABLE_MEAL)
-			|| Dungeon.hero.hasTalent(Talent.DISINFECTING_MEAL)
-		){
+			|| Dungeon.hero.hasTalent(Talent.FOCUSED_MEAL)){
 			return TIME_TO_EAT - 2;
 		} else {
 			return TIME_TO_EAT;
@@ -114,9 +106,6 @@ public class Food extends Item {
 	
 	protected void satisfy( Hero hero ){
 		float foodVal = energy;
-		if (hero.hasTalent(Talent.ADDED_MEAL)) {
-			foodVal *= 1.05 + 0.1 * hero.pointsInTalent(Talent.ADDED_MEAL);
-		}
 		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
 			foodVal /= 3f;
 		}

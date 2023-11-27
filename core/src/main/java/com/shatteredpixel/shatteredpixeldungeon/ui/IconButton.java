@@ -22,7 +22,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
@@ -65,11 +64,6 @@ public class IconButton extends Button {
 	public void enable( boolean value ) {
 		active = value;
 		if (icon != null) icon.alpha( value ? 1.0f : 0.3f );
-
-		// disable flickering (small icons on item slot)
-		if (!SPDSettings.flickering()) {
-			icon.alpha(1.0f);
-		}
 	}
 	
 	public void icon( Image icon ) {

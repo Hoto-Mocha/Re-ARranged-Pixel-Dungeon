@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
@@ -30,8 +28,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfArmorEnhance;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfWeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.CausticBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.InfernalBrew;
@@ -39,102 +35,27 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.ShockingBrew
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfAquaticRejuvenation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfArcaneArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.APBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.AdvancedEvolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.Cooler;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireImbueSpell;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.GunSmithingTool;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.HPBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.Lighter;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.RapidGrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableAPBullet;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.StableHPBullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.Xray;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsSpear;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Ballista;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChainFlail;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ChaosSword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CursedSword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DoubleGreatSword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ElectroScimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameScimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ForceGlove;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostScimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HolySword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PoisonScimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Blast;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Blast_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Corrosion;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Corrosion_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Corruption;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Corruption_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Disintegration;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Disintegration_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Earth;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Earth_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Empty;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Empty_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Fire;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Fire_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Frost;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Frost_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Lightning;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Lightning_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Prismatic;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Prismatic_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Regrowth;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Regrowth_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Transfusion;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Transfusion_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Warding;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.spellbook.SpellBook_Warding_Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.UnholyBible;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword_Energy;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.watabou.utils.Reflection;
 
@@ -254,17 +175,9 @@ public abstract class Recipe {
 		new ExoticScroll.ScrollToExotic(),
 		new ArcaneResin.Recipe(),
 		new Alchemize.Recipe(),
-		new Cartridge.Recipe(),
-		new StewedMeat.oneMeat(),
-		new SpellBook_Empty.Recipe(),
-		new StoneOfEnchantment.Recipe1(),
-		new StoneOfEnchantment.Recipe2(),
-		new StoneOfEnchantment.Recipe3(),
-		new StoneOfEnchantment.Recipe4(),
-		new StoneOfEnchantment.Recipe5(),
-		new StoneOfEnchantment.Recipe6()
+		new StewedMeat.oneMeat()
 	};
-
+	
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
 		new Blandfruit.CookFruit(),
 		new Bomb.EnhanceBomb(),
@@ -292,99 +205,13 @@ public abstract class Recipe {
 		new WildEnergy.Recipe(),
 		new TelekineticGrab.Recipe(),
 		new SummonElemental.Recipe(),
-		new StewedMeat.twoMeat(),
-		new Evolution.Recipe(),
-		new Pistol.Recipe(),
-		new GoldenPistol.Recipe(),
-		new MissileButton.Recipe(),
-		new StableAPBullet.Recipe(),
-		new StableHPBullet.Recipe(),
-		new SpellBook_Blast.Recipe(),
-		new SpellBook_Corrosion.Recipe(),
-		new SpellBook_Corruption.Recipe(),
-		new SpellBook_Disintegration.Recipe(),
-		new SpellBook_Earth.Recipe(),
-		new SpellBook_Fire.Recipe(),
-		new SpellBook_Frost.Recipe(),
-		new SpellBook_Lightning.Recipe(),
-		new SpellBook_Prismatic.Recipe(),
-		new SpellBook_Regrowth.Recipe(),
-		new SpellBook_Transfusion.Recipe(),
-		new SpellBook_Warding.Recipe(),
-		new PotionOfWeaponEnhance.Recipe(),
-		new PotionOfArmorEnhance.Recipe(),
-		new GunSmithingTool.Recipe(),
-		new MagicalBullet.Recipe(),
-		new RapidGrowth.Recipe(),
-		new Lighter.Recipe(),
-		new Cooler.Recipe()
+		new StewedMeat.twoMeat()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
 		new Potion.SeedToPotion(),
 		new StewedMeat.threeMeat(),
-		new MeatPie.Recipe(),
-		new ElixirOfTalent.Recipe(),
-		new SpearNShield.Recipe(),
-		new LanceNShield.Recipe(),
-		//new Scrap.Recipe(),
-		//new BrassScrap.Recipe(),
-		new APBullet.Recipe(),
-		new HPBullet.Recipe(),
-		new AdvancedEvolution.Recipe(),
-		new ChainFlail.Recipe(),
-		new FlameScimitar.Recipe(),
-		new FrostScimitar.Recipe(),
-		new PoisonScimitar.Recipe(),
-		new ElectroScimitar.Recipe(),
-		new UnholyBible.Recipe(),
-		new CursedSword.Recipe(),
-		new Ballista.Recipe(),
-		new TacticalShield.Recipe1(),
-		new TacticalShield.Recipe2(),
-		new TacticalShield.Recipe3(),
-		new ForceGlove.Recipe(),
-		new HolySword.Recipe(),
-		new Cross.Recipe(),
-		new ElixirOfHealth.Recipe(),
-		new AutoHandgun.Recipe1(),
-		new AutoHandgun.Recipe2(),
-		new AutoHandgun.Recipe3(),
-		new AutoRifle.Recipe1(),
-		new AutoRifle.Recipe2(),
-		new AutoRifle.Recipe3(),
-		new MarksmanRifle.Recipe1(),
-		new MarksmanRifle.Recipe2(),
-		new MarksmanRifle.Recipe3(),
-		new WA2000.Recipe1(),
-		new WA2000.Recipe2(),
-		new WA2000.Recipe3(),
-		new FireImbueSpell.Recipe(),
-		new AssassinsSpear.Recipe(),
-		new Xray.Recipe(),
-		new DoubleGreatSword.Recipe(),
-		new ChaosSword.Recipe(),
-		new SpellBook_Empty_Sword.Recipe(),
-		new SpellBook_Blast_Sword.Recipe(),
-		new SpellBook_Corrosion_Sword.Recipe(),
-		new SpellBook_Corruption_Sword.Recipe(),
-		new SpellBook_Disintegration_Sword.Recipe(),
-		new SpellBook_Earth_Sword.Recipe(),
-		new SpellBook_Fire_Sword.Recipe(),
-		new SpellBook_Frost_Sword.Recipe(),
-		new SpellBook_Lightning_Sword.Recipe(),
-		new SpellBook_Prismatic_Sword.Recipe(),
-		new SpellBook_Regrowth_Sword.Recipe(),
-		new SpellBook_Transfusion_Sword.Recipe(),
-		new SpellBook_Warding_Sword.Recipe(),
-		new WornShortsword_Energy.Recipe(),
-		new Dagger_Energy.Recipe(),
-		new Gloves_Energy.Recipe(),
-		new Saber_Energy.Recipe(),
-		new Rapier_Energy.Recipe(),
-		new WornKatana_Energy.Recipe(),
-		new CrudePistol_Energy.Recipe()
-		//new MissileWeapon.Duplicate()
+		new MeatPie.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){
@@ -421,11 +248,11 @@ public abstract class Recipe {
 		
 		return result;
 	}
-
+	
 	public static boolean usableInRecipe(Item item){
 		if (item instanceof EquipableItem){
-			//only weapons and wands allowed among equipment items
-			return item.isIdentified() && !item.cursed && (item instanceof MissileWeapon || item instanceof MeleeWeapon || item instanceof Pickaxe) && !item.isEquipped( hero );
+			//only thrown weapons and wands allowed among equipment items
+			return item.isIdentified() && !item.cursed && item instanceof MissileWeapon;
 		} else if (item instanceof Wand) {
 			return item.isIdentified() && !item.cursed;
 		} else {
@@ -434,3 +261,5 @@ public abstract class Recipe {
 		}
 	}
 }
+
+

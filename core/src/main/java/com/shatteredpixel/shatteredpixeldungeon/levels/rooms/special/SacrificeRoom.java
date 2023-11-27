@@ -25,7 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SacrificialFire;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -86,43 +85,22 @@ public class SacrificeRoom extends SpecialRoom {
 
 		//1 floor set higher than normal
 		Weapon prize = Generator.randomWeapon( (Dungeon.depth / 5) + 1);
-		Weapon gun = Generator.randomGun( (Dungeon.depth / 5) + 1);
 
-		if (Dungeon.hero.heroClass != HeroClass.GUNNER) {
-			if (Challenges.isItemBlocked(prize)){
-				return new Gold().random();
-			}
-
-			//if it isn't already cursed, give it a free upgrade
-			if (!prize.cursed){
-				prize.upgrade();
-				//curse the weapon, unless it has a glyph
-				if (!prize.hasGoodEnchant()){
-					prize.enchant(Weapon.Enchantment.randomCurse());
-				}
-			}
-			prize.cursed = prize.cursedKnown = true;
-
-			return prize;
-		} else {
-			if (Challenges.isItemBlocked(gun)){
-				return new Gold().random();
-			}
-
-			//if it isn't already cursed, give it a free upgrade
-			if (!gun.cursed){
-				gun.upgrade();
-				//curse the weapon, unless it has a glyph
-				if (!gun.hasGoodEnchant()){
-					gun.enchant(Weapon.Enchantment.randomCurse());
-				}
-			}
-			gun.cursed = gun.cursedKnown = true;
-
-			return gun;
+		if (Challenges.isItemBlocked(prize)){
+			return new Gold().random();
 		}
 
+		//if it isn't already cursed, give it a free upgrade
+		if (!prize.cursed){
+			prize.upgrade();
+			//curse the weapon, unless it has a glyph
+			if (!prize.hasGoodEnchant()){
+				prize.enchant(Weapon.Enchantment.randomCurse());
+			}
+		}
+		prize.cursed = prize.cursedKnown = true;
 
+		return prize;
 	}
 
 }

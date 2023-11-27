@@ -96,6 +96,7 @@ public class Toolbar extends Component {
 
 	@Override
 	protected void createChildren() {
+
 		add(btnSwap = new SlotSwapTool(128, 0, 21, 23));
 
 		btnQuick = new QuickslotTool[QuickSlot.SIZE];
@@ -121,9 +122,9 @@ public class Toolbar extends Component {
 
 				if (Dungeon.hero != null && Dungeon.hero.ready && !GameScene.cancel()) {
 
-					String[] slotNames = new String[8];
-					Image[] slotIcons = new Image[8];
-					for (int i = 0; i < 8; i++){
+					String[] slotNames = new String[6];
+					Image[] slotIcons = new Image[6];
+					for (int i = 0; i < 6; i++){
 						Item item = Dungeon.quickslot.getItem(i);
 
 						if (item != null && !Dungeon.quickslot.isPlaceholder(i) &&
@@ -484,13 +485,12 @@ public class Toolbar extends Component {
 	
 	@Override
 	protected void layout() {
+
 		float right = width;
 
 		int quickslotsToShow = 4;
 		if (PixelScene.uiCamera.width > 152) quickslotsToShow ++;
 		if (PixelScene.uiCamera.width > 170) quickslotsToShow ++;
-		if (PixelScene.uiCamera.width > 188) quickslotsToShow ++;
-		if (PixelScene.uiCamera.width > 206) quickslotsToShow ++;
 
 		int startingSlot;
 		if (SPDSettings.quickSwapper() && quickslotsToShow < 6){
@@ -574,6 +574,7 @@ public class Toolbar extends Component {
 					btnSwap.setPos(btnQuick[endingSlot].left() - (btnSwap.width()-2), y+3);
 					shift = btnSearch.right() - btnSwap.left();
 				}
+
 				break;
 
 			//center = group but.. well.. centered, so all we need to do is pre-emptively set the right side further in.
@@ -629,6 +630,7 @@ public class Toolbar extends Component {
 			if (btnSwap.visible){
 				btnSwap.setPos( right - btnSwap.right(), y+3);
 			}
+
 		}
 
 	}
@@ -689,7 +691,7 @@ public class Toolbar extends Component {
 	
 	private static class Tool extends Button {
 		
-		private static final int BGCOLOR = 0x1E1E1E;
+		private static final int BGCOLOR = 0x7B8073;
 		
 		private Image base;
 		private Image icon;
@@ -751,16 +753,13 @@ public class Toolbar extends Component {
 			if (active) {
 				base.resetColor();
 			} else {
-				if (SPDSettings.flickering()) {
-					base.tint( BGCOLOR, 0.7f );
-				}
+				base.tint( BGCOLOR, 0.7f );
 			}
 		}
 		
 		public void enable( boolean value ) {
 			if (value != active) {
-				float flicker = SPDSettings.flickering() ? 1f : 0.4f;
-				if (icon != null) icon.alpha( value ? 1f : flicker);
+				if (icon != null) icon.alpha( value ? 1f : 0.4f);
 				active = value;
 			}
 		}

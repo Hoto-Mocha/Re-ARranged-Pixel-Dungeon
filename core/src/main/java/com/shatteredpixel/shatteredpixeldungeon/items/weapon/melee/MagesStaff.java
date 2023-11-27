@@ -26,8 +26,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -85,10 +83,6 @@ public class MagesStaff extends MeleeWeapon {
 		bones = false;
 	}
 
-	public Wand getWand() {
-		return wand;
-	}
-
 	public MagesStaff() {
 		wand = null;
 	}
@@ -106,10 +100,6 @@ public class MagesStaff extends MeleeWeapon {
 		this.wand = wand;
 		updateWand(false);
 		wand.curCharges = wand.maxCharges;
-	}
-
-	public int getCurCharges() {
-		return wand.curCharges;
 	}
 
 	@Override
@@ -167,17 +157,11 @@ public class MagesStaff extends MeleeWeapon {
 
 	@Override
 	public int buffedVisiblyUpgraded() {
-		int lvl;
 		if (wand != null){
-			lvl =  Math.max(super.buffedVisiblyUpgraded(), wand.buffedVisiblyUpgraded());
+			return Math.max(super.buffedVisiblyUpgraded(), wand.buffedVisiblyUpgraded());
 		} else {
-			lvl =  super.buffedVisiblyUpgraded();
-		WeaponEmpower weaponEmpower = Dungeon.hero.buff(WeaponEmpower.class);
-		if (weaponEmpower != null && this.isEquipped( Dungeon.hero )) {
-			lvl += weaponEmpower.getLvl();
+			return super.buffedVisiblyUpgraded();
 		}
-		}
-		return lvl;
 	}
 
 	@Override
@@ -200,11 +184,6 @@ public class MagesStaff extends MeleeWeapon {
 				attacker instanceof Hero && ((Hero)attacker).subClass == HeroSubClass.BATTLEMAGE) {
 			if (wand.curCharges < wand.maxCharges) wand.partialCharge += 0.5f;
 			ScrollOfRecharging.charge((Hero)attacker);
-			wand.onHit(this, attacker, defender, damage);
-		}
-
-		if (wand != null &&
-				attacker instanceof Hero && Random.Int(3) < ((Hero)attacker).pointsInTalent(Talent.SOUL_OF_BATTLEMAGE)) {
 			wand.onHit(this, attacker, defender, damage);
 		}
 
@@ -313,10 +292,6 @@ public class MagesStaff extends MeleeWeapon {
 		if (wand != null){
 			wand.gainCharge(amt, overcharge);
 		}
-	}
-
-	public void loseCharge() {
-		wand.loseCharge();
 	}
 
 	public void applyWandChargeBuff(Char owner){

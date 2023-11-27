@@ -27,13 +27,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -67,11 +63,6 @@ public abstract class Plant implements Bundlable {
 			((Hero) ch).interrupt();
 		}
 
-		if (ch instanceof Mob && Dungeon.hero.hasTalent(Talent.WEAK_POISON)) {
-			Buff.affect(ch, Weakness.class, 1f+2*Dungeon.hero.pointsInTalent(Talent.WEAK_POISON));
-			Buff.affect(ch, Vulnerable.class, 1f+2*Dungeon.hero.pointsInTalent(Talent.WEAK_POISON));
-		}
-
 		if (Dungeon.level.heroFOV[pos] && Dungeon.hero.hasTalent(Talent.NATURES_AID)){
 			// 3/5 turns based on talent points spent
 			Barkskin.conditionallyAppend(Dungeon.hero, 2, 1 + 2*(Dungeon.hero.pointsInTalent(Talent.NATURES_AID)));
@@ -100,19 +91,12 @@ public abstract class Plant implements Bundlable {
 			}
 		}
 
-		if (Dungeon.hero.pointsInTalent(Talent.FARMER) > 1) {
-			seedChance += 0.2f;
-		}
-
-		if (Dungeon.hero.hasTalent(Talent.WITHDRAW_TRAP)) {
-			seedChance += 0.1f * Dungeon.hero.pointsInTalent(Talent.WITHDRAW_TRAP);
-		}
-
 		if (Random.Float() < seedChance){
 			if (seedClass != null && seedClass != Rotberry.Seed.class) {
 				Dungeon.level.drop(Reflection.newInstance(seedClass), pos).sprite.drop();
 			}
 		}
+		
 	}
 	
 	private static final String POS	= "pos";
@@ -133,7 +117,7 @@ public abstract class Plant implements Bundlable {
 
 	public String desc() {
 		String desc = Messages.get(this, "desc");
-		if (Dungeon.hero.subClass == HeroSubClass.WARDEN || Dungeon.hero.pointsInTalent(Talent.FARMER) == 3){
+		if (Dungeon.hero.subClass == HeroSubClass.WARDEN){
 			desc += "\n\n" + Messages.get(this, "warden_desc");
 		}
 		return desc;
@@ -168,26 +152,14 @@ public abstract class Plant implements Bundlable {
 				super.onThrow( cell );
 			} else {
 				Dungeon.level.plant( this, cell );
-				if (Dungeon.hero.subClass == HeroSubClass.WARDEN || Dungeon.hero.hasTalent(Talent.FARMER)) {
-					if (Random.Int(3) < Dungeon.hero.pointsInTalent(Talent.DENSE_GRASS)) {
-						for (int i : PathFinder.NEIGHBOURS24) {
-							int c = Dungeon.level.map[cell + i];
-							if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
-									|| c == Terrain.EMBERS || c == Terrain.GRASS){
-								Level.set(cell + i, Terrain.FURROWED_GRASS);
-								GameScene.updateMap(cell + i);
-								CellEmitter.get( cell + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
-							}
-						}
-					} else {
-						for (int i : PathFinder.NEIGHBOURS8) {
-							int c = Dungeon.level.map[cell + i];
-							if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
-									|| c == Terrain.EMBERS || c == Terrain.GRASS){
-								Level.set(cell + i, Terrain.FURROWED_GRASS);
-								GameScene.updateMap(cell + i);
-								CellEmitter.get( cell + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
-							}
+				if (Dungeon.hero.subClass == HeroSubClass.WARDEN) {
+					for (int i : PathFinder.NEIGHBOURS8) {
+						int c = Dungeon.level.map[cell + i];
+						if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+								|| c == Terrain.EMBERS || c == Terrain.GRASS){
+							Level.set(cell + i, Terrain.FURROWED_GRASS);
+							GameScene.updateMap(cell + i);
+							CellEmitter.get( cell + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
 						}
 					}
 				}
@@ -206,6 +178,7 @@ public abstract class Plant implements Bundlable {
 				hero.spend( TIME_TO_PLANT );
 
 				hero.sprite.operate( hero.pos );
+				
 			}
 		}
 		
@@ -241,7 +214,7 @@ public abstract class Plant implements Bundlable {
 		@Override
 		public String desc() {
 			String desc = Messages.get(plantClass, "desc");
-			if (Dungeon.hero.subClass == HeroSubClass.WARDEN || Dungeon.hero.pointsInTalent(Talent.FARMER) == 3){
+			if (Dungeon.hero.subClass == HeroSubClass.WARDEN){
 				desc += "\n\n" + Messages.get(plantClass, "warden_desc");
 			}
 			return desc;

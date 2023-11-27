@@ -220,25 +220,6 @@ public class Berserk extends Buff implements ActionIndicator.Action {
 		if (state != State.NORMAL) return;
 		float maxPower = 1f + 0.1667f*((Hero)target).pointsInTalent(Talent.ENDLESS_RAGE);
 		power = Math.min(maxPower, power + (damage/(float)target.HT)/3f );
-		if (((Hero) target).hasTalent(Talent.MAX_RAGE) && power >= maxPower && target.buff(Talent.MaxRageCooldown.class) == null) {
-			Buff.affect(target, Adrenaline.class, 10 * power * ((Hero) target).pointsInTalent(Talent.MAX_RAGE));
-			Buff.affect(target, Talent.MaxRageCooldown.class, 50f);
-		}
-		BuffIndicator.refreshHero(); //show new power immediately
-		powerLossBuffer = 3; //2 turns until rage starts dropping
-		if (power >= 1f){
-			ActionIndicator.setAction(this);
-		}
-	}
-
-	public void add(float amount) {
-		if (state != State.NORMAL) return;
-		float maxPower = 1f + 0.1667f*((Hero)target).pointsInTalent(Talent.ENDLESS_RAGE);
-		power = Math.min(maxPower, power + amount);
-		if (((Hero) target).hasTalent(Talent.MAX_RAGE) && power >= maxPower && target.buff(Talent.MaxRageCooldown.class) == null) {
-			Buff.affect(target, Adrenaline.class, 10 * power * ((Hero) target).pointsInTalent(Talent.MAX_RAGE));
-			Buff.affect(target, Talent.MaxRageCooldown.class, 50f);
-		}
 		BuffIndicator.refreshHero(); //show new power immediately
 		powerLossBuffer = 3; //2 turns until rage starts dropping
 		if (power >= 1f){
@@ -256,15 +237,6 @@ public class Berserk extends Buff implements ActionIndicator.Action {
 				}
 			}
 		}
-	}
-
-	public float getPower() {
-		return power;
-	}
-
-	public boolean isNormal() {
-		if (state == State.NORMAL) return true;
-		else return false;
 	}
 
 	@Override

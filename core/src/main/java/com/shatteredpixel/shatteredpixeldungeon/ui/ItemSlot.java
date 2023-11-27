@@ -23,14 +23,12 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -238,15 +236,6 @@ public class ItemSlot extends Button {
 			status.resetColor();
 		}
 
-		if (item instanceof MeleeWeapon &&
-				((MeleeWeapon) item).gun &&
-				Dungeon.hero.buff(MeleeWeapon.PrecisionShooting.class) != null &&
-				Dungeon.hero.buff(MeleeWeapon.PrecisionShooting.class).onUse &&
-				Dungeon.hero.buff(MeleeWeapon.Charger.class) != null &&
-				Dungeon.hero.buff(MeleeWeapon.Charger.class).charges > 0) {
-			status.hardlight(ENHANCED);
-		}
-
 		if (item.icon != -1 && (item.isIdentified() || (item instanceof Ring && ((Ring) item).isKnown()))){
 			extra.text( null );
 
@@ -312,22 +301,13 @@ public class ItemSlot extends Button {
 	public void enable( boolean value ) {
 		
 		active = value;
-
-		if (SPDSettings.flickering()) {
-			float alpha = value ? ENABLED : DISABLED;
-			sprite.alpha( alpha );
-			status.alpha( alpha );
-			extra.alpha( alpha );
-			level.alpha( alpha );
-			if (itemIcon != null) itemIcon.alpha( alpha );
-		}
-		else {
-			sprite.alpha( ENABLED );
-			status.alpha( ENABLED );
-			extra.alpha( ENABLED );
-			level.alpha( ENABLED );
-			if (itemIcon != null) itemIcon.alpha( ENABLED );
-		}
+		
+		float alpha = value ? ENABLED : DISABLED;
+		sprite.alpha( alpha );
+		status.alpha( alpha );
+		extra.alpha( alpha );
+		level.alpha( alpha );
+		if (itemIcon != null) itemIcon.alpha( alpha );
 	}
 
 	public void showExtraInfo( boolean show ){

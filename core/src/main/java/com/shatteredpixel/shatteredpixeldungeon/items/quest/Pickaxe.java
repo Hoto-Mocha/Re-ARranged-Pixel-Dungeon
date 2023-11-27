@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.quest;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -31,7 +29,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bat;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bee;
@@ -42,13 +39,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MinersTool;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
-import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.MiningLevel;
@@ -59,7 +49,6 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite.Glowing;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
@@ -71,8 +60,7 @@ import java.util.ArrayList;
 public class Pickaxe extends MeleeWeapon {
 	
 	public static final String AC_MINE	= "MINE";
-	public static final String AC_INFUSE= "INFUSE";
-
+	
 	public static final float TIME_TO_MINE = 2;
 	
 	private static final Glowing BLOODY = new Glowing( 0x550000 );
@@ -98,9 +86,6 @@ public class Pickaxe extends MeleeWeapon {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
-		if (Dungeon.hero.subClass == HeroSubClass.TREASUREHUNTER && Blacksmith.Quest.completed()) {
-			actions.add(AC_INFUSE);
-		}
 		if (Blacksmith.Quest.oldMiningQuest()) {
 			actions.add(AC_MINE);
 		}
@@ -160,93 +145,6 @@ public class Pickaxe extends MeleeWeapon {
 			GLog.w( Messages.get(this, "no_vein") );
 			
 		}
-		if (action.equals(AC_INFUSE)) {
-			curUser = hero;
-			GameScene.selectItem( itemSelector );
-		}
-	}
-
-	private final WndBag.ItemSelector itemSelector = new WndBag.ItemSelector() {
-
-		@Override
-		public String textPrompt() {
-			//FIXME give this its own prompt string
-			return Messages.get(Pickaxe.class, "infuse_title");
-		}
-
-		@Override
-		public Class<?extends Bag> preferredBag(){
-			return null;
-		}
-
-		@Override
-		public boolean itemSelectable(Item item) {
-			return item instanceof Spade && item.isIdentified();
-		}
-
-		@Override
-		public void onSelect( Item item ) {
-			Item result = changeItem(item);
-
-			if (result == null){
-				//This shouldn't ever trigger
-				GLog.n( Messages.get(Pickaxe.class, "nothing") );
-				curItem.collect( curUser.belongings.backpack );
-			} else {
-				if (item.isEquipped(Dungeon.hero)){
-					item.cursed = false; //to allow it to be unequipped
-					((EquipableItem)item).doUnequip(Dungeon.hero, false);
-					((EquipableItem)result).doEquip(Dungeon.hero);
-				} else {
-					item.detach(Dungeon.hero.belongings.backpack);
-					if (!result.collect()){
-						Dungeon.level.drop(result, curUser.pos).sprite.drop();
-					}
-				}
-				if (result.isIdentified()){
-					Catalog.setSeen(result.getClass());
-				}
-				Sample.INSTANCE.play( Assets.Sounds.EVOKE );
-				hero.sprite.operate( hero.pos );
-				CellEmitter.center( hero.pos ).burst( Speck.factory( Speck.STAR ), 10 );
-				GLog.p( Messages.get(Pickaxe.class, "infuse") );
-				detach(hero.belongings.backpack);
-				updateQuickslot();
-			}
-		}
-	};
-
-	public static Item changeItem( Item item ){
-		if (item instanceof Spade) {
-			return changeWeapon((Weapon) item);
-		} else {
-			return null;
-		}
-	}
-
-	private static Weapon changeWeapon( Weapon w ) {
-
-		Weapon n;
-
-		n = new MinersTool();
-
-		int level = w.level();
-		if (w.curseInfusionBonus) level--;
-		if (level > 0) {
-			n.upgrade( level );
-		} else if (level < 0) {
-			n.degrade( -level );
-		}
-
-		n.enchantment = w.enchantment;
-		n.curseInfusionBonus = w.curseInfusionBonus;
-		n.masteryPotionBonus = w.masteryPotionBonus;
-		n.levelKnown = w.levelKnown;
-		n.cursedKnown = w.cursedKnown;
-		n.cursed = w.cursed;
-		n.augment = w.augment;
-
-		return n;
 	}
 	
 	@Override

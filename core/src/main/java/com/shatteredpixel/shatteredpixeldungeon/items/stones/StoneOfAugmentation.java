@@ -21,47 +21,12 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.stones;
 
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AntimaterRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssultRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AutoRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Carbine;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CrudePistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FlameThrower;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GoldenPistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Handgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeavyMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HuntingRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.KSG;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Magnum;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MarksmanRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MiniGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MissileButton;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Pistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PlasmaCannon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RPG7;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Revolver;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RocketLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ShotGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SniperRifle;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SubMachinegun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalHandgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WA2000;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -80,49 +45,7 @@ public class StoneOfAugmentation extends InventoryStone {
 
 	@Override
 	protected boolean usableOnItem(Item item) {
-		if ( item instanceof CrudePistol
-		  || item instanceof Pistol
-		  || item instanceof GoldenPistol
-		  || item instanceof Handgun
-		  || item instanceof Magnum
-		  || item instanceof TacticalHandgun
-		  || item instanceof AutoHandgun
-
-		  || item instanceof DualPistol
-		  || item instanceof SubMachinegun
-		  || item instanceof AssultRifle
-		  || item instanceof HeavyMachinegun
-		  || item instanceof MiniGun
-		  || item instanceof AutoRifle
-
-		  || item instanceof Revolver
-		  || item instanceof HuntingRifle
-		  || item instanceof Carbine
-		  || item instanceof SniperRifle
-		  || item instanceof AntimaterRifle
-		  || item instanceof MarksmanRifle
-		  || item instanceof WA2000
-
-		  || item instanceof ShotGun
-		  || item instanceof KSG
-
-		  || item instanceof RocketLauncher
-		  || item instanceof RPG7
-
-		  || item instanceof FlameThrower
-		  || item instanceof PlasmaCannon
-		  || item instanceof MissileButton
-		  || item instanceof GrenadeLauncher
-		  || item instanceof GrenadeLauncherAP
-		  || item instanceof GrenadeLauncherHP
-		  || item instanceof SleepGun
-		  || item instanceof FrostGun
-		  || item instanceof ParalysisGun
-		) {
-			return false;
-		} else {
-			return ScrollOfEnchantment.enchantable(item);
-		}
+		return ScrollOfEnchantment.enchantable(item);
 	}
 
 	@Override
@@ -136,9 +59,6 @@ public class StoneOfAugmentation extends InventoryStone {
 		
 		weapon.augment = augment;
 		useAnimation();
-		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-			weapon.fix();
-		}
 		ScrollOfUpgrade.upgrade(curUser);
 		curItem.detach( curUser.belongings.backpack );
 		
@@ -148,9 +68,6 @@ public class StoneOfAugmentation extends InventoryStone {
 		
 		armor.augment = augment;
 		useAnimation();
-		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-			armor.fix();
-		}
 		ScrollOfUpgrade.upgrade(curUser);
 		curItem.detach( curUser.belongings.backpack );
 	}

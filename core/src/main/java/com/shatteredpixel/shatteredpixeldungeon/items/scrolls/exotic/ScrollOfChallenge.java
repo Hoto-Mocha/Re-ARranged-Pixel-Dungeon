@@ -143,45 +143,6 @@ public class ScrollOfChallenge extends ExoticScroll {
 
 		}
 
-		public void setup(int pos, int duration){
-
-			int dist;
-			if (Dungeon.depth == 5 || Dungeon.depth == 10 || Dungeon.depth == 20){
-				dist = 1; //smaller boss arenas
-			} else {
-
-				boolean[] visibleCells = new boolean[Dungeon.level.length()];
-				Point c = Dungeon.level.cellToPoint(pos);
-				ShadowCaster.castShadow(c.x, c.y, visibleCells, Dungeon.level.losBlocking, 8);
-				int count=0;
-				for (boolean b : visibleCells){
-					if (b) count++;
-				}
-
-				if (count < 30){
-					dist = 1;
-				} else if (count >= 100) {
-					dist = 3;
-				} else {
-					dist = 2;
-				}
-			}
-
-			PathFinder.buildDistanceMap( pos, BArray.or( Dungeon.level.passable, Dungeon.level.avoid, null ), dist );
-			for (int i = 0; i < PathFinder.distance.length; i++) {
-				if (PathFinder.distance[i] < Integer.MAX_VALUE && !arenaPositions.contains(i)) {
-					arenaPositions.add(i);
-				}
-			}
-			if (target != null) {
-				fx(false);
-				fx(true);
-			}
-
-			left = duration;
-
-		}
-
 		@Override
 		public boolean act() {
 

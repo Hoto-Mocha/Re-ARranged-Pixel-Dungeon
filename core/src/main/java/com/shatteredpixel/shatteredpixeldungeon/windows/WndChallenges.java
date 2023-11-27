@@ -26,9 +26,9 @@ import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.ui.CheckBox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
-import com.shatteredpixel.shatteredpixeldungeon.ui.MiniCheckBox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 
@@ -38,11 +38,11 @@ public class WndChallenges extends Window {
 
 	private static final int WIDTH		= 120;
 	private static final int TTL_HEIGHT = 16;
-	private static final int BTN_HEIGHT = 9;
+	private static final int BTN_HEIGHT = 16;
 	private static final int GAP        = 1;
 
 	private boolean editable;
-	private ArrayList<MiniCheckBox> boxes;
+	private ArrayList<CheckBox> boxes;
 
 	public WndChallenges( int checked, boolean editable ) {
 
@@ -65,20 +65,20 @@ public class WndChallenges extends Window {
 		for (int i=0; i < Challenges.NAME_IDS.length; i++) {
 
 			final String challenge = Challenges.NAME_IDS[i];
-
-			MiniCheckBox cb = new MiniCheckBox( Messages.titleCase(Messages.get(Challenges.class, challenge)));
+			
+			CheckBox cb = new CheckBox( Messages.titleCase(Messages.get(Challenges.class, challenge)) );
 			cb.checked( (checked & Challenges.MASKS[i]) != 0 );
 			cb.active = editable;
 
 			if (i > 0) {
 				pos += GAP;
 			}
-			cb.setRect( 0, pos, WIDTH-9, BTN_HEIGHT );
+			cb.setRect( 0, pos, WIDTH-16, BTN_HEIGHT );
 
 			add( cb );
 			boxes.add( cb );
-
-			IconButton info = new IconButton(Icons.get(Icons.MINI_INFO)){
+			
+			IconButton info = new IconButton(Icons.get(Icons.INFO)){
 				@Override
 				protected void onClick() {
 					super.onClick();
@@ -87,9 +87,9 @@ public class WndChallenges extends Window {
 					);
 				}
 			};
-			info.setRect(cb.right(), pos, 9, BTN_HEIGHT);
+			info.setRect(cb.right(), pos, 16, BTN_HEIGHT);
 			add(info);
-
+			
 			pos = cb.bottom();
 		}
 

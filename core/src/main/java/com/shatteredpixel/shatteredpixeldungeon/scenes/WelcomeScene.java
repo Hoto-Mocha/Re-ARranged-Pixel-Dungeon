@@ -85,17 +85,10 @@ public class WelcomeScene extends PixelScene {
 			return;
 		}
 
-		if (!SPDSettings.oldMusic()) {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.OLD_MAIN},
-					new float[]{1},
-					false);
-		} else {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.THEME_1, Assets.Music.THEME_2},
-					new float[]{1, 1},
-					false);
-		}
+		Music.INSTANCE.playTracks(
+				new String[]{Assets.Music.THEME_1, Assets.Music.THEME_2},
+				new float[]{1, 1},
+				false);
 
 		uiCamera.visible = false;
 
@@ -205,7 +198,7 @@ public class WelcomeScene extends PixelScene {
 				message += "\n";
 				message += "\n" + Messages.get(this, "patch_balance");
 				message += "\n" + Messages.get(this, "patch_bugfixes");
-				//message += "\n" + Messages.get(this, "patch_translations");
+				message += "\n" + Messages.get(this, "patch_translations");
 
 			}
 		} else {

@@ -23,8 +23,6 @@ package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
@@ -43,14 +41,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScrol
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FrostGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncher;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherAP;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.GrenadeLauncherHP;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ParalysisGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SleepGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.TippedDart;
@@ -73,22 +65,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 
 	@Override
 	protected boolean usableOnItem(Item item) {
-		Item second = null;
-		if (Dungeon.hero.belongings.secondWep != null) {
-			second = Dungeon.hero.belongings.secondWep;
-		}
-		if (Dungeon.hero.subClass == HeroSubClass.WIZARD && second != null) {
-			if (item == second) {
-				return false;
-			}
-		}
-		return (item instanceof MeleeWeapon
-				&& (!(item instanceof GrenadeLauncher))
-				&& (!(item instanceof GrenadeLauncherAP))
-				&& (!(item instanceof GrenadeLauncherHP))
-				&& (!(item instanceof SleepGun))
-				&& (!(item instanceof FrostGun))
-				&& (!(item instanceof ParalysisGun))) ||
+		return item instanceof MeleeWeapon ||
 				(item instanceof MissileWeapon && (!(item instanceof Dart) || item instanceof TippedDart)) ||
 				(item instanceof Potion && !(item instanceof Elixir || item instanceof Brew || item instanceof AlchemicalCatalyst)) ||
 				//the extra check here prevents a single scroll being used on itself
@@ -221,25 +198,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		Weapon n;
 		Generator.Category c;
 		if (w instanceof MeleeWeapon) {
-			if (((MeleeWeapon) w).tier == 7) {
-				if (Dungeon.hero.pointsInTalent(Talent.TRANSMUTATION_CONTROL) > 1) {
-					c = Generator.gunTiers[((MeleeWeapon)w).tier - 3];
-				} else {
-					c = Generator.wepTiers[((MeleeWeapon)w).tier - 3];
-				}
-			} else if (((MeleeWeapon) w).tier == 6) {
-				if (Dungeon.hero.pointsInTalent(Talent.TRANSMUTATION_CONTROL) > 1) {
-					c = Generator.gunTiers[((MeleeWeapon)w).tier - 2];
-				} else {
-					c = Generator.wepTiers[((MeleeWeapon)w).tier - 2];
-				}
-			} else {
-				if (Dungeon.hero.pointsInTalent(Talent.TRANSMUTATION_CONTROL) > 1) {
-					c = Generator.gunTiers[((MeleeWeapon)w).tier - 1];
-				} else {
-					c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
-				}
-			}
+			c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
 		} else {
 			c = Generator.misTiers[((MissileWeapon)w).tier - 1];
 		}
@@ -264,7 +223,6 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		n.cursedKnown = w.cursedKnown;
 		n.cursed = w.cursed;
 		n.augment = w.augment;
-		n.isUpgraded = w.isUpgraded;
 		n.enchantHardened = w.enchantHardened;
 		
 		return n;

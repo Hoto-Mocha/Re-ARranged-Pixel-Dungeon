@@ -79,15 +79,6 @@ public class Bleeding extends Buff {
 			this.source = source;
 		}
 	}
-
-	public void add( float level ) {
-		add( level, null );
-	}
-
-	public void add( float level, Class source ){
-		this.level += level;
-		this.source = source;
-	}
 	
 	@Override
 	public int icon() {

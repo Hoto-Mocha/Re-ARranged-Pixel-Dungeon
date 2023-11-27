@@ -27,7 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -43,13 +42,11 @@ public class Blocking extends Weapon.Enchantment {
 	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
 		
 		int level = Math.max( 0, weapon.buffedLvl() );
+
 		// lvl 0 - 10%
 		// lvl 1 ~ 12%
 		// lvl 2 ~ 14%
 		float procChance = (level+4f)/(level+40f) * procChanceMultiplier(attacker);
-		if (weapon instanceof TrueRunicBlade) {
-			procChance = 1;
-		}
 		if (Random.Float() < procChance){
 			float powerMulti = Math.max(1f, procChance);
 
@@ -57,6 +54,7 @@ public class Blocking extends Weapon.Enchantment {
 			b.setShield(Math.round(powerMulti * (2 + weapon.buffedLvl())));
 			attacker.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 5);
 		}
+		
 		return damage;
 	}
 	

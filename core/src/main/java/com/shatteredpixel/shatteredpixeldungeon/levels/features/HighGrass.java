@@ -21,18 +21,13 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.levels.features;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.ArmoredStatue;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -40,14 +35,12 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Camouflage;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Berry;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
 public class HighGrass {
@@ -63,7 +56,7 @@ public class HighGrass {
 		Char ch = Actor.findChar(pos);
 		
 		if (level.map[pos] == Terrain.FURROWED_GRASS){
-			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.SPECIALIST || ((Hero) ch).heroClass == HeroClass.PLANTER)){
+			if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.HUNTRESS){
 				//Do nothing
 				freezeTrample = true;
 			} else {
@@ -71,7 +64,7 @@ public class HighGrass {
 			}
 			
 		} else {
-			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.SPECIALIST || ((Hero) ch).heroClass == HeroClass.PLANTER)){
+			if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.HUNTRESS){
 				Level.set(pos, Terrain.FURROWED_GRASS);
 				freezeTrample = true;
 			} else {
@@ -129,9 +122,6 @@ public class HighGrass {
 				// Seed, scales from 1/25 to 1/9
 				if (Random.Int(25 - (naturalismLevel * 4)) == 0) {
 					level.drop(Generator.random(Generator.Category.SEED), pos).sprite.drop();
-					if (Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.SPROUT)) {
-						level.drop(Generator.random(Generator.Category.SEED), pos).sprite.drop();
-					}
 				}
 				
 				// Dew, scales from 1/6 to 1/4
@@ -157,34 +147,14 @@ public class HighGrass {
 					Camouflage.activate(statue, statue.armor().buffedLvl());
 				}
 			}
-
-			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
-				Buff.prolong(Dungeon.hero, Invisibility.class, Dungeon.hero.pointsInTalent(Talent.CAMOUFLAGE));
-				Sample.INSTANCE.play( Assets.Sounds.MELD );
-			}
-
-			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.BIO_ENERGY)) {
-				for (Buff b : hero.buffs()){
-					if (b instanceof Artifact.ArtifactBuff && !((Artifact.ArtifactBuff) b).isCursed() ) {
-						((Artifact.ArtifactBuff) b).charge(hero, hero.pointsInTalent(Talent.BIO_ENERGY)/2f);
-					}
-				}
-			}
-
-			//Healing
-			if (ch instanceof Hero) {
-				if (hero.hasTalent(Talent.KNOWLEDGE_HERB) && Random.Int(10) < 1+hero.pointsInTalent(Talent.KNOWLEDGE_HERB)) {
-					int healAmt = 1;
-					hero.heal(healAmt);
-				}
-			}
+			
 		}
 		
 		freezeTrample = false;
 		
 		if (ShatteredPixelDungeon.scene() instanceof GameScene) {
 			GameScene.updateMap(pos);
-
+			
 			CellEmitter.get(pos).burst(LeafParticle.LEVEL_SPECIFIC, 4);
 			if (Dungeon.level.heroFOV[pos]) Dungeon.observe();
 		}

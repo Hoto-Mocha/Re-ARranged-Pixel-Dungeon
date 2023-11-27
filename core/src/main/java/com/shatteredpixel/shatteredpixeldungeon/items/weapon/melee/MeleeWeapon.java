@@ -21,12 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
@@ -35,21 +31,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
-import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -57,18 +45,12 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.BArray;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.Callback;
-import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -80,39 +62,15 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public void activate(Char ch) {
 		super.activate(ch);
-		if (ch instanceof Hero && ch.buff(PrecisionShooting.class) != null) {
-			ch.buff(PrecisionShooting.class).detach();
-		}
 		if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.DUELIST){
 			Buff.affect(ch, Charger.class);
-		}
-		if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.DUELIST && gun && (hero != null && hero.STR() >= this.STRReq())){
-			Buff.affect(ch, PrecisionShooting.class);
-		}
-		if (ch instanceof Hero && ((Hero) ch).buff(PrecisionShooting.class) != null) {
-			if (((Hero) ch).belongings.weapon == null && ((Hero) ch).belongings.secondWep == null) {
-				((Hero) ch).buff(PrecisionShooting.class).detach();
-			} else {
-				if (((Hero) ch).belongings.weapon == null) {
-					if (!((Hero) ch).belongings.secondWep.gun) {
-						((Hero) ch).buff(PrecisionShooting.class).detach();
-					}
-				} else if (((Hero) ch).belongings.secondWep == null) {
-					if (!((Hero) ch).belongings.weapon.gun) {
-						((Hero) ch).buff(PrecisionShooting.class).detach();
-					}
-				} else {
-					if (!((Hero) ch).belongings.weapon.gun && !((Hero) ch).belongings.secondWep.gun) {
-						((Hero) ch).buff(MeleeWeapon.PrecisionShooting.class).detach();
-					}
-				}
-			}
 		}
 	}
 
 	@Override
 	public String defaultAction() {
-		if (Dungeon.hero != null && (Dungeon.hero.heroClass == HeroClass.DUELIST || Dungeon.hero.hasTalent(Talent.SWIFT_EQUIP)) && !gun && !(this instanceof TacticalShield)){
+		if (Dungeon.hero != null && (Dungeon.hero.heroClass == HeroClass.DUELIST
+			|| Dungeon.hero.hasTalent(Talent.SWIFT_EQUIP))){
 			return AC_ABILITY;
 		} else {
 			return super.defaultAction();
@@ -140,15 +98,7 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public void execute(Hero hero, String action) {
 		super.execute(hero, action);
-		if ((this instanceof GrenadeLauncher ||
-			this instanceof GrenadeLauncherAP ||
-			this instanceof GrenadeLauncherHP ||
-			this instanceof SleepGun ||
-			this instanceof FrostGun ||
-			this instanceof ParalysisGun) && action.equals(AC_ABILITY)) {
-			execute(hero, defaultAction);
-			return;
-		}
+
 		if (action.equals(AC_ABILITY)){
 			usesTargeting = false;
 			if (!isEquipped(hero)) {
@@ -267,18 +217,10 @@ public class MeleeWeapon extends Weapon {
 			Buff.affect(hero, Barrier.class).setShield(3);
 		}
 
-		if (hero.hasTalent(Talent.SKILLED_HAND)) {
-			Buff.affect(hero, Talent.SkilledHandTracker.class);
-		}
-
 		if (hero.buff(Talent.CombinedLethalityAbilityTracker.class) != null
 				&& hero.buff(Talent.CombinedLethalityAbilityTracker.class).weapon != null
 				&& hero.buff(Talent.CombinedLethalityAbilityTracker.class).weapon != this){
 			Buff.affect(hero, Talent.CombinedLethalityTriggerTracker.class, 5f);
-		}
-
-		if (hero.hasTalent(Talent.MOMENTARY_UPGRADE)) {
-			Buff.affect(hero, WeaponEmpower.class).set(hero.pointsInTalent(Talent.MOMENTARY_UPGRADE), 3f);
 		}
 
 		updateQuickslot();
@@ -307,16 +249,8 @@ public class MeleeWeapon extends Weapon {
 				Buff.affect(hero, MonkEnergy.class).processCombinedEnergy(tracker);
 			}
 		}
-		if (hero.hasTalent(Talent.AGGRESSIVE_MOVEMENT)) {
-			Talent.AgressiveMovementAbilityTracker tracker = hero.buff(Talent.AgressiveMovementAbilityTracker.class);
-			if (tracker == null){
-				Buff.prolong(hero, Talent.AgressiveMovementAbilityTracker.class, hero.cooldown()).wepAbilUsed = true;
-			} else {
-				tracker.wepAbilUsed = true;
-			}
-		}
-		if (hero.buff(Talent.CounterAbilityTracker.class) != null){
-			hero.buff(Talent.CounterAbilityTracker.class).detach();
+		if (hero.buff(Talent.CounterAbilityTacker.class) != null){
+			hero.buff(Talent.CounterAbilityTacker.class).detach();
 		}
 	}
 
@@ -333,7 +267,7 @@ public class MeleeWeapon extends Weapon {
 
 	public final float abilityChargeUse(Hero hero, Char target){
 		float chargeUse = baseChargeUse(hero, target);
-		if (hero.buff(Talent.CounterAbilityTracker.class) != null){
+		if (hero.buff(Talent.CounterAbilityTacker.class) != null){
 			chargeUse = Math.max(0, chargeUse-0.5f*hero.pointsInTalent(Talent.COUNTER_ABILITY));
 		}
 		return chargeUse;
@@ -358,7 +292,6 @@ public class MeleeWeapon extends Weapon {
 	}
 
 	private static boolean evaluatingTwinUpgrades = false;
-	private static boolean evaluatingWizardUpgrades = false;
 	@Override
 	public int buffedLvl() {
 		if (!evaluatingTwinUpgrades && isEquipped(Dungeon.hero) && Dungeon.hero.hasTalent(Talent.TWIN_UPGRADES)){
@@ -379,21 +312,6 @@ public class MeleeWeapon extends Weapon {
 
 			}
 		}
-
-		if (!evaluatingWizardUpgrades && isEquipped(Dungeon.hero) && hero.subClass == HeroSubClass.WIZARD){
-			KindOfWeapon other = null;
-			if (Dungeon.hero.belongings.weapon() != this) other = Dungeon.hero.belongings.weapon();
-
-			if (other instanceof MeleeWeapon) {
-				evaluatingWizardUpgrades = true;
-				int otherLevel = other.buffedLvl();
-				evaluatingWizardUpgrades = false;
-
-				if (otherLevel > super.buffedLvl()) {
-					return otherLevel;
-				}
-			}
-		}
 		return super.buffedLvl();
 	}
 
@@ -408,7 +326,7 @@ public class MeleeWeapon extends Weapon {
 			if (((Hero) owner).heroClass != HeroClass.DUELIST) {
 				//persistent +10%/20%/30% ACC for other heroes
 				ACC *= 1f + 0.1f * ((Hero) owner).pointsInTalent(Talent.PRECISE_ASSAULT);
-			} else if ((this instanceof Flail && owner.buff(Flail.SpinAbilityTracker.class) != null) || (this instanceof ChainFlail && owner.buff(ChainFlail.SpinAbilityTracker.class) != null)){
+			} else if (this instanceof Flail && owner.buff(Flail.SpinAbilityTracker.class) != null){
 				//do nothing, this is not a regular attack so don't consume preciase assault
 			} else if (owner.buff(Talent.PreciseAssaultTracker.class) != null) {
 				// 2x/4x/8x ACC for duelist if she just used a weapon ability
@@ -430,19 +348,20 @@ public class MeleeWeapon extends Weapon {
 				damage += Random.IntRange( 0, exStr );
 			}
 		}
-
+		
 		return damage;
 	}
-
+	
 	@Override
 	public String info() {
+
 		String info = desc();
 
 		if (levelKnown) {
 			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
 			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Weapon.class, "too_heavy");
-			} else if (Dungeon.hero.STR() > STRReq()) {
+			} else if (Dungeon.hero.STR() > STRReq()){
 				info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
 			}
 		} else {
@@ -451,14 +370,20 @@ public class MeleeWeapon extends Weapon {
 				info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
 			}
 		}
+
 		String statsInfo = statsInfo();
 		if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
+
 		switch (augment) {
 			case SPEED:
 				info += " " + Messages.get(Weapon.class, "faster");
-				break; case DAMAGE: info += " " + Messages.get(Weapon.class, "stronger");
-				break; case NONE:
+				break;
+			case DAMAGE:
+				info += " " + Messages.get(Weapon.class, "stronger");
+				break;
+			case NONE:
 		}
+
 		if (enchantment != null && (cursedKnown || !enchantment.curse())){
 			info += "\n\n" + Messages.capitalize(Messages.get(Weapon.class, "enchanted", enchantment.name()));
 			if (enchantHardened) info += " " + Messages.get(Weapon.class, "enchant_hardened");
@@ -466,7 +391,8 @@ public class MeleeWeapon extends Weapon {
 		} else if (enchantHardened){
 			info += "\n\n" + Messages.get(Weapon.class, "hardened_no_enchant");
 		}
-		if (cursed && isEquipped(Dungeon.hero)) {
+
+		if (cursed && isEquipped( Dungeon.hero )) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
 		} else if (cursedKnown && cursed) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed");
@@ -477,24 +403,15 @@ public class MeleeWeapon extends Weapon {
 				info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
 			}
 		}
-		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown && this.buffedLvl() > 0) {
-			info += "\n\n" + Messages.get(Item.class, "durability_weapon", durability(), maxDurability());
-		}
+
 		//the mage's staff has no ability as it can only be gained by the mage
 		if (Dungeon.hero.heroClass == HeroClass.DUELIST && !(this instanceof MagesStaff)){
 			info += "\n\n" + Messages.get(this, "ability_desc");
 		}
-		if (critChance() > 0 && isEquipped(Dungeon.hero)) {
-			info += "\n\n" + Messages.get(this, "crit_chance", critChance());
-		}
+		
 		return info;
 	}
-
-	@Override
-	public int maxDurability( int lvl ) {
-		return 5 * (lvl < 16 ? 16 - lvl : 1);
-	}
-
+	
 	public String statsInfo(){
 		return Messages.get(this, "stats_desc");
 	}
@@ -582,7 +499,7 @@ public class MeleeWeapon extends Weapon {
 				secondPartialCharge = 0;
 			}
 
-			if (ActionIndicator.action != this && (Dungeon.hero.subClass == HeroSubClass.CHAMPION || Dungeon.hero.subClass == HeroSubClass.FENCER)) {
+			if (ActionIndicator.action != this && Dungeon.hero.subClass == HeroSubClass.CHAMPION) {
 				ActionIndicator.setAction(this);
 			}
 
@@ -592,7 +509,7 @@ public class MeleeWeapon extends Weapon {
 
 		@Override
 		public void fx(boolean on) {
-			if (on && (Dungeon.hero.subClass == HeroSubClass.CHAMPION || Dungeon.hero.subClass == HeroSubClass.FENCER)) {
+			if (on && Dungeon.hero.subClass == HeroSubClass.CHAMPION) {
 				ActionIndicator.setAction(this);
 			}
 		}
@@ -604,20 +521,11 @@ public class MeleeWeapon extends Weapon {
 		}
 
 		public int chargeCap(){
-			return Math.min(10, 3 + (Dungeon.hero.lvl-1)/3)+Dungeon.hero.pointsInTalent(Talent.ACCUMULATION);
+			return Math.min(10, 3 + (Dungeon.hero.lvl-1)/3);
 		}
 
 		public int secondChargeCap(){
 			return Math.round(chargeCap() * secondChargeMultiplier());
-		}
-
-		public float chargeMultiplier(){
-			//100% - 125%, depending on talent
-			if (secondCharges < secondChargeCap()) {
-				return 1;
-			} else {
-				return 1 + 0.078f * Dungeon.hero.pointsInTalent(Talent.FASTER_CHARGE);
-			}
 		}
 
 		public float secondChargeMultiplier(){
@@ -663,38 +571,22 @@ public class MeleeWeapon extends Weapon {
 
 		@Override
 		public String actionName() {
-			if (hero.subClass == HeroSubClass.FENCER) {
-				return Messages.get(MeleeWeapon.class, "dash");
-			} else {
-				return Messages.get(MeleeWeapon.class, "swap");
-			}
+			return Messages.get(MeleeWeapon.class, "swap");
 		}
 
 		@Override
 		public int actionIcon() {
-			if (hero.subClass == HeroSubClass.CHAMPION) {
-				return HeroIcon.WEAPON_SWAP;
-			}
-			else {
-				return 0;
-			}
+			return HeroIcon.WEAPON_SWAP;
 		}
 
 		@Override
 		public Visual primaryVisual() {
 			Image ico;
-			if (hero.subClass == HeroSubClass.FENCER) {
-				ico = new BuffIcon(BuffIndicator.HASTE, true);
-				ico.hardlight(0x5A00B2);
-				return ico;
-			} else {
-				if (Dungeon.hero.belongings.weapon == null){
-					ico = new HeroIcon(this);
-				} else {
-					ico = new ItemSprite(Dungeon.hero.belongings.weapon);
-				}
+			if (Dungeon.hero.belongings.weapon == null){
+				ico = new HeroIcon(this);
+ 			} else {
+				ico = new ItemSprite(Dungeon.hero.belongings.weapon);
 			}
-
 			ico.width += 4; //shift slightly to the left to separate from smaller icon
 			return ico;
 		}
@@ -702,18 +594,14 @@ public class MeleeWeapon extends Weapon {
 		@Override
 		public Visual secondaryVisual() {
 			Image ico;
-			if (hero.subClass == HeroSubClass.CHAMPION) {
-				if (Dungeon.hero.belongings.secondWep == null){
-					ico = new HeroIcon(this);
-				} else {
-					ico = new ItemSprite(Dungeon.hero.belongings.secondWep);
-				}
-				ico.scale.set(PixelScene.align(0.51f));
-				ico.brightness(0.6f);
-				return ico;
+			if (Dungeon.hero.belongings.secondWep == null){
+				ico = new HeroIcon(this);
 			} else {
-				return null;
+				ico = new ItemSprite(Dungeon.hero.belongings.secondWep);
 			}
+			ico.scale.set(PixelScene.align(0.51f));
+			ico.brightness(0.6f);
+			return ico;
 		}
 
 		@Override
@@ -723,339 +611,26 @@ public class MeleeWeapon extends Weapon {
 
 		@Override
 		public void doAction() {
-			if (Dungeon.hero.subClass != HeroSubClass.CHAMPION && Dungeon.hero.subClass != HeroSubClass.FENCER){
+			if (Dungeon.hero.subClass != HeroSubClass.CHAMPION){
 				return;
 			}
 
-			if (Dungeon.hero.subClass == HeroSubClass.CHAMPION) {
-				if (Dungeon.hero.belongings.secondWep == null && Dungeon.hero.belongings.backpack.items.size() >= Dungeon.hero.belongings.backpack.capacity()){
-					GLog.w(Messages.get(MeleeWeapon.class, "swap_full"));
-					return;
-				}
-
-				KindOfWeapon temp = Dungeon.hero.belongings.weapon;
-				Dungeon.hero.belongings.weapon = Dungeon.hero.belongings.secondWep;
-				Dungeon.hero.belongings.secondWep = temp;
-
-				Dungeon.hero.sprite.operate(Dungeon.hero.pos);
-				Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
-
-				if (hero.buff(Talent.QuickFollowupTracker.class) != null) {
-					hero.buff(Talent.QuickFollowupTracker.class).detach();
-				}
-
-				if (hero.buff(Talent.QuickFollowupCooldown.class) == null && hero.hasTalent(Talent.QUICK_FOLLOWUP)) {
-					Buff.affect(hero, Talent.QuickFollowupTracker.class);
-					Buff.affect(hero, Talent.QuickFollowupCooldown.class, 10f);
-				}
-
-				ActionIndicator.setAction(this);
-				Item.updateQuickslot();
-				AttackIndicator.updateState();
-			} else {
-				float chargeToUse = 1f;
-
-				if (hero.buff(DashTracker.class) != null) {
-					chargeToUse *= 0.5f;
-				}
-				if (hero.hasTalent(Talent.CLAM_STEPS)) {
-					chargeToUse *= Math.pow(0.795, hero.pointsInTalent(Talent.CLAM_STEPS));
-				}
-				Talent.AgressiveMovementAbilityTracker tracker = hero.buff(Talent.AgressiveMovementAbilityTracker.class);
-				if (tracker != null && tracker.wepAbilUsed){
-					chargeToUse *= 0.5f;
-				}
-				if (charges < chargeToUse) {
-					GLog.w(Messages.get(MeleeWeapon.class, "ability_no_charge"));
-				} else {
-					GameScene.selectCell(dasher);
-				}
-			}
-		}
-
-		public void useCharges(float amount) {
-			partialCharge -= amount;
-			while (partialCharge < 0 && charges > 0) {
-				charges--;
-				partialCharge++;
-			}
-		}
-	}
-
-	private static CellSelector.Listener dasher = new CellSelector.Listener() {
-		@Override
-		public void onSelect( Integer target ) {
-			if (target == null || target == -1 || (!Dungeon.level.visited[target] && !Dungeon.level.mapped[target])){
+			if (Dungeon.hero.belongings.secondWep == null && Dungeon.hero.belongings.backpack.items.size() >= Dungeon.hero.belongings.backpack.capacity()){
+				GLog.w(Messages.get(MeleeWeapon.class, "swap_full"));
 				return;
 			}
 
-			//chains cannot be used to go where it is impossible to walk to
-			PathFinder.buildDistanceMap(target, BArray.or(Dungeon.level.passable, Dungeon.level.avoid, null));
-			if (PathFinder.distance[hero.pos] == Integer.MAX_VALUE){
-				GLog.w( Messages.get(MeleeWeapon.class, "dash_bad_position") );
-				return;
-			}
+			KindOfWeapon temp = Dungeon.hero.belongings.weapon;
+			Dungeon.hero.belongings.weapon = Dungeon.hero.belongings.secondWep;
+			Dungeon.hero.belongings.secondWep = temp;
 
-			if (hero.rooted){
-				GLog.w( Messages.get(MeleeWeapon.class, "rooted") );
-				return;
-			}
+			Dungeon.hero.sprite.operate(Dungeon.hero.pos);
+			Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
 
-			int range = 2;
-			if (hero.hasTalent(Talent.SOULIZE)) {
-				range += 1;
-			}
-
-			if (Dungeon.level.distance(hero.pos, target) > range){
-				GLog.w(Messages.get(MeleeWeapon.class, "dash_bad_position"));
-				return;
-			}
-
-			Ballistica dash = new Ballistica(hero.pos, target, Ballistica.PROJECTILE);
-			if (hero.pointsInTalent(Talent.SOULIZE) > 1) {
-				dash = new Ballistica(hero.pos, target, Ballistica.DASH);
-				if (hero.pointsInTalent(Talent.SOULIZE) > 2) {
-					dash = new Ballistica(hero.pos, target, Ballistica.STOP_TARGET);
-				}
-			}
-
-			if (!dash.collisionPos.equals(target)
-					|| Actor.findChar(target) != null
-					|| (Dungeon.level.solid[target] && !Dungeon.level.passable[target])
-					|| Dungeon.level.map[target] == Terrain.CHASM){
-				GLog.w(Messages.get(MeleeWeapon.class, "dash_bad_position"));
-				return;
-			}
-
-			hero.busy();
-			Sample.INSTANCE.play(Assets.Sounds.MISS);
-			hero.sprite.emitter().start(Speck.factory(Speck.JET), 0.01f, Math.round(4 + 2*Dungeon.level.trueDistance(hero.pos, target)));
-			hero.sprite.jump(hero.pos, target, 0, 0.1f, new Callback() {
-				@Override
-				public void call() {
-					if (Dungeon.level.map[hero.pos] == Terrain.OPEN_DOOR) {
-						Door.leave( hero.pos );
-					}
-					hero.pos = target;
-					if (hero.pointsInTalent(Talent.AGGRESSIVE_MOVEMENT) > 1) {
-						for (int i : PathFinder.NEIGHBOURS8){
-							Char ch = Actor.findChar( target+i );
-							if (ch != null && ch.alignment != Char.Alignment.ALLY){
-								ch.damage(Math.round(hero.belongings.weapon.damageRoll(hero) * 0.1f), Dungeon.hero);
-								if (hero.pointsInTalent(Talent.AGGRESSIVE_MOVEMENT) > 2) {
-									Buff.affect(ch, Vulnerable.class, 3f);
-								}
-							}
-						}
-						Sample.INSTANCE.play(Assets.Sounds.BLAST);
-						WandOfBlastWave.BlastWave.blast(target);
-						Camera.main.shake(0.5f, 0.5f);
-					}
-					Dungeon.level.occupyCell(hero);
-					hero.next();
-				}
-			});
-
-			Buff.affect(hero, DashAttack.class).set();
-
-			float chargeToUse = 1f;
-
-			if (hero.buff(DashTracker.class) != null) {
-				chargeToUse *= 0.5f;
-				hero.buff(DashTracker.class).detach();
-			}
-			if (hero.hasTalent(Talent.CLAM_STEPS)) {
-				chargeToUse *= Math.pow(0.795, hero.pointsInTalent(Talent.CLAM_STEPS));
-			}
-			Talent.AgressiveMovementAbilityTracker tracker = hero.buff(Talent.AgressiveMovementAbilityTracker.class);
-			if (tracker != null && tracker.wepAbilUsed){
-				chargeToUse *= 0.5f;
-				tracker.detach();
-			}
-			hero.buff(Charger.class).useCharges(chargeToUse);
-
-			if (hero.hasTalent(Talent.KINETIC_MOVEMENT)) {
-				Buff.affect(hero, DashTracker.class).set();
-			}
-
+			ActionIndicator.setAction(this);
 			Item.updateQuickslot();
 			AttackIndicator.updateState();
 		}
-		@Override
-		public String prompt() {
-			return Messages.get(SpiritBow.class, "prompt");
-		}
-	};
-
-	public static class DashAttack extends Buff {
-		{
-			announced = false;
-			type = buffType.POSITIVE;
-		}
-
-		int duration = 0;
-		float dmgMulti = 1.1f;
-
-		public void set() {
-			dmgMulti = 1.1f * (float)Math.pow(1.05, hero.pointsInTalent(Talent.CRITICAL_MOMENTUM));
-		}
-
-		public float getDmgMulti() {
-			return dmgMulti;
-		}
-
-		@Override
-		public boolean act() {
-			duration --;
-			if (duration <= 0) {
-				detach();
-			}
-			spend(TICK);
-			return true;
-		}
-
-		public static final String DURATION          = "duration";
-		public static final String DMG_MULTI         = "dmgMulti";
-
-		@Override
-		public void storeInBundle(Bundle bundle) {
-			super.storeInBundle(bundle);
-			bundle.put(DURATION, duration);
-			bundle.put(DMG_MULTI, dmgMulti);
-		}
-
-		@Override
-		public void restoreFromBundle(Bundle bundle) {
-			super.restoreFromBundle(bundle);
-			duration = bundle.getInt(DURATION);
-			dmgMulti = bundle.getFloat(DMG_MULTI);
-		}
 	}
 
-	public static class DashTracker extends Buff {
-		{
-			announced = false;
-			type = buffType.POSITIVE;
-		}
-
-		float maxDuration;
-		float duration;
-
-		public void set() {
-			maxDuration = hero.cooldown()+(hero.pointsInTalent(Talent.KINETIC_MOVEMENT));
-			duration = maxDuration;
-		}
-
-		@Override
-		public boolean act() {
-			duration -= 1;
-			if (duration <= 0) {
-				detach();
-			}
-			spend(TICK);
-			return true;
-		}
-
-		@Override
-		public int icon() {
-			return BuffIndicator.TIME;
-		}
-
-		public float iconFadePercent() {
-			return Math.max(0, 1-duration / maxDuration);
-		}
-
-		@Override
-		public String desc() {
-			return Messages.get(this, "desc", Messages.decimalFormat("#.##", duration));
-		}
-
-		public static final String DURATION          = "duration";
-		public static final String MAX_DURATION      = "maxDuration";
-
-		@Override
-		public void storeInBundle(Bundle bundle) {
-			super.storeInBundle(bundle);
-			bundle.put(DURATION, duration);
-			bundle.put(MAX_DURATION, maxDuration);
-		}
-
-		@Override
-		public void restoreFromBundle(Bundle bundle) {
-			super.restoreFromBundle(bundle);
-			duration = bundle.getFloat(DURATION);
-			maxDuration = bundle.getFloat(MAX_DURATION);
-		}
-	}
-
-	public static class PrecisionShooting extends Buff {
-
-		public static float HIT_CHARGE_USE = 1f;
-
-		public boolean onUse = true;
-
-		{
-			announced = true;
-			type = buffType.POSITIVE;
-		}
-
-		public int hitsLeft(){
-			MeleeWeapon.Charger charger = Buff.affect(target, MeleeWeapon.Charger.class);
-			float charges = charger.charges;
-			charges += charger.partialCharge;
-
-			return (int)(charges/HIT_CHARGE_USE);
-		}
-
-		public int maxHit(){
-			MeleeWeapon.Charger charger = Buff.affect(target, MeleeWeapon.Charger.class);
-			float maxCharges = charger.chargeCap();
-
-			return (int)(maxCharges);
-		}
-
-		@Override
-		public boolean act() {
-			if (hero.heroClass != HeroClass.DUELIST) {
-				detach();
-			}
-			spend(TICK);
-			return true;
-		}
-
-		@Override
-		public int icon() {
-			return BuffIndicator.DUEL_GUN;
-		}
-
-		@Override
-		public void tintIcon(Image icon) {
-			if (hitsLeft() == 0 || !onUse){
-				icon.brightness(0.25f);
-			} else {
-				icon.resetColor();
-			}
-		}
-
-		@Override
-		public float iconFadePercent() {
-			float usableCharges = hitsLeft()*HIT_CHARGE_USE;
-
-			return 1f - (usableCharges /  Buff.affect(target, MeleeWeapon.Charger.class).chargeCap());
-		}
-
-		@Override
-		public String iconTextDisplay() {
-			return Integer.toString(hitsLeft());
-		}
-
-		@Override
-		public String desc() {
-			if (!onUse) {
-				return Messages.get(this, "no_use", hitsLeft(), maxHit());
-			} else {
-				return Messages.get(this, "desc", hitsLeft(), maxHit());
-			}
-		}
-	}
 }

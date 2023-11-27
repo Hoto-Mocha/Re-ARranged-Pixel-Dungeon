@@ -21,21 +21,16 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Demonization;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
@@ -50,30 +45,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Multiplicity;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Overgrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Stench;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Affection;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Afterimage;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Camouflage;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Entanglement;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Flow;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Mirrorimage;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Obfuscation;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Repulsion;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Satisfying;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Stone;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Swiftness;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Thorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LanceNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ObsidianShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SpearNShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TacticalShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -261,8 +245,8 @@ public class Armor extends EquipableItem {
 		if (seal.getGlyph() != null){
 			inscribe(seal.getGlyph());
 		}
-		if (isEquipped(hero)){
-			Buff.affect(hero, BrokenSeal.WarriorShield.class).setArmor(this);
+		if (isEquipped(Dungeon.hero)){
+			Buff.affect(Dungeon.hero, BrokenSeal.WarriorShield.class).setArmor(this);
 		}
 	}
 
@@ -307,20 +291,10 @@ public class Armor extends EquipableItem {
 		if (Dungeon.isChallenged(Challenges.NO_ARMOR)){
 			return 1 + tier + lvl + augment.defenseFactor(lvl);
 		}
-		int upgradefactor = tier;
-		if (hero.hasTalent(Talent.CRAFTMANS_SKILLS) && tier <= 2+ hero.pointsInTalent(Talent.CRAFTMANS_SKILLS)) {
-			upgradefactor ++;
-		}
-		if (hasGlyph(Afterimage.class, hero)) {
-			upgradefactor --;
-		}
-		int max;
-		max = (upgradefactor) * (2 + lvl) + augment.defenseFactor(lvl);
-		if (hero.hasTalent(Talent.ARMOR_ADAPTION) && this.STRReq() < hero.STR()) {
-			max += (hero.STR() - this.STRReq())*hero.pointsInTalent(Talent.ARMOR_ADAPTION);
-		}
-		if (lvl > max) {
-			return ((lvl - max) + 1) / 2;
+
+		int max = tier * (2 + lvl) + augment.defenseFactor(lvl);
+		if (lvl > max){
+			return ((lvl - max)+1)/2;
 		} else {
 			return max;
 		}
@@ -357,22 +331,6 @@ public class Armor extends EquipableItem {
 			if (momentum != null){
 				evasion += momentum.evasionBonus(((Hero) owner).lvl, Math.max(0, -aEnc));
 			}
-
-			Demonization demonization = owner.buff(Demonization.class);
-			if (demonization != null && demonization.isDemonated()) {
-				evasion += demonization.evasionBonus(((Hero) owner).lvl, Math.max(0, -aEnc));
-			}
-
-			MeleeWeapon.Charger charger = owner.buff(MeleeWeapon.Charger.class);
-			if (charger != null && hero.hasTalent(Talent.UNENCUMBERED_MOVEMENT)) {
-				int wEnc = ((Hero) owner).belongings.weapon.STRReq() - ((Hero) owner).STR();
-				evasion += 0.5f*Math.max(0, -aEnc);
-				evasion += 0.5f*Math.max(0, -wEnc);
-			}
-
-			if (hasGlyph(Afterimage.class, owner)){
-				evasion *= Math.pow(1.2f, this.buffedLvl());
-			}
 		}
 		
 		return evasion + augment.evasionFactor(buffedLvl());
@@ -383,10 +341,6 @@ public class Armor extends EquipableItem {
 		if (owner instanceof Hero) {
 			int aEnc = STRReq() - ((Hero) owner).STR();
 			if (aEnc > 0) speed /= Math.pow(1.2, aEnc);
-
-			if (hero.hasTalent(Talent.LIGHT_MOVEMENT) && aEnc < 0) {
-				speed *= Math.pow(1+0.05*hero.pointsInTalent(Talent.LIGHT_MOVEMENT), -aEnc);
-			}
 		}
 		
 		if (hasGlyph(Swiftness.class, owner)) {
@@ -430,22 +384,7 @@ public class Armor extends EquipableItem {
 		if (curseInfusionBonus) level += 1 + level/6;
 		return level;
 	}
-
-	@Override
-	public int buffedLvl() {
-		int lvl;
-		if (isEquipped( hero ) || hero.belongings.contains( this )){
-			lvl = super.buffedLvl();
-		} else {
-			lvl = level();
-		}
-		ArmorEmpower armorEmpower = hero.buff(ArmorEmpower.class);
-		if (armorEmpower != null && isEquipped( hero )) {
-			lvl += armorEmpower.getLvl();
-		}
-		return lvl;
-	}
-
+	
 	@Override
 	public Item upgrade() {
 		return upgrade( false );
@@ -488,10 +427,6 @@ public class Armor extends EquipableItem {
 		if (seal != null && seal.level() == 0)
 			seal.upgrade();
 
-		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-			upgradeFix();
-		}
-
 		return super.upgrade();
 	}
 	
@@ -500,20 +435,9 @@ public class Armor extends EquipableItem {
 		if (glyph != null && defender.buff(MagicImmune.class) == null) {
 			damage = glyph.proc( this, attacker, defender, damage );
 		}
-
-		if (hero.subClass == HeroSubClass.WEAPONMASTER) {
-			if (hero.belongings.weapon instanceof RoundShield
-					|| hero.belongings.weapon instanceof Greatsword
-					|| hero.belongings.weapon instanceof ObsidianShield
-					|| hero.belongings.weapon instanceof TacticalShield
-					|| hero.belongings.weapon instanceof SpearNShield
-					|| hero.belongings.weapon instanceof LanceNShield) {
-				damage *= 1 - 0.03f * Math.min(hero.belongings.weapon.buffedLvl()+1, 10);
-			}
-		}
 		
-		if (!levelKnown && defender == hero) {
-			float uses = Math.min( availableUsesToID, Talent.itemIDSpeedFactor(hero, this) );
+		if (!levelKnown && defender == Dungeon.hero) {
+			float uses = Math.min( availableUsesToID, Talent.itemIDSpeedFactor(Dungeon.hero, this) );
 			availableUsesToID -= uses;
 			usesLeftToID -= uses;
 			if (usesLeftToID <= 0) {
@@ -521,10 +445,6 @@ public class Armor extends EquipableItem {
 				GLog.p( Messages.get(Armor.class, "identify") );
 				Badges.validateItemLevelAquired( this );
 			}
-		}
-
-		if (Dungeon.isChallenged(Challenges.DURABILITY)) {
-			use();
 		}
 		
 		return damage;
@@ -552,13 +472,13 @@ public class Armor extends EquipableItem {
 
 			info += "\n\n" + Messages.get(Armor.class, "curr_absorb", tier, DRMin(), DRMax(), STRReq());
 			
-			if (STRReq() > hero.STR()) {
+			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Armor.class, "too_heavy");
 			}
 		} else {
 			info += "\n\n" + Messages.get(Armor.class, "avg_absorb", tier, DRMin(0), DRMax(0), STRReq(0));
 
-			if (STRReq(0) > hero.STR()) {
+			if (STRReq(0) > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Armor.class, "probably_too_heavy");
 			}
 		}
@@ -581,7 +501,7 @@ public class Armor extends EquipableItem {
 			info += "\n\n" + Messages.get(Armor.class, "hardened_no_glyph");
 		}
 		
-		if (cursed && isEquipped( hero )) {
+		if (cursed && isEquipped( Dungeon.hero )) {
 			info += "\n\n" + Messages.get(Armor.class, "cursed_worn");
 		} else if (cursedKnown && cursed) {
 			info += "\n\n" + Messages.get(Armor.class, "cursed");
@@ -593,10 +513,6 @@ public class Armor extends EquipableItem {
 			} else {
 				info += "\n\n" + Messages.get(Armor.class, "not_cursed");
 			}
-		}
-
-		if (Dungeon.isChallenged(Challenges.DURABILITY) && levelKnown && this.buffedLvl() > 0) {
-			info += "\n\n" + Messages.get(Item.class, "durability_armor", durability(), maxDurability());
 		}
 		
 		return info;
@@ -722,16 +638,16 @@ public class Armor extends EquipableItem {
 				Obfuscation.class, Swiftness.class, Viscosity.class, Potential.class };
 
 		public static final Class<?>[] uncommon = new Class<?>[]{
-				Brimstone.class, Stone.class, Entanglement.class, Mirrorimage.class,
-				Repulsion.class, Camouflage.class, Flow.class, Afterimage.class };
+				Brimstone.class, Stone.class, Entanglement.class,
+				Repulsion.class, Camouflage.class, Flow.class };
 
 		public static final Class<?>[] rare = new Class<?>[]{
-				Affection.class, AntiMagic.class, Thorns.class, Satisfying.class };
+				Affection.class, AntiMagic.class, Thorns.class };
 
 		public static final float[] typeChances = new float[]{
 				50, //12.5% each
-				40, //5% each
-				10  //2.5% each
+				40, //6.67% each
+				10  //3.33% each
 		};
 
 		private static final Class<?>[] curses = new Class<?>[]{
@@ -746,17 +662,7 @@ public class Armor extends EquipableItem {
 		}
 
 		public static float genericProcChanceMultiplier( Char defender ){
-			float multi = RingOfArcana.enchantPowerMultiplier(defender);
-			if (defender instanceof Hero && ((Hero) defender).hasTalent(Talent.MYSTICAL_POWER)) {
-				multi += 0.2f * Dungeon.hero.pointsInTalent(Talent.MYSTICAL_POWER);
-			}
-			if (defender instanceof Hero && ((Hero) defender).hasTalent(Talent.ARMOR_BLESSING)) {
-				multi += 0.2f * Dungeon.hero.pointsInTalent(Talent.ARMOR_BLESSING);
-			}
-			if (defender instanceof Hero && ((Hero) defender).buff(TrueRunicBlade.EnchantEmpower.class) != null) {
-				multi += 1.5f;
-			}
-			return multi;
+			return RingOfArcana.enchantPowerMultiplier(defender);
 		}
 		
 		public String name() {
@@ -844,10 +750,5 @@ public class Armor extends EquipableItem {
 			}
 		}
 		
-	}
-
-	@Override
-	public int maxDurability( int lvl ) {
-		return 6 * (lvl < 16 ? 16 - lvl : 1);
 	}
 }

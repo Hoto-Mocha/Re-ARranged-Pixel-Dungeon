@@ -25,9 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSatisfying;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -86,8 +84,9 @@ public class Hunger extends Buff implements Hero.Doom {
 					target.damage( (int)partialDamage, this);
 					partialDamage -= (int)partialDamage;
 				}
-
+				
 			} else {
+
 				float newLevel = level + STEP;
 				if (newLevel >= STARVING) {
 
@@ -110,18 +109,8 @@ public class Hunger extends Buff implements Hero.Doom {
 				level = newLevel;
 
 			}
-
-			float hunger = STEP;
-			if (target.buff( Shadows.class ) != null) {
-				hunger *= 1.5;
-				if (Dungeon.hero.pointsInTalent(Talent.SHADOW) > 1) {
-					hunger *= 1.1;
-				}
-			}
-			if (target.buff(RingOfSatisfying.Satisfaction.class) != null) {
-				hunger *= RingOfSatisfying.satisfactionMultiplier(target);
-			}
-			spend(hunger);
+			
+			spend( target.buff( Shadows.class ) == null ? STEP : STEP * 1.5f );
 
 		} else {
 

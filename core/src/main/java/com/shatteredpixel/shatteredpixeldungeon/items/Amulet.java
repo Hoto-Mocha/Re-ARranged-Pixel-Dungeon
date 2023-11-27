@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Badges.validateGunnerUnlock;
-
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -73,15 +71,9 @@ public class Amulet extends Item {
 	@Override
 	public boolean doPickUp(Hero hero, int pos) {
 		if (super.doPickUp( hero, pos )) {
+			
 			if (!Statistics.amuletObtained) {
 				Statistics.amuletObtained = true;
-
-				Badges.validateGunnerUnlock();
-				Badges.validateSamuraiUnlock();
-				Badges.validatePlanterUnlock();
-				Badges.validateKnightUnlock();
-				Badges.validateNurseUnlock();
-
 				hero.spend(-TIME_TO_PICK_UP);
 
 				//delay with an actor here so pickup behaviour can fully process.

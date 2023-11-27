@@ -25,7 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Wraith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -69,11 +68,7 @@ public class Heap implements Bundlable {
 		CRYSTAL_CHEST,
 		TOMB,
 		SKELETON,
-		REMAINS,
-		MIMIC,
-		GOLDEN_MIMIC,
-		CRYSTAL_MIMIC,
-		STATUE
+		REMAINS
 	}
 	public Type type = Type.HEAP;
 	
@@ -221,10 +216,10 @@ public class Heap implements Bundlable {
 		boolean evaporated = false;
 		
 		for (Item item : items.toArray( new Item[0] )) {
-			if (item instanceof Scroll && !item.unique && Dungeon.hero.pointsInTalent(Talent.FIREWATCH) < 2) {
+			if (item instanceof Scroll && !item.unique) {
 				items.remove( item );
 				burnt = true;
-			} else if (item instanceof Dewdrop && !Dungeon.hero.hasTalent(Talent.FIREWATCH)) {
+			} else if (item instanceof Dewdrop) {
 				items.remove( item );
 				evaporated = true;
 			} else if (item instanceof MysteryMeat || item instanceof FrozenCarpaccio) {
@@ -387,14 +382,6 @@ public class Heap implements Bundlable {
 				return Messages.get(this, "skeleton");
 			case REMAINS:
 				return Messages.get(this, "remains");
-			case MIMIC:
-				return Messages.get(this, "mimic");
-			case GOLDEN_MIMIC:
-				return Messages.get(this, "golden_mimic");
-			case CRYSTAL_MIMIC:
-				return Messages.get(this, "crystal_mimic");
-			case STATUE:
-				return Messages.get(this, "statue");
 			default:
 				return peek().title();
 		}

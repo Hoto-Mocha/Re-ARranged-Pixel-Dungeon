@@ -39,7 +39,6 @@ public enum Icons {
 	CHANGES,
 	PREFS,
 	SHPX,
-	ARRANGED,
 
 	//rankings and hero select icons, spacing for 16x16
 	STAIRS,
@@ -48,11 +47,6 @@ public enum Icons {
 	ROGUE,
 	HUNTRESS,
 	DUELIST,
-	GUNNER,
-	SAMURAI,
-	PLANTER,
-	KNIGHT,
-	NURSE,
 
 	//grey icons, mainly used for buttons, spacing for 16x16
 	EXIT,
@@ -90,7 +84,6 @@ public enum Icons {
 	ENERGY,
 	COPY,
 	PASTE,
-	SEED_FIND,
 	COIN_SML,
 	ENERGY_SML,
 	BACKPACK,
@@ -107,9 +100,6 @@ public enum Icons {
 	SLEEP,
 	ALERT,
 	LOST,
-	MINI_INFO,
-	MINI_UNCHECKED,
-	MINI_CHECKED,
 	DEPTH,      //depth icons have two variants, for regular and seeded runs
 	DEPTH_CHASM,
 	DEPTH_WATER,
@@ -123,19 +113,17 @@ public enum Icons {
 	//icons that appear in the about screen, variable spacing
 	LIBGDX,
 	ALEKS,
-	//32x32
 	WATA,
 	CELESTI,
 	KRISTJAN,
 	CUBE_CODE,
 	PURIGRO,
-	ARCNOR,
-	DCINSIDE;
+	ARCNOR;
 
 	public Image get() {
 		return get( this );
 	}
-
+	
 	public static Image get( Icons type ) {
 		Image icon = new Image( Assets.Interfaces.ICONS );
 		switch (type) {
@@ -164,9 +152,6 @@ public enum Icons {
 			case SHPX:
 				icon.frame( icon.texture.uvRectBySize( 119, 0, 16, 16 ) );
 				break;
-			case ARRANGED:
-				icon.frame( icon.texture.uvRectBySize( 144, 0, 15, 16 ) );
-				break;
 
 			case STAIRS:
 				icon.frame( icon.texture.uvRectBySize( 0, 16, 13, 16 ) );
@@ -185,21 +170,6 @@ public enum Icons {
 				break;
 			case DUELIST:
 				icon.frame( icon.texture.uvRectBySize( 80, 16, 13, 14 ) );
-				break;
-			case GUNNER:
-				icon.frame( icon.texture.uvRectBySize( 96, 16, 10, 13 ) );
-				break;
-			case SAMURAI:
-				icon.frame( icon.texture.uvRectBySize( 112, 16, 14, 14 ) );
-				break;
-			case PLANTER:
-				icon.frame( icon.texture.uvRectBySize( 128, 16, 16, 16 ) );
-				break;
-			case KNIGHT:
-				icon.frame( icon.texture.uvRectBySize( 144, 16, 16, 15 ) );
-				break;
-			case NURSE:
-				icon.frame( icon.texture.uvRectBySize( 160, 16, 13, 15 ) );
 				break;
 
 			case EXIT:
@@ -305,9 +275,6 @@ public enum Icons {
 			case PASTE:
 				icon.frame( icon.texture.uvRectBySize( 208, 48, 13, 13 ) );
 				break;
-			case SEED_FIND:
-				icon.frame( icon.texture.uvRectBySize( 240, 48, 10, 10 ) );
-				break;
 			case COIN_SML:
 				icon.frame( icon.texture.uvRectBySize( 192, 64, 7, 7 ) );
 				break;
@@ -351,15 +318,6 @@ public enum Icons {
 			case LOST:
 				icon.frame( icon.texture.uvRectBySize( 40, 72, 8, 8 ) );
 				break;
-			case MINI_INFO:
-				icon.frame( icon.texture.uvRectBySize( 0, 80, 9, 9 ) );
-				break;
-			case MINI_UNCHECKED:
-				icon.frame( icon.texture.uvRectBySize( 10, 80, 7, 7 ) );
-				break;
-			case MINI_CHECKED:
-				icon.frame( icon.texture.uvRectBySize( 20, 80, 7, 7 ) );
-				break;
 			case DEPTH:
 				icon.frame( icon.texture.uvRectBySize( 48, 64 + runTypeOfs(), 6, 7 ) );
 				break;
@@ -387,7 +345,7 @@ public enum Icons {
 			case CHAL_COUNT:
 				icon.frame( icon.texture.uvRectBySize( 112, 64, 7, 7 ) );
 				break;
-
+		
 			case LIBGDX:
 				icon.frame( icon.texture.uvRectBySize( 0, 96, 16, 13 ) );
 				break;
@@ -419,10 +377,7 @@ public enum Icons {
 				icon.frame( icon.texture.uvRectBySize( 160, 96, 27, 30 ) );
 				icon.scale.set(PixelScene.align(0.49f));
 				break;
-			case DCINSIDE:
-				icon.frame( icon.texture.uvRectBySize( 192, 96, 32, 32 ) );
-				icon.scale.set(PixelScene.align(0.49f));
-				break;
+
 		}
 		return icon;
 	}
@@ -440,31 +395,21 @@ public enum Icons {
 			return 0;
 		}
 	}
-
+	
 	public static Image get( HeroClass cl ) {
 		switch (cl) {
-		case WARRIOR:
-			return get( WARRIOR );
-		case MAGE:
-			return get( MAGE );
-		case ROGUE:
-			return get( ROGUE );
-		case HUNTRESS:
-			return get( HUNTRESS );
-		case DUELIST:
-			return get( Icons.DUELIST );
-		case GUNNER:
-			return get( GUNNER );
-		case SAMURAI:
-			return get( SAMURAI );
-		case PLANTER:
-			return get( PLANTER );
-		case KNIGHT:
-			return get( KNIGHT );
-		case NURSE:
-			return get( NURSE );
-		default:
-			return null;
+			case WARRIOR:
+				return get( Icons.WARRIOR );
+			case MAGE:
+				return get( Icons.MAGE );
+			case ROGUE:
+				return get( Icons.ROGUE );
+			case HUNTRESS:
+				return get( Icons.HUNTRESS );
+			case DUELIST:
+				return get( Icons.DUELIST );
+			default:
+				return null;
 		}
 	}
 

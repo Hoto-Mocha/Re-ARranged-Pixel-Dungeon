@@ -21,18 +21,12 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
@@ -41,8 +35,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
@@ -67,7 +59,6 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.PathFinder;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
@@ -324,6 +315,7 @@ public class SandalsOfNature extends Artifact {
 		@Override
 		public void onSelect(Integer cell) {
 			if (cell != null){
+
 				if (!Dungeon.level.heroFOV[cell] || Dungeon.level.distance(curUser.pos, cell) > 3){
 					GLog.w(Messages.get(SandalsOfNature.class, "out_of_range"));
 				} else {
@@ -341,50 +333,7 @@ public class SandalsOfNature extends Artifact {
 					Sample.INSTANCE.play(Assets.Sounds.PLANT);
 					Sample.INSTANCE.playDelayed(Assets.Sounds.TRAMPLE, 0.25f, 1, Random.Float( 0.96f, 1.05f ) );
 
-					if (hero.subClass == HeroSubClass.RESEARCHER) {
-						switch (hero.pointsInTalent(Talent.ROOT_PLANT)) {
-							case 0: default:
-								break;
-							case 1:
-								{
-									Char ch = Actor.findChar( cell );
-									if (ch != null && ch.alignment != Char.Alignment.ALLY){
-										Buff.affect(ch, Roots.class, 5f);
-									}
-								}
-								break;
-							case 2:
-								for (int k : PathFinder.NEIGHBOURS5){
-									Char ch = Actor.findChar( cell+k );
-									if (ch != null && ch.alignment != Char.Alignment.ALLY){
-										Buff.affect(ch, Roots.class, 5f);
-									}
-								}
-								break;
-							case 3:
-								for (int k : PathFinder.NEIGHBOURS9){
-									Char ch = Actor.findChar( cell+k );
-									if (ch != null && ch.alignment != Char.Alignment.ALLY){
-										Buff.affect(ch, Roots.class, 5f);
-									}
-								}
-								break;
-						}
-						for (int i : PathFinder.NEIGHBOURS8) {
-							int c = Dungeon.level.map[cell + i];
-							if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
-									|| c == Terrain.EMBERS || c == Terrain.GRASS){
-								Level.set(cell + i, Terrain.FURROWED_GRASS);
-								GameScene.updateMap(cell+ i);
-								CellEmitter.get( cell + i ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
-							}
-						}
-					}
-					int chargeToUse = seedChargeReqs.get(curSeedEffect);
-					if (hero.subClass == HeroSubClass.RESEARCHER) {
-						chargeToUse *= 0.25f;
-					}
-					charge -= chargeToUse;
+					charge -= seedChargeReqs.get(curSeedEffect);
 					Talent.onArtifactUsed(Dungeon.hero);
 					updateQuickslot();
 					curUser.spendAndNext(1f);

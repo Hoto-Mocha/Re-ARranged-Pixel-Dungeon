@@ -177,12 +177,12 @@ public class WndTradeItem extends WndInfoItem {
 
 		resize(width, (int) pos);
 	}
-
+	
 	@Override
 	public void hide() {
-
+		
 		super.hide();
-
+		
 		if (owner != null) {
 			owner.hide();
 		}
@@ -194,9 +194,9 @@ public class WndTradeItem extends WndInfoItem {
 	}
 
 	public static void sell( Item item, Shopkeeper shop ) {
-
+		
 		Hero hero = Dungeon.hero;
-
+		
 		if (item.isEquipped( hero ) && !((EquipableItem)item).doUnequip( hero, false )) {
 			return;
 		}
@@ -220,13 +220,13 @@ public class WndTradeItem extends WndInfoItem {
 	}
 
 	public static void sellOne( Item item, Shopkeeper shop ) {
-
+		
 		if (item.quantity() <= 1) {
 			sell( item, shop );
 		} else {
-
+			
 			Hero hero = Dungeon.hero;
-
+			
 			item = item.detach( hero.belongings.backpack );
 
 			//selling items in the sell interface doesn't spend time
@@ -242,15 +242,15 @@ public class WndTradeItem extends WndInfoItem {
 			}
 		}
 	}
-
+	
 	private void buy( Heap heap ) {
-
+		
 		Item item = heap.pickUp();
 		if (item == null) return;
-
+		
 		int price = Shopkeeper.sellPrice( item );
 		Dungeon.gold -= price;
-
+		
 		if (!item.doPickUp( Dungeon.hero )) {
 			Dungeon.level.drop( item, heap.pos ).sprite.drop();
 		}

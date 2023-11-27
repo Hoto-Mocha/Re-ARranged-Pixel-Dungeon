@@ -156,20 +156,18 @@ public class MasterThievesArmband extends Artifact {
 								GLog.w(Messages.get(MasterThievesArmband.class, "no_steal"));
 							} else if (Random.Float() <= lootChance){
 								Item loot = ((Mob) ch).createLoot();
-								if (loot != null) {
-									if (Challenges.isItemBlocked(loot)){
-										GLog.i(Messages.get(MasterThievesArmband.class, "failed_steal"));
-										Buff.affect(ch, StolenTracker.class).setItemStolen(false);
+								if (Challenges.isItemBlocked(loot)){
+									GLog.i(Messages.get(MasterThievesArmband.class, "failed_steal"));
+									Buff.affect(ch, StolenTracker.class).setItemStolen(false);
+								} else {
+									if (loot.doPickUp(curUser)) {
+										//item collection happens instantly
+										curUser.spend(-TIME_TO_PICK_UP);
 									} else {
-										if (loot.doPickUp(curUser)) {
-											//item collection happens instantly
-											curUser.spend(-TIME_TO_PICK_UP);
-										} else {
-											Dungeon.level.drop(loot, curUser.pos).sprite.drop();
-										}
-										GLog.i(Messages.get(MasterThievesArmband.class, "stole_item", loot.name()));
-										Buff.affect(ch, StolenTracker.class).setItemStolen(true);
+										Dungeon.level.drop(loot, curUser.pos).sprite.drop();
 									}
+									GLog.i(Messages.get(MasterThievesArmband.class, "stole_item", loot.name()));
+									Buff.affect(ch, StolenTracker.class).setItemStolen(true);
 								}
 							} else {
 								GLog.i(Messages.get(MasterThievesArmband.class, "failed_steal"));

@@ -127,7 +127,6 @@ import com.watabou.noosa.NoosaScript;
 import com.watabou.noosa.NoosaScriptNoLighting;
 import com.watabou.noosa.SkinnedBlock;
 import com.watabou.noosa.Visual;
-import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.Tweener;
@@ -208,14 +207,8 @@ public class GameScene extends PixelScene {
 			ShatteredPixelDungeon.switchNoFade(TitleScene.class);
 			return;
 		}
-		if (!SPDSettings.oldMusic()) {
-			Music.INSTANCE.playTracks(
-					new String[]{Assets.Music.OLD_THEME},
-					new float[]{1},
-					false);
-		} else {
-			Dungeon.level.playLevelMusic();
-		}
+
+		Dungeon.level.playLevelMusic();
 
 		SPDSettings.lastClass(Dungeon.hero.heroClass.ordinal());
 		
@@ -431,7 +424,7 @@ public class GameScene extends PixelScene {
 			case FALL:
 				if (Dungeon.depth == Statistics.deepestFloor){
 					switch (Dungeon.depth) {
-						case 1: case 6: case 11: case 16: case 21: case 26:
+						case 1: case 6: case 11: case 16: case 21:
 							int region = (Dungeon.depth+4)/5;
 							if (!Document.INTROS.isPageRead(region)) {
 								add(new WndStory(Document.INTROS.pageBody(region)).setDelays(0.6f, 1.4f));

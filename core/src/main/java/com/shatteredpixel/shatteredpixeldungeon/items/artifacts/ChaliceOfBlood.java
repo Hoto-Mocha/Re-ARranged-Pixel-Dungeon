@@ -59,8 +59,7 @@ public class ChaliceOfBlood extends Artifact {
 				&& level() < levelCap
 				&& !cursed
 				&& !hero.isInvulnerable(getClass())
-				&& hero.buff(MagicImmune.class) == null
-				&& hero.buff(CapeOfThorns.Thorns.class) == null)
+				&& hero.buff(MagicImmune.class) == null)
 			actions.add(AC_PRICK);
 		return actions;
 	}

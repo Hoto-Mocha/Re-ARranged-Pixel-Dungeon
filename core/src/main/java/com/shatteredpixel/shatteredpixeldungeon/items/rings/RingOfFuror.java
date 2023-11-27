@@ -21,86 +21,40 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AttackSpeedBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Flurry;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SerialAttack;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Surgery;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DoubleDagger;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class RingOfFuror extends Ring {
 
-    {
-        icon = ItemSpriteSheet.Icons.RING_FUROR;
-    }
+	{
+		icon = ItemSpriteSheet.Icons.RING_FUROR;
+	}
 
-    public String statsInfo() {
-        if (isIdentified()){
-            String info = Messages.get(this, "stats",
-                    Messages.decimalFormat("#.##", 100f * (Math.pow(1.09051f, soloBuffedBonus()) - 1f)));
-            if (isEquipped(hero) && soloBuffedBonus() != combinedBuffedBonus(hero, Furor.class)){
-                info += "\n\n" + Messages.get(this, "combined_stats",
-                        Messages.decimalFormat("#.##", 100f * (Math.pow(1.09051f, combinedBuffedBonus(hero, Furor.class)) - 1f)));
-            }
-            return info;
-        } else {
-            return Messages.get(this, "typical_stats", Messages.decimalFormat("#.##", 9.051f));
-        }
-    }
+	public String statsInfo() {
+		if (isIdentified()){
+			String info = Messages.get(this, "stats",
+					Messages.decimalFormat("#.##", 100f * (Math.pow(1.09051f, soloBuffedBonus()) - 1f)));
+			if (isEquipped(Dungeon.hero) && soloBuffedBonus() != combinedBuffedBonus(Dungeon.hero, Furor.class)){
+				info += "\n\n" + Messages.get(this, "combined_stats",
+						Messages.decimalFormat("#.##", 100f * (Math.pow(1.09051f, combinedBuffedBonus(Dungeon.hero, Furor.class)) - 1f)));
+			}
+			return info;
+		} else {
+			return Messages.get(this, "typical_stats", Messages.decimalFormat("#.##", 9.051f));
+		}
+	}
 
-    @Override
-    protected RingBuff buff() {
-        return new Furor();
-    }
+	@Override
+	protected RingBuff buff( ) {
+		return new Furor();
+	}
+	
+	public static float attackSpeedMultiplier(Char target ){
+		return (float)Math.pow(1.09051, getBuffedBonus(target, Furor.class));
+	}
 
-    public static float attackSpeedMultiplier(Char target) {
-        float speedBonus = (float) Math.pow(1.09051, getBuffedBonus(target, Furor.class));
-        if (target == hero) {
-            if (hero.buff(Adrenaline.class) != null) {
-                speedBonus *= 1.5f;
-            }
-            if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null) {
-                speedBonus *= 2f + 0.05f * hero.pointsInTalent(Talent.DOUBLE_BLADE_PRACTICE);
-            }
-            if (hero.buff(Flurry.class) != null) {
-                speedBonus *= 2f;
-            }
-            if (hero.hasTalent(Talent.ATK_SPEED_ENHANCE)) {
-                speedBonus *= 1f + 0.05f * hero.pointsInTalent(Talent.ATK_SPEED_ENHANCE);
-            }
-            if (hero.buff(AttackSpeedBuff.class) != null) {
-                speedBonus *= 1f + 0.05f * hero.buff(AttackSpeedBuff.class).getCount();
-            }
-            if (hero.hasTalent(Talent.SLASHING_PRACTICE) && hero.buff(SerialAttack.class) != null) {
-                speedBonus *= 1f + 0.02f * hero.pointsInTalent(Talent.SLASHING_PRACTICE) * hero.buff(SerialAttack.class).getCount();
-            }
-            if (hero.buff(Surgery.class) != null && hero.hasTalent(Talent.HASTY_HANDS)) {
-                speedBonus *= 1 + 0.01f * hero.buff(Surgery.class).getCount() * hero.pointsInTalent(Talent.HASTY_HANDS);
-            }
-            if (hero.hasTalent(Talent.LESS_RESIST)) {
-                int aEnc = hero.belongings.armor.STRReq() - hero.STR();
-                if (aEnc < 0) {
-                    speedBonus *= 1 + 0.05f * hero.pointsInTalent(Talent.LESS_RESIST) * (-aEnc);
-                }
-            }
-            if (hero.buff(DoubleDagger.ReverseBlade.class) != null) {
-                speedBonus *= 3;
-            }
-            if (hero.buff(Talent.QuickFollowupTracker.class) != null) {
-                speedBonus *= 1+(1/3f)*hero.pointsInTalent(Talent.QUICK_FOLLOWUP);
-            }
-            speedBonus *= RingOfRush.rushSpeedMultiplier(hero);
-        }
-        return speedBonus;
-    }
-
-    public class Furor extends RingBuff {
-    }
+	public class Furor extends RingBuff {
+	}
 }

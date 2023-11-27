@@ -22,23 +22,12 @@
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShaftParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.watabou.glwrap.Blending;
 import com.watabou.noosa.TextureFilm;
-import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Callback;
-import com.watabou.utils.Random;
 
 public class GhostSprite extends MobSprite {
-
-	private int cellToAttack;
 	
 	public GhostSprite() {
 		super();
@@ -56,8 +45,6 @@ public class GhostSprite extends MobSprite {
 		attack = new Animation( 10, false );
 		attack.frames( frames, 0, 2, 3 );
 
-		zap = attack.clone();
-
 		die = new Animation( 8, false );
 		die.frames( frames, 0, 4, 5, 6, 7 );
 		
@@ -69,47 +56,6 @@ public class GhostSprite extends MobSprite {
 		Blending.setLightMode();
 		super.draw();
 		Blending.setNormalMode();
-	}
-
-	@Override
-	public void attack( int cell ) {
-		if (!Dungeon.level.adjacent( cell, ch.pos ) && ((DriedRose.GhostHero)ch).isGun) {
-
-			cellToAttack = cell;
-			turnTo( ch.pos , cell );
-			play( zap );
-
-		} else {
-
-			super.attack( cell );
-
-		}
-	}
-
-	@Override
-	public void onComplete( Animation anim ) {
-		if (anim == zap) {
-			idle();
-			CellEmitter.get(ch.pos).burst(SmokeParticle.FACTORY, 2);
-			CellEmitter.center(ch.pos).burst(BlastParticle.FACTORY, 2);
-			Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f) );
-			((MissileSprite)parent.recycle( MissileSprite.class )).
-					reset( this, cellToAttack, new GhostShot(), new Callback() {
-
-						@Override
-						public void call() {
-							ch.onAttackComplete();
-						}
-					} );
-		} else {
-			super.onComplete( anim );
-		}
-	}
-
-	public class GhostShot extends Item {
-		{
-			image = ItemSpriteSheet.SPIRIT_BULLET;
-		}
 	}
 	
 	@Override
