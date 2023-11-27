@@ -86,94 +86,261 @@ import java.util.LinkedHashMap;
 public enum Talent {
 
 	//Warrior T1
-	HEARTY_MEAL(0), VETERANS_INTUITION(1), TEST_SUBJECT(2), IRON_WILL(3),
+	HEARTY_MEAL					(0,  0),
+	VETERANS_INTUITION			(1,  0),
+	TEST_SUBJECT				(2,  0),
+	IRON_WILL					(3,  0),
+//								(4,  0),
 	//Warrior T2
-	IRON_STOMACH(4), LIQUID_WILLPOWER(5), RUNIC_TRANSFERENCE(6), LETHAL_MOMENTUM(7), IMPROVISED_PROJECTILES(8),
+	IRON_STOMACH				(5,  0),
+	LIQUID_WILLPOWER			(6,  0),
+	RUNIC_TRANSFERENCE			(7,  0),
+	LETHAL_MOMENTUM				(8,  0),
+	IMPROVISED_PROJECTILES		(9,  0),
+//								(10, 0),
 	//Warrior T3
-	HOLD_FAST(9, 3), STRONGMAN(10, 3),
+	HOLD_FAST					(11, 0, 3),
+	STRONGMAN					(12, 0, 3),
 	//Berserker T3
-	ENDLESS_RAGE(11, 3), DEATHLESS_FURY(12, 3), ENRAGED_CATALYST(13, 3),
+	ENDLESS_RAGE				(13, 0, 3),
+	DEATHLESS_FURY				(14, 0, 3),
+	ENRAGED_CATALYST			(15, 0, 3),
+//								(16, 0, 3),
+//								(17, 0, 3),
+//								(18, 0, 3),
 	//Gladiator T3
-	CLEAVE(14, 3), LETHAL_DEFENSE(15, 3), ENHANCED_COMBO(16, 3),
+	CLEAVE						(19, 0, 3),
+	LETHAL_DEFENSE				(20, 0, 3),
+	ENHANCED_COMBO				(21, 0, 3),
+//								(22, 0, 3),
+//								(23, 0, 3),
+//								(24, 0, 3),
+	//Beteran T3
+//								(25, 0, 3),
+//								(26, 0, 3),
+//								(27, 0, 3),
+//								(28, 0, 3),
+//								(29, 0, 3),
+//								(30, 0, 3),
 	//Heroic Leap T4
-	BODY_SLAM(17, 4), IMPACT_WAVE(18, 4), DOUBLE_JUMP(19, 4),
+	BODY_SLAM					(31, 0, 4),
+	IMPACT_WAVE					(32, 0, 4),
+	DOUBLE_JUMP					(33, 0, 4),
 	//Shockwave T4
-	EXPANDING_WAVE(20, 4), STRIKING_WAVE(21, 4), SHOCK_FORCE(22, 4),
+	EXPANDING_WAVE				(34, 0, 4),
+	STRIKING_WAVE				(35, 0, 4),
+	SHOCK_FORCE					(36, 0, 4),
 	//Endure T4
-	SUSTAINED_RETRIBUTION(23, 4), SHRUG_IT_OFF(24, 4), EVEN_THE_ODDS(25, 4),
+	SUSTAINED_RETRIBUTION		(37, 0, 4),
+	SHRUG_IT_OFF				(38, 0, 4),
+	EVEN_THE_ODDS				(39, 0, 4),
 
 	//Mage T1
-	EMPOWERING_MEAL(32), SCHOLARS_INTUITION(33), TESTED_HYPOTHESIS(34), BACKUP_BARRIER(35),
+	EMPOWERING_MEAL				(0,  1),
+	SCHOLARS_INTUITION			(1,  1),
+	TESTED_HYPOTHESIS			(2,  1),
+	BACKUP_BARRIER				(3,  1),
+//								(4,  1),
 	//Mage T2
-	ENERGIZING_MEAL(36), INSCRIBED_POWER(37), WAND_PRESERVATION(38), ARCANE_VISION(39), SHIELD_BATTERY(40),
+	ENERGIZING_MEAL				(5,  1),
+	INSCRIBED_POWER				(6,  1),
+	WAND_PRESERVATION			(7,  1),
+	ARCANE_VISION				(8,  1),
+	SHIELD_BATTERY				(9,  1),
+//								(10, 1),
 	//Mage T3
-	DESPERATE_POWER(41, 3), ALLY_WARP(42, 3),
+	DESPERATE_POWER				(11, 1, 3),
+	ALLY_WARP					(12, 1, 3),
 	//Battlemage T3
-	EMPOWERED_STRIKE(43, 3), MYSTICAL_CHARGE(44, 3), EXCESS_CHARGE(45, 3),
+	EMPOWERED_STRIKE			(13, 1, 3),
+	MYSTICAL_CHARGE				(14, 1, 3),
+	EXCESS_CHARGE				(15, 1, 3),
+//								(16, 1, 3),
+//								(17, 1, 3),
+//								(18, 1, 3),
 	//Warlock T3
-	SOUL_EATER(46, 3), SOUL_SIPHON(47, 3), NECROMANCERS_MINIONS(48, 3),
+	SOUL_EATER					(19, 1, 3),
+	SOUL_SIPHON					(20, 1, 3),
+	NECROMANCERS_MINIONS		(21, 1, 3),
+//								(22, 1, 3),
+//								(23, 1, 3),
+//								(24, 1, 3),
+	//Wizard T3
+//								(25, 1, 3),
+//								(26, 1, 3),
+//								(27, 1, 3),
+//								(28, 1, 3),
+//								(29, 1, 3),
+//								(30, 1, 3),
 	//Elemental Blast T4
-	BLAST_RADIUS(49, 4), ELEMENTAL_POWER(50, 4), REACTIVE_BARRIER(51, 4),
+	BLAST_RADIUS				(31, 1, 4),
+	ELEMENTAL_POWER				(32, 1, 4),
+	REACTIVE_BARRIER			(33, 1, 4),
 	//Wild Magic T4
-	WILD_POWER(52, 4), FIRE_EVERYTHING(53, 4), CONSERVED_MAGIC(54, 4),
+	WILD_POWER					(34, 1, 4),
+	FIRE_EVERYTHING				(35, 1, 4),
+	CONSERVED_MAGIC				(36, 1, 4),
 	//Warp Beacon T4
-	TELEFRAG(55, 4), REMOTE_BEACON(56, 4), LONGRANGE_WARP(57, 4),
+	TELEFRAG					(37, 1, 4),
+	REMOTE_BEACON				(38, 1, 4),
+	LONGRANGE_WARP				(39, 1, 4),
 
 	//Rogue T1
-	CACHED_RATIONS(64), THIEFS_INTUITION(65), SUCKER_PUNCH(66), PROTECTIVE_SHADOWS(67),
+	CACHED_RATIONS				(0,  2),
+	THIEFS_INTUITION			(1,  2),
+	SUCKER_PUNCH				(2,  2),
+	PROTECTIVE_SHADOWS			(3,  2),
+//								(4,  2),
 	//Rogue T2
-	MYSTICAL_MEAL(68), INSCRIBED_STEALTH(69), WIDE_SEARCH(70), SILENT_STEPS(71), ROGUES_FORESIGHT(72),
+	MYSTICAL_MEAL				(5,  2),
+	INSCRIBED_STEALTH			(6,  2),
+	WIDE_SEARCH					(7,  2),
+	SILENT_STEPS				(8,  2),
+	ROGUES_FORESIGHT			(9,  2),
+//								(10, 2),
 	//Rogue T3
-	ENHANCED_RINGS(73, 3), LIGHT_CLOAK(74, 3),
+	ENHANCED_RINGS				(11, 2, 3),
+	LIGHT_CLOAK					(12, 2, 3),
 	//Assassin T3
-	ENHANCED_LETHALITY(75, 3), ASSASSINS_REACH(76, 3), BOUNTY_HUNTER(77, 3),
+	ENHANCED_LETHALITY			(13, 2, 3),
+	ASSASSINS_REACH				(14, 2, 3),
+	BOUNTY_HUNTER				(15, 2, 3),
+//								(16, 2, 3),
+//								(17, 2, 3),
+//								(18, 2, 3),
 	//Freerunner T3
-	EVASIVE_ARMOR(78, 3), PROJECTILE_MOMENTUM(79, 3), SPEEDY_STEALTH(80, 3),
+	EVASIVE_ARMOR				(19, 2, 3),
+	PROJECTILE_MOMENTUM			(20, 2, 3),
+	SPEEDY_STEALTH				(21, 2, 3),
+//								(22, 2, 3),
+//								(23, 2, 3),
+//								(24, 2, 3),
+	//Chaser T3
+//								(25, 2, 3),
+//								(26, 2, 3),
+//								(27, 2, 3),
+//								(28, 2, 3),
+//								(29, 2, 3),
+//								(30, 2, 3),
 	//Smoke Bomb T4
-	HASTY_RETREAT(81, 4), BODY_REPLACEMENT(82, 4), SHADOW_STEP(83, 4),
+	HASTY_RETREAT				(31, 2, 4),
+	BODY_REPLACEMENT			(32, 2, 4),
+	SHADOW_STEP					(33, 2, 4),
 	//Death Mark T4
-	FEAR_THE_REAPER(84, 4), DEATHLY_DURABILITY(85, 4), DOUBLE_MARK(86, 4),
+	FEAR_THE_REAPER				(34, 2, 4),
+	DEATHLY_DURABILITY			(35, 2, 4),
+	DOUBLE_MARK					(36, 2, 4),
 	//Shadow Clone T4
-	SHADOW_BLADE(87, 4), CLONED_ARMOR(88, 4), PERFECT_COPY(89, 4),
+	SHADOW_BLADE				(37, 2, 4),
+	CLONED_ARMOR				(38, 2, 4),
+	PERFECT_COPY				(39, 2, 4),
 
 	//Huntress T1
-	NATURES_BOUNTY(96), SURVIVALISTS_INTUITION(97), FOLLOWUP_STRIKE(98), NATURES_AID(99),
+	NATURES_BOUNTY				(0,  3),
+	SURVIVALISTS_INTUITION		(1,  3),
+	FOLLOWUP_STRIKE				(2,  3),
+	NATURES_AID					(3,  3),
+	//							(4,  3),
 	//Huntress T2
-	INVIGORATING_MEAL(100), LIQUID_NATURE(101), REJUVENATING_STEPS(102), HEIGHTENED_SENSES(103), DURABLE_PROJECTILES(104),
+	INVIGORATING_MEAL			(5,  3),
+	LIQUID_NATURE				(6,  3),
+	REJUVENATING_STEPS			(7,  3),
+	HEIGHTENED_SENSES			(8,  3),
+	DURABLE_PROJECTILES			(9,  3),
+	//							(10, 3),
 	//Huntress T3
-	POINT_BLANK(105, 3), SEER_SHOT(106, 3),
+	POINT_BLANK					(11, 3, 3),
+	SEER_SHOT					(12, 3, 3),
 	//Sniper T3
-	FARSIGHT(107, 3), SHARED_ENCHANTMENT(108, 3), SHARED_UPGRADES(109, 3),
+	FARSIGHT					(13, 3, 3),
+	SHARED_ENCHANTMENT			(14, 3, 3),
+	SHARED_UPGRADES				(15, 3, 3),
+//								(16, 3, 3),
+//								(17, 3, 3),
+//								(18, 3, 3),
 	//Warden T3
-	DURABLE_TIPS(110, 3), BARKSKIN(111, 3), SHIELDING_DEW(112, 3),
+	DURABLE_TIPS				(19, 3, 3),
+	BARKSKIN					(20, 3, 3),
+	SHIELDING_DEW				(21, 3, 3),
+//								(22, 3, 3),
+//								(23, 3, 3),
+//								(24, 3, 3),
+	//Fighter T3
+//								(25, 3, 3),
+//								(26, 3, 3),
+//								(27, 3, 3),
+//								(28, 3, 3),
+//								(29, 3, 3),
+//								(30, 3, 3),
 	//Spectral Blades T4
-	FAN_OF_BLADES(113, 4), PROJECTING_BLADES(114, 4), SPIRIT_BLADES(115, 4),
+	FAN_OF_BLADES				(31, 3, 4),
+	PROJECTING_BLADES			(32, 3, 4),
+	SPIRIT_BLADES				(33, 3, 4),
 	//Natures Power T4
-	GROWING_POWER(116, 4), NATURES_WRATH(117, 4), WILD_MOMENTUM(118, 4),
+	GROWING_POWER				(34, 3, 4),
+	NATURES_WRATH				(35, 3, 4),
+	WILD_MOMENTUM				(36, 3, 4),
 	//Spirit Hawk T4
-	EAGLE_EYE(119, 4), GO_FOR_THE_EYES(120, 4), SWIFT_SPIRIT(121, 4),
+	EAGLE_EYE					(37, 3, 4),
+	GO_FOR_THE_EYES				(38, 3, 4),
+	SWIFT_SPIRIT				(39, 3, 4),
 
 	//Duelist T1
-	STRENGTHENING_MEAL(128), ADVENTURERS_INTUITION(129), PATIENT_STRIKE(130), AGGRESSIVE_BARRIER(131),
+	STRENGTHENING_MEAL			(0,  4),
+	ADVENTURERS_INTUITION		(1,  4),
+	PATIENT_STRIKE				(2,  4),
+	AGGRESSIVE_BARRIER			(3,  4),
+//								(4,  4),
 	//Duelist T2
-	FOCUSED_MEAL(132), LIQUID_AGILITY(133), WEAPON_RECHARGING(134), LETHAL_HASTE(135), SWIFT_EQUIP(136),
+	FOCUSED_MEAL				(5,  4),
+	LIQUID_AGILITY				(6,  4),
+	WEAPON_RECHARGING			(7,  4),
+	LETHAL_HASTE				(8,  4),
+	SWIFT_EQUIP					(9,  4),
+	//							(10, 4),
 	//Duelist T3
-	PRECISE_ASSAULT(137, 3), DEADLY_FOLLOWUP(138, 3),
+	PRECISE_ASSAULT				(11, 4, 3),
+	DEADLY_FOLLOWUP				(12, 4, 3),
 	//Champion T3
-	SECONDARY_CHARGE(139, 3), TWIN_UPGRADES(140, 3), COMBINED_LETHALITY(141, 3),
+	SECONDARY_CHARGE			(13, 4, 3),
+	TWIN_UPGRADES				(14, 4, 3),
+	COMBINED_LETHALITY			(15, 4, 3),
+//								(16, 4, 3),
+//								(17, 4, 3),
+//								(18, 4, 3),
 	//Monk T3
-	UNENCUMBERED_SPIRIT(142, 3), MONASTIC_VIGOR(143, 3), COMBINED_ENERGY(144, 3),
+	UNENCUMBERED_SPIRIT			(19, 4, 3),
+	MONASTIC_VIGOR				(20, 4, 3),
+	COMBINED_ENERGY				(21, 4, 3),
+//								(22, 4, 3),
+//								(23, 4, 3),
+//								(24, 4, 3),
+	//Fencer T3
+//								(25, 4, 3),
+//								(26, 4, 3),
+//								(27, 4, 3),
+//								(28, 4, 3),
+//								(29, 4, 3),
+//								(30, 4, 3),
 	//Challenge T4
-	CLOSE_THE_GAP(145, 4), INVIGORATING_VICTORY(146, 4), ELIMINATION_MATCH(147, 4),
+	CLOSE_THE_GAP				(31, 4, 4),
+	INVIGORATING_VICTORY		(32, 4, 4),
+	ELIMINATION_MATCH			(33, 4, 4),
 	//Elemental Strike T4
-	ELEMENTAL_REACH(148, 4), STRIKING_FORCE(149, 4), DIRECTED_POWER(150, 4),
+	ELEMENTAL_REACH				(34, 4, 4),
+	STRIKING_FORCE				(35, 4, 4),
+	DIRECTED_POWER				(36, 4, 4),
 	//Duelist A3 T4
-	FEIGNED_RETREAT(151, 4), EXPOSE_WEAKNESS(152, 4), COUNTER_ABILITY(153, 4),
+	FEIGNED_RETREAT				(37, 4, 4),
+	EXPOSE_WEAKNESS				(38, 4, 4),
+	COUNTER_ABILITY				(39, 4, 4),
 
 	//universal T4
-	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
+	HEROIC_ENERGY(43, 0, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
 	RATSISTANCE(215, 4), RATLOMACY(216, 4), RATFORCEMENTS(217, 4);
+
+	public static final int TALENT_NUMBER = 44;
 
 	public static class ImprovisedProjectileCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
@@ -341,33 +508,41 @@ public enum Talent {
 	// tiers 1/2/3/4 start at levels 2/7/13/21
 	public static int[] tierLevelThresholds = new int[]{0, 2, 7, 13, 21, 31};
 
-	Talent( int icon ){
-		this(icon, 2);
+	Talent( int x, int y ){
+		this(x, y, 2);
 	}
 
-	Talent( int icon, int maxPoints ){
-		this.icon = icon;
+	Talent( int x, int y, int maxPoints ){
+		this.icon = x+TALENT_NUMBER*y;
 		this.maxPoints = maxPoints;
 	}
 
 	public int icon(){
 		if (this == HEROIC_ENERGY){
-			if (Ratmogrify.useRatroicEnergy){
-				return 218;
-			}
+			int x = 43;
+			int y = 0;
 			HeroClass cls = Dungeon.hero != null ? Dungeon.hero.heroClass : GamesInProgress.selectedClass;
 			switch (cls){
 				case WARRIOR: default:
-					return 26;
+					y = 0;
+					break;
 				case MAGE:
-					return 58;
+					y = 1;
+					break;
 				case ROGUE:
-					return 90;
+					y = 2;
+					break;
 				case HUNTRESS:
-					return 122;
+					y = 3;
+					break;
 				case DUELIST:
-					return 154;
+					y = 4;
+					break;
 			}
+			if (Ratmogrify.useRatroicEnergy){
+				y = 11;
+			}
+			return x+TALENT_NUMBER*y;
 		} else {
 			return icon;
 		}
