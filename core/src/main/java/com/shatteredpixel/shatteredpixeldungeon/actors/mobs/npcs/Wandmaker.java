@@ -211,7 +211,7 @@ public class Wandmaker extends NPC {
 	
 	public static class Quest {
 
-		private static int type;
+		public static int type;
 		// 1 = corpse dust quest
 		// 2 = elemental embers quest
 		// 3 = rotberry quest

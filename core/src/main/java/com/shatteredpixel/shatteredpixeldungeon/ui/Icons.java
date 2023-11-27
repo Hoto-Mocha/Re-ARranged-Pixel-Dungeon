@@ -39,6 +39,8 @@ public enum Icons {
 	CHANGES,
 	PREFS,
 	SHPX,
+	ARRANGED,
+	DISCORD,
 
 	//rankings and hero select icons, spacing for 16x16
 	STAIRS,
@@ -118,7 +120,8 @@ public enum Icons {
 	KRISTJAN,
 	CUBE_CODE,
 	PURIGRO,
-	ARCNOR;
+	ARCNOR,
+	DCINSIDE;
 
 	public Image get() {
 		return get( this );
@@ -151,6 +154,12 @@ public enum Icons {
 				break;
 			case SHPX:
 				icon.frame( icon.texture.uvRectBySize( 119, 0, 16, 16 ) );
+				break;
+			case ARRANGED:
+				icon.frame( icon.texture.uvRectBySize( 144, 0, 15, 16 ) );
+				break;
+			case DISCORD:
+				icon.frame( icon.texture.uvRectBySize( 160, 0, 16, 16 ) );
 				break;
 
 			case STAIRS:
@@ -375,6 +384,10 @@ public enum Icons {
 				break;
 			case CUBE_CODE:
 				icon.frame( icon.texture.uvRectBySize( 160, 96, 27, 30 ) );
+				icon.scale.set(PixelScene.align(0.49f));
+				break;
+			case DCINSIDE:
+				icon.frame( icon.texture.uvRectBySize( 192, 96, 32, 32 ) );
 				icon.scale.set(PixelScene.align(0.49f));
 				break;
 

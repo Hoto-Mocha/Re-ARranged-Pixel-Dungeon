@@ -613,6 +613,26 @@ public class HeroSelectScene extends PixelScene {
 				buttons.add(seedButton);
 				add(seedButton);
 
+				StyledButton btnSeedTest = new StyledButton(Chrome.Type.BLANK, Messages.get(HeroSelectScene.class, "seed_find"), 6){
+					@Override
+					protected void onClick() {
+						ShatteredPixelDungeon.switchScene( SeedFindScene.class );
+					}
+				};
+				btnSeedTest.icon(Icons.get(Icons.MAGNIFY));
+				add(btnSeedTest);
+				buttons.add(btnSeedTest);
+
+				StyledButton btnSeedAnalysis = new StyledButton(Chrome.Type.BLANK, Messages.get(HeroSelectScene.class, "seed_analysis"), 6){
+					@Override
+					protected void onClick() {
+						ShatteredPixelDungeon.switchScene( SeedAnalysisScene.class );
+					}
+				};
+				btnSeedAnalysis.icon(Icons.get(Icons.NEWS));
+				add(btnSeedAnalysis);
+				buttons.add(btnSeedAnalysis);
+
 				StyledButton dailyButton = new StyledButton(Chrome.Type.BLANK, Messages.get(HeroSelectScene.class, "daily"), 6){
 
 					private static final long SECOND = 1000;

@@ -77,18 +77,30 @@ public class SupporterScene extends PixelScene {
 			@Override
 			protected void onClick() {
 				super.onClick();
-				String link = "https://www.patreon.com/ShatteredPixel";
-				//tracking codes, so that the website knows where this pageview came from
-				link += "?utm_source=shatteredpd";
-				link += "&utm_medium=supporter_page";
-				link += "&utm_campaign=ingame_link";
+				String link = "https://github.com/Hoto-Mocha/Re-ARranged-Pixel-Dungeon";
 				ShatteredPixelDungeon.platform.openURI(link);
 			}
 		};
-		link.icon(Icons.get(Icons.GOLD));
+		link.icon(Icons.get(Icons.WARNING));
 		link.textColor(Window.TITLE_COLOR);
-		link.setSize(elementWidth, BTN_HEIGHT);
+		link.setSize(elementWidth/2-GAP/2, BTN_HEIGHT);
 		add(link);
+
+		StyledButton discord = new StyledButton(Chrome.Type.GREY_BUTTON_TR, Messages.get(this, "discord_link")){
+			@Override
+			protected void onClick() {
+				super.onClick();
+				String link = "https://discord.gg/kPdqgrEsSQ";
+				if (Messages.lang() != Languages.KOREAN) {
+					link = "https://discord.gg/yHhXxbrsP3";
+				}
+				ShatteredPixelDungeon.platform.openURI(link);
+			}
+		};
+		discord.icon(Icons.get(Icons.DISCORD));
+		discord.textColor(Window.TITLE_COLOR);
+		discord.setSize(elementWidth/2-GAP/2, BTN_HEIGHT);
+		add(discord);
 
 		float elementHeight = msg.height() + BTN_HEIGHT + GAP;
 
@@ -99,6 +111,7 @@ public class SupporterScene extends PixelScene {
 		align(msg);
 
 		link.setPos(left, msg.bottom()+GAP);
+		discord.setPos(link.right()+GAP, msg.bottom()+GAP);
 		align(link);
 
 	}
@@ -120,16 +133,13 @@ public class SupporterScene extends PixelScene {
 			add(bg);
 
 			String message = Messages.get(SupporterScene.class, "intro");
-			message += "\n\n" + Messages.get(SupporterScene.class, "patreon_msg");
-			if (Messages.lang() != Languages.ENGLISH) {
-				message += "\n" + Messages.get(SupporterScene.class, "patreon_english");
-			}
-			message += "\n\n- Evan";
+			message += "\n\n" + Messages.get(SupporterScene.class, "discord_msg");
+			message += "\n\n- Cocoa(Hoto-Mocha)";
 
 			text = PixelScene.renderTextBlock(message, 6);
 			add(text);
 
-			icon = Icons.get(Icons.SHPX);
+			icon = Icons.get(Icons.ARRANGED);
 			add(icon);
 
 		}
@@ -143,7 +153,7 @@ public class SupporterScene extends PixelScene {
 			text.setPos(x + bg.marginLeft(), y + bg.marginTop() + 1);
 
 			icon.y = text.bottom() - icon.height() + 4;
-			icon.x = x + 25;
+			icon.x = x + 65;
 
 			height = (text.bottom() + 3) - y;
 

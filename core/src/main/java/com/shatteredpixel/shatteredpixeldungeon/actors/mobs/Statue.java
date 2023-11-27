@@ -47,7 +47,7 @@ public class Statue extends Mob {
 		properties.add(Property.INORGANIC);
 	}
 	
-	protected Weapon weapon;
+	public Weapon weapon;
 
 	public boolean levelGenStatue = true;
 	

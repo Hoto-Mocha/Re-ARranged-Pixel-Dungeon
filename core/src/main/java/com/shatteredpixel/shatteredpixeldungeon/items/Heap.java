@@ -68,7 +68,11 @@ public class Heap implements Bundlable {
 		CRYSTAL_CHEST,
 		TOMB,
 		SKELETON,
-		REMAINS
+		REMAINS,
+		MIMIC,
+		GOLDEN_MIMIC,
+		CRYSTAL_MIMIC,
+		STATUE
 	}
 	public Type type = Type.HEAP;
 	
