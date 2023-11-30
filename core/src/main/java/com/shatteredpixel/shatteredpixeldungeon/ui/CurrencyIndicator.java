@@ -33,13 +33,16 @@ public class CurrencyIndicator extends Component {
 	
 	private int lastGold = 0;
 	private int lastEnergy = 0;
-	
+	private int lastBullet = 0;
+
 	private BitmapText gold;
 	private BitmapText energy;
-	
+	private BitmapText bullet;
+
 	private float goldTime;
 	private float energyTime;
-	
+	private float bulletTime;
+
 	@Override
 	protected void createChildren() {
 		gold = new BitmapText( PixelScene.pixelFont);
@@ -47,20 +50,34 @@ public class CurrencyIndicator extends Component {
 
 		energy = new BitmapText( PixelScene.pixelFont);
 		add( energy );
+
+		bullet = new BitmapText( PixelScene.pixelFont);
+		add( bullet );
 		
-		gold.visible = energy.visible = false;
+		gold.visible = energy.visible = bullet.visible = false;
 	}
 	
 	@Override
 	protected void layout() {
-		energy.x = x + (width - energy.width()) / 2;
-		energy.y = bottom() - energy.height();
+		bullet.x = x + (width - bullet.width()) / 2;
+		bullet.y = bottom() - bullet.height();
 
+		energy.x = x + (width - energy.width()) / 2;
 		gold.x = x + (width - gold.width()) / 2;
-		if (energy.visible) {
-			gold.y = bottom() - gold.height()- gold.height() + 2;
+		if (bullet.visible) {
+			energy.y = bottom() - energy.height()- energy.height() + 2;
+			if (energy.visible) {
+				gold.y = bottom() - gold.height()- gold.height()- gold.height() + 2;
+			} else {
+				gold.y = bottom() - gold.height()- gold.height() + 2;
+			}
 		} else {
-			gold.y = bottom() - gold.height();
+			energy.y = bottom() - energy.height();
+			if (energy.visible) {
+				gold.y = bottom() - gold.height()- gold.height() + 2;
+			} else {
+				gold.y = bottom() - gold.height() + 2;
+			}
 		}
 	}
 	
@@ -90,6 +107,17 @@ public class CurrencyIndicator extends Component {
 
 		}
 
+		if (bullet.visible) {
+
+			bulletTime -= Game.elapsed;
+			if (bulletTime > 0) {
+				bullet.alpha( bulletTime > TIME / 2 ? 1f : bulletTime * 2 / TIME );
+			} else {
+				bullet.visible = false;
+			}
+
+		}
+
 		if (Dungeon.gold != lastGold) {
 			
 			lastGold = Dungeon.gold;
@@ -113,6 +141,19 @@ public class CurrencyIndicator extends Component {
 
 			energy.visible = true;
 			energyTime = TIME;
+
+			layout();
+		}
+
+		if (Dungeon.bullet != lastBullet) {
+			lastBullet = Dungeon.bullet;
+
+			bullet.text( Integer.toString(lastBullet) );
+			bullet.measure();
+			bullet.hardlight( 0xFFFFFF );
+
+			bullet.visible = true;
+			bulletTime = TIME;
 
 			layout();
 		}

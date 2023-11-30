@@ -76,6 +76,8 @@ public class InventoryPane extends Component {
 	private BitmapText goldTxt;
 	private Image energy;
 	private BitmapText energyTxt;
+	private Image bullet;
+	private BitmapText bulletTxt;
 	private RenderedTextBlock promptTxt;
 
 	private ArrayList<BagButton> bags;

@@ -88,6 +88,7 @@ public enum Icons {
 	PASTE,
 	COIN_SML,
 	ENERGY_SML,
+	BULLET_SML,
 	BACKPACK,
 	SEED_POUCH,
 	SCROLL_HOLDER,
@@ -289,6 +290,9 @@ public enum Icons {
 				break;
 			case ENERGY_SML:
 				icon.frame( icon.texture.uvRectBySize( 192, 72, 8, 7 ) );
+				break;
+			case BULLET_SML:
+				icon.frame( icon.texture.uvRectBySize( 184, 64, 7, 7 ) );
 				break;
 			case BACKPACK:
 				icon.frame( icon.texture.uvRectBySize( 201, 64, 10, 10 ) );

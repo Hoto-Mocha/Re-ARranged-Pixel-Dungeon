@@ -203,6 +203,22 @@ public class WndBag extends WndTabbed {
 
 			titleWidth = amt.x;
 
+			Image bullet = Icons.get(Icons.BULLET_SML);
+			bullet.x = width - gold.width() - amt.width() - bullet.width() - 2.5f;
+			bullet.y = gold.y;
+			PixelScene.align(bullet);
+			add(bullet);
+
+			amt = new BitmapText(Integer.toString(Dungeon.bullet), PixelScene.pixelFont);
+			amt.hardlight(WHITE);
+			amt.measure();
+			amt.x = width - gold.width() - 2*amt.width() - bullet.width() - 4f;
+			amt.y = bullet.y;
+			PixelScene.align(amt);
+			add(amt);
+
+			titleWidth = amt.x;
+
 			Image energy = Icons.get(Icons.ENERGY_SML);
 			energy.x = width - energy.width();
 			energy.y = gold.height();

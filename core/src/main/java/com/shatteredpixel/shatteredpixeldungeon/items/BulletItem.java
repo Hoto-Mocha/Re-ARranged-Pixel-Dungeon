@@ -21,28 +21,53 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.noosa.audio.Sample;
 
 import java.util.ArrayList;
 
-public class Bullet extends Item {
-	
+public class BulletItem extends Item {
+
+	private static final String TXT_VALUE	= "%+d";
+
 	{
 		image = ItemSpriteSheet.BULLET;
 		
 		stackable = true;
 	}
-	
-	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions( hero );
-		return actions;
+
+	public BulletItem() {
+		this( 1 );
 	}
-	
+
+	public BulletItem( int value ) {
+		this.quantity = value;
+	}
+
 	@Override
-	public void execute( Hero hero, String action ) {
-		super.execute( hero, action );
+	public ArrayList<String> actions(Hero hero ) {
+		return new ArrayList<>();
+	}
+
+	@Override
+	public boolean doPickUp(Hero hero, int pos) {
+
+		Dungeon.bullet += quantity;
+		//TODO track energy collected maybe? We do already track recipes crafted though..
+
+		GameScene.pickUp( this, pos );
+		hero.sprite.showStatus( 0x44CCFF, TXT_VALUE, quantity );
+		hero.spendAndNext( TIME_TO_PICK_UP );
+
+		Sample.INSTANCE.play( Assets.Sounds.ITEM );
+
+		updateQuickslot();
+
+		return true;
 	}
 	
 	@Override
