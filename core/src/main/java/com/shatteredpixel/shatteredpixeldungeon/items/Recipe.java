@@ -175,7 +175,9 @@ public abstract class Recipe {
 		new ExoticScroll.ScrollToExotic(),
 		new ArcaneResin.Recipe(),
 		new Alchemize.Recipe(),
-		new StewedMeat.oneMeat()
+		new StewedMeat.oneMeat(),
+		new BulletItem.Recipe(),
+		new BulletBelt.Recipe()
 	};
 	
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
@@ -205,7 +207,8 @@ public abstract class Recipe {
 		new WildEnergy.Recipe(),
 		new TelekineticGrab.Recipe(),
 		new SummonElemental.Recipe(),
-		new StewedMeat.twoMeat()
+		new StewedMeat.twoMeat(),
+		new GunSmithingTool.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{

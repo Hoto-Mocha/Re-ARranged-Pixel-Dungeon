@@ -805,11 +805,13 @@ public class ItemSpriteSheet {
 	public static final int HP_BULLET	= BULLET_ITEM+1;
 	public static final int AP_BULLET	= BULLET_ITEM+2;
 	public static final int CARTRIDGE	= BULLET_ITEM+3;
+	public static final int BULLET_BELT	= BULLET_ITEM+4;
 	static{
-		assignItemRect(BULLET	, 13, 13);
-		assignItemRect(HP_BULLET, 13, 13);
-		assignItemRect(AP_BULLET, 13, 13);
-		assignItemRect(CARTRIDGE, 11, 11);
+		assignItemRect(BULLET		, 13, 13);
+		assignItemRect(HP_BULLET	, 13, 13);
+		assignItemRect(AP_BULLET	, 13, 13);
+		assignItemRect(CARTRIDGE	, 11, 11);
+		assignItemRect(BULLET_BELT	, 15, 15);
 	}
 
 	private static final int BULLETS		=			xy(1, 42);  //16 slots
@@ -962,7 +964,7 @@ public class ItemSpriteSheet {
 
 
 
-	private static final int SG	  	=			xy(9, 48);  //8 slots
+	private static final int SG	  	=			xy(9, 49);  //8 slots
 //	public static final int SG_T1		= SG+0;
 //	public static final int SG_T2		= SG+1;
 	public static final int SG_T3		= SG+2;
@@ -980,7 +982,7 @@ public class ItemSpriteSheet {
 //		assignItemRect(SG_T6, 16, 16);
 	}
 
-	private static final int SR			  	=			xy(1, 49);  //8 slots
+	private static final int SR			  	=			xy(1, 50);  //8 slots
 	public static final int SR_T1			= SR+0;
 	public static final int SR_T2			= SR+1;
 	public static final int SR_T3			= SR+2;
@@ -998,7 +1000,7 @@ public class ItemSpriteSheet {
 		assignItemRect(SR_T6, 15, 16);
 	}
 
-	private static final int AR			  	=			xy(9, 49);  //8 slots
+	private static final int AR			  	=			xy(9, 50);  //8 slots
 	public static final int AR_T1			= AR+0;
 	public static final int AR_T2			= AR+1;
 	public static final int AR_T3			= AR+2;

@@ -176,6 +176,12 @@ public class InventoryPane extends Component {
 		energyTxt.hardlight(0x44CCFF);
 		add(energyTxt);
 
+		bullet = Icons.get(Icons.BULLET_SML);
+		add(bullet);
+		bulletTxt = new BitmapText(PixelScene.pixelFont);
+		bulletTxt.hardlight(0xFFFFFF);
+		add(bulletTxt);
+
 		promptTxt = PixelScene.renderTextBlock(6);
 		promptTxt.hardlight(Window.TITLE_COLOR);
 		add(promptTxt);
@@ -244,6 +250,13 @@ public class InventoryPane extends Component {
 
 		energy.x = energyTxt.x + energyTxt.width() + 1;
 		energy.y = energyTxt.y;
+
+		bulletTxt.x = energy.x + energy.width() + 2;
+		bulletTxt.y = y+5.5f;
+		PixelScene.align(bulletTxt);
+
+		bullet.x = bulletTxt.x + bulletTxt.width() + 1;
+		bullet.y = bulletTxt.y;
 
 		for (BagButton b : bags){
 			b.setRect(left, y + 14, SLOT_WIDTH, 14);
@@ -344,13 +357,18 @@ public class InventoryPane extends Component {
 
 			energyTxt.text(Integer.toString(Dungeon.energy));
 			energyTxt.measure();
-			energyTxt.visible = energy.visible = Dungeon.energy > 0;
+			energyTxt.visible = energy.visible = true;
+
+			bulletTxt.text(Integer.toString(Dungeon.bullet));
+			bulletTxt.measure();
+			bulletTxt.visible = bullet.visible = true;
 		} else {
 			promptTxt.text(selector.textPrompt());
 			promptTxt.visible = true;
 
 			goldTxt.visible = gold.visible = false;
 			energyTxt.visible = energy.visible = false;
+			bulletTxt.visible = bullet.visible = false;
 		}
 
 		ArrayList<Bag> inventBags = stuff.getBags();
@@ -383,6 +401,8 @@ public class InventoryPane extends Component {
 		gold.alpha( lastEnabled ? 1f : 0.3f );
 		energyTxt.alpha( lastEnabled ? 1f : 0.3f );
 		energy.alpha( lastEnabled ? 1f : 0.3f );
+		bulletTxt.alpha( lastEnabled ? 1f : 0.3f );
+		bullet.alpha( lastEnabled ? 1f : 0.3f );
 
 		layout();
 	}
@@ -473,6 +493,8 @@ public class InventoryPane extends Component {
 			gold.alpha( lastEnabled ? 1f : 0.3f );
 			energyTxt.alpha( lastEnabled ? 1f : 0.3f );
 			energy.alpha( lastEnabled ? 1f : 0.3f );
+			bulletTxt.alpha( lastEnabled ? 1f : 0.3f );
+			bullet.alpha( lastEnabled ? 1f : 0.3f );
 		}
 
 	}
@@ -594,8 +616,8 @@ public class InventoryPane extends Component {
 
 	private class BagButton extends IconButton {
 
-		private static final int ACTIVE		= 0x9953564D;
-		private static final int INACTIVE	= 0x9942443D;
+		private static final int ACTIVE		= 0x993D3D3D;
+		private static final int INACTIVE	= 0x992E2E2E;
 
 		private ColorBlock bgTop;
 		private ColorBlock bgBottom;

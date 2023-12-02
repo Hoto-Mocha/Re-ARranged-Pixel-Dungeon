@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.AntiEntropy;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Bulk;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Corrosion;
@@ -58,6 +59,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Swiftness;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Thorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -371,6 +374,23 @@ public class Armor extends EquipableItem {
 		
 		if (hasGlyph(Obfuscation.class, owner)){
 			stealth += (1 + buffedLvl()/3f) * glyph.procChanceMultiplier(owner);
+		}
+
+		if (owner == Dungeon.hero) {
+			KindOfWeapon wep = ((Hero) owner).belongings.weapon;
+			if (wep instanceof Gun) {
+				switch (((Gun) wep).attachMod) {
+					case NORMAL_ATTACH: default:
+						//no effect
+						break;
+					case LASER_ATTACH:
+						stealth -= 1;
+						break;
+					case FLASH_ATTACH:
+						stealth -= 2;
+						break;
+				}
+			}
 		}
 		
 		return stealth;

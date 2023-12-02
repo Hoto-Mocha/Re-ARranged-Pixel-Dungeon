@@ -8,28 +8,19 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import java.util.ArrayList;
 
 public class SG extends Gun {
-    //근접 이외에 탄환이 맞지 않음. Hero.attackSkill()참고
+    //근접 시 탄환 명중률이 크게 증가. Hero.attackSkill()참고
     //탄환 기습 불가. Hero.canSurpriseAttack()참고
 
     {
         max_round = 2;
         round = max_round;
         shotPerShoot = 5;
-        shootingAccuracy = 3f;  //투척무기는 근접 시 0.5배 보정이 기본으로 있기 때문에 배율이 높음
+        shootingAccuracy = 0.2f;
     }
 
     @Override
-    public ArrayList<String> actions(Hero hero) {
-        ArrayList<String> actions = super.actions(hero);
-        return actions;
-    }
-
-    @Override
-    public void execute(Hero hero, String action) {
-        if (action.equals(AC_RELOAD)) {
-            reload();
-        }
-        super.execute(hero, action);
+    public int bulletUse() {
+        return maxRound()-round;
     }
 
     @Override

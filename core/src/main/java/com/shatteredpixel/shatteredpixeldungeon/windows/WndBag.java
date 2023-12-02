@@ -169,72 +169,53 @@ public class WndBag extends WndTabbed {
 	protected void placeTitle( Bag bag, int width ){
 
 		float titleWidth;
-		if (Dungeon.energy == 0) {
-			ItemSprite gold = new ItemSprite(ItemSpriteSheet.GOLD, null);
-			gold.x = width - gold.width();
-			gold.y = (TITLE_HEIGHT - gold.height()) / 2f;
-			PixelScene.align(gold);
-			add(gold);
+		Image gold = Icons.get(Icons.COIN_SML);
+		gold.x = width - gold.width() - 0.5f;
+		gold.y = 0;
+		PixelScene.align(gold);
+		add(gold);
 
-			BitmapText amt = new BitmapText(Integer.toString(Dungeon.gold), PixelScene.pixelFont);
-			amt.hardlight(TITLE_COLOR);
-			amt.measure();
-			amt.x = width - gold.width() - amt.width() - 1;
-			amt.y = (TITLE_HEIGHT - amt.baseLine()) / 2f - 1;
-			PixelScene.align(amt);
-			add(amt);
+		BitmapText amt_gold = new BitmapText(Integer.toString(Dungeon.gold), PixelScene.pixelFont);
+		amt_gold.hardlight(TITLE_COLOR);
+		amt_gold.measure();
+		amt_gold.x = width - gold.width() - amt_gold.width() - 2f;
+		amt_gold.y = 0;
+		PixelScene.align(amt_gold);
+		add(amt_gold);
 
-			titleWidth = amt.x;
-		} else {
+		titleWidth = amt_gold.x;
 
-			Image gold = Icons.get(Icons.COIN_SML);
-			gold.x = width - gold.width() - 0.5f;
-			gold.y = 0;
-			PixelScene.align(gold);
-			add(gold);
+		Image bullet = Icons.get(Icons.BULLET_SML);
+		bullet.x = width - gold.width() - amt_gold.width() - bullet.width() - 3.5f;
+		bullet.y = gold.y;
+		PixelScene.align(bullet);
+		add(bullet);
 
-			BitmapText amt = new BitmapText(Integer.toString(Dungeon.gold), PixelScene.pixelFont);
-			amt.hardlight(TITLE_COLOR);
-			amt.measure();
-			amt.x = width - gold.width() - amt.width() - 2f;
-			amt.y = 0;
-			PixelScene.align(amt);
-			add(amt);
+		BitmapText amt_bullet = new BitmapText(Integer.toString(Dungeon.bullet), PixelScene.pixelFont);
+		amt_bullet.hardlight(WHITE);
+		amt_bullet.measure();
+		amt_bullet.x = width - gold.width() - amt_gold.width() - amt_bullet.width() - bullet.width() - 5f;
+		amt_bullet.y = bullet.y;
+		PixelScene.align(amt_bullet);
+		add(amt_bullet);
 
-			titleWidth = amt.x;
+		titleWidth = amt_bullet.x;
 
-			Image bullet = Icons.get(Icons.BULLET_SML);
-			bullet.x = width - gold.width() - amt.width() - bullet.width() - 2.5f;
-			bullet.y = gold.y;
-			PixelScene.align(bullet);
-			add(bullet);
+		Image energy = Icons.get(Icons.ENERGY_SML);
+		energy.x = width - energy.width();
+		energy.y = gold.height();
+		PixelScene.align(energy);
+		add(energy);
 
-			amt = new BitmapText(Integer.toString(Dungeon.bullet), PixelScene.pixelFont);
-			amt.hardlight(WHITE);
-			amt.measure();
-			amt.x = width - gold.width() - 2*amt.width() - bullet.width() - 4f;
-			amt.y = bullet.y;
-			PixelScene.align(amt);
-			add(amt);
+		BitmapText amt_energy = new BitmapText(Integer.toString(Dungeon.energy), PixelScene.pixelFont);
+		amt_energy.hardlight(0x44CCFF);
+		amt_energy.measure();
+		amt_energy.x = width - energy.width() - amt_energy.width() - 1;
+		amt_energy.y = energy.y;
+		PixelScene.align(amt_energy);
+		add(amt_energy);
 
-			titleWidth = amt.x;
-
-			Image energy = Icons.get(Icons.ENERGY_SML);
-			energy.x = width - energy.width();
-			energy.y = gold.height();
-			PixelScene.align(energy);
-			add(energy);
-
-			amt = new BitmapText(Integer.toString(Dungeon.energy), PixelScene.pixelFont);
-			amt.hardlight(0x44CCFF);
-			amt.measure();
-			amt.x = width - energy.width() - amt.width() - 1;
-			amt.y = energy.y;
-			PixelScene.align(amt);
-			add(amt);
-
-			titleWidth = Math.min(titleWidth, amt.x);
-		}
+		titleWidth = Math.min(titleWidth, amt_energy.x);
 
 		String title = selector != null ? selector.textPrompt() : null;
 		RenderedTextBlock txtTitle = PixelScene.renderTextBlock(

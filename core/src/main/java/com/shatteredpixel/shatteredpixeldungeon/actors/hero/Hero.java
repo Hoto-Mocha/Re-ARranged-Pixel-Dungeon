@@ -131,6 +131,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG.SG;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
@@ -470,11 +472,21 @@ public class Hero extends Char {
 		float accuracy = 1;
 		accuracy *= RingOfAccuracy.accuracyMultiplier( this );
 		
-		if (wep instanceof MissileWeapon){
+		if (wep instanceof MissileWeapon && !(wep instanceof Gun.Bullet)){ //총탄을 제외한 투척 무기의 정확성
 			if (Dungeon.level.adjacent( pos, target.pos )) {
 				accuracy *= (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
 			} else {
 				accuracy *= 1.5f;
+			}
+		}
+
+		if (wep instanceof Gun.Bullet) {	//총탄의 정확성
+			if (Dungeon.level.adjacent( pos, target.pos )) {
+				if (wep instanceof SG.SGBullet) {
+					accuracy *= 10f; //산탄총은 기본적으로 0.2배의 명중률 보정이 있으며, 이를 10배함으로써 2배의 명중률을 가짐
+				} else {
+					accuracy *= (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
+				}
 			}
 		}
 
@@ -657,6 +669,7 @@ public class Hero extends Char {
 		if (RingOfForce.fightingUnarmed(this))  return true;
 		if (STR() < ((Weapon)w).STRReq())       return false;
 		if (w instanceof Flail)                 return false;
+		if (w instanceof SG.SGBullet)           return false;
 
 		return super.canSurpriseAttack();
 	}

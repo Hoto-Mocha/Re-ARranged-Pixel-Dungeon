@@ -21,63 +21,44 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfArcaneArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfEarthenArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class BulletItem extends Item {
+public class BulletBelt extends Item {
 
-	private static final String TXT_VALUE	= "%+d";
+	public static final String AC_USE		= "USE";
 
 	{
-		image = ItemSpriteSheet.BULLET;
-		
+		defaultAction = AC_USE;
+		image = ItemSpriteSheet.BULLET_BELT;
+
 		stackable = true;
-	}
-
-	public BulletItem() {
-		this( 1 );
-	}
-
-	public BulletItem( int value ) {
-		this.quantity = value;
 	}
 
 	@Override
 	public ArrayList<String> actions(Hero hero ) {
-		return new ArrayList<>();
+		ArrayList<String> actions = super.actions(hero);
+		actions.add(AC_USE);
+		return actions;
 	}
 
 	@Override
-	public boolean collect() {
-		Dungeon.bullet += quantity;
-		updateQuickslot();
-		return true;
-	}
+	public void execute(Hero hero, String action) {
+		super.execute(hero, action);
+		if (action.equals( AC_USE )) {
+			detach(hero.belongings.backpack);
+			hero.sprite.operate(hero.pos);
+			hero.busy();
+			hero.spendAndNext(Actor.TICK);
 
-	@Override
-	public boolean doPickUp(Hero hero, int pos) {
-
-		Dungeon.bullet += quantity;
-		//TODO track energy collected maybe? We do already track recipes crafted though..
-
-		GameScene.pickUp( this, pos );
-		hero.sprite.showStatus( 0xFFFFFF, TXT_VALUE, quantity );
-		hero.spendAndNext( TIME_TO_PICK_UP );
-
-		Sample.INSTANCE.play( Assets.Sounds.ITEM );
-
-		updateQuickslot();
-
-		return true;
+			BulletItem bulletItem = new BulletItem();
+			bulletItem.quantity(Random.IntRange(50, 70));
+			bulletItem.doPickUp(hero);
+		}
 	}
 	
 	@Override
@@ -92,18 +73,18 @@ public class BulletItem extends Item {
 	
 	@Override
 	public int value() {
-		return 1;
+		return 50*quantity;
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
 			inputs =  new Class[]{LiquidMetal.class};
-			inQuantity = new int[]{1};
+			inQuantity = new int[]{50};
 
-			cost = 0;
+			cost = 5;
 
-			output = BulletItem.class;
+			output = BulletBelt.class;
 			outQuantity = 1;
 		}
 

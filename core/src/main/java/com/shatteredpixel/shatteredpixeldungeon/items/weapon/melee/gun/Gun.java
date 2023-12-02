@@ -6,12 +6,14 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
@@ -38,7 +40,8 @@ public class Gun extends MeleeWeapon {
 	protected float reload_time = 2f; //재장전 시간
 	protected int shotPerShoot = 1; //발사 당 탄환의 개수
 	protected float shootingSpeed = 1f; //발사 시 소모하는 턴의 배율. 낮을수록 빠르다
-	protected float shootingAccuracy = 1f; //발사 시 탄환 정확성의 배율. 높을 수록 정확하다
+	protected float shootingAccuracy = 1f; //발사 시 탄환 정확성의 배율. 높을 수록 정확하다.
+	//총기의 정확성은 근접할 때에는 떨어지지만, 멀리 있다고 증가하진 않는다. Hero.attackSkill()참고
 	protected boolean explode = false; //탄환 폭발 여부
 	public static final String TXT_STATUS = "%d/%d";
 
@@ -48,39 +51,100 @@ public class Gun extends MeleeWeapon {
 	public boolean doubleBarrelSpecial = false;
 
 	public enum BarrelMod {
-		NORMAL_BARREL,
-		LONG_BARREL,
-		SHORT_BARREL
+		NORMAL_BARREL(1, 1),
+		SHORT_BARREL(1.5f, 0.5f),
+		LONG_BARREL(0.75f, 1.25f);
+
+		private float meleeAccFactor;
+		private float rangedAccFactor;
+
+		BarrelMod(float meleeMulti, float rangedMulti) {
+			this.meleeAccFactor = meleeMulti;
+			this.rangedAccFactor = rangedMulti;
+		}
+
+		public float bulletAccuracyFactor(float accuracy, boolean adjacent) {
+			if (adjacent) {
+				return accuracy * meleeAccFactor;
+			} else {
+				return accuracy * rangedAccFactor;
+			}
+		}
 	}
 
 	public enum MagazineMod {
-		NORMAL_MAGAZINE,
-		LARGE_MAGAZINE,
-		QUICK_MAGAZINE
+		NORMAL_MAGAZINE(1, 0),
+		LARGE_MAGAZINE(1.5f, +1),
+		QUICK_MAGAZINE(0.5f, -1);
+
+		private float magazineFactor;
+		private int reloadTimeFactor;
+
+		MagazineMod(float magMulti, int reloadAdd) {
+			this.magazineFactor = magMulti;
+			this.reloadTimeFactor = reloadAdd;
+		}
+
+		public int magazineFactor(int magazine) {
+			return (int)Math.floor(magazine*magazineFactor);
+		}
+		public float reloadTimeFactor(float time) {
+			return time + reloadTimeFactor;
+		}
 	}
 
 	public enum BulletMod {
-		NORMAL_BULLET,
-		AP_BULLET,
-		HP_BULLET
+		NORMAL_BULLET(1, 1),
+		AP_BULLET(0, 0.8f),
+		HP_BULLET(2, 1.3f);
+
+		private float armorMulti;
+		private float dmgMulti;
+
+		BulletMod(float armorMulti, float dmgMulti) {
+			this.armorMulti = armorMulti;
+			this.dmgMulti = dmgMulti;
+		}
+
+		public float armorFactor() {
+			return armorMulti;
+		}
+		public int damageFactor(int damage) {
+			return Math.round(damage*dmgMulti);
+		}
 	}
 
 	public enum WeightMod {
 		NORMAL_WEIGHT,
-		HEAVY_WEIGHT,
-		LIGHT_WEIGHT
+		LIGHT_WEIGHT,
+		HEAVY_WEIGHT;
 	}
 
 	public enum AttachMod {
 		NORMAL_ATTACH,
 		LASER_ATTACH,
-		FLASH_ATTACH
+		FLASH_ATTACH;
 	}
 
 	public enum EnchantMod {
-		NORMAL_ENCHANT,
-		AMP_ENCHANT,
-		SUP_ENCHANT
+		NORMAL_ENCHANT(1, 1),
+		AMP_ENCHANT(2, 0.75f),
+		SUP_ENCHANT(0.5f, 1.25f);
+
+		private float enchantMulti;
+		private float dmgMulti;
+
+		EnchantMod(float enchantMulti, float dmgMulti) {
+			this.enchantMulti = enchantMulti;
+			this.dmgMulti = dmgMulti;
+		}
+
+		public float enchantFactor() {
+			return enchantMulti;
+		}
+		public int damageFactor(int damage) {
+			return Math.round(damage*dmgMulti);
+		}
 	}
 
 	public BarrelMod barrelMod = BarrelMod.NORMAL_BARREL;
@@ -206,6 +270,23 @@ public class Gun extends MeleeWeapon {
 	}
 
 	public void reload() {
+		if (Dungeon.bullet <= shotPerShoot()) {
+			GLog.w(Messages.get(this, "less_bullet"));
+			return;
+		}
+
+		if (Dungeon.bullet < bulletUse()) {
+			while (true) {
+				if (Dungeon.bullet < shotPerShoot()) {
+					break;
+				}
+				Dungeon.bullet -= shotPerShoot();
+				manualReload();
+			}
+		} else {
+			Dungeon.bullet -= bulletUse();
+			quickReload();
+		}
 
 		hero.busy();
 		hero.sprite.operate(hero.pos);
@@ -251,6 +332,8 @@ public class Gun extends MeleeWeapon {
 	public int maxRound() { //최대 장탄수
 		int amount = max_round;
 
+		amount = this.magazineMod.magazineFactor(amount);
+
 		return amount;
 	}
 
@@ -261,8 +344,15 @@ public class Gun extends MeleeWeapon {
 	public float reloadTime() { //재장전에 소모하는 턴
 		float amount = reload_time;
 
+		amount = this.magazineMod.reloadTimeFactor(amount);
+
 		return amount;
 	}
+
+	public int bulletUse() {
+		return (maxRound()-round)*shotPerShoot();
+	}
+
 
 	@Override
 	public int max(int lvl) {
@@ -303,6 +393,17 @@ public class Gun extends MeleeWeapon {
 		return super.baseDelay(owner);
 	}
 
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		if (this.attachMod == AttachMod.FLASH_ATTACH) {
+			if (Random.Int(10) > 5+Dungeon.level.distance(attacker.pos, defender.pos)-1) {
+				Buff.prolong(defender, Blindness.class, 2f);
+			}
+		}
+
+		return super.proc(attacker, defender, damage);
+	}
+
 
 	@Override
 	public String info() {
@@ -310,13 +411,79 @@ public class Gun extends MeleeWeapon {
 		//근접 무기의 설명을 모두 가져옴, 여기에서 할 것은 근접 무기의 설명에 추가로 생기는 문장을 더하는 것
 		if (levelKnown) { //감정되어 있을 때
 			info += "\n\n" + Messages.get(Gun.class, "gun_desc",
-					augment.damageFactor(bulletMin(buffedLvl())), augment.damageFactor(bulletMax(buffedLvl())), shotPerShoot(), round, maxRound(), new DecimalFormat("#.##").format(reloadTime()));
+					shotPerShoot(), augment.damageFactor(bulletMin(buffedLvl())), augment.damageFactor(bulletMax(buffedLvl())), round, maxRound(), new DecimalFormat("#.##").format(reloadTime()), bulletUse());
 		} else { //감정되어 있지 않을 때
 			info += "\n\n" + Messages.get(Gun.class, "gun_typical_desc",
-					augment.damageFactor(bulletMin(0)), augment.damageFactor(bulletMax(0)), shotPerShoot(), round, maxRound(), new DecimalFormat("#.##").format(reloadTime()));
+					shotPerShoot(), augment.damageFactor(bulletMin(0)), augment.damageFactor(bulletMax(0)), round, maxRound(), new DecimalFormat("#.##").format(reloadTime()), bulletUse());
 		}
 		//DecimalFormat("#.##")은 .format()에 들어가는 매개변수(실수)를 "#.##"형식으로 표시하는데 사용된다.
 		//가령 5.55555가 .format()안에 들어가서 .format(5.55555)라면, new DecimalFormat("#.##").format(5.55555)는 5.55라는 String 타입의 값을 반환한다.
+
+		boolean isModded = false;
+		boolean[] whatModded = {false, false, false, false, false, false};
+
+		if (barrelMod != BarrelMod.NORMAL_BARREL) {
+			whatModded[0] = true;
+			isModded = true;
+		}
+		if (magazineMod != MagazineMod.NORMAL_MAGAZINE) {
+			whatModded[1] = true;
+			isModded = true;
+		}
+		if (bulletMod != BulletMod.NORMAL_BULLET) {
+			whatModded[2] = true;
+			isModded = true;
+		}
+		if (weightMod != WeightMod.NORMAL_WEIGHT) {
+			whatModded[3] = true;
+			isModded = true;
+		}
+		if (attachMod != AttachMod.NORMAL_ATTACH) {
+			whatModded[4] = true;
+			isModded = true;
+		}
+		if (enchantMod != EnchantMod.NORMAL_ENCHANT) {
+			whatModded[5] = true;
+			isModded = true;
+		}
+
+		if (isModded) {
+			info += "\n\n" + Messages.get(this, "modded_start");
+			if (whatModded[0]) {
+				info += Messages.get(GunSmithingTool.WndMod.class, barrelMod.name());
+				if (whatModded[1] || whatModded[2] || whatModded[3] || whatModded[4] || whatModded[5]) { //이 개조 이후에 추가로 개조된 것이 있는지를 확인
+					info += ", ";
+				}
+			}
+			if (whatModded[1]) {
+				info += Messages.get(GunSmithingTool.WndMod.class, magazineMod.name());
+				if (whatModded[2] || whatModded[3] || whatModded[4] || whatModded[5]) { //이 개조 이후에 추가로 개조된 것이 있는지를 확인
+					info += ", ";
+				}
+			}
+			if (whatModded[2]) {
+				info += Messages.get(GunSmithingTool.WndMod.class, bulletMod.name());
+				if (whatModded[3] || whatModded[4] || whatModded[5]) { //이 개조 이후에 추가로 개조된 것이 있는지를 확인
+					info += ", ";
+				}
+			}
+			if (whatModded[3]) {
+				info += Messages.get(GunSmithingTool.WndMod.class, weightMod.name());
+				if (whatModded[4] || whatModded[5]) { //이 개조 이후에 추가로 개조된 것이 있는지를 확인
+					info += ", ";
+				}
+			}
+			if (whatModded[4]) {
+				info += Messages.get(GunSmithingTool.WndMod.class, attachMod.name());
+				if (whatModded[5]) { //이 개조 이후에 추가로 개조된 것이 있는지를 확인
+					info += ", ";
+				}
+			}
+			if (whatModded[5]) {
+				info += Messages.get(GunSmithingTool.WndMod.class, enchantMod.name());
+			}
+			info += Messages.get(this, "modded_end");
+		}
 
 		return info;
 	}
@@ -343,6 +510,14 @@ public class Gun extends MeleeWeapon {
 			tier = Gun.this.tier;
 		}
 
+		public BulletMod whatBullet() { //현재 탄환이 어떤 개조인지를 반환함. 탄환 피해의 적 방어력 적용량 결정에 쓰임
+			return Gun.this.bulletMod;
+		}
+
+		public EnchantMod whatEnchant() {
+			return Gun.this.enchantMod;
+		}
+
 		@Override
 		public int proc(Char attacker, Char defender, int damage) {
 			boolean isDebuffed = false;
@@ -352,6 +527,8 @@ public class Gun extends MeleeWeapon {
 					break;
 				}
 			}
+			damage = this.whatBullet().damageFactor(damage);
+			damage = this.whatEnchant().damageFactor(damage);
 			return Gun.this.proc(attacker, defender, damage);
 		}
 
@@ -379,12 +556,14 @@ public class Gun extends MeleeWeapon {
 		@Override
 		public float accuracyFactor(Char owner, Char target) {
 			float ACC = super.accuracyFactor(owner, target);
-			if (owner instanceof Hero) {
-				ACC *= shootingAccuracy;
-			}
+			ACC *= shootingAccuracy;
 			if (shootAll) {
 				ACC *= 0.5f;
 			}
+			if (Gun.this.attachMod == AttachMod.LASER_ATTACH) {
+				ACC *= 1.25f;
+			}
+			ACC = Gun.this.barrelMod.bulletAccuracyFactor(ACC, Dungeon.level.adjacent(owner.pos, target.pos));
 			return ACC;
 		}
 
@@ -471,7 +650,7 @@ public class Gun extends MeleeWeapon {
 
 		@Override
 		public void cast(final Hero user, final int dst) {
-			cast(user, dst);
+			super.cast(user, dst);
 		}
 	}
 
