@@ -241,16 +241,39 @@ public class TalentsPane extends ScrollPane {
 					left = title.right() + 2;
 				}
 			}
+			if (buttons.size() >= 7) {
+				int arrayedTalentNumber = 0;
+				int halfTalentNumber = Math.round(buttons.size() / 2f);
+				boolean numberOfTalents = (buttons.size() % 2 == 1);
+				//  float gap = (특성창 가로길이 - 특성 개수*특성 버튼의 가로길이)/(특성 개수       +1);
+				float gap = (width - halfTalentNumber * TalentButton.WIDTH) / (halfTalentNumber + 1); //각 버튼 간의 간격, .size = buttons 안에 있는 객체의 수, 즉 buttons.size() = 특성의 개수
+				left = x + gap;
+				float firstLeft = (numberOfTalents) ? x + 1.5f * gap + TalentButton.WIDTH / 2f : x + gap;
+				for (TalentButton btn : buttons) {
+					if (arrayedTalentNumber < halfTalentNumber) {
+						btn.setPos(left, title.bottom() + 4);
+						PixelScene.align(btn);
+						left += btn.width() + gap;
+					} else {
+						btn.setPos(firstLeft, title.bottom() + 4 + TalentButton.HEIGHT + 4);
+						PixelScene.align(btn);
+						firstLeft += btn.width() + gap;
+					}
+					arrayedTalentNumber++;
+				}
 
-			float gap = (width - buttons.size()*TalentButton.WIDTH)/(buttons.size()+1);
-			left = x + gap;
-			for (TalentButton btn : buttons){
-				btn.setPos(left, title.bottom() + 4);
-				PixelScene.align(btn);
-				left += btn.width() + gap;
+				height = buttons.get(0).bottom() - y + 30; //각 등급 간의 세로 거리
+			} else {
+				float gap = (width - buttons.size() * TalentButton.WIDTH) / (buttons.size() + 1); //각 버튼 간의 간격, .size = buttons 안에 있는 객체의 수, 즉 buttons.size() = 특성의 개수
+				left = x + gap;
+				for (TalentButton btn : buttons) {
+					btn.setPos(left, title.bottom() + 4);
+					PixelScene.align(btn);
+					left += btn.width() + gap;
+				}
+				height = buttons.get(0).bottom() - y; //각 등급 간의 세로 거리
+
 			}
-
-			height = buttons.get(0).bottom() - y;
 
 		}
 

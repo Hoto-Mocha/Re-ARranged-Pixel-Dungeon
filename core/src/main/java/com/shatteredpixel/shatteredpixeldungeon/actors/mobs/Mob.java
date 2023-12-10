@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
@@ -32,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
@@ -46,6 +49,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.ArtifactRechargeArea;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.BarrierRechargeArea;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.WandRechargeArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -63,6 +69,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArm
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -70,6 +77,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
@@ -705,6 +713,10 @@ public abstract class Mob extends Char {
 			}
 		}
 
+		if (buff(BookOfTransfusion.VampiricMark.class) != null) {
+			BookOfTransfusion.VampiricMark.proc(enemy, Math.min(damage, HP+shielding()));
+		}
+
 		return super.defenseProc(enemy, damage);
 	}
 
@@ -822,6 +834,37 @@ public abstract class Mob extends Char {
 				}
 			}
 
+		}
+
+		if (Dungeon.level.map[pos] != Terrain.PIT && hero.hasTalent(Talent.ENERGY_REMAINS)) {
+			int chance = Random.Int(6);
+			int point = Dungeon.hero.pointsInTalent(Talent.ENERGY_REMAINS);
+			switch (chance) {
+				default:
+					break;
+				case 0:
+					if (point >= 1) {
+						Buff.affect(hero, WandRechargeArea.class).setup(pos);
+					}
+					break;
+				case 1:
+					if (point >= 2) {
+						Buff.affect(hero, ArtifactRechargeArea.class).setup(pos);
+					}
+					break;
+				case 2:
+					if (point >= 3) {
+						Buff.affect(hero, BarrierRechargeArea.class).setup(pos);
+					}
+					break;
+			}
+		}
+
+		if (cause == hero) {
+			if (Dungeon.hero.hasTalent(Talent.LETHAL_RAGE)){
+				Berserk berserk = Buff.affect(hero, Berserk.class);
+				berserk.add(0.067f*Dungeon.hero.pointsInTalent(Talent.LETHAL_RAGE));
+			}
 		}
 
 		if (Dungeon.hero.isAlive() && !Dungeon.level.heroFOV[pos]) {

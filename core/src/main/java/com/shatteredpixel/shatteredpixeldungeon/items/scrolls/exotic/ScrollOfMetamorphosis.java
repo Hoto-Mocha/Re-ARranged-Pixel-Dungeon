@@ -43,11 +43,12 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class ScrollOfMetamorphosis extends ExoticScroll {
-	
+
 	{
 		icon = ItemSpriteSheet.Icons.SCROLL_METAMORPH;
 
@@ -171,6 +172,19 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 
 	public static class WndMetamorphReplace extends Window {
 
+		//talents that can only be used by one hero class
+		private static HashMap<Talent, HeroClass> restrictedTalents = new HashMap<>();
+		static {
+			restrictedTalents.put(Talent.SKILLED_HAND, HeroClass.DUELIST);
+			restrictedTalents.put(Talent.ACCUMULATION, HeroClass.DUELIST);
+
+//			restrictedTalents.put(Talent.PLANT_SHIELD, HeroClass.PLANTER);
+//			restrictedTalents.put(Talent.FLOWER_BED, HeroClass.PLANTER);
+//			restrictedTalents.put(Talent.FARMER, HeroClass.PLANTER);
+//
+//			restrictedTalents.put(Talent.CRAFTMANS_SKILLS, HeroClass.KNIGHT);
+		}
+
 		public static WndMetamorphReplace INSTANCE;
 
 		public Talent replacing;
@@ -220,6 +234,10 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 						break;
 					} else {
 						if (curTalentsAtTier.contains(talent)){
+							clsTalentsAtTier.remove(talent);
+						}
+						if (restrictedTalents.containsKey(talent)
+								&& restrictedTalents.get(talent) != curUser.heroClass){
 							clsTalentsAtTier.remove(talent);
 						}
 					}

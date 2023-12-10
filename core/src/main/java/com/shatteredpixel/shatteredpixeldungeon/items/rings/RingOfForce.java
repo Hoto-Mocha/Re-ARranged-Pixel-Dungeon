@@ -27,6 +27,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -85,7 +88,25 @@ public class RingOfForce extends Ring {
 			return Random.NormalIntRange(min(level, tier), max(level, tier));
 		} else {
 			//attack without any ring of force influence
-			return Random.NormalIntRange(1, Math.max(hero.STR()-8, 1));
+			if (Dungeon.hero.subClass == HeroSubClass.FIGHTER) {
+				int damage = Random.NormalIntRange((hero.STR() - 8), (hero.STR() - 8 + hero.lvl));
+				if (hero.pointsInTalent(Talent.RING_KNUCKLE) == 3) {
+					if (hero.belongings.ring != null) {
+						damage += hero.belongings.ring.buffedLvl();
+					}
+					if (hero.belongings.misc instanceof Ring) {
+						damage += hero.belongings.misc.buffedLvl();
+					}
+				}
+				int conservedDamage = 0;
+				if (Dungeon.hero.buff(Kinetic.ConservedDamage.class) != null) {
+					conservedDamage = Dungeon.hero.buff(Kinetic.ConservedDamage.class).damageBonus();
+					Dungeon.hero.buff(Kinetic.ConservedDamage.class).detach();
+				}
+				return damage + conservedDamage;
+			} else {
+				return Random.NormalIntRange(1, Math.max(hero.STR()-8, 1));
+			}
 		}
 	}
 

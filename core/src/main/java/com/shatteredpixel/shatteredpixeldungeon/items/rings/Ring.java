@@ -21,26 +21,85 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Daze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Enduring;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PoisonParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ItemStatusHandler;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindofMisc;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFrost;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLightning;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfPrismaticLight;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.PathFinder;
+import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 
@@ -64,6 +123,35 @@ public class Ring extends KindofMisc {
 			put("diamond",ItemSpriteSheet.RING_DIAMOND);
 		}
 	};
+
+	public static final int RING_ACCURACY  		= 0;
+	public static final int RING_ARCANA  		= 1;
+	public static final int RING_ELEMENTS  		= 2;
+	public static final int RING_ENERGY  		= 3;
+	public static final int RING_EVASION  		= 4;
+	public static final int RING_FORCE  		= 5;
+	public static final int RING_FUROR  		= 6;
+	public static final int RING_HASTE  		= 7;
+	public static final int RING_MIGHT  		= 8;
+	public static final int RING_SHARPSHOOTING  = 9;
+	public static final int RING_TENACITY  		= 10;
+	public static final int RING_WEALTH			= 11;
+
+	public static final HashMap<Class<?extends Ring>, Integer> ringTypes = new HashMap<>();
+	static {
+		ringTypes.put(RingOfAccuracy.class,			RING_ACCURACY		);
+		ringTypes.put(RingOfArcana.class,			RING_ARCANA  		);
+		ringTypes.put(RingOfElements.class,			RING_ELEMENTS  		);
+		ringTypes.put(RingOfEnergy.class,			RING_ENERGY  		);
+		ringTypes.put(RingOfEvasion.class,			RING_EVASION  		);
+		ringTypes.put(RingOfForce.class,			RING_FORCE  		);
+		ringTypes.put(RingOfFuror.class,			RING_FUROR  		);
+		ringTypes.put(RingOfHaste.class,			RING_HASTE  		);
+		ringTypes.put(RingOfMight.class,			RING_MIGHT  		);
+		ringTypes.put(RingOfSharpshooting.class,	RING_SHARPSHOOTING  );
+		ringTypes.put(RingOfTenacity.class, 		RING_TENACITY  		);
+		ringTypes.put(RingOfWealth.class,			RING_WEALTH			);
+	}
 	
 	private static ItemStatusHandler<Ring> handler;
 	
@@ -347,6 +435,348 @@ public class Ring extends KindofMisc {
 		}
 		return bonus;
 	}
+
+	public static float onHit (Hero hero, Char enemy, int damage, int ring) {
+		float damageMulti = 1;
+		switch (ring) {
+			case RING_ACCURACY:	//명중률에 비례한 확률과 데미지 배율로 강력한 일격을 날림
+				float heroAcc = Random.Float(hero.attackSkill(enemy));
+				float enemyEva = Random.Float(enemy.defenseSkill(hero));
+				if (heroAcc >= enemyEva) {
+					damageMulti = heroAcc/enemyEva;
+					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+					if (Random.Float() < 0.1f) {
+						Buff.affect(enemy, Paralysis.class, 1f);
+					}
+					if (Random.Float() < 0.1f) {
+						Buff.affect(enemy, Daze.class, 2f);
+					}
+				}
+				return damageMulti;
+			case RING_ARCANA:	//무작위 무기 마법 효과 발동. 무기의 레벨은 영웅 레벨/5(올림)으로 가정하여 성능을 계산한다.
+				int level = (int)Math.ceil(hero.lvl / 5f);
+				float powerMulti = Math.max(1f, RingOfArcana.enchantPowerMultiplier(hero));
+				float procChance = 0;
+				switch (Random.Int(11)) {
+					case 0: default:
+						//Blazing Effect
+						procChance = (level+1f)/(level+3f) * powerMulti;
+						if (Random.Float() < procChance) {
+							if (enemy.buff(Burning.class) != null){
+								Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
+								int burnDamage = Random.NormalIntRange( 1, 3 + Dungeon.scalingDepth()/4 );
+								enemy.damage( Math.round(burnDamage * 0.67f * powerMulti), hero );
+							} else {
+								Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
+							}
+
+							enemy.sprite.emitter().burst( FlameParticle.FACTORY, level + 1 );
+						}
+						break;
+					case 1:
+						//Blocking Effect
+						procChance = (level+4f)/(level+40f) * powerMulti;
+
+						if (Random.Float() < procChance){
+							float powerLeft = Math.max(1f, procChance);
+
+							Blocking.BlockBuff b = Buff.affect(hero, Blocking.BlockBuff.class);
+							b.setShield(Math.round(powerLeft * (2 + level)));
+							hero.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 5);
+						}
+						break;
+					case 2:
+						//Blooming Effect
+						procChance = (level+1f)/(level+3f) * powerMulti;
+						if (Random.Float() < procChance) {
+							float plants = (1f + 0.1f*level) * powerMulti;
+							if (Random.Float() < plants%1){
+								plants = (float)Math.ceil(plants);
+							} else {
+								plants = (float)Math.floor(plants);
+							}
+
+							Blooming blooming = new Blooming();
+							if (blooming.plantGrass(enemy.pos)){
+								plants--;
+								if (plants <= 0){
+									break;
+								}
+							}
+
+							ArrayList<Integer> positions = new ArrayList<>();
+							for (int i : PathFinder.NEIGHBOURS8){
+								if (enemy.pos + i != hero.pos) {
+									positions.add(enemy.pos + i);
+								}
+							}
+							Random.shuffle( positions );
+
+							//The attacker's position is always lowest priority
+							if (Dungeon.level.adjacent(hero.pos, enemy.pos)){
+								positions.add(hero.pos);
+							}
+
+							for (int i : positions){
+								if (blooming.plantGrass(i)){
+									plants--;
+									if (plants <= 0) {
+										break;
+									}
+								}
+							}
+						}
+						break;
+					case 3:
+						//Chilling Effect
+						procChance = (level+1f)/(level+4f) * powerMulti;
+						if (Random.Float() < procChance) {
+							float durationToAdd = 3f * powerMulti;
+							Chill existing = enemy.buff(Chill.class);
+							if (existing != null){
+								durationToAdd = Math.min(durationToAdd, (6f*powerMulti)-existing.cooldown());
+							}
+
+							Buff.affect( enemy, Chill.class, durationToAdd );
+							Splash.at( enemy.sprite.center(), 0xFFB2D6FF, 5);
+						}
+						break;
+					case 4:
+						//Kinetic Effect, See RingOfForce.damageRoll too
+						int conservedDamage = 0;
+						if (hero.buff(Kinetic.ConservedDamage.class) != null) {
+							conservedDamage = hero.buff(Kinetic.ConservedDamage.class).damageBonus();
+							hero.buff(Kinetic.ConservedDamage.class).detach();
+						}
+
+						Buff.affect(hero, Kinetic.KineticTracker.class).conservedDamage = conservedDamage;
+						break;
+					case 5:
+						//Corrupting Effect
+						procChance = (level+5f)/(level+25f) * powerMulti;
+						if (damage >= enemy.HP
+								&& Random.Float() < procChance
+								&& !enemy.isImmune(Corruption.class)
+								&& enemy.buff(Corruption.class) == null
+								&& enemy instanceof Mob
+								&& enemy.isAlive()){
+							Corruption.corruptionHeal(enemy);
+
+							AllyBuff.affectAndLoot((Mob)enemy, hero, Corruption.class);
+
+							float powerLeft = Math.max(1f, procChance);
+							if (powerLeft > 1.1f){
+								//1 turn of adrenaline for each 20% above 100% proc rate
+								Buff.affect(enemy, Adrenaline.class, Math.round(5*(powerLeft-1f)));
+							}
+
+							return 0;
+						}
+						break;
+					case 6:
+						//Elastic Effect
+						procChance = (level+1f)/(level+5f) * powerMulti;
+						if (Random.Float() < procChance) {
+							//trace a ballistica to our target (which will also extend past them
+							Ballistica trajectory = new Ballistica(hero.pos, enemy.pos, Ballistica.STOP_TARGET);
+							//trim it to just be the part that goes past them
+							trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
+							//knock them back along that ballistica
+							WandOfBlastWave.throwChar(enemy,
+									trajectory,
+									Math.round(2 * powerMulti),
+									true,
+									true,
+									hero);
+						}
+						break;
+					case 7:
+						//Grim Effect
+						if (enemy.isImmune(Grim.class)) {
+							return damageMulti;
+						}
+						level = Math.max( 0, level );
+						//scales from 0 - 50% based on how low hp the enemy is, plus 0-5% per level
+						float maxChance = 0.5f + .05f*level;
+						maxChance *= powerMulti;
+
+						//we defer logic using an actor here so we can know the true final damage
+						//see Char.damage
+						Buff.affect(enemy, Grim.GrimTracker.class).maxChance = maxChance;
+
+						if (enemy.buff(Grim.GrimTracker.class) != null){
+							enemy.buff(Grim.GrimTracker.class).qualifiesForBadge = true;
+						}
+						break;
+					case 8:
+						//Lucky Effect
+						procChance = (level+4f)/(level+40f) * powerMulti;
+						if (enemy.HP <= damage && Random.Float() < procChance){
+
+							float powerLeft = Math.max(1f, procChance);
+
+							//default is -5: 80% common, 20% uncommon, 0% rare
+							//ring level increases by 1 for each 20% above 100% proc rate
+							Buff.affect(enemy, Lucky.LuckProc.class).ringLevel = -10 + Math.round(5*powerLeft);
+						}
+						break;
+					case 9:
+						//Shocking Effect
+						procChance = (level+1f)/(level+4f) * powerMulti;
+						if (Random.Float() < procChance) {
+							ArrayList<Lightning.Arc> arcs = new ArrayList<>();
+							ArrayList<Char> affected = new ArrayList<>();
+							affected.clear();
+							arcs.clear();
+
+							Shocking.arc(hero, enemy, 2, affected, arcs);
+
+							affected.remove(enemy); //defender isn't hurt by lightning
+							for (Char ch : affected) {
+								if (ch.alignment != hero.alignment) {
+									ch.damage(Math.round(damage * 0.4f * powerMulti), hero);
+								}
+							}
+						}
+						break;
+					case 10:
+						//Vampiric Effect
+						float missingPercent = (hero.HT - hero.HP) / (float)hero.HT;
+						float healChance = 0.05f + .25f*missingPercent;
+
+						healChance *= powerMulti;
+
+						if (Random.Float() < healChance){
+
+							float powerLeft = Math.max(1f, healChance);
+
+							//heals for 50% of damage dealt
+							int healAmt = Math.round(damage * 0.5f * powerLeft);
+							hero.heal(healAmt);
+						}
+						break;
+//					case 11:
+//						//Shiny Effect
+//						Buff.prolong( enemy, Blindness.class, Random.Float( 1f, (1f + level) * RingOfArcana.enchantPowerMultiplier(hero) ) );
+//						Buff.prolong( enemy, Cripple.class, Random.Float( 1f, (1f + level/2f) * RingOfArcana.enchantPowerMultiplier(hero) ) );
+//						enemy.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
+//						break;
+//					case 12:
+//						//Eldritch Effect
+//						Buff.prolong( enemy, Terror.class, 10f*powerMulti + 5f ).object = hero.id();
+//						break;
+//					case 13:
+//						//Stunning Effect
+//						Buff.prolong( enemy, Paralysis.class, 1f * powerMulti );
+//						enemy.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 12 );
+//						break;
+//					case 14:
+//						//Venomous Effect
+//						Buff.affect( enemy, Poison.class ).extend( ((int)(level/2) + 1) * powerMulti );
+//						CellEmitter.center(enemy.pos).burst( PoisonParticle.SPLASH, 5 );
+//						break;
+//					case 15:
+//						//Vorpal Effect
+//						Buff.affect(enemy, Bleeding.class).set((damage/10f) * powerMulti);
+//						Splash.at( enemy.sprite.center(), -PointF.PI / 2, PointF.PI / 6, enemy.sprite.blood(), 10 );
+//						break;
+				}
+				return damageMulti;
+			case RING_ELEMENTS:	//10% 확률로 가진 디버프 전부 제거
+				if (Random.Float() < 0.1f) {
+					for (Buff buff : hero.buffs()) {
+						if (buff.type == Buff.buffType.NEGATIVE){
+							buff.detach();
+						}
+						hero.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 12 );
+					}
+				}
+				return damageMulti;
+			case RING_ENERGY:	//25% 확률로 0.5턴의 유물 충전 효과를 얻음
+				if (Random.Float() < 0.25f) {
+					for (Buff b : hero.buffs()){
+						if (b instanceof Artifact.ArtifactBuff && !((Artifact.ArtifactBuff) b).isCursed() ) {
+							((Artifact.ArtifactBuff) b).charge(hero, 0.5f);
+						}
+					}
+					ScrollOfRecharging.charge(hero);
+				}
+				return damageMulti;
+			case RING_EVASION:	//회피율에 비례한 확률로 1턴의 회피 기동을 얻음
+				float enemyAcc = Random.Float(enemy.attackSkill(hero)*2);	//적의 명중률에 2배의 보정이 붙음
+				float heroEva = Random.Float(hero.defenseSkill(enemy));
+				if (heroEva >= enemyAcc) {
+					Buff.prolong(hero, EvasiveMove.class, 1.0001f);
+				}
+				return damageMulti;
+			case RING_FORCE:	//50% 확률로 마비 1턴, 멍해짐, 불구, 현기증, 약화 3턴 중 하나를 걸음
+				switch (Random.Int(10)) {
+					case 0:
+						Buff.affect(enemy, Paralysis.class, 1f);
+						Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+						break;
+					case 1:
+						Buff.affect(enemy, Daze.class, 3f);
+						Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+						break;
+					case 2:
+						Buff.affect(enemy, Cripple.class, 3f);
+						Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+						break;
+					case 3:
+						Buff.affect(enemy, Vertigo.class, 3f);
+						Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+						break;
+					case 4:
+						Buff.affect(enemy, Weakness.class, 3f);
+						Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+						break;
+					default:
+						break;
+				}
+				return damageMulti;
+			case RING_FUROR:	//20% 확률로 공격에 턴 소모 X
+				if (Random.Float() < 0.2f) {
+					hero.spend(-hero.attackDelay());	//공격에 소모하는 턴 X
+				}
+				return damageMulti;
+			case RING_HASTE:	//20% 확률로 2턴의 신속을 얻음
+				if (Random.Float() < 0.2f) {
+					Buff.affect(hero, Haste.class, 2f);
+				}
+				return damageMulti;
+			case RING_MIGHT:	//공격력 (현재 힘-10)*10%배
+				return damageMulti*(1+0.1f*(hero.STR()-10));
+			case RING_SHARPSHOOTING:	//대상에게 박힌 투척 무기 중 하나를 가져오고 내구도를 1만큼 수리함
+				if (enemy.buff(PinCushion.class) != null) {
+					Item item = enemy.buff(PinCushion.class).grabOne();
+					if (item instanceof MissileWeapon) {
+						((MissileWeapon) item).repair(1);
+					}
+					if (item.doPickUp(hero, enemy.pos)) {
+						hero.spend(-Item.TIME_TO_PICK_UP); //casting the spell already takes a turn
+						GLog.i( Messages.capitalize(Messages.get(hero, "you_now_have", item.name())) );
+					} else {
+						GLog.w(Messages.get(TelekineticGrab.class, "cant_grab"));
+						Dungeon.level.drop(item, enemy.pos).sprite.drop();
+					}
+				}
+				return damageMulti;
+			case RING_TENACITY: //이번 턴에 체력이 1밑으로 내려가지 않음
+				Buff.prolong(hero, Enduring.class, 1.0001f);
+				return damageMulti;
+			case RING_WEALTH:	//1%*(드랍 확률 증가 효과) 확률로 무작위 흔한 등급 보상이 떨어짐
+				if (Random.Float() < 0.01f*RingOfWealth.dropChanceMultiplier(hero)) {
+					Item prize = RingOfWealth.genConsumableDrop(-10);
+					Dungeon.level.drop(prize, enemy.pos).sprite.drop();
+					RingOfWealth.showFlareForBonusDrop(enemy.sprite);
+				}
+				return damageMulti;
+		}
+
+		return damageMulti;
+	}
+
 
 	public class RingBuff extends Buff {
 

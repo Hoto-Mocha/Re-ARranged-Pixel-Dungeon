@@ -42,6 +42,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTo
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfBlast;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfCorrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfCorruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfDisintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfFire;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfFrost;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfLight;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfMagic;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfRegrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfThunderBolt;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfTransfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
@@ -177,7 +190,20 @@ public abstract class Recipe {
 		new Alchemize.Recipe(),
 		new StewedMeat.oneMeat(),
 		new BulletItem.Recipe(),
-		new BulletBelt.Recipe()
+		new BulletBelt.Recipe(),
+		new BookOfBlast.Recipe(),
+		new BookOfCorrosion.Recipe(),
+		new BookOfCorruption.Recipe(),
+		new BookOfDisintegration.Recipe(),
+		new BookOfEarth.Recipe(),
+		new BookOfFire.Recipe(),
+		new BookOfFrost.Recipe(),
+		new BookOfLight.Recipe(),
+		new BookOfMagic.Recipe(),
+		new BookOfRegrowth.Recipe(),
+		new BookOfThunderBolt.Recipe(),
+		new BookOfTransfusion.Recipe(),
+		new BookOfWarding.Recipe()
 	};
 	
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{

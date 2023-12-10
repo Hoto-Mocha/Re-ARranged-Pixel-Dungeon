@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
@@ -203,7 +204,12 @@ public class BrokenSeal extends Item {
 		@Override
 		public synchronized boolean act() {
 			if (Regeneration.regenOn() && shielding() < maxShield()) {
-				partialShield += 1/30f;
+				float shield = 1/30f;
+				Berserk buff = target.buff(Berserk.class);
+				if (buff != null && ((Hero) target).hasTalent(Talent.ENDURANCE) && buff.isNormal()) {
+					shield *= 1+buff.getPower()*((Hero) target).pointsInTalent(Talent.ENDURANCE);
+				}
+				partialShield += shield;
 			}
 			
 			while (partialShield >= 1){

@@ -74,6 +74,8 @@ public class Dewdrop extends Item {
 		//20 drops for a full heal
 		int heal = Math.round( hero.HT * 0.05f * quantity );
 
+		heal += hero.pointsInTalent(Talent.HEALING_DEW);
+
 		int effect = Math.min( hero.HT - hero.HP, heal );
 		int shield = 0;
 		if (hero.hasTalent(Talent.SHIELDING_DEW)){
@@ -94,7 +96,6 @@ public class Dewdrop extends Item {
 			} else {
 				hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(Dewdrop.class, "shield", shield) );
 			}
-
 		} else if (!force) {
 			GLog.i( Messages.get(Dewdrop.class, "already_full") );
 			return false;

@@ -65,18 +65,18 @@ public class CurrencyIndicator extends Component {
 		energy.x = x + (width - energy.width()) / 2;
 		gold.x = x + (width - gold.width()) / 2;
 		if (bullet.visible) {
-			energy.y = bottom() - energy.height()- energy.height() + 2;
+			energy.y = bottom() - bullet.height() - energy.height()+1;
 			if (energy.visible) {
-				gold.y = bottom() - gold.height()- gold.height()- gold.height() + 2;
+				gold.y = bottom() - bullet.height() - energy.height() - gold.height()+2;
 			} else {
-				gold.y = bottom() - gold.height()- gold.height() + 2;
+				gold.y = bottom() - bullet.height() - gold.height()+1;
 			}
 		} else {
 			energy.y = bottom() - energy.height();
 			if (energy.visible) {
-				gold.y = bottom() - gold.height()- gold.height() + 2;
+				gold.y = bottom() - energy.height() - gold.height()+1;
 			} else {
-				gold.y = bottom() - gold.height() + 2;
+				gold.y = bottom() - gold.height();
 			}
 		}
 	}

@@ -106,6 +106,9 @@ public class Food extends Item {
 	
 	protected void satisfy( Hero hero ){
 		float foodVal = energy;
+		if (hero.hasTalent(Talent.ADDED_MEAL)) {
+			foodVal *= 1.05 + 0.1 * hero.pointsInTalent(Talent.ADDED_MEAL);
+		}
 		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
 			foodVal /= 3f;
 		}

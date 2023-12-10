@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalCircle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
@@ -47,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.SpellBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -178,6 +180,13 @@ public abstract class Wand extends Item {
 			updateQuickslot();
 		}
 	}
+
+	public void loseCharge() {
+		while (curCharges > 0) {
+			curCharges --;
+			updateQuickslot();
+		}
+	}
 	
 	public void charge( Char owner ) {
 		if (charger == null) charger = new Charger();
@@ -200,11 +209,17 @@ public abstract class Wand extends Item {
 			Buff.append(Dungeon.hero, TalismanOfForesight.CharAwareness.class, dur).charID = target.id();
 		}
 
+		if (Dungeon.hero.hasTalent(Talent.ENHANCED_MARK)) {
+			wandLevel += Dungeon.hero.pointsInTalent(Talent.ENHANCED_MARK);
+		}
 		if (target != Dungeon.hero &&
 				Dungeon.hero.subClass == HeroSubClass.WARLOCK &&
 				//standard 1 - 0.92^x chance, plus 7%. Starts at 15%
 				Random.Float() > (Math.pow(0.92f, (wandLevel*chargesUsed)+1) - 0.07f)){
 			SoulMark.prolong(target, SoulMark.class, SoulMark.DURATION + wandLevel);
+		}
+		if (target != Dungeon.hero && Dungeon.hero.hasTalent(Talent.LIFE_ENERGY)) {
+			curUser.heal(chargesUsed*Dungeon.hero.pointsInTalent(Talent.LIFE_ENERGY));
 		}
 	}
 
@@ -417,8 +432,13 @@ public abstract class Wand extends Item {
 				Buff.affect(Dungeon.hero, Barrier.class).setShield(Math.round(buffedLvl()*0.67f*Dungeon.hero.pointsInTalent(Talent.EXCESS_CHARGE)));
 			}
 		}
-		
-		curCharges -= cursed ? 1 : chargesPerCast();
+
+		if ((Dungeon.hero.hasTalent(Talent.CHARGE_PRESERVE) && Random.Int(20) < Dungeon.hero.pointsInTalent(Talent.CHARGE_PRESERVE))
+				|| (Dungeon.hero.pointsInTalent(Talent.MAGICAL_CIRCLE) > 1 && Dungeon.hero.buff(MagicalCircle.class) != null && Random.Int(2) == 0)) {
+			//charge preserves
+		} else {
+			curCharges -= cursed ? 1 : chargesPerCast();
+		}
 
 		//remove magic charge at a higher priority, if we are benefiting from it are and not the
 		//wand that just applied it
@@ -601,6 +621,9 @@ public abstract class Wand extends Item {
 						float shield = curUser.HT * (0.04f*curWand.curCharges);
 						if (curUser.pointsInTalent(Talent.SHIELD_BATTERY) == 2) shield *= 1.5f;
 						Buff.affect(curUser, Barrier.class).setShield(Math.round(shield));
+						if (Dungeon.hero.subClass == HeroSubClass.BATTLEMAGE && Dungeon.hero.hasTalent(Talent.MAGICAL_CIRCLE)) {
+							Buff.affect(curUser, MagicalCircle.class).setup(curUser.pos, curWand.curCharges*3);
+						}
 						curWand.curCharges = 0;
 						curUser.sprite.operate(curUser.pos);
 						Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
@@ -734,8 +757,13 @@ public abstract class Wand extends Item {
 			float turnsToCharge = (float) (BASE_CHARGE_DELAY
 					+ (SCALING_CHARGE_ADDITION * Math.pow(scalingFactor, missingCharges)));
 
-			if (Regeneration.regenOn())
-				partialCharge += (1f/turnsToCharge) * RingOfEnergy.wandChargeMultiplier(target);
+
+			if (Regeneration.regenOn()) {
+				partialCharge += (1f/turnsToCharge) * RingOfEnergy.wandChargeMultiplier(target) * (1f + 0.1f * Dungeon.hero.pointsInTalent(Talent.FASTER_CHARGER));
+				if (Dungeon.hero.subClass == HeroSubClass.WIZARD) {
+					partialCharge *= Math.pow(1.05f, Dungeon.hero.belongings.getAllItems(SpellBook.class).size());
+				}
+			}
 
 			for (Recharging bonus : target.buffs(Recharging.class)){
 				if (bonus != null && bonus.remainder() > 0f) {

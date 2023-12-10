@@ -94,6 +94,15 @@ public class Combo extends Buff implements ActionIndicator.Action {
 
 		if (!enemy.isAlive() || (enemy.buff(Corruption.class) != null && enemy.HP == enemy.HT)){
 			comboTime = Math.max(comboTime, 15*((Hero)target).pointsInTalent(Talent.CLEAVE));
+			if (Dungeon.hero.hasTalent(Talent.SKILL_REPEAT)) {
+				if (Dungeon.hero.pointsInTalent(Talent.SKILL_REPEAT) == 3) {
+					clobberUsed = false;
+					parryUsed= false;
+				} else {
+					if (moveBeingUsed == ComboMove.CLOBBER) clobberUsed = false;
+					if (moveBeingUsed == ComboMove.PARRY && Dungeon.hero.pointsInTalent(Talent.SKILL_REPEAT) > 1) parryUsed= false;
+				}
+			}
 		}
 
 		initialComboTime = comboTime;

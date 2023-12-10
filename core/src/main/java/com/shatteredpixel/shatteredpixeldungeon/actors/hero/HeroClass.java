@@ -47,12 +47,15 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.BulletBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Teleporter;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
@@ -65,6 +68,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMappi
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfDisintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfFire;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfFrost;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfLight;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfMagic;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfRegrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfThunderBolt;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfTransfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfWarding;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
@@ -86,11 +100,11 @@ import com.watabou.utils.DeviceCompat;
 
 public enum HeroClass {
 
-	WARRIOR( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR ),
-	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK ),
-	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER ),
-	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN ),
-	DUELIST( HeroSubClass.CHAMPION, HeroSubClass.MONK );
+	WARRIOR( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR, HeroSubClass.VETERAN ),
+	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.WIZARD ),
+	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.CHASER ),
+	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.FIGHTER ),
+	DUELIST( HeroSubClass.CHAMPION, HeroSubClass.MONK, HeroSubClass.FENCER );
 
 	private HeroSubClass[] subClasses;
 
@@ -119,16 +133,30 @@ public enum HeroClass {
 
 		if (DeviceCompat.isDebug()) {
 			new RingOfMight().identify().upgrade(10).collect();
-			new AR_T5().identify().collect();
-			new SR_T5().identify().collect();
-			new SG_T5().identify().collect();
-			new SMG_T5().identify().collect();
-			new MG_T5().identify().collect();
-			new HG_T5().identify().collect();
+//			new AR_T5().identify().collect();
+//			new SR_T5().identify().collect();
+//			new SG_T5().identify().collect();
+//			new SMG_T5().identify().collect();
+//			new MG_T5().identify().collect();
+//			new HG_T5().identify().collect();
 			new BulletBelt().quantity(20).collect();
 			new GunSmithingTool().quantity(20).collect();
 			new AlchemistsToolkit().identify().upgrade(10).collect();
+			new Alchemize().quantity(200).collect();
 			new PotionOfHealing().identify().quantity(500).collect();
+			new PotionOfExperience().identify().quantity(29).collect();
+			new PlateArmor().identify().upgrade(100).collect();
+			new Teleporter().collect();
+//			new BookOfThunderBolt().collect();
+//			new BookOfFire().collect();
+//			new BookOfFrost().collect();
+//			new BookOfEarth().collect();
+//			new BookOfDisintegration().collect();
+//			new BookOfLight().collect();
+//			new BookOfMagic().collect();
+			new BookOfWarding().collect();
+			new BookOfRegrowth().collect();
+			new BookOfTransfusion().collect();
 		}
 
 		switch (this) {

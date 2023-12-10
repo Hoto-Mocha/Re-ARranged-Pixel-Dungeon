@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.wands;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.SpellBook;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
@@ -50,6 +51,10 @@ public abstract class DamageWand extends Wand{
 
 	public int damageRoll(int lvl){
 		int dmg = Random.NormalIntRange(min(lvl), max(lvl));
+		SpellBook.SpellBookEmpower spellBookEmpower = Dungeon.hero.buff(SpellBook.SpellBookEmpower.class);
+		if (spellBookEmpower != null) {
+			dmg = Math.round(dmg*1.2f);
+		}
 		WandEmpower emp = Dungeon.hero.buff(WandEmpower.class);
 		if (emp != null){
 			dmg += emp.dmgBoost;

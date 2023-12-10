@@ -54,6 +54,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTo
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfBlast;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfCorrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfCorruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfDisintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfFire;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfFrost;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfLight;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfMagic;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfRegrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfThunderBolt;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfTransfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
@@ -359,6 +372,25 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new BulletItem.Recipe()));
 				result.add(new QuickRecipe(new BulletBelt.Recipe()));
 				result.add(new QuickRecipe(new GunSmithingTool.Recipe()));
+				result.add(null);
+				result.add(null);
+				result.add(new QuickRecipe(new BookOfBlast.Recipe()));
+				result.add(new QuickRecipe(new BookOfCorrosion.Recipe()));
+				result.add(new QuickRecipe(new BookOfCorruption.Recipe()));
+				result.add(null);
+				result.add(new QuickRecipe(new BookOfDisintegration.Recipe()));
+				result.add(new QuickRecipe(new BookOfEarth.Recipe()));
+				result.add(new QuickRecipe(new BookOfFire.Recipe()));
+				result.add(null);
+				result.add(new QuickRecipe(new BookOfFrost.Recipe()));
+				result.add(new QuickRecipe(new BookOfLight.Recipe()));
+				result.add(new QuickRecipe(new BookOfMagic.Recipe()));
+				result.add(null);
+				result.add(new QuickRecipe(new BookOfRegrowth.Recipe()));
+				result.add(new QuickRecipe(new BookOfThunderBolt.Recipe()));
+				result.add(new QuickRecipe(new BookOfTransfusion.Recipe()));
+				result.add(null);
+				result.add(new QuickRecipe(new BookOfWarding.Recipe()));
 
 				return result;
 			case 7:

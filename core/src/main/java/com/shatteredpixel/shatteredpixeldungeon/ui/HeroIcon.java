@@ -39,27 +39,27 @@ public class HeroIcon extends Image {
 	//subclasses
 	public static final int BERSERKER   = 0;
 	public static final int GLADIATOR   = 1;
-//	public static final int 			= 2;
+	public static final int VETERAN		= 2;
 //	public static final int 			= 3;
 
 	public static final int BATTLEMAGE  = 4;
 	public static final int WARLOCK     = 5;
-//	public static final int 			= 6;
+	public static final int WIZARD		= 6;
 //	public static final int 			= 7;
 
 	public static final int ASSASSIN    = 8;
 	public static final int FREERUNNER  = 9;
-//	public static final int 			= 10;
+	public static final int CHASER		= 10;
 //	public static final int 			= 11;
 
 	public static final int SNIPER      = 12;
 	public static final int WARDEN      = 13;
-//	public static final int 			= 14;
+	public static final int FIGHTER		= 14;
 //	public static final int 			= 15;
 
 	public static final int CHAMPION    = 16;
 	public static final int MONK        = 17;
-//	public static final int 			= 18;
+	public static final int FENCER		= 18;
 //	public static final int 			= 19;
 
 //	public static final int 			= 20;
@@ -97,6 +97,7 @@ public class HeroIcon extends Image {
 //	public static final int 			= 45;
 //	public static final int 			= 46;
 //	public static final int 			= 47;
+
 	//abilities
 	public static final int HEROIC_LEAP     = 48;
 	public static final int SHOCKWAVE       = 49;
@@ -164,15 +165,53 @@ public class HeroIcon extends Image {
 	//action indicator visuals
 	public static final int BERSERK         = 104;
 	public static final int COMBO           = 105;
-	public static final int PREPARATION     = 106;
-	public static final int MOMENTUM        = 107;
-	public static final int SNIPERS_MARK    = 108;
-	public static final int WEAPON_SWAP     = 109;
-	public static final int MONK_ABILITIES  = 110;
-//	public static final int 				= 111;
-//	public static final int 				= 112;
-//	public static final int 				= 113;
-//	public static final int 				= 114;
+	public static final int TACKLE          = 106;
+//	public static final int					= 107;
+
+	public static final int	MAGIC_COMBO		= 108;
+//	public static final int					= 109;
+//	public static final int					= 110;
+//	public static final int					= 111;
+
+	public static final int PREPARATION     = 112;
+	public static final int MOMENTUM        = 113;
+//	public static final int					= 114;
+//	public static final int					= 115;
+
+	public static final int SNIPERS_MARK    = 116;
+//	public static final int					= 117;
+//	public static final int					= 118;
+//	public static final int					= 119;
+
+	public static final int WEAPON_SWAP     = 120;
+	public static final int MONK_ABILITIES  = 121;
+//	public static final int 				= 123;
+//	public static final int 				= 124;
+
+//	public static final int 				= 125;
+//	public static final int 				= 126;
+//	public static final int 				= 127;
+//	public static final int 				= 128;
+
+//	public static final int 				= 129;
+//	public static final int 				= 130;
+//	public static final int 				= 131;
+//	public static final int 				= 132;
+
+//	public static final int 				= 133;
+//	public static final int 				= 134;
+//	public static final int 				= 135;
+//	public static final int 				= 136;
+
+//	public static final int 				= 137;
+//	public static final int 				= 138;
+//	public static final int 				= 139;
+//	public static final int 				= 140;
+
+//	public static final int 				= 141;
+//	public static final int 				= 142;
+//	public static final int 				= 143;
+//	public static final int 				= 144;
 
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );

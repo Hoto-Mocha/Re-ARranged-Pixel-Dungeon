@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -334,7 +336,15 @@ public class Armor extends EquipableItem {
 			if (momentum != null){
 				evasion += momentum.evasionBonus(((Hero) owner).lvl, Math.max(0, -aEnc));
 			}
+
+			MeleeWeapon.Charger charger = owner.buff(MeleeWeapon.Charger.class);
+			if (charger != null && hero.hasTalent(Talent.UNENCUMBERED_MOVEMENT) && ((Hero) owner).belongings.weapon instanceof MeleeWeapon) {
+				int wEnc = ((MeleeWeapon)((Hero) owner).belongings.weapon).STRReq() - ((Hero) owner).STR();
+				evasion += 0.5f*Math.max(0, -aEnc);
+				evasion += 0.5f*Math.max(0, -wEnc);
+			}
 		}
+
 		
 		return evasion + augment.evasionFactor(buffedLvl());
 	}

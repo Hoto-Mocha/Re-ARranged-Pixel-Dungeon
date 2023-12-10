@@ -99,6 +99,10 @@ public class Swiftthistle extends Plant {
 		public void reset(){
 			left = 7f;
 		}
+
+		public void twoTurns() {
+			left = 2f;
+		}
 		
 		@Override
 		public String desc() {

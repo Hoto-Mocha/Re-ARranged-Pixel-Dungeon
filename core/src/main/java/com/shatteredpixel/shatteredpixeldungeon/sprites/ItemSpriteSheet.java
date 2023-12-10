@@ -1020,7 +1020,7 @@ public class ItemSpriteSheet {
 
 	//GL, RL, 화염방사기, 레이저총 추후 추가
 
-	private static final int BOWS			=			xy(1, 52);  //8 slots
+	private static final int BOWS			=			xy(1, 53);  //8 slots
 	public static final int WIND_BOW		= BOWS+0;
 	public static final int NATURE_BOW		= BOWS+1;
 	public static final int GOLDEN_BOW		= BOWS+2;
@@ -1038,7 +1038,7 @@ public class ItemSpriteSheet {
 
 	//Alchemy melee weapons
 
-	private static final int AL_WEP_T3			=			xy(1, 55);  //16 slots
+	private static final int AL_WEP_T3			=			xy(1, 56);  //16 slots
 	public static final int SPEAR_N_SHIELD		= AL_WEP_T3+0;
 	public static final int UNHOLY_SWORD		= AL_WEP_T3+1;
 	public static final int CHAOS_SWORD			= AL_WEP_T3+2;
@@ -1058,19 +1058,19 @@ public class ItemSpriteSheet {
 		assignItemRect(UNHOLY_BIBLE		, 13, 16);
 	}
 
-	private static final int AL_WEP_T4		=			xy(1, 56);  //16 slots
+	private static final int AL_WEP_T4		=			xy(1, 57);  //16 slots
 	public static final int CHAIN_WHIP		= AL_WEP_T4+0;
 	static{
 		assignItemRect(CHAIN_WHIP, 14, 14);
 	}
 
-	private static final int AL_WEP_T5		=			xy(1, 57);  //16 slots
+	private static final int AL_WEP_T5		=			xy(1, 58);  //16 slots
 	public static final int TRUE_RUNIC_SWORD= AL_WEP_T5+0;
 	static{
 		assignItemRect(TRUE_RUNIC_SWORD, 14, 14);
 	}
 
-	private static final int AL_WEP_T6	  	=			xy(1, 58);  //16 slots
+	private static final int AL_WEP_T6	  	=			xy(1, 59);  //16 slots
 	public static final int DUAL_GREATSWORD	= AL_WEP_T6+0;
 	public static final int FORCE_GLOVE		= AL_WEP_T6+1;
 	public static final int CHAIN_FLAIL		= AL_WEP_T6+2;
@@ -1096,7 +1096,7 @@ public class ItemSpriteSheet {
 		assignItemRect(HUGE_SWORD		, 16, 16);
 	}
 
-	private static final int AL_WEP_T7		=			xy(1, 59);  //16 slots
+	private static final int AL_WEP_T7		=			xy(1, 60);  //16 slots
 	public static final int LANCE_N_SHIELD	= AL_WEP_T7+0;
 	public static final int TACTICAL_SHIELD	= AL_WEP_T7+1;
 	public static final int HOLYSWORD_TRUE	= AL_WEP_T7+2;
@@ -1108,7 +1108,7 @@ public class ItemSpriteSheet {
 		assignItemRect(HOLYSWORD		, 16, 16);
 	}
 
-	private static final int ENERGY_WEP			  	=			xy(1, 60);  //16 slots
+	private static final int ENERGY_WEP			  	=			xy(1, 61);  //16 slots
 	public static final int WORN_SHORTSWORD_ENERGY	= ENERGY_WEP+0;
 //	public static final int 						= ENERGY_WEP+1;
 	public static final int DAGGER_ENERGY			= ENERGY_WEP+2;
@@ -1128,37 +1128,37 @@ public class ItemSpriteSheet {
 		assignItemRect(SABER_ENERGY				, 13, 15);
 	}
 
-	private static final int SPELLBOOK			  		=		xy(1, 61);  //16 slots
-	public static final int SPELLBOOK_MAGIC_MISSILE  	= SPELLBOOK+0;
-	public static final int SPELLBOOK_FIREBOLT       	= SPELLBOOK+1;
-	public static final int SPELLBOOK_FROST          	= SPELLBOOK+2;
-	public static final int SPELLBOOK_LIGHTNING      	= SPELLBOOK+3;
-	public static final int SPELLBOOK_DISINTEGRATION 	= SPELLBOOK+4;
-	public static final int SPELLBOOK_PRISMATIC_LIGHT	= SPELLBOOK+5;
-	public static final int SPELLBOOK_CORROSION      	= SPELLBOOK+6;
-	public static final int SPELLBOOK_LIVING_EARTH   	= SPELLBOOK+7;
-	public static final int SPELLBOOK_BLAST_WAVE     	= SPELLBOOK+8;
-	public static final int SPELLBOOK_CORRUPTION     	= SPELLBOOK+9;
-	public static final int SPELLBOOK_WARDING        	= SPELLBOOK+10;
-	public static final int SPELLBOOK_REGROWTH       	= SPELLBOOK+11;
-	public static final int SPELLBOOK_TRANSFUSION    	= SPELLBOOK+12;
+	private static final int SPELLBOOK			  		=		xy(1, 62);  //16 slots
+	public static final int BOOK_OF_MAGIC  			= SPELLBOOK+0;
+	public static final int BOOK_OF_FIRE      		= SPELLBOOK+1;
+	public static final int BOOK_OF_FROST          	= SPELLBOOK+2;
+	public static final int BOOK_OF_THUNDERBOLT    	= SPELLBOOK+3;
+	public static final int BOOK_OF_DISINTEGRATION 	= SPELLBOOK+4;
+	public static final int BOOK_OF_LIGHT			= SPELLBOOK+5;
+	public static final int BOOK_OF_CORROSION      	= SPELLBOOK+6;
+	public static final int BOOK_OF_EARTH   		= SPELLBOOK+7;
+	public static final int BOOK_OF_BLAST     		= SPELLBOOK+8;
+	public static final int BOOK_OF_CORRUPTION     	= SPELLBOOK+9;
+	public static final int BOOK_OF_WARDING        	= SPELLBOOK+10;
+	public static final int BOOK_OF_REGROWTH       	= SPELLBOOK+11;
+	public static final int BOOK_OF_TRANSFUSION    	= SPELLBOOK+12;
 	static{
-		assignItemRect(SPELLBOOK_MAGIC_MISSILE  	, 12, 16);
-		assignItemRect(SPELLBOOK_FIREBOLT       	, 12, 16);
-		assignItemRect(SPELLBOOK_FROST          	, 12, 16);
-		assignItemRect(SPELLBOOK_LIGHTNING      	, 12, 16);
-		assignItemRect(SPELLBOOK_DISINTEGRATION 	, 12, 16);
-		assignItemRect(SPELLBOOK_PRISMATIC_LIGHT	, 12, 16);
-		assignItemRect(SPELLBOOK_CORROSION      	, 12, 16);
-		assignItemRect(SPELLBOOK_LIVING_EARTH   	, 12, 16);
-		assignItemRect(SPELLBOOK_BLAST_WAVE     	, 12, 16);
-		assignItemRect(SPELLBOOK_CORRUPTION     	, 12, 16);
-		assignItemRect(SPELLBOOK_WARDING        	, 12, 16);
-		assignItemRect(SPELLBOOK_REGROWTH       	, 12, 16);
-		assignItemRect(SPELLBOOK_TRANSFUSION    	, 12, 16);
+		assignItemRect(BOOK_OF_MAGIC  			, 12, 16);
+		assignItemRect(BOOK_OF_FIRE      		, 12, 16);
+		assignItemRect(BOOK_OF_FROST          	, 12, 16);
+		assignItemRect(BOOK_OF_THUNDERBOLT     	, 12, 16);
+		assignItemRect(BOOK_OF_DISINTEGRATION 	, 12, 16);
+		assignItemRect(BOOK_OF_LIGHT			, 12, 16);
+		assignItemRect(BOOK_OF_CORROSION      	, 12, 16);
+		assignItemRect(BOOK_OF_EARTH   			, 12, 16);
+		assignItemRect(BOOK_OF_BLAST     		, 12, 16);
+		assignItemRect(BOOK_OF_CORRUPTION     	, 12, 16);
+		assignItemRect(BOOK_OF_WARDING        	, 12, 16);
+		assignItemRect(BOOK_OF_REGROWTH       	, 12, 16);
+		assignItemRect(BOOK_OF_TRANSFUSION    	, 12, 16);
 	}
 
-	private static final int SHOVEL			=			xy(1, 62);  //16 slots
+	private static final int SHOVEL			=			xy(1, 63);  //16 slots
 	public static final int PLANTER_SHOVEL	= SHOVEL+0;
 	public static final int GILDED_SHOVEL	= SHOVEL+1;
 	public static final int BATTLE_SHOVEL	= SHOVEL+2;
@@ -1170,7 +1170,7 @@ public class ItemSpriteSheet {
 		assignItemRect(MINERS_TOOL		, 16, 16);
 	}
 
-	private static final int NEW_POTIONS		=			xy(1, 63);  //16 slots
+	private static final int NEW_POTIONS		=			xy(1, 64);  //16 slots
 	public static final int POTION_FLUORESCENT	= NEW_POTIONS+0;
 	public static final int POTION_ASH			= NEW_POTIONS+1;
 	static{
@@ -1178,7 +1178,7 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 14);
 	}
 
-	private static final int NEW_EXOTIC_POTIONS	=			xy(1, 64);  //16 slots
+	private static final int NEW_EXOTIC_POTIONS	=			xy(1, 65);  //16 slots
 	public static final int EXOTIC_FLUORESCENT	= NEW_EXOTIC_POTIONS+0;
 	public static final int EXOTIC_ASH			= NEW_EXOTIC_POTIONS+1;
 	static{
@@ -1186,7 +1186,7 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 13);
 	}
 
-	private static final int NEW_BREWS			=			xy(1, 65);  //16 slots
+	private static final int NEW_BREWS			=			xy(1, 66);  //16 slots
 	public static final int BREW_SATISFACTION	= +0;
 	public static final int BREW_TALENT			= +1;
 	static{
@@ -1194,7 +1194,7 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 14);
 	}
 
-	private static final int NEW_SPELLS			=			xy(1, 66);  //16 slots
+	private static final int NEW_SPELLS			=			xy(1, 67);  //16 slots
 	public static final int FIRE_IMBUE			= NEW_SPELLS+0;
 	public static final int XRAY				= NEW_SPELLS+1;
 	public static final int FIREMAKER			= NEW_SPELLS+2;
