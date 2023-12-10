@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BulletBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Teleporter;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
@@ -147,6 +148,7 @@ public enum HeroClass {
 			new PotionOfExperience().identify().quantity(29).collect();
 			new PlateArmor().identify().upgrade(100).collect();
 			new Teleporter().collect();
+			new TengusMask().collect();
 //			new BookOfThunderBolt().collect();
 //			new BookOfFire().collect();
 //			new BookOfFrost().collect();

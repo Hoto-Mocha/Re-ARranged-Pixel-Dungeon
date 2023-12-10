@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
 import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -1555,6 +1556,25 @@ public class Hero extends Char {
 				}
 			}
 			break;
+		case VETERAN:
+			if (level.adjacent(enemy.pos, pos) && hero.buff(Tackle.TackleTracker.class) == null) {
+				Actor.add(new Actor() {
+
+					{
+						actPriority = VFX_PRIO;
+					}
+
+					@Override
+					protected boolean act() {
+						if (enemy.isAlive()) {
+							Buff.prolong(Hero.this, Tackle.class, 1).set(enemy.id());
+						}
+						Actor.remove(this);
+						return true;
+					}
+				});
+			}
+			break;
 		default:
 		}
 
@@ -1700,7 +1720,7 @@ public class Hero extends Char {
 
 		if (buff(Tackle.SuperArmorTracker.class) != null) {
 			switch (pointsInTalent(Talent.SUPER_ARMOR)) {
-				case 1: default:
+				case 1:
 					dmg = Math.round(dmg*0.67f);
 					break;
 				case 2:
@@ -1708,6 +1728,8 @@ public class Hero extends Char {
 					break;
 				case 3:
 					dmg = Math.round(dmg*0.00f);
+					break;
+				case 0: default:
 					break;
 			}
 		}

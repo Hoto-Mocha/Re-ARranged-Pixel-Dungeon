@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -566,6 +567,9 @@ public abstract class Level implements Bundlable {
 		//iron stomach does not persist through chasm falling
 		Talent.WarriorFoodImmunity foodImmune = Dungeon.hero.buff(Talent.WarriorFoodImmunity.class);
 		if (foodImmune != null) foodImmune.detach();
+
+		Tackle.SuperArmorTracker superArmorTracker = Dungeon.hero.buff(Tackle.SuperArmorTracker.class);
+		if (superArmorTracker != null) superArmorTracker.detach();
 
 		//spend the hero's partial turns,  so the hero cannot take partial turns between floors
 		Dungeon.hero.spendToWhole();

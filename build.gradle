@@ -12,14 +12,14 @@ buildscript {
 allprojects {
 
     ext {
-        appName = 'Re-ARranged Pixel Dungeon'
+        appName = 'Rearranged Pixel Dungeon'
         appPackageName = 'com.rearrangedpixel.rearrangedpixeldungon'
 
         appVersionCode = 754
         appVersionName = '2.2.1'
         //for arranged version code and version name
-        appVersionCode += 2
-        appVersionName += '_based_3.0.1'
+        appVersionCode += 3
+        appVersionName += '_based_3.0.2'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
@@ -38,5 +38,4 @@ allprojects {
         mavenCentral()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
-
 }
