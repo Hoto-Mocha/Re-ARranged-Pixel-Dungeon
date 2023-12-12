@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -86,7 +87,7 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public String defaultAction() {
 		if (Dungeon.hero != null && (Dungeon.hero.heroClass == HeroClass.DUELIST
-			|| Dungeon.hero.hasTalent(Talent.SWIFT_EQUIP))){
+			|| Dungeon.hero.hasTalent(Talent.SWIFT_EQUIP)) && !(this instanceof Gun)){
 			return AC_ABILITY;
 		} else {
 			return super.defaultAction();

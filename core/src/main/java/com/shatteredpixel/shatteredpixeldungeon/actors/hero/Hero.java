@@ -617,6 +617,7 @@ public class Hero extends Char {
 		if (hasTalent(Talent.PARRY)) {
 			if (parryTracker != null) {
 				parryTracker.detach();
+				return Messages.get(Monk.class, "parried");
 			}
 		}
 
@@ -1602,7 +1603,7 @@ public class Hero extends Char {
 			if (hero.hasTalent(Talent.POISONOUS_BLADE)) {
 				Buff.affect(enemy, Poison.class).set(2+hero.pointsInTalent(Talent.POISONOUS_BLADE));
 			}
-			if (hero.hasTalent(Talent.SOUL_COLLECT) && !enemy.isAlive()) {
+			if (hero.hasTalent(Talent.SOUL_COLLECT) && damage >= enemy.HP) {
 				int healAmt = 3*hero.pointsInTalent(Talent.SOUL_COLLECT);
 				healAmt = Math.min( healAmt, hero.HT - hero.HP );
 				if (healAmt > 0 && hero.isAlive()) {
@@ -1611,7 +1612,7 @@ public class Hero extends Char {
 					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 				}
 			}
-			if (hero.hasTalent(Talent.TRAIL_TRACKING) && !enemy.isAlive()) {
+			if (hero.hasTalent(Talent.TRAIL_TRACKING) && damage >= enemy.HP) {
 				Buff.affect(hero, MindVision.class, hero.pointsInTalent(Talent.TRAIL_TRACKING));
 			}
 

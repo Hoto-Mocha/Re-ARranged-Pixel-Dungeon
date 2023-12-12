@@ -134,12 +134,12 @@ public enum HeroClass {
 
 		if (DeviceCompat.isDebug()) {
 			new RingOfMight().identify().upgrade(10).collect();
-//			new AR_T5().identify().collect();
-//			new SR_T5().identify().collect();
-//			new SG_T5().identify().collect();
-//			new SMG_T5().identify().collect();
-//			new MG_T5().identify().collect();
-//			new HG_T5().identify().collect();
+			new AR_T5().identify().collect();
+			new SR_T5().identify().collect();
+			new SG_T5().identify().collect();
+			new SMG_T5().identify().collect();
+			new MG_T5().identify().collect();
+			new HG_T5().identify().collect();
 			new BulletBelt().quantity(20).collect();
 			new GunSmithingTool().quantity(20).collect();
 			new AlchemistsToolkit().identify().upgrade(10).collect();
@@ -156,9 +156,9 @@ public enum HeroClass {
 //			new BookOfDisintegration().collect();
 //			new BookOfLight().collect();
 //			new BookOfMagic().collect();
-			new BookOfWarding().collect();
-			new BookOfRegrowth().collect();
-			new BookOfTransfusion().collect();
+//			new BookOfWarding().collect();
+//			new BookOfRegrowth().collect();
+//			new BookOfTransfusion().collect();
 		}
 
 		switch (this) {

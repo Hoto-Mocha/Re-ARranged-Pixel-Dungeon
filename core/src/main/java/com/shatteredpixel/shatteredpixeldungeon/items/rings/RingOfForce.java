@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -217,6 +219,10 @@ public class RingOfForce extends Ring {
 		if (Dungeon.hero.heroClass == HeroClass.DUELIST
 			&& (anonymous || isIdentified() || isEquipped(Dungeon.hero))){
 			info += "\n\n" + Messages.get(this, "ability_desc");
+		}
+
+		if (hero != null && hero.hasTalent(Talent.MYSTICAL_PUNCH)) {
+			info += "\n\n" + Messages.get(this, "special_effect");
 		}
 
 		return info;

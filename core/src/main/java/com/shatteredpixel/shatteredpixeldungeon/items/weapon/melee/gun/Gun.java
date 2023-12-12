@@ -266,7 +266,23 @@ public class Gun extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		Dagger.sneakAbility(hero, 6, 4, this);
+		if (round >= maxRound()*2) {
+			GLog.w(Messages.get(this, "overloaded"));
+			return;
+		}
+
+		beforeAbilityUsed(hero, null);
+		if (isAllLoaded()) {
+			manualReload(maxRound(), true);
+			onReload();
+		} else {
+			quickReload();
+			onReload();
+		}
+		hero.sprite.operate(hero.pos);
+		Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
+		hero.next();
+		afterAbilityUsed(hero);
 	}
 
 	public void reload() {
@@ -350,7 +366,7 @@ public class Gun extends MeleeWeapon {
 	}
 
 	public int bulletUse() {
-		return (maxRound()-round)*shotPerShoot();
+		return Math.max(0, (maxRound()-round)*shotPerShoot());
 	}
 
 

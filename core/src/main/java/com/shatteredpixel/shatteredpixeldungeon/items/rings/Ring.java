@@ -39,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Daze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Enduring;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRingsCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
@@ -94,6 +95,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
@@ -251,7 +253,7 @@ public class Ring extends KindofMisc {
 	
 	@Override
 	public String info(){
-		
+
 		String desc = isKnown() ? super.desc() : Messages.get(this, "unknown_desc");
 		
 		if (cursed && isEquipped( Dungeon.hero )) {
@@ -388,6 +390,10 @@ public class Ring extends KindofMisc {
 		if (Dungeon.hero.buff(EnhancedRings.class) != null){
 			lvl++;
 		}
+		EnhancedRingsCombo enhancedRingsCombo = Dungeon.hero.buff(EnhancedRingsCombo.class);
+		if (enhancedRingsCombo != null){
+			lvl += enhancedRingsCombo.getCombo();
+		}
 		return lvl;
 	}
 
@@ -414,7 +420,7 @@ public class Ring extends KindofMisc {
 		if (cursed){
 			return Math.min( 0, Ring.this.level()-2 );
 		} else {
-			return Ring.this.level()+1;
+			return Ring.this.buffedLvl()+1;
 		}
 	}
 
@@ -439,11 +445,11 @@ public class Ring extends KindofMisc {
 	public static float onHit (Hero hero, Char enemy, int damage, int ring) {
 		float damageMulti = 1;
 		switch (ring) {
-			case RING_ACCURACY:	//명중률에 비례한 확률과 데미지 배율로 강력한 일격을 날림
-				float heroAcc = Random.Float(hero.attackSkill(enemy));
-				float enemyEva = Random.Float(enemy.defenseSkill(hero));
-				if (heroAcc >= enemyEva) {
-					damageMulti = heroAcc/enemyEva;
+			case RING_ACCURACY:	//명중률에 비례한 확률과 데미지 배율로 강력한 일격을 날림. 영웅의 명중이 적 회피의 2배를 넘으면 100% 확률로 작동하며, 명중/회피*2(최소 1, 최대 2)의 데미지 배율이 적용된다.
+				float heroAcc = hero.attackSkill(enemy);
+				float enemyEva = enemy.defenseSkill(hero)*2; //적의 회피에 2배의 보정이 붙음
+				if (Random.Float() < heroAcc/enemyEva) {
+					damageMulti = GameMath.gate(1, heroAcc/enemyEva, 2);
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 					if (Random.Float() < 0.1f) {
 						Buff.affect(enemy, Paralysis.class, 1f);
@@ -682,8 +688,8 @@ public class Ring extends KindofMisc {
 //						break;
 				}
 				return damageMulti;
-			case RING_ELEMENTS:	//10% 확률로 가진 디버프 전부 제거
-				if (Random.Float() < 0.1f) {
+			case RING_ELEMENTS:	//20% 확률로 가진 디버프 전부 제거
+				if (Random.Float() < 0.2f) {
 					for (Buff buff : hero.buffs()) {
 						if (buff.type == Buff.buffType.NEGATIVE){
 							buff.detach();
@@ -702,15 +708,15 @@ public class Ring extends KindofMisc {
 					ScrollOfRecharging.charge(hero);
 				}
 				return damageMulti;
-			case RING_EVASION:	//회피율에 비례한 확률로 1턴의 회피 기동을 얻음
-				float enemyAcc = Random.Float(enemy.attackSkill(hero)*2);	//적의 명중률에 2배의 보정이 붙음
-				float heroEva = Random.Float(hero.defenseSkill(enemy));
-				if (heroEva >= enemyAcc) {
+			case RING_EVASION:	//회피율에 비례한 확률로 1턴의 회피 기동을 얻음. 영웅의 회피가 적 명중의 4배를 넘으면 100% 확률로 작동한다.
+				float enemyAcc = enemy.attackSkill(hero)*4;	//적의 명중률에 4배의 보정이 붙음
+				int heroEva = hero.defenseSkill(enemy);
+				if (Random.Float() < heroEva/enemyAcc) {
 					Buff.prolong(hero, EvasiveMove.class, 1.0001f);
 				}
 				return damageMulti;
-			case RING_FORCE:	//50% 확률로 마비 1턴, 멍해짐, 불구, 현기증, 약화 3턴 중 하나를 걸음
-				switch (Random.Int(10)) {
+			case RING_FORCE:	//25% 확률로 마비 1턴, 멍해짐, 불구, 현기증, 약화 3턴 중 하나를 걸음
+				switch (Random.Int(20)) {
 					case 0:
 						Buff.affect(enemy, Paralysis.class, 1f);
 						Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
@@ -745,8 +751,8 @@ public class Ring extends KindofMisc {
 					Buff.affect(hero, Haste.class, 2f);
 				}
 				return damageMulti;
-			case RING_MIGHT:	//공격력 (현재 힘-10)*10%배
-				return damageMulti*(1+0.1f*(hero.STR()-10));
+			case RING_MIGHT:	//공격력 (현재 힘-10)*5%배
+				return damageMulti*(1+0.05f*(hero.STR()-10));
 			case RING_SHARPSHOOTING:	//대상에게 박힌 투척 무기 중 하나를 가져오고 내구도를 1만큼 수리함
 				if (enemy.buff(PinCushion.class) != null) {
 					Item item = enemy.buff(PinCushion.class).grabOne();

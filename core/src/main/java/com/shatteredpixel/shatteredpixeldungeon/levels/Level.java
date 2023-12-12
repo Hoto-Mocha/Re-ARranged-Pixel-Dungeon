@@ -63,7 +63,22 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfBlast;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfCorrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfCorruption;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfDisintegration;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfFire;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfFrost;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfLight;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfMagic;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfRegrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfThunderBolt;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfTransfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
@@ -857,10 +872,38 @@ public abstract class Level implements Bundlable {
 	}
 
 	public void destroy( int pos ) {
+		Item prize = null;
+		switch (Random.Int(10)) {
+			case 0: prize = new ScrollOfTransmutation();
+				break;
+			case 1: Random.oneOf(new BookOfBlast(),
+									new BookOfCorrosion(),
+									new BookOfCorruption(),
+									new BookOfDisintegration(),
+									new BookOfEarth(),
+									new BookOfFire(),
+									new BookOfFrost(),
+									new BookOfLight(),
+									new BookOfMagic(),
+									new BookOfRegrowth(),
+									new BookOfThunderBolt(),
+									new BookOfTransfusion(),
+									new BookOfWarding());
+				break;
+			default:
+				prize = Generator.random(Generator.Category.SCROLL);
+				break;
+		}
 		//if raw tile type is flammable or empty
 		int terr = map[pos];
 		if (terr == Terrain.EMPTY || terr == Terrain.EMPTY_DECO
 				|| (Terrain.flags[map[pos]] & Terrain.FLAMABLE) != 0) {
+			if (terr == Terrain.BOOKSHELF && Random.Float() < (1/20f)*RingOfWealth.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class)) {
+				if (prize == null) { //this will never be activated, but this is used to prevent a crash in unpredicted case
+					prize = Generator.random(Generator.Category.SCROLL);
+				}
+				Dungeon.level.drop(prize, pos).sprite.drop();
+			} //generates prize for 5% chance when a bookshelf has destroyed
 			set(pos, Terrain.EMBERS);
 		}
 		Blob web = blobs.get(Web.class);

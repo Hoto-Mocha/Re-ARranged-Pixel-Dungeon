@@ -21,8 +21,11 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -44,6 +47,17 @@ public class RingOfTenacity extends Ring {
 		} else {
 			return Messages.get(this, "typical_stats", Messages.decimalFormat("#.##", 15f));
 		}
+	}
+
+	@Override
+	public String info(){
+		String desc = super.info();
+
+		if (hero != null && hero.hasTalent(Talent.MYSTICAL_PUNCH)) {
+			desc += "\n\n" + Messages.get(this, "special_effect");
+		}
+
+		return desc;
 	}
 
 	@Override
