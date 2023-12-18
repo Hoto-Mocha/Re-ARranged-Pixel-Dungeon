@@ -515,7 +515,7 @@ public class MeleeWeapon extends Weapon {
 				if (Regeneration.regenOn()) {
 					// 80 to 60 turns per charge without talent
 					// up to 53.333 to 40 turns per charge at max talent level
-					secondPartialCharge += secondChargeMultiplier() / (40f-(secondChargeCap()-secondCharges));
+					secondPartialCharge += secondChargeSpeedMultiplier() / (40f-(secondChargeCap()-secondCharges));
 				}
 
 				if (secondPartialCharge >= 1) {
@@ -549,15 +549,15 @@ public class MeleeWeapon extends Weapon {
 			ActionIndicator.clearAction(this);
 		}
 
-		public int chargeCap(){
+		public int chargeCap(){	//첫 번째 무기의 최대 충전량
 			return Math.min(10, 3 + (Dungeon.hero.lvl-1)/3)+Dungeon.hero.pointsInTalent(Talent.ACCUMULATION);
 		}
 
-		public int secondChargeCap(){
+		public int secondChargeCap(){	//두 번째 무기의 최대 충전량
 			return Math.round(chargeCap() * secondChargeMultiplier());
 		}
 
-		public float chargeMultiplier(){
+		public float chargeMultiplier(){	//첫 번째 무기의 충전 속도 증가량
 			float multi = 1;
 			if (hero.belongings.weapon != null && hero.belongings.secondWep != null
 					&& hero.hasTalent(Talent.TWIN_SWORD)
@@ -572,9 +572,15 @@ public class MeleeWeapon extends Weapon {
 			return multi;
 		}
 
-		public float secondChargeMultiplier(){
+		public float secondChargeMultiplier(){	//두 번째 무기의 최대 충전량 증가량
 			//50% - 75%, depending on talent
-			float multi = chargeMultiplier()*((6+Dungeon.hero.pointsInTalent(Talent.SECONDARY_CHARGE))/12f);
+			float multi = 0.5f + 0.0834f*Dungeon.hero.pointsInTalent(Talent.SECONDARY_CHARGE);
+			return multi;
+		}
+
+		public float secondChargeSpeedMultiplier(){	//두 번째 무기의 충전 속도 증가량
+			//50% - 75%, depending on talent
+			float multi = secondChargeMultiplier()*chargeMultiplier();
 			return multi;
 		}
 

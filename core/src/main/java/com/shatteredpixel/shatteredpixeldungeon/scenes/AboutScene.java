@@ -67,7 +67,7 @@ public class AboutScene extends PixelScene {
 				Icons.ARRANGED.get(),
 				"Developed by: _Cocoa_\nBased on Shattered Pixel Dungeon's open source",
 				"github repository",
-				"https://github.com/Hoto-Mocha/ARranged-Pixel-Dungeon");
+				"https://github.com/Hoto-Mocha/Re-ARranged-Pixel-Dungeon");
 		arranged.setRect((w - fullWidth)/2f, 6, 120, 0);
 		content.add(arranged);
 

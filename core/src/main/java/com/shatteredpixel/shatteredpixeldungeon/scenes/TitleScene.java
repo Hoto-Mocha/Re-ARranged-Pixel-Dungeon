@@ -300,6 +300,7 @@ public class TitleScene extends PixelScene {
 						update.versionName == null ? Messages.get(this,"title") : Messages.get(this,"versioned_title", update.versionName),
 						update.desc == null ? Messages.get(this,"desc") : update.desc,	//업데이트 문장이 없다면 내장 문장 출력, 받아온 문장이 있다면 받아온 문장을 출력
 						Messages.get(this,"update"),
+						Messages.get(this,"playstore"),
 						Messages.get(this,"changes")
 				) {
 					@Override
@@ -307,6 +308,9 @@ public class TitleScene extends PixelScene {
 						if (index == 0) {
 							Updates.launchUpdate(Updates.updateData());
 						} else if (index == 1){
+							String linkUrl = "https://play.google.com/store/apps/details?id=com.rearrangedpixel.rearrangedpixeldungon";
+							ShatteredPixelDungeon.platform.openURI( linkUrl );
+						} else if (index == 2){
 							ShatteredPixelDungeon.switchNoFade( ChangesScene.class );
 						}
 					}

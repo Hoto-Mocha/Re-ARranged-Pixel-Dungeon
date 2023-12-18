@@ -570,7 +570,7 @@ public class GameScene extends PixelScene {
 				if (Dungeon.branch == 0) {
 					for (LevelTransition transition : Dungeon.level.transitions) {
 						if (transition.type == LevelTransition.Type.BRANCH_EXIT && transition.destBranch == 2) {
-							int cell = transition.centerCell;
+							int cell = transition.cell();
 							Level.set(cell, Terrain.WALL);
 							GameScene.updateMap(cell);
 							if (Dungeon.level.heroFOV[ cell ]) {

@@ -29,6 +29,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -234,6 +236,14 @@ public class ItemSlot extends Button {
 			status.hardlight(WARNING);
 		} else {
 			status.resetColor();
+		}
+
+		if (item instanceof Gun
+				&& Dungeon.hero.buff(MeleeWeapon.Charger.class) != null) {
+			if ((Dungeon.hero.belongings.weapon() == item && Dungeon.hero.buff(MeleeWeapon.Charger.class).charges >= 2)
+					|| Dungeon.hero.belongings.secondWep() == item && Dungeon.hero.buff(MeleeWeapon.Charger.class).secondCharges >= 2) {
+				status.hardlight(ENHANCED);
+			}
 		}
 
 		if (item.icon != -1 && (item.isIdentified() || (item instanceof Ring && ((Ring) item).isKnown()))){
