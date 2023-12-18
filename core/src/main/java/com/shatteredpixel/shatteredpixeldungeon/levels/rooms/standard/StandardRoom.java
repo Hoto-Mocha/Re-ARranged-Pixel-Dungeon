@@ -144,31 +144,68 @@ public abstract class StandardRoom extends Room {
 		rooms.add(StudyRoom.class);
 		rooms.add(SuspiciousChestRoom.class);
 		rooms.add(MinefieldRoom.class);
+
+		rooms.add(TempleCenterItemRoom.class);
+		rooms.add(TempleMazeRoom.class);
+		rooms.add(TempleLibraryRoom.class);
 	}
 	
 	private static float[][] chances = new float[27][];
 	static {
-		chances[1] =  new float[]{10,  10,10,5, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  1,0,1,0,1,0,1,1,0,0};
-		chances[2] =  new float[]{10,  10,10,5, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  1,1,1,1,1,1,1,1,1,1};
+		chances[1] =  new float[]{10,  10,10,5, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  1,0,1,0,1,0,1,1,0,0, 0,0,0};
+		chances[2] =  new float[]{10,  10,10,5, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
 		chances[4] =  chances[3] = chances[2];
-		chances[5] =  new float[]{10,  10,10,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  0,0,0,0,0,0,0,0,0,0};
+		chances[5] =  new float[]{10,  10,10,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  0,0,0,0,0,0,0,0,0,0, 0,0,0};
 
-		chances[6] =  new float[]{10,  0,0,0, 10,10,5, 0,0,0, 0,0,0, 0,0,0,  1,1,1,1,1,1,1,1,1,1};
+		chances[6] =  new float[]{10,  0,0,0, 10,10,5, 0,0,0, 0,0,0, 0,0,0,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
 		chances[10] = chances[9] = chances[8] = chances[7] = chances[6];
 
-		chances[11] = new float[]{10,  0,0,0, 0,0,0, 10,10,5, 0,0,0, 0,0,0,  1,1,1,1,1,1,1,1,1,1};
+		chances[11] = new float[]{10,  0,0,0, 0,0,0, 10,10,5, 0,0,0, 0,0,0,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
 		chances[15] = chances[14] = chances[13] = chances[12] = chances[11];
 
-		chances[16] = new float[]{10,  0,0,0, 0,0,0, 0,0,0, 10,10,5, 0,0,0,  1,1,1,1,1,1,1,1,1,1};
+		chances[16] = new float[]{10,  0,0,0, 0,0,0, 0,0,0, 10,10,5, 0,0,0,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
 		chances[20] = chances[19] = chances[18] = chances[17] = chances[16];
 
-		chances[21] = new float[]{10,  0,0,0, 0,0,0, 0,0,0, 0,0,0, 10,10,5,  1,1,1,1,1,1,1,1,1,1};
+		chances[21] = new float[]{10,  0,0,0, 0,0,0, 0,0,0, 0,0,0, 10,10,5,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
 		chances[26] = chances[25] = chances[24] = chances[23] = chances[22] = chances[21];
 	}
-	
-	
-	public static StandardRoom createRoom(){
-		return Reflection.newInstance(rooms.get(Random.chances(chances[Dungeon.depth])));
+
+	private static float[][] branchChances = new float[27][];
+	static {
+		branchChances[1] =  new float[]{0,  0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 1,0,1,0,1,0,1,1,1,0, 5,5,10};
+		branchChances[26]
+				= branchChances[25]
+				= branchChances[24]
+				= branchChances[23]
+				= branchChances[22]
+				= branchChances[21]
+				= branchChances[20]
+				= branchChances[19]
+				= branchChances[18]
+				= branchChances[17]
+				= branchChances[16]
+				= branchChances[15]
+				= branchChances[14]
+				= branchChances[13]
+				= branchChances[12]
+				= branchChances[11]
+				= branchChances[10]
+				= branchChances[9]
+				= branchChances[8]
+				= branchChances[7]
+				= branchChances[6]
+				= branchChances[5]
+				= branchChances[4]
+				= branchChances[3]
+				= branchChances[2]
+				= branchChances[1];
 	}
-	
+
+	public static StandardRoom createRoom(){
+		if (Dungeon.branch == 0) {
+			return Reflection.newInstance(rooms.get(Random.chances(chances[Dungeon.depth])));
+		} else {
+			return Reflection.newInstance(rooms.get(Random.chances(branchChances[Dungeon.depth])));
+		}
+	}
 }

@@ -36,6 +36,7 @@ public class IronKey extends Key {
 	public IronKey( int depth ) {
 		super();
 		this.depth = depth;
+		this.branch = 0;
 	}
 
 }

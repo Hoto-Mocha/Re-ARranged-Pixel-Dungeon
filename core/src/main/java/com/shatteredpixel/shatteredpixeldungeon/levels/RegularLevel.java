@@ -120,6 +120,9 @@ public abstract class RegularLevel extends Level {
 		if (feeling == Feeling.LARGE){
 			standards = (int)Math.ceil(standards * 1.5f);
 		}
+		if (this instanceof TempleLevel) {
+			standards *= 3;
+		}
 		for (int i = 0; i < standards; i++) {
 			StandardRoom s;
 			do {

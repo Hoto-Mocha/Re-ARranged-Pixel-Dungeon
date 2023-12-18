@@ -78,7 +78,15 @@ public class EntranceRoom extends StandardRoom {
 		if (Dungeon.depth == 1){
 			level.transitions.add(new LevelTransition(level, entrance, LevelTransition.Type.SURFACE));
 		} else {
-			level.transitions.add(new LevelTransition(level, entrance, LevelTransition.Type.REGULAR_ENTRANCE));
+			if (Dungeon.branch == 2) {
+				if (Dungeon.depth % 5 == 1) {
+					level.transitions.add(new LevelTransition(level, entrance, LevelTransition.Type.BRANCH_ENTRANCE, Dungeon.depth-2, 0, LevelTransition.Type.BRANCH_EXIT));
+				} else {
+					level.transitions.add(new LevelTransition(level, entrance, LevelTransition.Type.BRANCH_ENTRANCE, Dungeon.depth-1, Dungeon.branch, LevelTransition.Type.BRANCH_EXIT));
+				}
+			} else {
+				level.transitions.add(new LevelTransition(level, entrance, LevelTransition.Type.REGULAR_ENTRANCE));
+			}
 		}
 
 		//use a separate generator here so meta progression doesn't affect levelgen

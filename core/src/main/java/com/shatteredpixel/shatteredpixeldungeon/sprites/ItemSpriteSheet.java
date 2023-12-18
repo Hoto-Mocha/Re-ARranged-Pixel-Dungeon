@@ -806,12 +806,14 @@ public class ItemSpriteSheet {
 	public static final int AP_BULLET	= BULLET_ITEM+2;
 	public static final int CARTRIDGE	= BULLET_ITEM+3;
 	public static final int BULLET_BELT	= BULLET_ITEM+4;
+	public static final int OLD_AMULET	= BULLET_ITEM+5;
 	static{
 		assignItemRect(BULLET		, 13, 13);
 		assignItemRect(HP_BULLET	, 13, 13);
 		assignItemRect(AP_BULLET	, 13, 13);
 		assignItemRect(CARTRIDGE	, 11, 11);
 		assignItemRect(BULLET_BELT	, 15, 15);
+		assignItemRect(OLD_AMULET	, 16, 16);
 	}
 
 	private static final int BULLETS		=			xy(1, 42);  //16 slots
@@ -851,11 +853,13 @@ public class ItemSpriteSheet {
 	public static final int ARROW_NATURE	= ARROWS+1;
 	public static final int ARROW_GOLD		= ARROWS+2;
 	public static final int ARROW_CORROSION	= ARROWS+3;
+	public static final int ARROW_TACTICAL	= ARROWS+4;
 	static{
 		assignItemRect(ARROW_WIND		, 11, 11);
 		assignItemRect(ARROW_NATURE		, 11, 11);
 		assignItemRect(ARROW_GOLD		, 11, 11);
 		assignItemRect(ARROW_CORROSION	, 11, 11);
+		assignItemRect(ARROW_TACTICAL	, 11, 11);
 	}
 
 	private static final int NEW_WEP_TIER_1	=			xy(1, 45);  //8 slots
@@ -1025,11 +1029,13 @@ public class ItemSpriteSheet {
 	public static final int NATURE_BOW		= BOWS+1;
 	public static final int GOLDEN_BOW		= BOWS+2;
 	public static final int CORROSION_BOW	= BOWS+3;
+	public static final int TACTICAL_BOW	= BOWS+4;
 	static{
 		assignItemRect(WIND_BOW		, 16, 16);
 		assignItemRect(NATURE_BOW	, 16, 16);
 		assignItemRect(GOLDEN_BOW	, 16, 16);
 		assignItemRect(CORROSION_BOW, 16, 16);
+		assignItemRect(TACTICAL_BOW	, 16, 16);
 	}
 
 	//보조무기 추후 추가

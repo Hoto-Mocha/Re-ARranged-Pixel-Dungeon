@@ -63,7 +63,7 @@ public class GunSmithingTool extends Item {
         return Messages.get(this, "inv_title");
     }
 
-    protected Class<?extends Bag> preferredBag = Belongings.Backpack.class;;
+    protected Class<?extends Bag> preferredBag = Belongings.Backpack.class;
 
     protected boolean usableOnItem( Item item ){
         return item instanceof Gun;

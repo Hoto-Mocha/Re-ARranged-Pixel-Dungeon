@@ -41,10 +41,11 @@ public abstract class Key extends Item {
 
 	//TODO currently keys can only appear on branch = 0, add branch support here if that changes
 	public int depth;
+	public int branch;
 	
 	@Override
 	public boolean isSimilar( Item item ) {
-		return super.isSimilar(item) && ((Key)item).depth == depth;
+		return super.isSimilar(item) && ((Key)item).depth == depth && ((Key)item).branch == branch;
 	}
 
 	@Override
@@ -59,17 +60,20 @@ public abstract class Key extends Item {
 	}
 
 	private static final String DEPTH = "depth";
-	
+	private static final String BRANCH = "branch";
+
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle( bundle );
 		bundle.put( DEPTH, depth );
+		bundle.put( BRANCH, branch );
 	}
 	
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
 		depth = bundle.getInt( DEPTH );
+		branch = bundle.getInt( BRANCH );
 	}
 	
 	@Override

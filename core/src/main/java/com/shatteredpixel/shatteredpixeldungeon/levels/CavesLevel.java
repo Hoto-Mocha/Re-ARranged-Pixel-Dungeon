@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.CavesPainter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.TempleGateRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BurningTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ConfusionTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.CorrosionTrap;
@@ -88,7 +89,13 @@ public class CavesLevel extends RegularLevel {
 
 	@Override
 	protected ArrayList<Room> initRooms() {
-		return Blacksmith.Quest.spawn(super.initRooms());
+		ArrayList<Room> rooms = Blacksmith.Quest.spawn(super.initRooms());
+
+		if (Dungeon.depth == 14) {
+			rooms.add(new TempleGateRoom());
+		}
+
+		return rooms;
 	}
 	
 	@Override
@@ -115,7 +122,7 @@ public class CavesLevel extends RegularLevel {
 	
 	@Override
 	public boolean activateTransition(Hero hero, LevelTransition transition) {
-		if (transition.type == LevelTransition.Type.BRANCH_EXIT
+		if (transition.type == LevelTransition.Type.BRANCH_EXIT && transition.destBranch == 1
 				&& (!Blacksmith.Quest.given() || Blacksmith.Quest.oldQuestMineBlocked() || Blacksmith.Quest.completed() || !Blacksmith.Quest.started())) {
 
 			Blacksmith smith = null;

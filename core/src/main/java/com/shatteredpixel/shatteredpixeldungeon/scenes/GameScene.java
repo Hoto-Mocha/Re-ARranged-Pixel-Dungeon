@@ -44,16 +44,20 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BannerSprites;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BlobEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.EmoIcon;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Ripple;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
+import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
@@ -61,7 +65,9 @@ import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.TempleLastLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
@@ -130,6 +136,7 @@ import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.Tweener;
+import com.watabou.utils.Callback;
 import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.Point;
@@ -556,6 +563,42 @@ public class GameScene extends PixelScene {
 
 			if (Dungeon.hero.buff(AscensionChallenge.class) != null){
 				Dungeon.hero.buff(AscensionChallenge.class).saySwitch();
+			}
+
+			if (Dungeon.hero.buff(OldAmulet.TempleCurse.class) != null) {
+				Dungeon.hero.buff(OldAmulet.TempleCurse.class).saySwitch();
+				if (Dungeon.branch == 0) {
+					for (LevelTransition transition : Dungeon.level.transitions) {
+						if (transition.type == LevelTransition.Type.BRANCH_EXIT && transition.destBranch == 2) {
+							int cell = transition.centerCell;
+							Level.set(cell, Terrain.WALL);
+							GameScene.updateMap(cell);
+							if (Dungeon.level.heroFOV[ cell ]) {
+								CellEmitter.get( cell - Dungeon.level.width() ).start(Speck.factory(Speck.ROCK), 0.07f, 10);
+
+								PixelScene.shake(3, 0.7f);
+								Sample.INSTANCE.play(Assets.Sounds.ROCKS);
+							}
+							int targetCell = cell+Dungeon.level.width();
+							Actor.add(new Pushing(Dungeon.hero, cell, targetCell, new Callback() {
+								@Override
+								public void call() {
+									Dungeon.hero.pos = targetCell;
+									Dungeon.hero.move(targetCell);
+									Dungeon.level.occupyCell(Dungeon.hero);
+									Dungeon.observe();
+									GameScene.updateFog();
+								}
+							}));
+							Dungeon.level.transitions.remove(transition);
+
+							Dungeon.hero.busy();
+							break;
+						}
+					}
+
+					Dungeon.hero.buff(OldAmulet.TempleCurse.class).detach();
+				}
 			}
 
 			InterlevelScene.mode = InterlevelScene.Mode.NONE;

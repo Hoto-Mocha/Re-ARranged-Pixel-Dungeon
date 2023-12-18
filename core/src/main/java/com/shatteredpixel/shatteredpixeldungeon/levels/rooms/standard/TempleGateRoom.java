@@ -26,48 +26,42 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.watabou.utils.Point;
 
-public class ExitRoom extends StandardRoom {
-	
+public class TempleGateRoom extends StandardRoom {
+
 	@Override
-	public int minWidth() {
-		return Math.max(super.minWidth(), 5);
-	}
-	
+	public int minWidth() { return 8; }
+	public int maxWidth() { return 12; }
+
 	@Override
-	public int minHeight() {
-		return Math.max(super.minHeight(), 5);
-	}
-	
+	public int minHeight() { return 8; }
+	public int maxHeight() { return 12; }
+
+	@Override
 	public void paint(Level level) {
-
 		Painter.fill( level, this, Terrain.WALL );
-		Painter.fill( level, this, 1, Terrain.EMPTY );
+		Painter.fill( level, this, 1 , Terrain.EMPTY );
 		
-		for (Room.Door door : connected.values()) {
-			door.set( Room.Door.Type.REGULAR );
+		for (Door door : connected.values()) {
+			door.set( Door.Type.REGULAR );
 		}
-		
-		int exit = level.pointToCell(random( 2 ));
-		Painter.set( level, exit, Terrain.EXIT );
-		if (Dungeon.branch == 2) {
-			level.transitions.add(new LevelTransition(level, exit, LevelTransition.Type.BRANCH_EXIT, Dungeon.depth+1, Dungeon.branch, LevelTransition.Type.BRANCH_ENTRANCE));
-		} else {
-			level.transitions.add(new LevelTransition(level, exit, LevelTransition.Type.REGULAR_EXIT));
-		}
-	}
-	
-	@Override
-	public boolean canPlaceCharacter(Point p, Level l) {
-		return super.canPlaceCharacter(p, l) && l.pointToCell(p) != l.exit();
-	}
 
-	@Override
-	public boolean connect(Room room) {
-		//cannot connect to entrance, otherwise works normally
-		if (room instanceof EntranceRoom)   return false;
-		else                            return super.connect(room);
+		Point c = center();
+
+		Painter.fill( level, c.x-1, c.y-1, 3, 2, Terrain.WALL );
+		Painter.fill( level, c.x, c.y, 1, 1, Terrain.EMPTY );
+		Painter.fill( level, c.x-1, c.y+1, 3, 1, Terrain.EMPTY_SP );
+
+
+		int entranceCell = level.pointToCell(c);
+
+		level.transitions.add(new LevelTransition(level,
+				entranceCell,
+				LevelTransition.Type.BRANCH_EXIT,
+				Dungeon.depth + 2,
+				Dungeon.branch + 2,
+				LevelTransition.Type.BRANCH_ENTRANCE));
+		Painter.set(level, entranceCell, Terrain.UNLOCKED_EXIT);
 	}
 }

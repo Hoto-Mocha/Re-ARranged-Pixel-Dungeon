@@ -36,6 +36,13 @@ public class GoldenKey extends Key {
 	public GoldenKey( int depth ) {
 		super();
 		this.depth = depth;
+		this.branch = 0;
+	}
+
+	public GoldenKey( int depth, int branch ) {
+		super();
+		this.depth = depth;
+		this.branch = branch;
 	}
 
 }

@@ -73,6 +73,12 @@ public class Corrosion extends Buff implements Hero.Doom {
 		if (this.damage < damage) this.damage = damage;
 		this.source = source;
 	}
+
+	public void add(float duration, int damage) {
+		this.left += duration;
+		if (this.damage < damage) this.damage = damage;
+		this.damage++;
+	}
 	
 	@Override
 	public int icon() {

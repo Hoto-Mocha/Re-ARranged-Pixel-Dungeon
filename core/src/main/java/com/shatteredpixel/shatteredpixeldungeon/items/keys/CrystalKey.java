@@ -36,6 +36,13 @@ public class CrystalKey extends Key {
 	public CrystalKey( int depth ) {
 		super();
 		this.depth = depth;
+		this.branch = 0;
+	}
+
+	public CrystalKey( int depth, int branch ) {
+		super();
+		this.depth = depth;
+		this.branch = branch;
 	}
 	
 }

@@ -45,6 +45,7 @@ public class SkeletonKey extends Key {
 	public SkeletonKey( int depth ) {
 		super();
 		this.depth = depth;
+		this.branch = 0;
 	}
 
 	@Override
