@@ -60,7 +60,6 @@ import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
-import com.watabou.utils.Rect;
 
 import java.util.ArrayList;
 
@@ -82,10 +81,6 @@ public class TempleLastLevel extends Level {
 	private static int WIDTH = 31;
 	private static int HEIGHT = 31;
 
-	private static final Rect entry = new Rect(0, 27, 33, 6);
-	private static final Rect arena = new Rect(0, 0, 33, 26);
-	private static final Rect exitDoor = new Rect(16, 1, 16, 1);
-
 	@Override
 	public String tilesTex() {
 		return Assets.Environment.TILES_TEMPLE;
@@ -100,16 +95,9 @@ public class TempleLastLevel extends Level {
 	protected boolean build() {
 		setSize(WIDTH, HEIGHT);
 
-		transitions.add(new LevelTransition(this, 15 + WIDTH*15, LevelTransition.Type.REGULAR_ENTRANCE));
+		transitions.add(new LevelTransition(this, 15 + WIDTH*15, LevelTransition.Type.BRANCH_ENTRANCE, Dungeon.depth-1, Dungeon.branch, LevelTransition.Type.BRANCH_EXIT));
 
-		//entrance room
 		buildLevel();
-		//arena room
-
-		//customArenaVisuals = new LabArenaVisuals();
-		//customArenaVisuals.setRect(0, 12, width(), 27);
-		//customTiles.add(customArenaVisuals);
-
 		return true;
 	}
 

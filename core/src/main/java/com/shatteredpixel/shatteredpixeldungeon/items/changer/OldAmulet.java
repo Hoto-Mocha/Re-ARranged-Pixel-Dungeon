@@ -87,6 +87,17 @@ public class OldAmulet extends Item {
     }
 
     @Override
+    public String desc() {
+        String desc = super.desc();
+
+        if (Dungeon.hero.buff(TempleCurse.class) != null) {
+            desc += "\n\n" + Messages.get(this, "cannot_use");
+        }
+
+        return desc;
+    }
+
+    @Override
     public void execute(Hero hero, String action) {
         super.execute(hero, action);
 
