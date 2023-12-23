@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -35,6 +37,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Annoying;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Dazzling;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Displacing;
@@ -56,11 +60,15 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projec
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -262,6 +270,23 @@ abstract public class Weapon extends KindOfWeapon {
 		if (curseInfusionBonus) level += 1 + level/6;
 		return level;
 	}
+
+	@Override
+	public int buffedLvl() {
+		int lvl;
+		if (isEquipped(Dungeon.hero) || Dungeon.hero.belongings.contains(this)) {
+			lvl = super.buffedLvl();
+		} else {
+			lvl = level();
+		}
+
+		UpgradeDust.WeaponEnhance weaponEmpower = hero.buff(UpgradeDust.WeaponEnhance.class);
+		if (weaponEmpower != null && isEquipped(hero)) {
+			lvl += weaponEmpower.getLvl();
+		}
+
+		return lvl;
+	}
 	
 	@Override
 	public Item upgrade() {
@@ -401,6 +426,11 @@ abstract public class Weapon extends KindOfWeapon {
 			if (attacker.buff(RunicBlade.RunicSlashTracker.class) != null){
 				multi += 3f;
 				attacker.buff(RunicBlade.RunicSlashTracker.class).detach();
+			}
+
+			if (attacker.buff(TrueRunicBlade.TrueRunicSlashTracker.class) != null){
+				multi += 3f;
+				attacker.buff(TrueRunicBlade.TrueRunicSlashTracker.class).detach();
 			}
 
 			if (attacker.buff(ElementalStrike.DirectedPowerTracker.class) != null){

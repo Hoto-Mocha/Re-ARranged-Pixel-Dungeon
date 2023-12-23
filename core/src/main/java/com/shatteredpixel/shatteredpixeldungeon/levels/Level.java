@@ -898,7 +898,7 @@ public abstract class Level implements Bundlable {
 		int terr = map[pos];
 		if (terr == Terrain.EMPTY || terr == Terrain.EMPTY_DECO
 				|| (Terrain.flags[map[pos]] & Terrain.FLAMABLE) != 0) {
-			if (terr == Terrain.BOOKSHELF && Random.Float() < (1/20f)*RingOfWealth.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class)) {
+			if (terr == Terrain.BOOKSHELF && Random.Float() < (1/20f)*RingOfWealth.dropChanceMultiplier( Dungeon.hero )) {
 				if (prize == null) { //this will never be activated, but this is used to prevent a crash in unpredicted case
 					prize = Generator.random(Generator.Category.SCROLL);
 				}

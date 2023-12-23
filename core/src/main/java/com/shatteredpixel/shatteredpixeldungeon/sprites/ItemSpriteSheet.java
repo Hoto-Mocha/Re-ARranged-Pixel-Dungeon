@@ -775,6 +775,7 @@ public class ItemSpriteSheet {
 
 	private static final int NEW_SCROLL 	=			xy(1, 37);  //16 slots
 	public static final int SCROLL_PLUS		= NEW_SCROLL+0;
+	public static final int BLUEPRINT		= NEW_SCROLL+1;
 	static{
 		assignItemRect(SCROLL_PLUS, 15, 14);
 	}
@@ -1071,9 +1072,9 @@ public class ItemSpriteSheet {
 	}
 
 	private static final int AL_WEP_T5		=			xy(1, 58);  //16 slots
-	public static final int TRUE_RUNIC_SWORD= AL_WEP_T5+0;
+	public static final int TRUE_RUNIC_BLADE= AL_WEP_T5+0;
 	static{
-		assignItemRect(TRUE_RUNIC_SWORD, 14, 14);
+		assignItemRect(TRUE_RUNIC_BLADE, 14, 14);
 	}
 
 	private static final int AL_WEP_T6	  	=			xy(1, 59);  //16 slots
@@ -1209,6 +1210,7 @@ public class ItemSpriteSheet {
 	public static final int	HANDY_BARRICADE		= NEW_SPELLS+5;
 	public static final int ADVANCED_EVOLUTION	= NEW_SPELLS+6;
 	public static final int EVOLUTION			= NEW_SPELLS+7;
+	public static final int UPGRADE_DUST		= NEW_SPELLS+8;
 	static{
 		assignItemRect(FIRE_IMBUE			, 11, 11);
 		assignItemRect(XRAY					, 11, 11);
@@ -1218,6 +1220,7 @@ public class ItemSpriteSheet {
 		assignItemRect(HANDY_BARRICADE		, 8, 16);
 		assignItemRect(ADVANCED_EVOLUTION	, 10, 15);
 		assignItemRect(EVOLUTION			, 10, 15);
+		assignItemRect(UPGRADE_DUST			, 12, 11);
 	}
 
 	// ****** new sprites end ******

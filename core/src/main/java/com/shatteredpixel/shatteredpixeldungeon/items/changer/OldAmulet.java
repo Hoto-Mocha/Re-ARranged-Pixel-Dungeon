@@ -62,8 +62,6 @@ public class OldAmulet extends Item {
         bones = false;
     }
 
-    protected Class<?extends Bag> preferredBag = Belongings.Backpack.class;
-
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
@@ -238,7 +236,7 @@ public class OldAmulet extends Item {
 
         @Override
         public Class<? extends Bag> preferredBag() {
-            return preferredBag;
+            return Belongings.Backpack.class;
         }
 
         @Override
