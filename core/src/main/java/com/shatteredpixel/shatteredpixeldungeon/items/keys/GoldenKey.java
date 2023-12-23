@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.keys;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class GoldenKey extends Key {
@@ -36,7 +37,7 @@ public class GoldenKey extends Key {
 	public GoldenKey( int depth ) {
 		super();
 		this.depth = depth;
-		this.branch = 0;
+		this.branch = Dungeon.branch;
 	}
 
 	public GoldenKey( int depth, int branch ) {
