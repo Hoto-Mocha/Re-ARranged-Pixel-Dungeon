@@ -9,7 +9,7 @@ public class HG extends Gun {
     {
         max_round = 4;
         round = max_round;
-        shootingSpeed = 2;
+        shootingSpeed = 0.5f;
         reload_time = 1f;
     }
 

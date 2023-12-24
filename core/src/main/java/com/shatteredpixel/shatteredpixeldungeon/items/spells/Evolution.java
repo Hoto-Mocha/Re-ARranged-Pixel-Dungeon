@@ -119,10 +119,18 @@ public class Evolution extends InventorySpell {
 
         Weapon n;
         Generator.Category c;
-        if (((MeleeWeapon)w).tier >= 4){
-            c = Generator.wepTiers[4];
+        if (Random.Float() < 0.25f) {
+            if (((MeleeWeapon)w).tier >= 4){
+                c = Generator.wepTiers[4];
+            } else {
+                c = Generator.wepTiers[((MeleeWeapon)w).tier];
+            }
         } else {
-            c = Generator.wepTiers[((MeleeWeapon)w).tier];
+            if (((MeleeWeapon)w).tier >= 5){
+                c = Generator.wepTiers[4];
+            } else {
+                c = Generator.wepTiers[((MeleeWeapon)w).tier-1];
+            }
         }
 
         do {

@@ -66,6 +66,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibili
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
@@ -84,8 +85,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
@@ -129,7 +133,8 @@ public enum HeroClass {
 		if (DeviceCompat.isDebug()) {
 //			new RingOfMight().identify().upgrade(10).collect();
 //			new AR_T5().identify().upgrade(100).collect();
-//			new RingOfHaste().identify().upgrade(100).collect();
+			new RingOfHaste().identify().upgrade(100).collect();
+			new RingOfAccuracy().identify().upgrade(100).collect();
 //			new BulletBelt().quantity(20).collect();
 //			new GunSmithingTool().quantity(20).collect();
 			new AlchemistsToolkit().identify().upgrade(10).collect();
@@ -137,6 +142,7 @@ public enum HeroClass {
 			new PotionOfHealing().identify().quantity(500).collect();
 			new PotionOfExperience().identify().quantity(29).collect();
 			new PlateArmor().identify().upgrade(100).collect();
+			new TacticalShield().identify().upgrade(100).collect();
 			new Teleporter().collect();
 			new TengusMask().collect();
 			new Pasty().quantity(100).collect();
@@ -145,21 +151,11 @@ public enum HeroClass {
 			new ArcaneResin().quantity(500).collect();
 			new Evolution().quantity(500).collect();
 			new UpgradeDust().quantity(500).collect();
-			new RunicBlade().identify().collect();
-			new RunicBlade().collect();
-//			new ScrollOfMagicMapping().identify().quantity(100).collect();
+			new Spear().identify().collect();
+			new RoundShield().identify().collect();
+			new ScrollOfMagicMapping().identify().quantity(100).collect();
 //			new OldAmulet().collect();
 //			new PotionOfMindVision().identify().quantity(100).collect();
-//			new BookOfThunderBolt().collect();
-//			new BookOfFire().collect();
-//			new BookOfFrost().collect();
-//			new BookOfEarth().collect();
-//			new BookOfDisintegration().collect();
-//			new BookOfLight().collect();
-//			new BookOfMagic().collect();
-//			new BookOfWarding().collect();
-//			new BookOfRegrowth().collect();
-//			new BookOfTransfusion().collect();
 		}
 
 		switch (this) {

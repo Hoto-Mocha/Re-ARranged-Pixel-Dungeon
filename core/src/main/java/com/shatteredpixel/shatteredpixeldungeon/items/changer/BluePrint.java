@@ -42,10 +42,35 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.AR_T6;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.AssassinsSpear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainFlail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainWhip;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ForceGlove;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HG_T6;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ObsidianShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SR_T6;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SpearNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TrueRunicBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.UnformedBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.HG.HG_T5;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SR.SR_T5;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ForceCube;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
@@ -55,6 +80,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.text.DecimalFormat;
@@ -167,23 +193,24 @@ public class BluePrint extends Item {
             desc += "\n\n" + Messages.get(this, "item_desc",
                     newWeapon.tier,
                     newWeapon.trueName(),
-                    100-20*(newWeapon.tier-1),
-                    100-20*(newWeapon.tier-2),
-                    100-20*(newWeapon.tier-3),
-                    100-20*(newWeapon.tier-4),
-                    100-20*(newWeapon.tier-5));
+                    Math.min(100, 100-20*(newWeapon.tier-1)),
+                    Math.min(100, 100-20*(newWeapon.tier-2)),
+                    Math.min(100, 100-20*(newWeapon.tier-3)),
+                    Math.min(100, 100-20*(newWeapon.tier-4)),
+                    Math.min(100, 100-20*(newWeapon.tier-5)));
         }
 
         return desc;
     }
 
     protected void onItemSelected(Item item) {
-        Item result = changeItem(item);
+        Item result = null;
+
+        if (Random.Float() < 1-0.2f*(((MeleeWeapon)changeItem(item)).tier-((MeleeWeapon)item).tier))
 
         if (result == null){
             //This shouldn't ever trigger
             GLog.n( Messages.get(this, "nothing") );
-            curItem.collect( curUser.belongings.backpack );
         } else {
             if (result != item) {
                 int slot = Dungeon.quickslot.getSlot(item);
@@ -275,17 +302,56 @@ public class BluePrint extends Item {
 
         public static final ArrayList<ArrayList<Class<?extends Item>>> validIngredients = new ArrayList<>(); //레시피마다 재료 배열을 만들어 이곳에 저장한다.
         static {
-            validIngredients.add( new ArrayList<>(Arrays.asList(RunicBlade.class, UpgradeDust.class, Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(RunicBlade.class,       UpgradeDust.class, Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(Glaive.class,           UpgradeDust.class, Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(Greatshield.class,      UpgradeDust.class, Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(Whip.class,             UpgradeDust.class, Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(Lance.class, ObsidianShield.class,         Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(ChainWhip.class, Flail.class,              Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(AssassinsBlade.class,   UpgradeDust.class, Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(AR_T5.class,            UpgradeDust.class, Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(SR_T5.class,            UpgradeDust.class, Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(HG_T5.class,            UpgradeDust.class, Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(Spear.class, RoundShield.class,            Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(HG_T6.class, ObsidianShield.class,         Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(Glaive.class, AssassinsBlade.class,        Evolution.class)) );
+            validIngredients.add( new ArrayList<>(Arrays.asList(Gauntlet.class, ForceCube.class,           Evolution.class)) );
         }
 
         public static final LinkedHashMap<Integer, MeleeWeapon> indexToOutput = new LinkedHashMap<>(); //재료 배열의 인덱스를 넣으면 근접 무기를 반환한다.
         static {
             indexToOutput.put( 0, new TrueRunicBlade() );
+            indexToOutput.put( 1, new Lance() );
+            indexToOutput.put( 2, new ObsidianShield() );
+            indexToOutput.put( 3, new ChainWhip() );
+            indexToOutput.put( 4, new LanceNShield() );
+            indexToOutput.put( 5, new ChainFlail() );
+            indexToOutput.put( 6, new UnformedBlade() );
+            indexToOutput.put( 7, new AR_T6() );
+            indexToOutput.put( 8, new SR_T6() );
+            indexToOutput.put( 9, new HG_T6() );
+            indexToOutput.put( 10, new SpearNShield() );
+            indexToOutput.put( 11, new TacticalShield() );
+            indexToOutput.put( 12, new AssassinsSpear() );
+            indexToOutput.put( 13, new ForceGlove() );
         }
 
         public static final LinkedHashMap<Integer, Integer> costs = new LinkedHashMap<>(); //재료 배열의 인덱스를 넣으면 연금술 에너지 필요량을 반환한다.
         static {
             costs.put( 0, 0 );
+            costs.put( 1, 0 );
+            costs.put( 2, 0 );
+            costs.put( 3, 0 );
+            costs.put( 4, 5 );
+            costs.put( 5, 5 );
+            costs.put( 6, 0 );
+            costs.put( 7, 0 );
+            costs.put( 8, 0 );
+            costs.put( 9, 0 );
+            costs.put( 10, 5 );
+            costs.put( 11, 5 );
+            costs.put( 12, 5 );
+            costs.put( 13, 5 );
         }
 
         public ArrayList<Class<?extends Item>> ingredientToArray(ArrayList<Item> ingredients) { //연금술 솥에 넣은 아이템들의 클래스를 배열로 만든다.

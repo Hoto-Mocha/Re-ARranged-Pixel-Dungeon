@@ -148,6 +148,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainFlail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG.SG;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -726,6 +729,7 @@ public class Hero extends Char {
 		if (RingOfForce.fightingUnarmed(this))  return true;
 		if (STR() < ((Weapon)w).STRReq())       return false;
 		if (w instanceof Flail)                 return false;
+		if (w instanceof ChainFlail)            return false;
 		if (w instanceof SG.SGBullet)           return false;
 
 		return super.canSurpriseAttack();
@@ -1913,6 +1917,13 @@ public class Hero extends Char {
 				}
 				canSelfTrample = false;
 				return false;
+			}
+
+			if ((hero.belongings.weapon instanceof Lance ||
+					hero.belongings.secondWep instanceof Lance ||
+					(hero.belongings.weapon instanceof LanceNShield && ((LanceNShield)hero.belongings.weapon).stance) ||
+					(hero.belongings.secondWep instanceof LanceNShield && ((LanceNShield)hero.belongings.secondWep).stance))) {
+				Buff.affect(this, Lance.LanceBuff.class).setDamageFactor(1 + (hero.speed()), hero.belongings.secondWep instanceof Lance || (hero.belongings.secondWep instanceof LanceNShield && ((LanceNShield) hero.belongings.secondWep).stance));
 			}
 
 			if (subClass == HeroSubClass.FREERUNNER){
