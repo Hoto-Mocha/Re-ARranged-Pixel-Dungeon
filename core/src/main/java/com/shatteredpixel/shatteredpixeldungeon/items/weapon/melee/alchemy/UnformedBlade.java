@@ -31,6 +31,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -40,6 +43,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UnformedBlade extends MeleeWeapon implements AlchemyWeapon {
 
@@ -225,6 +229,11 @@ public class UnformedBlade extends MeleeWeapon implements AlchemyWeapon {
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 		sneakAbility(hero, target, 3, this);
+	}
+
+	@Override
+	public ArrayList<Class<?extends Item>> weaponRecipe() {
+		return new ArrayList<>(Arrays.asList(AssassinsBlade.class, UpgradeDust.class, Evolution.class));
 	}
 
 }

@@ -73,12 +73,31 @@ public enum Catalog {
 		for (Class weapon : Generator.Category.WEP_T5.classes){
 			WEAPONS.seen.put( weapon, false);
 		}
+		for (Class weapon : Generator.Category.WEP_AL_T3.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
+		for (Class weapon : Generator.Category.WEP_AL_T4.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
+		for (Class weapon : Generator.Category.WEP_AL_T5.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
+		for (Class weapon : Generator.Category.WEP_AL_T6.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
+		for (Class weapon : Generator.Category.WEP_AL_T7.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
 
 		for (Class armor : Generator.Category.ARMOR.classes){
 			ARMOR.seen.put( armor, false);
 		}
 
 		for (Class wand : Generator.Category.WAND.classes){
+			WANDS.seen.put( wand, false);
+		}
+
+		for (Class wand : Generator.Category.SPELLBOOK.classes){
 			WANDS.seen.put( wand, false);
 		}
 

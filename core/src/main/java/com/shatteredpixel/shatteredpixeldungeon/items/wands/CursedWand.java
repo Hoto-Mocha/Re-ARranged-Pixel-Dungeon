@@ -293,7 +293,7 @@ public class CursedWand {
 
 			//inter-level teleportation
 			case 2:
-				if (Dungeon.depth > 1 && Dungeon.interfloorTeleportAllowed() && user == Dungeon.hero) {
+				if (Dungeon.depth > 1 && Dungeon.interfloorTeleportAllowed() && Dungeon.branch == 0 && user == Dungeon.hero) {
 
 					//each depth has 1 more weight than the previous depth.
 					float[] depths = new float[Dungeon.depth-1];
@@ -303,7 +303,7 @@ public class CursedWand {
 					Level.beforeTransition();
 					InterlevelScene.mode = InterlevelScene.Mode.RETURN;
 					InterlevelScene.returnDepth = depth;
-					InterlevelScene.returnBranch = 0;
+					InterlevelScene.returnBranch = Dungeon.branch;
 					InterlevelScene.returnPos = -1;
 					Game.switchScene(InterlevelScene.class);
 

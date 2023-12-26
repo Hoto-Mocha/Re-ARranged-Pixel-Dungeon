@@ -8,6 +8,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -17,6 +21,7 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ChainWhip extends MeleeWeapon implements AlchemyWeapon {
 
@@ -86,4 +91,10 @@ public class ChainWhip extends MeleeWeapon implements AlchemyWeapon {
             }
         });
     }
+
+    @Override
+    public ArrayList<Class<?extends Item>> weaponRecipe() {
+        return new ArrayList<>(Arrays.asList(Whip.class, UpgradeDust.class, Evolution.class));
+    }
+
 }

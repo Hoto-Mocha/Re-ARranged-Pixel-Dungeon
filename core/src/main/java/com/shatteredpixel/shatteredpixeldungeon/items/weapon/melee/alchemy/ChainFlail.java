@@ -28,7 +28,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -38,6 +40,9 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 
@@ -174,4 +179,10 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 			spins = bundle.getInt(SPINS);
 		}
 	}
+
+	@Override
+	public ArrayList<Class<?extends Item>> weaponRecipe() {
+		return new ArrayList<>(Arrays.asList(ChainWhip.class, Flail.class, Evolution.class));
+	}
+
 }

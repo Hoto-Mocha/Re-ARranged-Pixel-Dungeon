@@ -122,6 +122,9 @@ public class BuffIndicator extends Component {
 
 	//arranged buffs
 	public static final int PARRY		= 136;
+	public static final int DUEL_ANGEL	= 137;
+	public static final int DUEL_EVIL	= 138;
+	public static final int DUEL_DAGGER	= 139;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

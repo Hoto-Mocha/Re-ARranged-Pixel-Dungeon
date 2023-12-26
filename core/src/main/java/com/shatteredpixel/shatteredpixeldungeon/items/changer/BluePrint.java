@@ -5,75 +5,37 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ArcaneBomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Firebomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Flashbang;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.FrostBomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HolyBomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Noisemaker;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.RegrowthBomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ShockBomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ShrapnelBomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.WoollyBomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.AR_T6;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.AssassinsSpear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.BeamSaber;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainWhip;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.DualGreatSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ForceGlove;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HG_T6;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HolySword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HugeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.MeisterHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SR_T6;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SpearNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.UnformedBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T5;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.HG.HG_T5;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SR.SR_T5;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ForceCube;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -81,12 +43,8 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
-import com.watabou.utils.Reflection;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class BluePrint extends Item {
@@ -206,7 +164,9 @@ public class BluePrint extends Item {
     protected void onItemSelected(Item item) {
         Item result = null;
 
-        if (Random.Float() < 1-0.2f*(((MeleeWeapon)changeItem(item)).tier-((MeleeWeapon)item).tier))
+        if (Random.Float() < 1-0.2f*(((MeleeWeapon)changeItem(item)).tier-((MeleeWeapon)item).tier)) {
+            result = changeItem(item);
+        }
 
         if (result == null){
             //This shouldn't ever trigger
@@ -247,8 +207,8 @@ public class BluePrint extends Item {
             Transmuting.show(curUser, item, result);
             curUser.sprite.emitter().start(Speck.factory(Speck.CHANGE), 0.2f, 10);
             GLog.p( Messages.get(this, "morph") );
-            detach(Dungeon.hero.belongings.backpack);
         }
+        detach(Dungeon.hero.belongings.backpack);
     }
 
     @Override
@@ -300,25 +260,32 @@ public class BluePrint extends Item {
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe {
 
-        public static final ArrayList<ArrayList<Class<?extends Item>>> validIngredients = new ArrayList<>(); //레시피마다 재료 배열을 만들어 이곳에 저장한다.
+        public static final ArrayList<ArrayList<Class<?extends Item>>> validIngredients = new ArrayList<>(); //연금술 무기들의 wepaonRecipe() 배열을 이곳에 저장한다.
         static {
-            validIngredients.add( new ArrayList<>(Arrays.asList(RunicBlade.class,       UpgradeDust.class, Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(Glaive.class,           UpgradeDust.class, Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(Greatshield.class,      UpgradeDust.class, Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(Whip.class,             UpgradeDust.class, Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(Lance.class, ObsidianShield.class,         Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(ChainWhip.class, Flail.class,              Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(AssassinsBlade.class,   UpgradeDust.class, Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(AR_T5.class,            UpgradeDust.class, Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(SR_T5.class,            UpgradeDust.class, Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(HG_T5.class,            UpgradeDust.class, Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(Spear.class, RoundShield.class,            Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(HG_T6.class, ObsidianShield.class,         Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(Glaive.class, AssassinsBlade.class,        Evolution.class)) );
-            validIngredients.add( new ArrayList<>(Arrays.asList(Gauntlet.class, ForceCube.class,           Evolution.class)) );
+            validIngredients.add( new TrueRunicBlade().weaponRecipe() );
+            validIngredients.add( new Lance().weaponRecipe() );
+            validIngredients.add( new ObsidianShield().weaponRecipe() );
+            validIngredients.add( new ChainWhip().weaponRecipe() );
+            validIngredients.add( new LanceNShield().weaponRecipe() );
+            validIngredients.add( new ChainFlail().weaponRecipe() );
+            validIngredients.add( new UnformedBlade().weaponRecipe() );
+            validIngredients.add( new AR_T6().weaponRecipe() );
+            validIngredients.add( new SR_T6().weaponRecipe() );
+            validIngredients.add( new HG_T6().weaponRecipe() );
+            validIngredients.add( new SpearNShield().weaponRecipe() );
+            validIngredients.add( new TacticalShield().weaponRecipe() );
+            validIngredients.add( new AssassinsSpear().weaponRecipe() );
+            validIngredients.add( new ForceGlove().weaponRecipe() );
+            validIngredients.add( new UnholyBible().weaponRecipe() );
+            validIngredients.add( new HugeSword().weaponRecipe() );
+            validIngredients.add( new MeisterHammer().weaponRecipe() );
+            validIngredients.add( new BeamSaber().weaponRecipe() );
+            validIngredients.add( new HolySword().weaponRecipe() );
+            validIngredients.add( new DualGreatSword().weaponRecipe() );
+            validIngredients.add( new SharpKatana().weaponRecipe() );
         }
 
-        public static final LinkedHashMap<Integer, MeleeWeapon> indexToOutput = new LinkedHashMap<>(); //재료 배열의 인덱스를 넣으면 근접 무기를 반환한다.
+        public static final LinkedHashMap<Integer, MeleeWeapon> indexToOutput = new LinkedHashMap<>(); //validIngredients 배열의 인덱스를 넣으면 근접 무기를 반환한다.
         static {
             indexToOutput.put( 0, new TrueRunicBlade() );
             indexToOutput.put( 1, new Lance() );
@@ -334,9 +301,16 @@ public class BluePrint extends Item {
             indexToOutput.put( 11, new TacticalShield() );
             indexToOutput.put( 12, new AssassinsSpear() );
             indexToOutput.put( 13, new ForceGlove() );
+            indexToOutput.put( 14, new UnholyBible() );
+            indexToOutput.put( 15, new HugeSword() );
+            indexToOutput.put( 16, new MeisterHammer() );
+            indexToOutput.put( 17, new BeamSaber() );
+            indexToOutput.put( 18, new HolySword() );
+            indexToOutput.put( 19, new DualGreatSword() );
+            indexToOutput.put( 20, new SharpKatana() );
         }
 
-        public static final LinkedHashMap<Integer, Integer> costs = new LinkedHashMap<>(); //재료 배열의 인덱스를 넣으면 연금술 에너지 필요량을 반환한다.
+        public static final LinkedHashMap<Integer, Integer> costs = new LinkedHashMap<>(); //validIngredients 배열의 인덱스를 넣으면 연금술 에너지 필요량을 반환한다.
         static {
             costs.put( 0, 0 );
             costs.put( 1, 0 );
@@ -352,9 +326,16 @@ public class BluePrint extends Item {
             costs.put( 11, 5 );
             costs.put( 12, 5 );
             costs.put( 13, 5 );
+            costs.put( 14, 0 );
+            costs.put( 15, 0 );
+            costs.put( 16, 0 );
+            costs.put( 17, 0 );
+            costs.put( 18, 5 );
+            costs.put( 19, 5 );
+            costs.put( 20, 0 );
         }
 
-        public ArrayList<Class<?extends Item>> ingredientToArray(ArrayList<Item> ingredients) { //연금술 솥에 넣은 아이템들의 클래스를 배열로 만든다.
+        public ArrayList<Class<?extends Item>> ingredientToArray(ArrayList<Item> ingredients) { //연금술 솥에 넣은 아이템들의 '클래스'를 배열로 만든다.
 
             ArrayList<Class<?extends Item>> ingredientsClassList = new ArrayList<>();
 
@@ -372,7 +353,7 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (a.containsAll(ingredientsClassList)) {    //위에서 만든 배열에 포함된 클래스를 모두 포함하고 있는 validIngredients가 존재할 경우 연금 가능
+                if (a.containsAll(ingredientsClassList)) { //위에서 만든 배열에 포함된 클래스를 모두 포함하고 있는 validIngredients가 존재할 경우 연금 가능
                     valid = true;
                 }
             }
@@ -387,7 +368,7 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (a.containsAll(ingredientsClassList)) {    //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 주소값을 가져와 costs의 키로 이용한다.
+                if (a.containsAll(ingredientsClassList)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 costs의 키로 이용한다.
                     int index = validIngredients.indexOf(a);
                     cost = costs.get(index);
                 }
@@ -403,7 +384,7 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (a.containsAll(ingredientsClassList)) {    //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 주소값을 가져와 indexToOutput의 키로 이용한다.
+                if (a.containsAll(ingredientsClassList)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 indexToOutput의 키로 이용한다.
                     int index = validIngredients.indexOf(a);
                     result = new BluePrint(indexToOutput.get(index));
                 }
@@ -423,7 +404,7 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (a.containsAll(ingredientsClassList)) {    //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 주소값을 가져와 indexToOutput의 키로 이용한다.
+                if (a.containsAll(ingredientsClassList)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 indexToOutput의 키로 이용한다.
                     int index = validIngredients.indexOf(a);
                     result = new BluePrint(indexToOutput.get(index));
                 }

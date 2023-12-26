@@ -25,13 +25,14 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
@@ -39,35 +40,29 @@ import com.watabou.utils.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class DualGreatSword extends MeleeWeapon implements AlchemyWeapon {
+public class MeisterHammer extends MeleeWeapon implements AlchemyWeapon {
 
 	{
-		image = ItemSpriteSheet.DUAL_GREATSWORD;
-		hitSound = Assets.Sounds.HIT_SLASH;
-		hitSoundPitch = 1f;
+		image = ItemSpriteSheet.MEISTER_HAMMER;
+		hitSound = Assets.Sounds.HIT_CRUSH;
+		hitSoundPitch = 0.8f;
 
 		tier = 6;
-		DLY = 0.5f;
-	}
-
-	@Override
-	public int STRReq(int lvl) {
-		return STRReq(8, lvl); //base 24
+		ACC = 1.16f; //16% boost to accuracy
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  5*(tier) +    //base
-				lvl*(tier);   //level scaling
+		return  4*(tier+1) +    //28 base
+				lvl*(tier+1);   //scaling unchanged
 	}
 
 	@Override
-	protected int baseChargeUse(Hero hero, Char target){
-		if (hero.buff(Sword.CleaveTracker.class) != null){
-			return 0;
-		} else {
-			return 1;
+	public int proc(Char attacker, Char defender, int damage) {
+		if (Random.Float() < (1f+buffedLvl())/(20f+buffedLvl())) {
+			Buff.affect(defender, Paralysis.class, 2f);
 		}
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override
@@ -77,12 +72,12 @@ public class DualGreatSword extends MeleeWeapon implements AlchemyWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		Sword.cleaveAbility(hero, target, 1.17f, this);
+		Mace.heavyBlowAbility(hero, target, 1.25f, this);
 	}
 
 	@Override
 	public ArrayList<Class<?extends Item>> weaponRecipe() {
-		return new ArrayList<>(Arrays.asList(Greatsword.class, Greatsword.class, Evolution.class));
+		return new ArrayList<>(Arrays.asList(WarHammer.class, UpgradeDust.class, Evolution.class));
 	}
 
 }

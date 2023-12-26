@@ -21,47 +21,53 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T5;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.HG.HG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeKatana;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.NormalKatana;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TacticalShield extends HG implements AlchemyWeapon {
-    {
-        image = ItemSpriteSheet.TACTICAL_SHIELD;
+public class SharpKatana extends MeleeWeapon implements AlchemyWeapon {
 
-        tier = 7;
+    {
+        image = ItemSpriteSheet.SHARP_KATANA;
+        hitSound = Assets.Sounds.HIT_SLASH;
+        hitSoundPitch = 1.3f;
+
+        tier = 6;
+    }
+
+    @Override
+    public int min(int lvl) {
+        return 1;
     }
 
     @Override
     public int max(int lvl) {
-        return  Math.round(3f*(tier+1)) +
-                lvl*(tier-1);
+        return  5*(tier+2) +
+                lvl*(tier+2);
     }
 
     @Override
-    public int defenseFactor( Char owner ) {
-        return 6+2*buffedLvl();             //6 extra defence, plus 2 per level
+    public String targetingPrompt() {
+        return Messages.get(this, "prompt");
     }
 
-    public String statsInfo(){
-        if (isIdentified()){
-            return Messages.get(this, "stats_desc", 6+2*buffedLvl());
-        } else {
-            return Messages.get(this, "typical_stats_desc", 6);
-        }
+    @Override
+    protected void duelistAbility(Hero hero, Integer target) {
+        NormalKatana.flashSlashAbility(hero, target, 0.35f, this);
     }
 
     @Override
     public ArrayList<Class<?extends Item>> weaponRecipe() {
-        return new ArrayList<>(Arrays.asList(HG_T6.class, ObsidianShield.class, Evolution.class));
+        return new ArrayList<>(Arrays.asList(LargeKatana.class, UpgradeDust.class, Evolution.class));
     }
-
 }

@@ -148,8 +148,6 @@ public class TempleLevel extends RegularLevel {
 	@Override
 	public String tileDesc(int tile) {
 		switch (tile) {
-			case Terrain.EMPTY_DECO:
-				return Messages.get(TempleLevel.class, "empty_deco_desc");
 			case Terrain.BOOKSHELF:
 				return Messages.get(TempleLevel.class, "bookshelf_desc");
 			default:

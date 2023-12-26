@@ -1053,7 +1053,6 @@ public class ItemSpriteSheet {
 	public static final int FROST_SCIMITAR		= AL_WEP_T3+4;
 	public static final int POISON_SCIMITAR		= AL_WEP_T3+5;
 	public static final int ELECTRIC_SCIMITAR	= AL_WEP_T3+6;
-	public static final int UNHOLY_BIBLE		= AL_WEP_T3+7;
 	static{
 		assignItemRect(SPEAR_N_SHIELD	, 16, 15);
 		assignItemRect(UNHOLY_SWORD		, 14, 14);
@@ -1062,19 +1061,20 @@ public class ItemSpriteSheet {
 		assignItemRect(FROST_SCIMITAR	, 13, 16);
 		assignItemRect(POISON_SCIMITAR	, 13, 16);
 		assignItemRect(ELECTRIC_SCIMITAR, 13, 16);
-		assignItemRect(UNHOLY_BIBLE		, 13, 16);
 	}
 
 	private static final int AL_WEP_T4		=			xy(1, 57);  //16 slots
-	public static final int CHAIN_WHIP		= AL_WEP_T4+0;
+	public static final int UNHOLY_BIBLE		= AL_WEP_T4+0;
 	static{
-		assignItemRect(CHAIN_WHIP, 14, 14);
+		assignItemRect(UNHOLY_BIBLE	, 	13, 16);
 	}
 
 	private static final int AL_WEP_T5		=			xy(1, 58);  //16 slots
 	public static final int TRUE_RUNIC_BLADE= AL_WEP_T5+0;
+	public static final int CHAIN_WHIP		= AL_WEP_T5+1;
 	static{
 		assignItemRect(TRUE_RUNIC_BLADE, 14, 14);
+		assignItemRect(CHAIN_WHIP, 		 14, 14);
 	}
 
 	private static final int AL_WEP_T6	  	=			xy(1, 59);  //16 slots
@@ -1165,7 +1165,7 @@ public class ItemSpriteSheet {
 		assignItemRect(BOOK_OF_TRANSFUSION    	, 12, 16);
 	}
 
-	private static final int SHOVEL			=			xy(1, 63);  //16 slots
+	private static final int SHOVEL			=				xy(1, 63);  //8 slots
 	public static final int PLANTER_SHOVEL	= SHOVEL+0;
 	public static final int GILDED_SHOVEL	= SHOVEL+1;
 	public static final int BATTLE_SHOVEL	= SHOVEL+2;
@@ -1175,6 +1175,12 @@ public class ItemSpriteSheet {
 		assignItemRect(GILDED_SHOVEL	, 16, 16);
 		assignItemRect(BATTLE_SHOVEL	, 16, 16);
 		assignItemRect(MINERS_TOOL		, 16, 16);
+	}
+
+	private static final int SPECIAL_ITEM			=		xy(9, 63);  //8 slots
+	public static final int HERO_SWORD	= SPECIAL_ITEM+0;
+	static{
+		assignItemRect(HERO_SWORD	, 14, 14);
 	}
 
 	private static final int NEW_POTIONS		=			xy(1, 64);  //16 slots

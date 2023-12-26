@@ -108,7 +108,7 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public String actionName(String action, Hero hero) {
 		if (action.equals(AC_ABILITY)){
-			return Messages.upperCase(Messages.get(this, "ability_name"));
+			return abilityName();
 		} else {
 			return super.actionName(action, hero);
 		}
@@ -437,10 +437,18 @@ public class MeleeWeapon extends Weapon {
 
 		//the mage's staff has no ability as it can only be gained by the mage
 		if (Dungeon.hero.heroClass == HeroClass.DUELIST && !(this instanceof MagesStaff)){
-			info += "\n\n" + Messages.get(this, "ability_desc");
+			info += "\n\n" + abilityDesc();
 		}
 		
 		return info;
+	}
+
+	public String abilityName() {
+		return Messages.upperCase(Messages.get(this, "ability_name"));
+	}
+
+	public String abilityDesc() {
+		return Messages.get(this, "ability_desc");
 	}
 	
 	public String statsInfo(){

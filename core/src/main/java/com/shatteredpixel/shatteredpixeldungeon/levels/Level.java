@@ -876,19 +876,7 @@ public abstract class Level implements Bundlable {
 		switch (Random.Int(10)) {
 			case 0: prize = new ScrollOfTransmutation();
 				break;
-			case 1: Random.oneOf(new BookOfBlast(),
-									new BookOfCorrosion(),
-									new BookOfCorruption(),
-									new BookOfDisintegration(),
-									new BookOfEarth(),
-									new BookOfFire(),
-									new BookOfFrost(),
-									new BookOfLight(),
-									new BookOfMagic(),
-									new BookOfRegrowth(),
-									new BookOfThunderBolt(),
-									new BookOfTransfusion(),
-									new BookOfWarding());
+			case 1: Generator.random(Generator.Category.SPELLBOOK);
 				break;
 			default:
 				prize = Generator.random(Generator.Category.SCROLL);

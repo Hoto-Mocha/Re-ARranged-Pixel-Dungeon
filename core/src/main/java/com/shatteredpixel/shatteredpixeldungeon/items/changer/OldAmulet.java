@@ -11,12 +11,14 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
+import com.shatteredpixel.shatteredpixeldungeon.items.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
@@ -30,8 +32,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.TacticalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.WindBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeroSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -39,12 +43,17 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndTitledMessage;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -53,6 +62,8 @@ public class OldAmulet extends Item {
 
     public static final String AC_USE		= "USE";
 
+    ArrayList<Integer> abilityList = new ArrayList<>();
+
     {
         image = ItemSpriteSheet.OLD_AMULET;
         defaultAction = AC_USE;
@@ -60,6 +71,13 @@ public class OldAmulet extends Item {
 
         unique = true;
         bones = false;
+
+        while (abilityList.size() < 3) {
+            int index = Random.Int(14);
+            if (!abilityList.contains(index)) {
+                abilityList.add(index);
+            }
+        }
     }
 
     @Override
@@ -102,6 +120,27 @@ public class OldAmulet extends Item {
         if (action.equals(AC_USE)) {
             GameScene.selectItem( itemSelector );
         }
+    }
+
+    private static final String ABILITY_LIST_0	= "abilityList_0";
+    private static final String ABILITY_LIST_1	= "abilityList_1";
+    private static final String ABILITY_LIST_2	= "abilityList_2";
+
+    @Override
+    public void storeInBundle( Bundle bundle ) {
+        super.storeInBundle( bundle );
+        bundle.put( ABILITY_LIST_0, abilityList.get(0) );
+        bundle.put( ABILITY_LIST_1, abilityList.get(1) );
+        bundle.put( ABILITY_LIST_2, abilityList.get(2) );
+    }
+
+    @Override
+    public void restoreFromBundle( Bundle bundle ) {
+        super.restoreFromBundle( bundle );
+        abilityList.clear();
+        abilityList.add(bundle.getInt(ABILITY_LIST_0));
+        abilityList.add(bundle.getInt(ABILITY_LIST_1));
+        abilityList.add(bundle.getInt(ABILITY_LIST_2));
     }
 
     private String inventoryTitle(){
@@ -156,7 +195,6 @@ public class OldAmulet extends Item {
         newBow.enchantHardened = bow.enchantHardened;
 
         return newBow;
-
     }
 
     protected void onItemSelected(Item item) {
@@ -203,8 +241,11 @@ public class OldAmulet extends Item {
             if (result.isIdentified()){
                 Catalog.setSeen(result.getClass());
             }
-            Sample.INSTANCE.play(Assets.Sounds.READ);
+            Sample.INSTANCE.play(Assets.Sounds.EVOKE);
+            CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+            new Flare( 6, 32 ).color(0xFFFF00, true).show( curUser.sprite, 2f );
             Dungeon.hero.spendAndNext(Actor.TICK);
+            Dungeon.hero.sprite.operate(Dungeon.hero.pos);
             Transmuting.show(curUser, item, result);
             curUser.sprite.emitter().start(Speck.factory(Speck.CHANGE), 0.2f, 10);
             GLog.p( Messages.get(this, "morph") );
@@ -265,10 +306,110 @@ public class OldAmulet extends Item {
             }
 
             if (item != null && itemSelectable(item)) {
-                onItemSelected(item);
+                if (item instanceof MeleeWeapon) {
+                    GameScene.show(new WndAbilitySelect((MeleeWeapon)item, abilityList.get(0), abilityList.get(1), abilityList.get(2)));
+                } else {
+                    onItemSelected(item);
+                }
             }
         }
     };
+
+    public static class WndAbilitySelect extends WndOptions {
+
+        private MeleeWeapon wep;
+        private static ArrayList<Integer> ability = new ArrayList<>();
+
+        public WndAbilitySelect(MeleeWeapon wep, int ability_1, int ability_2, int ability_3) {
+            super(new ItemSprite(new HeroSword()),
+                    Messages.titleCase(new HeroSword().name()),
+                    Messages.get(HeroSword.class, "ability_select"),
+                    Messages.get(HeroSword.class, "ability_name_" + ability_1),
+                    Messages.get(HeroSword.class, "ability_name_" + ability_2),
+                    Messages.get(HeroSword.class, "ability_name_" + ability_3),
+                    Messages.get(HeroSword.class, "cancel"));
+            ability.add(ability_1);
+            ability.add(ability_2);
+            ability.add(ability_3);
+            this.wep = wep;
+        }
+
+        @Override
+        protected void onSelect(int index) {
+            if (index < 3) {
+                HeroSword heroSword = new HeroSword(ability.get(index), wep);
+
+                heroSword.level(0);
+                heroSword.quantity(1);
+                int level = wep.trueLevel();
+                if (level > 0) {
+                    heroSword.upgrade( level );
+                } else if (level < 0) {
+                    heroSword.degrade( -level );
+                }
+
+                heroSword.enchantment = wep.enchantment;
+                heroSword.curseInfusionBonus = wep.curseInfusionBonus;
+                heroSword.masteryPotionBonus = wep.masteryPotionBonus;
+                heroSword.levelKnown = wep.levelKnown;
+                heroSword.cursedKnown = wep.cursedKnown;
+                heroSword.cursed = wep.cursed;
+                heroSword.augment = wep.augment;
+                heroSword.enchantHardened = wep.enchantHardened;
+
+                int slot = Dungeon.quickslot.getSlot(wep);
+                if (wep.isEquipped(Dungeon.hero)) {
+                    wep.cursed = false; //to allow it to be unequipped
+                    if (Dungeon.hero.belongings.secondWep() == wep){
+                        wep.doUnequip(Dungeon.hero, false);
+                        heroSword.equipSecondary(Dungeon.hero);
+                    } else {
+                        wep.doUnequip(Dungeon.hero, false);
+                        heroSword.doEquip(Dungeon.hero);
+                    }
+                    Dungeon.hero.spend(-Dungeon.hero.cooldown()); //cancel equip/unequip time
+                } else {
+                    wep.detach(Dungeon.hero.belongings.backpack);
+                    if (!heroSword.collect()) {
+                        Dungeon.level.drop(heroSword, curUser.pos).sprite.drop();
+                    } else if (Dungeon.hero.belongings.getSimilar(heroSword) != null){
+                        heroSword = (HeroSword) Dungeon.hero.belongings.getSimilar(heroSword);
+                    }
+                }
+                if (slot != -1
+                        && heroSword.defaultAction() != null
+                        && !Dungeon.quickslot.isNonePlaceholder(slot)
+                        && Dungeon.hero.belongings.contains(heroSword)){
+                    Dungeon.quickslot.setSlot(slot, heroSword);
+                }
+                Sample.INSTANCE.play(Assets.Sounds.EVOKE);
+                CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+                new Flare( 6, 32 ).color(0xFFFF00, true).show( curUser.sprite, 2f );
+                Dungeon.hero.spendAndNext(Actor.TICK);
+                Dungeon.hero.sprite.operate(Dungeon.hero.pos);
+                Transmuting.show(curUser, wep, heroSword);
+                curUser.sprite.emitter().start(Speck.factory(Speck.CHANGE), 0.2f, 10);
+                GLog.p( Messages.get(OldAmulet.class, "morph") );
+                Dungeon.hero.belongings.getItem(OldAmulet.class).detach(Dungeon.hero.belongings.backpack);
+            } else {
+                hide();
+            }
+        }
+
+        @Override
+        protected boolean hasInfo(int index) {
+            return index < 3;
+        }
+
+        @Override
+        protected void onInfo( int index ) {
+            GameScene.show(new WndTitledMessage(
+                    Icons.get(Icons.INFO),
+                    Messages.titleCase(Messages.get(HeroSword.class, "ability_name_" + ability.get(index))),
+                    Messages.get(HeroSword.class, "ability_desc_" + ability.get(index))));
+        }
+
+    }
 
     public static class TempleCurse extends Buff {
         @Override

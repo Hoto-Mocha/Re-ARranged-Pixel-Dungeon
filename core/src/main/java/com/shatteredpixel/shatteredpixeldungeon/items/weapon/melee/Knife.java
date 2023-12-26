@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -27,16 +27,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
@@ -45,46 +39,25 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-public class AssassinsSpear extends MeleeWeapon implements AlchemyWeapon {
+public class Knife extends MeleeWeapon {
 
 	{
-		image = ItemSpriteSheet.ASSASSINS_SPEAR;
-		hitSound = Assets.Sounds.HIT_STAB;
-		hitSoundPitch = 0.9f;
+		image = ItemSpriteSheet.KNIFE;
+		hitSound = Assets.Sounds.HIT_SLASH;
+		hitSoundPitch = 1.2f;
 
-		tier = 5;
-		DLY = 1.5f; //0.67x speed
-		RCH = 2;    //extra reach
+		tier = 2;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  4*(tier+1) +
-				lvl*(tier+1);
+		return  tier+2 +
+				lvl;
 	}
 
 	@Override
-	public int damageRoll(Char owner) {
-		if (owner instanceof Hero) {
-			Hero hero = (Hero)owner;
-			Char enemy = hero.enemy();
-			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-				//deals 50% toward max to max on surprise, instead of min to max.
-				int diff = max() - min();
-				int damage = augment.damageFactor(Random.NormalIntRange(
-						min() + Math.round(diff*0.50f),
-						max()));
-				int exStr = hero.STR() - STRReq();
-				if (exStr > 0) {
-					damage += Random.IntRange(0, exStr);
-				}
-				return damage;
-			}
-		}
-		return super.damageRoll(owner);
+	protected int baseChargeUse(Hero hero, Char target){
+		return 3;
 	}
 
 	@Override
@@ -94,16 +67,16 @@ public class AssassinsSpear extends MeleeWeapon implements AlchemyWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		assassinSpikeAbility(hero, target, 1.40f, this);
+		knifeAbility(hero, target, 0.5f, this);
 	}
 
-	public static void assassinSpikeAbility(Hero hero, Integer target, float dmgMulti, MeleeWeapon wep){
+	public static void knifeAbility(Hero hero, Integer target, float bleedingAmt, MeleeWeapon wep){
 		if (target == null) {
 			return;
 		}
 
 		Char enemy = Actor.findChar(target);
-		if (enemy == null || enemy == hero || hero.isCharmedBy(enemy)/* || !Dungeon.level.heroFOV[target]*/) {
+		if (enemy == null || enemy == hero || hero.isCharmedBy(enemy) || !Dungeon.level.heroFOV[target]) {
 			GLog.w(Messages.get(wep, "ability_no_target"));
 			return;
 		}
@@ -121,23 +94,24 @@ public class AssassinsSpear extends MeleeWeapon implements AlchemyWeapon {
 			public void call() {
 				wep.beforeAbilityUsed(hero, enemy);
 				AttackIndicator.target(enemy);
-				if (hero.attack(enemy, dmgMulti, 0, 0.25f)){
+				if (hero.attack(enemy, 1, 0, Char.INFINITE_ACCURACY)){
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 				}
 
 				Invisibility.dispel();
 				hero.spendAndNext(hero.attackDelay());
+				float multi = bleedingAmt;
+				if (enemy.properties().contains(Char.Property.BOSS) || enemy.properties().contains(Char.Property.MINIBOSS)) {
+					multi = 0.05f;
+				}
 				if (!enemy.isAlive()){
 					wep.onAbilityKill(hero, enemy);
+				} else {
+					Buff.affect(enemy, Bleeding.class).set(enemy.HP*multi);
 				}
 				wep.afterAbilityUsed(hero);
 			}
 		});
-	}
-
-	@Override
-	public ArrayList<Class<?extends Item>> weaponRecipe() {
-		return new ArrayList<>(Arrays.asList(Glaive.class, AssassinsBlade.class, Evolution.class));
 	}
 
 }

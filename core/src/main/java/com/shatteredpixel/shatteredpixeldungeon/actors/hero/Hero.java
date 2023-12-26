@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -89,6 +90,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EnergyParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
@@ -141,9 +143,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualDagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Nunchaku;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
@@ -151,6 +157,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG.SG;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -181,6 +188,7 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndResurrect;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTradeItem;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.Delayer;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
@@ -188,6 +196,7 @@ import com.watabou.utils.ColorMath;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
+import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -522,6 +531,14 @@ public class Hero extends Char {
 		if (hero.hasTalent(Talent.ACC_ENHANCE)) {
 			accuracy *= 1 + 0.05f * hero.pointsInTalent(Talent.ACC_ENHANCE);
 		}
+
+		if (hero.buff(LargeSword.LargeSwordBuff.class) != null) {
+			accuracy *= hero.buff(LargeSword.LargeSwordBuff.class).getAccuracyFactor();
+		}
+
+		if (hero.buff(UnholyBible.Demon.class) != null) {
+			accuracy = INFINITE_ACCURACY;
+		}
 		
 		if (!RingOfForce.fightingUnarmed(this)) {
 			return (int)(attackSkill * accuracy * wep.accuracyFactor( this, target ));
@@ -550,6 +567,13 @@ public class Hero extends Char {
 			}
 			return INFINITE_EVASION;
 		}
+
+		if (buff(Nunchaku.ParryTracker.class) != null){
+			if (canAttack(enemy) && !isCharmedBy(enemy)){
+				Buff.affect(this, Nunchaku.RiposteTracker.class).enemy = enemy;
+			}
+			return INFINITE_EVASION;
+		}
 		
 		float evasion = defenseSkill;
 		
@@ -573,6 +597,10 @@ public class Hero extends Char {
 
 		if (hero.hasTalent(Talent.EVA_ENHANCE)) {
 			evasion *= 1 + 0.05f * hero.pointsInTalent(Talent.EVA_ENHANCE);
+		}
+
+		if (hero.buff(UnholyBible.Demon.class) != null) {
+			evasion /= 2;
 		}
 		
 		if (paralysed > 0) {
@@ -617,6 +645,15 @@ public class Hero extends Char {
 				parryTracker.detach();
 				return Messages.get(Monk.class, "parried");
 			}
+		}
+
+		Nunchaku.ParryTracker nunchakuParry = buff(Nunchaku.ParryTracker.class);
+		if (nunchakuParry != null){
+			nunchakuParry.parried = true;
+			if (sprite != null && sprite.visible) {
+				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
+			}
+			return Messages.get(Monk.class, "parried");
 		}
 
 		return super.defenseVerb();
@@ -799,6 +836,12 @@ public class Hero extends Char {
 
 			if (hero.hasTalent(Talent.ATK_SPEED_ENHANCE)) {
 				speed *= 1 + 0.05f * hero.pointsInTalent(Talent.ATK_SPEED_ENHANCE);
+			}
+
+			if (hero.belongings.weapon != null && hero.belongings.secondWep != null
+					&& hero.pointsInTalent(Talent.TWIN_SWORD) > 2
+					&& hero.belongings.weapon.getClass() == hero.belongings.secondWep.getClass()) {
+				speed *= 2;
 			}
 
 			//ditto for furor + sword dance!
@@ -1438,6 +1481,14 @@ public class Hero extends Char {
 				sprite.showStatus(CharSprite.DEFAULT, Messages.get(this, "wait"));
 			}
 
+			if (belongings.weapon instanceof LargeSword || belongings.secondWep instanceof LargeSword){
+				Buff.affect(this, LargeSword.LargeSwordBuff.class).setDamageFactor(belongings.weapon.buffedLvl(), (belongings.secondWep instanceof LargeSword));
+				if (hero.sprite != null) {
+					Emitter e = hero.sprite.centerEmitter();
+					if (e != null) e.burst(EnergyParticle.FACTORY, 15);
+				}
+			}
+
 			if (Dungeon.hero.subClass == HeroSubClass.CHASER
 					&& hero.buff(Talent.ChaseCooldown.class) == null
 					&& hero.buff(Invisibility.class) == null
@@ -1551,9 +1602,6 @@ public class Hero extends Char {
 					other = hero.belongings.weapon;
 				}
 				damage = other.proc( this, enemy, damage );
-				if (hero.pointsInTalent(Talent.TWIN_SWORD) > 2) {
-					Buff.affect(this, Talent.RiposteTracker.class).enemy = enemy;
-				}
 			}
 			break;
 		case VETERAN:
@@ -1596,6 +1644,23 @@ public class Hero extends Char {
 		SpellBook.SpellBookCoolDown spellBookCoolDown = buff(SpellBook.SpellBookCoolDown.class);
 		if (hero.hasTalent(Talent.BRIG_BOOST) && spellBookCoolDown != null) {
 			spellBookCoolDown.hit(hero.pointsInTalent(Talent.BRIG_BOOST));
+		}
+
+		if (hero.buff(Bible.Angel.class) != null) {
+			hero.heal(Math.max(Math.round(0.2f*damage), 1));
+		}
+
+		if (hero.buff(UnholyBible.Demon.class) != null) {
+			damage *= 1.33f;
+		}
+
+		if (hero.buff(DualDagger.ReverseBlade.class) != null) {
+			damage *= 0.5f;
+			Buff.affect(enemy, Bleeding.class).add(Random.NormalIntRange(1, 3));
+			if (enemy.sprite.visible) {
+				Splash.at( enemy.sprite.center(), -PointF.PI / 2, PointF.PI / 6,
+						enemy.sprite.blood(), Math.min( 10 * Random.NormalIntRange(1, 3) / enemy.HT, 10 ) );
+			}
 		}
 
 		if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
@@ -1706,6 +1771,11 @@ public class Hero extends Char {
 		}
 
 		dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
+
+		LargeSword.LargeSwordBuff largeSwordBuff = hero.buff(LargeSword.LargeSwordBuff.class);
+		if (largeSwordBuff != null) {
+			dmg = (int)Math.ceil(dmg * largeSwordBuff.getDefenseFactor());
+		}
 
 		//TODO improve this when I have proper damage source logic
 		if (belongings.armor() != null && belongings.armor().hasGlyph(AntiMagic.class, this)
