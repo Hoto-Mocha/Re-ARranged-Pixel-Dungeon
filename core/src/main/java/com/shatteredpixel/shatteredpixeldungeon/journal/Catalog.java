@@ -97,8 +97,8 @@ public enum Catalog {
 			WANDS.seen.put( wand, false);
 		}
 
-		for (Class wand : Generator.Category.SPELLBOOK.classes){
-			WANDS.seen.put( wand, false);
+		for (Class spellbook : Generator.Category.SPELLBOOK.classes){
+			WANDS.seen.put( spellbook, false);
 		}
 
 		for (Class ring : Generator.Category.RING.classes){

@@ -1291,7 +1291,6 @@ public enum Talent {
 				Collections.addAll(tierTalents, PRECISE_ASSAULT, DEADLY_FOLLOWUP);
 				break;
 		}
-		Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE );
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
 				talent = replacements.get(talent);
@@ -1317,6 +1316,7 @@ public enum Talent {
 
 		ArrayList<Talent> tierTalents = new ArrayList<>();
 
+		Collections.addAll(tierTalents, ATK_SPEED_ENHANCE, ACC_ENHANCE, EVA_ENHANCE, BETTER_CHOICE );
 		//tier 3
 		switch (cls){
 			case BERSERKER: default:

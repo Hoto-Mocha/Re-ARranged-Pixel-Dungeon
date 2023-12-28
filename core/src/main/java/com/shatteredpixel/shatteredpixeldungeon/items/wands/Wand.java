@@ -622,7 +622,7 @@ public abstract class Wand extends Item {
 						if (curUser.pointsInTalent(Talent.SHIELD_BATTERY) == 2) shield *= 1.5f;
 						Buff.affect(curUser, Barrier.class).setShield(Math.round(shield));
 						if (Dungeon.hero.subClass == HeroSubClass.BATTLEMAGE && Dungeon.hero.hasTalent(Talent.MAGICAL_CIRCLE)) {
-							Buff.affect(curUser, MagicalCircle.class).setup(curUser.pos, curWand.curCharges*3);
+							Buff.affect(curUser, MagicalCircle.class).setup(curUser.pos, curWand.curCharges*3+1);
 						}
 						curWand.curCharges = 0;
 						curUser.sprite.operate(curUser.pos);

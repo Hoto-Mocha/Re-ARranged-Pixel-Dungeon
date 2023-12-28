@@ -476,13 +476,13 @@ public abstract class Char extends Actor {
 				}
 				if (enemy.sprite != null) {
 					enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Preparation.class, "assassinated"));
-					if (Random.Int(5) < hero.pointsInTalent(Talent.ENERGY_DRAW)) {
-						CloakOfShadows cloak = hero.belongings.getItem(CloakOfShadows.class);
-						if (cloak != null) {
-							cloak.overCharge(1);
-							ScrollOfRecharging.charge(Dungeon.hero);
-							SpellSprite.show(hero, SpellSprite.CHARGE);
-						}
+				}
+				if (Random.Float() < hero.pointsInTalent(Talent.ENERGY_DRAW)/3f) {
+					CloakOfShadows cloak = hero.belongings.getItem(CloakOfShadows.class);
+					if (cloak != null) {
+						cloak.overCharge(1);
+						ScrollOfRecharging.charge(Dungeon.hero);
+						SpellSprite.show(hero, SpellSprite.CHARGE);
 					}
 				}
 			}

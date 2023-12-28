@@ -28,8 +28,10 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -61,6 +63,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocki
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TrueRunicBlade;
@@ -223,6 +226,38 @@ abstract public class Weapon extends KindOfWeapon {
 
 	protected float speedMultiplier(Char owner ){
 		float multi = RingOfFuror.attackSpeedMultiplier(owner);
+
+		if (hero.hasTalent(Talent.LESS_RESIST)) {
+			int aEnc = hero.belongings.armor.STRReq() - hero.STR();
+			if (aEnc < 0) {
+				multi *= 1 + 0.05f * hero.pointsInTalent(Talent.LESS_RESIST) * (-aEnc);
+			}
+		}
+
+		if (hero.hasTalent(Talent.LIGHT_WEAPON) && hero.belongings.attackingWeapon() instanceof MeleeWeapon) {
+			int aEnc = ((MeleeWeapon)hero.belongings.attackingWeapon()).STRReq() - hero.STR();
+			if (aEnc < 0) {
+				multi *= 1 + 0.05f * hero.pointsInTalent(Talent.LIGHT_WEAPON) * (-aEnc);
+			}
+		}
+
+		if (hero.hasTalent(Talent.QUICK_FOLLOWUP) && hero.buff(Talent.QuickFollowupTracker.class) != null) {
+			multi *= 1+hero.pointsInTalent(Talent.QUICK_FOLLOWUP)/3f;
+		}
+
+		if (hero.subClass == HeroSubClass.MONK && hero.buff(MonkEnergy.class) != null && hero.buff(MonkEnergy.class).harmonized(hero)) {
+			multi *= 1.5f;
+		}
+
+		if (hero.hasTalent(Talent.ATK_SPEED_ENHANCE)) {
+			multi *= 1 + 0.05f * hero.pointsInTalent(Talent.ATK_SPEED_ENHANCE);
+		}
+
+		if (hero.belongings.weapon != null && hero.belongings.secondWep != null
+				&& hero.pointsInTalent(Talent.TWIN_SWORD) > 2
+				&& hero.belongings.weapon.getClass() == hero.belongings.secondWep.getClass()) {
+			multi *= 2;
+		}
 
 		if (owner.buff(Scimitar.SwordDance.class) != null){
 			multi += 0.6f;

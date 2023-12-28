@@ -39,6 +39,7 @@ public class BookOfCorruption extends SpellBook {
                 GLog.w(Messages.get(this, "cooldown"));
             } else {
                 Buff.affect(hero, SpellBookCoolDown.class).set(100);
+                readEffect();
             }
         }
     }

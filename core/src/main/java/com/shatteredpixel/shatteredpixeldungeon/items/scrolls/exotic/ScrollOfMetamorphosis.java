@@ -134,7 +134,7 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 			Talent.initClassTalents(Dungeon.hero.heroClass, talents, Dungeon.hero.metamorphedTalents);
 
 			for (LinkedHashMap<Talent, Integer> tier : talents){
-				for (Talent talent : tier.keySet()){
+				for (Talent talent : tier.keySet() ){
 					tier.put(talent, Dungeon.hero.pointsInTalent(talent));
 				}
 			}

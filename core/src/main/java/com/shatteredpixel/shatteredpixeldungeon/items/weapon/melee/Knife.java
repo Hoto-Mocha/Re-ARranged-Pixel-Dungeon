@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -53,6 +54,12 @@ public class Knife extends MeleeWeapon {
 	public int max(int lvl) {
 		return  tier+2 +
 				lvl;
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		Buff.affect(defender, Bleeding.class).set(damage);
+		return super.proc( attacker, defender, damage );
 	}
 
 	@Override

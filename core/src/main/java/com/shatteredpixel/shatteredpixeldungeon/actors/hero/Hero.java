@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SacrificialFire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability;
@@ -804,6 +805,8 @@ public class Hero extends Char {
 
 		float delay = 1f;
 
+		if ( buff(Adrenaline.class) != null) delay /= 1.5f;
+
 		if (!RingOfForce.fightingUnarmed(this)) {
 			
 			return delay * belongings.attackingWeapon().delayFactor( this );
@@ -820,28 +823,17 @@ public class Hero extends Char {
 					speed *= 1 + 0.05f * hero.pointsInTalent(Talent.LESS_RESIST) * (-aEnc);
 				}
 			}
-			if (hero.hasTalent(Talent.LIGHT_WEAPON) && belongings.attackingWeapon() instanceof MeleeWeapon) {
-				int aEnc = ((MeleeWeapon)belongings.attackingWeapon()).STRReq() - hero.STR();
-				if (aEnc < 0) {
-					speed *= 1 + 0.05f * hero.pointsInTalent(Talent.LIGHT_WEAPON) * (-aEnc);
-				}
-			}
+
 			if (hero.hasTalent(Talent.QUICK_FOLLOWUP) && hero.buff(Talent.QuickFollowupTracker.class) != null) {
 				speed *= 1+hero.pointsInTalent(Talent.QUICK_FOLLOWUP)/3f;
 			}
 
-			if (subClass == HeroSubClass.MONK && buff(MonkEnergy.class) != null && buff(MonkEnergy.class).harmonized(this)) {
+			if (hero.subClass == HeroSubClass.MONK && hero.buff(MonkEnergy.class) != null && hero.buff(MonkEnergy.class).harmonized(hero)) {
 				speed *= 1.5f;
 			}
 
 			if (hero.hasTalent(Talent.ATK_SPEED_ENHANCE)) {
 				speed *= 1 + 0.05f * hero.pointsInTalent(Talent.ATK_SPEED_ENHANCE);
-			}
-
-			if (hero.belongings.weapon != null && hero.belongings.secondWep != null
-					&& hero.pointsInTalent(Talent.TWIN_SWORD) > 2
-					&& hero.belongings.weapon.getClass() == hero.belongings.secondWep.getClass()) {
-				speed *= 2;
 			}
 
 			//ditto for furor + sword dance!
@@ -1722,10 +1714,12 @@ public class Hero extends Char {
 			Buff.prolong(this, Invisibility.class, 3f);
 		}
 
-		if (Random.Float() < hero.pointsInTalent(Talent.OVERCOMING)/3f) {
+		if (hero.hasTalent(Talent.OVERCOMING)) {
 			Momentum momentum = buff(Momentum.class);
 			if (momentum != null && momentum.freerunning()) {
-				Buff.affect(this, EvasiveMove.class, 1f);
+				Buff.affect(this, Haste.class, 2f);
+				if (hero.pointsInTalent(Talent.OVERCOMING) > 1) Buff.affect(this, Adrenaline.class, 2f);
+				if (hero.pointsInTalent(Talent.OVERCOMING) > 2) Buff.affect(this, EvasiveMove.class, 2f);
 			}
 		}
 		

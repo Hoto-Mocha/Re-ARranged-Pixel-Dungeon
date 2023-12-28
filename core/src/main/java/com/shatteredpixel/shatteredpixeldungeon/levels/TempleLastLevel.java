@@ -500,6 +500,7 @@ public class TempleLastLevel extends Level {
 
 		@Override
 		protected boolean act() {
+			final int SPAWN_COOLDOWN = 40;
 			if (fieldOfView == null || fieldOfView.length != Dungeon.level.length()) {
 				fieldOfView = new boolean[Dungeon.level.length()];
 			}
@@ -509,8 +510,8 @@ public class TempleLastLevel extends Level {
 				throwItems();
 			}
 
-			if (spawnCooldown > 20) {
-				spawnCooldown = 20;
+			if (spawnCooldown > SPAWN_COOLDOWN) {
+				spawnCooldown = SPAWN_COOLDOWN;
 			}
 
 			if (Dungeon.hero != null) {
@@ -528,8 +529,8 @@ public class TempleLastLevel extends Level {
 				if (spawnCooldown <= 0) {
 
 					//we don't want spawners to store multiple brutes
-					if (spawnCooldown < -20) {
-						spawnCooldown = -20;
+					if (spawnCooldown < -SPAWN_COOLDOWN) {
+						spawnCooldown = -SPAWN_COOLDOWN;
 					}
 
 					ArrayList<Integer> candidates = new ArrayList<>();
@@ -563,7 +564,7 @@ public class TempleLastLevel extends Level {
 							Actor.add(new Pushing(spawn, pos, spawn.pos));
 						}
 
-						spawnCooldown += 20;
+						spawnCooldown += SPAWN_COOLDOWN;
 					}
 				}
 				alerted = false;

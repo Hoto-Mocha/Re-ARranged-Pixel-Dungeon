@@ -43,7 +43,7 @@ import java.util.Arrays;
 public class BeamSaber extends MeleeWeapon implements AlchemyWeapon {
 	
 	{
-		image = ItemSpriteSheet.MEISTER_HAMMER;
+		image = ItemSpriteSheet.BEAM_SABER;
 		hitSound = Assets.Sounds.HIT_SLASH;
 		hitSoundPitch = 1.2f;
 		

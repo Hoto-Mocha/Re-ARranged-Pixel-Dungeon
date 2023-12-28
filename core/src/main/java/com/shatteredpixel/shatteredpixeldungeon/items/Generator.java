@@ -268,7 +268,7 @@ public class Generator {
 		MIS_T5  ( 0, 0, MissileWeapon.class ),
 		
 		WAND	( 1, 1, Wand.class ),
-		SPELLBOOK	( 1, 1, SpellBook.class ),
+		SPELLBOOK	( 0, 0, SpellBook.class ),
 		RING	( 1, 0, Ring.class ),
 		ARTIFACT( 0, 1, Artifact.class),
 		

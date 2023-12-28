@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -45,12 +46,15 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Sorrowmoss;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Stormvine;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
+import com.watabou.utils.BArray;
 import com.watabou.utils.Callback;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
@@ -346,6 +350,24 @@ public class SpiritBow extends Weapon {
 		@Override
 		protected void onThrow( int cell ) {
 			Char enemy = Actor.findChar( cell );
+			if (Dungeon.hero.hasTalent(Talent.ATTRACTION) && enemy == null) {
+				for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+					if (mob.paralysed <= 0
+							&& Dungeon.level.distance(cell, mob.pos) <= Dungeon.hero.pointsInTalent(Talent.ATTRACTION)
+							&& mob.state != mob.HUNTING) {
+						if (mob.sprite != null) {
+							mob.sprite.showStatus(CharSprite.NEUTRAL, "?");
+						}
+						mob.beckon( cell );
+					}
+				}
+				PathFinder.buildDistanceMap( cell, BArray.or(Dungeon.level.passable, Dungeon.level.avoid, null), Dungeon.hero.pointsInTalent(Talent.ATTRACTION) );
+				for (int i = 0; i < PathFinder.distance.length; i++){
+					if (PathFinder.distance[i] < Integer.MAX_VALUE) {
+						GameScene.effectOverFog( new CheckedCell( i, cell ) );
+					}
+				}
+			}
 			if (enemy == null || enemy == curUser) {
 				parent = null;
 				Splash.at( cell, 0xCC99FFFF, 1 );
@@ -457,17 +479,6 @@ public class SpiritBow extends Weapon {
 						a.depth = Dungeon.depth;
 						a.pos = shotPos;
 						Buff.affect(user, Talent.SeerShotCooldown.class, 20f);
-					}
-				}
-
-				if (user.hasTalent(Talent.ATTRACTION)) {
-					int shotPos = throwPos(user, dst);
-					for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-						if (mob.paralysed <= 0
-								&& Dungeon.level.distance(shotPos, mob.pos) <= user.pointsInTalent(Talent.ATTRACTION)
-								&& mob.state != mob.HUNTING) {
-							mob.beckon( shotPos );
-						}
 					}
 				}
 
