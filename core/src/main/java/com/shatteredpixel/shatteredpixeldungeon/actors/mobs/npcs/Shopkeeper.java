@@ -280,7 +280,11 @@ public class Shopkeeper extends NPC {
 
 	public String chatText(){
 		if (Dungeon.hero.buff(AscensionChallenge.class) != null){
-			return Messages.get(this, "talk_ascent");
+			if (this instanceof ImpShopkeeper) {
+				return Messages.get(this, "talk_ascent");
+			} else {
+				return Messages.get(this, "talk_ascent_shopkeeper");
+			}
 		}
 		switch (Dungeon.depth){
 			case 6: default:
@@ -291,6 +295,8 @@ public class Shopkeeper extends NPC {
 				return Messages.get(this, "talk_city");
 			case 20:
 				return Messages.get(this, "talk_halls");
+			case 26:
+				return Messages.get(this, "talk_labs");
 		}
 	}
 

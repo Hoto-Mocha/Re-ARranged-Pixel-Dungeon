@@ -62,9 +62,12 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.CityLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.DeadEndLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.HallsBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.HallsLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.LabsBossLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.LabsLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.LastLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.MiningLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.NewLastLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
@@ -131,6 +134,8 @@ public class Dungeon {
 		SHAMAN_WAND,
 		DM200_EQUIP,
 		GOLEM_EQUIP,
+		SOLDIER_WEP,
+		MEDIC_HP,
 
 		//containers
 		VELVET_POUCH,
@@ -143,7 +148,8 @@ public class Dungeon {
 		LORE_PRISON,
 		LORE_CAVES,
 		LORE_CITY,
-		LORE_HALLS;
+		LORE_HALLS,
+		LORE_LABS;
 
 		public int count = 0;
 
@@ -355,7 +361,16 @@ public class Dungeon {
 					level = new HallsBossLevel();
 					break;
 				case 26:
-					level = new LastLevel();
+				case 27:
+				case 28:
+				case 29:
+					level = new LabsLevel();
+					break;
+				case 30:
+					level = new LabsBossLevel();
+					break;
+				case 31:
+					level = new NewLastLevel();
 					break;
 				default:
 					level = new DeadEndLevel();
@@ -444,7 +459,7 @@ public class Dungeon {
 	}
 	
 	public static boolean shopOnLevel() {
-		return (depth == 6 || depth == 11 || depth == 16) && branch == 0;
+		return (depth == 6 || depth == 11 || depth == 16 || depth == 26) && branch == 0;
 	}
 	
 	public static boolean bossLevel() {
@@ -452,14 +467,14 @@ public class Dungeon {
 	}
 	
 	public static boolean bossLevel( int depth ) {
-		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25;
+		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25|| depth == 30;
 	}
 
 	//value used for scaling of damage values and other effects.
 	//is usually the dungeon depth, but can be set to 26 when ascending
 	public static int scalingDepth(){
 		if (Dungeon.hero != null && Dungeon.hero.buff(AscensionChallenge.class) != null){
-			return 26;
+			return 31;
 		} else {
 			return depth;
 		}
@@ -804,7 +819,7 @@ public class Dungeon {
 		}
 
 		droppedItems = new SparseArray<>();
-		for (int i=1; i <= 26; i++) {
+		for (int i=1; i <= 31; i++) {
 			
 			//dropped items
 			ArrayList<Item> items = new ArrayList<>();

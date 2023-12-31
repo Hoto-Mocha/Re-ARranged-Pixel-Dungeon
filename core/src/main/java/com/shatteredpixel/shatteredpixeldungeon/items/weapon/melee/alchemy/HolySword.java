@@ -126,51 +126,28 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
         }
     }
 
-    @Override
-    public String info() {
-        String info = desc();
-
-        if (levelKnown) {
-            info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
-            if (STRReq() > Dungeon.hero.STR()) {
-                info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (Dungeon.hero.STR() > STRReq()) {
-                info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
-            }
+    public String swordName() {
+        if (Dungeon.hero.STR() >= this.STRReq()) {
+            return Messages.get(this, "true_name");
         } else {
-            info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-            if (STRReq(0) > Dungeon.hero.STR()) {
-                info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
-            }
+            return Messages.get(this, "name");
         }
-        String statsInfo = statsInfo();
-        if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
-        switch (augment) {
-            case SPEED:
-                info += " " + Messages.get(Weapon.class, "faster");
-                break; case DAMAGE: info += " " + Messages.get(Weapon.class, "stronger");
-                break; case NONE:
+    }
+
+    public String abilityName() {
+        if (Dungeon.hero.STR() >= this.STRReq()) {
+            return Messages.upperCase(Messages.get(this, "true_ability_name"));
+        } else {
+            return Messages.upperCase(Messages.get(this, "ability_name"));
         }
-        if (enchantment != null && (cursedKnown || !enchantment.curse())){
-            info += "\n\n" + Messages.capitalize(Messages.get(Weapon.class, "enchanted", enchantment.name()));
-            info += " " + enchantment.desc();
+    }
+
+    public String abilityDesc() {
+        if (Dungeon.hero.STR() >= this.STRReq()) {
+            return Messages.get(this, "true_ability_desc");
+        } else {
+            return Messages.get(this, "ability_desc");
         }
-        if (cursed && isEquipped(Dungeon.hero)) {
-            info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
-        } else if (cursedKnown && cursed) {
-            info += "\n\n" + Messages.get(Weapon.class, "cursed");
-        } else if (!isIdentified() && cursedKnown){
-            if (enchantment != null && enchantment.curse()) {
-                info += "\n\n" + Messages.get(Weapon.class, "weak_cursed");
-            } else {
-                info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
-            }
-        }
-        //the mage's staff has no ability as it can only be gained by the mage
-        if (Dungeon.hero.heroClass == HeroClass.DUELIST && Dungeon.hero.STR() >= this.STRReq()){
-            info += "\n\n" + Messages.get(this, "ability_desc");
-        }
-        return info;
     }
 
     @Override

@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rebel;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -54,7 +55,12 @@ public class ScrollOfPsionicBlast extends ExoticScroll {
 		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
 			if (Dungeon.level.heroFOV[mob.pos]) {
 				targets ++;
-				mob.damage(Math.round(mob.HT/2f + mob.HP/2f), this);
+				if (!(mob instanceof Rebel)) {
+					mob.damage(Math.round(mob.HT/2f + mob.HP/2f), this);
+				}
+				if (mob instanceof Rebel) {
+					mob.yell(Messages.get(mob, "no_scroll"));
+				}
 				if (mob.isAlive()) {
 					Buff.prolong(mob, Blindness.class, Blindness.DURATION);
 				}

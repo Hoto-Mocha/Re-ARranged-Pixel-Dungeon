@@ -540,7 +540,11 @@ public class Hero extends Char {
 		if (hero.buff(UnholyBible.Demon.class) != null) {
 			accuracy = INFINITE_ACCURACY;
 		}
-		
+
+		if (hero.buff(MeleeWeapon.DashAttack.class) != null) {
+			accuracy = INFINITE_ACCURACY;
+		}
+
 		if (!RingOfForce.fightingUnarmed(this)) {
 			return (int)(attackSkill * accuracy * wep.accuracyFactor( this, target ));
 		} else {
@@ -1511,6 +1515,11 @@ public class Hero extends Char {
 			wep = belongings.attackingWeapon();
 		}
 
+		if (hero.buff(MeleeWeapon.DashAttack.class) != null) {
+			damage *= hero.buff(MeleeWeapon.DashAttack.class).getDmgMulti();
+			hero.buff(MeleeWeapon.DashAttack.class).detach();
+		}
+
 		if (wep != null) damage = wep.proc( this, enemy, damage );
 
 		damage = Talent.onAttackProc( this, enemy, damage );
@@ -2080,7 +2089,7 @@ public class Hero extends Char {
 				//moving to a transition doesn't automatically trigger it when enemies are near
 				&& (visibleEnemies.size() == 0 || cell == pos)
 				&& !Dungeon.level.locked
-				&& (Dungeon.depth < 26 || Dungeon.level.getTransition(cell).type == LevelTransition.Type.REGULAR_ENTRANCE) ) {
+				&& (Dungeon.depth < 31 || Dungeon.level.getTransition(cell).type == LevelTransition.Type.REGULAR_ENTRANCE) ) {
 
 			curAction = new HeroAction.LvlTransition( cell );
 			

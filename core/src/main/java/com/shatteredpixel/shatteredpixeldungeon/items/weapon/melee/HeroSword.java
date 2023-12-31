@@ -9,6 +9,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
@@ -70,6 +71,11 @@ public class HeroSword extends MeleeWeapon {
     }
 
     @Override
+    public int STRReq(int lvl) {
+        return usedWep.STRReq(lvl);
+    }
+
+    @Override
     public int defenseFactor( Char owner ) {
         return usedWep.defenseFactor(owner);
     }
@@ -88,7 +94,11 @@ public class HeroSword extends MeleeWeapon {
     public String info() {
         String info = super.info();
 
-        info += "\n\n" + Messages.get(this, "properties", usedWep.trueName());
+        if (usedWep instanceof HolySword) {
+            info += "\n\n" + Messages.get(this, "properties", ((HolySword)usedWep).swordName());
+        } else {
+            info += "\n\n" + Messages.get(this, "properties", usedWep.trueName());
+        }
 
         return info;
     }

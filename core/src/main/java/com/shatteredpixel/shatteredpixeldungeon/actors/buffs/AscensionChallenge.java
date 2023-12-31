@@ -39,19 +39,24 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Ghoul;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Gnoll;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Golem;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Guard;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Medic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Necromancer;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Researcher;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.RipperDemon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Scorpio;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Shaman;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Skeleton;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Slime;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Soldier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Spinner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Succubus;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Supression;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tank;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Warlock;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Shopkeeper;
@@ -69,35 +74,41 @@ public class AscensionChallenge extends Buff {
 
 	private static HashMap<Class<?extends Mob>, Float> modifiers = new HashMap<>();
 	static {
-		modifiers.put(Rat.class,            10f);
-		modifiers.put(Snake.class,          9f);
-		modifiers.put(Gnoll.class,          9f);
-		modifiers.put(Swarm.class,          8.5f);
-		modifiers.put(Crab.class,           8f);
-		modifiers.put(Slime.class,          8f);
+		modifiers.put(Rat.class,            10f+2f); //+2f
+		modifiers.put(Snake.class,          9f+2f);
+		modifiers.put(Gnoll.class,          9f+2f);
+		modifiers.put(Swarm.class,          8.5f+2f);
+		modifiers.put(Crab.class,           8f+2f);
+		modifiers.put(Slime.class,          8f+2f);
 
-		modifiers.put(Skeleton.class,       5f);
-		modifiers.put(Thief.class,          5f);
-		modifiers.put(DM100.class,          4.5f);
-		modifiers.put(Guard.class,          4f);
-		modifiers.put(Necromancer.class,    4f);
+		modifiers.put(Skeleton.class,       6f+1.5f); //+1.5f
+		modifiers.put(Thief.class,          6f+1.5f);
+		modifiers.put(DM100.class,          5f+1.5f);
+		modifiers.put(Guard.class,          4f+1.5f);
+		modifiers.put(Necromancer.class,    4f+1.5f);
 
-		modifiers.put(Bat.class,            2.5f);
-		modifiers.put(Brute.class,          2.25f);
-		modifiers.put(Shaman.class,         2.25f);
-		modifiers.put(Spinner.class,        2f);
-		modifiers.put(DM200.class,          2f);
+		modifiers.put(Bat.class,            3f+1f); //+1f
+		modifiers.put(Brute.class,          2.5f+1f);
+		modifiers.put(Shaman.class,         2.5f+1f);
+		modifiers.put(Spinner.class,        2f+1f);
+		modifiers.put(DM200.class,          2f+1f);
 
-		modifiers.put(Ghoul.class,          1.67f);
-		modifiers.put(Elemental.class,      1.67f);
-		modifiers.put(Warlock.class,        1.5f);
-		modifiers.put(Monk.class,           1.5f);
-		modifiers.put(Golem.class,          1.33f);
+		modifiers.put(Ghoul.class,          1.67f+0.5f); //+0.5f
+		modifiers.put(Elemental.class,      1.67f+0.5f);
+		modifiers.put(Warlock.class,        1.5f+0.5f);
+		modifiers.put(Monk.class,           1.5f+0.5f);
+		modifiers.put(Golem.class,          1.33f+0.5f);
 
-		modifiers.put(RipperDemon.class,    1.2f);
-		modifiers.put(Succubus.class,       1.2f);
-		modifiers.put(Eye.class,            1.1f);
-		modifiers.put(Scorpio.class,        1.1f);
+		modifiers.put(RipperDemon.class,    1.2f+0.2f); //+0.2f
+		modifiers.put(Succubus.class,       1.2f+0.2f);
+		modifiers.put(Eye.class,            1.1f+0.2f);
+		modifiers.put(Scorpio.class,        1.1f+0.2f);
+
+		modifiers.put(Soldier.class,   		1.2f);
+		modifiers.put(Researcher.class,     1.2f);
+		modifiers.put(Supression.class,     1.1f);
+		modifiers.put(Tank.class,       	1.1f);
+		modifiers.put(Medic.class,      	1.1f);
 	}
 
 	public static float statModifier(Char ch){

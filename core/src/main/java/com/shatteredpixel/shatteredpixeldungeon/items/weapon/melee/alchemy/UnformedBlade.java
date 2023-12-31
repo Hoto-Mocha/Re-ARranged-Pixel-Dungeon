@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -219,6 +220,15 @@ public class UnformedBlade extends MeleeWeapon implements AlchemyWeapon {
 		} else {
 			return Messages.format(TXT_STATUS, charge);
 		}
+	}
+
+	@Override
+	public String targetingPrompt() {
+		return Messages.get(Dagger.class, "prompt");
+	}
+
+	public boolean useTargeting(){
+		return false;
 	}
 
 	@Override

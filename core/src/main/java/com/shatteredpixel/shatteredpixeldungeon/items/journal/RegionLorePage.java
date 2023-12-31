@@ -33,6 +33,7 @@ public class RegionLorePage {
 			case CAVES_EXPLORER:            return new RegionLorePage.Caves();
 			case CITY_WARLOCK:              return new RegionLorePage.City();
 			case HALLS_KING:                return new RegionLorePage.Halls();
+			case LABS_MEDIC:                return new RegionLorePage.Labs();
 		}
 	}
 
@@ -88,6 +89,17 @@ public class RegionLorePage {
 		@Override
 		public Document document() {
 			return Document.HALLS_KING;
+		}
+	}
+
+	public static class Labs extends DocumentPage {
+		{
+			image = ItemSpriteSheet.LABS_PAGE;
+		}
+
+		@Override
+		public Document document() {
+			return Document.LABS_MEDIC;
 		}
 	}
 

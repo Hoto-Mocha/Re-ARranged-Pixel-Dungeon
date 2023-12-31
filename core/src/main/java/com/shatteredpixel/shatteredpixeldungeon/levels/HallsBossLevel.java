@@ -321,40 +321,6 @@ public class HallsBossLevel extends Level {
 	}
 
 	@Override
-	public boolean activateTransition(Hero hero, LevelTransition transition) {
-		if (transition.type == LevelTransition.Type.REGULAR_ENTRANCE
-				//ascension challenge only works on runs started on v1.3+
-				&& Dungeon.initialVersion > ShatteredPixelDungeon.v1_2_3
-				&& hero.belongings.getItem(Amulet.class) != null
-				&& hero.buff(AscensionChallenge.class) == null) {
-
-			Game.runOnRenderThread(new Callback() {
-				@Override
-				public void call() {
-					GameScene.show( new WndOptions( new ItemSprite(ItemSpriteSheet.AMULET),
-							Messages.get(Amulet.class, "ascent_title"),
-							Messages.get(Amulet.class, "ascent_desc"),
-							Messages.get(Amulet.class, "ascent_yes"),
-							Messages.get(Amulet.class, "ascent_no")){
-						@Override
-						protected void onSelect(int index) {
-							if (index == 0){
-								Buff.affect(hero, AscensionChallenge.class);
-								Statistics.highestAscent = 25;
-								HallsBossLevel.super.activateTransition(hero, transition);
-							}
-						}
-					} );
-				}
-			});
-			return false;
-
-		} else {
-			return super.activateTransition(hero, transition);
-		}
-	}
-
-	@Override
 	public String tileName( int tile ) {
 		switch (tile) {
 			case Terrain.WATER:

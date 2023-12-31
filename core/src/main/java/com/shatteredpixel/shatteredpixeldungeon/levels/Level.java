@@ -880,7 +880,7 @@ public abstract class Level implements Bundlable {
 		switch (Random.Int(10)) {
 			case 0: prize = new ScrollOfTransmutation();
 				break;
-			case 1: Generator.random(Generator.Category.SPELLBOOK);
+			case 1: prize = Generator.random(Generator.Category.SPELLBOOK);
 				break;
 			default:
 				prize = Generator.random(Generator.Category.SCROLL);

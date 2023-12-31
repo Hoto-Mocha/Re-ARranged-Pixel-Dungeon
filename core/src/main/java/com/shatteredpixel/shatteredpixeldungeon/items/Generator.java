@@ -660,7 +660,8 @@ public class Generator {
 			{0, 25, 50, 20,  5},
 			{0,  0, 40, 50, 10},
 			{0,  0, 20, 40, 40},
-			{0,  0,  0, 20, 80}
+			{0,  0,  0, 20, 80},
+			{0,  0,  0, 0, 100}
 	};
 
 	private static boolean usingFirstDeck = false;

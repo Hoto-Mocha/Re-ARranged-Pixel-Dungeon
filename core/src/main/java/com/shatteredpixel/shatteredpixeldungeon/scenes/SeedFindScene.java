@@ -67,7 +67,7 @@ public class SeedFindScene extends PixelScene {
 		ShatteredPixelDungeon.scene().addToFront(new WndTextInput(Messages.get(this, "title"), Messages.get(this, "body"), Messages.get(this, "initial_value"), 1000, true, Messages.get(this, "find"), Messages.get(HeroSelectScene.class, "custom_seed_clear")) {
 			@Override
 			public void onSelect(boolean positive, String text) {
-				int floor = 26;
+				int floor = 31;
 				boolean floorOption = false;
 				String up_to_floor;
 				if (Messages.lang() == Languages.KOREAN) {

@@ -143,7 +143,7 @@ public class SpiritBow extends Weapon {
 	public String info() {
 		String info = desc();
 		
-		info += "\n\n" + Messages.get( SpiritBow.class, "stats",
+		info += "\n\n" + Messages.get( this, "stats",
 				Math.round(augment.damageFactor(min())),
 				Math.round(augment.damageFactor(max())),
 				STRReq());

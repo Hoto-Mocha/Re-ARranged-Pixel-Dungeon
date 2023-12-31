@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
@@ -359,6 +360,8 @@ public class MeleeWeapon extends Weapon {
 				ACC *= 1f + 0.1f * ((Hero) owner).pointsInTalent(Talent.PRECISE_ASSAULT);
 			} else if (this instanceof Flail && owner.buff(Flail.SpinAbilityTracker.class) != null){
 				//do nothing, this is not a regular attack so don't consume preciase assault
+			} else if (this instanceof ChainFlail && owner.buff(ChainFlail.SpinAbilityTracker.class) != null){
+				//do nothing, this is not a regular attack so don't consume preciase assault
 			} else if (owner.buff(Talent.PreciseAssaultTracker.class) != null) {
 				// 2x/4x/8x ACC for duelist if she just used a weapon ability
 				ACC *= Math.pow(2, ((Hero) owner).pointsInTalent(Talent.PRECISE_ASSAULT));
@@ -486,6 +489,22 @@ public class MeleeWeapon extends Weapon {
 			price = 1;
 		}
 		return price;
+	}
+
+
+
+	private static final String TIER = "tier";
+
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(TIER, tier);
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		tier = bundle.getInt(TIER);
 	}
 
 	public static class Charger extends Buff implements ActionIndicator.Action {
@@ -953,77 +972,6 @@ public class MeleeWeapon extends Weapon {
 			super.restoreFromBundle(bundle);
 			duration = bundle.getFloat(DURATION);
 			maxDuration = bundle.getFloat(MAX_DURATION);
-		}
-	}
-
-	public static class PrecisionShooting extends Buff {
-
-		public static float HIT_CHARGE_USE = 1f;
-
-		public boolean onUse = true;
-
-		{
-			announced = true;
-			type = buffType.POSITIVE;
-		}
-
-		public int hitsLeft(){
-			MeleeWeapon.Charger charger = Buff.affect(target, MeleeWeapon.Charger.class);
-			float charges = charger.charges;
-			charges += charger.partialCharge;
-
-			return (int)(charges/HIT_CHARGE_USE);
-		}
-
-		public int maxHit(){
-			MeleeWeapon.Charger charger = Buff.affect(target, MeleeWeapon.Charger.class);
-			float maxCharges = charger.chargeCap();
-
-			return (int)(maxCharges);
-		}
-
-		@Override
-		public boolean act() {
-			if (hero.heroClass != HeroClass.DUELIST) {
-				detach();
-			}
-			spend(TICK);
-			return true;
-		}
-
-		@Override
-		public int icon() {
-			return BuffIndicator.TARGETED;
-		}
-
-		@Override
-		public void tintIcon(Image icon) {
-			if (hitsLeft() == 0 || !onUse){
-				icon.brightness(0.25f);
-			} else {
-				icon.resetColor();
-			}
-		}
-
-		@Override
-		public float iconFadePercent() {
-			float usableCharges = hitsLeft()*HIT_CHARGE_USE;
-
-			return 1f - (usableCharges /  Buff.affect(target, MeleeWeapon.Charger.class).chargeCap());
-		}
-
-		@Override
-		public String iconTextDisplay() {
-			return Integer.toString(hitsLeft());
-		}
-
-		@Override
-		public String desc() {
-			if (!onUse) {
-				return Messages.get(this, "no_use", hitsLeft(), maxHit());
-			} else {
-				return Messages.get(this, "desc", hitsLeft(), maxHit());
-			}
 		}
 	}
 

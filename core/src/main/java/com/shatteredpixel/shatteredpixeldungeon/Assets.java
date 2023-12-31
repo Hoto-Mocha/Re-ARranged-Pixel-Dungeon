@@ -42,6 +42,7 @@ public class Assets {
 		public static final String TILES_CITY   = "environment/tiles_city.png";
 		public static final String TILES_HALLS  = "environment/tiles_halls.png";
 		public static final String TILES_TEMPLE = "environment/tiles_temple.png";
+		public static final String TILES_LABS	= "environment/tiles_labs.png";
 
 		public static final String WATER_SEWERS = "environment/water0.png";
 		public static final String WATER_PRISON = "environment/water1.png";
@@ -49,6 +50,7 @@ public class Assets {
 		public static final String WATER_CITY   = "environment/water3.png";
 		public static final String WATER_HALLS  = "environment/water4.png";
 		public static final String WATER_TEMPLE = "environment/water0_temple.png";
+		public static final String WATER_LABS	= "environment/water5.png";
 
 		public static final String WEAK_FLOOR       = "environment/custom_tiles/weak_floor.png";
 		public static final String SEWER_BOSS       = "environment/custom_tiles/sewer_boss.png";
@@ -322,5 +324,12 @@ public class Assets {
 		public static final String CRYSTAL_GUARDIAN= "sprites/crystal_guardian.png";
 		public static final String CRYSTAL_SPIRE= "sprites/crystal_spire.png";
 		public static final String GNOLL_GUARD= "sprites/gnoll_guard.png";
+
+		public static final String SOLDIER= "sprites/soldier.png";
+		public static final String RESEARCHER= "sprites/researcher.png";
+		public static final String TANK= "sprites/tank.png";
+		public static final String SUPRESSION= "sprites/supression.png";
+		public static final String MEDIC= "sprites/medic.png";
+		public static final String REBEL= "sprites/rebel.png";
 	}
 }

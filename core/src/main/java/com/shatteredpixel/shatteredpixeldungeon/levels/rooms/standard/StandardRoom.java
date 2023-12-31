@@ -150,7 +150,7 @@ public abstract class StandardRoom extends Room {
 		rooms.add(TempleLibraryRoom.class);
 	}
 	
-	private static float[][] chances = new float[27][];
+	private static float[][] chances = new float[32][];
 	static {
 		chances[1] =  new float[]{10,  10,10,5, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  1,0,1,0,1,0,1,1,0,0, 0,0,0};
 		chances[2] =  new float[]{10,  10,10,5, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
@@ -167,13 +167,22 @@ public abstract class StandardRoom extends Room {
 		chances[20] = chances[19] = chances[18] = chances[17] = chances[16];
 
 		chances[21] = new float[]{10,  0,0,0, 0,0,0, 0,0,0, 0,0,0, 10,10,5,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
-		chances[26] = chances[25] = chances[24] = chances[23] = chances[22] = chances[21];
+		chances[25] = chances[24] = chances[23] = chances[22] = chances[21];
+		chances[26] = chances[27] = chances[28] = chances[29] = chances[2];
+		chances[30] = chances[5];
+
+		chances[31] = chances[21];
 	}
 
-	private static float[][] branchChances = new float[27][];
+	private static float[][] branchChances = new float[32][];
 	static {
 		branchChances[1] =  new float[]{0,  0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 1,0,1,0,1,0,1,1,1,0, 5,5,10};
-		branchChances[26]
+		branchChances[31]
+				= branchChances[30]
+				= branchChances[29]
+				= branchChances[28]
+				= branchChances[27]
+				= branchChances[26]
 				= branchChances[25]
 				= branchChances[24]
 				= branchChances[23]

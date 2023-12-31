@@ -543,6 +543,7 @@ public abstract class RegularLevel extends Level {
 					case 3: regionDoc = Document.CAVES_EXPLORER; break;
 					case 4: regionDoc = Document.CITY_WARLOCK; break;
 					case 5: regionDoc = Document.HALLS_KING; break;
+					case 6: regionDoc = Document.LABS_MEDIC; break;
 				}
 
 				if (regionDoc != null && !regionDoc.allPagesFound()) {
@@ -599,6 +600,7 @@ public abstract class RegularLevel extends Level {
 		limitedDocs.put(Document.CAVES_EXPLORER, Dungeon.LimitedDrops.LORE_CAVES);
 		limitedDocs.put(Document.CITY_WARLOCK, Dungeon.LimitedDrops.LORE_CITY);
 		limitedDocs.put(Document.HALLS_KING, Dungeon.LimitedDrops.LORE_HALLS);
+		limitedDocs.put(Document.LABS_MEDIC, Dungeon.LimitedDrops.LORE_LABS);
 	}
 	
 	public ArrayList<Room> rooms() {
