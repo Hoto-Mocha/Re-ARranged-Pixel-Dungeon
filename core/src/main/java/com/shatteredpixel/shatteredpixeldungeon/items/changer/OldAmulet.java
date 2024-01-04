@@ -306,7 +306,7 @@ public class OldAmulet extends Item {
             }
 
             if (item != null && itemSelectable(item)) {
-                if (item instanceof MeleeWeapon) {
+                if (item instanceof MeleeWeapon && !(item instanceof MagesStaff)) {
                     GameScene.show(new WndAbilitySelect((MeleeWeapon)item, abilityList.get(0), abilityList.get(1), abilityList.get(2)));
                 } else {
                     onItemSelected(item);

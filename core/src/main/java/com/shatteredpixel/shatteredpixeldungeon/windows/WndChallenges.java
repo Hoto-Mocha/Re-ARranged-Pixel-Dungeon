@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.CheckBox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
+import com.shatteredpixel.shatteredpixeldungeon.ui.MiniCheckBox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 
@@ -38,11 +39,11 @@ public class WndChallenges extends Window {
 
 	private static final int WIDTH		= 120;
 	private static final int TTL_HEIGHT = 16;
-	private static final int BTN_HEIGHT = 16;
+	private static final int BTN_HEIGHT = 11;
 	private static final int GAP        = 1;
 
 	private boolean editable;
-	private ArrayList<CheckBox> boxes;
+	private ArrayList<MiniCheckBox> boxes;
 
 	public WndChallenges( int checked, boolean editable ) {
 
@@ -65,20 +66,20 @@ public class WndChallenges extends Window {
 		for (int i=0; i < Challenges.NAME_IDS.length; i++) {
 
 			final String challenge = Challenges.NAME_IDS[i];
-			
-			CheckBox cb = new CheckBox( Messages.titleCase(Messages.get(Challenges.class, challenge)) );
+
+			MiniCheckBox cb = new MiniCheckBox( Messages.titleCase(Messages.get(Challenges.class, challenge)) );
 			cb.checked( (checked & Challenges.MASKS[i]) != 0 );
 			cb.active = editable;
 
 			if (i > 0) {
 				pos += GAP;
 			}
-			cb.setRect( 0, pos, WIDTH-16, BTN_HEIGHT );
+			cb.setRect( 0, pos, WIDTH-11, BTN_HEIGHT );
 
 			add( cb );
 			boxes.add( cb );
 			
-			IconButton info = new IconButton(Icons.get(Icons.INFO)){
+			IconButton info = new IconButton(Icons.get(Icons.MINI_INFO)){
 				@Override
 				protected void onClick() {
 					super.onClick();
@@ -87,7 +88,7 @@ public class WndChallenges extends Window {
 					);
 				}
 			};
-			info.setRect(cb.right(), pos, 16, BTN_HEIGHT);
+			info.setRect(cb.right(), pos, 11, BTN_HEIGHT);
 			add(info);
 			
 			pos = cb.bottom();

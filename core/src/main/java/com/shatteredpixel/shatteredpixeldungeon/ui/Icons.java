@@ -103,6 +103,9 @@ public enum Icons {
 	SLEEP,
 	ALERT,
 	LOST,
+	MINI_INFO,
+	MINI_UNCHECKED,
+	MINI_CHECKED,
 	DEPTH,      //depth icons have two variants, for regular and seeded runs
 	DEPTH_CHASM,
 	DEPTH_WATER,
@@ -330,6 +333,15 @@ public enum Icons {
 				break;
 			case LOST:
 				icon.frame( icon.texture.uvRectBySize( 40, 72, 8, 8 ) );
+				break;
+			case MINI_INFO:
+				icon.frame( icon.texture.uvRectBySize( 0, 80, 9, 9 ) );
+				break;
+			case MINI_UNCHECKED:
+				icon.frame( icon.texture.uvRectBySize( 10, 80, 7, 7 ) );
+				break;
+			case MINI_CHECKED:
+				icon.frame( icon.texture.uvRectBySize( 20, 80, 7, 7 ) );
 				break;
 			case DEPTH:
 				icon.frame( icon.texture.uvRectBySize( 48, 64 + runTypeOfs(), 6, 7 ) );

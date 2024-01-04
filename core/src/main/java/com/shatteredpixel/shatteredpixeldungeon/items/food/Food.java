@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fatigue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -85,6 +86,10 @@ public class Food extends Item {
 			hero.spend( eatingTime() );
 
 			Talent.onFoodEaten(hero, energy, this);
+
+			if (hero.buff(Fatigue.class) != null) {
+				hero.buff(Fatigue.class).detach();
+			}
 			
 			Statistics.foodEaten++;
 			Badges.validateFoodEaten();

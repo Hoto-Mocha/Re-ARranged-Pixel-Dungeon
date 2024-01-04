@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDr
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
@@ -75,14 +76,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireImbueSpell;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireMaker;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.IceMaker;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.RapidGrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Xray;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -428,6 +434,7 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new ElixirOfIcyTouch.Recipe()));
 				result.add(new QuickRecipe(new ElixirOfToxicEssence.Recipe()));
 				result.add(new QuickRecipe(new ElixirOfArcaneArmor.Recipe()));
+				result.add(new QuickRecipe(new ElixirOfTalent.Recipe()));
 				return result;
 			case 9:
 				result.add(new QuickRecipe(new TelekineticGrab.Recipe()));
@@ -445,6 +452,12 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new CurseInfusion.Recipe()));
 				result.add(new QuickRecipe(new Recycle.Recipe()));
 				result.add(new QuickRecipe(new Evolution.Recipe()));
+				result.add(null);
+				result.add(new QuickRecipe(new RapidGrowth.Recipe()));
+				result.add(new QuickRecipe(new IceMaker.Recipe()));
+				result.add(new QuickRecipe(new FireMaker.Recipe()));
+				result.add(new QuickRecipe(new Xray.Recipe()));
+				result.add(new QuickRecipe(new FireImbueSpell.Recipe()));
 				return result;
 		}
 	}

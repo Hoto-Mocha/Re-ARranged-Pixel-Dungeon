@@ -1202,8 +1202,8 @@ public class ItemSpriteSheet {
 	}
 
 	private static final int NEW_BREWS			=			xy(1, 66);  //16 slots
-	public static final int BREW_SATISFACTION	= +0;
-	public static final int BREW_TALENT			= +1;
+	public static final int BREW_SATISFACTION	= NEW_BREWS+0;
+	public static final int BREW_TALENT			= NEW_BREWS+1;
 	static{
 		for (int i = NEW_BREWS; i < NEW_BREWS+1; i++)
 			assignItemRect(i, 12, 14);

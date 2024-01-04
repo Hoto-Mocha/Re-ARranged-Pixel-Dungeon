@@ -504,7 +504,9 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-		tier = bundle.getInt(TIER);
+		if (bundle.getInt(TIER) != 0) {
+			tier = bundle.getInt(TIER);
+		}
 	}
 
 	public static class Charger extends Buff implements ActionIndicator.Action {

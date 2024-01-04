@@ -101,6 +101,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.UnformedBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T1;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
@@ -149,7 +150,7 @@ public enum HeroClass {
 //			new BulletBelt().quantity(20).collect();
 //			new GunSmithingTool().quantity(20).collect();
 			new AlchemistsToolkit().identify().upgrade(10).collect();
-			new Alchemize().quantity(200).collect();
+			new Evolution().quantity(200).collect();
 			new PotionOfHealing().identify().quantity(500).collect();
 			new ScrollOfUpgrade().identify().quantity(500).collect();
 //			new ScrollOfMetamorphosis().identify().quantity(500).collect();
@@ -157,8 +158,8 @@ public enum HeroClass {
 			new PotionOfStrength().identify().quantity(29).collect();
 			new PlateArmor().identify().upgrade(100).collect();
 			new TacticalShield().identify().upgrade(100).collect();
-			new AR_T5().identify().collect();
-			new HolySword().identify().collect();
+			new AR_T1().identify().collect();
+//			new HolySword().identify().collect();
 			new GunSmithingTool().quantity(200).collect();
 //			new BookOfTransfusion().collect();
 //			new BeamSaber().identify().collect();

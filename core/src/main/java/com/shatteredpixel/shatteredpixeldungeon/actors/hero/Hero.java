@@ -28,6 +28,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslo
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Bones;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
@@ -56,7 +57,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Enduring;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRingsCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fatigue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GhostSpawner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
@@ -124,6 +127,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.DarkGold;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
@@ -258,7 +262,7 @@ public class Hero extends Char {
 	public Hero() {
 		super();
 
-		HP = HT = 20;
+		HP = HT = (Dungeon.isChallenged(Challenges.SUPERMAN)) ? 10 : 20;
 		STR = STARTING_STR;
 		
 		belongings = new Belongings( this );
@@ -268,8 +272,8 @@ public class Hero extends Char {
 	
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
-		
-		HT = 20 + 5*(lvl-1) + HTBoost;
+
+		HT = (Dungeon.isChallenged(Challenges.SUPERMAN)) ? 10 : 20 + 5 * (lvl-1) + HTBoost;
 		if (this.hasTalent(Talent.MAX_HEALTH)) {
 			HT += 5*this.pointsInTalent(Talent.MAX_HEALTH);
 		}
@@ -278,6 +282,10 @@ public class Hero extends Char {
 		
 		if (buff(ElixirOfMight.HTBoost.class) != null){
 			HT += buff(ElixirOfMight.HTBoost.class).boost();
+		}
+
+		if (buff(ElixirOfTalent.ElixirOfTalentHTBoost.class) != null){
+			HT += buff(ElixirOfTalent.ElixirOfTalentHTBoost.class).boost();
 		}
 		
 		if (boostHP){
@@ -301,6 +309,14 @@ public class Hero extends Char {
 		}
 
 		return STR + strBonus;
+	}
+
+	public void onSTRGained() {
+
+	}
+
+	public void onSTRLost() {
+
 	}
 
 	private static final String CLASS       = "class";
@@ -415,16 +431,19 @@ public class Hero extends Char {
 	}
 
 	public int bonusTalentPoints(int tier){
+		int bonusPoints = 0;
 		if (lvl < (Talent.tierLevelThresholds[tier]-1)
 				|| (tier == 3 && subClass == HeroSubClass.NONE)
 				|| (tier == 4 && armorAbility == null)) {
 			return 0;
 		} else if (buff(PotionOfDivineInspiration.DivineInspirationTracker.class) != null
 					&& buff(PotionOfDivineInspiration.DivineInspirationTracker.class).isBoosted(tier)) {
-			return 2;
-		} else {
-			return 0;
+			bonusPoints += 2;
 		}
+		if (tier == 3 && buff(ElixirOfTalent.BonusTalentTracker.class) != null) {
+			bonusPoints += 4;
+		}
+		return bonusPoints;
 	}
 	
 	public String className() {
@@ -506,6 +525,10 @@ public class Hero extends Char {
 		
 		float accuracy = 1;
 		accuracy *= RingOfAccuracy.accuracyMultiplier( this );
+
+		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
+			accuracy *= 2;
+		}
 		
 		if (wep instanceof MissileWeapon && !(wep instanceof Gun.Bullet)){ //총탄을 제외한 투척 무기의 정확성
 			if (Dungeon.level.adjacent( pos, target.pos )) {
@@ -586,6 +609,10 @@ public class Hero extends Char {
 
 		if (hero.hasTalent(Talent.SWIFT_MOVEMENT)) {
 			evasion += hero.STR()-10;
+		}
+
+		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
+			evasion *= 3;
 		}
 
 		if (buff(Talent.RestoredAgilityTracker.class) != null){
@@ -968,6 +995,10 @@ public class Hero extends Char {
 
 		if (hasTalent(Talent.PARRY) && buff(Talent.ParryCooldown.class) == null){
 			Buff.affect(this, Talent.ParryTracker.class);
+		}
+
+		if (Dungeon.isChallenged(Challenges.CURSED_DUNGEON) && hero.buff(GhostSpawner.class) == null) {
+			Buff.affect(hero, GhostSpawner.class);
 		}
 		
 		return actResult;
@@ -1693,6 +1724,18 @@ public class Hero extends Char {
 				}
 			}
 		}
+
+		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
+			damage *= 3f;
+		}
+
+		if (Dungeon.isChallenged(Challenges.PYRO)) {
+			Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
+		}
+
+		if (Dungeon.isChallenged(Challenges.FATIGUE)) {
+			Buff.affect(this, Fatigue.class).hit(true);
+		}
 		
 		return damage;
 	}
@@ -1730,6 +1773,10 @@ public class Hero extends Char {
 				if (hero.pointsInTalent(Talent.OVERCOMING) > 1) Buff.affect(this, Adrenaline.class, 2f);
 				if (hero.pointsInTalent(Talent.OVERCOMING) > 2) Buff.affect(this, EvasiveMove.class, 2f);
 			}
+		}
+
+		if (Dungeon.isChallenged(Challenges.FATIGUE)) {
+			Buff.affect(this, Fatigue.class).hit(false);
 		}
 		
 		return super.defenseProc( enemy, damage );
