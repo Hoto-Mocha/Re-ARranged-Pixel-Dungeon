@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -36,9 +37,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
+import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.AntiEntropy;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Bulk;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Corrosion;
@@ -65,13 +68,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
+import com.watabou.noosa.Game;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
@@ -82,6 +90,7 @@ import java.util.Arrays;
 public class Armor extends EquipableItem {
 
 	protected static final String AC_DETACH       = "DETACH";
+	protected static final String AC_SCRAP 		  = "SCRAP";
 	
 	public enum Augment {
 		EVASION (2f , -1f),
@@ -173,6 +182,9 @@ public class Armor extends EquipableItem {
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
 		if (seal != null) actions.add(AC_DETACH);
+		if (!isEquipped(hero) && isIdentified() && hero.heroClass == HeroClass.GUNNER) {
+			actions.add(AC_SCRAP);
+		}
 		return actions;
 	}
 
@@ -202,6 +214,64 @@ public class Armor extends EquipableItem {
 				Dungeon.level.drop(detaching, hero.pos);
 			}
 			updateQuickslot();
+		}
+		if (action.equals(AC_SCRAP)) {
+			Game.runOnRenderThread(new Callback() {
+				@Override
+				public void call() {
+					GameScene.show(
+							new WndOptions( new ItemSprite(Armor.this),
+									Messages.get(MeleeWeapon.class, "scrap_title"),
+									Messages.get(MeleeWeapon.class, "scrap_desc", Math.round(5 * (Armor.this.tier+1) * (float)Math.pow(2, Math.min(3, Armor.this.level())))),
+									Messages.get(MeleeWeapon.class, "scrap_yes"),
+									Messages.get(MeleeWeapon.class, "scrap_no") ) {
+
+								private float elapsed = 0f;
+
+								@Override
+								public synchronized void update() {
+									super.update();
+									elapsed += Game.elapsed;
+								}
+
+								@Override
+								public void hide() {
+									if (elapsed > 0.2f){
+										super.hide();
+									}
+								}
+
+								@Override
+								protected void onSelect( int index ) {
+									if (index == 0 && elapsed > 0.2f) {
+										LiquidMetal metal = new LiquidMetal();
+										int metalQuantity = Math.round(5 * (Armor.this.tier+1) * (float)Math.pow(2, Math.min(3, Armor.this.level())));
+										if (Armor.this.cursed) {
+											metalQuantity /= 2;
+										}
+
+										metal.quantity(metalQuantity);
+										if (!metal.doPickUp(hero)) {
+											Dungeon.level.drop( metal, hero.pos ).sprite.drop();
+										}
+
+										EnergyCrystal crystal = new EnergyCrystal();
+										crystal.quantity(Random.IntRange(1, 2));
+										crystal.doPickUp(hero);
+
+										Armor.this.detach(hero.belongings.backpack);
+
+										hero.sprite.operate(hero.pos);
+										GLog.p(Messages.get(MeleeWeapon.class, "scrap", metalQuantity));
+										Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
+
+										updateQuickslot();
+									}
+								}
+							}
+					);
+				}
+			});
 		}
 	}
 
@@ -354,6 +424,11 @@ public class Armor extends EquipableItem {
 		if (owner instanceof Hero) {
 			int aEnc = STRReq() - ((Hero) owner).STR();
 			if (aEnc > 0) speed /= Math.pow(1.2, aEnc);
+
+			if (hero.hasTalent(Talent.LIGHT_MOVEMENT) && aEnc < 0) {
+				float exceedSTR = -aEnc/(float)(4-hero.pointsInTalent(Talent.LIGHT_MOVEMENT));
+				speed *= Math.pow(1.05, Math.floor(exceedSTR));
+			}
 		}
 		
 		if (hasGlyph(Swiftness.class, owner)) {
@@ -387,6 +462,8 @@ public class Armor extends EquipableItem {
 		}
 
 		if (owner == Dungeon.hero) {
+			stealth += hero.pointsInTalent(Talent.STEALTH);
+
 			KindOfWeapon wep = ((Hero) owner).belongings.weapon;
 			if (wep instanceof Gun) {
 				switch (((Gun) wep).attachMod) {

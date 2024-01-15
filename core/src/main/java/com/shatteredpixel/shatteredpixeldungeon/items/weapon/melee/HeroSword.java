@@ -94,11 +94,7 @@ public class HeroSword extends MeleeWeapon {
     public String info() {
         String info = super.info();
 
-        if (usedWep instanceof HolySword) {
-            info += "\n\n" + Messages.get(this, "properties", ((HolySword)usedWep).swordName());
-        } else {
-            info += "\n\n" + Messages.get(this, "properties", usedWep.trueName());
-        }
+        info += "\n\n" + Messages.get(this, "properties", usedWep.name());
 
         return info;
     }

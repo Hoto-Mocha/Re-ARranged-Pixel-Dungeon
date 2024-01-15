@@ -753,12 +753,14 @@ public class ItemSpriteSheet {
 	public static final int KNIGHT_SHIELD		= NEW_SPECIAL_ITEM+2;
 	public static final int GAMMA_GUN			= NEW_SPECIAL_ITEM+3;
 	public static final int HAND_MIRROR			= NEW_SPECIAL_ITEM+4;
+	public static final int TELEPORTER			= NEW_SPECIAL_ITEM+5;
 	static{
 		assignItemRect(AMMO_BELT	, 15, 15);
 		assignItemRect(SHEATH		, 13, 13);
 		assignItemRect(KNIGHT_SHIELD, 16, 15);
 		assignItemRect(GAMMA_GUN	, 12, 15);
 		assignItemRect(HAND_MIRROR	, 10, 16);
+		assignItemRect(TELEPORTER	, 14, 14);
 	}
 
 	private static final int NEW_ARMOR	 	=			xy(1, 36);  //16 slots
@@ -1205,7 +1207,7 @@ public class ItemSpriteSheet {
 	public static final int BREW_SATISFACTION	= NEW_BREWS+0;
 	public static final int BREW_TALENT			= NEW_BREWS+1;
 	static{
-		for (int i = NEW_BREWS; i < NEW_BREWS+1; i++)
+		for (int i = NEW_BREWS; i < NEW_BREWS+2; i++)
 			assignItemRect(i, 12, 14);
 	}
 

@@ -126,13 +126,13 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
         }
     }
 
-    public String swordName() {
-        if (Dungeon.hero.STR() >= this.STRReq()) {
-            return Messages.get(this, "true_name");
-        } else {
-            return Messages.get(this, "name");
-        }
-    }
+//    public String swordName() {
+//        if (Dungeon.hero.STR() >= this.STRReq()) {
+//            return Messages.get(this, "true_name");
+//        } else {
+//            return Messages.get(this, "name");
+//        }
+//    }
 
     public String abilityName() {
         if (Dungeon.hero.STR() >= this.STRReq()) {

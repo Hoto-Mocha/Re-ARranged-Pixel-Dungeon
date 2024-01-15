@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
@@ -63,6 +64,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.BulletItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
@@ -864,6 +866,16 @@ public abstract class Mob extends Char {
 			if (Dungeon.hero.hasTalent(Talent.LETHAL_RAGE)){
 				Berserk berserk = Buff.affect(hero, Berserk.class);
 				berserk.add(0.067f*Dungeon.hero.pointsInTalent(Talent.LETHAL_RAGE));
+			}
+
+			if (hero.hasTalent(Talent.BULLET_COLLECT)) {
+				BulletItem bullet = new BulletItem();
+				bullet.quantity(hero.pointsInTalent(Talent.BULLET_COLLECT));
+				Dungeon.level.drop(bullet, pos).sprite.drop();
+			}
+
+			if (hero.hasTalent(Talent.SOUL_BULLET)) {
+				Buff.affect(hero, InfiniteBullet.class, hero.pointsInTalent(Talent.SOUL_BULLET));
 			}
 		}
 

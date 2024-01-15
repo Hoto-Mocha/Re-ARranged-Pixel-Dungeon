@@ -55,6 +55,7 @@ public class Badges {
 		MASTERY_ROGUE,
 		MASTERY_HUNTRESS,
 		MASTERY_DUELIST,
+		MASTERY_GUNNER,
 		FOUND_RATMOGRIFY,
 
 		//bronze
@@ -109,6 +110,7 @@ public class Badges {
 		BOSS_SLAIN_1_ROGUE,
 		BOSS_SLAIN_1_HUNTRESS,
 		BOSS_SLAIN_1_DUELIST,
+		BOSS_SLAIN_1_GUNNER,
 		BOSS_SLAIN_1_ALL_CLASSES    ( 54, true ),
 		GAMES_PLAYED_2              ( 55, true ),
 		HIGH_SCORE_2                ( 56 ),
@@ -155,6 +157,7 @@ public class Badges {
 		VICTORY_ROGUE,
 		VICTORY_HUNTRESS,
 		VICTORY_DUELIST,
+		VICTORY_GUNNER,
 		VICTORY_ALL_CLASSES         ( 103, true ),
 		DEATH_FROM_ALL              ( 104, true ),
 
@@ -178,6 +181,10 @@ public class Badges {
 		BOSS_SLAIN_3_MONK,
 		BOSS_SLAIN_3_FENCER,
 
+		BOSS_SLAIN_3_OUTLAW,
+		BOSS_SLAIN_3_GUNSLINGER,
+		BOSS_SLAIN_3_SPECIALIST,
+
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 105, true ),
 		BOSS_CHALLENGE_3            ( 106 ),
 		BOSS_CHALLENGE_4            ( 107 ),
@@ -190,7 +197,14 @@ public class Badges {
 		GAMES_PLAYED_5              ( 121, true ),
 		HIGH_SCORE_5                ( 122 ),
 		CHAMPION_2                  ( 123 ),
-		CHAMPION_3                  ( 124 );
+		CHAMPION_3                  ( 124 ),
+
+		//new badges
+		UNLOCK_GUNNER				( 136 );
+//		UNLOCK_SAMURAI				( 137 ),
+//		UNLOCK_PLANTER				( 138 ),
+//		UNLOCK_KNIGHT				( 139 ),
+//		UNLOCK_NURSE				( 140 );
 
 		public boolean meta;
 
@@ -720,6 +734,7 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.ROGUE, Badge.BOSS_SLAIN_1_ROGUE);
 		firstBossClassBadges.put(HeroClass.HUNTRESS, Badge.BOSS_SLAIN_1_HUNTRESS);
 		firstBossClassBadges.put(HeroClass.DUELIST, Badge.BOSS_SLAIN_1_DUELIST);
+		firstBossClassBadges.put(HeroClass.GUNNER, Badge.BOSS_SLAIN_1_GUNNER);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
@@ -729,6 +744,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.ROGUE, Badge.VICTORY_ROGUE);
 		victoryClassBadges.put(HeroClass.HUNTRESS, Badge.VICTORY_HUNTRESS);
 		victoryClassBadges.put(HeroClass.DUELIST, Badge.VICTORY_DUELIST);
+		victoryClassBadges.put(HeroClass.GUNNER, Badge.VICTORY_GUNNER);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
@@ -748,6 +764,9 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.CHAMPION, Badge.BOSS_SLAIN_3_CHAMPION);
 		thirdBossSubclassBadges.put(HeroSubClass.MONK, Badge.BOSS_SLAIN_3_MONK);
 		thirdBossSubclassBadges.put(HeroSubClass.FENCER, Badge.BOSS_SLAIN_3_FENCER);
+		thirdBossSubclassBadges.put(HeroSubClass.OUTLAW, Badge.BOSS_SLAIN_3_OUTLAW);
+		thirdBossSubclassBadges.put(HeroSubClass.GUNSLINGER, Badge.BOSS_SLAIN_3_GUNSLINGER);
+		thirdBossSubclassBadges.put(HeroSubClass.SPECIALIST, Badge.BOSS_SLAIN_3_SPECIALIST);
 	}
 	
 	public static void validateBossSlain() {
@@ -860,6 +879,9 @@ public class Badges {
 			case DUELIST:
 				badge = Badge.MASTERY_DUELIST;
 				break;
+			case GUNNER:
+				badge = Badge.MASTERY_GUNNER;
+				break;
 		}
 		
 		unlock(badge);
@@ -903,6 +925,36 @@ public class Badges {
 			}
 		}
 	}
+
+	public static void validateGunnerUnlock() {
+		if (Statistics.swatKilled && !isUnlocked(Badge.UNLOCK_GUNNER)) {
+			displayBadge(Badge.UNLOCK_GUNNER);
+		}
+	}
+
+//	public static void validateSamuraiUnlock() {
+//		if (!isUnlocked(Badge.UNLOCK_SAMURAI)) {
+//			displayBadge(Badge.UNLOCK_SAMURAI);
+//		}
+//	}
+
+//	public static void validatePlanterUnlock() {
+//		if (!isUnlocked(Badge.UNLOCK_PLANTER)) {
+//			displayBadge(Badge.UNLOCK_PLANTER);
+//		}
+//	}
+
+//	public static void validateKnightUnlock() {
+//		if (!isUnlocked(Badge.UNLOCK_KNIGHT)) {
+//			displayBadge(Badge.UNLOCK_KNIGHT);
+//		}
+//	}
+
+//	public static void validateNurseUnlock() {
+//		if (!isUnlocked(Badge.UNLOCK_NURSE)) {
+//			displayBadge(Badge.UNLOCK_NURSE);
+//		}
+//	}
 	
 	public static void validateMasteryCombo( int n ) {
 		if (!local.contains( Badge.MASTERY_COMBO ) && n == 10) {

@@ -293,6 +293,8 @@ public class OldAmulet extends Item {
                     return item instanceof SpiritBow;
                 case DUELIST:
                     return item instanceof MeleeWeapon;
+                case GUNNER:
+                    return item instanceof Gun;
             }
         }
 
@@ -306,7 +308,7 @@ public class OldAmulet extends Item {
             }
 
             if (item != null && itemSelectable(item)) {
-                if (item instanceof MeleeWeapon && !(item instanceof MagesStaff)) {
+                if (item instanceof MeleeWeapon && !(item instanceof MagesStaff) && !(item instanceof Gun)) {
                     GameScene.show(new WndAbilitySelect((MeleeWeapon)item, abilityList.get(0), abilityList.get(1), abilityList.get(2)));
                 } else {
                     onItemSelected(item);

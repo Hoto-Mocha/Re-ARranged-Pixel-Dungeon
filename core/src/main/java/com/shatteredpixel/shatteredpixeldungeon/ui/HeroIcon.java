@@ -68,9 +68,9 @@ public class HeroIcon extends Image {
 //	public static final int 			= 23;
 
 	//new classes
-//	public static final int 			= 24;
-//	public static final int 			= 25;
-//	public static final int 			= 26;
+	public static final int OUTLAW		= 24;
+	public static final int GUNSLINGER	= 25;
+	public static final int SPECIALIST	= 26;
 //	public static final int 			= 27;
 
 //	public static final int 			= 28;
@@ -130,9 +130,9 @@ public class HeroIcon extends Image {
 //	public static final int 				= 71;
 
 	//new abilities
-//	public static final int 				= 72;
-//	public static final int 				= 73;
-//	public static final int 				= 74;
+	public static final int RIOT			= 72;
+	public static final int REINFORCEDARMOR	= 73;
+	public static final int FIRSTAIDKIT		= 74;
 //	public static final int 				= 75;
 
 //	public static final int 				= 76;

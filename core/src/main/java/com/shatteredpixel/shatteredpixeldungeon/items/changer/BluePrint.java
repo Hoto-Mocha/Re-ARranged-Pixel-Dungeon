@@ -42,7 +42,9 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.Random;
+import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -164,7 +166,7 @@ public class BluePrint extends Item {
     protected void onItemSelected(Item item) {
         Item result = null;
 
-        if (Random.Float() < 1-0.2f*(((MeleeWeapon)changeItem(item)).tier-((MeleeWeapon)item).tier)) {
+        if ((Random.Float() < 1-0.2f*(((MeleeWeapon)changeItem(item)).tier-((MeleeWeapon)item).tier)) || DeviceCompat.isDebug()) {
             result = changeItem(item);
         }
 
@@ -176,7 +178,7 @@ public class BluePrint extends Item {
                 int slot = Dungeon.quickslot.getSlot(item);
                 if (item.isEquipped(Dungeon.hero)) {
                     item.cursed = false; //to allow it to be unequipped
-                    if (item instanceof KindOfWeapon && Dungeon.hero.belongings.secondWep() == item){
+                    if (Dungeon.hero.belongings.secondWep() == item){
                         ((EquipableItem) item).doUnequip(Dungeon.hero, false);
                         ((KindOfWeapon) result).equipSecondary(Dungeon.hero);
                     } else {
@@ -188,8 +190,6 @@ public class BluePrint extends Item {
                     item.detach(Dungeon.hero.belongings.backpack);
                     if (!result.collect()) {
                         Dungeon.level.drop(result, curUser.pos).sprite.drop();
-                    } else if (Dungeon.hero.belongings.getSimilar(result) != null){
-                        result = Dungeon.hero.belongings.getSimilar(result);
                     }
                 }
                 if (slot != -1
@@ -285,29 +285,29 @@ public class BluePrint extends Item {
             validIngredients.add( new SharpKatana().weaponRecipe() );
         }
 
-        public static final LinkedHashMap<Integer, MeleeWeapon> indexToOutput = new LinkedHashMap<>(); //validIngredients 배열의 인덱스를 넣으면 근접 무기를 반환한다.
+        public static final LinkedHashMap<Integer, Class<?extends MeleeWeapon>> indexToOutput = new LinkedHashMap<>(); //validIngredients 배열의 인덱스를 넣으면 근접 무기를 반환한다.
         static {
-            indexToOutput.put( 0, new TrueRunicBlade() );
-            indexToOutput.put( 1, new Lance() );
-            indexToOutput.put( 2, new ObsidianShield() );
-            indexToOutput.put( 3, new ChainWhip() );
-            indexToOutput.put( 4, new LanceNShield() );
-            indexToOutput.put( 5, new ChainFlail() );
-            indexToOutput.put( 6, new UnformedBlade() );
-            indexToOutput.put( 7, new AR_T6() );
-            indexToOutput.put( 8, new SR_T6() );
-            indexToOutput.put( 9, new HG_T6() );
-            indexToOutput.put( 10, new SpearNShield() );
-            indexToOutput.put( 11, new TacticalShield() );
-            indexToOutput.put( 12, new AssassinsSpear() );
-            indexToOutput.put( 13, new ForceGlove() );
-            indexToOutput.put( 14, new UnholyBible() );
-            indexToOutput.put( 15, new HugeSword() );
-            indexToOutput.put( 16, new MeisterHammer() );
-            indexToOutput.put( 17, new BeamSaber() );
-            indexToOutput.put( 18, new HolySword() );
-            indexToOutput.put( 19, new DualGreatSword() );
-            indexToOutput.put( 20, new SharpKatana() );
+            indexToOutput.put( 0, TrueRunicBlade.class );
+            indexToOutput.put( 1, Lance.class );
+            indexToOutput.put( 2, ObsidianShield.class );
+            indexToOutput.put( 3, ChainWhip.class );
+            indexToOutput.put( 4, LanceNShield.class );
+            indexToOutput.put( 5, ChainFlail.class );
+            indexToOutput.put( 6, UnformedBlade.class );
+            indexToOutput.put( 7, AR_T6.class );
+            indexToOutput.put( 8, SR_T6.class );
+            indexToOutput.put( 9, HG_T6.class );
+            indexToOutput.put( 10, SpearNShield.class );
+            indexToOutput.put( 11, TacticalShield.class);
+            indexToOutput.put( 12, AssassinsSpear.class);
+            indexToOutput.put( 13, ForceGlove.class );
+            indexToOutput.put( 14, UnholyBible.class );
+            indexToOutput.put( 15, HugeSword.class );
+            indexToOutput.put( 16, MeisterHammer.class );
+            indexToOutput.put( 17, BeamSaber.class );
+            indexToOutput.put( 18, HolySword.class );
+            indexToOutput.put( 19, DualGreatSword.class );
+            indexToOutput.put( 20, SharpKatana.class );
         }
 
         public static final LinkedHashMap<Integer, Integer> costs = new LinkedHashMap<>(); //validIngredients 배열의 인덱스를 넣으면 연금술 에너지 필요량을 반환한다.
@@ -353,7 +353,7 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (a.containsAll(ingredientsClassList)) { //위에서 만든 배열에 포함된 클래스를 모두 포함하고 있는 validIngredients가 존재할 경우 연금 가능
+                if (ingredientsClassList.containsAll(a)) { //위에서 만든 배열에 포함된 클래스를 모두 포함하고 있는 validIngredients가 존재할 경우 연금 가능
                     valid = true;
                 }
             }
@@ -368,7 +368,7 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (a.containsAll(ingredientsClassList)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 costs의 키로 이용한다.
+                if (ingredientsClassList.containsAll(a)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 costs의 키로 이용한다.
                     int index = validIngredients.indexOf(a);
                     cost = costs.get(index);
                 }
@@ -384,9 +384,9 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (a.containsAll(ingredientsClassList)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 indexToOutput의 키로 이용한다.
+                if (ingredientsClassList.containsAll(a)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 indexToOutput의 키로 이용한다.
                     int index = validIngredients.indexOf(a);
-                    result = new BluePrint(indexToOutput.get(index));
+                    result = new BluePrint(Reflection.newInstance(indexToOutput.get(index)));
                 }
             }
 
@@ -404,9 +404,9 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (a.containsAll(ingredientsClassList)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 indexToOutput의 키로 이용한다.
+                if (ingredientsClassList.containsAll(a)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 indexToOutput의 키로 이용한다.
                     int index = validIngredients.indexOf(a);
-                    result = new BluePrint(indexToOutput.get(index));
+                    result = new BluePrint(Reflection.newInstance(indexToOutput.get(index)));
                 }
             }
 

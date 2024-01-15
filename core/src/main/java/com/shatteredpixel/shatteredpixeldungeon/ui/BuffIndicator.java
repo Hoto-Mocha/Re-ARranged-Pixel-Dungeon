@@ -125,6 +125,15 @@ public class BuffIndicator extends Component {
 	public static final int DUEL_ANGEL	= 137;
 	public static final int DUEL_EVIL	= 138;
 	public static final int DUEL_DAGGER	= 139;
+	public static final int BULLET		= 140;
+	public static final int PLATE 		= 141;
+	public static final int ROULETTE_1 	= 142;
+	public static final int ROULETTE_2 	= 143;
+	public static final int ROULETTE_3 	= 144;
+	public static final int ROULETTE_4 	= 145;
+	public static final int ROULETTE_5 	= 146;
+	public static final int ROULETTE_6 	= 147;
+	public static final int CLOAKING 	= 148;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

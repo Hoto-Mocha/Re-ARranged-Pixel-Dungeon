@@ -23,7 +23,9 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.depth;
 
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -167,6 +169,13 @@ public class SWAT extends Mob {
 			case MACHINEGUN:
 				return Messages.get(this, "machinegun_desc");
 		}
+	}
+
+	@Override
+	public void die( Object cause ) {
+		super.die(cause);
+		Statistics.swatKilled = true;
+		Badges.validateGunnerUnlock();
 	}
 	
 }

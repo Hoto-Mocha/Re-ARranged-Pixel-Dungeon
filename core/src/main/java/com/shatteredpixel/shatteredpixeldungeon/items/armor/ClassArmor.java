@@ -113,6 +113,21 @@ abstract public class ClassArmor extends Armor {
 			case DUELIST:
 				classArmor = new DuelistArmor();
 				break;
+			case GUNNER:
+				classArmor = new GunnerArmor();
+				break;
+//			case SAMURAI:
+//				classArmor = new SamuraiArmor();
+//				break;
+//			case PLANTER:
+//				classArmor = new PlanterArmor();
+//				break;
+//			case KNIGHT:
+//				classArmor = new KnightArmor();
+//				break;
+//			case NURSE:
+//				classArmor = new NurseArmor();
+//				break;
 		}
 		
 		classArmor.level(armor.trueLevel());

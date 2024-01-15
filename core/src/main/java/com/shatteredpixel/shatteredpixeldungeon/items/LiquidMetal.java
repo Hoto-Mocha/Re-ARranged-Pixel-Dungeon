@@ -24,20 +24,32 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeroSword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndTitledMessage;
+import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Callback;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -56,11 +68,15 @@ public class LiquidMetal extends Item {
 	}
 
 	private static final String AC_APPLY = "APPLY";
+	private static final String AC_MAKE = "MAKE";
 
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
 		actions.add( AC_APPLY );
+		if (hero.heroClass == HeroClass.GUNNER) {
+			actions.add( AC_MAKE );
+		}
 		return actions;
 	}
 
@@ -74,6 +90,105 @@ public class LiquidMetal extends Item {
 			curUser = hero;
 			GameScene.selectItem( itemSelector );
 
+		}
+		if (action.equals(AC_MAKE)) {
+			Game.runOnRenderThread(new Callback() {
+				@Override
+				public void call() {
+					GameScene.show(
+							new WndOptions( new ItemSprite(LiquidMetal.this),
+									Messages.get(LiquidMetal.class, "make_title"),
+									Messages.get(LiquidMetal.class, "make_desc", LiquidMetal.this.quantity, 25 + 25 * (1+Dungeon.depth/5)),
+									Messages.get(LiquidMetal.class, "make_no_boost"),
+									Messages.get(LiquidMetal.class, "make_boost"),
+									Messages.get(LiquidMetal.class, "make_cancel") ) {
+
+								private float elapsed = 0f;
+
+								@Override
+								public synchronized void update() {
+									super.update();
+									elapsed += Game.elapsed;
+								}
+
+								@Override
+								public void hide() {
+									if (elapsed > 0.2f){
+										super.hide();
+									}
+								}
+
+								@Override
+								protected void onSelect( int index ) {
+									if (elapsed > 0.2f) {
+										MeleeWeapon item = null;
+										switch (index) {
+											case 0:
+												while (!(item instanceof Gun)) {
+													item = Generator.randomWeapon();
+												}
+												if (!item.doPickUp(hero)) {
+													Dungeon.level.drop( item, hero.pos ).sprite.drop();
+												}
+												hero.spend(-1); //아이템을 얻는 데에 시간을 소모하지 않음
+												hero.busy();
+												LiquidMetal.this.quantity(LiquidMetal.this.quantity-(25 + 25 * (1+Dungeon.depth/5)));
+												hero.sprite.operate(hero.pos);
+												Sample.INSTANCE.play(Assets.Sounds.EVOKE);
+												CellEmitter.center( hero.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+												break;
+											case 1:
+												while (!(item instanceof Gun && !item.cursed)) {
+													item = Generator.randomWeapon(Dungeon.depth / 5 + 1);
+												}
+												item.cursedKnown = true;
+												if (Random.Float() < 0.33f) { //33% 확률로 추가 강화수치와 무작위 마법을 부여함
+													item.upgrade(true);
+												}
+												if (!item.doPickUp(hero)) {
+													Dungeon.level.drop( item, hero.pos ).sprite.drop();
+												}
+												hero.spend(-1); //아이템을 얻는 데에 시간을 소모하지 않음
+												hero.busy();
+												LiquidMetal.this.quantity(LiquidMetal.this.quantity-(25 + 25 * (1+Dungeon.depth/5))*2);
+												hero.sprite.operate(hero.pos);
+												Sample.INSTANCE.play(Assets.Sounds.EVOKE);
+												CellEmitter.center( hero.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+												break;
+											default:
+												break;
+										}
+									}
+								}
+
+								@Override
+								protected boolean hasInfo(int index) {
+									return index < 2;
+								}
+
+								@Override
+								protected void onInfo( int index ) {
+									GameScene.show(new WndTitledMessage(
+											Icons.get(Icons.INFO),
+											Messages.titleCase(Messages.get(LiquidMetal.class, "make_info_title_" + (index+1))),
+											Messages.get(LiquidMetal.class, "make_info_desc_" + (index+1))));
+								}
+
+								@Override
+								protected boolean enabled( int index ){
+									switch (index) {
+										case 0:
+											return LiquidMetal.this.quantity >= (25 + 25 * (1+Dungeon.depth/5));
+										case 1:
+											return LiquidMetal.this.quantity >= (25 + 25 * (1+Dungeon.depth/5)) * 2;
+										case 2: default:
+											return true;
+									}
+								}
+							}
+					);
+				}
+			});
 		}
 	}
 

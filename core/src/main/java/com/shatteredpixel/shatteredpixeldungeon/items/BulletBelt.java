@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
 
@@ -56,7 +57,11 @@ public class BulletBelt extends Item {
 			hero.spendAndNext(Actor.TICK);
 
 			BulletItem bulletItem = new BulletItem();
-			bulletItem.quantity(Random.IntRange(50, 70));
+			int quantity = Random.IntRange(50, 70);
+			if (hero.heroClass == HeroClass.GUNNER) {
+				quantity += Random.IntRange(0, 20);
+			}
+			bulletItem.quantity(quantity);
 			bulletItem.doPickUp(hero);
 		}
 	}

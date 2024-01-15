@@ -49,6 +49,11 @@ public enum Icons {
 	ROGUE,
 	HUNTRESS,
 	DUELIST,
+	GUNNER,
+	SAMURAI,
+	PLANTER,
+	KNIGHT,
+	NURSE,
 
 	//grey icons, mainly used for buttons, spacing for 16x16
 	EXIT,
@@ -183,6 +188,21 @@ public enum Icons {
 				break;
 			case DUELIST:
 				icon.frame( icon.texture.uvRectBySize( 80, 16, 13, 14 ) );
+				break;
+			case GUNNER:
+				icon.frame( icon.texture.uvRectBySize( 96, 16, 10, 13 ) );
+				break;
+			case SAMURAI:
+				icon.frame( icon.texture.uvRectBySize( 112, 16, 14, 14 ) );
+				break;
+			case PLANTER:
+				icon.frame( icon.texture.uvRectBySize( 128, 16, 16, 16 ) );
+				break;
+			case KNIGHT:
+				icon.frame( icon.texture.uvRectBySize( 144, 16, 16, 15 ) );
+				break;
+			case NURSE:
+				icon.frame( icon.texture.uvRectBySize( 160, 16, 13, 15 ) );
 				break;
 
 			case EXIT:
@@ -437,6 +457,16 @@ public enum Icons {
 				return get( Icons.HUNTRESS );
 			case DUELIST:
 				return get( Icons.DUELIST );
+			case GUNNER:
+				return get( Icons.GUNNER );
+//			case SAMURAI:
+//				return get( Icons.SAMURAI );
+//			case PLANTER:
+//				return get( Icons.PLANTER );
+//			case KNIGHT:
+//				return get( Icons.KNIGHT );
+//			case NURSE:
+//				return get( Icons.NURSE );
 			default:
 				return null;
 		}

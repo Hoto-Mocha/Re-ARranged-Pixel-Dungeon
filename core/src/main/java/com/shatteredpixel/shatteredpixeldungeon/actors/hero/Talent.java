@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
@@ -54,6 +55,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
+import com.shatteredpixel.shatteredpixeldungeon.items.BulletItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -70,6 +72,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -344,6 +347,58 @@ public enum Talent {
 	FEIGNED_RETREAT				(37, 4, 4),
 	EXPOSE_WEAKNESS				(38, 4, 4),
 	COUNTER_ABILITY				(39, 4, 4),
+
+
+
+	//Gunner T1
+	RELOADING_MEAL				(0,  6),	//식사 시 장착한 총기 재장전/1발 더 재장전
+	GUNNERS_INTUITION			(1,  6),	//총기를 장착 시 감정/습득 시 저주 여부 감정
+	SPEEDY_MOVE					(2,  6),	//적을 처음 공격하면 신속 2/3턴
+	SAFE_RELOAD					(3,  6),	//재장전 시 3/5의 방어막을 얻음
+	MIND_VISION					(4,  6),	//이동 시 1%/2% 확률로 1턴의 심안을 얻음
+	//Gunner T2
+	INFINITE_BULLET_MEAL		(5,  6),	//식사에 1턴만 소모하고, 식사 시 2/3턴의 무한 탄환을 얻음
+	INSCRIBED_BULLET			(6,  6),	//주문서 사용 시 5/10개의 탄환을 얻음
+	BULLET_SAVING				(7,  6),	//재장전 시 1/2개의 탄환을 추가로 장전함. 탄환을 추가로 소모하지 않음. 쿨타임 10턴
+	CAMOUFLAGE					(8,  6),	//길게 자란 풀을 밟으면 2/3턴의 투명화를 얻음
+	LARGER_MAGAZINE				(9,  6),	//총기의 최대 탄약 수 1/2 증가
+	BULLET_COLLECT				(10, 6),	//적을 처치하면 1/2개의 탄환을 드랍함
+	//Gunner T3
+	STREET_BATTLE				(11, 6, 3),	//탄환이 플레이어 주변 반경 2/3/4타일의 벽을 관통함
+	FAST_RELOAD					(12, 6, 3),	//재장전에 필요한 턴이 1/2/3턴 감소
+	//Outlaw T3
+	ROLLING						(13, 6, 3),	//총을 쏜 이후 1/2/3턴 이내에 움직일 경우 탄환을 1발 장전함
+	PERFECT_FOCUSING			(14, 6, 3),	//죽음의 룰렛 지속 시간이 2/4/6턴 증가함
+	HONORABLE_SHOT				(15, 6, 3),	//죽음의 룰렛 스택 3 이상에서, 적의 공격을 회피한 직후 탄환을 발사하면 13/27/40% 미만의 체력을 가진 적을 즉사시킴
+	BULLET_TIME					(16, 6, 3),	//죽음의 룰렛 스택 6으로 적을 즉사시키면 시야 내의 모든 적을 4/8/12턴 동안 둔화시킴
+	INEVITABLE_DEATH			(17, 6, 3),	//죽음의 룰렛 스택 6이 되면 다음 탄환 공격이 2배/3배/4배의 정확성을 얻음
+	HEADSHOT					(18, 6, 3),	//탄환이 1%/2%/3% 확률로 적을 즉사시킴
+	//Gunslinger T3
+	QUICK_RELOAD				(19, 6, 3),	//이동 시 3%/6%/9% 확률로 탄환을 1발 장전함
+	MOVING_SHOT					(20, 6, 3),	//이동 직후 투척 무기와 탄환의 명중률 감소량이 17%/33%/50% 감소
+	ELEMENTAL_BULLET			(21, 6, 3),	//탄환을 전부 소모한 상태에서 재장전 시 각 17% 확률로 빙결탄/화염탄/전격탄을 장전함
+	IMPROVISATION				(22, 6, 3),	//탄환을 전부 소모하면 8/16/24의 방어막을 얻음
+	SOUL_BULLET					(23, 6, 3),	//적을 처치하면 1/2/3턴의 무한 탄환을 얻음
+	LIGHT_MOVEMENT				(24, 6, 3),	//갑옷의 힘 요구 수치를 초과한 힘 3/2/1당 이동 속도가 5% 증가
+	//Specialist T3
+	STEALTH_MASTER				(25, 6, 3),	//총기 어그로 제거/적이 근처에 있어도 은폐 가능/은폐 중 허기 소모 X
+	SKILLFUL_RUNNER				(26, 6, 3),	//은폐가 해제될 때 2/4/6턴의 신속을 얻음. 재사용 대기 시간 30턴
+	STEALTH						(27, 6, 3),	//적에게 들킬 확률 1/2/3단계 감소
+	INTO_THE_SHADOW				(28, 6, 3),	//은폐 시도 시 은폐 대신 3/6/9턴의 투명화를 얻음. 재사용 대기 시간 15턴
+	RANGED_SNIPING				(29, 6, 3),	//적과의 거리 1타일 당 투척 무기의 피해량이 2.5%/5%/7.5%씩 증가
+	TELESCOPE					(30, 6, 3),	//시야 범위 25%/50%/75% 증가
+	//Riot T4
+	HASTE_MOVE					(31, 6, 4),
+	SHOT_CONCENTRATION			(32, 6, 4),
+	ROUND_PRESERVE				(33, 6, 4),
+	//ReinforcedArmor T4
+	BAYONET						(34, 6, 4),
+	TACTICAL_SIGHT				(35, 6, 4),
+	PLATE_ADD					(36, 6, 4),
+	//FirstAidKit T4
+	ADDITIONAL_MEDS				(37, 6, 4),
+	THERAPEUTIC_BANDAGE			(38, 6, 4),
+	FASTER_HEALING				(39, 6, 4),
 
 	//universal T4
 	HEROIC_ENERGY				(43, 0, 4), //See icon() and title() for special logic for this one
@@ -649,6 +704,30 @@ public enum Talent {
 	//Feint 4-3
 	public static class CounterAbilityTacker extends FlavourBuff{};
 
+	//gunner talent's buff
+	public static class SpeedyMoveTracker extends Buff{};
+	public static class BulletSavingCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0x666666); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 10); }
+	};
+	public static class RollingTracker extends FlavourBuff{};
+	public static class HonorableShotTracker extends FlavourBuff{};
+	public static class SkillfulRunnerCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight( 0xFFFF00 ); }
+		public float iconFadePercent() { return Math.max(0, 1-visualcooldown() / 30); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class IntoTheShadowCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight( 0x7FA9D2 ); }
+		public float iconFadePercent() { return Math.max(0, 1-visualcooldown() / 15); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+
 
 	int icon;
 	int maxPoints;
@@ -685,6 +764,9 @@ public enum Talent {
 					break;
 				case DUELIST:
 					y = 4;
+					break;
+				case GUNNER:
+					y = 6;
 					break;
 			}
 			if (Ratmogrify.useRatroicEnergy){
@@ -813,7 +895,7 @@ public enum Talent {
 			if (hero.belongings.weapon() != null) hero.belongings.weapon().identify();
 		}
 
-		if (talent == HEIGHTENED_SENSES || talent == FARSIGHT){
+		if (talent == HEIGHTENED_SENSES || talent == FARSIGHT || talent == TELESCOPE){
 			Dungeon.observe();
 		}
 
@@ -837,6 +919,16 @@ public enum Talent {
 			if (!toGive.collect()){
 				Dungeon.level.drop(toGive, hero.pos).sprite.drop();
 			}
+		}
+
+
+		//gunner
+		if (talent == GUNNERS_INTUITION && hero.belongings.weapon instanceof Gun){
+			hero.belongings.weapon.identify();
+		}
+
+		if (talent == LARGER_MAGAZINE) {
+			Item.updateQuickslot();
 		}
 	}
 
@@ -897,6 +989,17 @@ public enum Talent {
 				// lvl/3 / lvl/2 bonus dmg on next hit for other classes
 				Buff.affect( hero, PhysicalEmpower.class).set(Math.round(hero.lvl / (4f - hero.pointsInTalent(FOCUSED_MEAL))), 1);
 			}
+		}
+		if (hero.hasTalent(Talent.RELOADING_MEAL)) {
+			if (hero.belongings.weapon instanceof Gun) {
+				((Gun)hero.belongings.weapon).quickReload();
+				if (hero.pointsInTalent(Talent.RELOADING_MEAL) > 1) {
+					((Gun)hero.belongings.weapon).manualReload(1, true);
+				}
+			}
+		}
+		if (hero.hasTalent(Talent.INFINITE_BULLET_MEAL)) {
+			Buff.affect(hero, InfiniteBullet.class, 1+hero.pointsInTalent(Talent.INFINITE_BULLET_MEAL));
 		}
 	}
 
@@ -1002,6 +1105,12 @@ public enum Talent {
 				ScrollOfRecharging.charge(hero);
 			}
 		}
+		if (hero.hasTalent(Talent.INSCRIBED_BULLET)) {
+			//collects 5/10 bullet
+			BulletItem bulletItem = new BulletItem();
+			bulletItem.quantity(5*hero.pointsInTalent(Talent.INSCRIBED_BULLET));
+			bulletItem.doPickUp(hero);
+		}
 	}
 
 	public static void onUpgradeScrollUsed( Hero hero ){
@@ -1039,11 +1148,17 @@ public enum Talent {
 		if (hero.pointsInTalent(ADVENTURERS_INTUITION) == 2 && item instanceof Weapon){
 			item.identify();
 		}
+		if (hero.hasTalent(GUNNERS_INTUITION) && item instanceof Gun) {
+			item.identify();
+		}
 	}
 
 	public static void onItemCollected( Hero hero, Item item ){
 		if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
 			if (item instanceof Ring) ((Ring) item).setKnown();
+		}
+		if (hero.pointsInTalent(GUNNERS_INTUITION) == 2 && item instanceof Gun) {
+			item.cursedKnown = true;
 		}
 	}
 
@@ -1109,6 +1224,11 @@ public enum Talent {
 					&& hero.buff(DeadlyFollowupTracker.class).object == enemy.id()){
 				dmg = Math.round(dmg * (1.0f + .08f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
 			}
+		}
+
+		if (hero.hasTalent(Talent.SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(SpeedyMoveTracker.class) == null){
+			Buff.affect(enemy, SpeedyMoveTracker.class);
+			Buff.prolong(hero, Haste.class, 1f + hero.pointsInTalent(Talent.SPEEDY_MOVE));
 		}
 
 		return dmg;
@@ -1238,6 +1358,9 @@ public enum Talent {
 			case DUELIST:
 				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, AGGRESSIVE_BARRIER, SKILLED_HAND);
 				break;
+			case GUNNER:
+				Collections.addAll(tierTalents, RELOADING_MEAL, GUNNERS_INTUITION, SPEEDY_MOVE, SAFE_RELOAD, MIND_VISION);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1264,6 +1387,9 @@ public enum Talent {
 			case DUELIST:
 				Collections.addAll(tierTalents, FOCUSED_MEAL, LIQUID_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, ACCUMULATION);
 				break;
+			case GUNNER:
+				Collections.addAll(tierTalents, INFINITE_BULLET_MEAL, INSCRIBED_BULLET, BULLET_SAVING, CAMOUFLAGE, LARGER_MAGAZINE, BULLET_COLLECT);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1289,6 +1415,9 @@ public enum Talent {
 				break;
 			case DUELIST:
 				Collections.addAll(tierTalents, PRECISE_ASSAULT, DEADLY_FOLLOWUP);
+				break;
+			case GUNNER:
+				Collections.addAll(tierTalents, STREET_BATTLE, FAST_RELOAD);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1363,6 +1492,15 @@ public enum Talent {
 				break;
 			case FENCER:
 				Collections.addAll(tierTalents, CLAM_STEPS, CRITICAL_MOMENTUM, KINETIC_MOVEMENT, AGGRESSIVE_MOVEMENT, UNENCUMBERED_MOVEMENT, SOULIZE );
+				break;
+			case OUTLAW:
+				Collections.addAll(tierTalents, ROLLING, PERFECT_FOCUSING, HONORABLE_SHOT, BULLET_TIME, INEVITABLE_DEATH, HEADSHOT );
+				break;
+			case GUNSLINGER:
+				Collections.addAll(tierTalents, QUICK_RELOAD, MOVING_SHOT, ELEMENTAL_BULLET, IMPROVISATION, SOUL_BULLET, LIGHT_MOVEMENT );
+				break;
+			case SPECIALIST:
+				Collections.addAll(tierTalents, STEALTH_MASTER, SKILLFUL_RUNNER, STEALTH, INTO_THE_SHADOW, RANGED_SNIPING, TELESCOPE );
 				break;
 		}
 		for (Talent talent : tierTalents){

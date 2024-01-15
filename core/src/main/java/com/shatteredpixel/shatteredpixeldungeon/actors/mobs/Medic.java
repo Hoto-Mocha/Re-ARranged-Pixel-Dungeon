@@ -59,12 +59,14 @@ public class Medic extends Mob {
 
 	@Override
 	public int attackProc(Char enemy, int damage) {
-		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-			if (mob.alignment == Alignment.ENEMY && Dungeon.level.distance(this.pos, mob.pos) <= 6) {
-				int healAmt = 2*(7-Dungeon.level.distance(pos, mob.pos)); //different per each distance
-				mob.heal(healAmt);
-			}
-		} //heals nearby enemies and herself per every attack
+		if (this.alignment != Alignment.ALLY) {
+			for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+				if (mob.alignment == Alignment.ENEMY && Dungeon.level.distance(this.pos, mob.pos) <= 6) {
+					int healAmt = 2*(7-Dungeon.level.distance(pos, mob.pos)); //different per each distance
+					mob.heal(healAmt);
+				}
+			} //heals nearby enemies and herself per every attack
+		}
 
 		return damage;
 	}

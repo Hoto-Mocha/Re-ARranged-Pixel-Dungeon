@@ -40,8 +40,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
@@ -49,6 +52,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -63,7 +67,9 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.Camera;
+import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
@@ -78,6 +84,7 @@ import java.util.ArrayList;
 public class MeleeWeapon extends Weapon {
 
 	public static String AC_ABILITY = "ABILITY";
+	public static String AC_SCRAP = "SCRAP";
 
 	@Override
 	public void activate(Char ch) {
@@ -102,6 +109,9 @@ public class MeleeWeapon extends Weapon {
 		ArrayList<String> actions = super.actions(hero);
 		if (isEquipped(hero) && hero.heroClass == HeroClass.DUELIST){
 			actions.add(AC_ABILITY);
+		}
+		if (!isEquipped(hero) && isIdentified() && hero.heroClass == HeroClass.GUNNER) {
+			actions.add(AC_SCRAP);
 		}
 		return actions;
 	}
@@ -165,6 +175,64 @@ public class MeleeWeapon extends Weapon {
 					});
 				}
 			}
+		}
+		if (action.equals(AC_SCRAP)) {
+			Game.runOnRenderThread(new Callback() {
+				@Override
+				public void call() {
+					GameScene.show(
+							new WndOptions( new ItemSprite(MeleeWeapon.this),
+									Messages.get(MeleeWeapon.class, "scrap_title"),
+									Messages.get(MeleeWeapon.class, "scrap_desc", Math.round(5 * (MeleeWeapon.this.tier+1) * (float)Math.pow(2, Math.min(3, MeleeWeapon.this.level())))),
+									Messages.get(MeleeWeapon.class, "scrap_yes"),
+									Messages.get(MeleeWeapon.class, "scrap_no") ) {
+
+								private float elapsed = 0f;
+
+								@Override
+								public synchronized void update() {
+									super.update();
+									elapsed += Game.elapsed;
+								}
+
+								@Override
+								public void hide() {
+									if (elapsed > 0.2f){
+										super.hide();
+									}
+								}
+
+								@Override
+								protected void onSelect( int index ) {
+									if (index == 0 && elapsed > 0.2f) {
+										LiquidMetal metal = new LiquidMetal();
+										int metalQuantity = Math.round(5 * (MeleeWeapon.this.tier+1) * (float)Math.pow(2, Math.min(3, MeleeWeapon.this.level())));
+										if (MeleeWeapon.this.cursed) {
+											metalQuantity /= 2;
+										}
+
+										metal.quantity(metalQuantity);
+										if (!metal.doPickUp(hero)) {
+											Dungeon.level.drop( metal, hero.pos ).sprite.drop();
+										}
+
+										EnergyCrystal crystal = new EnergyCrystal();
+										crystal.quantity(Random.IntRange(1, 2));
+										crystal.doPickUp(hero);
+
+										MeleeWeapon.this.detach(hero.belongings.backpack);
+
+										hero.sprite.operate(hero.pos);
+										GLog.p(Messages.get(MeleeWeapon.class, "scrap", metalQuantity));
+										Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
+
+										updateQuickslot();
+									}
+								}
+						}
+					);
+				}
+			});
 		}
 	}
 
