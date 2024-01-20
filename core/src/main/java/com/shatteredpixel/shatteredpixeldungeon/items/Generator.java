@@ -177,6 +177,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Chain
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainWhip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.DualGreatSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ForceGlove;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.GL_T6;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HG_T6;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HugeSword;
@@ -184,6 +185,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.MeisterHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ObsidianShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.RL_T6;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SR_T6;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SpearNShield;
@@ -196,13 +198,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T2;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T3;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T4;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T5;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.GL.GL_T3;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.GL.GL_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.HG.HG_T2;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.HG.HG_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.MG.MG_T3;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.MG.MG_T5;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.RL.RL_T4;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.RL.RL_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG.SG_T3;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG.SG_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SMG.SMG_T2;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SMG.SMG_T4;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SMG.SMG_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SR.SR_T3;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SR.SR_T5;
@@ -470,9 +477,10 @@ public class Generator {
 					AR_T3.class,
 					MG_T3.class,
 					SG_T3.class,
-					SR_T3.class
+					SR_T3.class,
+					GL_T3.class
 			};
-			WEP_T3.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+			WEP_T3.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
 			WEP_T3.probs = WEP_T1.defaultProbs.clone();
 			
 			WEP_T4.classes = new Class<?>[]{
@@ -484,9 +492,11 @@ public class Generator {
 					Crossbow.class,
 					Katana.class,
 					LongKatana.class,
-					AR_T4.class
+					AR_T4.class,
+					SMG_T4.class,
+					RL_T4.class
 			};
-			WEP_T4.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+			WEP_T4.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
 			WEP_T4.probs = WEP_T4.defaultProbs.clone();
 			
 			WEP_T5.classes = new Class<?>[]{
@@ -504,9 +514,11 @@ public class Generator {
 					SMG_T5.class,
 					MG_T5.class,
 					SG_T5.class,
-					SR_T5.class
+					SR_T5.class,
+					GL_T5.class,
+					RL_T5.class
 			};
-			WEP_T5.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+			WEP_T5.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
 			WEP_T5.probs = WEP_T5.defaultProbs.clone();
 
 			WEP_AL_T3.classes = new Class<?>[]{
@@ -534,6 +546,8 @@ public class Generator {
 					AR_T6.class,
 					SR_T6.class,
 					HG_T6.class,
+					GL_T6.class,
+					RL_T6.class,
 					ChainFlail.class,
 					ForceGlove.class,
 					Lance.class,
@@ -544,7 +558,7 @@ public class Generator {
 					BeamSaber.class,
 					SharpKatana.class
 			};
-			WEP_AL_T6.defaultProbs = new float[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			WEP_AL_T6.defaultProbs = new float[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			WEP_AL_T6.probs = WEP_AL_T6.defaultProbs.clone();
 
 			WEP_AL_T7.classes = new Class<?>[]{

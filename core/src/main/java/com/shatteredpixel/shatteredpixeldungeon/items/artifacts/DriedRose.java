@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
@@ -43,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShaftParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
@@ -53,11 +55,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetributio
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.GhostSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -101,11 +106,14 @@ public class DriedRose extends Artifact {
 	private MeleeWeapon weapon = null;
 	private Armor armor = null;
 
+	private static boolean autoReload = false;
+
 	public int droppedPetals = 0;
 
 	public static final String AC_SUMMON = "SUMMON";
 	public static final String AC_DIRECT = "DIRECT";
 	public static final String AC_OUTFIT = "OUTFIT";
+	public static final String AC_AUTO_RELOAD = "AUTO_RELOAD";
 
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
@@ -125,6 +133,9 @@ public class DriedRose extends Artifact {
 		}
 		if (isIdentified() && !cursed){
 			actions.add(AC_OUTFIT);
+		}
+		if (weapon instanceof Gun) {
+			actions.add(AC_AUTO_RELOAD);
 		}
 		
 		return actions;
@@ -213,6 +224,17 @@ public class DriedRose extends Artifact {
 			
 		} else if (action.equals(AC_OUTFIT)){
 			GameScene.show( new WndGhostHero(this) );
+		} else if (action.equals(AC_AUTO_RELOAD)) {
+			autoReload = !autoReload;
+			if (ghost != null) {
+				if (autoReload) {
+					ghost.yell(Messages.get(this, "auto_reload_on"));
+					Sample.INSTANCE.play( Assets.Sounds.GHOST );
+				} else {
+					ghost.yell(Messages.get(this, "auto_reload_off"));
+					Sample.INSTANCE.play( Assets.Sounds.GHOST );
+				}
+			}
 		}
 	}
 	
@@ -249,6 +271,14 @@ public class DriedRose extends Artifact {
 
 			if (armor != null) {
 				desc += "\n" + Messages.get(this, "desc_armor", armor.title());
+			}
+
+			if (weapon != null && weapon instanceof Gun) {
+				if (autoReload) {
+					desc += "\n\n" + Messages.get(this, "auto_reload_desc_on");
+				} else {
+					desc += "\n\n" + Messages.get(this, "auto_reload_desc_off");
+				}
 			}
 		}
 		
@@ -343,7 +373,8 @@ public class DriedRose extends Artifact {
 	private static final String FIRSTSUMMON =   "firstsummon";
 	private static final String GHOSTID =       "ghostID";
 	private static final String PETALS =        "petals";
-	
+	private static final String AUTO_RELOAD =   "autoReload";
+
 	private static final String WEAPON =        "weapon";
 	private static final String ARMOR =         "armor";
 
@@ -355,7 +386,8 @@ public class DriedRose extends Artifact {
 		bundle.put( FIRSTSUMMON, firstSummon );
 		bundle.put( GHOSTID, ghostID );
 		bundle.put( PETALS, droppedPetals );
-		
+		bundle.put( AUTO_RELOAD, autoReload );
+
 		if (weapon != null) bundle.put( WEAPON, weapon );
 		if (armor != null)  bundle.put( ARMOR, armor );
 	}
@@ -368,7 +400,8 @@ public class DriedRose extends Artifact {
 		firstSummon = bundle.getBoolean( FIRSTSUMMON );
 		ghostID = bundle.getInt( GHOSTID );
 		droppedPetals = bundle.getInt( PETALS );
-		
+		autoReload = bundle.getBoolean( AUTO_RELOAD );
+
 		if (bundle.contains(WEAPON)) weapon = (MeleeWeapon)bundle.get( WEAPON );
 		if (bundle.contains(ARMOR))  armor = (Armor)bundle.get( ARMOR );
 	}
@@ -529,6 +562,8 @@ public class DriedRose extends Artifact {
 		}
 		
 		private DriedRose rose = null;
+
+		private Gun.Bullet nextBullet = null;
 		
 		public GhostHero(){
 			super();
@@ -541,10 +576,55 @@ public class DriedRose extends Artifact {
 			HP = HT;
 		}
 
+		public boolean willingToShoot() {
+			return rose != null
+					&& rose.weapon != null
+					&& enemy != null
+					&& rose.weapon instanceof Gun
+					&& !Dungeon.level.adjacent( this.pos, enemy.pos )
+					&& ((Gun)rose.weapon).round() > 0; //도달의 마법 등으로 멀리 있는 적을 공격 가능해도 장탄수가 1 이상이면 총을 우선으로 사용함
+		}
+
 		@Override
 		public void defendPos(int cell) {
+			if (cell == this.pos) {
+				if (tryReload(false)) {
+					return;
+				}
+			}
 			yell(Messages.get(this, "directed_position_" + Random.IntRange(1, 5)));
 			super.defendPos(cell);
+		}
+
+		public boolean tryReload(boolean shouldEmpty) {
+			if (rose != null) {
+				if (rose.weapon instanceof Gun) {
+					if (shouldEmpty) {
+						if (((Gun)rose.weapon).round() <= 0) {
+							reload();
+							return true;
+						}
+					} else {
+						if (((Gun)rose.weapon).round() < ((Gun)rose.weapon).maxRound()) {
+							reload();
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
+
+		public void reload() {
+			Callback callback = new Callback() {
+				@Override
+				public void call() {
+					((Gun)rose.weapon).quickReload();
+				}
+			};
+			spend(((Gun)rose.weapon).reloadTime(this));
+			this.sprite.showStatus( CharSprite.POSITIVE, Messages.get(DriedRose.class, "reloading") );
+			callback.call();
 		}
 
 		@Override
@@ -578,6 +658,10 @@ public class DriedRose extends Artifact {
 					|| Dungeon.hero.buff(MagicImmune.class) != null){
 				damage(1, this);
 			}
+
+			if (this.state == WANDERING && !movingToDefendPos && enemy == null) {
+				tryReload(false);
+			}
 			
 			if (!isAlive()) {
 				return true;
@@ -609,14 +693,23 @@ public class DriedRose extends Artifact {
 		
 		@Override
 		protected boolean canAttack(Char enemy) {
-			return super.canAttack(enemy) || (rose != null && rose.weapon != null && rose.weapon.canReach(this, enemy.pos));
+			if (willingToShoot()) {
+				nextBullet = ((Gun)rose.weapon).knockBullet();
+				return super.canAttack(enemy) || new Ballistica( this.pos, enemy.pos, Ballistica.PROJECTILE).collisionPos == enemy.pos;
+			} else {
+				return super.canAttack(enemy) || (rose != null && rose.weapon != null && rose.weapon.canReach(this, enemy.pos));
+			}
 		}
 		
 		@Override
 		public int damageRoll() {
 			int dmg = 0;
 			if (rose != null && rose.weapon != null){
-				dmg += rose.weapon.damageRoll(this);
+				if (nextBullet != null) {
+					dmg += nextBullet.damageRoll(this);
+				} else {
+					dmg += rose.weapon.damageRoll(this);
+				}
 			} else {
 				dmg += Random.NormalIntRange(0, 5);
 			}
@@ -628,13 +721,31 @@ public class DriedRose extends Artifact {
 		public int attackProc(Char enemy, int damage) {
 			damage = super.attackProc(enemy, damage);
 			if (rose != null && rose.weapon != null) {
-				damage = rose.weapon.proc( this, enemy, damage );
+				if (nextBullet != null) {
+					damage = nextBullet.proc( this, enemy, damage );
+				} else {
+					damage = rose.weapon.proc( this, enemy, damage );
+				}
 				if (!enemy.isAlive() && enemy == Dungeon.hero){
 					Dungeon.fail(this);
 					GLog.n( Messages.capitalize(Messages.get(Char.class, "kill", name())) );
 				}
 			}
 			return damage;
+		}
+
+		@Override
+		public void onAttackComplete() {
+			super.onAttackComplete();
+			if (nextBullet != null) {
+				((Gun)rose.weapon).useRound();
+			}
+
+			if (DriedRose.autoReload) {
+				tryReload(true);
+			}
+
+			nextBullet = null;
 		}
 		
 		@Override

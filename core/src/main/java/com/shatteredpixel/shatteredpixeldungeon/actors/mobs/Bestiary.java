@@ -32,7 +32,9 @@ public class Bestiary {
 	
 	public static ArrayList<Class<? extends Mob>> getMobRotation( int depth ){
 		ArrayList<Class<? extends Mob>> mobs = standardMobRotation( depth );
-		addRareMobs(depth, mobs);
+		if (Dungeon.branch == 0) {
+			addRareMobs(depth, mobs);
+		}
 		swapMobAlts(mobs);
 		Random.shuffle(mobs);
 		return mobs;
@@ -284,7 +286,7 @@ public class Bestiary {
 	private static void swapMobAlts(ArrayList<Class<?extends Mob>> rotation){
 		for (int i = 0; i < rotation.size(); i++){
 			float chance = 0.02f;
-			if (Dungeon.isChallenged(Challenges.FATIGUE)) {
+			if (Dungeon.isChallenged(Challenges.MUTATION)) {
 				chance *= 5;
 			}
 			if (Random.Float() < chance) {

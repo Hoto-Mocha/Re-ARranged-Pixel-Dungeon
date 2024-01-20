@@ -2649,7 +2649,7 @@ public class Hero extends Char {
 				&& hero.buff(Talent.LethalCooldown.class) == null) {
 			if (hero.pointsInTalent(Talent.LETHAL_SURPRISE) >= 1) {
 				for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-					if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
+					if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos] && mob.state != mob.SLEEPING) {
 						Buff.affect( mob, Vulnerable.class, 1f);
 					}
 				}
@@ -2657,7 +2657,7 @@ public class Hero extends Char {
 			}
 			if (hero.pointsInTalent(Talent.LETHAL_SURPRISE) >= 2) {
 				for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-					if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
+					if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos] && mob.state != mob.SLEEPING) {
 						Buff.affect( mob, Paralysis.class, 1f);
 					}
 				}

@@ -939,15 +939,15 @@ public class ItemSpriteSheet {
 //	public static final int SMG_T1		= SMG+0;
 	public static final int SMG_T2		= SMG+1;
 //	public static final int SMG_T3		= SMG+2;
-//	public static final int SMG_T4		= SMG+3;
+	public static final int SMG_T4		= SMG+3;
 	public static final int SMG_T5		= SMG+4;
 //	public static final int SMG_AL		= SMG+5;
 //	public static final int SMG_T6		= SMG+6;
 	static{
 //		assignItemRect(SMG_T1, 16, 16);
-		assignItemRect(SMG_T2, 15, 16);
+		assignItemRect(SMG_T2, 15, 15);
 //		assignItemRect(SMG_T3, 16, 16);
-//		assignItemRect(SMG_T4, 16, 16);
+		assignItemRect(SMG_T4, 13, 14);
 		assignItemRect(SMG_T5, 15, 15);
 //		assignItemRect(SMG_AL, 16, 16);
 //		assignItemRect(SMG_T6, 16, 16);
@@ -1025,6 +1025,42 @@ public class ItemSpriteSheet {
 		assignItemRect(AR_T5, 15, 16);
 		assignItemRect(AR_AL, 16, 16);
 		assignItemRect(AR_T6, 15, 16);
+	}
+
+	private static final int GL			  	=			xy(1, 51);  //8 slots
+//	public static final int GL_T1			= GL+0;
+//	public static final int GL_T2			= GL+1;
+	public static final int GL_T3			= GL+2;
+//	public static final int GL_T4			= GL+3;
+	public static final int GL_T5			= GL+4;
+//	public static final int GL_AL			= GL+5;
+	public static final int GL_T6			= GL+6;
+	static{
+//		assignItemRect(GL_T1, 16, 16);
+//		assignItemRect(GL_T2, 16, 16);
+		assignItemRect(GL_T3, 11, 13);
+//		assignItemRect(GL_T4, 16, 16);
+		assignItemRect(GL_T5, 15, 15);
+//		assignItemRect(GL_AL, 16, 16);
+		assignItemRect(GL_T6, 15, 15);
+	}
+
+	private static final int RL			  	=			xy(9, 51);  //8 slots
+//	public static final int RL_T1			= RL+0;
+//	public static final int RL_T2			= RL+1;
+//	public static final int RL_T3			= RL+2;
+	public static final int RL_T4			= RL+3;
+	public static final int RL_T5			= RL+4;
+//	public static final int RL_AL			= RL+5;
+	public static final int RL_T6			= RL+6;
+	static{
+//		assignItemRect(RL_T1, 16, 16);
+//		assignItemRect(RL_T2, 16, 16);
+//		assignItemRect(RL_T3, 16, 16);
+		assignItemRect(RL_T4, 16, 16);
+		assignItemRect(RL_T5, 16, 16);
+//		assignItemRect(RL_AL, 16, 16);
+		assignItemRect(RL_T6, 16, 16);
 	}
 
 	//GL, RL, 화염방사기, 레이저총 추후 추가

@@ -22,12 +22,23 @@
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShaftParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.watabou.glwrap.Blending;
 import com.watabou.noosa.TextureFilm;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Callback;
 
 public class GhostSprite extends MobSprite {
+
+	private int cellToAttack;
 	
 	public GhostSprite() {
 		super();
@@ -44,6 +55,9 @@ public class GhostSprite extends MobSprite {
 
 		attack = new Animation( 10, false );
 		attack.frames( frames, 0, 2, 3 );
+
+		zap = new Animation( 10, false );
+		zap.frames( frames, 0, 2, 3 );
 
 		die = new Animation( 8, false );
 		die.frames( frames, 0, 4, 5, 6, 7 );
@@ -68,5 +82,44 @@ public class GhostSprite extends MobSprite {
 	@Override
 	public int blood() {
 		return 0xFFFFFF;
+	}
+
+	@Override
+	public void attack( int cell ) {
+		if (!Dungeon.level.adjacent( cell, ch.pos )) {
+
+			cellToAttack = cell;
+			zap(cell);
+
+		} else {
+
+			super.attack( cell );
+
+		}
+	}
+
+	@Override
+	public void onComplete( Animation anim ) {
+		if (anim == zap) {
+			idle();
+			DriedRose rose = Dungeon.hero.belongings.getItem(DriedRose.class);
+			if (rose != null && rose.ghostWeapon() instanceof Gun) {
+				Gun.Bullet bullet = ((Gun)rose.ghostWeapon()).knockBullet();
+				bullet.image = ItemSpriteSheet.GHOST_BULLET;
+				((MissileSprite)parent.recycle( MissileSprite.class )).
+						reset( this, cellToAttack, bullet, new Callback() {
+							@Override
+							public void call() {
+								ch.onAttackComplete();
+							}
+						} );
+				bullet.throwSound();
+				CellEmitter.get(ch.pos).burst(SmokeParticle.FACTORY, 2);
+				CellEmitter.center(ch.pos).burst(BlastParticle.FACTORY, 2);
+			}
+
+		} else {
+			super.onComplete( anim );
+		}
 	}
 }

@@ -19,6 +19,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Chain
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainWhip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.DualGreatSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ForceGlove;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.GL_T6;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HG_T6;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HolySword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.HugeSword;
@@ -26,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.MeisterHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ObsidianShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.RL_T6;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SR_T6;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SharpKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.SpearNShield;
@@ -283,6 +285,8 @@ public class BluePrint extends Item {
             validIngredients.add( new HolySword().weaponRecipe() );
             validIngredients.add( new DualGreatSword().weaponRecipe() );
             validIngredients.add( new SharpKatana().weaponRecipe() );
+            validIngredients.add( new GL_T6().weaponRecipe() );
+            validIngredients.add( new RL_T6().weaponRecipe() );
         }
 
         public static final LinkedHashMap<Integer, Class<?extends MeleeWeapon>> indexToOutput = new LinkedHashMap<>(); //validIngredients 배열의 인덱스를 넣으면 근접 무기를 반환한다.
@@ -308,6 +312,8 @@ public class BluePrint extends Item {
             indexToOutput.put( 18, HolySword.class );
             indexToOutput.put( 19, DualGreatSword.class );
             indexToOutput.put( 20, SharpKatana.class );
+            indexToOutput.put( 21, GL_T6.class );
+            indexToOutput.put( 22, RL_T6.class );
         }
 
         public static final LinkedHashMap<Integer, Integer> costs = new LinkedHashMap<>(); //validIngredients 배열의 인덱스를 넣으면 연금술 에너지 필요량을 반환한다.
@@ -333,6 +339,8 @@ public class BluePrint extends Item {
             costs.put( 18, 5 );
             costs.put( 19, 5 );
             costs.put( 20, 0 );
+            costs.put( 21, 0 );
+            costs.put( 22, 0 );
         }
 
         public ArrayList<Class<?extends Item>> ingredientToArray(ArrayList<Item> ingredients) { //연금술 솥에 넣은 아이템들의 '클래스'를 배열로 만든다.
@@ -353,7 +361,7 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (ingredientsClassList.containsAll(a)) { //위에서 만든 배열에 포함된 클래스를 모두 포함하고 있는 validIngredients가 존재할 경우 연금 가능
+                if (ingredientsClassList.containsAll(a) && a.containsAll(ingredientsClassList)) { //위에서 만든 배열에 포함된 클래스를 모두 포함하고 있는 validIngredients가 존재할 경우 연금 가능
                     valid = true;
                 }
             }
@@ -368,7 +376,7 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (ingredientsClassList.containsAll(a)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 costs의 키로 이용한다.
+                if (ingredientsClassList.containsAll(a) && a.containsAll(ingredientsClassList)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 costs의 키로 이용한다.
                     int index = validIngredients.indexOf(a);
                     cost = costs.get(index);
                 }
@@ -384,7 +392,7 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (ingredientsClassList.containsAll(a)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 indexToOutput의 키로 이용한다.
+                if (ingredientsClassList.containsAll(a) && a.containsAll(ingredientsClassList)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 indexToOutput의 키로 이용한다.
                     int index = validIngredients.indexOf(a);
                     result = new BluePrint(Reflection.newInstance(indexToOutput.get(index)));
                 }
@@ -404,7 +412,7 @@ public class BluePrint extends Item {
             ArrayList<Class<?extends Item>> ingredientsClassList = ingredientToArray(ingredients);
 
             for (ArrayList<Class<?extends Item>> a : validIngredients) {
-                if (ingredientsClassList.containsAll(a)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 indexToOutput의 키로 이용한다.
+                if (ingredientsClassList.containsAll(a) && a.containsAll(ingredientsClassList)) { //validIngredients에 포함된 어떤 배열이 위에서 만든 배열의 요소를 모두 포함할 경우 그 인덱스를 가져와 indexToOutput의 키로 이용한다.
                     int index = validIngredients.indexOf(a);
                     result = new BluePrint(Reflection.newInstance(indexToOutput.get(index)));
                 }

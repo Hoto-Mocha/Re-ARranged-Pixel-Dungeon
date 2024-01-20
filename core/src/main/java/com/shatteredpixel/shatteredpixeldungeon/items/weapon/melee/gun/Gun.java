@@ -318,7 +318,7 @@ public class Gun extends MeleeWeapon {
 		hero.busy();
 		hero.sprite.operate(hero.pos);
 		Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
-		hero.spendAndNext(reloadTime());
+		hero.spendAndNext(reloadTime(hero));
 		GLog.i(Messages.get(this, "reload"));
 	}
 
@@ -402,13 +402,20 @@ public class Gun extends MeleeWeapon {
 		return round;
 	}
 
-	public float reloadTime() { //재장전에 소모하는 턴
+	public void useRound() {
+		round--;
+	}
+
+	public float reloadTime(Char user) { //재장전에 소모하는 턴
 		float amount = reload_time;
 
 		amount = this.magazineMod.reloadTimeFactor(amount);
 
-		amount = Math.max(0, amount - hero.pointsInTalent(Talent.FAST_RELOAD));
+		if (user == hero) {
+			amount -= hero.pointsInTalent(Talent.FAST_RELOAD);
+		}
 
+		amount = Math.max(0, amount);
 		return amount;
 	}
 
@@ -474,10 +481,10 @@ public class Gun extends MeleeWeapon {
 		//근접 무기의 설명을 모두 가져옴, 여기에서 할 것은 근접 무기의 설명에 추가로 생기는 문장을 더하는 것
 		if (levelKnown) { //감정되어 있을 때
 			info += "\n\n" + Messages.get(Gun.class, "gun_desc",
-					shotPerShoot(), augment.damageFactor(bulletMin(buffedLvl())), augment.damageFactor(bulletMax(buffedLvl())), round, maxRound(), new DecimalFormat("#.##").format(reloadTime()), bulletUse());
+					shotPerShoot(), augment.damageFactor(bulletMin(buffedLvl())), augment.damageFactor(bulletMax(buffedLvl())), round, maxRound(), new DecimalFormat("#.##").format(reloadTime(hero)), bulletUse());
 		} else { //감정되어 있지 않을 때
 			info += "\n\n" + Messages.get(Gun.class, "gun_typical_desc",
-					shotPerShoot(), augment.damageFactor(bulletMin(0)), augment.damageFactor(bulletMax(0)), round, maxRound(), new DecimalFormat("#.##").format(reloadTime()), bulletUse());
+					shotPerShoot(), augment.damageFactor(bulletMin(0)), augment.damageFactor(bulletMax(0)), round, maxRound(), new DecimalFormat("#.##").format(reloadTime(hero)), bulletUse());
 		}
 		//DecimalFormat("#.##")은 .format()에 들어가는 매개변수(실수)를 "#.##"형식으로 표시하는데 사용된다.
 		//가령 5.55555가 .format()안에 들어가서 .format(5.55555)라면, new DecimalFormat("#.##").format(5.55555)는 5.55라는 String 타입의 값을 반환한다.
