@@ -6,6 +6,6 @@ public class RL_T5 extends RL {
     {
         image = ItemSpriteSheet.RL_T5;
 
-        tier = 3;
+        tier = 5;
     }
 }
