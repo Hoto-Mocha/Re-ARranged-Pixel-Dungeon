@@ -3,6 +3,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -704,6 +705,7 @@ public class Gun extends MeleeWeapon {
 					}
 					if (target == hero && !target.isAlive()) {
 						Dungeon.fail(getClass());
+						Badges.validateDeathFromFriendlyMagic();
 						GLog.n(Messages.get(this, "ondeath"));
 					}
 				}
@@ -728,6 +730,10 @@ public class Gun extends MeleeWeapon {
 				}
 			}
 
+			onShoot();
+		}
+
+		public void onShoot() {
 			if (hero.hasTalent(Talent.ROLLING)) {
 				Buff.prolong(hero, Talent.RollingTracker.class, hero.pointsInTalent(Talent.ROLLING));
 			}

@@ -67,6 +67,7 @@ public abstract class SecretRoom extends SpecialRoom {
 		if (depth == 1) return 0;
 		
 		int region = depth/5;
+		region = Math.min(region, 6);
 		int floor = depth%5;
 		
 		int floorsLeft = 5 - floor;

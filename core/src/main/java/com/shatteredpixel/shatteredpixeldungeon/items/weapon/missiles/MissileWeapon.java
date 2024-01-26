@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.LG.LG;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -165,6 +166,10 @@ abstract public class MissileWeapon extends Weapon {
 					projecting = true;
 				}
 			}
+		}
+
+		if (this instanceof LG.RGBullet) {
+			return dst;
 		}
 
 		if ((this instanceof Gun.Bullet && (Dungeon.level.passable[dst] || Dungeon.level.avoid[dst])

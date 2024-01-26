@@ -827,12 +827,14 @@ public class ItemSpriteSheet {
 	public static final int TRIPLE_BULLET	= BULLETS+2;
 	public static final int SNIPER_BULLET	= BULLETS+3;
 	public static final int GHOST_BULLET	= BULLETS+4;
+	public static final int NO_BULLET		= BULLETS+5;
 	static{
 		assignItemRect(SINGLE_BULLET	, 8, 8);
 		assignItemRect(DOUBLE_BULLET	, 11, 10);
 		assignItemRect(TRIPLE_BULLET	, 11, 11);
 		assignItemRect(SNIPER_BULLET	, 8, 8);
 		assignItemRect(GHOST_BULLET		, 8, 8);
+		assignItemRect(NO_BULLET		, 0, 0);
 	}
 
 	private static final int SPECIAL_BULLETS=			xy(1, 43);  //16 slots
@@ -1061,6 +1063,42 @@ public class ItemSpriteSheet {
 		assignItemRect(RL_T5, 16, 16);
 //		assignItemRect(RL_AL, 16, 16);
 		assignItemRect(RL_T6, 16, 16);
+	}
+
+	private static final int FT			  	=			xy(1, 52);  //8 slots
+//	public static final int FT_T1			= FT+0;
+//	public static final int FT_T2			= FT+1;
+//	public static final int FT_T3			= FT+2;
+//	public static final int FT_T4			= FT+3;
+	public static final int FT_T5			= FT+4;
+//	public static final int FT_AL			= FT+5;
+//	public static final int FT_T6			= FT+6;
+	static{
+//		assignItemRect(FT_T1, 16, 16);
+//		assignItemRect(FT_T2, 16, 16);
+//		assignItemRect(FT_T3, 16, 16);
+//		assignItemRect(FT_T4, 16, 16);
+		assignItemRect(FT_T5, 14, 15);
+//		assignItemRect(FT_AL, 16, 16);
+//		assignItemRect(FT_T6, 16, 16);
+	}
+
+	private static final int LG			  	=			xy(9, 52);  //8 slots
+//	public static final int LG_T1			= LG+0;
+//	public static final int LG_T2			= LG+1;
+//	public static final int LG_T3			= LG+2;
+//	public static final int LG_T4			= LG+3;
+	public static final int LG_T5			= LG+4;
+//	public static final int LG_AL			= LG+5;
+//	public static final int LG_T6			= LG+6;
+	static{
+//		assignItemRect(LG_T1, 16, 16);
+//		assignItemRect(LG_T2, 16, 16);
+//		assignItemRect(LG_T3, 16, 16);
+//		assignItemRect(LG_T4, 16, 16);
+		assignItemRect(LG_T5, 14, 16);
+//		assignItemRect(LG_AL, 16, 16);
+//		assignItemRect(LG_T6, 16, 16);
 	}
 
 	//GL, RL, 화염방사기, 레이저총 추후 추가

@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -71,6 +72,7 @@ public class Rebel extends Mob {
 
 	int summonCooldown = Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 20 : 30;
 	int damageTaken = 0;
+	int hitCount = 0;
 	int cleanCooldown = (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) ? 200 : 300;
 
 	public boolean isDied = false;
@@ -135,7 +137,7 @@ public class Rebel extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return (Dungeon.isChallenged(Challenges.STRONGER_BOSSES) && Random.Int(10) == 0) ? 70 : 35;
+		return (Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 52 : 35);
 	}
 	
 	@Override
@@ -276,54 +278,42 @@ public class Rebel extends Mob {
 	}
 
 	@Override
-	public int defenseProc( Char enemy, int damage ) {
-		damage = super.defenseProc( enemy, damage );
-		if (damage >= 150) {
-			damage = 150;
+	public void damage( int dmg, Object src ) {
+		if (dmg > 100) {
+			dmg = 100;
 		}
-		damageTaken += damage;
+		damageTaken += dmg;
 		if (damageTaken >= 250) {
 			Buff.affect(this, Barrier.class).setShield(100);
 			damageTaken = 0;
 		}
-		int newPos;
-		LabsBossLevel level = (LabsBossLevel) Dungeon.level;
-		if (Dungeon.level instanceof LabsBossLevel) {
-			if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) {
-				if (Random.Int(2) == 0) {
-					do {
-						newPos = level.randomCellPos();
-					} while (level.map[newPos] == Terrain.BARRICADE || Actor.findChar(newPos) != null);
+		hitCount ++;
+		if (hitCount > Random.Int( Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 5 : 10 ) && this.buff(Paralysis.class) == null) {
+			int newPos;
+			LabsBossLevel level = (LabsBossLevel) Dungeon.level;
+			if (Dungeon.level != null) {
+				do {
+					newPos = level.randomCellPos();
+				} while (level.map[newPos] == Terrain.BARRICADE || Actor.findChar(newPos) != null);
 
-					if (level.heroFOV[pos]) CellEmitter.get( pos ).burst( Speck.factory( Speck.WOOL ), 6 );
+				if (level.heroFOV[pos]) CellEmitter.get( pos ).burst( Speck.factory( Speck.WOOL ), 6 );
 
-					sprite.move( pos, newPos );
-					move( newPos );
-					sprite.idle();
+				sprite.move( pos, newPos );
+				move( newPos );
+				sprite.idle();
 
-					if (level.heroFOV[newPos]) CellEmitter.get( newPos ).burst( Speck.factory( Speck.WOOL ), 6 );
-					Sample.INSTANCE.play( Assets.Sounds.PUFF );
+				if (level.heroFOV[newPos]) CellEmitter.get( newPos ).burst( Speck.factory( Speck.WOOL ), 6 );
+				Sample.INSTANCE.play( Assets.Sounds.PUFF );
+				if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) {
 					GameScene.flash( 0x80FFFFFF );
 					Sample.INSTANCE.play( Assets.Sounds.BLAST );
 					Buff.affect(Dungeon.hero, Blindness.class, 5f);
 				}
-			} else {
-				if (Random.Int(4) == 0) {
-					do {
-						newPos = level.randomCellPos();
-					} while (level.map[newPos] == Terrain.BARRICADE || Actor.findChar(newPos) != null);
-
-					if (level.heroFOV[pos]) CellEmitter.get( pos ).burst( Speck.factory( Speck.WOOL ), 6 );
-
-					sprite.move( pos, newPos );
-					move( newPos );
-
-					if (level.heroFOV[newPos]) CellEmitter.get( newPos ).burst( Speck.factory( Speck.WOOL ), 6 );
-					Sample.INSTANCE.play( Assets.Sounds.PUFF );
-				}
 			}
+			hitCount = 0;
 		}
-		return damage;
+
+		super.damage(dmg, src);
 	}
 	
 }
