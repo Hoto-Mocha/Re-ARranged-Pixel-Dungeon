@@ -79,6 +79,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Awake;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tengu;
@@ -88,6 +90,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
+import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
@@ -328,7 +331,11 @@ public abstract class Char extends Actor {
 	}
 
 	final public boolean attack( Char enemy ){
-		return attack(enemy, 1f, 0f, 1f);
+		if (hero.buff(Awake.awakeTracker.class) != null && (this instanceof Hero || enemy instanceof Hero)) {
+			return attack(enemy, 1.2f+0.2f*hero.pointsInTalent(Talent.AWAKE_LIMIT), 0f, 1f);
+		} else {
+			return attack(enemy, 1f, 0f, 1f);
+		}
 	}
 	
 	public boolean attack( Char enemy, float dmgMulti, float dmgBonus, float accMulti ) {
@@ -361,6 +368,16 @@ public abstract class Char extends Actor {
 
 				if (h.belongings.attackingWeapon() instanceof Gun.Bullet) {
 					dr *= ((Gun.Bullet) h.belongings.attackingWeapon()).whatBullet().armorFactor();
+				}
+
+				if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null && Random.Int(2) == 0) {
+					if (hero.hasTalent(Talent.CRITICAL_SHADOW)) {
+						dmgBonus += Random.NormalIntRange(0, 5*hero.pointsInTalent(Talent.CRITICAL_SHADOW));
+					}
+					if (hero.hasTalent(Talent.HERBAL_SHADOW)) {
+						hero.heal(hero.pointsInTalent(Talent.HERBAL_SHADOW));
+					}
+					dr = 0;
 				}
 
 				if (h.buff(MonkEnergy.MonkAbility.UnarmedAbilityTracker.class) != null){
@@ -829,10 +846,15 @@ public abstract class Char extends Actor {
 		}
 		
 		if (sprite != null) {
+			String dmgText = Integer.toString(dmg + shielded);
+			if (src == hero && this.buff(Sheath.CriticalAttack.class) != null) {
+				dmgText += "!";
+				buff(Sheath.CriticalAttack.class).detach();
+			}
 			sprite.showStatus(HP > HT / 2 ?
 							CharSprite.WARNING :
 							CharSprite.NEGATIVE,
-					Integer.toString(dmg + shielded));
+							dmgText);
 		}
 
 		if (HP < 0) HP = 0;

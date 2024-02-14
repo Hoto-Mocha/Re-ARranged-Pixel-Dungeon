@@ -59,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.WindParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.Stylus;
 import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
@@ -1264,7 +1265,7 @@ public abstract class Level implements Bundlable {
 		int cx = c.pos % width();
 		int cy = c.pos / width();
 		
-		boolean sighted = c.buff( Blindness.class ) == null && c.buff( Shadows.class ) == null
+		boolean sighted = c.buff( Sheath.Sheathing.class ) == null && c.buff( Blindness.class ) == null && c.buff( Shadows.class ) == null
 						&& c.buff( TimekeepersHourglass.timeStasis.class ) == null && c.isAlive();
 		if (sighted) {
 			boolean[] blocking = null;
@@ -1385,8 +1386,14 @@ public abstract class Level implements Bundlable {
 				if (h.hasTalent(Talent.HEIGHTENED_SENSES)) {
 					range += 1+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
 				}
-				if (h.hasTalent(Talent.TACTICAL_SIGHT) && Dungeon.hero.buff(ReinforcedArmor.ReinforcedArmorTracker.class) != null) {
+				if (h.hasTalent(Talent.DRAGONS_EYE) && h.buff(Sheath.Sheathing.class) != null) {
+					range += 2+h.pointsInTalent(Talent.DRAGONS_EYE);
+				}
+				if (h.hasTalent(Talent.TACTICAL_SIGHT) && h.buff(ReinforcedArmor.ReinforcedArmorTracker.class) != null) {
 					range += 1+h.pointsInTalent(Talent.TACTICAL_SIGHT);
+				}
+				if (h.hasTalent(Talent.INNER_EYE) && h.buff(Sheath.DashAttackVision.class) != null) {
+					range += 3*h.pointsInTalent(Talent.INNER_EYE);
 				}
 				if (range > 0) {
 					for (Mob mob : mobs) {

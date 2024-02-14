@@ -54,6 +54,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cloaking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awakening;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Enduring;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRingsCombo;
@@ -80,6 +81,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RouletteOfDeath;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SwordAura;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
@@ -89,6 +91,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.El
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -108,6 +111,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
@@ -573,11 +577,22 @@ public class Hero extends Char {
 			accuracy *= hero.buff(LargeSword.LargeSwordBuff.class).getAccuracyFactor();
 		}
 
+		if (hero.buff(Sheath.Sheathing.class) != null) {
+			accuracy *= 1.2f;
+		}
+
 		if (hero.buff(UnholyBible.Demon.class) != null) {
 			accuracy = INFINITE_ACCURACY;
 		}
 
 		if (hero.buff(MeleeWeapon.DashAttack.class) != null) {
+			accuracy = INFINITE_ACCURACY;
+		}
+
+		if (hero.subClass == HeroSubClass.MASTER &&
+				hero.buff(Sheath.Sheathing.class) != null &&
+				hero.buff(Sheath.FlashSlashCooldown.class) == null &&
+				hero.buff(Sheath.DashAttackTracker.class) == null) {
 			accuracy = INFINITE_ACCURACY;
 		}
 
@@ -591,29 +606,31 @@ public class Hero extends Char {
 	@Override
 	public int defenseSkill( Char enemy ) {
 
-		if (buff(Combo.ParryTracker.class) != null){
-			if (canAttack(enemy) && !isCharmedBy(enemy)){
-				Buff.affect(this, Combo.RiposteTracker.class).enemy = enemy;
+		if (enemy != null) {
+			if (buff(Combo.ParryTracker.class) != null){
+				if (canAttack(enemy) && !isCharmedBy(enemy)){
+					Buff.affect(this, Combo.RiposteTracker.class).enemy = enemy;
+				}
+				return INFINITE_EVASION;
 			}
-			return INFINITE_EVASION;
-		}
 
-		if (buff(RoundShield.GuardTracker.class) != null){
-			return INFINITE_EVASION;
-		}
-
-		if (buff(Talent.ParryTracker.class) != null){
-			if (canAttack(enemy) && !isCharmedBy(enemy)){
-				Buff.affect(this, Talent.RiposteTracker.class).enemy = enemy;
+			if (buff(RoundShield.GuardTracker.class) != null){
+				return INFINITE_EVASION;
 			}
-			return INFINITE_EVASION;
-		}
 
-		if (buff(Nunchaku.ParryTracker.class) != null){
-			if (canAttack(enemy) && !isCharmedBy(enemy)){
-				Buff.affect(this, Nunchaku.RiposteTracker.class).enemy = enemy;
+			if (buff(Talent.ParryTracker.class) != null){
+				if (canAttack(enemy) && !isCharmedBy(enemy)){
+					Buff.affect(this, Talent.RiposteTracker.class).enemy = enemy;
+				}
+				return INFINITE_EVASION;
 			}
-			return INFINITE_EVASION;
+
+			if (buff(Nunchaku.ParryTracker.class) != null){
+				if (canAttack(enemy) && !isCharmedBy(enemy)){
+					Buff.affect(this, Nunchaku.RiposteTracker.class).enemy = enemy;
+				}
+				return INFINITE_EVASION;
+			}
 		}
 		
 		float evasion = defenseSkill;
@@ -706,6 +723,11 @@ public class Hero extends Char {
 			Buff.prolong(hero, Talent.HonorableShotTracker.class, 1f);
 		}
 
+		Awakening awakening = buff(Awakening.class);
+		if (awakening != null && awakening.isAwaken() && hasTalent(Talent.HASTE_EVASION)) {
+			Buff.prolong(hero, Haste.class, 1+hero.pointsInTalent(Talent.HASTE_EVASION));
+		}
+
 		return super.defenseVerb();
 	}
 
@@ -732,8 +754,12 @@ public class Hero extends Char {
 			dr += buff(HoldFast.class).armorBonus();
 		}
 
-		ReinforcedArmor.ReinforcedArmorTracker rearmor = hero.buff(ReinforcedArmor.ReinforcedArmorTracker.class);
-		if (rearmor != null)  dr += rearmor.blockingRoll();
+		if (hero.hasTalent(Talent.PARRING)) {
+			dr += Random.NormalIntRange(0, 1+hero.pointsInTalent(Talent.PARRING));
+		}
+
+		ReinforcedArmor.ReinforcedArmorTracker reArmor = hero.buff(ReinforcedArmor.ReinforcedArmorTracker.class);
+		if (reArmor != null)  dr += reArmor.blockingRoll();
 		
 		return dr;
 	}
@@ -896,8 +922,21 @@ public class Hero extends Char {
 				speed *= 1 + 0.05f * hero.pointsInTalent(Talent.ATK_SPEED_ENHANCE);
 			}
 
+			Awakening awakening = hero.buff(Awakening.class);
+			if (awakening != null && awakening.isAwaken()) {
+				speed *= 2f;
+			}
+
+			if (hero.buff(DualDagger.ReverseBlade.class) != null) {
+				speed *= 2f;
+			}
+
+			if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null) {
+				speed *= 2f + 0.05f * hero.pointsInTalent(Talent.DOUBLE_BLADE_PRACTICE);
+			}
+
 			//ditto for furor + sword dance!
-			if (buff(Scimitar.SwordDance.class) != null){
+			if (buff(Scimitar.SwordDance.class) != null) {
 				speed += 0.6f;
 			}
 
@@ -1028,6 +1067,10 @@ public class Hero extends Char {
 
 		if (Dungeon.isChallenged(Challenges.CURSED_DUNGEON) && hero.buff(GhostSpawner.class) == null) {
 			Buff.affect(hero, GhostSpawner.class);
+		}
+
+		if (hero.subClass == HeroSubClass.SLAYER && hero.buff(Awakening.class) == null) {
+			Buff.affect(hero, Awakening.class).indicate();
 		}
 		
 		return actResult;
@@ -1582,7 +1625,84 @@ public class Hero extends Char {
 		}
 		resting = fullRest;
 	}
-	
+
+	public float critChance(final Char enemy, final Weapon wep) {
+		float chance = 0;
+
+		if (buff(Sheath.CertainCrit.class) != null) {
+			buff(Sheath.CertainCrit.class).hit();
+			chance += 1f;
+		}
+
+		if (heroClass == HeroClass.SAMURAI) {
+			chance = 0.01f;
+			chance += 0.01f * (lvl - 1);
+			chance += Math.max(0, (0.02f + 0.05f*pointsInTalent(Talent.WEAPON_MASTERY)) * (STR() - wep.STRReq()));
+		}
+
+		if (hasTalent(Talent.BASIC_PRACTICE)) {
+			chance += 0.02f * pointsInTalent(Talent.BASIC_PRACTICE);
+		}
+
+		if (belongings.attackingWeapon() instanceof MissileWeapon && hasTalent(Talent.CRITICAL_THROW)) {
+			chance += 0.25f * pointsInTalent(Talent.CRITICAL_THROW);
+		}
+
+		Awakening awakening = buff(Awakening.class);
+		if (awakening != null && awakening.isAwaken()) {
+			if (hasTalent(Talent.ACCELERATED_LETHALITY)) {
+				chance += 0.1f*pointsInTalent(Talent.ACCELERATED_LETHALITY);
+			}
+			chance += Math.max(0, 0.01f*(defenseSkill(enemy) - (4 + lvl)));
+		}
+
+		if (enemy != null) {
+			if (hasTalent(Talent.UNEXPECTED_SLASH) && enemy.buff(Talent.UnexpectedSlashTracker.class) == null) {
+				chance += 0.1f*pointsInTalent(Talent.UNEXPECTED_SLASH);
+				Buff.affect(enemy, Talent.UnexpectedSlashTracker.class);
+			}
+		}
+
+		if (buff(Sheath.Sheathing.class) != null) {
+			if (subClass == HeroSubClass.MASTER &&
+					buff(Sheath.FlashSlashCooldown.class) == null &&
+					buff(Sheath.DashAttackTracker.class) == null) {
+				switch (pointsInTalent(Talent.ENHANCED_CRIT)) {
+					case 0: default:
+						chance *= 1.5f;
+						break;
+					case 1:
+						chance *= 1.6f;
+						break;
+					case 2:
+						chance *= 1.75f;
+						break;
+					case 3:
+						chance *= 2f;
+						break;
+				}
+				spend(-attackDelay());
+			} else {
+				chance *= 1.2f;
+			}
+			chance += 0.05f;
+		}
+
+		return GameMath.gate(0, chance, 2);
+	}
+
+	public int criticalDamage(int damage, Weapon wep, Char enemy) {
+		int max = wep.max();
+		float multi = 1f+Math.max(0, critChance(enemy, wep)-1);
+		int bonusDamage = 0;
+
+		damage = (int)(max * 0.75f + damage * 0.25f);
+
+		multi += 0.05f * pointsInTalent(Talent.LETHAL_POWER);
+
+		return Math.round(damage * multi) + bonusDamage;
+	}
+
 	@Override
 	public int attackProc( final Char enemy, int damage ) {
 		damage = super.attackProc( enemy, damage );
@@ -1599,9 +1719,59 @@ public class Hero extends Char {
 			hero.buff(MeleeWeapon.DashAttack.class).detach();
 		}
 
+		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
+			damage *= 3f;
+		}
+
 		if (wep != null) damage = wep.proc( this, enemy, damage );
 
 		damage = Talent.onAttackProc( this, enemy, damage );
+
+		if (wep instanceof Weapon) {
+			if (Random.Float() < critChance(enemy, (Weapon)wep)) {
+				damage = criticalDamage(damage, (Weapon)wep, enemy);
+
+				Buff.affect(enemy, Sheath.CriticalAttack.class);
+
+				if (Sheath.isFlashSlash()) {
+					damage *= 1 + 0.15f * hero.pointsInTalent(Talent.POWERFUL_SLASH);
+				}
+
+				Awakening awakening = hero.buff(Awakening.class);
+				if (awakening != null && awakening.isAwaken()) {
+					spend(-hero.attackDelay());
+					if (hero.hasTalent(Talent.STABLE_BARRIER)) {
+						int shield = 1;
+						int maxShield = Math.round(hero.HT * 0.2f * hero.pointsInTalent(Talent.STABLE_BARRIER));
+						int curShield = 0;
+						if (hero.buff(Barrier.class) != null) curShield = hero.buff(Barrier.class).shielding();
+						shield = Math.min(shield, maxShield-curShield);
+						if (shield > 0) {
+							Buff.affect(hero, Barrier.class).incShield(shield);
+							hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(Dewdrop.class, "shield", shield) );
+						}
+					}
+				}
+			} else {
+				if (Sheath.isFlashSlash()) {
+					Buff.prolong(hero, Sheath.FlashSlashCooldown.class, (30-5*hero.pointsInTalent(Talent.STATIC_PREPARATION))-1);
+				}
+			}
+		}
+
+		if (hero.buff(Sheath.DashAttackTracker.class) != null) {
+			if (hero.hasTalent(Talent.ACCELERATION)) {
+				Buff.prolong(hero, Sheath.DashAttackAcceleration.class, Sheath.DashAttackAcceleration.DURATION).hit();
+				Sheath.DashAttackAcceleration buff = hero.buff(Sheath.DashAttackAcceleration.class);
+				if (buff != null) {
+					damage *= buff.getDmgMulti();
+				}
+			}
+			if (hero.buff(Sheath.DashAttackAcceleration.class) != null) {
+				damage *= hero.buff(Sheath.DashAttackAcceleration.class).getDmgMulti();
+			}
+			hero.buff(Sheath.DashAttackTracker.class).detach();
+		}
 		
 		switch (subClass) {
 			case SNIPER:
@@ -1736,7 +1906,7 @@ public class Hero extends Char {
 							}
 							if (hero.hasTalent(Talent.BULLET_TIME)) {
 								for (Char ch : Actor.chars()) {
-									if (level.heroFOV[ch.pos]) {
+									if (level.heroFOV[ch.pos] && ch != hero && ch.alignment == Alignment.ENEMY) {
 										Buff.affect(ch, Slow.class, 4*hero.pointsInTalent(Talent.BULLET_TIME));
 									}
 								}
@@ -1789,6 +1959,14 @@ public class Hero extends Char {
 			}
 		}
 
+		if (hero.buff(Awakening.class) != null && hero.buff(Awakening.class).isAwaken()) {
+			damage *= 0.5f;
+		}
+
+		if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null) {
+			damage *= 0.5f;
+		}
+
 		if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
 			if (hero.hasTalent(Talent.POISONOUS_BLADE)) {
 				Buff.affect(enemy, Poison.class).set(2+hero.pointsInTalent(Talent.POISONOUS_BLADE));
@@ -1825,16 +2003,16 @@ public class Hero extends Char {
 			}
 		}
 
-		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
-			damage *= 3f;
-		}
-
 		if (Dungeon.isChallenged(Challenges.PYRO)) {
 			Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
 		}
 
 		if (Dungeon.isChallenged(Challenges.FATIGUE)) {
 			Buff.affect(this, Fatigue.class).hit(true);
+		}
+
+		if (hero.subClass == HeroSubClass.SLASHER) {
+			Buff.affect(hero, SwordAura.class).hit(damage);
 		}
 		
 		return damage;
@@ -2685,6 +2863,13 @@ public class Hero extends Char {
 
 		if (!hit && hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER && Random.Int(5) == 0 && hero.pointsInTalent(Talent.SWIFT_MOVEMENT) > 1) {
 			Buff.prolong(hero, EvasiveMove.class, 0.9999f);
+		}
+
+		if (hero.buff(Sheath.Sheathing.class) != null) {
+			hero.buff(Sheath.Sheathing.class).detach();
+			if (!enemy.isAlive() && Random.Float() < hero.pointsInTalent(Talent.QUICK_SHEATHING)/3f) {
+				Buff.affect(hero, Sheath.Sheathing.class);
+			}
 		}
 
 		curAction = null;

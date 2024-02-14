@@ -56,6 +56,7 @@ public class Badges {
 		MASTERY_HUNTRESS,
 		MASTERY_DUELIST,
 		MASTERY_GUNNER,
+		MASTERY_SAMURAI,
 		FOUND_RATMOGRIFY,
 
 		//bronze
@@ -111,6 +112,7 @@ public class Badges {
 		BOSS_SLAIN_1_HUNTRESS,
 		BOSS_SLAIN_1_DUELIST,
 		BOSS_SLAIN_1_GUNNER,
+		BOSS_SLAIN_1_SAMURAI,
 		BOSS_SLAIN_1_ALL_CLASSES    ( 54, true ),
 		GAMES_PLAYED_2              ( 55, true ),
 		HIGH_SCORE_2                ( 56 ),
@@ -158,6 +160,7 @@ public class Badges {
 		VICTORY_HUNTRESS,
 		VICTORY_DUELIST,
 		VICTORY_GUNNER,
+		VICTORY_SAMURAI,
 		VICTORY_ALL_CLASSES         ( 103, true ),
 		DEATH_FROM_ALL              ( 104, true ),
 
@@ -185,6 +188,10 @@ public class Badges {
 		BOSS_SLAIN_3_GUNSLINGER,
 		BOSS_SLAIN_3_SPECIALIST,
 
+		BOSS_SLAIN_3_SLASHER,
+		BOSS_SLAIN_3_MASTER,
+		BOSS_SLAIN_3_SLAYER,
+
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 105, true ),
 		BOSS_CHALLENGE_3            ( 106 ),
 		BOSS_CHALLENGE_4            ( 107 ),
@@ -200,8 +207,8 @@ public class Badges {
 		CHAMPION_3                  ( 124 ),
 
 		//new badges
-		UNLOCK_GUNNER				( 136 );
-//		UNLOCK_SAMURAI				( 137 ),
+		UNLOCK_GUNNER				( 136 ),
+		UNLOCK_SAMURAI				( 137 );
 //		UNLOCK_PLANTER				( 138 ),
 //		UNLOCK_KNIGHT				( 139 ),
 //		UNLOCK_NURSE				( 140 );
@@ -735,6 +742,7 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.HUNTRESS, Badge.BOSS_SLAIN_1_HUNTRESS);
 		firstBossClassBadges.put(HeroClass.DUELIST, Badge.BOSS_SLAIN_1_DUELIST);
 		firstBossClassBadges.put(HeroClass.GUNNER, Badge.BOSS_SLAIN_1_GUNNER);
+		firstBossClassBadges.put(HeroClass.SAMURAI, Badge.BOSS_SLAIN_1_SAMURAI);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
@@ -745,6 +753,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.HUNTRESS, Badge.VICTORY_HUNTRESS);
 		victoryClassBadges.put(HeroClass.DUELIST, Badge.VICTORY_DUELIST);
 		victoryClassBadges.put(HeroClass.GUNNER, Badge.VICTORY_GUNNER);
+		victoryClassBadges.put(HeroClass.SAMURAI, Badge.VICTORY_SAMURAI);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
@@ -767,6 +776,9 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.OUTLAW, Badge.BOSS_SLAIN_3_OUTLAW);
 		thirdBossSubclassBadges.put(HeroSubClass.GUNSLINGER, Badge.BOSS_SLAIN_3_GUNSLINGER);
 		thirdBossSubclassBadges.put(HeroSubClass.SPECIALIST, Badge.BOSS_SLAIN_3_SPECIALIST);
+		thirdBossSubclassBadges.put(HeroSubClass.SLASHER, Badge.BOSS_SLAIN_3_SLASHER);
+		thirdBossSubclassBadges.put(HeroSubClass.MASTER, Badge.BOSS_SLAIN_3_MASTER);
+		thirdBossSubclassBadges.put(HeroSubClass.SLAYER, Badge.BOSS_SLAIN_3_SLAYER);
 	}
 	
 	public static void validateBossSlain() {
@@ -882,6 +894,9 @@ public class Badges {
 			case GUNNER:
 				badge = Badge.MASTERY_GUNNER;
 				break;
+			case SAMURAI:
+				badge = Badge.MASTERY_SAMURAI;
+				break;
 		}
 		
 		unlock(badge);
@@ -932,11 +947,11 @@ public class Badges {
 		}
 	}
 
-//	public static void validateSamuraiUnlock() {
-//		if (!isUnlocked(Badge.UNLOCK_SAMURAI)) {
-//			displayBadge(Badge.UNLOCK_SAMURAI);
-//		}
-//	}
+	public static void validateSamuraiUnlock() {
+		if (Statistics.katanaObtained && !isUnlocked(Badge.UNLOCK_SAMURAI)) {
+			displayBadge(Badge.UNLOCK_SAMURAI);
+		}
+	}
 
 //	public static void validatePlanterUnlock() {
 //		if (!isUnlocked(Badge.UNLOCK_PLANTER)) {

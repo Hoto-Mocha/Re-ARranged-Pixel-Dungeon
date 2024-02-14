@@ -59,6 +59,8 @@ public class NewLastLevel extends Level {
 		setSize(WIDTH, HEIGHT);
 		transitions.add(new LevelTransition(this, 4 + (36)*9, LevelTransition.Type.REGULAR_ENTRANCE));
 
+		feeling = Feeling.NONE;
+
 		buildLevel();
 
 		return true;

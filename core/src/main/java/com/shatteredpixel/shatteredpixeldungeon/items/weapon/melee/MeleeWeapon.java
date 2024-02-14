@@ -510,6 +510,10 @@ public class MeleeWeapon extends Weapon {
 		if (Dungeon.hero.heroClass == HeroClass.DUELIST && !(this instanceof MagesStaff)){
 			info += "\n\n" + abilityDesc();
 		}
+
+		if (isEquipped(hero) && hero.critChance(null, this) > 0) {
+			info += "\n\n" + Messages.get(Weapon.class, "critchance", Messages.decimalFormat("#.##", 100*hero.critChance(null, this)));
+		}
 		
 		return info;
 	}

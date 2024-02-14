@@ -221,10 +221,6 @@ public class RingOfForce extends Ring {
 			info += "\n\n" + Messages.get(this, "ability_desc");
 		}
 
-		if (hero != null && hero.hasTalent(Talent.MYSTICAL_PUNCH)) {
-			info += "\n\n" + Messages.get(this, "special_effect");
-		}
-
 		return info;
 	}
 

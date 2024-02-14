@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EarthParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeacon;
+import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.levels.CavesBossLevel;
@@ -587,6 +588,13 @@ public class DM300 extends Mob {
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
 		if (beacon != null) {
 			beacon.upgrade();
+		}
+
+		if (!Dungeon.templeCompleted) {
+			GLog.w(Messages.get(OldAmulet.class, "boss_kill"));
+			Dungeon.templeCompleted = true;
+			PixelScene.shake(1, 0.7f);
+			Sample.INSTANCE.play(Assets.Sounds.ROCKS, 0.7f, 0.5f);
 		}
 
 		yell( Messages.get(this, "defeated") );

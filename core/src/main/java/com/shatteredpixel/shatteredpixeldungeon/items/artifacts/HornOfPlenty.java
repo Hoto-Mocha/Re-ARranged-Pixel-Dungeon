@@ -103,6 +103,9 @@ public class HornOfPlenty extends Artifact {
 				if (Dungeon.isChallenged(Challenges.NO_FOOD)){
 					satietyPerCharge /= 3;
 				}
+				if (Dungeon.hero.hasTalent(Talent.ADDED_MEAL)) {
+					satietyPerCharge *= 1.05 + 0.1 * hero.pointsInTalent(Talent.ADDED_MEAL);
+				}
 
 				Hunger hunger = Buff.affect(Dungeon.hero, Hunger.class);
 				int chargesToUse = Math.max( 1, hunger.hunger() / satietyPerCharge);

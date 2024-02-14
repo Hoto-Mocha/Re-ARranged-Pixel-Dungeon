@@ -134,6 +134,13 @@ public class BuffIndicator extends Component {
 	public static final int ROULETTE_5 	= 146;
 	public static final int ROULETTE_6 	= 147;
 	public static final int CLOAKING 	= 148;
+	public static final int AWAKE 		= 149;
+	public static final int SHADOWBLADE = 150;
+	public static final int CRITICAL	= 151;
+	public static final int AURA		= 152;
+	public static final int SHEATHING	= 153;
+	public static final int DEMON_ON	= 154;
+	public static final int DEMON_OFF	= 155;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

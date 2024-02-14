@@ -269,6 +269,10 @@ public class Ring extends KindofMisc {
 		
 		if (isKnown()) {
 			desc += "\n\n" + statsInfo();
+
+			if (hero != null && hero.hasTalent(Talent.MYSTICAL_PUNCH)) {
+				desc += "\n\n" + Messages.get(this, "special_effect");
+			}
 		}
 		
 		return desc;

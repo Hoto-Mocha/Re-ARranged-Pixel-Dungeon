@@ -756,7 +756,7 @@ public class ItemSpriteSheet {
 	public static final int TELEPORTER			= NEW_SPECIAL_ITEM+5;
 	static{
 		assignItemRect(AMMO_BELT	, 15, 15);
-		assignItemRect(SHEATH		, 13, 13);
+		assignItemRect(SHEATH		, 14, 14);
 		assignItemRect(KNIGHT_SHIELD, 16, 15);
 		assignItemRect(GAMMA_GUN	, 12, 15);
 		assignItemRect(HAND_MIRROR	, 10, 16);
@@ -845,6 +845,7 @@ public class ItemSpriteSheet {
 	public static final int BATTERY_SINGLE	= SPECIAL_BULLETS+4;
 	public static final int BATTERY_DOUBLE	= SPECIAL_BULLETS+5;
 	public static final int BATTERY_POWER	= SPECIAL_BULLETS+6;
+	public static final int SWORD_AURA		= SPECIAL_BULLETS+7;
 	static{
 		assignItemRect(GRENADE_GREEN	, 7, 7);
 		assignItemRect(GRENADE_RED		, 7, 7);
@@ -853,6 +854,7 @@ public class ItemSpriteSheet {
 		assignItemRect(BATTERY_SINGLE	, 10, 10);
 		assignItemRect(BATTERY_DOUBLE	, 12, 12);
 		assignItemRect(BATTERY_POWER	, 12, 12);
+		assignItemRect(SWORD_AURA		, 15, 15);
 	}
 
 	private static final int ARROWS			=			xy(1, 44);  //16 slots

@@ -75,17 +75,6 @@ public class RingOfWealth extends Ring {
 		}
 	}
 
-	@Override
-	public String info(){
-		String desc = super.info();
-
-		if (hero != null && hero.hasTalent(Talent.MYSTICAL_PUNCH)) {
-			desc += "\n\n" + Messages.get(this, "special_effect");
-		}
-
-		return desc;
-	}
-
 	private static final String TRIES_TO_DROP = "tries_to_drop";
 	private static final String DROPS_TO_RARE = "drops_to_rare";
 

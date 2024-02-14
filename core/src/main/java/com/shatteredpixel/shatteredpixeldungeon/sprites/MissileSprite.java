@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SwordAura;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
@@ -110,6 +111,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(RebelSprite.RebelShot.class, 	  0);
 
 		ANGULAR_SPEEDS.put(Gun.Bullet.class,   0);
+		ANGULAR_SPEEDS.put(SwordAura.Aura.class,   0);
 
 		//720 is default
 		
@@ -183,6 +185,8 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 			} else {
 				speed *= 3f;
 			}
+		} else if (item instanceof SwordAura.Aura) {
+			speed *= 5f;
 		}
 		
 		PosTweener tweener = new PosTweener( this, to, d.length() / speed );

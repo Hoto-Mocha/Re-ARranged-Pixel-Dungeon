@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TalentButton;
+import com.shatteredpixel.shatteredpixeldungeon.ui.TalentIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TalentsPane;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
@@ -76,6 +77,9 @@ public class WndHeroInfo extends WndTabbed {
 				break;
 			case GUNNER:
 				tabIcon = new ItemSprite(ItemSpriteSheet.SR_T5, null);
+				break;
+			case SAMURAI:
+				tabIcon = new ItemSprite(ItemSpriteSheet.LONG_KATANA, null);
 				break;
 		}
 
@@ -206,6 +210,12 @@ public class WndHeroInfo extends WndTabbed {
 					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.SR_T5),
 							new ItemSprite(ItemSpriteSheet.BULLET),
 							new ItemSprite(ItemSpriteSheet.BULLET_BELT),
+							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
+				case SAMURAI:
+					icons = new Image[]{ new TalentIcon(Talent.BASIC_PRACTICE),
+							new ItemSprite(ItemSpriteSheet.SHEATH),
+							new ItemSprite(ItemSpriteSheet.WORN_KATANA),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 			}

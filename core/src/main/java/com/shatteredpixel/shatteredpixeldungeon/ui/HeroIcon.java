@@ -73,9 +73,9 @@ public class HeroIcon extends Image {
 	public static final int SPECIALIST	= 26;
 //	public static final int 			= 27;
 
-//	public static final int 			= 28;
-//	public static final int 			= 29;
-//	public static final int 			= 30;
+	public static final int SLASHER		= 28;
+	public static final int MASTER		= 29;
+	public static final int SLAYER		= 30;
 //	public static final int 			= 31;
 
 //	public static final int 			= 32;
@@ -135,9 +135,9 @@ public class HeroIcon extends Image {
 	public static final int FIRSTAIDKIT		= 74;
 //	public static final int 				= 75;
 
-//	public static final int 				= 76;
-//	public static final int 				= 77;
-//	public static final int 				= 78;
+	public static final int AWAKE			= 76;
+	public static final int SHADOW_BLADE	= 77;
+	public static final int KUNAI			= 78;
 //	public static final int 				= 79;
 
 //	public static final int 				= 80;
@@ -185,33 +185,33 @@ public class HeroIcon extends Image {
 
 	public static final int WEAPON_SWAP     = 120;
 	public static final int MONK_ABILITIES  = 121;
+//	public static final int 				= 122;
 //	public static final int 				= 123;
-//	public static final int 				= 124;
 
+//	public static final int 				= 124;
 //	public static final int 				= 125;
 //	public static final int 				= 126;
 //	public static final int 				= 127;
-//	public static final int 				= 128;
 
-//	public static final int 				= 129;
-//	public static final int 				= 130;
+	public static final int SWORD_AURA		= 128;
+	public static final int AWAKEN_OFF		= 129;
+	public static final int AWAKEN_ON		= 130;
 //	public static final int 				= 131;
-//	public static final int 				= 132;
 
+//	public static final int 				= 132;
 //	public static final int 				= 133;
 //	public static final int 				= 134;
 //	public static final int 				= 135;
-//	public static final int 				= 136;
 
+//	public static final int 				= 136;
 //	public static final int 				= 137;
 //	public static final int 				= 138;
 //	public static final int 				= 139;
-//	public static final int 				= 140;
 
+//	public static final int 				= 140;
 //	public static final int 				= 141;
 //	public static final int 				= 142;
 //	public static final int 				= 143;
-//	public static final int 				= 144;
 
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );

@@ -116,9 +116,9 @@ abstract public class ClassArmor extends Armor {
 			case GUNNER:
 				classArmor = new GunnerArmor();
 				break;
-//			case SAMURAI:
-//				classArmor = new SamuraiArmor();
-//				break;
+			case SAMURAI:
+				classArmor = new SamuraiArmor();
+				break;
 //			case PLANTER:
 //				classArmor = new PlanterArmor();
 //				break;

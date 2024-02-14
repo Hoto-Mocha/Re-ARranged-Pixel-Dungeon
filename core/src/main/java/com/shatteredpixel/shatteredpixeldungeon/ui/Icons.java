@@ -459,8 +459,8 @@ public enum Icons {
 				return get( Icons.DUELIST );
 			case GUNNER:
 				return get( Icons.GUNNER );
-//			case SAMURAI:
-//				return get( Icons.SAMURAI );
+			case SAMURAI:
+				return get( Icons.SAMURAI );
 //			case PLANTER:
 //				return get( Icons.PLANTER );
 //			case KNIGHT:

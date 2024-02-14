@@ -877,6 +877,10 @@ public abstract class Mob extends Char {
 			if (hero.hasTalent(Talent.SOUL_BULLET)) {
 				Buff.affect(hero, InfiniteBullet.class, hero.pointsInTalent(Talent.SOUL_BULLET));
 			}
+
+			if (hero.hasTalent(Talent.ADRENALINE_SURGE)) {
+				Buff.prolong(hero, Adrenaline.class, 1+2*hero.pointsInTalent(Talent.ADRENALINE_SURGE));
+			}
 		}
 
 		if (Dungeon.hero.isAlive() && !Dungeon.level.heroFOV[pos]) {

@@ -54,7 +54,11 @@ public enum HeroSubClass {
 
 	OUTLAW(HeroIcon.OUTLAW),
 	GUNSLINGER(HeroIcon.GUNSLINGER),
-	SPECIALIST(HeroIcon.SPECIALIST);
+	SPECIALIST(HeroIcon.SPECIALIST),
+
+	SLASHER(HeroIcon.SLASHER),
+	MASTER(HeroIcon.MASTER),
+	SLAYER(HeroIcon.SLAYER);
 
 	int icon;
 

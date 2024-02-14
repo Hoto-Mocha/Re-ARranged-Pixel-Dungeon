@@ -565,8 +565,10 @@ public class GameScene extends PixelScene {
 				Dungeon.hero.buff(AscensionChallenge.class).saySwitch();
 			}
 
-			if (Dungeon.hero.buff(OldAmulet.TempleCurse.class) != null) {
-				Dungeon.hero.buff(OldAmulet.TempleCurse.class).saySwitch();
+			if (Dungeon.templeCompleted) {
+				if (Dungeon.hero.buff(OldAmulet.TempleCurse.class) != null) {
+					Dungeon.hero.buff(OldAmulet.TempleCurse.class).saySwitch();
+				}
 				if (Dungeon.branch == 0) {
 					for (LevelTransition transition : Dungeon.level.transitions) {
 						if (transition.type == LevelTransition.Type.BRANCH_EXIT && transition.destBranch == 2) {
@@ -580,24 +582,28 @@ public class GameScene extends PixelScene {
 								Sample.INSTANCE.play(Assets.Sounds.ROCKS);
 							}
 							int targetCell = cell+Dungeon.level.width();
-							Actor.add(new Pushing(Dungeon.hero, cell, targetCell, new Callback() {
-								@Override
-								public void call() {
-									Dungeon.hero.pos = targetCell;
-									Dungeon.hero.move(targetCell);
-									Dungeon.level.occupyCell(Dungeon.hero);
-									Dungeon.observe();
-									GameScene.updateFog();
-								}
-							}));
+							if (Dungeon.hero.pos == cell) {
+								Actor.add(new Pushing(Dungeon.hero, cell, targetCell, new Callback() {
+									@Override
+									public void call() {
+										Dungeon.hero.pos = targetCell;
+										Dungeon.hero.move(targetCell);
+										Dungeon.level.occupyCell(Dungeon.hero);
+										Dungeon.observe();
+										GameScene.updateFog();
+									}
+								}));
+							}
+
 							Dungeon.level.transitions.remove(transition);
 
 							Dungeon.hero.busy();
 							break;
 						}
 					}
-
-					Dungeon.hero.buff(OldAmulet.TempleCurse.class).detach();
+					if (Dungeon.hero.buff(OldAmulet.TempleCurse.class) != null) {
+						Dungeon.hero.buff(OldAmulet.TempleCurse.class).detach();
+					}
 				}
 			}
 

@@ -316,6 +316,11 @@ public class Gun extends MeleeWeapon {
 			quickReload();
 		}
 
+		if (hero.hasTalent(Talent.BULLET_SAVING) && hero.buff(Talent.BulletSavingCooldown.class) == null) {
+			manualReload(hero.pointsInTalent(Talent.BULLET_SAVING), true);
+			Buff.affect(hero, Talent.BulletSavingCooldown.class, 9f+reloadTime(hero));
+		}
+
 		hero.busy();
 		hero.sprite.operate(hero.pos);
 		Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
@@ -330,10 +335,6 @@ public class Gun extends MeleeWeapon {
 
 		if (hero.hasTalent(Talent.SAFE_RELOAD)) {
 			Buff.affect(hero, Barrier.class).setShield( 1 + 2 * hero.pointsInTalent(Talent.SAFE_RELOAD));
-		}
-		if (hero.hasTalent(Talent.BULLET_SAVING) && hero.buff(Talent.BulletSavingCooldown.class) == null) {
-			manualReload(hero.pointsInTalent(Talent.BULLET_SAVING), true);
-			Buff.affect(hero, Talent.BulletSavingCooldown.class, 10f);
 		}
 
 		if (hero.hasTalent(Talent.ELEMENTAL_BULLET) && round == 0) {

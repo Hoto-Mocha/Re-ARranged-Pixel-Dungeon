@@ -43,6 +43,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WildM
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.ShadowClone;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.SmokeBomb;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Abil_Kunai;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Awake;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
@@ -50,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.BulletBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
+import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.Teleporter;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
@@ -76,14 +80,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T1;
@@ -102,7 +110,8 @@ public enum HeroClass {
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.CHASER ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.FIGHTER ),
 	DUELIST( HeroSubClass.CHAMPION, HeroSubClass.MONK, HeroSubClass.FENCER ),
-	GUNNER( HeroSubClass.OUTLAW, HeroSubClass.GUNSLINGER, HeroSubClass.SPECIALIST );
+	GUNNER( HeroSubClass.OUTLAW, HeroSubClass.GUNSLINGER, HeroSubClass.SPECIALIST ),
+	SAMURAI( HeroSubClass.SLASHER, HeroSubClass.MASTER, HeroSubClass.SLAYER );
 
 	private HeroSubClass[] subClasses;
 
@@ -132,8 +141,8 @@ public enum HeroClass {
 		if (DeviceCompat.isDebug()) {
 			new RingOfMight().identify().upgrade(10).collect();
 //			new AR_T1().identify().upgrade().collect();
-			new RingOfHaste().identify().upgrade(100).collect();
-			new RingOfAccuracy().identify().upgrade(100).collect();
+			new RingOfHaste().upgrade(100).collect();
+			new RingOfAccuracy().upgrade(100).collect();
 //			new BulletBelt().quantity(20).collect();
 //			new GunSmithingTool().quantity(20).collect();
 			new AlchemistsToolkit().identify().upgrade(10).collect();
@@ -148,6 +157,7 @@ public enum HeroClass {
 			new LG_T5().identify().collect();
 			new ElixirOfHoneyedHealing().identify().quantity(500).collect();
 			new ScrollOfUpgrade().identify().quantity(500).collect();
+			new ScrollOfTransmutation().identify().quantity(500).collect();
 //			new ScrollOfMetamorphosis().identify().quantity(500).collect();
 			new PotionOfExperience().identify().quantity(29).collect();
 //			new PotionOfStrength().identify().quantity(29).collect();
@@ -199,6 +209,10 @@ public enum HeroClass {
 			case GUNNER:
 				initGunner( hero );
 				break;
+
+			case SAMURAI:
+				initSamurai( hero );
+				break;
 		}
 
 		if (SPDSettings.quickslotWaterskin()) {
@@ -226,6 +240,8 @@ public enum HeroClass {
 				return Badges.Badge.MASTERY_DUELIST;
 			case GUNNER:
 				return Badges.Badge.MASTERY_GUNNER;
+			case SAMURAI:
+				return Badges.Badge.MASTERY_SAMURAI;
 		}
 		return null;
 	}
@@ -316,33 +332,24 @@ public enum HeroClass {
 		new ScrollOfTeleportation().identify();
 	}
 
-//	private static void initSamurai( Hero hero ) {
-//
-//		//hero.STR = 8;
-//
-//		WornKatana wornKatana = new WornKatana();
-//		(hero.belongings.weapon = wornKatana).identify();
-//
-//		RingOfVorpal vorpal = new RingOfVorpal();
-//		vorpal.start = true;
-//		(hero.belongings.ring = vorpal).identify();
-//		hero.belongings.ring.activate( hero );
-//
-//		ThrowingKnife knives = new ThrowingKnife();
-//		knives.quantity(3).collect();
-//
-//		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
-//			RingOfWealth wealth = new RingOfWealth();
-//			(hero.belongings.misc = wealth).identify();
-//			hero.belongings.misc.activate( hero );
-//		}
-//
-//		Dungeon.quickslot.setSlot(0, knives);
-//
-//		new ScrollOfRetribution().identify();
-//		new PotionOfStrength().identify();
-//	}
-//
+	private static void initSamurai( Hero hero ) {
+
+		WornKatana wornKatana = new WornKatana();
+		(hero.belongings.weapon = wornKatana).identify();
+
+		Sheath sheath = new Sheath();
+		sheath.collect();
+
+		ThrowingKnife knives = new ThrowingKnife();
+		knives.quantity(3).collect();
+
+		Dungeon.quickslot.setSlot(0, sheath);
+		Dungeon.quickslot.setSlot(1, knives);
+
+		new ScrollOfRetribution().identify();
+		new PotionOfStrength().identify();
+	}
+
 //	private static void initPlanter( Hero hero ) {
 //		Shovel shovel = new Shovel();
 //		(hero.belongings.weapon = shovel).identify();
@@ -454,8 +461,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
 			case GUNNER:
 				return new ArmorAbility[]{new Riot(), new ReinforcedArmor(), new FirstAidKit()};
-//			case SAMURAI:
-//				return new ArmorAbility[]{new Awake(), new ShadowBlade(), new Abil_Kunai()};
+			case SAMURAI:
+				return new ArmorAbility[]{new Awake(), new ShadowBlade(), new Abil_Kunai()};
 //			case PLANTER:
 //				return new ArmorAbility[]{new Sprout(), new TreasureMap(), new Root()};
 //			case KNIGHT:
@@ -479,8 +486,8 @@ public enum HeroClass {
 				return Assets.Sprites.DUELIST;
 			case GUNNER:
 				return Assets.Sprites.GUNNER;
-//			case SAMURAI:
-//				return Assets.Sprites.SAMURAI;
+			case SAMURAI:
+				return Assets.Sprites.SAMURAI;
 //			case PLANTER:
 //				return Assets.Sprites.PLANTER;
 //			case KNIGHT:
@@ -504,8 +511,8 @@ public enum HeroClass {
 				return Assets.Splashes.DUELIST;
 			case GUNNER:
 				return Assets.Splashes.GUNNER;
-//			case SAMURAI:
-//				return Assets.Splashes.SAMURAI;
+			case SAMURAI:
+				return Assets.Splashes.SAMURAI;
 //			case PLANTER:
 //				return Assets.Splashes.PLANTER;
 //			case KNIGHT:
@@ -532,8 +539,8 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_DUELIST);
 			case GUNNER:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_GUNNER);
-//			case SAMURAI:
-//				return Badges.isUnlocked(Badges.Badge.UNLOCK_SAMURAI);
+			case SAMURAI:
+				return Badges.isUnlocked(Badges.Badge.UNLOCK_SAMURAI);
 //			case PLANTER:
 //				return Badges.isUnlocked(Badges.Badge.UNLOCK_PLANTER);
 //			case KNIGHT:

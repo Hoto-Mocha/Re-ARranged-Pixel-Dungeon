@@ -57,6 +57,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.BulletItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -348,8 +349,6 @@ public enum Talent {
 	EXPOSE_WEAKNESS				(38, 4, 4),
 	COUNTER_ABILITY				(39, 4, 4),
 
-
-
 	//Gunner T1
 	RELOADING_MEAL				(0,  6),	//식사 시 장착한 총기 재장전/1발 더 재장전
 	GUNNERS_INTUITION			(1,  6),	//총기를 장착 시 감정/습득 시 저주 여부 감정
@@ -400,6 +399,56 @@ public enum Talent {
 	THERAPEUTIC_BANDAGE			(38, 6, 4),
 	FASTER_HEALING				(39, 6, 4),
 
+	//Samurai T1
+	BASIC_PRACTICE				(0, 7),	//치명 확률 2/4% 증가
+	MASTERS_INTUITION			(1, 7),	//총기를 제외한 근접 무기 장착 시 즉시 감정/총기를 제외한 근접 무기 획득 시 저주 여부 감정
+	DRAWING_ENHANCE				(2, 7),	//발도술 공격이 2/3의 추가 피해를 입힘
+	PARRING						(3, 7),	//방어력 0-2/0-3 증가
+	ADRENALINE_SURGE			(4, 7),	//적 처치 시 2/3턴의 아드레날린 획득
+	//Samurai T2
+	CRITICAL_MEAL				(5, 7),	//식사에 1턴만 소모, 식사 시 다음 1/2회의 물리 공격에 반드시 치명타 발생
+	INSCRIBED_LETHALITY			(6, 7),	//주문서 사용 시 다음 1/2회의 물리 공격에 반드시 치명타 발생
+	UNEXPECTED_SLASH			(7, 7),	//적을 처음 공격하면 치명 확률 +10/20% 증가
+	DRAGONS_EYE					(8, 7),	//납도 중 주변 반경 3/4타일 이내의 적 위치를 파악할 수 있게 됨
+	WEAPON_MASTERY				(9, 7),	//무기의 힘 요구 수치를 넘은 힘 1당 치명 확률 +1/+2%
+	CRITICAL_THROW				(10, 7),	//투척 무기와 탄환의 치명 확률이 +25/50% 증가
+	//Samurai T3
+	QUICK_SHEATHING				(11, 7, 3),
+	LETHAL_POWER				(12, 7, 3),
+	//Slasher T3
+	MIND_FOCUSING				(13, 7, 3),
+	STORED_POWER				(14, 7, 3),
+	ARCANE_POWER				(15, 7, 3),
+	ENERGY_COLLECT				(16, 7, 3),
+	DIVIDED_POWER				(17, 7, 3),
+	WIND_BLAST					(18, 7, 3),
+	//Master T3
+	ENHANCED_CRIT				(19, 7, 3),
+	POWERFUL_SLASH				(20, 7, 3),
+	STATIC_PREPARATION			(21, 7, 3),
+	ACCELERATION				(22, 7, 3),
+	INNER_EYE					(23, 7, 3),
+	DYNAMIC_PREPARATION			(24, 7, 3),
+	//Slayer T3
+	FASTER_THAN_LIGHT			(25, 7, 3),
+	AFTERIMAGE					(26, 7, 3),
+	QUICK_RECOVER				(27, 7, 3),
+	HASTE_EVASION				(28, 7, 3),
+	ACCELERATED_LETHALITY		(29, 7, 3),
+	STABLE_BARRIER				(30, 7, 3),
+	//Awake T4
+	AWAKE_LIMIT					(31, 7, 4),
+	AWAKE_DURATION				(32, 7, 4),
+	INSURANCE					(33, 7, 4),
+	//ShadowBlade T4
+	DOUBLE_BLADE_PRACTICE		(34, 7, 4),
+	CRITICAL_SHADOW				(35, 7, 4),
+	HERBAL_SHADOW				(36, 7, 4),
+	//Kunai T4
+	KUNAI_OF_DOOM				(37, 7, 4),
+	MYSTICAL_KUNAI				(38, 7, 4),
+	CORROSIVE_KUNAI				(39, 7, 4),
+
 	//universal T4
 	HEROIC_ENERGY				(43, 0, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -411,6 +460,7 @@ public enum Talent {
 	ACC_ENHANCE					(1, 12, 4),
 	EVA_ENHANCE					(2, 12, 4),
 	BETTER_CHOICE				(3, 12, 3);
+
 
 	public static final int TALENT_NUMBER = 44;
 
@@ -728,6 +778,10 @@ public enum Talent {
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
 
+	//Samurai 1-3 meta
+	public static class DrawEnhanceMetaTracker extends Buff {}
+	//Samurai 2-3
+	public static class UnexpectedSlashTracker extends Buff {}
 
 	int icon;
 	int maxPoints;
@@ -767,6 +821,9 @@ public enum Talent {
 					break;
 				case GUNNER:
 					y = 6;
+					break;
+				case SAMURAI:
+					y = 7;
 					break;
 			}
 			if (Ratmogrify.useRatroicEnergy){
@@ -895,7 +952,7 @@ public enum Talent {
 			if (hero.belongings.weapon() != null) hero.belongings.weapon().identify();
 		}
 
-		if (talent == HEIGHTENED_SENSES || talent == FARSIGHT || talent == TELESCOPE){
+		if (talent == HEIGHTENED_SENSES || talent == FARSIGHT || talent == TELESCOPE || talent == DRAGONS_EYE){
 			Dungeon.observe();
 		}
 
@@ -924,6 +981,11 @@ public enum Talent {
 
 		//gunner
 		if (talent == GUNNERS_INTUITION && hero.belongings.weapon instanceof Gun){
+			hero.belongings.weapon.identify();
+		}
+
+		//samurai
+		if (talent == MASTERS_INTUITION && hero.belongings.weapon instanceof MeleeWeapon && !(hero.belongings.weapon instanceof Gun)) {
 			hero.belongings.weapon.identify();
 		}
 
@@ -1000,6 +1062,9 @@ public enum Talent {
 		}
 		if (hero.hasTalent(Talent.INFINITE_BULLET_MEAL)) {
 			Buff.affect(hero, InfiniteBullet.class, 1+hero.pointsInTalent(Talent.INFINITE_BULLET_MEAL));
+		}
+		if (hero.hasTalent(Talent.CRITICAL_MEAL)) {
+			Buff.affect(hero, Sheath.CertainCrit.class).set(hero.pointsInTalent(Talent.CRITICAL_MEAL));
 		}
 	}
 
@@ -1101,15 +1166,18 @@ public enum Talent {
 		if (hero.hasTalent(Talent.MAGIC_RUSH)) {
 			MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
 			if (staff != null) {
-				staff.gainCharge(hero.pointsInTalent(Talent.MAGIC_RUSH), false);
+				staff.gainCharge(factor * hero.pointsInTalent(Talent.MAGIC_RUSH), false);
 				ScrollOfRecharging.charge(hero);
 			}
 		}
 		if (hero.hasTalent(Talent.INSCRIBED_BULLET)) {
 			//collects 5/10 bullet
 			BulletItem bulletItem = new BulletItem();
-			bulletItem.quantity(5*hero.pointsInTalent(Talent.INSCRIBED_BULLET));
+			bulletItem.quantity((int)(factor * 5 * hero.pointsInTalent(Talent.INSCRIBED_BULLET)));
 			bulletItem.doPickUp(hero);
+		}
+		if (hero.hasTalent(Talent.INSCRIBED_LETHALITY)) {
+			Buff.affect(hero, Sheath.CertainCrit.class).set((int)(factor * hero.pointsInTalent(Talent.INSCRIBED_LETHALITY)));
 		}
 	}
 
@@ -1151,6 +1219,9 @@ public enum Talent {
 		if (hero.hasTalent(GUNNERS_INTUITION) && item instanceof Gun) {
 			item.identify();
 		}
+		if (hero.hasTalent(MASTERS_INTUITION) && item instanceof MeleeWeapon && !(item instanceof Gun)) {
+			item.identify();
+		}
 	}
 
 	public static void onItemCollected( Hero hero, Item item ){
@@ -1158,6 +1229,9 @@ public enum Talent {
 			if (item instanceof Ring) ((Ring) item).setKnown();
 		}
 		if (hero.pointsInTalent(GUNNERS_INTUITION) == 2 && item instanceof Gun) {
+			item.cursedKnown = true;
+		}
+		if (hero.pointsInTalent(MASTERS_INTUITION) == 2 && item instanceof MeleeWeapon && !(item instanceof Gun)) {
 			item.cursedKnown = true;
 		}
 	}
@@ -1226,9 +1300,18 @@ public enum Talent {
 			}
 		}
 
-		if (hero.hasTalent(Talent.SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(SpeedyMoveTracker.class) == null){
+		if (hero.hasTalent(SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(SpeedyMoveTracker.class) == null){
 			Buff.affect(enemy, SpeedyMoveTracker.class);
-			Buff.prolong(hero, Haste.class, 1f + hero.pointsInTalent(Talent.SPEEDY_MOVE));
+			Buff.prolong(hero, Haste.class, 1f + hero.pointsInTalent(SPEEDY_MOVE));
+		}
+
+		if (hero.hasTalent(DRAWING_ENHANCE) && hero.buff(Sheath.Sheathing.class) != null) {
+			dmg += 1+hero.pointsInTalent(DRAWING_ENHANCE);
+		}
+
+		if (hero.heroClass != HeroClass.SAMURAI && hero.hasTalent(DRAWING_ENHANCE) && enemy.buff(Talent.DrawEnhanceMetaTracker.class) == null ) {
+			dmg += Random.IntRange(hero.pointsInTalent(Talent.DRAWING_ENHANCE), 2);
+			Buff.affect(enemy, Talent.DrawEnhanceMetaTracker.class);
 		}
 
 		return dmg;
@@ -1361,6 +1444,9 @@ public enum Talent {
 			case GUNNER:
 				Collections.addAll(tierTalents, RELOADING_MEAL, GUNNERS_INTUITION, SPEEDY_MOVE, SAFE_RELOAD, MIND_VISION);
 				break;
+			case SAMURAI:
+				Collections.addAll(tierTalents, BASIC_PRACTICE, MASTERS_INTUITION, DRAWING_ENHANCE, PARRING, ADRENALINE_SURGE);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1390,6 +1476,9 @@ public enum Talent {
 			case GUNNER:
 				Collections.addAll(tierTalents, INFINITE_BULLET_MEAL, INSCRIBED_BULLET, BULLET_SAVING, CAMOUFLAGE, LARGER_MAGAZINE, BULLET_COLLECT);
 				break;
+			case SAMURAI:
+				Collections.addAll(tierTalents, CRITICAL_MEAL, INSCRIBED_LETHALITY, UNEXPECTED_SLASH, DRAGONS_EYE, WEAPON_MASTERY, CRITICAL_THROW);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1418,6 +1507,9 @@ public enum Talent {
 				break;
 			case GUNNER:
 				Collections.addAll(tierTalents, STREET_BATTLE, FAST_RELOAD);
+				break;
+			case SAMURAI:
+				Collections.addAll(tierTalents, QUICK_SHEATHING, LETHAL_POWER);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1501,6 +1593,15 @@ public enum Talent {
 				break;
 			case SPECIALIST:
 				Collections.addAll(tierTalents, STEALTH_MASTER, SKILLFUL_RUNNER, STEALTH, INTO_THE_SHADOW, RANGED_SNIPING, TELESCOPE );
+				break;
+			case SLASHER:
+				Collections.addAll(tierTalents, MIND_FOCUSING, STORED_POWER, ARCANE_POWER, ENERGY_COLLECT, DIVIDED_POWER, WIND_BLAST );
+				break;
+			case MASTER:
+				Collections.addAll(tierTalents, ENHANCED_CRIT, POWERFUL_SLASH, STATIC_PREPARATION, ACCELERATION, INNER_EYE, DYNAMIC_PREPARATION );
+				break;
+			case SLAYER:
+				Collections.addAll(tierTalents, AFTERIMAGE, FASTER_THAN_LIGHT, QUICK_RECOVER, HASTE_EVASION, ACCELERATED_LETHALITY, STABLE_BARRIER );
 				break;
 		}
 		for (Talent talent : tierTalents){

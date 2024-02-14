@@ -50,17 +50,6 @@ public class RingOfFuror extends Ring {
 	}
 
 	@Override
-	public String info(){
-		String desc = super.info();
-
-		if (hero != null && hero.hasTalent(Talent.MYSTICAL_PUNCH)) {
-			desc += "\n\n" + Messages.get(this, "special_effect");
-		}
-
-		return desc;
-	}
-
-	@Override
 	protected RingBuff buff( ) {
 		return new Furor();
 	}

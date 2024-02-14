@@ -86,6 +86,9 @@ public class BookOfWarding extends SpellBook {
             if (i != centerPos
                     && PathFinder.distance[i] < Integer.MAX_VALUE
                     && Dungeon.level.map[i] != Terrain.CHASM
+                    && Dungeon.level.map[i] != Terrain.TRAP
+                    && Dungeon.level.map[i] != Terrain.SECRET_TRAP
+                    && Actor.findChar(i) == null
                     && !respawnPoints.contains(i)) {
                 respawnPoints.add(i);
             }

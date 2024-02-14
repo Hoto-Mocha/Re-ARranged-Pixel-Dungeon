@@ -94,6 +94,7 @@ public class OldAmulet extends Item {
     @Override
     public boolean doPickUp(Hero hero, int pos) {
         if (Dungeon.depth == 20 && Dungeon.branch == 2 && hero.buff(TempleCurse.class) == null) {
+            Dungeon.templeCompleted = true;
             Buff.affect(hero, TempleCurse.class);
             PixelScene.shake(1, 0.7f);
             Sample.INSTANCE.play(Assets.Sounds.ROCKS, 0.7f, 0.5f);
@@ -292,6 +293,7 @@ public class OldAmulet extends Item {
                 case HUNTRESS:
                     return item instanceof SpiritBow;
                 case DUELIST:
+                case SAMURAI:
                     return item instanceof MeleeWeapon;
                 case GUNNER:
                     return item instanceof Gun;

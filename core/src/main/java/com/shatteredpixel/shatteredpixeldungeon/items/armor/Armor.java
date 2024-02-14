@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awakening;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -412,6 +413,11 @@ public class Armor extends EquipableItem {
 				int wEnc = ((MeleeWeapon)((Hero) owner).belongings.weapon).STRReq() - ((Hero) owner).STR();
 				evasion += 0.5f*Math.max(0, -aEnc);
 				evasion += 0.5f*Math.max(0, -wEnc);
+			}
+
+			Awakening awakening = owner.buff(Awakening.class);
+			if (awakening != null) {
+				evasion += awakening.evasionBonus(((Hero) owner).lvl, Math.max(0, -aEnc));
 			}
 		}
 

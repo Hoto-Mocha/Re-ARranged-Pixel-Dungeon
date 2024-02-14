@@ -87,7 +87,7 @@ public class HeroSword extends MeleeWeapon {
         int reach = super.reachFactor(owner);
         reach += usedWep.reachFactor(owner);
 
-        return reach;
+        return reach - 1;
     }
 
     @Override

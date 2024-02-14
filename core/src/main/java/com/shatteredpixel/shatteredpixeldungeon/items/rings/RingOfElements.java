@@ -60,17 +60,6 @@ public class RingOfElements extends Ring {
 			return Messages.get(this, "typical_stats", Messages.decimalFormat("#.##", 17.5f));
 		}
 	}
-
-	@Override
-	public String info(){
-		String desc = super.info();
-
-		if (hero != null && hero.hasTalent(Talent.MYSTICAL_PUNCH)) {
-			desc += "\n\n" + Messages.get(this, "special_effect");
-		}
-
-		return desc;
-	}
 	
 	@Override
 	protected RingBuff buff( ) {
