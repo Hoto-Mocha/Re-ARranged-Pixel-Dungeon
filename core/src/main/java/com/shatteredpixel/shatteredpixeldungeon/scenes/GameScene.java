@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.Rankings;
+import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
@@ -123,6 +124,7 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndResurrect;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndStory;
 import com.watabou.glwrap.Blending;
 import com.watabou.input.ControllerHandler;
+import com.watabou.input.KeyBindings;
 import com.watabou.input.PointerEvent;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
@@ -522,10 +524,10 @@ public class GameScene extends PixelScene {
 					if (r instanceof SecretRoom) reqSecrets--;
 				}
 
-				//50%/75% chance, use level's seed so that we get the same result for the same level
+				//60%/90% chance, use level's seed so that we get the same result for the same level
 				//offset seed slightly to avoid output patterns
 				Random.pushGenerator(Dungeon.seedCurDepth()+1);
-					if (reqSecrets <= 0 && Random.Int(4) <= Dungeon.hero.pointsInTalent(Talent.ROGUES_FORESIGHT)){
+					if (reqSecrets <= 0 && Random.Int(10) < 3+3*Dungeon.hero.pointsInTalent(Talent.ROGUES_FORESIGHT)){
 						GLog.p(Messages.get(this, "secret_hint"));
 					}
 				Random.popGenerator();
@@ -616,16 +618,13 @@ public class GameScene extends PixelScene {
 		if (SPDSettings.intro()){
 
 			if (Document.ADVENTURERS_GUIDE.isPageFound(Document.GUIDE_INTRO)){
-				GLog.p(Messages.get(GameScene.class, "tutorial_guidebook"));
-				flashForDocument(Document.ADVENTURERS_GUIDE, Document.GUIDE_INTRO);
+				GameScene.flashForDocument(Document.ADVENTURERS_GUIDE, Document.GUIDE_INTRO);
+			} else if (ControllerHandler.isControllerConnected()) {
+				GLog.p(Messages.get(GameScene.class, "tutorial_move_controller"));
+			} else if (SPDSettings.interfaceSize() == 0) {
+				GLog.p(Messages.get(GameScene.class, "tutorial_move_mobile"));
 			} else {
-				if (ControllerHandler.isControllerConnected()) {
-					GLog.p(Messages.get(GameScene.class, "tutorial_move_controller"));
-				} else if (SPDSettings.interfaceSize() == 0) {
-					GLog.p(Messages.get(GameScene.class, "tutorial_move_mobile"));
-				} else {
-					GLog.p(Messages.get(GameScene.class, "tutorial_move_desktop"));
-				}
+				GLog.p(Messages.get(GameScene.class, "tutorial_move_desktop"));
 			}
 			toolbar.visible = toolbar.active = false;
 			status.visible = status.active = false;
@@ -1097,11 +1096,11 @@ public class GameScene extends PixelScene {
 		}
 	}
 	
-	public static SpellSprite spellSprite() {
+	public static synchronized SpellSprite spellSprite() {
 		return (SpellSprite)scene.spells.recycle( SpellSprite.class );
 	}
 	
-	public static Emitter emitter() {
+	public static synchronized Emitter emitter() {
 		if (scene != null) {
 			Emitter emitter = (Emitter)scene.emitters.recycle( Emitter.class );
 			emitter.revive();
@@ -1111,7 +1110,7 @@ public class GameScene extends PixelScene {
 		}
 	}
 
-	public static Emitter floorEmitter() {
+	public static synchronized Emitter floorEmitter() {
 		if (scene != null) {
 			Emitter emitter = (Emitter)scene.floorEmitters.recycle( Emitter.class );
 			emitter.revive();
@@ -1166,7 +1165,9 @@ public class GameScene extends PixelScene {
 			if (SPDSettings.interfaceSize() == 0){
 				GLog.p(Messages.get(GameScene.class, "tutorial_ui_mobile"));
 			} else {
-				GLog.p(Messages.get(GameScene.class, "tutorial_ui_desktop"));
+				GLog.p(Messages.get(GameScene.class, "tutorial_ui_desktop",
+						KeyBindings.getKeyName(KeyBindings.getFirstKeyForAction(SPDAction.HERO_INFO, ControllerHandler.isControllerConnected())),
+						KeyBindings.getKeyName(KeyBindings.getFirstKeyForAction(SPDAction.INVENTORY, ControllerHandler.isControllerConnected()))));
 			}
 
 			//clear hidden doors, it's floor 1 so there are only the entrance ones

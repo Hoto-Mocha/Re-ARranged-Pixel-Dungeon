@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.effects.particles;
 
+import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
+import com.watabou.noosa.Visual;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.particles.Emitter.Factory;
 import com.watabou.noosa.particles.PixelParticle;
@@ -77,6 +79,21 @@ public class SparkParticle extends PixelParticle {
 		
 		acc.set( 0, 0 );
 		speed.set( 0, 0 );
+	}
+
+	public void resetAttracting( float x, float y, Visual attracting){
+		reset(x, y);
+
+		left = lifespan = Random.Float( 0.2f, 0.35f );
+
+		acc.set(0);
+		speed.set((attracting.x + attracting.width / 2f) - x,
+				(attracting.y + attracting.height / 2f) - y);
+		speed.normalize().scale(DungeonTilemap.SIZE * 3f);
+
+		//offset the particles slightly so they don't go too far outside of the cell
+		this.x -= speed.x / 8f;
+		this.y -= speed.y / 8f;
 	}
 
 	public void setMaxSize( float value ){

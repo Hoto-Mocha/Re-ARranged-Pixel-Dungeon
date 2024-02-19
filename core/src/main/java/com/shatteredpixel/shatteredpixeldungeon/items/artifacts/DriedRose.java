@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
@@ -42,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Wraith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShaftParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoItem;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndQuest;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndUseItem;
 import com.watabou.noosa.Game;
@@ -337,9 +338,10 @@ public class DriedRose extends Artifact {
 				}
 				updateQuickslot();
 			}
-		} else {
+		} else if (ghost.HP < ghost.HT) {
 			int heal = Math.round((1 + level()/3f)*amount);
 			ghost.HP = Math.min( ghost.HT, ghost.HP + heal);
+			ghost.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(heal), FloatingText.HEALING);
 			updateQuickslot();
 		}
 	}
@@ -471,7 +473,7 @@ public class DriedRose extends Artifact {
 				}
 
 				if (spawnPoints.size() > 0) {
-					Wraith.spawnAt(Random.element(spawnPoints), false);
+					Wraith.spawnAt(Random.element(spawnPoints), Wraith.class);
 					Sample.INSTANCE.play(Assets.Sounds.CURSED);
 				}
 
@@ -559,6 +561,7 @@ public class DriedRose extends Artifact {
 			state = HUNTING;
 			
 			properties.add(Property.UNDEAD);
+			properties.add(Property.INORGANIC);
 		}
 		
 		private DriedRose rose = null;
@@ -656,7 +659,7 @@ public class DriedRose extends Artifact {
 			if (rose == null
 					|| !rose.isEquipped(Dungeon.hero)
 					|| Dungeon.hero.buff(MagicImmune.class) != null){
-				damage(1, this);
+				damage(1, new NoRoseDamage());
 			}
 
 			if (this.state == WANDERING && !movingToDefendPos && enemy == null) {
@@ -668,6 +671,8 @@ public class DriedRose extends Artifact {
 			}
 			return super.act();
 		}
+
+		public static class NoRoseDamage{}
 
 		@Override
 		public int attackSkill(Char target) {
@@ -762,6 +767,7 @@ public class DriedRose extends Artifact {
 			if (rose != null && rose.armor != null && rose.armor.hasGlyph(AntiMagic.class, this)
 					&& AntiMagic.RESISTS.contains(src.getClass())){
 				dmg -= AntiMagic.drRoll(this, rose.armor.buffedLvl());
+				dmg = Math.max(dmg, 0);
 			}
 			
 			super.damage( dmg, src );
@@ -956,7 +962,6 @@ public class DriedRose extends Artifact {
 		}
 		
 		{
-			immunities.add( ToxicGas.class );
 			immunities.add( CorrosiveGas.class );
 			immunities.add( Burning.class );
 			immunities.add( ScrollOfRetribution.class );
@@ -1046,6 +1051,15 @@ public class DriedRose extends Artifact {
 							}
 						});
 					}
+				}
+
+				@Override
+				protected boolean onLongClick() {
+					if (item() != null && item().name() != null){
+						GameScene.show(new WndInfoItem(item()));
+						return true;
+					}
+					return false;
 				}
 			};
 			btnWeapon.setRect( (WIDTH - BTN_GAP) / 2 - BTN_SIZE, message.top() + message.height() + GAP, BTN_SIZE, BTN_SIZE );

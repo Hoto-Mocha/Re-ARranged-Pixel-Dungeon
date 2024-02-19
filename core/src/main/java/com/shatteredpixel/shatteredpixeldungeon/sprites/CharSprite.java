@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -189,6 +189,10 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	}
 	
 	public void showStatus( int color, String text, Object... args ) {
+		showStatusWithIcon(color, text, FloatingText.NO_ICON, args);
+	}
+
+	public void showStatusWithIcon( int color, String text, int icon, Object... args ) {
 		if (visible) {
 			if (args.length > 0) {
 				text = Messages.format( text, args );
@@ -196,9 +200,9 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 			float x = destinationCenter().x;
 			float y = destinationCenter().y - height()/2f;
 			if (ch != null) {
-				FloatingText.show( x, y, ch.pos, text, color );
+				FloatingText.show( x, y, ch.pos, text, color, icon, true );
 			} else {
-				FloatingText.show( x, y, text, color );
+				FloatingText.show( x, y, -1, text, color, icon, true );
 			}
 		}
 	}
@@ -714,6 +718,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 			if (jumpCallback != null) {
 				jumpCallback.call();
 			}
+			GameScene.sortMobSprites();
 
 		} else if (tweener == motion) {
 

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -110,8 +110,8 @@ public class AboutScene extends PixelScene {
 				"Hero Art & Design:",
 				Icons.ALEKS.get(),
 				"Aleksandar Komitov",
-				"alekskomitov.com",
-				"https://www.alekskomitov.com");
+				"akomitov.artstation.com",
+				"https://akomitov.artstation.com/");
 		alex.setSize(colWidth/2f, 0);
 		if (landscape()){
 			alex.setPos(shpx.right(), shpx.top() + (shpx.height() - alex.height()*2)/2f);

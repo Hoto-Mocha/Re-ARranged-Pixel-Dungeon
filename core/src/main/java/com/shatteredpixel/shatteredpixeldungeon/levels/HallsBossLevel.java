@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@ package com.shatteredpixel.shatteredpixeldungeon.levels;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Bones;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -199,14 +198,18 @@ public class HallsBossLevel extends Level {
 
 	@Override
 	protected void createItems() {
-		Item item = Bones.get();
-		if (item != null) {
-			int pos;
-			do {
-				pos = randomRespawnCell(null);
-			} while (pos == entrance());
-			drop( item, pos ).setHauntedIfCursed().type = Heap.Type.REMAINS;
-		}
+		Random.pushGenerator(Random.Long());
+			ArrayList<Item> bonesItems = Bones.get();
+			if (bonesItems != null) {
+				int pos;
+				do {
+					pos = randomRespawnCell(null);
+				} while (pos == entrance());
+				for (Item i : bonesItems) {
+					drop(i, pos).setHauntedIfCursed().type = Heap.Type.REMAINS;
+				}
+			}
+		Random.popGenerator();
 	}
 
 	@Override
@@ -317,6 +320,38 @@ public class HallsBossLevel extends Level {
 			if (m instanceof YogDzewa){
 				((YogDzewa) m).updateVisibility(this);
 			}
+		}
+	}
+
+	@Override
+	public boolean activateTransition(Hero hero, LevelTransition transition) {
+		if (transition.type == LevelTransition.Type.REGULAR_ENTRANCE
+				&& hero.belongings.getItem(Amulet.class) != null
+				&& hero.buff(AscensionChallenge.class) == null) {
+
+			Game.runOnRenderThread(new Callback() {
+				@Override
+				public void call() {
+					GameScene.show( new WndOptions( new ItemSprite(ItemSpriteSheet.AMULET),
+							Messages.get(Amulet.class, "ascent_title"),
+							Messages.get(Amulet.class, "ascent_desc"),
+							Messages.get(Amulet.class, "ascent_yes"),
+							Messages.get(Amulet.class, "ascent_no")){
+						@Override
+						protected void onSelect(int index) {
+							if (index == 0){
+								Buff.affect(hero, AscensionChallenge.class);
+								Statistics.highestAscent = 25;
+								HallsBossLevel.super.activateTransition(hero, transition);
+							}
+						}
+					} );
+				}
+			});
+			return false;
+
+		} else {
+			return super.activateTransition(hero, transition);
 		}
 	}
 

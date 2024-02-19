@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ public class Heap implements Bundlable {
 	public void open( Hero hero ) {
 		switch (type) {
 		case TOMB:
-			Wraith.spawnAround( hero.pos, true );
+			Wraith.spawnAround( hero.pos );
 			break;
 		case REMAINS:
 		case SKELETON:
@@ -98,7 +98,7 @@ public class Heap implements Bundlable {
 		}
 		
 		if (haunted){
-			if (Wraith.spawnAt( pos, true ) == null) {
+			if (Wraith.spawnAt( pos ) == null) {
 				hero.sprite.emitter().burst( ShadowParticle.CURSE, 6 );
 				hero.damage( hero.HP / 2, this );
 				if (!hero.isAlive()){

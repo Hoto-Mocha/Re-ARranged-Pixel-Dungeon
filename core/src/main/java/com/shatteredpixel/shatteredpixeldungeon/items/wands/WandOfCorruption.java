@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ public class WandOfCorruption extends Wand {
 		MINOR_DEBUFFS.put(Cripple.class,        1f);
 		MINOR_DEBUFFS.put(Blindness.class,      1f);
 		MINOR_DEBUFFS.put(Terror.class,         1f);
-		
+
 		MINOR_DEBUFFS.put(Chill.class,          0f);
 		MINOR_DEBUFFS.put(Ooze.class,           0f);
 		MINOR_DEBUFFS.put(Roots.class,          0f);
@@ -104,7 +104,7 @@ public class WandOfCorruption extends Wand {
 		MINOR_DEBUFFS.put(Burning.class,        0f);
 		MINOR_DEBUFFS.put(Poison.class,         0f);
 	}
-	
+
 	private static final float MAJOR_DEBUFF_WEAKEN = 1/2f;
 	private static final HashMap<Class<? extends Buff>, Float> MAJOR_DEBUFFS = new HashMap<>();
 	static{

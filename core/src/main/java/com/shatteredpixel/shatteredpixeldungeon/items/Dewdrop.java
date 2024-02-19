@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -88,13 +88,11 @@ public class Dewdrop extends Item {
 		if (effect > 0 || shield > 0) {
 			hero.HP += effect;
 			if (shield > 0) Buff.affect(hero, Barrier.class).incShield(shield);
-			hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
-			if (effect > 0 && shield > 0){
-				hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(Dewdrop.class, "both", effect, shield) );
-			} else if (effect > 0){
-				hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(Dewdrop.class, "heal", effect) );
-			} else {
-				hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(Dewdrop.class, "shield", shield) );
+			if (effect > 0){
+				hero.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString(effect), FloatingText.HEALING);
+			}
+			if (shield > 0) {
+				hero.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString(shield), FloatingText.SHIELDING );
 			}
 		} else if (!force) {
 			GLog.i( Messages.get(Dewdrop.class, "already_full") );

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -498,10 +498,12 @@ public class Toolbar extends Component {
 			startingSlot = swappedQuickslots ? 3 : 0;
 			btnSwap.visible = true;
 			btnSwap.active = lastEnabled;
+			QuickSlotButton.lastVisible = 6;
 		} else {
 			startingSlot = 0;
 			btnSwap.visible = btnSwap.active = false;
 			btnSwap.setPos(0, PixelScene.uiCamera.height);
+			QuickSlotButton.lastVisible = quickslotsToShow;
 		}
 		int endingSlot = startingSlot+quickslotsToShow-1;
 

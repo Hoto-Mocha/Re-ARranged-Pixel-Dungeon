@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,10 +25,11 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
@@ -81,13 +82,23 @@ public class ElixirOfAquaticRejuvenation extends Elixir {
 				} else {
 					healAmt = (float)Math.floor(healAmt);
 				}
-				target.HP += healAmt;
-				left -= healAmt;
-				target.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
+				target.HP += (int)healAmt;
+				left -= (int)healAmt;
+				target.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString((int)healAmt), FloatingText.HEALING );
+
+				if (target.HP >= target.HT) {
+					target.HP = target.HT;
+					if (target instanceof Hero) {
+						((Hero) target).resting = false;
+					}
+				}
 			}
 			
 			if (left <= 0){
 				detach();
+				if (target instanceof Hero) {
+					((Hero) target).resting = false;
+				}
 			} else {
 				spend(TICK);
 			}

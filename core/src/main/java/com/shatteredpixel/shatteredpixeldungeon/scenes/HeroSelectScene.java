@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -460,7 +460,7 @@ public class HeroSelectScene extends PixelScene {
 		}
 		startBtn.enable(alpha != 0);
 		startBtn.alpha(alpha);
-		btnExit.enable(alpha != 0);
+		btnExit.enable(btnExit.visible && alpha != 0);
 		btnExit.icon().alpha(alpha);
 		optionsPane.active = optionsPane.visible && alpha != 0;
 		optionsPane.alpha(alpha);
@@ -674,9 +674,9 @@ public class HeroSelectScene extends PixelScene {
 									if (diff <= 0) {
 										long time = Game.realTime - (Game.realTime % DAY);
 
-										//earliest possible daily for v1.4.0 is Sept 10 2022
-										//which is 19,245 days after Jan 1 1970
-										time = Math.max(time, 19_245 * DAY);
+										//earliest possible daily for v2.3.2 is Jan 30 2024
+										//which is 19,752 days after Jan 1 1970
+										time = Math.max(time, 19_752 * DAY);
 
 										SPDSettings.lastDaily(time);
 										Dungeon.dailyReplay = false;

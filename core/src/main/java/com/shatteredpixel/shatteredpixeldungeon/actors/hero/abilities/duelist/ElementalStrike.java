@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
@@ -154,7 +155,7 @@ public class ElementalStrike extends ArmorAbility {
 
 		Ballistica aim = new Ballistica(hero.pos, target, Ballistica.WONT_STOP);
 
-		int maxDist = 3 + hero.pointsInTalent(Talent.ELEMENTAL_REACH);
+		int maxDist = 4 + hero.pointsInTalent(Talent.ELEMENTAL_REACH);
 		int dist = Math.min(aim.dist, maxDist);
 
 		ConeAOE cone = new ConeAOE(aim,
@@ -249,7 +250,9 @@ public class ElementalStrike extends ArmorAbility {
 		//*** Blocking ***
 		} else if (ench instanceof Blocking){
 			if (targetsHit > 0){
+				int shield = Math.round(Math.round(6f*targetsHit*powerMulti));
 				Buff.affect(hero, Barrier.class).setShield(Math.round(6f*targetsHit*powerMulti));
+				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(shield), FloatingText.SHIELDING);
 			}
 
 		//*** Vampiric ***
@@ -259,8 +262,7 @@ public class ElementalStrike extends ArmorAbility {
 				heal = Math.min( heal, hero.HT - hero.HP );
 				if (heal > 0){
 					hero.HP += heal;
-					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( heal ) );
+					hero.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString( heal ), FloatingText.HEALING );
 				}
 			}
 
@@ -515,7 +517,7 @@ public class ElementalStrike extends ArmorAbility {
 		} else if (ench instanceof Explosive){
 			if (Random.Float() < 0.5f*powerMulti){
 				Char exploding = Random.element(affected);
-				if (exploding != null) new Bomb.MagicalBomb().explode(exploding.pos);
+				if (exploding != null) new Bomb.ConjuredBomb().explode(exploding.pos);
 			}
 
 		//*** Sacrificial ***

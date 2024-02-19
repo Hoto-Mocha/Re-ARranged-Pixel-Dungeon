@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
+import com.watabou.utils.Random;
+
+import java.util.ArrayList;
 
 public class DeadEndLevel extends Level {
 
@@ -102,10 +105,14 @@ public class DeadEndLevel extends Level {
 
 	@Override
 	protected void createItems() {
-		Item item = Bones.get();
-		if (item != null) {
-			drop( item, entrance()-width() ).setHauntedIfCursed().type = Heap.Type.REMAINS;
-		}
+		Random.pushGenerator(Random.Long());
+			ArrayList<Item> bonesItems = Bones.get();
+			if (bonesItems != null) {
+				for (Item i : bonesItems) {
+					drop(i, entrance()-width()).setHauntedIfCursed().type = Heap.Type.REMAINS;
+				}
+			}
+		Random.popGenerator();
 	}
 	
 	@Override

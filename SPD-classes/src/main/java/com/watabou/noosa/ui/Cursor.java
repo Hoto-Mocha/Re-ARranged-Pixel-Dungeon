@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.watabou.input.ControllerHandler;
 import com.watabou.noosa.Game;
+import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.FileUtils;
 import com.watabou.utils.PointF;
 
@@ -51,6 +52,11 @@ public class Cursor {
 	private static int lastZoom;
 
 	public static void setCustomCursor(Type type, int zoom){
+
+		//custom cursors (i.e. images which replace the mouse icon) are only supported on desktop
+		if (!DeviceCompat.isDesktop()){
+			return;
+		}
 
 		if (currentCursor != null){
 			if (lastType == type && lastZoom == zoom){

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
+import com.shatteredpixel.shatteredpixeldungeon.items.remains.RemainsItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -85,27 +86,28 @@ public class Badges {
 
 		//silver
 		NO_MONSTERS_SLAIN           ( 32 ),
-		MONSTERS_SLAIN_3            ( 33 ),
-		MONSTERS_SLAIN_4            ( 34 ),
-		GOLD_COLLECTED_3            ( 35 ),
-		GOLD_COLLECTED_4            ( 36 ),
-		ITEM_LEVEL_2                ( 37 ),
-		ITEM_LEVEL_3                ( 38 ),
-		LEVEL_REACHED_2             ( 39 ),
-		LEVEL_REACHED_3             ( 40 ),
-		STRENGTH_ATTAINED_2         ( 41 ),
-		STRENGTH_ATTAINED_3         ( 42 ),
-		FOOD_EATEN_2                ( 43 ),
-		FOOD_EATEN_3                ( 44 ),
-		ITEMS_CRAFTED_2             ( 45 ),
-		ITEMS_CRAFTED_3             ( 46 ),
-		BOSS_SLAIN_2                ( 47 ),
-		BOSS_SLAIN_3                ( 48 ),
-		ALL_POTIONS_IDENTIFIED      ( 49 ),
-		ALL_SCROLLS_IDENTIFIED      ( 50 ),
-		DEATH_FROM_ENEMY_MAGIC      ( 51 ),
-		DEATH_FROM_FRIENDLY_MAGIC   ( 52 ),
-		DEATH_FROM_SACRIFICE        ( 53 ),
+		BOSS_SLAIN_REMAINS          ( 33 ),
+		MONSTERS_SLAIN_3            ( 34 ),
+		MONSTERS_SLAIN_4            ( 35 ),
+		GOLD_COLLECTED_3            ( 36 ),
+		GOLD_COLLECTED_4            ( 37 ),
+		ITEM_LEVEL_2                ( 38 ),
+		ITEM_LEVEL_3                ( 39 ),
+		LEVEL_REACHED_2             ( 40 ),
+		LEVEL_REACHED_3             ( 41 ),
+		STRENGTH_ATTAINED_2         ( 42 ),
+		STRENGTH_ATTAINED_3         ( 43 ),
+		FOOD_EATEN_2                ( 44 ),
+		FOOD_EATEN_3                ( 45 ),
+		ITEMS_CRAFTED_2             ( 46 ),
+		ITEMS_CRAFTED_3             ( 47 ),
+		BOSS_SLAIN_2                ( 48 ),
+		BOSS_SLAIN_3                ( 49 ),
+		ALL_POTIONS_IDENTIFIED      ( 50 ),
+		ALL_SCROLLS_IDENTIFIED      ( 51 ),
+		DEATH_FROM_ENEMY_MAGIC      ( 52 ),
+		DEATH_FROM_FRIENDLY_MAGIC   ( 53 ),
+		DEATH_FROM_SACRIFICE        ( 54 ),
 		BOSS_SLAIN_1_WARRIOR,
 		BOSS_SLAIN_1_MAGE,
 		BOSS_SLAIN_1_ROGUE,
@@ -113,9 +115,9 @@ public class Badges {
 		BOSS_SLAIN_1_DUELIST,
 		BOSS_SLAIN_1_GUNNER,
 		BOSS_SLAIN_1_SAMURAI,
-		BOSS_SLAIN_1_ALL_CLASSES    ( 54, true ),
-		GAMES_PLAYED_2              ( 55, true ),
-		HIGH_SCORE_2                ( 56 ),
+		BOSS_SLAIN_1_ALL_CLASSES    ( 55, true ),
+		GAMES_PLAYED_2              ( 56, true ),
+		HIGH_SCORE_2                ( 57 ),
 
 		//gold
 		PIRANHAS                    ( 64 ),
@@ -150,10 +152,11 @@ public class Badges {
 		ITEM_LEVEL_5                ( 96 ),
 		LEVEL_REACHED_5             ( 97 ),
 		HAPPY_END                   ( 98 ),
-		ALL_WEAPONS_IDENTIFIED      ( 99 ),
-		ALL_ARMOR_IDENTIFIED        ( 100 ),
-		ALL_WANDS_IDENTIFIED        ( 101 ),
-		ALL_ITEMS_IDENTIFIED        ( 102, true ),
+		HAPPY_END_REMAINS           ( 99 ),
+		ALL_WEAPONS_IDENTIFIED      ( 100 ),
+		ALL_ARMOR_IDENTIFIED        ( 101 ),
+		ALL_WANDS_IDENTIFIED        ( 102 ),
+		ALL_ITEMS_IDENTIFIED        ( 103, true ),
 		VICTORY_WARRIOR,
 		VICTORY_MAGE,
 		VICTORY_ROGUE,
@@ -161,9 +164,8 @@ public class Badges {
 		VICTORY_DUELIST,
 		VICTORY_GUNNER,
 		VICTORY_SAMURAI,
-		VICTORY_ALL_CLASSES         ( 103, true ),
-		DEATH_FROM_ALL              ( 104, true ),
-
+		VICTORY_ALL_CLASSES         ( 104, true ),
+		DEATH_FROM_ALL              ( 105, true ),
 		BOSS_SLAIN_3_BERSERKER,
 		BOSS_SLAIN_3_GLADIATOR,
 		BOSS_SLAIN_3_VETERAN,
@@ -191,13 +193,12 @@ public class Badges {
 		BOSS_SLAIN_3_SLASHER,
 		BOSS_SLAIN_3_MASTER,
 		BOSS_SLAIN_3_SLAYER,
-
-		BOSS_SLAIN_3_ALL_SUBCLASSES ( 105, true ),
-		BOSS_CHALLENGE_3            ( 106 ),
-		BOSS_CHALLENGE_4            ( 107 ),
-		GAMES_PLAYED_4              ( 108, true ),
-		HIGH_SCORE_4                ( 109 ),
-		CHAMPION_1                  ( 110 ),
+		BOSS_SLAIN_3_ALL_SUBCLASSES ( 106, true ),
+		BOSS_CHALLENGE_3            ( 107 ),
+		BOSS_CHALLENGE_4            ( 108 ),
+		GAMES_PLAYED_4              ( 109, true ),
+		HIGH_SCORE_4                ( 110 ),
+		CHAMPION_1                  ( 111 ),
 
 		//diamond
 		BOSS_CHALLENGE_5            ( 120 ),
@@ -254,9 +255,7 @@ public class Badges {
 	
 	private static final HashSet<String> removedBadges = new HashSet<>();
 	static{
-		//v1.3.0 (These were removed and re-added internally as new unlock reqs were added)
-		removedBadges.add("YASD");
-		removedBadges.add("DEATH_FROM_GLYPH");
+		//no removed badges currently
 	}
 
 	private static final HashMap<String, String> renamedBadges = new HashMap<>();
@@ -843,6 +842,14 @@ public class Badges {
 					}
 				}
 			}
+
+			if (Statistics.qualifiedForBossRemainsBadge && Dungeon.hero.belongings.getItem(RemainsItem.class) != null){
+				badge = Badge.BOSS_SLAIN_REMAINS;
+				if (!isUnlocked( badge )) {
+					displayBadge( badge );
+				}
+			}
+
 		}
 	}
 
@@ -1079,10 +1086,17 @@ public class Badges {
 		if (!local.contains( Badge.HAPPY_END )){
 			local.add( Badge.HAPPY_END );
 		}
+
+		if(!local.contains( Badge.HAPPY_END_REMAINS ) && Dungeon.hero.belongings.getItem(RemainsItem.class) != null){
+			local.add( Badge.HAPPY_END_REMAINS );
+		}
 	}
 	
 	public static void validateHappyEnd() {
 		displayBadge( Badge.HAPPY_END );
+		if (local.contains(Badge.HAPPY_END_REMAINS)) {
+			displayBadge(Badge.HAPPY_END_REMAINS);
+		}
 	}
 
 	public static void validateChampion( int challenges ) {

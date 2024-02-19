@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -315,10 +315,10 @@ public class Potion extends Item {
 	}
 	
 	public void shatter( int cell ) {
+		splash( cell );
 		if (Dungeon.level.heroFOV[cell]) {
 			GLog.i( Messages.get(Potion.class, "shatter") );
 			Sample.INSTANCE.play( Assets.Sounds.SHATTER );
-			splash( cell );
 		}
 	}
 
@@ -391,20 +391,23 @@ public class Potion extends Item {
 	}
 	
 	protected void splash( int cell ) {
-
 		Fire fire = (Fire)Dungeon.level.blobs.get( Fire.class );
-		if (fire != null)
-			fire.clear( cell );
-
-		final int color = splashColor();
+		if (fire != null) {
+			fire.clear(cell);
+		}
 
 		Char ch = Actor.findChar(cell);
 		if (ch != null && ch.alignment == Char.Alignment.ALLY) {
 			Buff.detach(ch, Burning.class);
 			Buff.detach(ch, Ooze.class);
-			Splash.at( ch.sprite.center(), color, 5 );
-		} else {
-			Splash.at( cell, color, 5 );
+		}
+
+		if (Dungeon.level.heroFOV[cell]) {
+			if (ch != null) {
+				Splash.at(ch.sprite.center(), splashColor(), 5);
+			} else {
+				Splash.at(cell, splashColor(), 5);
+			}
 		}
 	}
 	

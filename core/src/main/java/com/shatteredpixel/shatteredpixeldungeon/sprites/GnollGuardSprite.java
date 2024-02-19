@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +22,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.GnollGuard;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.EarthParticle;
 import com.watabou.noosa.TextureFilm;
+import com.watabou.noosa.particles.Emitter;
 
 public class GnollGuardSprite extends MobSprite {
+
+	private Emitter earthArmor;
 
 	public GnollGuardSprite() {
 		super();
@@ -47,5 +53,61 @@ public class GnollGuardSprite extends MobSprite {
 
 		play( idle );
 	}
+
+	@Override
+	public void link( Char ch ) {
+		super.link( ch );
+
+		if (ch instanceof GnollGuard && ((GnollGuard) ch).hasSapper()){
+			setupArmor();
+		}
+	}
+
+	public void setupArmor(){
+		if (earthArmor == null) {
+			earthArmor = emitter();
+			earthArmor.fillTarget = false;
+			earthArmor.y = height()/2f;
+			earthArmor.x = (2*scale.x);
+			earthArmor.width = width()-(4*scale.x);
+			earthArmor.height = height() - (10*scale.y);
+			earthArmor.pour(EarthParticle.SMALL, 0.15f);
+		}
+	}
+
+	public void loseArmor(){
+		if (earthArmor != null){
+			earthArmor.on = false;
+			earthArmor = null;
+		}
+	}
+
+	@Override
+	public void update() {
+		super.update();
+
+		if (earthArmor != null){
+			earthArmor.visible = visible;
+		}
+	}
+
+	@Override
+	public void die() {
+		super.die();
+		if (earthArmor != null){
+			earthArmor.on = false;
+			earthArmor = null;
+		}
+	}
+
+	@Override
+	public void kill() {
+		super.kill();
+		if (earthArmor != null){
+			earthArmor.on = false;
+			earthArmor = null;
+		}
+	}
+
 
 }

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -438,10 +438,25 @@ public class Ring extends KindofMisc {
 	}
 
 	//just used for ring descriptions
-	public static int combinedBuffedBonus(Char target, Class<?extends RingBuff> type){
+	public int combinedBonus(Hero hero){
 		int bonus = 0;
-		for (RingBuff buff : target.buffs(type)) {
-			bonus += buff.buffedLvl();
+		if (hero.belongings.ring() != null && hero.belongings.ring().getClass() == getClass()){
+			bonus += hero.belongings.ring().soloBonus();
+		}
+		if (hero.belongings.misc() != null && hero.belongings.misc().getClass() == getClass()){
+			bonus += ((Ring)hero.belongings.misc()).soloBonus();
+		}
+		return bonus;
+	}
+
+	//just used for ring descriptions
+	public int combinedBuffedBonus(Hero hero){
+		int bonus = 0;
+		if (hero.belongings.ring() != null && hero.belongings.ring().getClass() == getClass()){
+			bonus += hero.belongings.ring().soloBuffedBonus();
+		}
+		if (hero.belongings.misc() != null && hero.belongings.misc().getClass() == getClass()){
+			bonus += ((Ring)hero.belongings.misc()).soloBuffedBonus();
 		}
 		return bonus;
 	}

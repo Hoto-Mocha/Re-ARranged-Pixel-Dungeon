@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,10 +46,6 @@ public abstract class StandardRoom extends Room {
 			minDim = min;
 			maxDim = max;
 			roomValue = val;
-		}
-		
-		public int connectionWeight(){
-			return roomValue*roomValue;
 		}
 		
 	}
@@ -100,6 +96,20 @@ public abstract class StandardRoom extends Room {
 	@Override
 	public int minHeight() { return sizeCat.minDim; }
 	public int maxHeight() { return sizeCat.maxDim; }
+
+	//larger standard rooms generally count as multiple rooms for various counting/weighting purposes
+	//but there can be exceptions
+	public int sizeFactor(){
+		return sizeCat.roomValue;
+	}
+
+	public int mobSpawnWeight(){
+		return sizeFactor();
+	}
+
+	public int connectionWeight(){
+		return sizeFactor() * sizeFactor();
+	}
 
 	@Override
 	public boolean canMerge(Level l, Point p, int mergeTerrain) {

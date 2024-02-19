@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class HolyBomb extends Bomb.MagicalBomb {
+public class HolyBomb extends Bomb {
 	
 	{
 		image = ItemSpriteSheet.HOLY_BOMB;
@@ -69,12 +69,14 @@ public class HolyBomb extends Bomb.MagicalBomb {
 				
 				//bomb deals an additional 50% damage to unholy enemies in a 5x5 range
 				int damage = Math.round(Random.NormalIntRange( Dungeon.scalingDepth()+5, 10 + Dungeon.scalingDepth() * 2 ) * 0.5f);
-				ch.damage(damage, this);
+				ch.damage(damage, new HolyDamage());
 			}
 		}
 		
 		Sample.INSTANCE.play( Assets.Sounds.READ );
 	}
+
+	public static class HolyDamage{}
 	
 	@Override
 	public int value() {

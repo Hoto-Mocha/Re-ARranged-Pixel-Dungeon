@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,12 +22,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.ios;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.backends.iosrobovm.custom.HWMachine;
 import com.badlogic.gdx.backends.iosrobovm.objectal.OALSimpleAudio;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.PixmapPacker;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.watabou.input.ControllerHandler;
 import com.watabou.noosa.Game;
 import com.watabou.utils.PlatformSupport;
 
@@ -80,9 +83,40 @@ public class IOSPlatformSupport extends PlatformSupport {
 		return !test.getFlags().contains(SCNetworkReachabilityFlags.IsWWAN);
 	}
 
-	public void vibrate( int millis ){
-		//gives a short vibrate on iPhone 6+, no vibration otherwise
-		AudioServices.playSystemSound(1520);
+	@Override
+	public boolean supportsVibration() {
+		//Devices with haptics...
+		if (Gdx.input.isPeripheralAvailable(Input.Peripheral.HapticFeedback)){
+			return true;
+		};
+
+		//...or with a supported controller connected
+		if (ControllerHandler.vibrationSupported()){
+			return true;
+		}
+
+		//...or with 3d touch
+		String machineString = HWMachine.getMachineString();
+		if (machineString.equals("iPhone8,4")){ //1st gen SE has no 3D touch specifically
+			return false;
+		} else { // 6s/7/8/X/XR have 3D touch
+			return machineString.contains("iphone8")        //6s
+					|| machineString.contains("iphone9")    //7
+					|| machineString.contains("iphone10")   //8, and X
+					|| machineString.contains("iphone11");  //XS (also XR but that has haptic)
+		}
+	}
+
+	public void vibrate(int millis ){
+		if (ControllerHandler.isControllerConnected()){
+			ControllerHandler.vibrate(millis);
+		} else if (Gdx.input.isPeripheralAvailable(Input.Peripheral.HapticFeedback)){
+			Gdx.input.vibrate( millis );
+		} else {
+			//devices without haptics but with 3d touch use a short vibrate
+			AudioServices.playSystemSound(1520);
+			// no vibration otherwise
+		}
 	}
 
 	@Override

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,9 +28,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bat;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CrystalWisp;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.FungalSpinner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.GnollGuard;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Spinner;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -68,6 +68,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MiningLevel extends CavesLevel {
+
+	@Override
+	public String tilesTex() {
+		switch (Blacksmith.Quest.Type()){
+			default:
+				return Assets.Environment.TILES_CAVES;
+			case Blacksmith.Quest.CRYSTAL:
+				return Assets.Environment.TILES_CAVES_CRYSTAL;
+			case Blacksmith.Quest.GNOLL:
+				return Assets.Environment.TILES_CAVES_GNOLL;
+		}
+
+	}
 
 	@Override
 	public void playLevelMusic() {
@@ -149,10 +162,10 @@ public class MiningLevel extends CavesLevel {
 				return new Bat();
 			case Blacksmith.Quest.CRYSTAL:
 				return new CrystalWisp();
-			case Blacksmith.Quest.FUNGI:
-				return new Spinner();
 			case Blacksmith.Quest.GNOLL:
 				return new GnollGuard();
+			case Blacksmith.Quest.FUNGI:
+				return new FungalSpinner();
 		}
 	}
 
@@ -164,15 +177,19 @@ public class MiningLevel extends CavesLevel {
 
 	@Override
 	protected void createItems() {
-		Item item = Bones.get();
-		if (item != null) {
-			int cell = randomDropCell();
-			if (map[cell] == Terrain.HIGH_GRASS || map[cell] == Terrain.FURROWED_GRASS) {
-				map[cell] = Terrain.GRASS;
-				losBlocking[cell] = false;
+		Random.pushGenerator(Random.Long());
+			ArrayList<Item> bonesItems = Bones.get();
+			if (bonesItems != null) {
+				int cell = randomDropCell();
+				if (map[cell] == Terrain.HIGH_GRASS || map[cell] == Terrain.FURROWED_GRASS) {
+					map[cell] = Terrain.GRASS;
+					losBlocking[cell] = false;
+				}
+				for (Item i : bonesItems) {
+					drop(i, cell).setHauntedIfCursed().type = Heap.Type.REMAINS;
+				}
 			}
-			drop( item, cell ).setHauntedIfCursed().type = Heap.Type.REMAINS;
-		}
+		Random.popGenerator();
 
 		int cell = randomDropCell();
 		if (map[cell] == Terrain.HIGH_GRASS || map[cell] == Terrain.FURROWED_GRASS) {
@@ -180,6 +197,15 @@ public class MiningLevel extends CavesLevel {
 			losBlocking[cell] = false;
 		}
 		drop( Generator.randomUsingDefaults(Generator.Category.FOOD), cell );
+		if (Blacksmith.Quest.Type() == Blacksmith.Quest.GNOLL){
+			//drop a second ration for the gnoll quest type, more mining required!
+			cell = randomDropCell();
+			if (map[cell] == Terrain.HIGH_GRASS || map[cell] == Terrain.FURROWED_GRASS) {
+				map[cell] = Terrain.GRASS;
+				losBlocking[cell] = false;
+			}
+			drop( Generator.randomUsingDefaults(Generator.Category.FOOD), cell );
+		}
 
 		if (Dungeon.isChallenged(Challenges.DARKNESS)){
 			cell = randomDropCell();
@@ -212,8 +238,7 @@ public class MiningLevel extends CavesLevel {
 	@Override
 	public boolean activateTransition(Hero hero, LevelTransition transition) {
 		if (transition.type == LevelTransition.Type.BRANCH_ENTRANCE
-				&& !Blacksmith.Quest.completed() && Blacksmith.Quest.Type() != 0) {
-
+				&& !Blacksmith.Quest.completed() && Blacksmith.Quest.Type() != Blacksmith.Quest.OLD) {
 
 			if (hero.belongings.getItem(Pickaxe.class) == null){
 				Game.runOnRenderThread(new Callback() {
@@ -244,9 +269,9 @@ public class MiningLevel extends CavesLevel {
 
 			if (!Blacksmith.Quest.bossBeaten()){
 				switch (Blacksmith.Quest.Type()){
-					case 1: warnText += "\n\n" + Messages.get(Blacksmith.class, "exit_warn_crystal"); break;
-					case 2: warnText += "\n\n" + Messages.get(Blacksmith.class, "exit_warn_fungi"); break;
-					case 3: warnText += "\n\n" + Messages.get(Blacksmith.class, "exit_warn_gnoll"); break;
+					case Blacksmith.Quest.CRYSTAL: warnText += "\n\n" + Messages.get(Blacksmith.class, "exit_warn_crystal"); break;
+					case Blacksmith.Quest.GNOLL: warnText += "\n\n" + Messages.get(Blacksmith.class, "exit_warn_gnoll"); break;
+					case Blacksmith.Quest.FUNGI: warnText += "\n\n" + Messages.get(Blacksmith.class, "exit_warn_fungi"); break;
 				}
 			}
 
@@ -287,6 +312,8 @@ public class MiningLevel extends CavesLevel {
 				return Messages.get(MiningLevel.class, "crystal_desc");
 			case Terrain.MINE_BOULDER:
 				return Messages.get(MiningLevel.class, "boulder_desc");
+			case Terrain.BARRICADE:
+				return Messages.get(MiningLevel.class, "barricade_desc");
 			default:
 				return super.tileDesc( tile );
 		}

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,10 +85,12 @@ public class PhantomPiranha extends Piranha {
 
 	@Override
 	public void dieOnLand() {
-		teleportAway();
+		if (!teleportAway()){
+			super.dieOnLand();
+		}
 	}
 
-	private void teleportAway(){
+	private boolean teleportAway(){
 
 		ArrayList<Integer> inFOVCandidates = new ArrayList<>();
 		ArrayList<Integer> outFOVCandidates = new ArrayList<>();
@@ -105,9 +107,13 @@ public class PhantomPiranha extends Piranha {
 		if (!outFOVCandidates.isEmpty()){
 			if (Dungeon.level.heroFOV[pos]) GLog.i(Messages.get(this, "teleport_away"));
 			ScrollOfTeleportation.appear(this, Random.element(outFOVCandidates));
+			return true;
 		} else if (!inFOVCandidates.isEmpty()){
 			ScrollOfTeleportation.appear(this, Random.element(inFOVCandidates));
+			return true;
 		}
+
+		return false;
 
 	}
 }

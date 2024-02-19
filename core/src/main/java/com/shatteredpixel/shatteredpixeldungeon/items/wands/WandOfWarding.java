@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -59,8 +60,9 @@ public class WandOfWarding extends Wand {
 
 	@Override
 	public int collisionProperties(int target) {
-		if (cursed || !Dungeon.level.heroFOV[target])   return Ballistica.PROJECTILE;
-		else                                            return Ballistica.STOP_TARGET;
+		if (cursed)                                 return super.collisionProperties(target);
+		else if (!Dungeon.level.heroFOV[target])    return Ballistica.PROJECTILE;
+		else                                        return Ballistica.STOP_TARGET;
 	}
 
 	private boolean wardAvailable = true;
@@ -286,7 +288,7 @@ public class WandOfWarding extends Wand {
 			}
 
 			HP = Math.min(HT, HP+heal);
-			if (sprite != null) sprite.showStatus(CharSprite.POSITIVE, Integer.toString(heal));
+			if (sprite != null) sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(heal), FloatingText.HEALING);
 
 		}
 
@@ -338,7 +340,8 @@ public class WandOfWarding extends Wand {
 
 			if (!enemy.isAlive() && enemy == Dungeon.hero) {
 				Badges.validateDeathFromFriendlyMagic();
-				Dungeon.fail( this );
+				GLog.n(Messages.capitalize(Messages.get( this, "kill", name() )));
+				Dungeon.fail( WandOfWarding.class );
 			}
 
 			totalZaps++;

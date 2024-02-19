@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -111,6 +111,7 @@ public class Rapier extends MeleeWeapon {
 		}
 
 		final int dest = lungeCell;
+
 		hero.busy();
 		Sample.INSTANCE.play(Assets.Sounds.MISS);
 		hero.sprite.jump(hero.pos, dest, 0, 0.1f, new Callback() {
@@ -123,6 +124,7 @@ public class Rapier extends MeleeWeapon {
 				Dungeon.level.occupyCell(hero);
 				Dungeon.observe();
 
+				hero.belongings.abilityWeapon = wep; //set this early to we can check canAttack
 				if (enemy != null && hero.canAttack(enemy)) {
 					hero.sprite.attack(enemy.pos, new Callback() {
 						@Override
@@ -144,7 +146,7 @@ public class Rapier extends MeleeWeapon {
 				} else {
 					wep.beforeAbilityUsed(hero, null);
 					GLog.w(Messages.get(Rapier.class, "ability_no_target"));
-					hero.spendAndNext(hero.speed());
+					hero.spendAndNext(1/hero.speed());
 					wep.afterAbilityUsed(hero);
 				}
 			}

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -116,7 +116,7 @@ public class DistortionTrap extends Trap{
 				case 2:
 					switch (2){
 						case 0: default:
-							Wraith.spawnAt(point, true);
+							Wraith.spawnAt(point);
 							continue; //wraiths spawn themselves, no need to do more
 						case 1:
 							//yes it's intended that these are likely to die right away

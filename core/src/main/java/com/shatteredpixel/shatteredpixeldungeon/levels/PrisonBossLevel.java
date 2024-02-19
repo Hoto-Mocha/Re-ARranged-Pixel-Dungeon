@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -132,20 +132,6 @@ public class PrisonBossLevel extends Level {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle(bundle);
 		state = bundle.getEnum( STATE, State.class );
-
-		//pre-1.3.0 saves, recreates custom exit and entrance transitions
-		if (bundle.contains("entrance")){
-			transitions.clear();
-			if (state == State.START || state == State.WON){
-				transitions.add(new LevelTransition(this, ENTRANCE_POS, LevelTransition.Type.REGULAR_ENTRANCE));
-			}
-			if (state == State.WON){
-				LevelTransition exit = new LevelTransition(this, pointToCell(levelExit), LevelTransition.Type.REGULAR_EXIT);
-				exit.right+=2;
-				exit.bottom+=3;
-				transitions.add(exit);
-			}
-		}
 		
 		//in some states tengu won't be in the world, in others he will be.
 		if (state == State.START || state == State.FIGHT_PAUSE) {
@@ -579,10 +565,19 @@ public class PrisonBossLevel extends Level {
 	
 	@Override
 	protected void createItems() {
-		Item item = Bones.get();
-		if (item != null) {
-			drop( item, randomRespawnCell( null ) ).setHauntedIfCursed().type = Heap.Type.REMAINS;
-		}
+		Random.pushGenerator(Random.Long());
+			ArrayList<Item> bonesItems = Bones.get();
+			if (bonesItems != null) {
+				int pos;
+				do {
+					pos = randomRespawnCell(null);
+				} while (pos == entrance());
+				for (Item i : bonesItems) {
+					drop(i, pos).setHauntedIfCursed().type = Heap.Type.REMAINS;
+				}
+			}
+		Random.popGenerator();
+
 		drop(new IronKey(10), randomPrisonCellPos());
 	}
 

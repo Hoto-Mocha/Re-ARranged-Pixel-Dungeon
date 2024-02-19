@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -99,6 +99,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
@@ -207,7 +208,6 @@ import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.Delayer;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
-import com.watabou.utils.ColorMath;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
@@ -1013,6 +1013,15 @@ public class Hero extends Char {
 			} else {
 				ready();
 			}
+
+			//if we just loaded into a level and have a search buff, make sure to process them
+			if(Actor.now() == 0){
+				if (buff(Foresight.class) != null){
+					search(false);
+				} else if (buff(TalismanOfForesight.Foresight.class) != null){
+					buff(TalismanOfForesight.Foresight.class).checkAwareness();
+				}
+			}
 			
 			actResult = false;
 			
@@ -1101,6 +1110,7 @@ public class Hero extends Char {
 		}
 		curAction = null;
 		GameScene.resetKeyHold();
+		resting = false;
 	}
 	
 	public void resume() {
@@ -1237,6 +1247,15 @@ public class Hero extends Char {
 							|| item instanceof Key
 							|| item instanceof Guidebook) {
 						//Do Nothing
+					} else if (item instanceof DarkGold) {
+						DarkGold existing = belongings.getItem(DarkGold.class);
+						if (existing != null){
+							if (existing.quantity() >= 40) {
+								GLog.p(Messages.get(DarkGold.class, "you_now_have", existing.quantity()));
+							} else {
+								GLog.i(Messages.get(DarkGold.class, "you_now_have", existing.quantity()));
+							}
+						}
 					} else {
 
 						//TODO make all unique items important? or just POS / SOU?
@@ -1446,9 +1465,9 @@ public class Hero extends Char {
 
 						//1 hunger spent total
 						} else if (Dungeon.level.map[action.dst] == Terrain.MINE_BOULDER){
-							Splash.at(action.dst, ColorMath.random( 0x444444, 0x777766 ), 5);
+							Splash.at(action.dst, 0x555555, 5);
 							Sample.INSTANCE.play( Assets.Sounds.MINE, 0.6f );
-							Level.set( action.dst, Terrain.EMPTY );
+							Level.set( action.dst, Terrain.EMPTY_DECO );
 						}
 
 						for (int i : PathFinder.NEIGHBOURS9) {
@@ -1543,7 +1562,9 @@ public class Hero extends Char {
 					&& buff(Talent.AggressiveBarrierCooldown.class) == null
 					&& (HP / (float)HT) < 0.20f*(1+pointsInTalent(Talent.AGGRESSIVE_BARRIER))){
 				Buff.affect(this, Barrier.class).setShield(3);
+				sprite.showStatusWithIcon(CharSprite.POSITIVE, "3", FloatingText.SHIELDING);
 				Buff.affect(this, Talent.AggressiveBarrierCooldown.class, 50f);
+
 			}
 			sprite.attack( enemy.pos );
 
@@ -2069,7 +2090,6 @@ public class Hero extends Char {
 		// unless the player recently hit 'continue moving', in which case this is ignored
 		if (!(src instanceof Hunger || src instanceof Viscosity.DeferedDamage) && damageInterrupt) {
 			interrupt();
-			resting = false;
 		}
 
 		if (this.buff(Drowsy.class) != null){
@@ -2109,6 +2129,7 @@ public class Hero extends Char {
 		if (belongings.armor() != null && belongings.armor().hasGlyph(AntiMagic.class, this)
 				&& AntiMagic.RESISTS.contains(src.getClass())){
 			dmg -= AntiMagic.drRoll(this, belongings.armor().buffedLvl());
+			dmg = Math.max(dmg, 0);
 		}
 
 		if (buff(Talent.WarriorFoodImmunity.class) != null){
@@ -2162,7 +2183,6 @@ public class Hero extends Char {
 				}
 				//hero gets interrupted on taking serious damage, regardless of any other factor
 				interrupt();
-				resting = false;
 				damageInterrupt = true;
 			}
 		}
@@ -2207,11 +2227,10 @@ public class Hero extends Char {
 		}
 		
 		if (newMob) {
-			interrupt();
 			if (resting){
 				Dungeon.observe();
-				resting = false;
 			}
+			interrupt();
 		}
 
 		visibleEnemies = visible;
@@ -2386,7 +2405,7 @@ public class Hero extends Char {
 			
 		} else if (fieldOfView[cell] && ch instanceof Mob) {
 
-			if (ch.alignment != Alignment.ENEMY && ch.buff(Amok.class) == null) {
+			if (((Mob) ch).heroShouldInteract()) {
 				curAction = new HeroAction.Interact( ch );
 			} else {
 				curAction = new HeroAction.Attack( ch );
@@ -2429,6 +2448,7 @@ public class Hero extends Char {
 				//moving to a transition doesn't automatically trigger it when enemies are near
 				&& (visibleEnemies.size() == 0 || cell == pos)
 				&& !Dungeon.level.locked
+				&& !Dungeon.level.plants.containsKey(cell)
 				&& (Dungeon.depth < 31 || Dungeon.level.getTransition(cell).type == LevelTransition.Type.REGULAR_ENTRANCE) ) {
 
 			curAction = new HeroAction.LvlTransition( cell );
@@ -2617,7 +2637,6 @@ public class Hero extends Char {
 
 		if (ankh != null) {
 			interrupt();
-			resting = false;
 
 			if (ankh.isBlessed()) {
 				this.HP = HT / 4;
@@ -3100,6 +3119,10 @@ public class Hero extends Char {
 
 		if (foresight){
 			GameScene.updateFog(pos, Foresight.DISTANCE+1);
+		}
+
+		if (talisman != null){
+			talisman.checkAwareness();
 		}
 		
 		return smthFound;

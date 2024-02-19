@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
@@ -32,8 +33,6 @@ import com.watabou.utils.Random;
 import java.util.ArrayList;
 
 public class EnergyCrystal extends Item {
-
-	private static final String TXT_VALUE	= "%+d";
 
 	{
 		image = ItemSpriteSheet.ENERGY;
@@ -60,7 +59,7 @@ public class EnergyCrystal extends Item {
 		//TODO track energy collected maybe? We do already track recipes crafted though..
 
 		GameScene.pickUp( this, pos );
-		hero.sprite.showStatus( 0x44CCFF, TXT_VALUE, quantity );
+		hero.sprite.showStatusWithIcon( 0x44CCFF, Integer.toString(quantity), FloatingText.ENERGY );
 		hero.spendAndNext( TIME_TO_PICK_UP );
 
 		Sample.INSTANCE.play( Assets.Sounds.ITEM );

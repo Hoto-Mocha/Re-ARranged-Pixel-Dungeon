@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,13 +41,11 @@ import org.robovm.apple.foundation.NSBundle;
 import org.robovm.apple.foundation.NSException;
 import org.robovm.apple.foundation.NSMutableDictionary;
 import org.robovm.apple.foundation.NSObject;
-import org.robovm.apple.foundation.NSProcessInfo;
 import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.glkit.GLKViewDrawableColorFormat;
 import org.robovm.apple.glkit.GLKViewDrawableDepthFormat;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIRectEdge;
-import org.robovm.apple.uikit.UIScreen;
 
 import java.io.File;
 
@@ -104,11 +102,11 @@ public class IOSLauncher extends IOSApplication.Delegate {
 		config.hideHomeIndicator = SPDSettings.fullscreen();
 		config.overrideRingerSwitch = SPDSettings.ignoreSilentMode();
 
-		config.screenEdgesDeferringSystemGestures = UIRectEdge.None;
-
-		if (NSProcessInfo.getSharedProcessInfo().getOperatingSystemVersion().getMajorVersion() >= 11) {
-			config.preferredFramesPerSecond = (int)(UIScreen.getMainScreen().getMaximumFramesPerSecond());
-		}
+		//game has to ignore input from system gestures itself, otherwise there is lag on
+		//every button press on the corner of the screen. Currently this is accomplished via
+		//clearing all pointer events on the first frame after the game is resumed.
+		//TODO this may not be needed anymore with libgdx 1.12.1
+		config.screenEdgesDeferringSystemGestures = UIRectEdge.All;
 
 		CGRect statusBarFrame = UIApplication.getSharedApplication().getStatusBarFrame();
 		double statusBarHeight = Math.min(statusBarFrame.getWidth(), statusBarFrame.getHeight());
@@ -123,48 +121,54 @@ public class IOSLauncher extends IOSApplication.Delegate {
 		config.useCompass = false;
 
 		//devices not currently listed in LibGDX's IOSDevice class
-		config.addIosDevice("IPHONE_12_MINI", "iPhone13,1", 476);
-		config.addIosDevice("IPHONE_12", "iPhone13,2", 460);
-		config.addIosDevice("IPHONE_12_PRO", "iPhone13,3", 460);
-		config.addIosDevice("IPHONE_12_PRO_MAX", "iPhone13,4", 458);
-		config.addIosDevice("IPHONE_13_PRO", "iPhone14,2", 460);
-		config.addIosDevice("IPHONE_13_PRO_MAX", "iPhone14,3", 458);
-		config.addIosDevice("IPHONE_13_MINI", "iPhone14,4", 476);
-		config.addIosDevice("IPHONE_13", "iPhone14,5", 460);
-		config.addIosDevice("IPHONE_SE_3G", "iPhone14,6", 326);
-		config.addIosDevice("IPHONE_14", "iPhone14,7", 460);
-		config.addIosDevice("IPHONE_14_PLUS", "iPhone14,8", 458);
-		config.addIosDevice("IPHONE_14_PRO", "iPhone15,2", 460);
-		config.addIosDevice("IPHONE_14_PRO_MAX", "iPhone15,3", 460);
+		config.addIosDevice("IPHONE_12_MINI",       "iPhone13,1", 476);
+		config.addIosDevice("IPHONE_12",            "iPhone13,2", 460);
+		config.addIosDevice("IPHONE_12_PRO",        "iPhone13,3", 460);
+		config.addIosDevice("IPHONE_12_PRO_MAX",    "iPhone13,4", 458);
+		config.addIosDevice("IPHONE_13_PRO",        "iPhone14,2", 460);
+		config.addIosDevice("IPHONE_13_PRO_MAX",    "iPhone14,3", 458);
+		config.addIosDevice("IPHONE_13_MINI",       "iPhone14,4", 476);
+		config.addIosDevice("IPHONE_13",            "iPhone14,5", 460);
+		config.addIosDevice("IPHONE_SE_3G",         "iPhone14,6", 326);
+		config.addIosDevice("IPHONE_14",            "iPhone14,7", 460);
+		config.addIosDevice("IPHONE_14_PLUS",       "iPhone14,8", 458);
+		config.addIosDevice("IPHONE_14_PRO",        "iPhone15,2", 460);
+		config.addIosDevice("IPHONE_14_PRO_MAX",    "iPhone15,3", 460);
+		config.addIosDevice("IPHONE_14_PRO",        "iPhone15,2", 460);
+		config.addIosDevice("IPHONE_14_PRO_MAX",    "iPhone15,3", 460);
+		config.addIosDevice("IPHONE_15",            "iPhone15,4", 460);
+		config.addIosDevice("IPHONE_15_PLUS",       "iPhone15,5", 460);
+		config.addIosDevice("IPHONE_15_PRO",        "iPhone16,1", 460);
+		config.addIosDevice("IPHONE_15_PRO_MAX",    "iPhone16,2", 460);
 
-		config.addIosDevice("IPAD_7G_WIFI", "iPad7,11", 264);
-		config.addIosDevice("IPAD_7G_WIFI_CELLULAR", "iPad7,12", 264);
-		config.addIosDevice("IPAD_8G_WIFI", "iPad11,6", 264);
-		config.addIosDevice("IPAD_8G_WIFI_CELLULAR", "iPad11,7", 264);
-		config.addIosDevice("IPAD_AIR_4G_WIFI", "iPad13,1", 264);
-		config.addIosDevice("IPAD_AIR_4G_WIFI_CELLULAR", "iPad13,2", 264);
-		config.addIosDevice("IPAD_9G_WIFI", "iPad12,1", 264);
-		config.addIosDevice("IPAD_9G_WIFI_CELLULAR", "iPad12,2", 264);
-		config.addIosDevice("IPAD_MINI_6G_WIFI", "iPad14,1", 326);
-		config.addIosDevice("IPAD_MINI_6G_WIFI_CELLULAR", "iPad14,2", 326);
-		config.addIosDevice("IPAD_AIR_4G_WIFI", "iPad13,1", 264);
-		config.addIosDevice("IPAD_AIR_4G_WIFI_CELLULAR", "iPad13,2", 264);
-		config.addIosDevice("IPAD_PRO_11_3G", "iPad13,4", 264);
-		config.addIosDevice("IPAD_PRO_11_3G", "iPad13,5", 264);
-		config.addIosDevice("IPAD_PRO_11_3G", "iPad13,6", 264);
-		config.addIosDevice("IPAD_PRO_11_3G", "iPad13,7", 264);
-		config.addIosDevice("IPAD_PRO_12.9_5G", "iPad13,8", 264);
-		config.addIosDevice("IPAD_PRO_12.9_5G", "iPad13,9", 264);
-		config.addIosDevice("IPAD_PRO_12.9_5G", "iPad13,10", 264);
-		config.addIosDevice("IPAD_PRO_12.9_5G", "iPad13,11", 264);
-		config.addIosDevice("IPAD_AIR_5G_WIF", "iPad13,16", 264);
-		config.addIosDevice("IPAD_AIR_5G_WIFI_CELLULAR", "iPad13,17", 264);
-		config.addIosDevice("IPAD_10G", "iPad13,18", 264);
-		config.addIosDevice("IPAD_10G", "iPad13,19", 264);
-		config.addIosDevice("IPAD_PRO_11_4G", "iPad14,3", 264);
-		config.addIosDevice("IPAD_PRO_11_4G", "iPad14,4", 264);
-		config.addIosDevice("IPAD_PRO_12.9_6G", "iPad14,5", 264);
-		config.addIosDevice("IPAD_PRO_12.9_6G", "iPad14,6", 264);
+		config.addIosDevice("IPAD_7G_WIFI",                 "iPad7,11", 264);
+		config.addIosDevice("IPAD_7G_WIFI_CELLULAR",        "iPad7,12", 264);
+		config.addIosDevice("IPAD_8G_WIFI",                 "iPad11,6", 264);
+		config.addIosDevice("IPAD_8G_WIFI_CELLULAR",        "iPad11,7", 264);
+		config.addIosDevice("IPAD_AIR_4G_WIFI",             "iPad13,1", 264);
+		config.addIosDevice("IPAD_AIR_4G_WIFI_CELLULAR",    "iPad13,2", 264);
+		config.addIosDevice("IPAD_9G_WIFI",                 "iPad12,1", 264);
+		config.addIosDevice("IPAD_9G_WIFI_CELLULAR",        "iPad12,2", 264);
+		config.addIosDevice("IPAD_MINI_6G_WIFI",            "iPad14,1", 326);
+		config.addIosDevice("IPAD_MINI_6G_WIFI_CELLULAR",   "iPad14,2", 326);
+		config.addIosDevice("IPAD_AIR_4G_WIFI",             "iPad13,1", 264);
+		config.addIosDevice("IPAD_AIR_4G_WIFI_CELLULAR",    "iPad13,2", 264);
+		config.addIosDevice("IPAD_PRO_11_3G",               "iPad13,4", 264);
+		config.addIosDevice("IPAD_PRO_11_3G",               "iPad13,5", 264);
+		config.addIosDevice("IPAD_PRO_11_3G",               "iPad13,6", 264);
+		config.addIosDevice("IPAD_PRO_11_3G",               "iPad13,7", 264);
+		config.addIosDevice("IPAD_PRO_12.9_5G",             "iPad13,8", 264);
+		config.addIosDevice("IPAD_PRO_12.9_5G",             "iPad13,9", 264);
+		config.addIosDevice("IPAD_PRO_12.9_5G",             "iPad13,10", 264);
+		config.addIosDevice("IPAD_PRO_12.9_5G",             "iPad13,11", 264);
+		config.addIosDevice("IPAD_AIR_5G_WIF",              "iPad13,16", 264);
+		config.addIosDevice("IPAD_AIR_5G_WIFI_CELLULAR",    "iPad13,17", 264);
+		config.addIosDevice("IPAD_10G",                     "iPad13,18", 264);
+		config.addIosDevice("IPAD_10G",                     "iPad13,19", 264);
+		config.addIosDevice("IPAD_PRO_11_4G",               "iPad14,3", 264);
+		config.addIosDevice("IPAD_PRO_11_4G",               "iPad14,4", 264);
+		config.addIosDevice("IPAD_PRO_12.9_6G",             "iPad14,5", 264);
+		config.addIosDevice("IPAD_PRO_12.9_6G",             "iPad14,6", 264);
 
 		return new IOSApplication(new ShatteredPixelDungeon(new IOSPlatformSupport()), config);
 	}

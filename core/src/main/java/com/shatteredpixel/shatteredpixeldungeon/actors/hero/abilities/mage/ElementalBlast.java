@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
@@ -344,7 +345,13 @@ public class ElementalBlast extends ArmorAbility {
 										mob.HP += healing;
 
 										mob.sprite.emitter().burst(Speck.factory(Speck.HEALING), 4);
-										mob.sprite.showStatus(CharSprite.POSITIVE, "+%dHP", healing + shielding);
+
+										if (healing > 0) {
+											mob.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healing), FloatingText.HEALING);
+										}
+										if (shielding > 0){
+											mob.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(shielding), FloatingText.SHIELDING);
+										}
 									} else {
 										if (!mob.properties().contains(Char.Property.UNDEAD)) {
 											Charm charm = Buff.affect(mob, Charm.class, effectMulti*Charm.DURATION/2f);
@@ -408,6 +415,7 @@ public class ElementalBlast extends ArmorAbility {
 						charsHit = Math.min(4 + hero.pointsInTalent(Talent.REACTIVE_BARRIER), charsHit);
 						if (charsHit > 0 && hero.hasTalent(Talent.REACTIVE_BARRIER)){
 							int shielding = Math.round(charsHit*2.5f*hero.pointsInTalent(Talent.REACTIVE_BARRIER));
+							hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(shielding), FloatingText.SHIELDING);
 							Buff.affect(hero, Barrier.class).setShield(shielding);
 						}
 

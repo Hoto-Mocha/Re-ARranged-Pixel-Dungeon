@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -163,10 +163,13 @@ public class SpiritBow extends Weapon {
 				break;
 			case NONE:
 		}
-		
+
 		if (enchantment != null && (cursedKnown || !enchantment.curse())){
-			info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
-			info += " " + Messages.get(enchantment, "desc");
+			info += "\n\n" + Messages.capitalize(Messages.get(Weapon.class, "enchanted", enchantment.name()));
+			if (enchantHardened) info += " " + Messages.get(Weapon.class, "enchant_hardened");
+			info += " " + enchantment.desc();
+		} else if (enchantHardened){
+			info += "\n\n" + Messages.get(Weapon.class, "hardened_no_enchant");
 		}
 		
 		if (cursed && isEquipped( Dungeon.hero )) {

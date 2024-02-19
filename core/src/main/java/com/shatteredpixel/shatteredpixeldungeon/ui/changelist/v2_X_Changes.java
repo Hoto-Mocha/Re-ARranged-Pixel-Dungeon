@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,16 +21,14 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.ui.changelist;
 
-import com.badlogic.gdx.Gdx;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.ChangesScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.BlacksmithSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.BruteSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.GnollGuardSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -41,7 +39,6 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TalentIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.watabou.noosa.Image;
-import com.watabou.utils.DeviceCompat;
 
 import java.util.ArrayList;
 
@@ -49,6 +46,7 @@ public class v2_X_Changes {
 
 	public static void addAllChanges( ArrayList<ChangeInfo> changeInfos ){
 		add_Coming_Soon(changeInfos);
+		add_v2_3_Changes(changeInfos);
 		add_v2_2_Changes(changeInfos);
 		add_v2_1_Changes(changeInfos);
 		add_v2_0_Changes(changeInfos);
@@ -60,25 +58,221 @@ public class v2_X_Changes {
 		changes.hardlight(0xCCCCCC);
 		changeInfos.add(changes);
 
-		if (DeviceCompat.isiOS() && Gdx.app.getVersion() < 11){
-			changes.addButton( new ChangeButton(Icons.WARNING.get(), "32-bit iOS support",
-					"v2.3 will be the last version of Shattered Pixel Dungeon that will supports 32-bit iOS devices. As a result, future Shattered updates will require iOS 11+, up from 9+.\n\n" +
-					"Players on iOS 9 and 10 will be able to continue playing Shattered Pixel Dungeon v2.3, and can check the news section for information on future versions."));
-		}
-
 		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Overview",
-				"The next update will be v2.3.0, and will add two new variants to the new caves quest!\n" +
+				"The next update will be v2.4.0, including a new type of item called trinkets!\n" +
 				"\n" +
-				"The new caves quest ended up taking quite a lot longer than intended, so I'm a bit hesitant to commit to an ETA for v2.3.0 currently. I should hopefully be able to announce something later in November or early December. Please keep in mind that while I always try to keep to the ETAs I provide, they are just estimates. If you don't hear from me by the ETA, it means I'm still busy with the update!"));
+				"I'd like to try and release v2.4.0 fairly quickly to put us onto a good pace for 2024, but we'll see how well that actually turns out. Expect to hear something from me one way or another later in early to mid March. Please keep in mind that while I always try to keep to the ETAs I provide, they are just estimates. If you don't hear from me by the ETA, it means I'm still busy with the update!"));
 
-		changes.addButton( new ChangeButton(new Image(new BruteSprite()), "Gnoll Encampment",
-				"The first of the upcoming caves quest variants is an unstable gnoll encampment. The gnolls have taken to trying to mine out some gold themselves, but are preferring to use earth-moving magic with little care for cave stability. Expect a lot of closed in walls and fallen rocks, as well as gnolls that'll be able to use those rocks against you."));
-
-		changes.addButton( new ChangeButton(new Image(Assets.Environment.TILES_CAVES, 32, 64, 16, 16), "Mushroom Forest",
-				"The second upcoming variant is a mushroom forest. A large mycellium network has grown in this area, creating lots of hostile plant life. The abundance of tall vegetation isn't just pretty tough, you'll want to use it (or the cave walls themselves) to keep out of sight from the powerful, yet stationary, mushroom sentries."));
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.SKULL), "Trinkets",
+				"Trinkets are a new item type that are more about tweaking gameplay variables than giving direct power or utility. You'll be able to get one trinket per run (with some choice), which will change up the game slightly with effects such as increasing rare enemy spawn rates or making enchantments and curses more likely. Trinkets will be upgradeable via alchemical energy, increasing the strength of their effect."));
 
 		changes.addButton( new ChangeButton(Icons.get(Icons.PREFS), "Smaller Changes/Fixes",
-				"I also expect v2.3.0 will include followup changes to the initial new quest variant, as well as the usual assortment of other smaller improvements, fixes, and additions. I'd like for v2.3.0 to be fairly quick, so the other changes will probably be lighter than usual."));
+				"As always, v2.4.0 will include some smaller changes and fixes as well. Right now I'm considering making some targeted balance and design tweaks to various hero abilities, but I haven't locked that in yet as there are lots of little things I could choose to look into changing or improving."));
+
+		changes.addButton( new ChangeButton(Icons.WARNING.get(), "iOS 9 and 10 Support",
+				"The next update will also be dropping support for iOS 9 and 10, which currently make up ~0.05% of Shattered's iOS playerbase. I'm making this change due to an update to Shattered's game library (libGDX), and to remove the requirement to include 32-bit iOS code with the game. iOS 9 and 10 players will still be able to continue playing Shattered Pixel Dungeon v2.3.0"));
+
+	}
+
+	public static void add_v2_3_Changes( ArrayList<ChangeInfo> changeInfos ) {
+
+		ChangeInfo changes = new ChangeInfo("v2.3", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes = new ChangeInfo("v2.3.2", false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"_-_ Slightly improved the layout of shop rooms when many items are present\n\n" +
+				"_-_ Updated a link in the game's credits"));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"Fixed the following bugs:\n" +
+				"_Caused by v2.3.1:_\n" +
+				"_-_ Tengu being able to set himself on fire, oops =S\n\n" +
+				"_Existed prior to v2.3.0:_\n" +
+				"_-_ Various minor textual errors\n" +
+				"_-_ Very specific cases where levelgen could vary based on whether the player has a timekeeper's hourglass or not\n" +
+				"_-_ Hero leap vfx not causing the camera to follow them\n" +
+				"_-_ Cases where grass and embers wouldn't appear on top of specific ground visuals"));
+
+		changes = new ChangeInfo("v2.3.1", false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"I've updated to the latest version of Shattered's game library (libGDX), which has a few benefits:\n" +
+				"_-_ Improved vibration on modern iOS devices\n" +
+				"_-_ Improved changing audio device behavior\n" +
+				"_-_ Misc. stability & compatibility improvements\n\n" +
+				"_-_ Magical fire is now cleared by frost next to it, in addition to on top of it\n" +
+				"_-_ Tengu's fire wall attack now ignites items\n\n" +
+				"_-_ Improved music transitions in main menu when game was just won\n\n" +
+				"_-_ Added support for controller vibration\n" +
+				"_-_ Added a vibration toggle in the settings\n\n" +
+				"_-_ Updated translators and translator credits\n\n" +
+				"_-_ Increased the minimum supported iOS version to 11, from 9"));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"Fixed the following bugs:\n" +
+				"_Caused by v2.3.0:_\n" +
+				"Nothing! v2.3.0 is pretty stable. =)\n\n" +
+				"_Existed prior to v2.3.0:_\n" +
+				"_-_ Game unintentionally spamming new Google Play players with Play Games login requests\n" +
+				"_-_ Events which interrupt the hero not interrupting resting\n" +
+				"_-_ Rare cases where hero could lose a turn when moving between depths\n" +
+				"_-_ Transmutation removing items from quickslots in rare cases\n" +
+				"_-_ Incorrect death messages when player is killed by wards\n" +
+				"_-_ Amoked allies not being affected by aggression debuff"));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "new"), false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Developer Commentary",
+				"_-_ Released January 18th, 2024\n" +
+				"_-_ 92 days after Shattered v2.2.0\n\n" +
+				"v2.3.0 was originally going to contain two new variants for the caves quest, but after a longer than expected dev cycle plus the holidays, I opted to release v2.3.0 with just one more variant and move on to other content for a while, instead of spending even more time on the caves quest.\n\n" +
+				"More Dev commentary will be added here in the future."));
+
+		changes.addButton(new ChangeButton(new Image(new GnollGuardSprite()), "Gnoll Caves Quest",
+				"_A second variant has been added to the caves quest!_\n" +
+				"\n" +
+				"This variant features _gnolls and earth-moving magic._ Expect to spend a bit more time digging, as this environment features collapsed walls, boulders, and angry gnolls wielding spears and earth-moving devices. Their magic is quite chaotic, so be ready to dodge and possibly get the gnolls caught in their own attacks.\n" +
+				"\n" +
+				"The boss for this variant is the _gnoll geomancer,_ an experienced gnoll with access to lots of mobility and earth-moving power."));
+
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.REMAINS), "New Remains Items",
+				"_Heroes remains now contain a new unique item that varies based on the class of the hero that died._\n" +
+				"\n" +
+				"These items are single use consumables that provide a small benefit that's themed after the hero who died. There are also two new badges relating to these items.\n" +
+				"\n" +
+				"Remains now always contain a signature remains item in addition to an extra item from the previous run, if one was chosen. This replaces the previous behaviour, where remains would contain 50 or 10 gold if no eligible item could be chosen.\n" +
+				"\n" +
+				"Additionally, remains which contain a stackable item from the previous run now cap the quantity of that item at 3."));
+
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.CANDY_CANE), "New Holiday Items",
+				"Shattered has had little holiday food items that temporarily replace cornish pasties ever since 2016, but only for Halloween and the Winter Holidays. Throughout 2024 you'll see a bunch of new items for more holidays through the year, which all have different tiny bonus effects when eaten.\n" +
+				"\n" +
+				"For now I have implemented items for Lunar New Years and Easter, with more on the way in future updates.\n" +
+				"\n" +
+				"I've also shortened the duration for Halloween and the Winter Holidays after 2023, so as not to make the game overly festive in the later months of the year, and nerfed the healing effect on Halloween pumpkin pies."));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "changes"), false, null);
+		changes.hardlight(CharSprite.WARNING);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.BUFFS), "Floating Text Icons",
+				"The little bits of floating text that appear above characters to indicate damage, positive effects, and currency gain now have tiny icons to indicate the type!\n" +
+				"\n" +
+				"For damage, it is now shown whether the damage is physical, magical, or if it comes from a particular debuff or DOT effect. There are separate physical damage icons depending on whether armor reduces the incoming damage. Armor never reduces magical or DOT damage. Damage text is also now always red,  warnings and negative effects are always orange.\n" +
+				"\n" +
+				"For positive effects, icons are now shown for healing, shielding, and exp gain. Loads of healing or shielding effects which previously didn't show floating text now do as well."));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"_Highlights:_\n" +
+				"_-_ Improved the sprites for Armored Brutes and DM-201s\n" +
+				"_-_ The troll blacksmith no longer works on cursed items\n" +
+				"_-_ Reduced the chance for sleeping enemies to clump together in caves quest levels\n" +
+				"_-_ Random scroll and potion drops are now more consistent throughout a run\n" +
+				"\n" +
+				"_Enemies:_\n" +
+				"_-_ DM-300's rockfall attack now uses positional danger indicators\n" +
+				"_-_ Improved visual clarity of sparks in the DM-300 fight\n" +
+				"_-_ Removed unnecessary game log entries when DM-300 uses abilities\n" +
+				"_-_ Phantom piranhas now die on land if there is no water to teleport to",
+
+				"_Items:_\n" +
+				"_-_ Added a warning when trying to steal from shops with less than 100% success chance\n" +
+				"_-_ Curse infusion now preserves an existing curse on items that don't have the curse infusion bonus yet\n" +
+				"_-_ long pressing on the ghost equip window now shows the stats of equipped items\n" +
+				"\n" +
+				"_Allies:_\n" +
+				"_-_ Ghosts and Rogue's shadow clone are now considered inorganic (immune to bleed, toxic, poison)\n" +
+				"_-_ Corrupted allies no longer attack passive enemies\n" +
+				"_-_ Spirit hawk now interrupts the hero when it expires",
+
+				"_Misc:_\n" +
+				"_-_ Added a bit of clarity text to some parts of the blacksmith quest/rewards\n" +
+				"_-_ Surface scene now shows night later in the evening as well as after midnight\n" +
+				"_-_ Did a consistency pass on heal over time effects interrupting the hero resting\n" +
+				"_-_ Long-press to assign quickslot now works in the full UI inventory pane, just like the mobile inventory window\n" +
+				"_-_ Added support for themed icons on Android 13+\n" +
+				"_-_ Removed support for saves prior to v1.4.3\n" +
+				"_-_ Added developer commentary for v1.2.0"));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"Fixed the following bugs:\n" +
+				"_Highlights:_\n" +
+				"_-_ Enemies continuing to fight each other after amok expires in many cases\n" +
+				"_-_ Some inter-level teleportation effects working inside caves quest level\n" +
+				"_-_ Transmutation being usable on the pickaxe during the caves quest\n" +
+				"_-_ Unintended changes to reforge functionality when both items are the same level\n" +
+				"_-_ Rounding errors causing tipped darts to last longer than intended in some cases\n" +
+				"\n" +
+				"_Quests:_\n" +
+				"_-_ Crystal spire being considered a mini boss, not a full boss\n" +
+				"_-_ Crystal spire attacks ignoring damage-resisting effects\n" +
+				"_-_ Cases where remains would fail to appear in the new mining level\n" +
+				"_-_ Blacksmith landmark entry not clearing when you have spent all favor\n" +
+				"_-_ Rare cases where hero could appear to be on top of crystal spire\n" +
+				"_-_ Corpse dust quest tracking all wraiths instead of just the ones it spawned\n" +
+				"_-_ Some cases where new rot garden room could spawn much smaller than intended",
+
+				"_Enemies:_\n" +
+				"_-_ Final boss fight not properly interacting with the into darkness challenge\n" +
+				"_-_ Monk ability use disqualifying for dwarf king's 'no weapons' badge when a weapon was equipped\n" +
+				"_-_ Tengu behaving slightly incorrectly when taking massive damage\n" +
+				"_-_ Mimics not dropping their loot if corrupted while hiding\n" +
+				"_-_ Rare cases where DM-300 finale music would play before the fight\n" +
+				"_-_ Rare errors in DM-201 target selection",
+
+				"_Items:_\n" +
+				"_-_ Rotberry seed being deleted in rare cases\n" +
+				"_-_ Rare cases where the game would freeze after reviving via unblessed ankh\n" +
+				"_-_ Some bombs and explosion-spawning effects incorrectly dealing magic damage\n" +
+				"_-_ Foresight effects not triggering after level transition\n" +
+				"_-_ Projecting missile weapons not working on enemies inside solid terrain\n" +
+				"_-_ Cursed wand of warding having different targeting properties than other wands\n" +
+				"_-_ Thrown potions not clearing fire/ooze if they shattered out of view\n" +
+				"_-_ Retribution and psionic blast not applying to all visible characters in very rare cases\n" +
+				"_-_ Degrade debuff not applying to thrown weapons\n" +
+				"_-_ Cloak of shadows not losing charge if it is dispelled as it is activated\n" +
+				"_-_ Items being assignable to non-visible quickslots in specific cases\n" +
+				"_-_ Rare quickslot errors when bags which already contain items are collected",
+
+				"_Hero & Allies:_\n" +
+				"_-_ Thrown potions not triggering Liquid Agility talent\n" +
+				"_-_ Sneak ability working while Duelist is rooted\n" +
+				"_-_ Damage from Body Slam talent ignoring armor\n" +
+				"_-_ Lunge ability incorrectly interacting with movespeed in some cases\n" +
+				"_-_ Cases where prismatic images could keep appearing and then disappearing\n" +
+				"_-_ Hero not being able to self-trample plants when standing on stairs\n" +
+				"_-_ Berserker being able to rage without his seal equipped in some cases\n" +
+				"_-_ Allies rarely spawning on hazards after ankh revive\n" +
+				"_-_ Ally warp working on corrupted DM-201s\n" +
+				"_-_ Duelist's lunge ability not correctly applying range boosts in rare cases\n" +
+				"\n" +
+				"_Misc.:_\n" +
+				"_-_ Various rare crash and freeze bugs\n" +
+				"_-_ Various minor visual and textual errors\n" +
+				"_-_ Tutorial becoming stuck in rare cases\n" +
+				"_-_ Beta updates setting not working as intended\n" +
+				"_-_ Music fading not working in rare cases\n" +
+				"_-_ Scrolling pane in journal window freezing in rare cases"));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
+		changes.hardlight(CharSprite.POSITIVE);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(Icons.TALENT.get(), "Hero Abilities",
+				"No nerfs this time, and just a couple targeted buffs to hero abilities/talents.\n" +
+				"\n" +
+				"_- Rogue's Foresight_ talent trigger chance increased to 60% at +1 and 90% at +2, up from 50% at +1 and 75% at +2.\n" +
+				"\n" +
+				"_- Elemental Strike_ ability base range increased to 4 from 3."));
 
 	}
 
@@ -87,45 +281,6 @@ public class v2_X_Changes {
 		ChangeInfo changes = new ChangeInfo("v2.2", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
-
-		changes = new ChangeInfo("", false, null);
-		changes.hardlight(Window.TITLE_COLOR);
-		changeInfos.add(changes);
-
-		changes = new ChangeInfo("v2.2.1", false, null);
-		changes.hardlight(Window.TITLE_COLOR);
-		changeInfos.add(changes);
-
-		changes.addButton(new ChangeButton( new Image(new BlacksmithSprite()), "Blacksmith Reward Changes",
-				"Overall I'm fairly happy with the level of challenge and reward the new quest offers, but from looking at gameplay data the rewards are a bit overtuned currently.\n\n" +
-				"I certainly don't plan to reduce the blacksmith rewards back to being similar to before this new quest, but for now I am making some initial changes to get them into a better place balance-wise. This will make it easier to fine-tune the overall quest difficulty and rewards in v2.3.0.\n\n" +
-				"_-_ Cost for second reforge/harden up to 1500 from 1000\n" +
-				"_-_ Upgrade now caps at +2, down from +3\n" +
-				"_-_ Chance for smith to produce a +0 item up to 30%, from 20%\n" +
-				"_-_ Chance for smith to produce a +1 item down to 45%, from 55%"));
-
-		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
-				"_-_ The Crystal Spire now awards 20 exp when it is defeated\n\n" +
-				"_-_ Increased the amount of toxic gas that the rot heart can produce\n\n" +
-				"_-_ New quest bosses now interrupt the hero when they are telegraphing an attack\n\n" +
-				"_-_ Updated translations and translator credits"));
-
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Caused by v2.2.0:_\n" +
-				"_-_ Various rare crash bugs in new quest\n" +
-				"_-_ Hardening not being preserved when transmuting weapons\n" +
-				"_-_ Items rarely spawning on new quest entrance\n" +
-				"_-_ Hero getting teleported to quest entrance if game was loaded while they were inside a crystal spike\n" +
-				"_-_ Various minor visual bugs in new quest\n" +
-				"\n" +
-				"_Existed Prior to v2.2.0:_\n" +
-				"_-_ System gestures in iOS sometimes registering as taps within the game\n" +
-				"_-_ Endure ability not working properly when used twice quickly\n" +
-				"_-_ Melee damage of Mage's Staff benefiting from talents that boost wand levels\n" +
-				"_-_ Various blink effects allowing movement over magical fire\n" +
-				"_-_ Some game actions being possible while meditating\n" +
-				"_-_ Various minor visual and textual errors"));
 
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "new"), false, null);
 		changes.hardlight(Window.TITLE_COLOR);
@@ -136,14 +291,14 @@ public class v2_X_Changes {
 				"_-_ 138 days after Shattered v2.1.0\n\n" +
 				"Dev commentary will be added here in the future."));
 
-		changes.addButton( new ChangeButton(new Image(Assets.Environment.TILES_CAVES, 192, 64, 16, 16), "New Blacksmith Quest!",
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.PICKAXE), "New Blacksmith Quest!",
 				"_Shattered Pixel Dungeon's blacksmith quest has been completely redone!_\n" +
-				"\n" +
-				"_The quest now takes place in a new sublevel, with one entirely new environment, and two more on the way in v2.3!_ Each environment has its own set of hazards, level generation logic, and unique enemies.\n" +
-				"\n" +
-				"_The quest area features a new mining mechanic._ In addition to digging out gold, you can tunnel through walls to create new routes and evade hazards.\n" +
-				"\n" +
-				"_The quest rewards are also massively expanded._ The better you do on the quest, the more favor you'll earn in exchange for blacksmithing services. The old reforge option is still available, but there are several new options too."));
+						"\n" +
+						"_The quest now takes place in a new sublevel, with one entirely new environment, and two more on the way in v2.3!_ Each environment has its own set of hazards, level generation logic, and unique enemies.\n" +
+						"\n" +
+						"_The quest area features a new mining mechanic._ In addition to digging out gold, you can tunnel through walls to create new routes and evade hazards.\n" +
+						"\n" +
+						"_The quest rewards are also massively expanded._ The better you do on the quest, the more favor you'll earn in exchange for blacksmithing services. The old reforge option is still available, but there are several new options too."));
 
 		changes.addButton( new ChangeButton(Icons.AUDIO.get(), "New Music!",
 				"_Shattered Pixel Dungeon's soundtrack has been massively expanded!_ The game's soundtrack runtime has doubled in total, with almost 20 minutes of new audio by the game's composer: Kristjan Thomas Haaristo.\n" +
@@ -262,7 +417,19 @@ public class v2_X_Changes {
 				"_-_ Cases where pushing effects could cause pitfalls to trigger early\n" +
 				"_-_ Combining diagonal direction keys on desktop causing rare errors\n" +
 				"_-_ Cases where default keybindings could override custom ones\n" +
-				"_-_ Crashes caused by text input windows for controller users"));
+				"_-_ Crashes caused by text input windows for controller users",
+
+				"_v2.2.1:_\n" +
+				"_-_ System gestures in iOS sometimes registering as taps within the game\n" +
+				"_-_ Endure ability not working properly when used twice quickly\n" +
+				"_-_ Melee damage of Mage's Staff benefiting from talents that boost wand levels\n" +
+				"_-_ Various blink effects allowing movement over magical fire\n" +
+				"_-_ Some game actions being possible while meditating\n" +
+				"_-_ Various minor visual and textual errors\n" +
+				"\n" +
+				"_v2.2.2 (iOS only):_\n" +
+				"_-_ Gesture fix from v2.2.1 resulting in input delays\n" +
+				"_-_ Rare crash errors caused by audio loading"));
 
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
 		changes.hardlight(CharSprite.POSITIVE);

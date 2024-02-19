@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,7 +61,10 @@ public class CurseInfusion extends InventorySpell {
 		if (item instanceof MeleeWeapon || item instanceof SpiritBow) {
 			Weapon w = (Weapon) item;
 			if (w.enchantment != null) {
-				w.enchant(Weapon.Enchantment.randomCurse(w.enchantment.getClass()));
+				//if we are freshly applying curse infusion, don't replace an existing curse
+				if (w.hasGoodEnchant() || w.curseInfusionBonus) {
+					w.enchant(Weapon.Enchantment.randomCurse(w.enchantment.getClass()));
+				}
 			} else {
 				w.enchant(Weapon.Enchantment.randomCurse());
 			}
@@ -72,7 +75,10 @@ public class CurseInfusion extends InventorySpell {
 		} else if (item instanceof Armor){
 			Armor a = (Armor) item;
 			if (a.glyph != null){
-				a.inscribe(Armor.Glyph.randomCurse(a.glyph.getClass()));
+				//if we are freshly applying curse infusion, don't replace an existing curse
+				if (a.hasGoodGlyph() || a.curseInfusionBonus) {
+					a.inscribe(Armor.Glyph.randomCurse(a.glyph.getClass()));
+				}
 			} else {
 				a.inscribe(Armor.Glyph.randomCurse());
 			}

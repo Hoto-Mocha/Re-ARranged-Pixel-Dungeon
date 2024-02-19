@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,9 +50,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bestiary;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.GnollGeomancer;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.YogFist;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.WindParticle;
@@ -349,8 +351,8 @@ public abstract class Level implements Bundlable {
 
 		version = bundle.getInt( VERSION );
 		
-		//saves from before v1.2.3 are not supported
-		if (version < ShatteredPixelDungeon.v1_2_3){
+		//saves from before v1.4.3 are not supported
+		if (version < ShatteredPixelDungeon.v1_4_3){
 			throw new RuntimeException("old save");
 		}
 
@@ -370,21 +372,8 @@ public abstract class Level implements Bundlable {
 		mapped	= bundle.getBooleanArray( MAPPED );
 
 		transitions = new ArrayList<>();
-		if (bundle.contains(TRANSITIONS)){
-			for (Bundlable b : bundle.getCollection( TRANSITIONS )){
-				transitions.add((LevelTransition) b);
-			}
-		//pre-1.3.0 saves, converts old entrance/exit to new transitions
-		} else {
-			if (bundle.contains("entrance")){
-				transitions.add(new LevelTransition(
-						this,
-						bundle.getInt("entrance"),
-						Dungeon.depth == 1 ? LevelTransition.Type.SURFACE : LevelTransition.Type.REGULAR_ENTRANCE));
-			}
-			if (bundle.contains("exit")){
-				transitions.add(new LevelTransition(this, bundle.getInt("exit"), LevelTransition.Type.REGULAR_EXIT));
-			}
+		for (Bundlable b : bundle.getCollection( TRANSITIONS )){
+			transitions.add((LevelTransition) b);
 		}
 
 		locked      = bundle.getBoolean( LOCKED );
@@ -594,10 +583,10 @@ public abstract class Level implements Bundlable {
 
 		//spend the hero's partial turns,  so the hero cannot take partial turns between floors
 		Dungeon.hero.spendToWhole();
-		for (Char ch : Actor.chars()){
-			//also adjust any mobs that are now ahead of the hero due to this
-			if (ch.cooldown() < Dungeon.hero.cooldown()){
-				ch.spendToWhole();
+		for (Actor a : Actor.all()){
+			//also adjust any other actors that are now ahead of the hero due to this
+			if (a.cooldown() < Dungeon.hero.cooldown()){
+				a.spendToWhole();
 			}
 		}
 	}
@@ -1273,21 +1262,25 @@ public abstract class Level implements Bundlable {
 			if (modifiableBlocking == null || modifiableBlocking.length != Dungeon.level.losBlocking.length){
 				modifiableBlocking = new boolean[Dungeon.level.losBlocking.length];
 			}
-			
-			if ((c instanceof Hero && ((Hero) c).subClass == HeroSubClass.WARDEN)
-				|| c instanceof YogFist.SoiledFist) {
-				if (blocking == null) {
-					System.arraycopy(Dungeon.level.losBlocking, 0, modifiableBlocking, 0, modifiableBlocking.length);
-					blocking = modifiableBlocking;
-				}
-				for (int i = 0; i < blocking.length; i++){
-					if (blocking[i] && (Dungeon.level.map[i] == Terrain.HIGH_GRASS || Dungeon.level.map[i] == Terrain.FURROWED_GRASS)){
-						blocking[i] = false;
+
+			//grass is see-through by some specific entities, but not during the fungi quest
+			if (!(Dungeon.level instanceof  MiningLevel) || Blacksmith.Quest.Type() != Blacksmith.Quest.FUNGI){
+				if ((c instanceof Hero && ((Hero) c).subClass == HeroSubClass.WARDEN)
+						|| c instanceof YogFist.SoiledFist || c instanceof GnollGeomancer) {
+					if (blocking == null) {
+						System.arraycopy(Dungeon.level.losBlocking, 0, modifiableBlocking, 0, modifiableBlocking.length);
+						blocking = modifiableBlocking;
+					}
+					for (int i = 0; i < blocking.length; i++) {
+						if (blocking[i] && (Dungeon.level.map[i] == Terrain.HIGH_GRASS || Dungeon.level.map[i] == Terrain.FURROWED_GRASS)) {
+							blocking[i] = false;
+						}
 					}
 				}
 			}
 
-			if (c.alignment != Char.Alignment.ALLY
+			//allies and specific enemies can see through shrouding fog
+			if ((c.alignment != Char.Alignment.ALLY && !(c instanceof GnollGeomancer))
 					&& Dungeon.level.blobs.containsKey(SmokeScreen.class)
 					&& Dungeon.level.blobs.get(SmokeScreen.class).volume > 0) {
 				if (blocking == null) {

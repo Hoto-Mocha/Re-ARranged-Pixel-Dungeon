@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,6 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.PylonSprite;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BossHealthBar;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Game;
@@ -61,6 +60,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -189,13 +189,6 @@ public class CavesBossLevel extends Level {
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
 
-		//pre-1.3.0 saves, modifies exit transition with custom size
-		if (bundle.contains("exit")){
-			LevelTransition exit = getTransition(LevelTransition.Type.REGULAR_EXIT);
-			exit.set(14, 0, 18, 2);
-			transitions.add(exit);
-		}
-
 		for (CustomTilemap c : customTiles){
 			if (c instanceof ArenaVisuals){
 				customArenaVisuals = (ArenaVisuals) c;
@@ -219,14 +212,18 @@ public class CavesBossLevel extends Level {
 
 	@Override
 	protected void createItems() {
-		Item item = Bones.get();
-		if (item != null) {
-			int pos;
-			do {
-				pos = randomRespawnCell(null);
-			} while (pos == entrance());
-			drop( item, pos ).setHauntedIfCursed().type = Heap.Type.REMAINS;
-		}
+		Random.pushGenerator(Random.Long());
+			ArrayList<Item> bonesItems = Bones.get();
+			if (bonesItems != null) {
+				int pos;
+				do {
+					pos = randomRespawnCell(null);
+				} while (pos == entrance());
+				for (Item i : bonesItems) {
+					drop(i, pos).setHauntedIfCursed().type = Heap.Type.REMAINS;
+				}
+			}
+		Random.popGenerator();
 	}
 
 	@Override
@@ -830,7 +827,7 @@ public class CavesBossLevel extends Level {
 						Char ch = Actor.findChar(cell);
 						if (ch != null && !(ch instanceof DM300) && !ch.flying) {
 							Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
-							ch.damage( Random.NormalIntRange(6, 12), Electricity.class);
+							ch.damage( Random.NormalIntRange(6, 12), new Electricity());
 							ch.sprite.flash();
 
 							if (ch == Dungeon.hero){
@@ -875,15 +872,14 @@ public class CavesBossLevel extends Level {
 					}
 				}
 
-				SparkParticle s = ((SparkParticle) emitter.recycle(SparkParticle.class));
-				s.resetStatic(x, y);
-				s.speed.set((energySourceSprite.x + energySourceSprite.width/2f) - x,
-						(energySourceSprite.y + energySourceSprite.height/2f) - y);
-				s.speed.normalize().scale(DungeonTilemap.SIZE*2f);
+				float dist = (float)Math.max( Math.abs(energySourceSprite.x - x), Math.abs(energySourceSprite.y - y) );
+				dist = GameMath.gate(0, dist-40, 320);
+				//more sparks closer up
+				if (Random.Float(360) > dist) {
 
-				//offset the particles slightly so they don't go too far outside of the cell
-				s.x -= s.speed.x/8f;
-				s.y -= s.speed.y/8f;
+					SparkParticle s = ((SparkParticle) emitter.recycle(SparkParticle.class));
+					s.resetAttracting(x, y, energySourceSprite);
+				}
 			}
 
 			@Override
@@ -901,7 +897,7 @@ public class CavesBossLevel extends Level {
 		public void use( BlobEmitter emitter ) {
 			super.use( emitter );
 			energySourceSprite = null;
-			emitter.pour(DIRECTED_SPARKS, 0.125f);
+			emitter.pour(DIRECTED_SPARKS, 0.08f);
 		}
 
 	}

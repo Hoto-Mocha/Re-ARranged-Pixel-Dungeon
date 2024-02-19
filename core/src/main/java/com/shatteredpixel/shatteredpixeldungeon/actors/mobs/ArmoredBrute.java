@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
@@ -51,8 +52,9 @@ public class ArmoredBrute extends Brute {
 	@Override
 	protected void triggerEnrage () {
 		Buff.affect(this, ArmoredRage.class).setShield(HT/2 + 1);
+		sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString(HT/2 + 1), FloatingText.SHIELDING );
 		if (Dungeon.level.heroFOV[pos]) {
-			sprite.showStatus( CharSprite.NEGATIVE, Messages.get(this, "enraged") );
+			sprite.showStatus( CharSprite.WARNING, Messages.get(this, "enraged") );
 		}
 		spend( TICK );
 		hasRaged = true;

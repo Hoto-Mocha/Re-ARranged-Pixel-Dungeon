@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
+import com.shatteredpixel.shatteredpixeldungeon.items.remains.RemainsItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -60,6 +61,7 @@ import com.watabou.utils.Random;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class SurfaceScene extends PixelScene {
 
@@ -110,8 +112,9 @@ public class SurfaceScene extends PixelScene {
 		Group window = new Group();
 		window.camera = viewport;
 		add( window );
-		
-		boolean dayTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 7;
+
+		Calendar cal = GregorianCalendar.getInstance();
+		boolean dayTime = cal.get(Calendar.HOUR_OF_DAY) >= 7 && cal.get(Calendar.HOUR_OF_DAY) <= 20;
 		
 		Sky sky = new Sky( dayTime );
 		sky.scale.set( SKY_WIDTH, SKY_HEIGHT );
@@ -214,6 +217,14 @@ public class SurfaceScene extends PixelScene {
 			allySprite.y = SKY_HEIGHT - allySprite.height();
 			align(allySprite);
 			window.add(allySprite);
+		}
+
+		if (Dungeon.hero.belongings.getItem(RemainsItem.class) != null){
+			Image grave = new Image(Assets.Interfaces.SURFACE, 88, 74, 16, 22);
+
+			grave.x = a.x + a.width() + 10;
+			grave.y = a.y + a.height() - grave.height();
+			window.add(grave);
 		}
 		
 		window.add( a );

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -258,8 +258,10 @@ public class QuickSlotButton extends Button {
 		}
 	};
 
+	public static int lastVisible = instance.length;
+
 	public static void set(Item item){
-		for (int i = 0; i < instance.length; i++) {
+		for (int i = 0; i < lastVisible; i++) {
 			if (select(i) == null || select(i) == item) {
 				set(i, item);
 				return;

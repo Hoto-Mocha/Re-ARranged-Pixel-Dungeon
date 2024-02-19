@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,10 +65,10 @@ public class MineSmallRoom extends CaveRoom {
 			}
 		} else if (Blacksmith.Quest.Type() == Blacksmith.Quest.GNOLL) {
 
-			//connections to non-secret rooms have a 7/8 chance to become empty, otherwise wall
+			//connections to non-secret rooms have a 9/10 chance to become empty, otherwise wall
 			for (Room n : connected.keySet()){
 				if (!(n instanceof SecretRoom) && connected.get(n).type == Door.Type.REGULAR){
-					if (Random.Int(8) == 0){
+					if (Random.Int(10) == 0){
 						connected.get(n).set(Door.Type.EMPTY);
 					} else {
 						connected.get(n).set(Door.Type.WALL);
@@ -92,8 +92,11 @@ public class MineSmallRoom extends CaveRoom {
 						dist = Math.min(dist, Point.distance(p, d));
 					}
 					dist = GameMath.gate(1f, dist, 5f);
-					if (Random.Float((float) Math.pow(dist, 2)) < 1f) {
+					float val = Random.Float((float) Math.pow(dist, 2));
+					if (val <= 0.75f || dist <= 1) {
 						Painter.set(level, cell, Terrain.MINE_BOULDER);
+					} else if (val <= 5f && dist <= 2){
+						Painter.set(level, cell, Terrain.EMPTY_DECO);
 					}
 				}
 			}

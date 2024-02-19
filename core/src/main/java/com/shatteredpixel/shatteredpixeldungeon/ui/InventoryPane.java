@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2023 Evan Debenham
+ * Copyright (C) 2014-2024 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoItem;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndUseItem;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.input.GameAction;
@@ -552,6 +553,20 @@ public class InventoryPane extends Component {
 			} else {
 				targetingSlot = this;
 				GameScene.show(new WndUseItem( null, item ));
+			}
+		}
+
+		@Override
+		protected boolean onLongClick() {
+			if (selector == null && item.defaultAction() != null) {
+				QuickSlotButton.set( item );
+				return true;
+			} else if (selector != null) {
+				GameScene.centerNextWndOnInvPane();
+				GameScene.show(new WndInfoItem(item));
+				return true;
+			} else {
+				return false;
 			}
 		}
 
