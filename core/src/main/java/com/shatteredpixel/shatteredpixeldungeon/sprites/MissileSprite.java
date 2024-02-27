@@ -186,7 +186,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 			speed *= 1.5f;
 		} else if (item instanceof Gun.Bullet) {
 			if (item instanceof FT.FTBullet ||
-				item instanceof LG.RGBullet) {
+				item instanceof LG.LGBullet) {
 				speed *= 1000f;
 			} else if (item instanceof GL.GLBullet) {
 				speed *= 1.2f;

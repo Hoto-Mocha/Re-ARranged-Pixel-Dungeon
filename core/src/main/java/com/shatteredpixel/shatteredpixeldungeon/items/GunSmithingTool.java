@@ -146,19 +146,22 @@ public class GunSmithingTool extends Item {
 
     public static class WndMod extends Window {
 
-        private static final int WIDTH			= 180;
+        protected static final int WIDTH_P = 120;
+        protected static final int WIDTH_L = 144;
+
         private static final int MARGIN 		= 2;
-        private static final int BUTTON_WIDTH	= WIDTH - MARGIN * 2;
         private static final int BUTTON_HEIGHT	= 20;
+        int width = PixelScene.landscape() ? WIDTH_L : WIDTH_P;
 
         public WndMod( final Gun toMod, final String key ) {
             super();
+
             IconTitle titlebar = new IconTitle( toMod );
-            titlebar.setRect( 0, 0, WIDTH, 0 );
+            titlebar.setRect( 0, 0, width, 0 );
             add( titlebar );
 
             RenderedTextBlock tfMesage = PixelScene.renderTextBlock( Messages.get(GunSmithingTool.class, key + "_desc"), 6 );
-            tfMesage.maxWidth(WIDTH - MARGIN * 2);
+            tfMesage.maxWidth(width - MARGIN * 2);
             tfMesage.setPos(MARGIN, titlebar.bottom() + MARGIN);
             add( tfMesage );
 
@@ -176,7 +179,7 @@ public class GunSmithingTool extends Item {
                                     onItemSelected();
                                 }
                             };
-                            btnMod.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                            btnMod.setRect( MARGIN, pos + MARGIN, width - MARGIN * 2, BUTTON_HEIGHT );
                             add( btnMod );
 
                             pos = btnMod.bottom();
@@ -194,7 +197,7 @@ public class GunSmithingTool extends Item {
                                     onItemSelected();
                                 }
                             };
-                            btnMod.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                            btnMod.setRect( MARGIN, pos + MARGIN, width - MARGIN * 2, BUTTON_HEIGHT );
                             add( btnMod );
 
                             pos = btnMod.bottom();
@@ -212,7 +215,7 @@ public class GunSmithingTool extends Item {
                                     onItemSelected();
                                 }
                             };
-                            btnMod.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                            btnMod.setRect( MARGIN, pos + MARGIN, width - MARGIN * 2, BUTTON_HEIGHT );
                             add( btnMod );
 
                             pos = btnMod.bottom();
@@ -253,7 +256,7 @@ public class GunSmithingTool extends Item {
                                     onItemSelected();
                                 }
                             };
-                            btnMod.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                            btnMod.setRect( MARGIN, pos + MARGIN, width - MARGIN * 2, BUTTON_HEIGHT );
                             add( btnMod );
 
                             pos = btnMod.bottom();
@@ -271,7 +274,7 @@ public class GunSmithingTool extends Item {
                                     onItemSelected();
                                 }
                             };
-                            btnMod.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                            btnMod.setRect( MARGIN, pos + MARGIN, width - MARGIN * 2, BUTTON_HEIGHT );
                             add( btnMod );
 
                             pos = btnMod.bottom();
@@ -289,7 +292,7 @@ public class GunSmithingTool extends Item {
                                     onItemSelected();
                                 }
                             };
-                            btnMod.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+                            btnMod.setRect( MARGIN, pos + MARGIN, width - MARGIN * 2, BUTTON_HEIGHT );
                             add( btnMod );
 
                             pos = btnMod.bottom();
@@ -304,10 +307,10 @@ public class GunSmithingTool extends Item {
                     hide();
                 }
             };
-            btnCancel.setRect( MARGIN, pos + MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT );
+            btnCancel.setRect( MARGIN, pos + MARGIN, width - MARGIN * 2, BUTTON_HEIGHT );
             add( btnCancel );
 
-            resize( WIDTH, (int)btnCancel.bottom() + MARGIN );
+            resize( width, (int)btnCancel.bottom() + MARGIN );
         }
     }
 

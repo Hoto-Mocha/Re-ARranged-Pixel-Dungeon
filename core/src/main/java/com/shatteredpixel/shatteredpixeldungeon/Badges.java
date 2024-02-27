@@ -949,7 +949,7 @@ public class Badges {
 	}
 
 	public static void validateGunnerUnlock() {
-		if (Statistics.swatKilled && !isUnlocked(Badge.UNLOCK_GUNNER)) {
+		if (Statistics.soldierKilled && !isUnlocked(Badge.UNLOCK_GUNNER)) {
 			displayBadge(Badge.UNLOCK_GUNNER);
 		}
 	}

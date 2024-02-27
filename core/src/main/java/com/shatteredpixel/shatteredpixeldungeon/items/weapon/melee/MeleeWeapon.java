@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
@@ -128,6 +129,9 @@ public class MeleeWeapon extends Weapon {
 	public void execute(Hero hero, String action) {
 		super.execute(hero, action);
 
+		if (action.equals(AC_UNEQUIP) && hero.buff(Sheath.Sheathing.class) != null) {
+			hero.buff(Sheath.Sheathing.class).detach();
+		}
 		if (action.equals(AC_ABILITY)){
 			usesTargeting = false;
 			if (!isEquipped(hero)) {

@@ -738,7 +738,6 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 	@Override
 	public synchronized void onComplete( Animation anim ) {
-		
 		if (animCallback != null) {
 			Callback executing = animCallback;
 			animCallback = null;

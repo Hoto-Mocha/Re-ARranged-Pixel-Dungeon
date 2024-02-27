@@ -46,10 +46,10 @@ public class LG extends Gun {
 
     @Override
     public Bullet knockBullet(){
-        return new RGBullet();
+        return new LGBullet();
     }
 
-    public class RGBullet extends Bullet {
+    public class LGBullet extends Bullet {
         {
             hitSound = Assets.Sounds.BURNING;
             image = ItemSpriteSheet.NO_BULLET;
@@ -57,8 +57,8 @@ public class LG extends Gun {
 
         @Override
         protected void onThrow(int cell) {
-            if (cell != hero.pos) {
-                Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP);
+            if (cell != curUser.pos) {
+                Ballistica aim = new Ballistica(curUser.pos, cell, Ballistica.WONT_STOP);
                 ArrayList<Char> chars = new ArrayList<>();
                 int maxDist = 2*(LG.this.tier+1);
                 int dist = Math.min(aim.dist, maxDist);

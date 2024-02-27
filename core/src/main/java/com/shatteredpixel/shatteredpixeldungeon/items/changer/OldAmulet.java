@@ -21,6 +21,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
@@ -289,12 +290,12 @@ public class OldAmulet extends Item {
                 case MAGE:
                     return item instanceof MagesStaff;
                 case ROGUE:
-                    return item instanceof CloakOfShadows;
+                    return item instanceof Ring;
                 case HUNTRESS:
                     return item instanceof SpiritBow;
                 case DUELIST:
                 case SAMURAI:
-                    return item instanceof MeleeWeapon;
+                    return item instanceof MeleeWeapon && !(item instanceof MagesStaff) && !(item instanceof Gun);
                 case GUNNER:
                     return item instanceof Gun;
             }
@@ -310,10 +311,13 @@ public class OldAmulet extends Item {
             }
 
             if (item != null && itemSelectable(item)) {
-                if (item instanceof MeleeWeapon && !(item instanceof MagesStaff) && !(item instanceof Gun)) {
-                    GameScene.show(new WndAbilitySelect((MeleeWeapon)item, abilityList.get(0), abilityList.get(1), abilityList.get(2)));
-                } else {
-                    onItemSelected(item);
+                switch (Dungeon.hero.heroClass) {
+                    default:
+                        onItemSelected(item);
+                        break;
+                    case DUELIST:
+                        GameScene.show(new WndAbilitySelect((MeleeWeapon)item, abilityList.get(0), abilityList.get(1), abilityList.get(2)));
+                        break;
                 }
             }
         }

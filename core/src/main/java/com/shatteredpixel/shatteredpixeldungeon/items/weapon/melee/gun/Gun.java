@@ -16,6 +16,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
@@ -24,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.GunSmithingTool;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -257,7 +259,11 @@ public class Gun extends MeleeWeapon {
 		}
 		if (action.equals(AC_RELOAD)) {
 			if (isAllLoaded()){
-				GLog.w(Messages.get(this, "already_loaded"));
+				if (hero.heroClass == HeroClass.DUELIST) {
+					execute(hero, AC_ABILITY);
+				} else {
+					GLog.w(Messages.get(this, "already_loaded"));
+				}
 			} else {
 				reload();
 			}
@@ -297,17 +303,18 @@ public class Gun extends MeleeWeapon {
 	public void reload() {
 		onReload();
 
-		if (Dungeon.bullet <= shotPerShoot()) {
+		if (Dungeon.bullet < shotPerShoot()) {
+			if (hero.heroClass == HeroClass.DUELIST) {
+				execute(hero, AC_ABILITY);
+				return;
+			}
 			usesTargeting = false;
 			GLog.w(Messages.get(this, "less_bullet"));
 			return;
 		}
 
 		if (Dungeon.bullet < bulletUse()) {
-			while (true) {
-				if (Dungeon.bullet < shotPerShoot()) {
-					break;
-				}
+			while (Dungeon.bullet >= shotPerShoot()) {
 				Dungeon.bullet -= shotPerShoot();
 				manualReload();
 			}
@@ -704,7 +711,7 @@ public class Gun extends MeleeWeapon {
 					if (!target.isAlive()) {
 						killedEnemy = true;
 					}
-					if (target == hero && !target.isAlive()) {
+					if (target == curUser && !target.isAlive()) {
 						Dungeon.fail(getClass());
 						Badges.validateDeathFromFriendlyMagic();
 						GLog.n(Messages.get(this, "ondeath"));
@@ -735,19 +742,19 @@ public class Gun extends MeleeWeapon {
 		}
 
 		public void onShoot() {
-			if (hero.hasTalent(Talent.ROLLING)) {
-				Buff.prolong(hero, Talent.RollingTracker.class, hero.pointsInTalent(Talent.ROLLING));
+			if (curUser.hasTalent(Talent.ROLLING)) {
+				Buff.prolong(curUser, Talent.RollingTracker.class, curUser.pointsInTalent(Talent.ROLLING));
 			}
 
-			if (hero.buff(InfiniteBullet.class) == null && !(hero.buff(Riot.RiotTracker.class) != null && Random.Float() < 0.1f*hero.pointsInTalent(Talent.ROUND_PRESERVE))) {
+			if (curUser.buff(InfiniteBullet.class) == null && (curUser.buff(Riot.RiotTracker.class) == null && Random.Float() < 0.1f*curUser.pointsInTalent(Talent.ROUND_PRESERVE))) {
 				round --;
 			}
 
-			if (round == 0 && hero.hasTalent(Talent.IMPROVISATION)) {
-				Buff.affect(hero, Barrier.class).setShield(8*hero.pointsInTalent(Talent.IMPROVISATION));
+			if (round == 0 && curUser.hasTalent(Talent.IMPROVISATION)) {
+				Buff.affect(curUser, Barrier.class).setShield(8*curUser.pointsInTalent(Talent.IMPROVISATION));
 			}
 
-			if (!(hero.subClass == HeroSubClass.SPECIALIST && hero.buff(Invisibility.class) != null) && !hero.hasTalent(Talent.STEALTH_MASTER)) {
+			if (!(curUser.subClass == HeroSubClass.SPECIALIST && curUser.buff(Invisibility.class) != null) && !curUser.hasTalent(Talent.STEALTH_MASTER)) {
 				aggro();
 			}
 

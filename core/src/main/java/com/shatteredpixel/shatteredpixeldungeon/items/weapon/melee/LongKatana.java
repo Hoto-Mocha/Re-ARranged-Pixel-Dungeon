@@ -22,6 +22,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -34,6 +36,13 @@ public class LongKatana extends MeleeWeapon {
         hitSoundPitch = 1.3f;
 
         tier = 4;
+    }
+
+    @Override
+    public boolean doPickUp( Hero hero, int pos ) {
+        Statistics.katanaObtained = true;
+        Badges.validateSamuraiUnlock();
+        return super.doPickUp(hero, pos);
     }
 
     @Override

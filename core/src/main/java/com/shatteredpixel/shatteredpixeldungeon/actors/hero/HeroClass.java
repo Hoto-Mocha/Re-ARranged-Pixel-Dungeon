@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.BulletBelt;
+import com.shatteredpixel.shatteredpixeldungeon.items.GunSmithingTool;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
@@ -63,6 +64,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolki
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
+import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
@@ -91,10 +93,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T1;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T2;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.FT.FT_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.LG.LG_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
@@ -146,18 +150,19 @@ public enum HeroClass {
 //			new BulletBelt().quantity(20).collect();
 //			new GunSmithingTool().quantity(20).collect();
 			new AlchemistsToolkit().identify().upgrade(10).collect();
-			new DriedRose().identify().upgrade(10).collect();
-//			new AR_T2().identify().collect();
+//			new DriedRose().identify().upgrade(10).collect();
+//			new Spear().identify().collect();
+			new AR_T2().identify().collect();
 //			new RL_T4().identify().collect();
 //			new RL_T5().identify().collect();
 //			new RL_T6().identify().collect();
 //			new Greatsword().identify().collect();
 //			new Evolution().quantity(200).collect();
-			new FT_T5().identify().collect();
-			new LG_T5().identify().collect();
+//			new FT_T5().identify().collect();
+//			new LG_T5().identify().collect();
 			new ElixirOfHoneyedHealing().identify().quantity(500).collect();
-			new ScrollOfUpgrade().identify().quantity(500).collect();
-			new ScrollOfTransmutation().identify().quantity(500).collect();
+//			new ScrollOfUpgrade().identify().quantity(500).collect();
+//			new ScrollOfTransmutation().identify().quantity(500).collect();
 //			new ScrollOfMetamorphosis().identify().quantity(500).collect();
 			new PotionOfExperience().identify().quantity(29).collect();
 //			new PotionOfStrength().identify().quantity(29).collect();
@@ -166,7 +171,7 @@ public enum HeroClass {
 			new TacticalShield().identify().upgrade(100).collect();
 //			new AR_T1().identify().collect();
 //			new HolySword().identify().collect();
-//			new GunSmithingTool().quantity(200).collect();
+			new GunSmithingTool().quantity(200).collect();
 //			new BookOfTransfusion().collect();
 //			new BeamSaber().identify().collect();
 			new Teleporter().collect();
@@ -181,7 +186,7 @@ public enum HeroClass {
 //			new Spear().identify().collect();
 //			new RoundShield().identify().collect();
 //			new ScrollOfMagicMapping().identify().quantity(100).collect();
-//			new OldAmulet().collect();
+			new OldAmulet().collect();
 //			new PotionOfMindVision().identify().quantity(100).collect();
 		}
 

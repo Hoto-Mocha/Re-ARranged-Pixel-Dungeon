@@ -54,7 +54,7 @@ public class Statistics {
 	public static int upgradesUsed;
 	public static int sneakAttacks;
 	public static int thrownAttacks;
-	public static boolean swatKilled;
+	public static boolean soldierKilled;
 	public static boolean katanaObtained;
 
 	public static int spawnersAlive;
@@ -97,7 +97,7 @@ public class Statistics {
 		upgradesUsed    = 0;
 		sneakAttacks    = 0;
 		thrownAttacks   = 0;
-		swatKilled = false;
+		soldierKilled = false;
 		katanaObtained = false;
 
 		spawnersAlive   = 0;
@@ -231,7 +231,7 @@ public class Statistics {
 		upgradesUsed    = bundle.getInt( UPGRADES );
 		sneakAttacks    = bundle.getInt( SNEAKS );
 		thrownAttacks   = bundle.getInt( THROWN );
-		swatKilled	   	= bundle.getBoolean( SWAT_KILLED );
+		soldierKilled = bundle.getBoolean( SWAT_KILLED );
 		katanaObtained	= bundle.getBoolean( KATANA_OBTAINED );
 
 		spawnersAlive   = bundle.getInt( SPAWNERS );

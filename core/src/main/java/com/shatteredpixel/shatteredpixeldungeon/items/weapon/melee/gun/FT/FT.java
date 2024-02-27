@@ -61,8 +61,8 @@ public class FT extends Gun {
 
         @Override
         protected void onThrow(int cell) {
-            if (cell != hero.pos) {
-                Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP);
+            if (cell != curUser.pos) {
+                Ballistica aim = new Ballistica(curUser.pos, cell, Ballistica.WONT_STOP);
                 int maxDist = FT.this.tier + 1;
                 int dist = Math.min(aim.dist, maxDist);
                 ConeAOE cone = new ConeAOE(aim,
@@ -71,9 +71,9 @@ public class FT extends Gun {
                         Ballistica.STOP_TARGET | Ballistica.STOP_SOLID | Ballistica.IGNORE_SOFT_SOLID);
                 //cast to cells at the tip, rather than all cells, better performance.
                 for (Ballistica ray : cone.outerRays){
-                    ((MagicMissile)hero.sprite.parent.recycle( MagicMissile.class )).reset(
+                    ((MagicMissile)curUser.sprite.parent.recycle( MagicMissile.class )).reset(
                             MagicMissile.FIRE_CONE,
-                            hero.sprite,
+                            curUser.sprite,
                             ray.path.get(ray.dist),
                             null
                     );
@@ -87,7 +87,7 @@ public class FT extends Gun {
                     }
 
                     //only ignite cells directly near caster if they are flammable
-                    if (!(Dungeon.level.adjacent(hero.pos, cells) && !Dungeon.level.flamable[cells])) {
+                    if (!(Dungeon.level.adjacent(curUser.pos, cells) && !Dungeon.level.flamable[cells])) {
                         GameScene.add(Blob.seed(cells, 2, Fire.class));
                     }
 
@@ -106,9 +106,9 @@ public class FT extends Gun {
                 }
 
                 //final zap at 2/3 distance, for timing of the actual effect
-                MagicMissile.boltFromChar(hero.sprite.parent,
+                MagicMissile.boltFromChar(curUser.sprite.parent,
                         MagicMissile.FIRE_CONE,
-                        hero.sprite,
+                        curUser.sprite,
                         cone.coreRay.path.get(dist * 2 / 3),
                         new Callback() {
                             @Override

@@ -60,6 +60,8 @@ import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
 
+import java.util.ArrayList;
+
 public class LabsBossLevel extends Level {
 
 	{
@@ -214,14 +216,18 @@ public class LabsBossLevel extends Level {
 		drop( new HandyBarricade().quantity(5), pointToCell(new Point(8, 30)) );
 		drop( new HandyBarricade().quantity(5), pointToCell(new Point(24, 30)) );
 
-		Item item = Bones.get();
-		if (item != null) {
+		Random.pushGenerator(Random.Long());
+		ArrayList<Item> bonesItems = Bones.get();
+		if (bonesItems != null) {
 			int pos;
 			do {
 				pos = randomRespawnCell(null);
 			} while (pos == entrance());
-			drop( item, pos ).setHauntedIfCursed().type = Heap.Type.REMAINS;
+			for (Item i : bonesItems) {
+				drop(i, pos).setHauntedIfCursed().type = Heap.Type.REMAINS;
+			}
 		}
+		Random.popGenerator();
 	}
 
 	public int randomCellPos() {

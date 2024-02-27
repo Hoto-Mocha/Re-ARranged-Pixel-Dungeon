@@ -1152,7 +1152,12 @@ public class ItemSpriteSheet {
 
 	//보조무기 추후 추가
 
-	//free 16 slots
+	//old amulet's items
+	private static final int SPECIAL_ITEMS  =			xy(1, 55);  //8 slots
+	public static final int COMPLETE_SEAL	= SPECIAL_ITEMS+0;
+	static{
+		assignItemRect(COMPLETE_SEAL	, 9, 15);
+	}
 
 	//Alchemy melee weapons
 

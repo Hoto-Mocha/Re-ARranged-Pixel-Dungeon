@@ -1276,7 +1276,7 @@ public abstract class Char extends Actor {
 		if (amount > 0 && this.isAlive()) {
 			this.HP += amount;
 			this.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-			this.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( amount ) );
+			this.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString( amount ), FloatingText.HEALING);
 		}
 	}
 }

@@ -599,7 +599,7 @@ public class Item implements Bundlable {
 	public void throwSound(){
 		Sample.INSTANCE.play(Assets.Sounds.MISS, 0.6f, 0.6f, 1.5f);
 	}
-	
+
 	public void cast( final Hero user, final int dst ) {
 		
 		final int cell = throwPos( user, dst );

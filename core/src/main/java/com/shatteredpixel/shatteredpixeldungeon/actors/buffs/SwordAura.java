@@ -60,7 +60,11 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
     }
 
     public void use() {
-        this.damage -= damageUse();
+        this.use(0);
+    }
+
+    public void use(int recoverAmt) {
+        this.damage -= damageUse() - recoverAmt;
         if (damage <= 0) {
             detach();
             ActionIndicator.clearAction();
@@ -160,7 +164,7 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
         @Override
         public int STRReq(int lvl) {
             return hero.STR();
-        }
+        } //no exceed str damage bonus
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
@@ -173,6 +177,7 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
 
         @Override
         protected void onThrow( int cell ) {
+            int hitChar = 0;
             if (cell != hero.pos) {
                 Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.DASH);
                 ArrayList<Char> chars = new ArrayList<>();
@@ -182,21 +187,22 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
                         chars.add( ch );
                     }
                 }
-
                 for (Char ch : chars) {
                     if (curUser.shoot(ch, this)) {
-                        if (hero.hasTalent(Talent.ENERGY_COLLECT)) {
-                            Buff.affect(hero, SwordAura.class).hit(this.damageRoll(hero)/(10-2*hero.pointsInTalent(Talent.ENERGY_COLLECT)));
-                        }
+                        hitChar++;
                     }
                 }
+            }
+            if (hero.hasTalent(Talent.ENERGY_COLLECT)) {
+                SwordAura.this.use(hitChar * Aura.this.damageRoll(hero)/(10-2*hero.pointsInTalent(Talent.ENERGY_COLLECT)));
+            } else {
+                SwordAura.this.use();
             }
 
             Invisibility.dispel();
             if (hero.buff(Sheath.Sheathing.class) != null) {
                 hero.buff(Sheath.Sheathing.class).detach();
             }
-            SwordAura.this.use();
         }
 
         @Override

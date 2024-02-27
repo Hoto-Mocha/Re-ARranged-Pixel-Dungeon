@@ -92,6 +92,7 @@ public class ThunderImbue extends Buff {
 		enemy.sprite.flash();
 		arcs.add(new ThunderBolt.Arc(new PointF( enemy.sprite.center().x, enemy.sprite.center().y-35 ), enemy.sprite.center()));
 		hero.sprite.parent.addToFront( new ThunderBolt( arcs, null ) );
+		Sample.INSTANCE.play(Assets.Sounds.ROCKS, 0.7f, 0.5f);
 		Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
 		Sample.INSTANCE.play( Assets.Sounds.BLAST );
 	}

@@ -200,14 +200,18 @@ public class TempleLastLevel extends Level {
 		drop( new GoldenKey(20, 2), 22+WIDTH*22 );
 		drop( new OldAmulet(), 15+WIDTH*3);
 
-		Item item = Bones.get();
-		if (item != null) {
+		Random.pushGenerator(Random.Long());
+		ArrayList<Item> bonesItems = Bones.get();
+		if (bonesItems != null) {
 			int pos;
 			do {
 				pos = randomRespawnCell(null);
 			} while (pos == entrance());
-			drop( item, pos ).setHauntedIfCursed().type = Heap.Type.REMAINS;
+			for (Item i : bonesItems) {
+				drop(i, pos).setHauntedIfCursed().type = Heap.Type.REMAINS;
+			}
 		}
+		Random.popGenerator();
 	}
 
 	@Override

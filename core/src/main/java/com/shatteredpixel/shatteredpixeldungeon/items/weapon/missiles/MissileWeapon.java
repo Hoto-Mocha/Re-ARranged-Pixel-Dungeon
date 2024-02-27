@@ -180,7 +180,7 @@ abstract public class MissileWeapon extends Weapon {
 			}
 		}
 
-		if (this instanceof LG.RGBullet) {
+		if (this instanceof LG.LGBullet) {
 			return dst;
 		}
 

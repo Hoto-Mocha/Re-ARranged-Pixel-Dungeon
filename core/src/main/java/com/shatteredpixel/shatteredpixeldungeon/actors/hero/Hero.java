@@ -1658,7 +1658,7 @@ public class Hero extends Char {
 		if (heroClass == HeroClass.SAMURAI) {
 			chance = 0.01f;
 			chance += 0.01f * (lvl - 1);
-			chance += Math.max(0, (0.02f + 0.05f*pointsInTalent(Talent.WEAPON_MASTERY)) * (STR() - wep.STRReq()));
+			chance += Math.max(0, (0.02f + 0.005f*pointsInTalent(Talent.WEAPON_MASTERY)) * (STR() - wep.STRReq()));
 		}
 
 		if (hasTalent(Talent.BASIC_PRACTICE)) {

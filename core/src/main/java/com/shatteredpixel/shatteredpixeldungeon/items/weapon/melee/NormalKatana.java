@@ -22,7 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -43,6 +45,13 @@ public class NormalKatana extends MeleeWeapon {
         hitSoundPitch = 1.3f;
 
         tier = 3;
+    }
+
+    @Override
+    public boolean doPickUp( Hero hero, int pos ) {
+        Statistics.katanaObtained = true;
+        Badges.validateSamuraiUnlock();
+        return super.doPickUp(hero, pos);
     }
 
     @Override

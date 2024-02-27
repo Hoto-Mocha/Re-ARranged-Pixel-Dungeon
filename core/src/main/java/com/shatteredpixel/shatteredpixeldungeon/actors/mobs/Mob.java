@@ -911,7 +911,7 @@ public abstract class Mob extends Char {
 		}
 
 		if (this instanceof Wraith && Dungeon.isChallenged(Challenges.CURSED_DUNGEON) && Random.Int(5) < 1) {
-			Wraith w = Wraith.spawnAt(pos, false);
+			Wraith w = Wraith.spawnAt(pos, Wraith.class);
 			if (w != null) {
 				Buff.affect(w, Corruption.class);
 				if (Dungeon.level.heroFOV[pos]) {

@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalCircle;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
@@ -367,6 +368,10 @@ public abstract class Wand extends Item {
 				lvl += ((Hero)charger.target).pointsInTalent(Talent.DESPERATE_POWER);
 			}
 
+			if (charger.target.buff(MagicalEmpower.class) != null){
+				lvl += charger.target.buff(MagicalEmpower.class).getUpgrades();
+			}
+
 			if (charger.target.buff(WildMagic.WildMagicTracker.class) != null){
 				int bonus = 4 + ((Hero)charger.target).pointsInTalent(Talent.WILD_POWER);
 				if (Random.Int(2) == 0) bonus++;
@@ -456,6 +461,10 @@ public abstract class Wand extends Item {
 			ScrollEmpower empower = curUser.buff(ScrollEmpower.class);
 			if (empower != null){
 				empower.use();
+			}
+			MagicalEmpower magicalEmpower = curUser.buff(MagicalEmpower.class);
+			if (magicalEmpower != null) {
+				magicalEmpower.use();
 			}
 		}
 

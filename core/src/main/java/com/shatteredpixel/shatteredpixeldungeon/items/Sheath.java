@@ -132,19 +132,19 @@ public class Sheath extends Item {
 
         @Override
         public boolean act() {
-            if (pos == -1) pos = target.pos;
-            if (pos != target.pos || !(hero.belongings.weapon instanceof MeleeWeapon)) {
-                detach();
-            } else {
-                spend(TICK);
-            }
-
             if (hero.subClass == HeroSubClass.MASTER) {
                 if (hero.buff(DashAttackCooldown.class) == null) {
                     ActionIndicator.setAction(this);
                 } else {
                     ActionIndicator.clearAction(this);
                 }
+            }
+
+            if (pos == -1) pos = target.pos;
+            if (pos != target.pos || !(hero.belongings.weapon instanceof MeleeWeapon)) {
+                detach();
+            } else {
+                spend(TICK);
             }
             return true;
         }

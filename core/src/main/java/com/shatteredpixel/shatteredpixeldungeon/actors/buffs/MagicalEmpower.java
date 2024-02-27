@@ -51,6 +51,10 @@ public class MagicalEmpower extends Buff {
 		}
 	}
 
+	public int getUpgrades() {
+		return upgrades;
+	}
+
 	@Override
 	public void detach() {
 		super.detach();

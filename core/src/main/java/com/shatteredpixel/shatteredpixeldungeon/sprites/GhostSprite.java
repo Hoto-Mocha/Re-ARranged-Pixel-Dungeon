@@ -21,20 +21,42 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShaftParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.FT.FT;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.LG.LG;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.glwrap.Blending;
 import com.watabou.noosa.TextureFilm;
-import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
+import com.watabou.utils.Random;
+
+import java.util.ArrayList;
 
 public class GhostSprite extends MobSprite {
 
@@ -86,7 +108,7 @@ public class GhostSprite extends MobSprite {
 
 	@Override
 	public void attack( int cell ) {
-		if (!Dungeon.level.adjacent( cell, ch.pos )) {
+		if (((DriedRose.GhostHero)ch).willingToShoot()) {
 
 			cellToAttack = cell;
 			zap(cell);
@@ -105,14 +127,115 @@ public class GhostSprite extends MobSprite {
 			DriedRose rose = Dungeon.hero.belongings.getItem(DriedRose.class);
 			if (rose != null && rose.ghostWeapon() instanceof Gun) {
 				Gun.Bullet bullet = ((Gun)rose.ghostWeapon()).knockBullet();
-				bullet.image = ItemSpriteSheet.GHOST_BULLET;
-				((MissileSprite)parent.recycle( MissileSprite.class )).
-						reset( this, cellToAttack, bullet, new Callback() {
-							@Override
-							public void call() {
-								ch.onAttackComplete();
+				if (bullet instanceof LG.LGBullet) {
+					if (cellToAttack != ch.pos) {
+						Ballistica aim = new Ballistica(ch.pos, cellToAttack, Ballistica.WONT_STOP);
+						ArrayList<Char> chars = new ArrayList<>();
+						int maxDist = 2*(bullet.tier+1);
+						int dist = Math.min(aim.dist, maxDist);
+						int cells = aim.path.get(Math.min(aim.dist, dist));
+						boolean terrainAffected = false;
+						for (int c : aim.subPath(1, maxDist)) {
+
+							Char enemy;
+							if ((enemy = Actor.findChar( c )) != null && enemy != Actor.findChar(cellToAttack)) {
+								chars.add( enemy );
 							}
-						} );
+
+							if (Dungeon.level.flamable[c]) {
+								Dungeon.level.destroy( c );
+								GameScene.updateMap( c );
+								terrainAffected = true;
+
+							}
+
+							CellEmitter.center( c ).burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
+						}
+						if (terrainAffected) {
+							Dungeon.observe();
+						}
+
+						ch.sprite.parent.add(new Beam.DeathRay(ch.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( cells )));
+
+						for (Char enemy : chars) {
+							if (ch.attack(enemy)) {
+								enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10+bullet.buffedLvl() );
+							}
+							if (enemy == hero && !enemy.isAlive()) {
+								Dungeon.fail(getClass());
+								Badges.validateDeathFromFriendlyMagic();
+								GLog.n(Messages.get(this, "ondeath"));
+							}
+						}
+						ch.onAttackComplete();
+					}
+				} else if (bullet instanceof FT.FTBullet) {
+					if (cellToAttack != ch.pos) {
+						Ballistica aim = new Ballistica(ch.pos, cellToAttack, Ballistica.WONT_STOP);
+						int maxDist = bullet.tier + 1;
+						int dist = Math.min(aim.dist, maxDist);
+						ConeAOE cone = new ConeAOE(aim,
+								dist,
+								30,
+								Ballistica.STOP_TARGET | Ballistica.STOP_SOLID | Ballistica.IGNORE_SOFT_SOLID);
+						//cast to cells at the tip, rather than all cells, better performance.
+						for (Ballistica ray : cone.outerRays){
+							((MagicMissile)ch.sprite.parent.recycle( MagicMissile.class )).reset(
+									MagicMissile.FIRE_CONE,
+									ch.sprite,
+									ray.path.get(ray.dist),
+									null
+							);
+						}
+						ArrayList<Char> chars = new ArrayList<>();
+						for (int cells : cone.cells){
+							//knock doors open
+							if (Dungeon.level.map[cells] == Terrain.DOOR){
+								Level.set(cells, Terrain.OPEN_DOOR);
+								GameScene.updateMap(cells);
+							}
+
+							//only ignite cells directly near caster if they are flammable
+							if (!(Dungeon.level.adjacent(ch.pos, cells) && !Dungeon.level.flamable[cells])) {
+								GameScene.add(Blob.seed(cells, 2, Fire.class));
+							}
+
+							Char enemy = Actor.findChar(cells);
+							if (enemy != null && enemy.alignment != hero.alignment && enemy != Actor.findChar(cellToAttack)){
+								chars.add(enemy);
+							}
+						}
+						for (Char enemy : chars) {
+							ch.attack(enemy);
+							if (enemy == hero && !enemy.isAlive()) {
+								Dungeon.fail(getClass());
+								Badges.validateDeathFromFriendlyMagic();
+								GLog.n(Messages.get(this, "ondeath"));
+							}
+						}
+
+						//final zap at 2/3 distance, for timing of the actual effect
+						MagicMissile.boltFromChar(ch.sprite.parent,
+								MagicMissile.FIRE_CONE,
+								ch.sprite,
+								cone.coreRay.path.get(dist * 2 / 3),
+								new Callback() {
+									@Override
+									public void call() {
+										ch.onAttackComplete();
+									}
+								});
+					}
+				} else {
+					bullet.image = ItemSpriteSheet.GHOST_BULLET;
+					((MissileSprite)parent.recycle( MissileSprite.class )).
+							reset( this, cellToAttack, bullet, new Callback() {
+								@Override
+								public void call() {
+									ch.onAttackComplete();
+								}
+							} );
+				}
 				bullet.throwSound();
 				CellEmitter.get(ch.pos).burst(SmokeParticle.FACTORY, 2);
 				CellEmitter.center(ch.pos).burst(BlastParticle.FACTORY, 2);

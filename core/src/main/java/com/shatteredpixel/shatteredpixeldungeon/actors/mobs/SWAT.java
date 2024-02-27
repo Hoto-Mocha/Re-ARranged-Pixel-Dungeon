@@ -170,12 +170,5 @@ public class SWAT extends Mob {
 				return Messages.get(this, "machinegun_desc");
 		}
 	}
-
-	@Override
-	public void die( Object cause ) {
-		super.die(cause);
-		Statistics.swatKilled = true;
-		Badges.validateGunnerUnlock();
-	}
 	
 }
