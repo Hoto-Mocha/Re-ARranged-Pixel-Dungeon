@@ -51,7 +51,7 @@ public enum Icons {
 	DUELIST,
 	GUNNER,
 	SAMURAI,
-	PLANTER,
+	ADVENTURER,
 	KNIGHT,
 	NURSE,
 
@@ -195,7 +195,7 @@ public enum Icons {
 			case SAMURAI:
 				icon.frame( icon.texture.uvRectBySize( 112, 16, 14, 14 ) );
 				break;
-			case PLANTER:
+			case ADVENTURER:
 				icon.frame( icon.texture.uvRectBySize( 128, 16, 16, 16 ) );
 				break;
 			case KNIGHT:
@@ -461,8 +461,8 @@ public enum Icons {
 				return get( Icons.GUNNER );
 			case SAMURAI:
 				return get( Icons.SAMURAI );
-//			case PLANTER:
-//				return get( Icons.PLANTER );
+			case ADVENTURER:
+				return get( Icons.ADVENTURER );
 //			case KNIGHT:
 //				return get( Icons.KNIGHT );
 //			case NURSE:

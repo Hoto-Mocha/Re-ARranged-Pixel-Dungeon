@@ -66,7 +66,7 @@ public class TerrainFeaturesTilemap extends DungeonTilemap {
 
 		int stage = (Dungeon.depth-1)/5;
 		if (Dungeon.depth == 21 && Dungeon.level instanceof LastShopLevel) stage--;
-		if (Dungeon.branch == 2) {
+		if (Dungeon.branch == 2 || Dungeon.depth >= 26) {
 			stage = 0;
 		}
 		stage = Math.min(stage, 4);

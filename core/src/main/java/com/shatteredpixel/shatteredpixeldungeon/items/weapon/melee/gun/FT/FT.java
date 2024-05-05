@@ -38,8 +38,8 @@ public class FT extends Gun {
 
     @Override
     public int bulletMax(int lvl) {
-        return 3 * (tier) +
-                lvl * (tier) +
+        return 3 * (tier + 1) +
+                lvl * (tier + 1) +
                 RingOfSharpshooting.levelDamageBonus(hero);
     }
 

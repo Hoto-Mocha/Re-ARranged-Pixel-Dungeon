@@ -97,6 +97,9 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
@@ -358,6 +361,35 @@ public abstract class Char extends Actor {
 	
 	public boolean attack( Char enemy, float dmgMulti, float dmgBonus, float accMulti ) {
 
+		if (this instanceof Hero && hero.subClass == HeroSubClass.EXPLORER) {
+			Rope rope = hero.belongings.getItem(Rope.class);
+			KindOfWeapon wep = hero.belongings.attackingWeapon();
+			if (rope != null && wep != null) {
+				int weaponReach = wep.reachFactor(hero) + KindOfWeapon.additionalReach();
+				int attackReach = weaponReach + rope.quantity();
+
+				boolean[] passable = BArray.not(Dungeon.level.solid, null);
+				for (Char ch : Actor.chars()) {
+					if (ch != hero) passable[ch.pos] = false;
+				}
+				//enemy.pos를 중심으로 attackReach거리까지 타일마다 거리를 계산하여 기록
+				PathFinder.buildDistanceMap(enemy.pos, passable, attackReach);
+				//위에서 만든 거리 목록 중 영웅이 있는 좌표를 주소로 가지는 거리가 무기 기본 사정거리를 넘으면 그만큼 로프를 사용함
+				if (PathFinder.distance[hero.pos] > weaponReach) {
+					//PathFinder.distance[hero.pos]가 Integer.MAX_VALUE가 될 수는 없기 때문에 이것에 대한 조건 처리는 따로 하지 않는다.
+					//왜냐하면 [영웅이 공격을 했다 -> PathFinder.distance[hero.pos]가 공격 거리보다 짧거나 같다]는 의미이기 때문.
+					int ropeUse = (PathFinder.distance[hero.pos] - weaponReach);
+					if (hero.hasTalent(Talent.DURABLE_ROPE)) {
+						ropeUse = (int)(ropeUse*(0.9f-0.1f*hero.pointsInTalent(Talent.DURABLE_ROPE)));
+					}
+					rope.quantity(rope.quantity() - ropeUse);
+					if (rope.quantity() <= 0) {
+						rope.detachAll(hero.belongings.backpack);
+					}
+					Item.updateQuickslot();
+				}
+			}
+		}
 		if (enemy == null) return false;
 		
 		boolean visibleFight = Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[enemy.pos];
@@ -702,6 +734,9 @@ public abstract class Char extends Actor {
 		if ( buff( Adrenaline.class ) != null) speed *= 2f;
 		if ( buff( Haste.class ) != null) speed *= 3f;
 		if ( buff( Dread.class ) != null) speed *= 2f;
+		if ( this.alignment != Alignment.ALLY
+				&& buff( Ooze.class ) != null
+				&& hero.hasTalent(Talent.STICKY_OOZE)) speed *= 1-0.1f*hero.pointsInTalent(Talent.STICKY_OOZE);
 		return speed;
 	}
 

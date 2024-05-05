@@ -72,6 +72,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
@@ -112,6 +113,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
@@ -153,12 +155,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfDisintegration;
 import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.SpellBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualDagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
@@ -206,6 +210,7 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.Delayer;
+import com.watabou.utils.BArray;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
@@ -838,6 +843,10 @@ public class Hero extends Char {
 
 		if (hero.buff(Riot.RiotTracker.class) != null && hero.hasTalent(Talent.HASTE_MOVE)) {
 			speed *= 1f + 0.25f * hero.pointsInTalent(Talent.HASTE_MOVE);
+		}
+
+		if (level.map[hero.pos] == Terrain.FURROWED_GRASS && hero.hasTalent(Talent.JUNGLE_EXPLORE)) {
+			speed *= Math.pow(1.2f, hero.pointsInTalent(Talent.JUNGLE_EXPLORE));
 		}
 
 		speed = AscensionChallenge.modifyHeroSpeed(speed);
@@ -1566,6 +1575,7 @@ public class Hero extends Char {
 				Buff.affect(this, Talent.AggressiveBarrierCooldown.class, 50f);
 
 			}
+
 			sprite.attack( enemy.pos );
 
 			return false;
@@ -1898,7 +1908,7 @@ public class Hero extends Char {
 			case OUTLAW:
 				if (wep instanceof Gun.Bullet) {
 					if (hero.hasTalent(Talent.HEADSHOT) && Random.Float() < 0.01f*hero.pointsInTalent(Talent.HEADSHOT)) {
-						if (!Char.hasProp(enemy, Property.BOSS) && !Char.hasProp(enemy, Property.MINIBOSS)) {
+						if (!Char.hasProp(enemy, Property.BOSS) && !Char.hasProp(enemy, Property.MINIBOSS) && enemy.alignment == Alignment.ENEMY) {
 							damage = enemy.HP;
 						} else {
 							damage *= 1.2f;
@@ -1988,6 +1998,25 @@ public class Hero extends Char {
 			damage *= 0.5f;
 		}
 
+		if (hero.hasTalent(Talent.BIOLOGY_PROJECT)) {
+			if (!(enemy.properties().contains(Property.INORGANIC) || enemy.properties().contains(Property.UNDEAD))){
+				enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 3 );
+				Sample.INSTANCE.play(Assets.Sounds.BURNING);
+
+				damage *= Math.pow(1.1f, hero.pointsInTalent(Talent.BIOLOGY_PROJECT));
+			}
+		}
+
+		if (hero.belongings.attackingWeapon() instanceof MeleeWeapon && hero.heroClass != HeroClass.ADVENTURER && hero.hasTalent(Talent.LONG_MACHETE)) {
+			int dist = level.distance(hero.pos, enemy.pos)-1;
+			dist = Math.min(dist, hero.pointsInTalent(Talent.LONG_MACHETE));
+			damage = (int)Math.round(damage * Math.pow(0.8f, dist));
+		}
+
+		if (hero.hasTalent(Talent.NATURE_FRIENDLY) && (level.map[this.pos] == Terrain.HIGH_GRASS || level.map[this.pos] == Terrain.FURROWED_GRASS)) {
+			damage += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
+		}
+
 		if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
 			if (hero.hasTalent(Talent.POISONOUS_BLADE)) {
 				Buff.affect(enemy, Poison.class).set(2+hero.pointsInTalent(Talent.POISONOUS_BLADE));
@@ -2034,6 +2063,27 @@ public class Hero extends Char {
 
 		if (hero.subClass == HeroSubClass.SLASHER) {
 			Buff.affect(hero, SwordAura.class).hit(damage);
+		}
+
+		if (hero.hasTalent(Talent.BLOOMING_WEAPON)
+				&& Random.Float() < 0.05f*hero.pointsInTalent(Talent.BLOOMING_WEAPON)) {
+			boolean secondPlant = Random.Float() <= 0.33f;
+			ArrayList<Integer> positions = new ArrayList<>();
+			Blooming blooming = new Blooming();
+			for (int i : PathFinder.NEIGHBOURS8){
+				positions.add(i);
+			}
+			Random.shuffle( positions );
+			for (int i : positions){
+				if (blooming.plantGrass(enemy.pos + i)) {
+					if (secondPlant) secondPlant = false;
+					else return damage;
+				}
+			}
+		}
+
+		if (hero.subClass == HeroSubClass.RESEARCHER && Random.Float() < 0.2f) {
+			Buff.affect(enemy, Ooze.class).set(Ooze.DURATION/4f * (1+0.5f*hero.pointsInTalent(Talent.POWERFUL_ACID)));
 		}
 		
 		return damage;

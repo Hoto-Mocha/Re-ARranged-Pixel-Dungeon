@@ -16,8 +16,8 @@ public class GL extends Gun {
 
     @Override
     public int bulletMax(int lvl) {
-        return 4 * (tier) +
-                lvl * (tier) +
+        return 6 * (tier + 1) +
+                lvl * (tier + 1) +
                 RingOfSharpshooting.levelDamageBonus(hero);
     }
 

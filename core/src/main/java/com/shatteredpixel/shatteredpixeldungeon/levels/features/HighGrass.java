@@ -21,11 +21,14 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.levels.features;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -38,7 +41,9 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Camouflage;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Berry;
@@ -62,7 +67,7 @@ public class HighGrass {
 		Char ch = Actor.findChar(pos);
 		
 		if (level.map[pos] == Terrain.FURROWED_GRASS){
-			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.SPECIALIST)){
+			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.SPECIALIST || ((Hero) ch).heroClass == HeroClass.ADVENTURER)){
 				//Do nothing
 				freezeTrample = true;
 			} else {
@@ -70,7 +75,7 @@ public class HighGrass {
 			}
 			
 		} else {
-			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.SPECIALIST)){
+			if (ch instanceof Hero && (((Hero) ch).heroClass == HeroClass.HUNTRESS || ((Hero) ch).subClass == HeroSubClass.SPECIALIST || ((Hero) ch).heroClass == HeroClass.ADVENTURER)){
 				Level.set(pos, Terrain.FURROWED_GRASS);
 				freezeTrample = true;
 			} else {
@@ -115,6 +120,10 @@ public class HighGrass {
 					}
 
 				}
+
+				if (ch instanceof Hero && ((Hero) ch).hasTalent(Talent.ROPE_MAKING) && Random.Float() < 0.1f*((Hero) ch).pointsInTalent(Talent.ROPE_MAKING)) {
+					level.drop(new Rope(), pos).sprite.drop();
+				}
 			}
 
 			//grass gives 1/3 the normal amount of loot in fungi level
@@ -157,6 +166,27 @@ public class HighGrass {
 			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.CAMOUFLAGE)) {
 				Buff.prolong(Dungeon.hero, Invisibility.class, 1+Dungeon.hero.pointsInTalent(Talent.CAMOUFLAGE));
 				Sample.INSTANCE.play( Assets.Sounds.MELD );
+			}
+
+			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.BIO_ENERGY)) {
+				for (Buff b : hero.buffs()){
+					if (b instanceof Artifact.ArtifactBuff && !((Artifact.ArtifactBuff) b).isCursed() ) {
+						((Artifact.ArtifactBuff) b).charge(hero, 0.2f*hero.pointsInTalent(Talent.BIO_ENERGY));
+					}
+				}
+			}
+
+			if (ch instanceof Hero && ((Hero) ch).heroClass != HeroClass.ADVENTURER && ((Hero) ch).hasTalent(Talent.PLANT_BARRIER)) {
+				Barrier barrier = ch.buff(Barrier.class);
+				if (barrier != null) {
+					Buff.affect(ch, Barrier.class).incShield(2);
+					int maxBarrier = 1+7*((Hero) ch).pointsInTalent(Talent.PLANT_BARRIER);
+					if (barrier.shielding() > maxBarrier) {
+						Buff.affect(ch, Barrier.class).setShield(maxBarrier);
+					}
+				} else {
+					Buff.affect(ch, Barrier.class).setShield(2);
+				}
 			}
 		}
 		

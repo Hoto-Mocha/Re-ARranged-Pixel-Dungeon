@@ -104,7 +104,8 @@ public class Food extends Item {
 			|| Dungeon.hero.hasTalent(Talent.INVIGORATING_MEAL)
 			|| Dungeon.hero.hasTalent(Talent.FOCUSED_MEAL)
 			|| Dungeon.hero.hasTalent(Talent.INFINITE_BULLET_MEAL)
-			|| Dungeon.hero.hasTalent(Talent.CRITICAL_MEAL)){
+			|| Dungeon.hero.hasTalent(Talent.CRITICAL_MEAL)
+			|| Dungeon.hero.hasTalent(Talent.NATURES_MEAL)){
 			return TIME_TO_EAT - 2;
 		} else {
 			return TIME_TO_EAT;

@@ -19,14 +19,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.armor;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class PlanterArmor extends ClassArmor {
-
+public class MinersTool extends Spade {
     {
-        image = ItemSpriteSheet.ARMOR_PLANTER;
+        defaultAction = AC_DIG;
+
+        image = ItemSpriteSheet.MINERS_TOOL;
+        hitSound = Assets.Sounds.HIT_SLASH;
+        hitSoundPitch = 1.1f;
+
+        tier = 5;
+        DLY = 0.8f; //1.25x speed
+
+        unique = true;
+        bones = false;
     }
 
+    @Override
+    public int proc(Char attacker, Char defender, int damage) {
+        int dmg = super.proc( attacker, defender, damage );
+        if (defender.properties().contains(Char.Property.INORGANIC)) dmg *= 1.25f;
+        return dmg;
+    }
 }

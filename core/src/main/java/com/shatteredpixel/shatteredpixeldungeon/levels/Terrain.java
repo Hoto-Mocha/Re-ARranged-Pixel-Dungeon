@@ -65,6 +65,8 @@ public class Terrain {
 	public static final int MINE_BOULDER    = 36;
 
 	public static final int WATER		    = 29;
+
+	public static final int WIRE			= 37;
 	
 	public static final int PASSABLE		= 0x01;
 	public static final int LOS_BLOCKING	= 0x02;
@@ -116,6 +118,8 @@ public class Terrain {
 
 		flags[MINE_CRYSTAL] = SOLID;
 		flags[MINE_BOULDER] = SOLID;
+
+		flags[WIRE] = flags[EMPTY];
 
 	}
 

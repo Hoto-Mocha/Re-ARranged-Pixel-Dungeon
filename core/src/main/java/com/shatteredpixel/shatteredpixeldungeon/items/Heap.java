@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Wraith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -220,10 +221,10 @@ public class Heap implements Bundlable {
 		boolean evaporated = false;
 		
 		for (Item item : items.toArray( new Item[0] )) {
-			if (item instanceof Scroll && !item.unique) {
+			if (item instanceof Scroll && !item.unique && Dungeon.hero.pointsInTalent(Talent.FIREWATCH) < 2) {
 				items.remove( item );
 				burnt = true;
-			} else if (item instanceof Dewdrop) {
+			} else if (item instanceof Dewdrop && !Dungeon.hero.hasTalent(Talent.FIREWATCH)) {
 				items.remove( item );
 				evaporated = true;
 			} else if (item instanceof MysteryMeat || item instanceof FrozenCarpaccio) {

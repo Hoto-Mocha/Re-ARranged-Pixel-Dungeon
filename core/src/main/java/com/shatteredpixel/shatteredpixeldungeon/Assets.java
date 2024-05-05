@@ -255,7 +255,7 @@ public class Assets {
 		public static final String DUELIST  = "splashes/duelist.jpg";
 		public static final String GUNNER	= "splashes/gunner.jpg";
 		public static final String SAMURAI  = "splashes/samurai.jpg";
-		public static final String PLANTER	= "splashes/planter.jpg";
+		public static final String ADVENTURER	= "splashes/adventurer.jpg";
 		public static final String KNIGHT	= "splashes/knight.jpg";
 		public static final String NURSE	= "splashes/nurse.jpg";
 	}
@@ -271,7 +271,7 @@ public class Assets {
 		public static final String DUELIST  = "sprites/duelist.png";
 		public static final String GUNNER	= "sprites/gunner.png";
 		public static final String SAMURAI	= "sprites/samurai.png";
-		public static final String PLANTER	= "sprites/planter.png";
+		public static final String ADVENTURER	= "sprites/adventurer.png";
 		public static final String KNIGHT	= "sprites/knight.png";
 		public static final String NURSE	= "sprites/nurse.png";
 		public static final String AVATARS  = "sprites/avatars.png";
@@ -350,5 +350,10 @@ public class Assets {
 		public static final String SUPRESSION= "sprites/supression.png";
 		public static final String MEDIC= "sprites/medic.png";
 		public static final String REBEL= "sprites/rebel.png";
+		public static final String BARRICADE= "sprites/barricade.png";
+		public static final String WATCHTOWER= "sprites/watchtower.png";
+		public static final String CANNON= "sprites/cannon.png";
+		public static final String MACHINEGUN= "sprites/machinegun.png";
+		public static final String MORTAR = "sprites/mortar.png";
 	}
 }

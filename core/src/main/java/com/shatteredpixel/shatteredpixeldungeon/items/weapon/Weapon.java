@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
@@ -291,6 +292,9 @@ abstract public class Weapon extends KindOfWeapon {
 				return reach;
 			}
 		}
+		if (hero.heroClass != HeroClass.ADVENTURER && hero.hasTalent(Talent.LONG_MACHETE)) {
+			reach += hero.pointsInTalent(Talent.LONG_MACHETE);
+		}
 		if (hasEnchant(Projecting.class, owner)){
 			return reach + Math.round(enchantment.procChanceMultiplier(owner));
 		} else {
@@ -438,7 +442,7 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 
 	public static abstract class Enchantment implements Bundlable {
-		//TODO: 신규 인챈트 추가할 때 격투가 신비한 반지 특성 효과도 추가할 것
+		//TODO : 신규 인챈트 추가할 때 격투가 신비한 반지 특성 효과도 추가할 것
 		public static final Class<?>[] common = new Class<?>[]{
 				Blazing.class, Chilling.class, Kinetic.class, Shocking.class};
 

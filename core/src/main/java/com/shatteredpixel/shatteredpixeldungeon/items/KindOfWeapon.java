@@ -247,9 +247,11 @@ abstract public class KindOfWeapon extends EquipableItem {
 	
 	public boolean canReach( Char owner, int target){
 		int reach = reachFactor(owner);
-		BookOfDisintegration.ReachBuff buff = hero.buff(BookOfDisintegration.ReachBuff.class);
-		if (buff != null) {
-			reach += 1+buff.getUpgrade();
+		if (owner instanceof Hero) {
+			if (hero.subClass == HeroSubClass.EXPLORER && hero.belongings.getItem(Rope.class) != null) {
+				reach += hero.belongings.getItem(Rope.class).quantity();
+			}
+			reach += additionalReach();
 		}
 		if (Dungeon.level.distance( owner.pos, target ) > reach){
 			return false;
@@ -263,6 +265,17 @@ abstract public class KindOfWeapon extends EquipableItem {
 			
 			return PathFinder.distance[owner.pos] <= reach;
 		}
+	}
+
+	public static int additionalReach() {
+		int reach = 0;
+
+		BookOfDisintegration.ReachBuff buff = hero.buff(BookOfDisintegration.ReachBuff.class);
+		if (buff != null) {
+			reach += 1+buff.getUpgrade();
+		}
+
+		return reach;
 	}
 
 	public int defenseFactor( Char owner ) {

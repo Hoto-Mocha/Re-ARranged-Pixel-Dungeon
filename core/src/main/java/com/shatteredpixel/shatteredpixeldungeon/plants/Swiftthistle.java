@@ -50,7 +50,7 @@ public class Swiftthistle extends Plant {
 	public void activate( Char ch ) {
 		if (ch != null) {
 			Buff.affect(ch, TimeBubble.class).reset();
-			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN){
+			if (ch instanceof Hero && (((Hero) ch).subClass == HeroSubClass.WARDEN || ((Hero) ch).subClass == HeroSubClass.RESEARCHER)){
 				Buff.affect(ch, Haste.class, 1f);
 			}
 		}

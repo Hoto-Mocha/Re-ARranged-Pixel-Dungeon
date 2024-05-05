@@ -758,6 +758,10 @@ public abstract class Mob extends Char {
 		return enemy == ch;
 	}
 
+	public Char targetingChar() {
+		return enemy;
+	}
+
 	@Override
 	public void damage( int dmg, Object src ) {
 

@@ -58,7 +58,11 @@ public enum HeroSubClass {
 
 	SLASHER(HeroIcon.SLASHER),
 	MASTER(HeroIcon.MASTER),
-	SLAYER(HeroIcon.SLAYER);
+	SLAYER(HeroIcon.SLAYER),
+
+	ENGINEER(HeroIcon.ENGINEER),
+	EXPLORER(HeroIcon.EXPLORER),
+	RESEARCHER(HeroIcon.RESEARCHER);
 
 	int icon;
 

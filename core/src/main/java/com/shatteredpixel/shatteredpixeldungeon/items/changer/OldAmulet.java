@@ -33,9 +33,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.TacticalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.WindBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.EnhancedMachete;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeroSword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Machete;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -152,6 +156,10 @@ public class OldAmulet extends Item {
     public static Item changeItem( Item item ){
         if (item instanceof SpiritBow) {
             return changeBow((SpiritBow)item);
+        } else if (item instanceof Shovel) {
+            return changeShovel((Shovel)item);
+        } else if (item instanceof Machete) {
+            return changeMachete((Machete)item);
         } else {
             return null;
         }
@@ -197,6 +205,54 @@ public class OldAmulet extends Item {
         newBow.enchantHardened = bow.enchantHardened;
 
         return newBow;
+    }
+
+    private static Spade changeShovel(Shovel shovel) {
+        Spade newShovel = new Spade();
+
+        newShovel.level(0);
+        newShovel.quantity(1);
+        int level = shovel.trueLevel();
+        if (level > 0) {
+            newShovel.upgrade( level );
+        } else if (level < 0) {
+            newShovel.degrade( -level );
+        }
+
+        newShovel.enchantment = shovel.enchantment;
+        newShovel.curseInfusionBonus = shovel.curseInfusionBonus;
+        newShovel.masteryPotionBonus = shovel.masteryPotionBonus;
+        newShovel.levelKnown = shovel.levelKnown;
+        newShovel.cursedKnown = shovel.cursedKnown;
+        newShovel.cursed = shovel.cursed;
+        newShovel.augment = shovel.augment;
+        newShovel.enchantHardened = shovel.enchantHardened;
+
+        return newShovel;
+    }
+
+    private static Machete changeMachete(Machete machete) {
+        EnhancedMachete newMachete = new EnhancedMachete();
+
+        newMachete.level(0);
+        newMachete.quantity(1);
+        int level = machete.trueLevel();
+        if (level > 0) {
+            newMachete.upgrade( level );
+        } else if (level < 0) {
+            newMachete.degrade( -level );
+        }
+
+        newMachete.enchantment = machete.enchantment;
+        newMachete.curseInfusionBonus = machete.curseInfusionBonus;
+        newMachete.masteryPotionBonus = machete.masteryPotionBonus;
+        newMachete.levelKnown = machete.levelKnown;
+        newMachete.cursedKnown = machete.cursedKnown;
+        newMachete.cursed = machete.cursed;
+        newMachete.augment = machete.augment;
+        newMachete.enchantHardened = machete.enchantHardened;
+
+        return newMachete;
     }
 
     protected void onItemSelected(Item item) {
@@ -298,6 +354,8 @@ public class OldAmulet extends Item {
                     return item instanceof MeleeWeapon && !(item instanceof MagesStaff) && !(item instanceof Gun);
                 case GUNNER:
                     return item instanceof Gun;
+                case ADVENTURER:
+                    return item instanceof Machete || item instanceof Shovel;
             }
         }
 

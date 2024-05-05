@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
@@ -225,10 +226,12 @@ public class Potion extends Item {
 			GameScene.show(new WndUseItem(null, this) );
 			
 		} else if (action.equals( AC_DRINK )) {
-			
+
 			if (isKnown() && mustThrowPots.contains(getClass())) {
-				
-					GameScene.show(
+				if (hero.pointsInTalent(Talent.SAFE_POTION) > 1) {
+					Buff.affect(hero, BlobImmunity.class, 3f);
+				}
+				GameScene.show(
 						new WndOptions(new ItemSprite(this),
 								Messages.get(Potion.class, "harmful"),
 								Messages.get(Potion.class, "sure_drink"),
@@ -240,11 +243,14 @@ public class Potion extends Item {
 								}
 							}
 						}
-					);
-					
-				} else {
-					drink( hero );
+				);
+
+			} else {
+				if (hero.hasTalent(Talent.SAFE_POTION)) {
+					Buff.affect(hero, BlobImmunity.class, 3f);
 				}
+				drink( hero );
+			}
 			
 		}
 	}

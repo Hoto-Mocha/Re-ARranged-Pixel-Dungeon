@@ -56,6 +56,7 @@ public class Statistics {
 	public static int thrownAttacks;
 	public static boolean soldierKilled;
 	public static boolean katanaObtained;
+	public static int plantTriggered;
 
 	public static int spawnersAlive;
 	
@@ -99,6 +100,7 @@ public class Statistics {
 		thrownAttacks   = 0;
 		soldierKilled = false;
 		katanaObtained = false;
+		plantTriggered = 0;
 
 		spawnersAlive   = 0;
 		
@@ -139,8 +141,9 @@ public class Statistics {
 	private static final String UPGRADES	= "upgradesUsed";
 	private static final String SNEAKS		= "sneakAttacks";
 	private static final String THROWN		= "thrownAssists";
-	private static final String SWAT_KILLED		= "swatKilled";
+	private static final String SOLDIER_KILLED = "soldierKilled";
 	private static final String KATANA_OBTAINED		= "katanaObtained";
+	private static final String PLANT_TRIGGERED		= "plantTriggered";
 
 	private static final String SPAWNERS	= "spawnersAlive";
 	
@@ -184,6 +187,9 @@ public class Statistics {
 		bundle.put( UPGRADES,   upgradesUsed );
 		bundle.put( SNEAKS,		sneakAttacks );
 		bundle.put( THROWN,     thrownAttacks);
+		bundle.put( SOLDIER_KILLED, soldierKilled);
+		bundle.put( KATANA_OBTAINED, katanaObtained);
+		bundle.put( PLANT_TRIGGERED, plantTriggered);
 
 		bundle.put( SPAWNERS,	spawnersAlive );
 		
@@ -231,8 +237,9 @@ public class Statistics {
 		upgradesUsed    = bundle.getInt( UPGRADES );
 		sneakAttacks    = bundle.getInt( SNEAKS );
 		thrownAttacks   = bundle.getInt( THROWN );
-		soldierKilled = bundle.getBoolean( SWAT_KILLED );
+		soldierKilled 	= bundle.getBoolean( SOLDIER_KILLED );
 		katanaObtained	= bundle.getBoolean( KATANA_OBTAINED );
+		plantTriggered	= bundle.getInt( PLANT_TRIGGERED );
 
 		spawnersAlive   = bundle.getInt( SPAWNERS );
 		

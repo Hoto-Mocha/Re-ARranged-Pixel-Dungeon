@@ -54,7 +54,7 @@ public class TempleCenterItemRoom extends StandardRoom {
 	public void paint(Level level) {
 		Painter.fill( level, this, Terrain.WALL );
 		Painter.fill( level, this, 1 , Terrain.EMPTY );
-		Painter.fill( level, this, 3 , Terrain.CHASM );
+		Painter.fill( level, this, 2 , Terrain.CHASM );
 
 		
 		for (Door door : connected.values()) {

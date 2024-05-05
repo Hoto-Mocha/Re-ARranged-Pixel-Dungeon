@@ -40,7 +40,7 @@ public class Stormvine extends Plant {
 	public void activate( Char ch ) {
 
 		if (ch != null) {
-			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN){
+			if (ch instanceof Hero && (((Hero) ch).subClass == HeroSubClass.WARDEN || ((Hero) ch).subClass == HeroSubClass.RESEARCHER)){
 				Buff.affect(ch, Levitation.class, Levitation.DURATION/2f);
 			} else {
 				Buff.affect(ch, Vertigo.class, Vertigo.DURATION);

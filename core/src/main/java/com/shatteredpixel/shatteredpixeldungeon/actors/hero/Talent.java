@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.WatchTower;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
@@ -449,6 +450,57 @@ public enum Talent {
 	MYSTICAL_KUNAI				(38, 7, 4),
 	CORROSIVE_KUNAI				(39, 7, 4),
 
+	//Adventurer T1
+	NATURE_FRIENDLY				(0, 8),
+	SAFE_POTION					(1, 8),
+	ROOT						(2, 8),
+	PLANT_BARRIER				(3, 8),
+	ROPE_MAKING					(4, 8),
+	//Adventurer T2
+	NATURES_MEAL				(5, 8),
+	PHARMACEUTICS				(6, 8),
+	HERB_EXTRACTION				(7, 8),
+	FIREWATCH					(8, 8),
+	ROPE_REBOUND				(9, 8),
+	WEAKENING_POISON			(10, 8),
+	//Adventurer T3
+	LONG_MACHETE				(11, 8, 3),
+	BLOOMING_WEAPON				(12, 8, 3),
+	//Engineer T3
+	BARRICADE					(13, 8, 3),
+	WIRE						(14, 8, 3),
+	WATCHTOWER					(15, 8, 3),
+	CANNON						(16, 8, 3),
+	MACHINEGUN					(17, 8, 3),
+	MORTAR						(18, 8, 3),
+	//Explorer T3
+	JUNGLE_EXPLORE				(19, 8, 3),
+	DURABLE_ROPE				(20, 8, 3),
+	LASSO						(21, 8, 3),
+	ROPE_COLLECTER				(22, 8, 3),
+	ROPE_MASTER					(23, 8, 3),
+	VINE_BIND					(24, 8, 3),
+	//Researcher T3
+	BIOLOGY_PROJECT				(25, 8, 3),
+	RAPID_GROWTH				(26, 8, 3),
+	BIO_ENERGY					(27, 8, 3),
+	WATER_ABSORB				(28, 8, 3),
+	POWERFUL_ACID				(29, 8, 3),
+	STICKY_OOZE					(30, 8, 3),
+	//Sprout T4
+	JUNGLE						(31, 8, 4),
+	FOREST						(32, 8, 4),
+	REGROWTH					(33, 8, 4),
+	//TreasureMap T4
+	LONG_LUCK					(34, 8, 4),
+	FORESIGHT					(35, 8, 4),
+	GOLD_HUNTER					(36, 8, 4),
+	//Root T4
+	POISONOUS_ROOT				(37, 8, 4),
+	ROOT_SPREAD					(38, 8, 4),
+	ROOT_ARMOR					(39, 8, 4),
+
+
 	//universal T4
 	HEROIC_ENERGY				(43, 0, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -825,6 +877,9 @@ public enum Talent {
 				case SAMURAI:
 					y = 7;
 					break;
+				case ADVENTURER:
+					y = 8;
+					break;
 			}
 			if (Ratmogrify.useRatroicEnergy){
 				y = 12;
@@ -992,6 +1047,15 @@ public enum Talent {
 		if (talent == LARGER_MAGAZINE) {
 			Item.updateQuickslot();
 		}
+
+		//adventurer
+		if (talent == WATCHTOWER && hero.pointsInTalent(WATCHTOWER) > 1) {
+			for (Char ch : Actor.chars()) {
+				if (ch instanceof WatchTower) {
+					((WatchTower) ch).updateFOV();
+				}
+			}
+		}
 	}
 
 	public static class CachedRationsDropped extends CounterBuff{{revivePersists = true;}};
@@ -1065,6 +1129,30 @@ public enum Talent {
 		}
 		if (hero.hasTalent(Talent.CRITICAL_MEAL)) {
 			Buff.affect(hero, Sheath.CertainCrit.class).set(hero.pointsInTalent(Talent.CRITICAL_MEAL));
+		}
+		if (hero.hasTalent(Talent.NATURES_MEAL)) {
+			if (hero.pointsInTalent(Talent.NATURES_MEAL) == 1) {
+				for (int i : PathFinder.NEIGHBOURS4) {
+					int c = Dungeon.level.map[hero.pos + i];
+					if (c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+							|| c == Terrain.EMBERS || c == Terrain.GRASS) {
+						Level.set(hero.pos + i, Terrain.HIGH_GRASS);
+						GameScene.updateMap(hero.pos + i);
+						CellEmitter.get(hero.pos + i).burst(LeafParticle.LEVEL_SPECIFIC, 4);
+					}
+				}
+			} else {
+				for (int i : PathFinder.NEIGHBOURS8) {
+					int c = Dungeon.level.map[hero.pos + i];
+					if (c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
+							|| c == Terrain.EMBERS || c == Terrain.GRASS) {
+						Level.set(hero.pos + i, Terrain.HIGH_GRASS);
+						GameScene.updateMap(hero.pos + i);
+						CellEmitter.get(hero.pos + i).burst(LeafParticle.LEVEL_SPECIFIC, 4);
+					}
+				}
+			}
+
 		}
 	}
 
@@ -1152,6 +1240,9 @@ public enum Talent {
 		}
 		if (hero.hasTalent(LIQUID_AGILITY)){
 			Buff.prolong(hero, RestoredAgilityTracker.class, hero.cooldown() + Math.max(0, factor-1));
+		}
+		if (hero.hasTalent(PHARMACEUTICS)) {
+			hero.heal(2+3*hero.pointsInTalent(PHARMACEUTICS));
 		}
 	}
 
@@ -1448,6 +1539,9 @@ public enum Talent {
 			case SAMURAI:
 				Collections.addAll(tierTalents, BASIC_PRACTICE, MASTERS_INTUITION, DRAWING_ENHANCE, PARRING, ADRENALINE_SURGE);
 				break;
+			case ADVENTURER:
+				Collections.addAll(tierTalents, NATURE_FRIENDLY, SAFE_POTION, ROOT, PLANT_BARRIER, ROPE_MAKING);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1480,6 +1574,9 @@ public enum Talent {
 			case SAMURAI:
 				Collections.addAll(tierTalents, CRITICAL_MEAL, INSCRIBED_LETHALITY, UNEXPECTED_SLASH, DRAGONS_EYE, WEAPON_MASTERY, CRITICAL_THROW);
 				break;
+			case ADVENTURER:
+				Collections.addAll(tierTalents, NATURES_MEAL, PHARMACEUTICS, HERB_EXTRACTION, FIREWATCH, ROPE_REBOUND, WEAKENING_POISON);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1511,6 +1608,9 @@ public enum Talent {
 				break;
 			case SAMURAI:
 				Collections.addAll(tierTalents, QUICK_SHEATHING, LETHAL_POWER);
+				break;
+			case ADVENTURER:
+				Collections.addAll(tierTalents, LONG_MACHETE, BLOOMING_WEAPON);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1603,6 +1703,15 @@ public enum Talent {
 				break;
 			case SLAYER:
 				Collections.addAll(tierTalents, AFTERIMAGE, FASTER_THAN_LIGHT, QUICK_RECOVER, HASTE_EVASION, ACCELERATED_LETHALITY, STABLE_BARRIER );
+				break;
+			case ENGINEER:
+				Collections.addAll(tierTalents, BARRICADE, WIRE, WATCHTOWER, CANNON, MACHINEGUN, MORTAR);
+				break;
+			case EXPLORER:
+				Collections.addAll(tierTalents, JUNGLE_EXPLORE, DURABLE_ROPE, LASSO, ROPE_COLLECTER, ROPE_MASTER, VINE_BIND );
+				break;
+			case RESEARCHER:
+				Collections.addAll(tierTalents, BIOLOGY_PROJECT, RAPID_GROWTH, BIO_ENERGY, WATER_ABSORB, POWERFUL_ACID, STICKY_OOZE);
 				break;
 		}
 		for (Talent talent : tierTalents){

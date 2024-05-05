@@ -48,13 +48,13 @@ public class TempleMazeRoom extends StandardRoom {
 		Painter.fill(level, this, 1, Terrain.GRASS);
 		Painter.fill(level, this, 2, Terrain.HIGH_GRASS);
 		for (int i = 0; i < 15; i ++){
-			Painter.set(level, random(2), Terrain.WALL);
+			Painter.set(level, random(2), Terrain.CHASM);
 		}
 		for (int i = 0; i < 10; i ++){
-			Painter.set(level, random(3), Terrain.WALL);
+			Painter.set(level, random(3), Terrain.CHASM);
 		}
 		for (int i = 0; i < 5; i ++){
-			Painter.set(level, random(4), Terrain.WALL);
+			Painter.set(level, random(4), Terrain.CHASM);
 		}
 
 		for (Door door : connected.values()) {

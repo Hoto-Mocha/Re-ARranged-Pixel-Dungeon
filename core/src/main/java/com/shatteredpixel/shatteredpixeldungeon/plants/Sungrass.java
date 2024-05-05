@@ -47,7 +47,7 @@ public class Sungrass extends Plant {
 	public void activate( Char ch ) {
 		
 		if (ch != null){
-			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN) {
+			if (ch instanceof Hero && (((Hero) ch).subClass == HeroSubClass.WARDEN || ((Hero) ch).subClass == HeroSubClass.RESEARCHER)) {
 				Buff.affect(ch, Healing.class).setHeal(ch.HT, 0, 1);
 			} else {
 				Buff.affect(ch, Health.class).boost(ch.HT);

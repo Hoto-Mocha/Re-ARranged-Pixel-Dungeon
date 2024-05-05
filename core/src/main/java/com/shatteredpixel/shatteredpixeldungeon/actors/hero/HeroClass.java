@@ -28,6 +28,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.adventurer.Root;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.adventurer.Sprout;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.adventurer.TreasureMap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Feint;
@@ -62,7 +65,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
@@ -72,6 +74,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
@@ -84,23 +87,20 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImag
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Machete;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TacticalShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T1;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T2;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.FT.FT_T5;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.LG.LG_T5;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
@@ -115,7 +115,8 @@ public enum HeroClass {
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.FIGHTER ),
 	DUELIST( HeroSubClass.CHAMPION, HeroSubClass.MONK, HeroSubClass.FENCER ),
 	GUNNER( HeroSubClass.OUTLAW, HeroSubClass.GUNSLINGER, HeroSubClass.SPECIALIST ),
-	SAMURAI( HeroSubClass.SLASHER, HeroSubClass.MASTER, HeroSubClass.SLAYER );
+	SAMURAI( HeroSubClass.SLASHER, HeroSubClass.MASTER, HeroSubClass.SLAYER ),
+	ADVENTURER( HeroSubClass.ENGINEER, HeroSubClass.EXPLORER, HeroSubClass.RESEARCHER );
 
 	private HeroSubClass[] subClasses;
 
@@ -218,6 +219,10 @@ public enum HeroClass {
 			case SAMURAI:
 				initSamurai( hero );
 				break;
+
+			case ADVENTURER:
+				initAdventurer( hero );
+				break;
 		}
 
 		if (SPDSettings.quickslotWaterskin()) {
@@ -247,6 +252,8 @@ public enum HeroClass {
 				return Badges.Badge.MASTERY_GUNNER;
 			case SAMURAI:
 				return Badges.Badge.MASTERY_SAMURAI;
+			case ADVENTURER:
+				return Badges.Badge.MASTERY_ADVENTURER;
 		}
 		return null;
 	}
@@ -355,38 +362,24 @@ public enum HeroClass {
 		new PotionOfStrength().identify();
 	}
 
-//	private static void initPlanter( Hero hero ) {
-//		Shovel shovel = new Shovel();
-//		(hero.belongings.weapon = shovel).identify();
-//		hero.belongings.weapon.activate(hero);
-//		ThrowingStone stones = new ThrowingStone();
-//		stones.quantity(3).collect();
-//		Dungeon.quickslot.setSlot(0, stones);
-//
-//		SandalsOfNature sandals = new SandalsOfNature();
-//		sandals.start = true;
-//		Generator.Category cat = Generator.Category.ARTIFACT;
-//		cat.probs[7]--; //removes SandalsOfNature in pool
-//		(hero.belongings.artifact = sandals).identify();
-//		hero.belongings.artifact.activate(hero);
-//
-//		if (Dungeon.isChallenged(Challenges.GAMBLER)) {
-//			RingOfWealth wealth = new RingOfWealth();
-//			(hero.belongings.ring = wealth).identify();
-//			hero.belongings.ring.activate(hero);
-//		}
-//
-//		Dungeon.quickslot.setSlot(0, shovel);
-//		Dungeon.quickslot.setSlot(1, stones);
-//
-//		new ScrollOfMirrorImage().identify();
-//		new PotionOfPurity().identify();
-//
-//		//new Teleporter().collect();
-//		//new MinersTool().identify().collect();
-//		//new RingOfMight().identify().upgrade(10).collect();
-//		//new PlateArmor().identify().upgrade(100).collect();
-//	}
+	private static void initAdventurer( Hero hero ) {
+		Shovel shovel = new Shovel();
+		(hero.belongings.weapon = shovel).identify();
+		hero.belongings.weapon.activate(hero);
+
+		Machete machete = new Machete();
+		machete.identify().collect();
+
+		ThrowingStone stones = new ThrowingStone();
+		stones.quantity(3).collect();
+
+		Dungeon.quickslot.setSlot(0, shovel);
+		Dungeon.quickslot.setSlot(1, machete);
+		Dungeon.quickslot.setSlot(2, stones);
+
+		new ScrollOfMagicMapping().identify();
+		new PotionOfPurity().identify();
+	}
 //
 //	private static void initKnight( Hero hero ) {
 //		Saber saber = new Saber();
@@ -468,8 +461,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Riot(), new ReinforcedArmor(), new FirstAidKit()};
 			case SAMURAI:
 				return new ArmorAbility[]{new Awake(), new ShadowBlade(), new Abil_Kunai()};
-//			case PLANTER:
-//				return new ArmorAbility[]{new Sprout(), new TreasureMap(), new Root()};
+			case ADVENTURER:
+				return new ArmorAbility[]{new Sprout(), new TreasureMap(), new Root()};
 //			case KNIGHT:
 //				return new ArmorAbility[]{new HolyShield(), new StimPack(), new UnstableAnkh()};
 //			case NURSE:
@@ -493,8 +486,8 @@ public enum HeroClass {
 				return Assets.Sprites.GUNNER;
 			case SAMURAI:
 				return Assets.Sprites.SAMURAI;
-//			case PLANTER:
-//				return Assets.Sprites.PLANTER;
+			case ADVENTURER:
+				return Assets.Sprites.ADVENTURER;
 //			case KNIGHT:
 //				return Assets.Sprites.KNIGHT;
 //			case NURSE:
@@ -518,8 +511,8 @@ public enum HeroClass {
 				return Assets.Splashes.GUNNER;
 			case SAMURAI:
 				return Assets.Splashes.SAMURAI;
-//			case PLANTER:
-//				return Assets.Splashes.PLANTER;
+			case ADVENTURER:
+				return Assets.Splashes.ADVENTURER;
 //			case KNIGHT:
 //				return Assets.Splashes.KNIGHT;
 //			case NURSE:
@@ -546,8 +539,8 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_GUNNER);
 			case SAMURAI:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_SAMURAI);
-//			case PLANTER:
-//				return Badges.isUnlocked(Badges.Badge.UNLOCK_PLANTER);
+			case ADVENTURER:
+				return Badges.isUnlocked(Badges.Badge.UNLOCK_ADVENTURER);
 //			case KNIGHT:
 //				return Badges.isUnlocked(Badges.Badge.UNLOCK_KNIGHT);
 //			case NURSE:

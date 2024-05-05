@@ -1281,16 +1281,22 @@ public class ItemSpriteSheet {
 		assignItemRect(BOOK_OF_TRANSFUSION    	, 12, 16);
 	}
 
-	private static final int SHOVEL			=				xy(1, 63);  //8 slots
-	public static final int PLANTER_SHOVEL	= SHOVEL+0;
-	public static final int GILDED_SHOVEL	= SHOVEL+1;
-	public static final int BATTLE_SHOVEL	= SHOVEL+2;
-	public static final int MINERS_TOOL		= SHOVEL+3;
+	private static final int ADVENTURE			=				xy(1, 63);  //8 slots
+	public static final int ADVENTURER_SHOVEL	= ADVENTURE+0;
+	public static final int GILDED_SHOVEL		= ADVENTURE+1;
+	public static final int BATTLE_SHOVEL		= ADVENTURE+2;
+	public static final int MINERS_TOOL			= ADVENTURE+3;
+	public static final int MACHETE				= ADVENTURE+4;
+	public static final int ENHANCED_MACHETE	= ADVENTURE+5;
+	public static final int ROPE				= ADVENTURE+6;
 	static{
-		assignItemRect(PLANTER_SHOVEL	, 16, 16);
+		assignItemRect(ADVENTURER_SHOVEL, 16, 16);
 		assignItemRect(GILDED_SHOVEL	, 16, 16);
 		assignItemRect(BATTLE_SHOVEL	, 16, 16);
 		assignItemRect(MINERS_TOOL		, 16, 16);
+		assignItemRect(MACHETE			, 15, 16);
+		assignItemRect(ENHANCED_MACHETE	, 15, 16);
+		assignItemRect(ROPE				, 15, 16);
 	}
 
 	private static final int SPECIAL_ITEM			=		xy(9, 63);  //8 slots

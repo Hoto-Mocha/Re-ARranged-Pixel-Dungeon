@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.ios;
+package com.arrangedpixel.arrangedpixeldungon.ios;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

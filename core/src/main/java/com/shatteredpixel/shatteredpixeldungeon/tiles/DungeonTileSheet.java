@@ -62,6 +62,8 @@ public class DungeonTileSheet {
 
 	public static final int FLOOR_ALT_2     = GROUND +12;
 
+	public static final int FLOOR_WIRE		= GROUND +15;
+
 	public static final int ENTRANCE        = GROUND +16;
 	public static final int EXIT            = GROUND +17;
 	public static final int WELL            = GROUND +18;
@@ -100,6 +102,8 @@ public class DungeonTileSheet {
 		chasmStitcheable.put( Terrain.MINE_BOULDER, CHASM_FLOOR );
 		chasmStitcheable.put( Terrain.MINE_CRYSTAL, CHASM_FLOOR );
 
+		chasmStitcheable.put( Terrain.WIRE, 		FLOOR_WIRE );
+
 		//special floor
 		chasmStitcheable.put( Terrain.EMPTY_SP,     CHASM_FLOOR_SP );
 		chasmStitcheable.put( Terrain.STATUE_SP,    CHASM_FLOOR_SP );
@@ -136,7 +140,7 @@ public class DungeonTileSheet {
 			Terrain.TRAP, Terrain.INACTIVE_TRAP, Terrain.EMPTY_DECO,
 			Terrain.CUSTOM_DECO, Terrain.WELL, Terrain.STATUE, Terrain.ALCHEMY,
 			Terrain.CUSTOM_DECO_EMPTY, Terrain.MINE_CRYSTAL, Terrain.MINE_BOULDER,
-			Terrain.DOOR, Terrain.OPEN_DOOR, Terrain.LOCKED_DOOR, Terrain.CRYSTAL_DOOR
+			Terrain.DOOR, Terrain.OPEN_DOOR, Terrain.LOCKED_DOOR, Terrain.CRYSTAL_DOOR, Terrain.WIRE
 	));
 
 	//+1 for ground above, +2 for ground right, +4 for ground below, +8 for ground left.
@@ -405,6 +409,7 @@ public class DungeonTileSheet {
 		directVisuals.put(Terrain.LOCKED_EXIT,      LOCKED_EXIT);
 		directVisuals.put(Terrain.UNLOCKED_EXIT,    UNLOCKED_EXIT);
 		directVisuals.put(Terrain.WELL,             WELL);
+		directVisuals.put(Terrain.WIRE,             FLOOR_WIRE);
 
 	}
 

@@ -33,6 +33,7 @@ public class Effects {
 		EXCLAMATION,
 		CHAIN,
 		ETHEREAL_CHAIN,
+		VINE_ROPE,
 		DEATH_RAY,
 		LIGHT_RAY,
 		HEALTH_RAY,
@@ -59,6 +60,9 @@ public class Effects {
 				break;
 			case ETHEREAL_CHAIN:
 				icon.frame(icon.texture.uvRect(11, 16, 16, 22));
+				break;
+			case VINE_ROPE:
+				icon.frame(icon.texture.uvRect(6, 22, 11, 28));
 				break;
 			case DEATH_RAY:
 				icon.frame(icon.texture.uvRect(16, 16, 32, 24));

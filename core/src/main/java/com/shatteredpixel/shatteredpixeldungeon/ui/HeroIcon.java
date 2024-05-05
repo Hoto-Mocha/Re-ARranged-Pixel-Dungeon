@@ -78,9 +78,9 @@ public class HeroIcon extends Image {
 	public static final int SLAYER		= 30;
 //	public static final int 			= 31;
 
-//	public static final int 			= 32;
-//	public static final int 			= 33;
-//	public static final int 			= 34;
+	public static final int ENGINEER 	= 32;
+	public static final int EXPLORER	= 33;
+	public static final int RESEARCHER	= 34;
 //	public static final int 			= 35;
 
 //	public static final int 			= 36;
@@ -140,9 +140,9 @@ public class HeroIcon extends Image {
 	public static final int KUNAI			= 78;
 //	public static final int 				= 79;
 
-//	public static final int 				= 80;
-//	public static final int 				= 81;
-//	public static final int 				= 82;
+	public static final int SPROUT			= 80;
+	public static final int TREASUREMAP		= 81;
+	public static final int ROOT	    	= 82;
 //	public static final int 				= 83;
 
 //	public static final int 				= 84;
@@ -198,7 +198,7 @@ public class HeroIcon extends Image {
 	public static final int AWAKEN_ON		= 130;
 //	public static final int 				= 131;
 
-//	public static final int 				= 132;
+	public static final int BUILD			= 132;
 //	public static final int 				= 133;
 //	public static final int 				= 134;
 //	public static final int 				= 135;

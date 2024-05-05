@@ -714,7 +714,7 @@ public class Gun extends MeleeWeapon {
 					if (target == curUser && !target.isAlive()) {
 						Dungeon.fail(getClass());
 						Badges.validateDeathFromFriendlyMagic();
-						GLog.n(Messages.get(this, "ondeath"));
+						GLog.n(Messages.get(Gun.class, "ondeath"));
 					}
 				}
 
@@ -746,7 +746,14 @@ public class Gun extends MeleeWeapon {
 				Buff.prolong(curUser, Talent.RollingTracker.class, curUser.pointsInTalent(Talent.ROLLING));
 			}
 
-			if (curUser.buff(InfiniteBullet.class) == null && (curUser.buff(Riot.RiotTracker.class) == null && Random.Float() < 0.1f*curUser.pointsInTalent(Talent.ROUND_PRESERVE))) {
+			boolean willUseRound = true;
+
+			if (curUser.buff(InfiniteBullet.class) != null ||
+					(curUser.buff(Riot.RiotTracker.class) != null && Random.Float() < 0.1f*curUser.pointsInTalent(Talent.ROUND_PRESERVE))) {
+				willUseRound = false;
+			}
+
+			if (willUseRound) {
 				round --;
 			}
 
@@ -754,7 +761,14 @@ public class Gun extends MeleeWeapon {
 				Buff.affect(curUser, Barrier.class).setShield(8*curUser.pointsInTalent(Talent.IMPROVISATION));
 			}
 
-			if (!(curUser.subClass == HeroSubClass.SPECIALIST && curUser.buff(Invisibility.class) != null) && !curUser.hasTalent(Talent.STEALTH_MASTER)) {
+			boolean willAggroEnemy = true;
+
+			if (curUser.subClass == HeroSubClass.SPECIALIST && curUser.buff(Invisibility.class) != null ||
+					curUser.hasTalent(Talent.STEALTH_MASTER)) {
+				willAggroEnemy = false;
+			}
+
+			if (willAggroEnemy) {
 				aggro();
 			}
 

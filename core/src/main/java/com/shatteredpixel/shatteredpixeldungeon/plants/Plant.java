@@ -22,14 +22,20 @@
 package com.shatteredpixel.shatteredpixeldungeon.plants;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -63,6 +69,11 @@ public abstract class Plant implements Bundlable {
 			((Hero) ch).interrupt();
 		}
 
+		if (ch instanceof Mob && Dungeon.hero.hasTalent(Talent.WEAKENING_POISON)) {
+			Buff.affect(ch, Weakness.class, 1f+2*Dungeon.hero.pointsInTalent(Talent.WEAKENING_POISON));
+			Buff.affect(ch, Vulnerable.class, 1f+2*Dungeon.hero.pointsInTalent(Talent.WEAKENING_POISON));
+		}
+
 		if (Dungeon.level.heroFOV[pos] && Dungeon.hero.hasTalent(Talent.NATURES_AID)){
 			// 3/5 turns based on talent points spent
 			Barkskin.conditionallyAppend(Dungeon.hero, 2, 1 + 2*(Dungeon.hero.pointsInTalent(Talent.NATURES_AID)));
@@ -70,6 +81,9 @@ public abstract class Plant implements Bundlable {
 
 		wither();
 		activate( ch );
+
+		Statistics.plantTriggered++;
+		Badges.validateAdventurerUnlock();
 	}
 	
 	public abstract void activate( Char ch );
@@ -117,7 +131,7 @@ public abstract class Plant implements Bundlable {
 
 	public String desc() {
 		String desc = Messages.get(this, "desc");
-		if (Dungeon.hero.subClass == HeroSubClass.WARDEN){
+		if (Dungeon.hero.subClass == HeroSubClass.WARDEN || Dungeon.hero.subClass == HeroSubClass.RESEARCHER){
 			desc += "\n\n" + Messages.get(this, "warden_desc");
 		}
 		return desc;
@@ -218,7 +232,7 @@ public abstract class Plant implements Bundlable {
 		@Override
 		public String desc() {
 			String desc = Messages.get(plantClass, "desc");
-			if (Dungeon.hero.subClass == HeroSubClass.WARDEN){
+			if (Dungeon.hero.subClass == HeroSubClass.WARDEN || Dungeon.hero.subClass == HeroSubClass.RESEARCHER){
 				desc += "\n\n" + Messages.get(plantClass, "warden_desc");
 			}
 			return desc;

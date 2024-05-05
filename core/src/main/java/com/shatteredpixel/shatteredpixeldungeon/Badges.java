@@ -58,6 +58,7 @@ public class Badges {
 		MASTERY_DUELIST,
 		MASTERY_GUNNER,
 		MASTERY_SAMURAI,
+		MASTERY_ADVENTURER,
 		FOUND_RATMOGRIFY,
 
 		//bronze
@@ -115,6 +116,7 @@ public class Badges {
 		BOSS_SLAIN_1_DUELIST,
 		BOSS_SLAIN_1_GUNNER,
 		BOSS_SLAIN_1_SAMURAI,
+		BOSS_SLAIN_1_ADVENTURER,
 		BOSS_SLAIN_1_ALL_CLASSES    ( 55, true ),
 		GAMES_PLAYED_2              ( 56, true ),
 		HIGH_SCORE_2                ( 57 ),
@@ -164,6 +166,7 @@ public class Badges {
 		VICTORY_DUELIST,
 		VICTORY_GUNNER,
 		VICTORY_SAMURAI,
+		VICTORY_ADVENTURER,
 		VICTORY_ALL_CLASSES         ( 104, true ),
 		DEATH_FROM_ALL              ( 105, true ),
 		BOSS_SLAIN_3_BERSERKER,
@@ -209,8 +212,8 @@ public class Badges {
 
 		//new badges
 		UNLOCK_GUNNER				( 136 ),
-		UNLOCK_SAMURAI				( 137 );
-//		UNLOCK_PLANTER				( 138 ),
+		UNLOCK_SAMURAI				( 137 ),
+		UNLOCK_ADVENTURER			( 138 );
 //		UNLOCK_KNIGHT				( 139 ),
 //		UNLOCK_NURSE				( 140 );
 
@@ -742,6 +745,7 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.DUELIST, Badge.BOSS_SLAIN_1_DUELIST);
 		firstBossClassBadges.put(HeroClass.GUNNER, Badge.BOSS_SLAIN_1_GUNNER);
 		firstBossClassBadges.put(HeroClass.SAMURAI, Badge.BOSS_SLAIN_1_SAMURAI);
+		firstBossClassBadges.put(HeroClass.ADVENTURER, Badge.BOSS_SLAIN_1_ADVENTURER);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
@@ -753,6 +757,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.DUELIST, Badge.VICTORY_DUELIST);
 		victoryClassBadges.put(HeroClass.GUNNER, Badge.VICTORY_GUNNER);
 		victoryClassBadges.put(HeroClass.SAMURAI, Badge.VICTORY_SAMURAI);
+		victoryClassBadges.put(HeroClass.ADVENTURER, Badge.VICTORY_ADVENTURER);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
@@ -904,6 +909,9 @@ public class Badges {
 			case SAMURAI:
 				badge = Badge.MASTERY_SAMURAI;
 				break;
+			case ADVENTURER:
+				badge = Badge.MASTERY_ADVENTURER;
+				break;
 		}
 		
 		unlock(badge);
@@ -960,11 +968,11 @@ public class Badges {
 		}
 	}
 
-//	public static void validatePlanterUnlock() {
-//		if (!isUnlocked(Badge.UNLOCK_PLANTER)) {
-//			displayBadge(Badge.UNLOCK_PLANTER);
-//		}
-//	}
+	public static void validateAdventurerUnlock() {
+		if (Statistics.plantTriggered >= 10 && !isUnlocked(Badge.UNLOCK_ADVENTURER)) {
+			displayBadge(Badge.UNLOCK_ADVENTURER);
+		}
+	}
 
 //	public static void validateKnightUnlock() {
 //		if (!isUnlocked(Badge.UNLOCK_KNIGHT)) {

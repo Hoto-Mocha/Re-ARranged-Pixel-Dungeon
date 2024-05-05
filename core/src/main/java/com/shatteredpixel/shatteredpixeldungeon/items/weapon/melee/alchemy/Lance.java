@@ -54,7 +54,7 @@ public class Lance extends MeleeWeapon implements AlchemyWeapon {
     public int proc(Char attacker, Char defender, int damage) {
         LanceBuff buff = attacker.buff(LanceBuff.class);
         if (buff != null) {
-            damage *= buff.getDamageFactor();
+            damage *= 1+buff.getDamageFactor();
             buff.detach();
         }
         return super.proc( attacker, defender, damage );
@@ -127,7 +127,7 @@ public class Lance extends MeleeWeapon implements AlchemyWeapon {
             if (damageFactor < maxDamage && (damageFactor + 0.05f * amount) < maxDamage ) {
                 damageFactor += 0.05f * amount;
             } else {
-                damageFactor = maxDamage + 0.05f;
+                damageFactor = maxDamage;
             }
         }
 

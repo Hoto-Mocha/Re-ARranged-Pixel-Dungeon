@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -56,6 +57,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.YogFist;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.WatchTower;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.WindParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
@@ -92,6 +94,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.HighGrass;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
+import com.shatteredpixel.shatteredpixeldungeon.levels.features.Wire;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
@@ -1028,6 +1031,13 @@ public abstract class Level implements Bundlable {
 		
 		GameScene.plantSeed( pos );
 
+		Char enemy = Actor.findChar(pos);
+		if (Dungeon.hero.hasTalent(Talent.ROOT) && enemy != null) {
+			if (enemy.alignment == Char.Alignment.ENEMY) {
+				Buff.affect(enemy, Roots.class, 1+Dungeon.hero.pointsInTalent(Talent.ROOT));
+			}
+		}
+
 		for (Char ch : Actor.chars()){
 			if (ch instanceof WandOfRegrowth.Lotus
 					&& ((WandOfRegrowth.Lotus) ch).inRange(pos)
@@ -1196,7 +1206,13 @@ public abstract class Level implements Bundlable {
 		case Terrain.DOOR:
 			Door.enter( cell );
 			break;
+
+		case Terrain.WIRE:
+			Wire.trample( this, cell);
+			break;
 		}
+
+
 
 		TimekeepersHourglass.timeFreeze timeFreeze =
 				Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class);
@@ -1424,7 +1440,8 @@ public abstract class Level implements Bundlable {
 			for (Mob m : mobs){
 				if (m instanceof WandOfWarding.Ward
 						|| m instanceof WandOfRegrowth.Lotus
-						|| m instanceof SpiritHawk.HawkAlly){
+						|| m instanceof SpiritHawk.HawkAlly
+						|| m instanceof WatchTower){
 					if (m.fieldOfView == null || m.fieldOfView.length != length()){
 						m.fieldOfView = new boolean[length()];
 						Dungeon.level.updateFieldOfView( m, m.fieldOfView );
@@ -1556,6 +1573,8 @@ public abstract class Level implements Bundlable {
 				return Messages.get(Level.class, "bookshelf_name");
 			case Terrain.ALCHEMY:
 				return Messages.get(Level.class, "alchemy_name");
+			case Terrain.WIRE:
+				return Messages.get(Level.class, "wire_name");
 			default:
 				return Messages.get(Level.class, "default_name");
 		}
@@ -1595,6 +1614,8 @@ public abstract class Level implements Bundlable {
 				return Messages.get(Level.class, "alchemy_desc");
 			case Terrain.EMPTY_WELL:
 				return Messages.get(Level.class, "empty_well_desc");
+			case Terrain.WIRE:
+				return Messages.get(Level.class, "wire_desc");
 			default:
 				return "";
 		}
