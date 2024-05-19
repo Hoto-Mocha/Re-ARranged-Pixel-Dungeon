@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBuild;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
 import com.watabou.utils.Point;
 
 public class Build extends Buff implements ActionIndicator.Action {
@@ -97,13 +98,13 @@ public class Build extends Buff implements ActionIndicator.Action {
 
     public enum Building {
         WALL        (20),
-        FLOOR       (30),
-        BARRICADE   (10),
-        WIRE        (10),
-        WATCHTOWER  (20),
-        CANNON      (40),
-        MACHINEGUN  (20),
-        MORTAR      (40);
+        FLOOR       (0),
+        BARRICADE   (8),
+        WIRE        (8),
+        WATCHTOWER  (12),
+        CANNON      (20),
+        MACHINEGUN  (16),
+        MORTAR      (20);
 
         public int metalReq;
 
@@ -224,7 +225,16 @@ public class Build extends Buff implements ActionIndicator.Action {
                             Dungeon.observe();
                             level.addVisuals();
                         } else {
+                            if (Dungeon.depth % 5 == 0 || Dungeon.depth == 31 || Dungeon.branch != 0) {
+                                GLog.w(Messages.get(Build.class, "cant_regular"));
+                                return;
+                            }
                             if (isBuildable(target)) {
+                                hero.sprite.operate(target);
+                                hero.spend(3f);
+                                hero.buff(Hunger.class).affectHunger(-3);
+                                spendTurn();
+
                                 //아이템을 떨어뜨림
                                 Heap heap = Dungeon.level.heaps.get(target);
                                 if (heap != null && heap.type != Heap.Type.FOR_SALE
@@ -244,19 +254,16 @@ public class Build extends Buff implements ActionIndicator.Action {
                                     return;
                                 }
 
-                                //캐릭터를 떨어뜨림
-                                Char ch = Actor.findChar(target);
-
-                                if (ch != null && !ch.flying) {
-                                    if (ch == Dungeon.hero) {
-                                        Chasm.heroFall(target);
-                                    } else {
-                                        Chasm.mobFall((Mob) ch);
-                                    }
-                                }
-
-                                hero.sprite.operate(target);
-                                spendTurn();
+                                //캐릭터를 떨어뜨림, 하지만 애초에 캐릭터가 있는 곳에는 건설이 불가능(isBuildable() 참고)하기 때문에 비활성화
+//                                        Char ch = Actor.findChar(target);
+//
+//                                        if (ch != null && !ch.flying) {
+//                                            if (ch == Dungeon.hero) {
+//                                                Chasm.heroFall(target);
+//                                            } else {
+//                                                Chasm.mobFall((Mob) ch);
+//                                            }
+//                                        }
 
                                 Sample.INSTANCE.play(Assets.Sounds.ROCKS);
                                 if (Dungeon.level.heroFOV[ target ]){

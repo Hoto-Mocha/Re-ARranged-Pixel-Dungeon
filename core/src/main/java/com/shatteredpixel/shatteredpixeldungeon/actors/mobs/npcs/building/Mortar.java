@@ -171,7 +171,7 @@ public class Mortar extends Building {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
-                int bulletReq = Dungeon.hero.pointsInTalent(Talent.MORTAR) > 2 ? 5 : 10;
+                int bulletReq = Dungeon.hero.pointsInTalent(Talent.MORTAR) > 2 ? 3 : 6;
                 if (target == Mortar.this.pos) return;
                 cell = target;
                 Mortar.this.sprite.zap(target);

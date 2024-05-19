@@ -1193,6 +1193,12 @@ public class ItemSpriteSheet {
 		assignItemRect(CHAIN_WHIP, 		 14, 14);
 	}
 
+	private static final int AL_WEP_MIS		=			xy(9, 58);  //16 slots
+	public static final int CROSS			= AL_WEP_MIS+0;
+	static{
+		assignItemRect(CROSS, 14, 14);
+	}
+
 	private static final int AL_WEP_T6	  	=			xy(1, 59);  //16 slots
 	public static final int DUAL_GREATSWORD	= AL_WEP_T6+0;
 	public static final int FORCE_GLOVE		= AL_WEP_T6+1;

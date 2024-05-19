@@ -229,29 +229,29 @@ public class GunSmithingTool extends Item {
                                 @Override
                                 protected void onClick() {
                                     hide();
-                                    switch (toMod.weightMod) {
-                                        case NORMAL_WEIGHT:
-                                            if (weight == Gun.WeightMod.LIGHT_WEIGHT) {
-                                                toMod.tier -= 1;
-                                            } else {
-                                                toMod.tier += 1;
-                                            }
-                                            break;
-                                        case LIGHT_WEIGHT:
-                                            if (weight == Gun.WeightMod.NORMAL_WEIGHT) {
-                                                toMod.tier += 1;
-                                            } else {
-                                                toMod.tier += 2;
-                                            }
-                                            break;
-                                        case HEAVY_WEIGHT:
-                                            if (weight == Gun.WeightMod.NORMAL_WEIGHT) {
-                                                toMod.tier -= 1;
-                                            } else {
-                                                toMod.tier -= 2;
-                                            }
-                                            break;
-                                    }
+//                                    switch (toMod.weightMod) {
+//                                        case NORMAL_WEIGHT:
+//                                            if (weight == Gun.WeightMod.LIGHT_WEIGHT) {
+//                                                toMod.tier -= 1;
+//                                            } else {
+//                                                toMod.tier += 1;
+//                                            }
+//                                            break;
+//                                        case LIGHT_WEIGHT:
+//                                            if (weight == Gun.WeightMod.NORMAL_WEIGHT) {
+//                                                toMod.tier += 1;
+//                                            } else {
+//                                                toMod.tier += 2;
+//                                            }
+//                                            break;
+//                                        case HEAVY_WEIGHT:
+//                                            if (weight == Gun.WeightMod.NORMAL_WEIGHT) {
+//                                                toMod.tier -= 1;
+//                                            } else {
+//                                                toMod.tier -= 2;
+//                                            }
+//                                            break;
+//                                    }
                                     toMod.weightMod=weight;
                                     onItemSelected();
                                 }

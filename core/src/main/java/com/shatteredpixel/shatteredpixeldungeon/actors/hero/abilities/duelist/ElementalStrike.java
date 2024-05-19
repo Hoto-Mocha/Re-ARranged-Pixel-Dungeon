@@ -41,7 +41,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
@@ -72,13 +75,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Bloomi
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Chilling;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Corrupting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Elastic;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Eldritch;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Stunning;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Venomous;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -548,6 +555,36 @@ public class ElementalStrike extends ArmorAbility {
 				if (Random.Float() < 0.5f*powerMulti){
 					Buff.affect(ch, Charm.class, 6f).object = hero.id();
 				}
+			}
+		}
+
+		//*** Eldritch ***
+		else if (ench instanceof Eldritch){
+			for (Char ch : affected){
+				Buff.affect(ch, Terror.class, Math.round(5f*powerMulti));
+				CellEmitter.get(ch.pos).burst(ShadowParticle.UP, 5);
+				Sample.INSTANCE.play(Assets.Sounds.CURSED);
+			}
+
+			//*** Stunning ***
+		} else if (ench instanceof Stunning){
+			for (Char ch : affected){
+				ch.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
+				Buff.affect(ch, Paralysis.class, Math.round(3f*powerMulti));
+			}
+
+			//*** Venomous ***
+		} else if (ench instanceof Venomous){
+			for (Char ch : affected){
+				float hpRemaining = (ch.HP / (float)ch.HT);
+				Buff.affect(ch, Poison.class).set(0.3f * hpRemaining);
+			}
+
+			//*** Vorpal ***
+		} else if (ench instanceof Vorpal) {
+			for (Char ch : affected) {
+				float hpRemaining = (ch.HP / (float) ch.HT);
+				Buff.affect(ch, Bleeding.class).set(0.2f * hpRemaining);
 			}
 		}
 

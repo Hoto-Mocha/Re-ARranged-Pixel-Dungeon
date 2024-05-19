@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
@@ -136,6 +137,10 @@ public class Hunger extends Buff implements Hero.Doom {
 			target.buff(WellFed.class).left += energy;
 			BuffIndicator.refreshHero();
 			return;
+		}
+
+		if (energy > 0) {
+			target.sprite.emitter().burst(Speck.factory(Speck.HUNGER), 1);
 		}
 
 		float oldLevel = level;

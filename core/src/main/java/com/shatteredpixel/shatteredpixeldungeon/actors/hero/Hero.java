@@ -87,6 +87,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.adventurer.TreasureMap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
@@ -163,6 +164,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualDagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
@@ -1660,22 +1662,21 @@ public class Hero extends Char {
 	public float critChance(final Char enemy, final Weapon wep) {
 		float chance = 0;
 
-		if (buff(Sheath.CertainCrit.class) != null) {
-			buff(Sheath.CertainCrit.class).hit();
-			chance += 1f;
-		}
-
 		if (heroClass == HeroClass.SAMURAI) {
 			chance = 0.01f;
 			chance += 0.01f * (lvl - 1);
 			chance += Math.max(0, (0.02f + 0.005f*pointsInTalent(Talent.WEAPON_MASTERY)) * (STR() - wep.STRReq()));
 		}
 
+		if (buff(Sheath.CertainCrit.class) != null) {
+			chance += 1f;
+		}
+
 		if (hasTalent(Talent.BASIC_PRACTICE)) {
 			chance += 0.02f * pointsInTalent(Talent.BASIC_PRACTICE);
 		}
 
-		if (belongings.attackingWeapon() instanceof MissileWeapon && hasTalent(Talent.CRITICAL_THROW)) {
+		if (wep instanceof MissileWeapon && hasTalent(Talent.CRITICAL_THROW)) {
 			chance += 0.25f * pointsInTalent(Talent.CRITICAL_THROW);
 		}
 
@@ -2013,10 +2014,17 @@ public class Hero extends Char {
 			damage = (int)Math.round(damage * Math.pow(0.8f, dist));
 		}
 
+		//damage addition
 		if (hero.hasTalent(Talent.NATURE_FRIENDLY) && (level.map[this.pos] == Terrain.HIGH_GRASS || level.map[this.pos] == Terrain.FURROWED_GRASS)) {
 			damage += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
 		}
 
+		if (hero.buff(TreasureMap.GoldTracker.class) != null) {
+			damage *= 1 + 0.1f * hero.pointsInTalent(Talent.GOLD_HUNTER);
+			hero.buff(TreasureMap.GoldTracker.class).detach();
+		}
+
+		//attacking procs
 		if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
 			if (hero.hasTalent(Talent.POISONOUS_BLADE)) {
 				Buff.affect(enemy, Poison.class).set(2+hero.pointsInTalent(Talent.POISONOUS_BLADE));
@@ -2084,6 +2092,15 @@ public class Hero extends Char {
 
 		if (hero.subClass == HeroSubClass.RESEARCHER && Random.Float() < 0.2f) {
 			Buff.affect(enemy, Ooze.class).set(Ooze.DURATION/4f * (1+0.5f*hero.pointsInTalent(Talent.POWERFUL_ACID)));
+		}
+
+		if (buff(TreasureMap.LuckTracker.class) != null
+				&& enemy.HP <= damage) {
+			Buff.affect(enemy, Lucky.LuckProc.class);
+		}
+
+		if (buff(Sheath.CertainCrit.class) != null) {
+			buff(Sheath.CertainCrit.class).hit();
 		}
 		
 		return damage;

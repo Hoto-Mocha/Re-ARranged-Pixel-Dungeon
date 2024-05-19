@@ -55,15 +55,15 @@ public class AssassinsSpear extends MeleeWeapon implements AlchemyWeapon {
 		hitSound = Assets.Sounds.HIT_STAB;
 		hitSoundPitch = 0.9f;
 
-		tier = 5;
+		tier = 6;
 		DLY = 1.5f; //0.67x speed
 		RCH = 2;    //extra reach
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  4*(tier+1) +
-				lvl*(tier+1);
+		return  Math.round(6.67f*(tier)) +    //40 base, up from 30
+				lvl*Math.round(1.33f*(tier)); //+8 per level, up from +6
 	}
 
 	@Override

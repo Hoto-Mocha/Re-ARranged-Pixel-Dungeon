@@ -3,25 +3,19 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.FT.FT;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -120,14 +114,17 @@ public class Machete extends MeleeWeapon {
                 Level.set(cells, Terrain.GRASS);
                 GameScene.updateMap(cells);
                 CellEmitter.get(cells).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
-                count ++;
+                float chance = 0.33f;
+                if (hero.hasTalent(Talent.ROPE_COLLECTOR)) {
+                    chance *= 1+0.2f*hero.pointsInTalent(Talent.ROPE_COLLECTOR);
+                }
+                if (Random.Float() < chance) {
+                    count ++;
+                }
             }
         }
         if (count > 0) {
             Rope rope = new Rope();
-            if (hero.hasTalent(Talent.ROPE_COLLECTER)) {
-                count = Math.round(count*(1.1f+0.1f*hero.pointsInTalent(Talent.ROPE_COLLECTER)));
-            }
             rope.quantity(count);
             if (rope.doPickUp( Dungeon.hero )) {
                 GLog.i( Messages.get(Dungeon.hero, "you_now_have", rope.name() ));

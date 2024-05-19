@@ -104,7 +104,6 @@ public class SpellBook extends Item {
     {
         defaultAction = AC_READ;
 
-        unique = true;
         bones = false;
     }
 

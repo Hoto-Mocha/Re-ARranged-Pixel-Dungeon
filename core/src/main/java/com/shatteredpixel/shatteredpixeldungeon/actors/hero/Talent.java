@@ -477,7 +477,7 @@ public enum Talent {
 	JUNGLE_EXPLORE				(19, 8, 3),
 	DURABLE_ROPE				(20, 8, 3),
 	LASSO						(21, 8, 3),
-	ROPE_COLLECTER				(22, 8, 3),
+	ROPE_COLLECTOR				(22, 8, 3),
 	ROPE_MASTER					(23, 8, 3),
 	VINE_BIND					(24, 8, 3),
 	//Researcher T3
@@ -1708,7 +1708,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, BARRICADE, WIRE, WATCHTOWER, CANNON, MACHINEGUN, MORTAR);
 				break;
 			case EXPLORER:
-				Collections.addAll(tierTalents, JUNGLE_EXPLORE, DURABLE_ROPE, LASSO, ROPE_COLLECTER, ROPE_MASTER, VINE_BIND );
+				Collections.addAll(tierTalents, JUNGLE_EXPLORE, DURABLE_ROPE, LASSO, ROPE_COLLECTOR, ROPE_MASTER, VINE_BIND );
 				break;
 			case RESEARCHER:
 				Collections.addAll(tierTalents, BIOLOGY_PROJECT, RAPID_GROWTH, BIO_ENERGY, WATER_ABSORB, POWERFUL_ACID, STICKY_OOZE);

@@ -90,7 +90,6 @@ public class Rope extends Item {
                 } else {
                     chainLocation( chain, curUser );
                 }
-                onUse();
             }
         }
 
@@ -181,6 +180,7 @@ public class Rope extends Item {
                         hero.next();
                     }
                 }));
+        onUse();
     }
 
     //pulls the hero along the chain to the collisionPos, if possible.
@@ -247,6 +247,7 @@ public class Rope extends Item {
                         hero.next();
                     }
                 }));
+        onUse();
     }
 
     public void onUse() {

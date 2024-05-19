@@ -332,6 +332,19 @@ public class Sheath extends Item {
             }
         }
 
+        private static final String HIT_AMOUNT = "hitAmount";
+        @Override
+        public void storeInBundle(Bundle bundle) {
+            super.storeInBundle(bundle);
+            bundle.put( HIT_AMOUNT, hitAmount );
+        }
+
+        @Override
+        public void restoreFromBundle(Bundle bundle) {
+            super.restoreFromBundle(bundle);
+            hitAmount = bundle.getInt( HIT_AMOUNT );
+        }
+
         public String iconTextDisplay(){
             return String.valueOf(hitAmount);
         }

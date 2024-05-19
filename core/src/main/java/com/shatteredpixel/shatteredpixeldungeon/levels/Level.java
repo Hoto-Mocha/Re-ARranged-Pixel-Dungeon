@@ -1099,12 +1099,12 @@ public abstract class Level implements Bundlable {
 		if (terr == Terrain.EMPTY || terr == Terrain.GRASS ||
 				terr == Terrain.EMBERS || terr == Terrain.EMPTY_SP ||
 				terr == Terrain.HIGH_GRASS || terr == Terrain.FURROWED_GRASS
-				|| terr == Terrain.EMPTY_DECO){
+				|| terr == Terrain.EMPTY_DECO ){
 			set(cell, Terrain.WATER);
 			GameScene.updateMap(cell);
 			return true;
 		} else if (includeTraps && (terr == Terrain.SECRET_TRAP ||
-				terr == Terrain.TRAP || terr == Terrain.INACTIVE_TRAP)){
+				terr == Terrain.TRAP || terr == Terrain.INACTIVE_TRAP || terr == Terrain.WIRE)){
 			set(cell, Terrain.WATER);
 			Dungeon.level.traps.remove(cell);
 			GameScene.updateMap(cell);

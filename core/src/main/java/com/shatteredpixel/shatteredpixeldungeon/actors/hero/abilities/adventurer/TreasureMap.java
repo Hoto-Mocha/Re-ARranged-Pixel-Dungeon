@@ -101,9 +101,5 @@ public class TreasureMap extends ArmorAbility {
 
 	}
 
-	public static class GoldTracker extends FlavourBuff {
-
-		public static final float DURATION = 1.0001f;
-
-	}
+	public static class GoldTracker extends Buff {}
 }

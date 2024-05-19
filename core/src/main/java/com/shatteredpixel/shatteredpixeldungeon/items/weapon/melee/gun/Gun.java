@@ -432,17 +432,31 @@ public class Gun extends MeleeWeapon {
 		return Math.max(0, (maxRound()-round)*shotPerShoot());
 	}
 
+	public int tier() {
+		int t = this.tier;
+		switch (this.weightMod) {
+			case NORMAL_WEIGHT: default:
+				break;
+			case HEAVY_WEIGHT:
+				t++;
+				break;
+			case LIGHT_WEIGHT:
+				t--;
+				break;
+		}
+		return t;
+	}
 
 	@Override
 	public int max(int lvl) {
-		int damage = 3*(tier+1) +
-					 lvl*(tier+1); //근접 무기로서의 최대 데미지
+		int damage = 3*(tier()+1) +
+					 lvl*(tier()+1); //근접 무기로서의 최대 데미지
 		return damage;
 
 	}
 
 	public int bulletMin(int lvl) {
-		return tier +
+		return tier() +
 				lvl +
 				RingOfSharpshooting.levelDamageBonus(hero);
 	}
@@ -486,7 +500,13 @@ public class Gun extends MeleeWeapon {
 
 	@Override
 	public String info() {
+		//근접 무기의 설명에서 사용하는 티어를 총기용 티어로 변경
+		int baseTier = this.tier;
+		this.tier = tier();
 		String info = super.info();
+		//근접 무기 설명을 가져오고 나서 다시 원래 티어로 변경
+		this.tier = baseTier;
+
 		//근접 무기의 설명을 모두 가져옴, 여기에서 할 것은 근접 무기의 설명에 추가로 생기는 문장을 더하는 것
 		if (levelKnown) { //감정되어 있을 때
 			info += "\n\n" + Messages.get(Gun.class, "gun_desc",
@@ -586,7 +606,7 @@ public class Gun extends MeleeWeapon {
 
 		{
 			hitSound = Assets.Sounds.PUFF;
-			tier = Gun.this.tier;
+			tier = Gun.this.tier();
 		}
 
 		public BulletMod whatBullet() { //현재 탄환이 어떤 개조인지를 반환함. 탄환 피해의 적 방어력 적용량 결정에 쓰임

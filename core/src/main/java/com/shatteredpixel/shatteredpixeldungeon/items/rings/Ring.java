@@ -482,7 +482,7 @@ public class Ring extends KindofMisc {
 				int level = (int)Math.ceil(hero.lvl / 5f);
 				float powerMulti = Math.max(1f, RingOfArcana.enchantPowerMultiplier(hero));
 				float procChance = 0;
-				switch (Random.Int(11)) {
+				switch (Random.Int(15)) {
 					case 0: default:
 						//Blazing Effect
 						procChance = (level+1f)/(level+3f) * powerMulti;
@@ -680,31 +680,25 @@ public class Ring extends KindofMisc {
 							hero.heal(healAmt);
 						}
 						break;
-//					case 11:
-//						//Shiny Effect
-//						Buff.prolong( enemy, Blindness.class, Random.Float( 1f, (1f + level) * RingOfArcana.enchantPowerMultiplier(hero) ) );
-//						Buff.prolong( enemy, Cripple.class, Random.Float( 1f, (1f + level/2f) * RingOfArcana.enchantPowerMultiplier(hero) ) );
-//						enemy.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
-//						break;
-//					case 12:
-//						//Eldritch Effect
-//						Buff.prolong( enemy, Terror.class, 10f*powerMulti + 5f ).object = hero.id();
-//						break;
-//					case 13:
-//						//Stunning Effect
-//						Buff.prolong( enemy, Paralysis.class, 1f * powerMulti );
-//						enemy.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 12 );
-//						break;
-//					case 14:
-//						//Venomous Effect
-//						Buff.affect( enemy, Poison.class ).extend( ((int)(level/2) + 1) * powerMulti );
-//						CellEmitter.center(enemy.pos).burst( PoisonParticle.SPLASH, 5 );
-//						break;
-//					case 15:
-//						//Vorpal Effect
-//						Buff.affect(enemy, Bleeding.class).set((damage/10f) * powerMulti);
-//						Splash.at( enemy.sprite.center(), -PointF.PI / 2, PointF.PI / 6, enemy.sprite.blood(), 10 );
-//						break;
+					case 11:
+						//Eldritch Effect
+						Buff.prolong( enemy, Terror.class, 10f*powerMulti + 5f ).object = hero.id();
+						break;
+					case 12:
+						//Stunning Effect
+						Buff.prolong( enemy, Paralysis.class, 1f * powerMulti );
+						enemy.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 12 );
+						break;
+					case 13:
+						//Venomous Effect
+						Buff.affect( enemy, Poison.class ).extend( (level/2f + 1) * powerMulti );
+						CellEmitter.center(enemy.pos).burst( PoisonParticle.SPLASH, 5 );
+						break;
+					case 14:
+						//Vorpal Effect
+						Buff.affect(enemy, Bleeding.class).set((damage/10f) * powerMulti);
+						Splash.at( enemy.sprite.center(), -PointF.PI / 2, PointF.PI / 6, enemy.sprite.blood(), 10 );
+						break;
 				}
 				return damageMulti;
 			case RING_ELEMENTS:	//20% 확률로 가진 디버프 전부 제거

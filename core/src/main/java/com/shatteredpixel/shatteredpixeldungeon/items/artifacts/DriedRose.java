@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
@@ -58,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.FT.FT;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.LG.LG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG.SG;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
@@ -586,7 +588,7 @@ public class DriedRose extends Artifact {
 					&& rose.weapon != null
 					&& enemy != null
 					&& rose.weapon instanceof Gun
-					&& !Dungeon.level.adjacent( this.pos, enemy.pos )
+					&& (!Dungeon.level.adjacent( this.pos, enemy.pos ) || rose.weapon instanceof SG)
 					&& ((Gun)rose.weapon).round() > 0; //도달의 마법 등으로 멀리 있는 적을 공격 가능해도 장탄수가 1 이상이면 총을 우선으로 사용함
 		}
 
@@ -682,7 +684,12 @@ public class DriedRose extends Artifact {
 			//same accuracy as the hero.
 			int acc = Dungeon.hero.lvl + 9;
 
-			if (rose != null && rose.weapon != null){
+			if (nextBullet != null) {
+				acc *= nextBullet.accuracyFactor( this, target );
+				if (nextBullet instanceof SG.SGBullet && Dungeon.level.adjacent(this.pos, target.pos)) {
+					acc *= 10; //영웅과 마찬가지로 근접 시 산탄총의 탄환이 10배의 명중률을 가짐
+				}
+			} else if (rose != null && rose.weapon != null){
 				acc *= rose.weapon.accuracyFactor( this, target );
 			}
 
@@ -732,6 +739,16 @@ public class DriedRose extends Artifact {
 			}
 
 			return dmg;
+		}
+
+		@Override
+		public boolean attack(Char enemy, float dmgMulti, float dmgBonus, float accMulti) {
+			if (nextBullet != null && ((Gun) rose.ghostWeapon()).shotPerShoot() > 1) {
+				for (int i = 0; i < ((Gun) rose.ghostWeapon()).shotPerShoot() - 1; i++) { //이 코드는 한 발에 여러 번 타격하는 총기에 한해서 발동할 것
+					super.attack(enemy, dmgMulti, dmgBonus, accMulti);
+				}
+			}
+			return super.attack(enemy, dmgMulti, dmgBonus, accMulti);
 		}
 
 		@Override

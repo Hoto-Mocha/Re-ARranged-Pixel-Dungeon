@@ -83,6 +83,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.Xray;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.Cross;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -262,7 +263,8 @@ public abstract class Recipe {
 			new BluePrint.Recipe(),
 			new Xray.Recipe(),
 			new FireImbueSpell.Recipe(),
-			new ElixirOfTalent.Recipe()
+			new ElixirOfTalent.Recipe(),
+			new Cross.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){

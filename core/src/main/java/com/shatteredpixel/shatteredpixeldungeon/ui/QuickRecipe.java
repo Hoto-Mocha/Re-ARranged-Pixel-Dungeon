@@ -93,6 +93,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
@@ -410,6 +411,8 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new BookOfTransfusion.Recipe()));
 				result.add(null);
 				result.add(new QuickRecipe(new BookOfWarding.Recipe()));
+				result.add(null);
+				result.add(new QuickRecipe(new Cross.Recipe()));
 
 				return result;
 			case 7:
