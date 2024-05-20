@@ -29,7 +29,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMysticalEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.CursedWand;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -40,7 +39,10 @@ public class WildEnergy extends TargetedSpell {
 	
 	{
 		image = ItemSpriteSheet.WILD_ENERGY;
+
 		usesTargeting = true;
+
+		talentChance = 1/(float)Recipe.OUT_QUANTITY;
 	}
 	
 	//we rely on cursedWand to do fx instead
@@ -65,20 +67,26 @@ public class WildEnergy extends TargetedSpell {
 	
 	@Override
 	public int value() {
-		//prices of ingredients, divided by output quantity, rounds down
-		return (int)((50 + 50) * (quantity/5f));
+		return (int)(60 * (quantity/(float)Recipe.OUT_QUANTITY));
 	}
-	
+
+	@Override
+	public int energyVal() {
+		return (int)(12 * (quantity/(float)Recipe.OUT_QUANTITY));
+	}
+
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+		private static final int OUT_QUANTITY = 5;
 		
 		{
-			inputs =  new Class[]{ScrollOfMysticalEnergy.class, MetalShard.class};
+			inputs =  new Class[]{ScrollOfRecharging.class, MetalShard.class};
 			inQuantity = new int[]{1, 1};
 			
 			cost = 4;
 			
 			output = WildEnergy.class;
-			outQuantity = 5;
+			outQuantity = OUT_QUANTITY;
 		}
 		
 	}

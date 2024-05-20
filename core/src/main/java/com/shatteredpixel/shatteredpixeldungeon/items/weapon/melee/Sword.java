@@ -63,10 +63,22 @@ public class Sword extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		Sword.cleaveAbility(hero, target, 1.27f, this);
+		//+(4+lvl) damage, roughly +35% base dmg, +40% scaling
+		int dmgBoost = augment.damageFactor(4 + buffedLvl());
+		Sword.cleaveAbility(hero, target, 1, dmgBoost, this);
 	}
 
-	public static void cleaveAbility(Hero hero, Integer target, float dmgMulti, MeleeWeapon wep){
+	@Override
+	public String abilityInfo() {
+		int dmgBoost = levelKnown ? 4 + buffedLvl() : 4;
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+		} else {
+			return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+		}
+	}
+
+	public static void cleaveAbility(Hero hero, Integer target, float dmgMulti, int dmgBoost, MeleeWeapon wep){
 		if (target == null) {
 			return;
 		}
@@ -79,7 +91,7 @@ public class Sword extends MeleeWeapon {
 
 		hero.belongings.abilityWeapon = wep;
 		if (!hero.canAttack(enemy)){
-			GLog.w(Messages.get(wep, "ability_bad_position"));
+			GLog.w(Messages.get(wep, "ability_target_range"));
 			hero.belongings.abilityWeapon = null;
 			return;
 		}
@@ -90,16 +102,22 @@ public class Sword extends MeleeWeapon {
 			public void call() {
 				wep.beforeAbilityUsed(hero, enemy);
 				AttackIndicator.target(enemy);
-				if (hero.attack(enemy, dmgMulti, 0, Char.INFINITE_ACCURACY)){
+				if (hero.attack(enemy, dmgMulti, dmgBoost, Char.INFINITE_ACCURACY)){
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 				}
 
 				Invisibility.dispel();
-				hero.spendAndNext(hero.attackDelay());
+
 				if (!enemy.isAlive()){
+					hero.next();
 					wep.onAbilityKill(hero, enemy);
-					Buff.prolong(hero, CleaveTracker.class, 5f);
+					if (hero.buff(CleaveTracker.class) != null) {
+						hero.buff(CleaveTracker.class).detach();
+					} else {
+						Buff.prolong(hero, CleaveTracker.class, 4f); //1 less as attack was instant
+					}
 				} else {
+					hero.spendAndNext(hero.attackDelay());
 					if (hero.buff(CleaveTracker.class) != null) {
 						hero.buff(CleaveTracker.class).detach();
 					}

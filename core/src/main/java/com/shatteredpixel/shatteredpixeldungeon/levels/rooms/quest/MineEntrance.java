@@ -30,18 +30,24 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.EntranceRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.CaveRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.Tilemap;
 import com.watabou.utils.GameMath;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class MineEntrance extends EntranceRoom {
+public class MineEntrance extends CaveRoom {
+
+	@Override
+	public float[] sizeCatProbs() {
+		return new float[]{1, 0, 0};
+	}
 
 	@Override
 	public int minWidth() {
@@ -54,26 +60,30 @@ public class MineEntrance extends EntranceRoom {
 	}
 
 	@Override
-	public boolean canMerge(Level l, Point p, int mergeTerrain) {
-		//StandardRoom.canMerge
-		int cell = l.pointToCell(pointInside(p, 1));
-		return (Terrain.flags[l.map[cell]] & Terrain.SOLID) == 0;
+	public boolean isEntrance() {
+		return true;
 	}
 
 	@Override
 	public void paint(Level level) {
-		Painter.fill( level, this, Terrain.WALL );
-		Painter.fill( level, this, 1, Terrain.EMPTY );
-
-		for (Door door : connected.values()) {
-			door.set( Door.Type.REGULAR );
-		}
+		super.paint(level);
 
 		int entrance;
+		boolean valid;
 		do {
+			valid = false;
 			entrance = level.pointToCell(random(3));
-		} while (level.findMob(entrance) != null || level.map[entrance] == Terrain.WALL);
+			for (int i : PathFinder.NEIGHBOURS9){
+				if (level.map[entrance+i] != Terrain.WALL){
+					valid = true;
+				}
+			}
+		} while (level.findMob(entrance) != null || !valid);
 		Painter.set( level, entrance, Terrain.ENTRANCE );
+
+		for (int i : PathFinder.NEIGHBOURS8){
+			Painter.set( level, entrance+i, Terrain.EMPTY );
+		}
 
 		QuestExit vis = new QuestExit();
 		Point e = level.cellToPoint(entrance);
@@ -90,7 +100,8 @@ public class MineEntrance extends EntranceRoom {
 		if (Blacksmith.Quest.Type() == Blacksmith.Quest.CRYSTAL){
 			for (int i = 0; i < width()*height()/2; i ++){
 				Point r = random(1);
-				if (level.distance(level.pointToCell(r), entrance) > 1) {
+				if (level.distance(level.pointToCell(r), entrance) > 1
+					&& level.map[level.pointToCell(r)] != Terrain.WALL) {
 					Painter.set(level, r, Terrain.MINE_CRYSTAL);
 				}
 			}

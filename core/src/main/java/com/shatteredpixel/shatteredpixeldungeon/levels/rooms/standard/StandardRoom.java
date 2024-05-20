@@ -112,7 +112,7 @@ public abstract class StandardRoom extends Room {
 	}
 
 	@Override
-	public boolean canMerge(Level l, Point p, int mergeTerrain) {
+	public boolean canMerge(Level l, Room other, Point p, int mergeTerrain) {
 		int cell = l.pointToCell(pointInside(p, 1));
 		return (Terrain.flags[l.map[cell]] & Terrain.SOLID) == 0;
 	}
@@ -125,23 +125,28 @@ public abstract class StandardRoom extends Room {
 
 		rooms.add(SewerPipeRoom.class);
 		rooms.add(RingRoom.class);
+		rooms.add(WaterBridgeRoom.class);
 		rooms.add(CircleBasinRoom.class);
 
 		rooms.add(SegmentedRoom.class);
 		rooms.add(PillarsRoom.class);
+		rooms.add(ChasmBridgeRoom.class);
 		rooms.add(CellBlockRoom.class);
 
 		rooms.add(CaveRoom.class);
 		rooms.add(CavesFissureRoom.class);
 		rooms.add(CirclePitRoom.class);
+		rooms.add(CircleWallRoom.class);
 
 		rooms.add(HallwayRoom.class);
 		rooms.add(StatuesRoom.class);
+		rooms.add(LibraryRingRoom.class);
 		rooms.add(SegmentedLibraryRoom.class);
 
 		rooms.add(RuinsRoom.class);
 		rooms.add(ChasmRoom.class);
 		rooms.add(SkullsRoom.class);
+		rooms.add(RitualRoom.class);
 
 
 		rooms.add(PlantsRoom.class);
@@ -162,21 +167,21 @@ public abstract class StandardRoom extends Room {
 	
 	private static float[][] chances = new float[32][];
 	static {
-		chances[1] =  new float[]{10,  10,10,5, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  1,0,1,0,1,0,1,1,0,0, 0,0,0};
-		chances[2] =  new float[]{10,  10,10,5, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
+		chances[1] =  new float[]{5,  10,10,10,5, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,  1,0,1,0,1,0,1,1,0,0 ,0,0,0};
+		chances[2] =  new float[]{5,  10,10,10,5, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,  1,1,1,1,1,1,1,1,1,1 ,0,0,0};
 		chances[4] =  chances[3] = chances[2];
-		chances[5] =  new float[]{10,  10,10,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0,  0,0,0,0,0,0,0,0,0,0, 0,0,0};
+		chances[5] =  new float[]{5,  10,10,10,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,  0,0,0,0,0,0,0,0,0,0 ,0,0,0};
 
-		chances[6] =  new float[]{10,  0,0,0, 10,10,5, 0,0,0, 0,0,0, 0,0,0,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
+		chances[6] =  new float[]{5,  0,0,0,0, 10,10,10,5, 0,0,0,0, 0,0,0,0, 0,0,0,0,  1,1,1,1,1,1,1,1,1,1 ,0,0,0};
 		chances[10] = chances[9] = chances[8] = chances[7] = chances[6];
 
-		chances[11] = new float[]{10,  0,0,0, 0,0,0, 10,10,5, 0,0,0, 0,0,0,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
+		chances[11] = new float[]{5,  0,0,0,0, 0,0,0,0, 15,10,5,5,  0,0,0,0, 0,0,0,0,  1,1,1,1,1,1,1,1,1,1 ,0,0,0};
 		chances[15] = chances[14] = chances[13] = chances[12] = chances[11];
 
-		chances[16] = new float[]{10,  0,0,0, 0,0,0, 0,0,0, 10,10,5, 0,0,0,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
+		chances[16] = new float[]{5,  0,0,0,0, 0,0,0,0, 0,0,0,0, 10,10,10,5, 0,0,0,0,  1,1,1,1,1,1,1,1,1,1 ,0,0,0};
 		chances[20] = chances[19] = chances[18] = chances[17] = chances[16];
 
-		chances[21] = new float[]{10,  0,0,0, 0,0,0, 0,0,0, 0,0,0, 10,10,5,  1,1,1,1,1,1,1,1,1,1, 0,0,0};
+		chances[21] = new float[]{5,  0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 15,10,5,5,   1,1,1,1,1,1,1,1,1,1 ,0,0,0};
 		chances[25] = chances[24] = chances[23] = chances[22] = chances[21];
 		chances[26] = chances[27] = chances[28] = chances[29] = chances[2];
 		chances[30] = chances[5];

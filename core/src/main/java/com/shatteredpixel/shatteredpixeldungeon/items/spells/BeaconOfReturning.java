@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPassage;
@@ -50,6 +51,8 @@ public class BeaconOfReturning extends Spell {
 	
 	{
 		image = ItemSpriteSheet.RETURN_BEACON;
+
+		talentChance = 1/(float)Recipe.OUT_QUANTITY;
 	}
 	
 	public int returnDepth	= -1;
@@ -170,6 +173,9 @@ public class BeaconOfReturning extends Spell {
 			Game.switchScene( InterlevelScene.class );
 		}
 		detach(hero.belongings.backpack);
+		if (Random.Float() < talentChance){
+			Talent.onScrollUsed(curUser, curUser.pos, talentFactor);
+		}
 	}
 	
 	@Override
@@ -212,20 +218,26 @@ public class BeaconOfReturning extends Spell {
 	
 	@Override
 	public int value() {
-		//prices of ingredients, divided by output quantity, rounds down
-		return (int)((50 + 40) * (quantity/5f));
+		return (int)(60 * (quantity/(float)Recipe.OUT_QUANTITY));
+	}
+
+	@Override
+	public int energyVal() {
+		return (int)(12 * (quantity/(float)Recipe.OUT_QUANTITY));
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+		private static final int OUT_QUANTITY = 5;
 		
 		{
-			inputs =  new Class[]{ScrollOfPassage.class, ArcaneCatalyst.class};
-			inQuantity = new int[]{1, 1};
+			inputs =  new Class[]{ScrollOfPassage.class};
+			inQuantity = new int[]{1};
 			
-			cost = 6;
+			cost = 12;
 			
 			output = BeaconOfReturning.class;
-			outQuantity = 5;
+			outQuantity = OUT_QUANTITY;
 		}
 		
 	}

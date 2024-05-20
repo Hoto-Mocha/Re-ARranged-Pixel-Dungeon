@@ -27,7 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.Brew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.Elixir;
@@ -47,11 +46,14 @@ public class Recycle extends InventorySpell {
 	
 	{
 		image = ItemSpriteSheet.RECYCLE;
+
+		talentFactor = 2;
+		talentChance = 1/(float)Recipe.OUT_QUANTITY;
 	}
 
 	@Override
 	protected boolean usableOnItem(Item item) {
-		return (item instanceof Potion && !(item instanceof Elixir || item instanceof Brew || item instanceof AlchemicalCatalyst)) ||
+		return (item instanceof Potion && !(item instanceof Elixir || item instanceof Brew)) ||
 				item instanceof Scroll ||
 				item instanceof Plant.Seed ||
 				item instanceof Runestone ||
@@ -92,20 +94,26 @@ public class Recycle extends InventorySpell {
 	
 	@Override
 	public int value() {
-		//prices of ingredients, divided by output quantity, rounds down
-		return (int)((50 + 40) * (quantity/12f));
+		return (int)(60 * (quantity/(float)Recipe.OUT_QUANTITY));
+	}
+
+	@Override
+	public int energyVal() {
+		return (int)(12 * (quantity/(float)Recipe.OUT_QUANTITY));
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+		private static final int OUT_QUANTITY = 12;
 		
 		{
-			inputs =  new Class[]{ScrollOfTransmutation.class, ArcaneCatalyst.class};
-			inQuantity = new int[]{1, 1};
+			inputs =  new Class[]{ScrollOfTransmutation.class};
+			inQuantity = new int[]{1};
 			
-			cost = 8;
+			cost = 12;
 			
 			output = Recycle.class;
-			outQuantity = 12;
+			outQuantity = OUT_QUANTITY;
 		}
 		
 	}

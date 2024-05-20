@@ -212,9 +212,19 @@ public class WndJournal extends WndTabbed {
 	public static class AlchemyTab extends Component {
 		
 		private RedButton[] pageButtons;
-		private static final int NUM_BUTTONS = 10;
+		private static final int NUM_BUTTONS = 9;
 		
-		private static final int[] spriteIndexes = {10, 12, 7, 9, 11, 8, 3, 13, 14, 15};
+		private static final int[] sprites = {
+				ItemSpriteSheet.SEED_HOLDER,
+				ItemSpriteSheet.STONE_HOLDER,
+				ItemSpriteSheet.FOOD_HOLDER,
+				ItemSpriteSheet.POTION_HOLDER,
+				ItemSpriteSheet.SCROLL_HOLDER,
+				ItemSpriteSheet.BOMB_HOLDER,
+				ItemSpriteSheet.MISSILE_HOLDER,
+				ItemSpriteSheet.ELIXIR_HOLDER,
+				ItemSpriteSheet.SPELL_HOLDER
+		};
 		
 		public static int currentPageIdx   = 0;
 		
@@ -237,7 +247,7 @@ public class WndJournal extends WndTabbed {
 					}
 				};
 				if (Document.ALCHEMY_GUIDE.isPageFound(i)) {
-					pageButtons[i].icon(new ItemSprite(ItemSpriteSheet.SOMETHING + spriteIndexes[i], null));
+					pageButtons[i].icon(new ItemSprite(sprites[i], null));
 				} else {
 					pageButtons[i].icon(new ItemSprite(ItemSpriteSheet.SOMETHING, null));
 					pageButtons[i].enable(false);
@@ -277,7 +287,7 @@ public class WndJournal extends WndTabbed {
 					if (i == 4){
 						y += ITEM_HEIGHT;
 						x = 0;
-						buttonWidth = width()/5;
+						buttonWidth = width()/4;
 					}
 				}
 			}
@@ -454,7 +464,14 @@ public class WndJournal extends WndTabbed {
 		private static final int POTION_IDX = 5;
 		private static final int SCROLL_IDX = 6;
 		
-		private static final int spriteIndexes[] = {1, 2, 4, 5, 6, 9, 11};
+		private static final int spriteIndexes[] =
+				{ItemSpriteSheet.WEAPON_HOLDER,
+						ItemSpriteSheet.ARMOR_HOLDER,
+						ItemSpriteSheet.WAND_HOLDER,
+						ItemSpriteSheet.RING_HOLDER,
+						ItemSpriteSheet.ARTIFACT_HOLDER,
+						ItemSpriteSheet.POTION_HOLDER,
+						ItemSpriteSheet.SCROLL_HOLDER};
 
 		private ScrollingListPane list;
 		
@@ -470,7 +487,7 @@ public class WndJournal extends WndTabbed {
 						updateList();
 					}
 				};
-				itemButtons[i].icon(new ItemSprite(ItemSpriteSheet.SOMETHING + spriteIndexes[i], null));
+				itemButtons[i].icon(new ItemSprite(spriteIndexes[i], null));
 				add( itemButtons[i] );
 			}
 

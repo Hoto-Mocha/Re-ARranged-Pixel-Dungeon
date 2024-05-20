@@ -366,7 +366,7 @@ public class CityBossLevel extends Level {
 	}
 
 	private void spawnShop(){
-		while (impShop.itemCount() >= 7*(impShop.height()-2)){
+		while (impShop.spacesNeeded() >= 7*(impShop.height()-2)){
 			impShop.bottom++;
 		}
 		impShop.spawnShop(this);
@@ -388,6 +388,7 @@ public class CityBossLevel extends Level {
 	public String tileDesc(int tile) {
 		switch (tile) {
 			case Terrain.ENTRANCE:
+			case Terrain.ENTRANCE_SP:
 				return Messages.get(CityLevel.class, "entrance_desc");
 			case Terrain.EXIT:
 				return Messages.get(CityLevel.class, "exit_desc");

@@ -1,13 +1,16 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.spellbook;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorrosion;
@@ -23,15 +26,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
+import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 
@@ -68,7 +75,7 @@ public class SpellBook extends Item {
         spellTypes.put(WandOfRegrowth.class,       REGROWTH        );
     }
 
-    public SpellBook newSpellBook(int wand) {
+    public static SpellBook newSpellBook(int wand) {
         switch (wand) {
             case MAGIC_MISSILE: default:
                 return new BookOfMagic();
@@ -129,7 +136,7 @@ public class SpellBook extends Item {
                     if (Random.Float() < hero.pointsInTalent(Talent.SECOND_EFFECT) / 3f) {
                         MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
                         if (staff != null) {
-                            SpellBook sideEffect = newSpellBook(spellTypes.get(staff.wandClass()));
+                            SpellBook sideEffect = SpellBook.newSpellBook(spellTypes.get(staff.wandClass()));
                             sideEffect.readEffect();
                         }
                     }
@@ -302,6 +309,39 @@ public class SpellBook extends Item {
             super.restoreFromBundle(bundle);
             maxDuration = bundle.getInt( MAX_DURATION );
             duration = bundle.getInt( DURATION );
+        }
+    }
+
+    public static class WandToSpellBook extends Recipe {
+
+        @Override
+        public boolean testIngredients(ArrayList<Item> ingredients) {
+            ArrayList<Class<?>> itemClass = new ArrayList<>();
+            Collections.addAll(itemClass, Generator.Category.WAND.classes);
+            if (ingredients.size() == 1 && itemClass.contains(ingredients.get(0).getClass())){
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public int cost(ArrayList<Item> ingredients) {
+            return 5;
+        }
+
+        @Override
+        public Item brew(ArrayList<Item> ingredients) {
+            for (Item i : ingredients){
+                i.quantity(i.quantity()-1);
+            }
+
+            return SpellBook.newSpellBook(SpellBook.spellTypes.get(ingredients.get(0).getClass()));
+        }
+
+        @Override
+        public Item sampleOutput(ArrayList<Item> ingredients) {
+            return SpellBook.newSpellBook(SpellBook.spellTypes.get(ingredients.get(0).getClass()));
         }
     }
 

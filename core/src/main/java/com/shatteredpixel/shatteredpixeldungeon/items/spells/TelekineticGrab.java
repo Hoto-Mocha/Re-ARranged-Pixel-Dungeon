@@ -43,6 +43,8 @@ public class TelekineticGrab extends TargetedSpell {
 
 	{
 		image = ItemSpriteSheet.TELE_GRAB;
+
+		talentChance = 1/(float)Recipe.OUT_QUANTITY;
 	}
 
 	@Override
@@ -116,20 +118,26 @@ public class TelekineticGrab extends TargetedSpell {
 
 	@Override
 	public int value() {
-		//prices of ingredients, divided by output quantity, rounds down
-		return (int)((10 + 40) * (quantity/6f));
+		return (int)(60 * (quantity/(float)Recipe.OUT_QUANTITY));
+	}
+
+	@Override
+	public int energyVal() {
+		return (int)(12 * (quantity/(float)Recipe.OUT_QUANTITY));
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
-		{
-			inputs =  new Class[]{LiquidMetal.class, ArcaneCatalyst.class};
-			inQuantity = new int[]{10, 1};
+		private static final int OUT_QUANTITY = 8;
 
-			cost = 2;
+		{
+			inputs =  new Class[]{LiquidMetal.class};
+			inQuantity = new int[]{10};
+
+			cost = 10;
 
 			output = TelekineticGrab.class;
-			outQuantity = 6;
+			outQuantity = OUT_QUANTITY;
 		}
 
 	}

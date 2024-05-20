@@ -91,7 +91,7 @@ public class Burning extends Buff implements Hero.Doom {
 		
 		if (target.isAlive() && !target.isImmune(getClass())) {
 			
-			int damage = Random.NormalIntRange( 1, 3 + Dungeon.scalingDepth()/4 );
+			int damage = Char.combatRoll( 1, 3 + Dungeon.scalingDepth()/4 );
 			Buff.detach( target, Chill.class);
 
 			if (target instanceof Hero && target.buff(TimekeepersHourglass.timeStasis.class) == null) {
@@ -107,7 +107,7 @@ public class Burning extends Buff implements Hero.Doom {
 
 					ArrayList<Item> burnable = new ArrayList<>();
 					//does not reach inside of containers
-					if (hero.buff(LostInventory.class) == null) {
+					if (!hero.belongings.lostInventory()) {
 						for (Item i : hero.belongings.backpack.items) {
 							if (!i.unique && (i instanceof Scroll || i instanceof MysteryMeat || i instanceof FrozenCarpaccio)) {
 								burnable.add(i);
@@ -178,10 +178,12 @@ public class Burning extends Buff implements Hero.Doom {
 			if (ch instanceof Hero
 					&& ((Hero) ch).belongings.armor() != null
 					&& ((Hero) ch).belongings.armor().hasGlyph(Brimstone.class, ch)){
-				//has a 2*boost/50% chance to generate 1 shield per turn, to a max of 4x boost
+				//generate avg of 1 shield per turn per 50% boost, to a max of 4x boost
 				float shieldChance = 2*(Armor.Glyph.genericProcChanceMultiplier(ch) - 1f);
 				int shieldCap = Math.round(shieldChance*4f);
-				if (shieldCap > 0 && Random.Float() < shieldChance){
+				int shieldGain = (int)shieldChance;
+				if (Random.Float() < shieldChance%1) shieldGain++;
+				if (shieldCap > 0 && shieldGain > 0){
 					Barrier barrier = Buff.affect(ch, Barrier.class);
 					if (barrier.shielding() < shieldCap){
 						barrier.incShield(1);

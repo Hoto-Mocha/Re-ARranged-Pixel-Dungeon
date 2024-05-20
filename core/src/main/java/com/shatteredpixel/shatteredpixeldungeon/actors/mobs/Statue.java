@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.RatSkull;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon.Enchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
@@ -113,7 +114,7 @@ public class Statue extends Mob {
 
 	@Override
 	public int drRoll() {
-		return super.drRoll() + Random.NormalIntRange(0, Dungeon.depth + weapon.defenseFactor(this));
+		return super.drRoll() + Char.combatRoll(0, Dungeon.depth + weapon.defenseFactor(this));
 	}
 	
 	@Override
@@ -194,7 +195,9 @@ public class Statue extends Mob {
 
 	public static Statue random( boolean useDecks ){
 		Statue statue;
-		if (Random.Int(10) == 0){
+		float altChance = 1/10f * RatSkull.exoticChanceMultiplier();
+		if (altChance > 0.1f) altChance = (altChance+0.1f)/2f; //rat skull is 1/2 as effective here
+		if (Random.Float() < altChance){
 			statue = new ArmoredStatue();
 		} else {
 			statue = new Statue();

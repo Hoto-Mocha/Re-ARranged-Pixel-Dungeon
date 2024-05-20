@@ -39,7 +39,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
@@ -103,7 +102,7 @@ public enum Talent {
 	//Warrior T1
 	HEARTY_MEAL					(0,  0),
 	VETERANS_INTUITION			(1,  0),
-	TEST_SUBJECT				(2,  0),
+	PROVOKED_ANGER				(2,  0),
 	IRON_WILL					(3,  0),
 	MAX_HEALTH					(4,  0),
 	//Warrior T2
@@ -153,7 +152,7 @@ public enum Talent {
 	//Mage T1
 	EMPOWERING_MEAL				(0,  1),
 	SCHOLARS_INTUITION			(1,  1),
-	TESTED_HYPOTHESIS			(2,  1),
+	LINGERING_MAGIC				(2,  1),
 	BACKUP_BARRIER				(3,  1),
 	CHARGE_PRESERVE				(4,  1),
 	//Mage T2
@@ -317,7 +316,7 @@ public enum Talent {
 	PRECISE_ASSAULT				(11, 4, 3),
 	DEADLY_FOLLOWUP				(12, 4, 3),
 	//Champion T3
-	SECONDARY_CHARGE			(13, 4, 3),
+	VARIED_CHARGE				(13, 4, 3),
 	TWIN_UPGRADES				(14, 4, 3),
 	COMBINED_LETHALITY			(15, 4, 3),
 	FASTER_CHARGE				(16, 4, 3),
@@ -542,7 +541,10 @@ public enum Talent {
 	//2-3
 	public static class WandPreservationCounter extends CounterBuff{{revivePersists = true;}};
 	//BattleMage 3-3
-	public static class EmpoweredStrikeTracker extends FlavourBuff{};
+	public static class EmpoweredStrikeTracker extends FlavourBuff{
+		//blast wave on-hit doesn't resolve instantly, so we delay detaching for it
+		public boolean delayedDetach = false;
+	};
 
 
 
@@ -776,7 +778,21 @@ public enum Talent {
 			object = bundle.getInt(OBJECT);
 		}
 	}
-	//Champion 3-5
+	public static class VariedChargeTracker extends Buff{
+		public Class weapon;
+
+		private static final String WEAPON    = "weapon";
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(WEAPON, weapon);
+		}
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			weapon = bundle.getClass(WEAPON);
+		}
+	}
 	public static class CombinedLethalityAbilityTracker extends FlavourBuff{
 		public MeleeWeapon weapon;
 	};
@@ -993,7 +1009,7 @@ public enum Talent {
 		if (talent == LIGHT_CLOAK && hero.heroClass == HeroClass.ROGUE){
 			for (Item item : Dungeon.hero.belongings.backpack){
 				if (item instanceof CloakOfShadows){
-					if (hero.buff(LostInventory.class) == null || item.keptThroughLostInventory()) {
+					if (!hero.belongings.lostInventory() || item.keptThroughLostInventory()) {
 						((CloakOfShadows) item).activate(Dungeon.hero);
 					}
 				}
@@ -1012,13 +1028,12 @@ public enum Talent {
 		}
 
 
-
 		//duelist
 		if (talent == ACCUMULATION) {
 			updateQuickslot();
 		}
 
-		if (talent == SECONDARY_CHARGE || talent == TWIN_UPGRADES || talent == DESPERATE_POWER){
+		if (talent == TWIN_UPGRADES || talent == DESPERATE_POWER || talent == STRONGMAN){
 			Item.updateQuickslot();
 		}
 
@@ -1063,12 +1078,9 @@ public enum Talent {
 
 	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
 		if (hero.hasTalent(HEARTY_MEAL)){
-			if (hero.HP <= hero.HT/2) {
-				//2/3 HP healed, when hero is below 50% health
-				int healing = 1 + hero.pointsInTalent(HEARTY_MEAL);
-				//3/5 HP healed, when hero is below 25% health
-				if (hero.HP <= hero.HT/4) healing = 1 + 2 * hero.pointsInTalent(HEARTY_MEAL);
-
+			//3/5 HP healed, when hero is below 30% health
+			if (hero.HP/(float)hero.HT <= 0.3f) {
+				int healing = 1 + 2 * hero.pointsInTalent(HEARTY_MEAL);
 				hero.HP = Math.min(hero.HP + healing, hero.HT);
 				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healing), FloatingText.HEALING);
 
@@ -1109,8 +1121,9 @@ public enum Talent {
 		}
 		if (hero.hasTalent(FOCUSED_MEAL)){
 			if (hero.heroClass == HeroClass.DUELIST){
-				//1/1.5 charge for the duelist
-				Buff.affect( hero, MeleeWeapon.Charger.class ).gainCharge(0.5f*(hero.pointsInTalent(FOCUSED_MEAL)+1));
+				//0.67/1 charge for the duelist
+				Buff.affect( hero, MeleeWeapon.Charger.class ).gainCharge((hero.pointsInTalent(FOCUSED_MEAL)+1)/3f);
+				ScrollOfRecharging.charge( hero );
 			} else {
 				// lvl/3 / lvl/2 bonus dmg on next hit for other classes
 				Buff.affect( hero, PhysicalEmpower.class).set(Math.round(hero.lvl / (4f - hero.pointsInTalent(FOCUSED_MEAL))), 1);
@@ -1331,21 +1344,23 @@ public enum Talent {
 
 	//note that IDing can happen in alchemy scene, so be careful with VFX here
 	public static void onItemIdentified( Hero hero, Item item ){
-		if (hero.hasTalent(TEST_SUBJECT)){
-			//heal for 2/3 HP
-			hero.HP = Math.min(hero.HP + 1 + hero.pointsInTalent(TEST_SUBJECT), hero.HT);
-			if (hero.sprite != null) {
-				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(1 + hero.pointsInTalent(TEST_SUBJECT)), FloatingText.HEALING);
-			}
-		}
-		if (hero.hasTalent(TESTED_HYPOTHESIS)){
-			//2/3 turns of wand recharging
-			Buff.affect(hero, Recharging.class, 1f + hero.pointsInTalent(TESTED_HYPOTHESIS));
-			ScrollOfRecharging.charge(hero);
-		}
+		//currently no talents that trigger here, it wasn't a very popular trigger =(
 	}
 
 	public static int onAttackProc( Hero hero, Char enemy, int dmg ){
+
+		if (hero.hasTalent(Talent.PROVOKED_ANGER)
+			&& hero.buff(ProvokedAngerTracker.class) != null){
+			dmg += Random.IntRange(hero.pointsInTalent(Talent.PROVOKED_ANGER) , 2);
+			hero.buff(ProvokedAngerTracker.class).detach();
+		}
+
+		if (hero.hasTalent(Talent.LINGERING_MAGIC)
+				&& hero.buff(LingeringMagicTracker.class) != null){
+			dmg += Random.IntRange(hero.pointsInTalent(Talent.LINGERING_MAGIC) , 2);
+			hero.buff(LingeringMagicTracker.class).detach();
+		}
+
 		if (hero.hasTalent(Talent.SUCKER_PUNCH)
 				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
 				&& enemy.buff(SuckerPunchTracker.class) == null){
@@ -1408,7 +1423,6 @@ public enum Talent {
 
 		return dmg;
 	}
-
 	public static class ParryCooldown extends Buff{
 		float cooldown;
 		public void set() {
@@ -1457,8 +1471,10 @@ public enum Talent {
 			Buff.affect(target, ParryCooldown.class).set();
 		}
 	};
-	public static class RiposteTracker extends Buff{
-		{ actPriority = VFX_PRIO;}
+	public static class RiposteTracker extends Buff {
+		{
+			actPriority = VFX_PRIO;
+		}
 
 		public Char enemy;
 
@@ -1468,7 +1484,7 @@ public enum Talent {
 				@Override
 				public void call() {
 					AttackIndicator.target(enemy);
-					if (hero.attack(enemy, 1f, 0, 1)){
+					if (hero.attack(enemy, 1f, 0, 1)) {
 						Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 					}
 
@@ -1478,6 +1494,18 @@ public enum Talent {
 			detach();
 			return false;
 		}
+	}
+	public static class ProvokedAngerTracker extends FlavourBuff{
+		{ type = Buff.buffType.POSITIVE; }
+		public int icon() { return BuffIndicator.WEAPON; }
+		public void tintIcon(Image icon) { icon.hardlight(1.43f, 1.43f, 1.43f); }
+		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
+	}
+	public static class LingeringMagicTracker extends FlavourBuff{
+		{ type = Buff.buffType.POSITIVE; }
+		public int icon() { return BuffIndicator.WEAPON; }
+		public void tintIcon(Image icon) { icon.hardlight(1.43f, 1.43f, 0f); }
+		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
 	}
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends FlavourBuff{
@@ -1519,10 +1547,10 @@ public enum Talent {
 		//tier 1
 		switch (cls){
 			case WARRIOR: default:
-				Collections.addAll(tierTalents, HEARTY_MEAL, VETERANS_INTUITION, TEST_SUBJECT, IRON_WILL, MAX_HEALTH);
+				Collections.addAll(tierTalents, HEARTY_MEAL, VETERANS_INTUITION, PROVOKED_ANGER, IRON_WILL, MAX_HEALTH);
 				break;
 			case MAGE:
-				Collections.addAll(tierTalents, EMPOWERING_MEAL, SCHOLARS_INTUITION, TESTED_HYPOTHESIS, BACKUP_BARRIER, CHARGE_PRESERVE);
+				Collections.addAll(tierTalents, EMPOWERING_MEAL, SCHOLARS_INTUITION, LINGERING_MAGIC, BACKUP_BARRIER, CHARGE_PRESERVE);
 				break;
 			case ROGUE:
 				Collections.addAll(tierTalents, CACHED_RATIONS, THIEFS_INTUITION, SUCKER_PUNCH, PROTECTIVE_SHADOWS, EMERGENCY_ESCAPE);
@@ -1678,7 +1706,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SWIFT_MOVEMENT, LESS_RESIST, RING_KNUCKLE, MYSTICAL_PUNCH, QUICK_STEP, COUNTER_ATTACK );
 				break;
 			case CHAMPION:
-				Collections.addAll(tierTalents, SECONDARY_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY, FASTER_CHARGE, QUICK_FOLLOWUP, TWIN_SWORD );
+				Collections.addAll(tierTalents, VARIED_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY, FASTER_CHARGE, QUICK_FOLLOWUP, TWIN_SWORD );
 				break;
 			case MONK:
 				Collections.addAll(tierTalents, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY, RESTORED_ENERGY, ENERGY_BARRIER, HARMONY );
@@ -1764,12 +1792,18 @@ public enum Talent {
 
 	private static final HashSet<String> removedTalents = new HashSet<>();
 	static{
+		//v2.4.0
+		removedTalents.add("TEST_SUBJECT");
+		removedTalents.add("TESTED_HYPOTHESIS");
 		//v2.2.0
 		removedTalents.add("EMPOWERING_SCROLLS");
 	}
 
 	private static final HashMap<String, String> renamedTalents = new HashMap<>();
 	static{
+		//v2.4.0
+		renamedTalents.put("SECONDARY_CHARGE",          "VARIED_CHARGE");
+
 		//v2.2.0
 		renamedTalents.put("RESTORED_WILLPOWER",        "LIQUID_WILLPOWER");
 		renamedTalents.put("ENERGIZING_UPGRADE",        "INSCRIBED_POWER");

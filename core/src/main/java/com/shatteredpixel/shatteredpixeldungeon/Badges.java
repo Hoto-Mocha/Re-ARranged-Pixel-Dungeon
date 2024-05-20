@@ -850,9 +850,8 @@ public class Badges {
 
 			if (Statistics.qualifiedForBossRemainsBadge && Dungeon.hero.belongings.getItem(RemainsItem.class) != null){
 				badge = Badge.BOSS_SLAIN_REMAINS;
-				if (!isUnlocked( badge )) {
-					displayBadge( badge );
-				}
+				local.add( badge );
+				displayBadge( badge );
 			}
 
 		}
@@ -1089,21 +1088,11 @@ public class Badges {
 		displayBadge( badge );
 	}
 	
-	//necessary in order to display the happy end badge in the surface scene
-	public static void silentValidateHappyEnd() {
-		if (!local.contains( Badge.HAPPY_END )){
-			local.add( Badge.HAPPY_END );
-		}
-
-		if(!local.contains( Badge.HAPPY_END_REMAINS ) && Dungeon.hero.belongings.getItem(RemainsItem.class) != null){
-			local.add( Badge.HAPPY_END_REMAINS );
-		}
-	}
-	
 	public static void validateHappyEnd() {
 		displayBadge( Badge.HAPPY_END );
-		if (local.contains(Badge.HAPPY_END_REMAINS)) {
-			displayBadge(Badge.HAPPY_END_REMAINS);
+
+		if( Dungeon.hero.belongings.getItem(RemainsItem.class) != null ){
+			displayBadge( Badge.HAPPY_END_REMAINS );
 		}
 	}
 

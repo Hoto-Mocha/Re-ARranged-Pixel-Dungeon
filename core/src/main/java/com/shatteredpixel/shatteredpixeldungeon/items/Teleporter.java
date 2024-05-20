@@ -9,10 +9,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DistortionTrap;
@@ -99,7 +99,7 @@ public class Teleporter extends Item {
 
         super.execute(hero, action);
         if (action.equals(AC_TELEPORT)) {
-            Buff.affect(hero, FeatherFall.FeatherBuff.class, 3f);
+            Buff.affect(hero, ElixirOfFeatherFall.FeatherBuff.class, 3f);
             Chasm.heroFall(hero.pos);
             int length = Dungeon.level.length();
             int[] map = Dungeon.level.map;

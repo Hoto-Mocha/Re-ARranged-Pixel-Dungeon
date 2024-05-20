@@ -25,7 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Inferno;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -59,19 +58,13 @@ public class InfernalBrew extends Brew {
 		GameScene.add( Blob.seed( cell, centerVolume, Inferno.class ) );
 	}
 	
-	@Override
-	public int value() {
-		//prices of ingredients
-		return quantity * (30 + 40);
-	}
-	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
-			inputs =  new Class[]{PotionOfLiquidFlame.class, AlchemicalCatalyst.class};
-			inQuantity = new int[]{1, 1};
+			inputs =  new Class[]{PotionOfLiquidFlame.class};
+			inQuantity = new int[]{1};
 			
-			cost = 4;
+			cost = 12;
 			
 			output = InfernalBrew.class;
 			outQuantity = 1;

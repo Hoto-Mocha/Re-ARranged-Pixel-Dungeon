@@ -177,6 +177,8 @@ public enum Document {
 					return new ItemSprite( new ScrollOfIdentify() );
 				case "Food":
 					return new ItemSprite( ItemSpriteSheet.PASTY );
+				case "Alchemy":
+					return new ItemSprite( ItemSpriteSheet.TRINKET_CATA );
 				case "Dieing":
 					return new ItemSprite( ItemSpriteSheet.TOMB );
 				case Document.GUIDE_SEARCHING:
@@ -227,6 +229,7 @@ public enum Document {
 	public static final String GUIDE_SURPRISE_ATKS  = "Surprise_Attacks";
 	public static final String GUIDE_IDING          = "Identifying";
 	public static final String GUIDE_FOOD           = "Food";
+	public static final String GUIDE_ALCHEMY        = "Alchemy";
 	public static final String GUIDE_DIEING         = "Dieing";
 
 	public static final String GUIDE_SEARCHING      = "Searching";
@@ -240,6 +243,7 @@ public enum Document {
 		ADVENTURERS_GUIDE.pagesStates.put(GUIDE_SURPRISE_ATKS,  debug ? READ : NOT_FOUND);
 		ADVENTURERS_GUIDE.pagesStates.put(GUIDE_IDING,          debug ? READ : NOT_FOUND);
 		ADVENTURERS_GUIDE.pagesStates.put(GUIDE_FOOD,           debug ? READ : NOT_FOUND);
+		ADVENTURERS_GUIDE.pagesStates.put(GUIDE_ALCHEMY,        debug ? READ : NOT_FOUND);
 		ADVENTURERS_GUIDE.pagesStates.put(GUIDE_DIEING,         debug ? READ : NOT_FOUND);
 		//given in sewers
 		ADVENTURERS_GUIDE.pagesStates.put(GUIDE_SEARCHING,      debug ? READ : NOT_FOUND);
@@ -259,7 +263,6 @@ public enum Document {
 		//given in prison
 		ALCHEMY_GUIDE.pagesStates.put("Bombs",                  debug ? READ : NOT_FOUND);
 		ALCHEMY_GUIDE.pagesStates.put("Weapons",                debug ? READ : NOT_FOUND);
-		ALCHEMY_GUIDE.pagesStates.put("Catalysts",              debug ? READ : NOT_FOUND);
 		ALCHEMY_GUIDE.pagesStates.put("Brews_Elixirs",          debug ? READ : NOT_FOUND);
 		ALCHEMY_GUIDE.pagesStates.put("Spells",                 debug ? READ : NOT_FOUND);
 

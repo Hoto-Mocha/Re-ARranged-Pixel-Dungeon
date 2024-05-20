@@ -164,6 +164,10 @@ abstract public class MissileWeapon extends Weapon {
 		if (container instanceof MagicalHolster) holster = true;
 		return super.collect(container);
 	}
+
+	public boolean isSimilar( Item item ) {
+		return level() == item.level() && getClass() == item.getClass();
+	}
 	
 	@Override
 	public int throwPos(Hero user, int dst) {
@@ -318,7 +322,7 @@ abstract public class MissileWeapon extends Weapon {
 		decrementDurability();
 		if (durability > 0){
 			//attempt to stick the missile weapon to the enemy, just drop it if we can't.
-			if (sticky && enemy != null && enemy.isAlive() && enemy.alignment != Char.Alignment.ALLY){
+			if (sticky && enemy != null && enemy.isActive() && enemy.alignment != Char.Alignment.ALLY){
 				PinCushion p = Buff.affect(enemy, PinCushion.class);
 				if (p.target == enemy){
 					p.stick(this);
@@ -381,19 +385,22 @@ abstract public class MissileWeapon extends Weapon {
 			if (parent.durability <= parent.durabilityPerUse()){
 				durability = 0;
 				parent.durability = MAX_DURABILITY;
+				if (parent.durabilityPerUse() < 100f) {
+					GLog.n(Messages.get(this, "has_broken"));
+				}
 			} else {
 				parent.durability -= parent.durabilityPerUse();
 				if (parent.durability > 0 && parent.durability <= parent.durabilityPerUse()){
-					if (level() <= 0)GLog.w(Messages.get(this, "about_to_break"));
-					else             GLog.n(Messages.get(this, "about_to_break"));
+					GLog.w(Messages.get(this, "about_to_break"));
 				}
 			}
 			parent = null;
 		} else {
 			durability -= durabilityPerUse();
 			if (durability > 0 && durability <= durabilityPerUse()){
-				if (level() <= 0)GLog.w(Messages.get(this, "about_to_break"));
-				else             GLog.n(Messages.get(this, "about_to_break"));
+				GLog.w(Messages.get(this, "about_to_break"));
+			} else if (durabilityPerUse() < 100f && durability <= 0){
+				GLog.n(Messages.get(this, "has_broken"));
 			}
 		}
 	}
@@ -405,7 +412,7 @@ abstract public class MissileWeapon extends Weapon {
 		if (owner instanceof Hero) {
 			int exStr = ((Hero)owner).STR() - STRReq();
 			if (exStr > 0) {
-				damage += Random.IntRange( 0, exStr );
+				damage += Char.combatRoll( 0, exStr );
 			}
 			if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
 				damage = Math.round(damage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));

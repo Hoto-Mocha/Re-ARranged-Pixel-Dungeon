@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
@@ -52,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.MimicTooth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
@@ -114,6 +116,10 @@ public class Dungeon {
 		STRENGTH_POTIONS,
 		UPGRADE_SCROLLS,
 		ARCANE_STYLI,
+		ENCH_STONE,
+		INT_STONE,
+		TRINKET_CATA,
+		LAB_ROOM, //actually a room, but logic is the same
 
 		//Health potion sources
 		//enemies
@@ -487,6 +493,8 @@ public class Dungeon {
 	public static boolean interfloorTeleportAllowed(){
 		if (Dungeon.level.locked
 				|| Dungeon.level instanceof MiningLevel
+				|| Dungeon.level instanceof TempleLevel
+				|| Dungeon.level instanceof TempleLastLevel
 				|| (Dungeon.hero != null && Dungeon.hero.belongings.getItem(Amulet.class) != null)
 				|| (Dungeon.hero != null && Dungeon.hero.buff(OldAmulet.TempleCurse.class) != null)){
 			return false;
@@ -600,6 +608,46 @@ public class Dungeon {
 		//chance is floors left / scrolls left
 		return Random.Int(5 - floorThisSet) < asLeftThisSet;
 	}
+
+	public static boolean enchStoneNeeded(){
+		//1 enchantment stone, spawns on chapter 2 or 3
+		if (!LimitedDrops.ENCH_STONE.dropped()){
+			int region = 1+depth/5;
+			if (region > 1){
+				int floorsVisited = depth - 5;
+				if (floorsVisited > 4) floorsVisited--; //skip floor 10
+				return Random.Int(9-floorsVisited) == 0; //1/8 chance each floor
+			}
+		}
+		return false;
+	}
+
+	public static boolean intStoneNeeded(){
+		//one stone on floors 1-3
+		return depth < 5 && !LimitedDrops.INT_STONE.dropped() && Random.Int(4-depth) == 0;
+	}
+
+	public static boolean trinketCataNeeded(){
+		//one trinket catalyst on floors 1-3
+		return depth < 5 && !LimitedDrops.TRINKET_CATA.dropped() && Random.Int(4-depth) == 0;
+	}
+
+	public static boolean labRoomNeeded(){
+		//one laboratory each floor set, in floor 3 or 4, 1/2 chance each floor
+		int region = 1+depth/5;
+		if (region > LimitedDrops.LAB_ROOM.count){
+			int floorThisRegion = depth%5;
+			if (floorThisRegion >= 4 || (floorThisRegion == 3 && Random.Int(2) == 0)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// 1/4
+	// 3/4 * 1/3 = 3/12 = 1/4
+	// 3/4 * 2/3 * 1/2 = 6/24 = 1/4
+	// 1/4
 
 	private static final String INIT_VER	= "init_ver";
 	private static final String VERSION		= "version";
@@ -950,11 +998,21 @@ public class Dungeon {
 			BArray.or( level.visited, level.heroFOV, pos, width, level.visited );
 			pos+=level.width();
 		}
+
+		//always visit adjacent tiles, even if they aren't seen
+		for (int i : PathFinder.NEIGHBOURS9){
+			level.visited[hero.pos+i] = true;
+		}
 	
 		GameScene.updateFog(l, t, width, height);
 
+		boolean stealthyMimics = MimicTooth.stealthyMimics();
 		if (hero.buff(MindVision.class) != null){
 			for (Mob m : level.mobs.toArray(new Mob[0])){
+				if (stealthyMimics && m instanceof Mimic && m.alignment == Char.Alignment.NEUTRAL){
+					continue;
+				}
+
 				BArray.or( level.visited, level.heroFOV, m.pos - 1 - level.width(), 3, level.visited );
 				BArray.or( level.visited, level.heroFOV, m.pos - 1, 3, level.visited );
 				BArray.or( level.visited, level.heroFOV, m.pos - 1 + level.width(), 3, level.visited );

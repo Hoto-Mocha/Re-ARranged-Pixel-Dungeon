@@ -53,7 +53,19 @@ public class Greatsword extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		Sword.cleaveAbility(hero, target, 1.20f, this);
+		//+(5+lvl) damage, roughly +30% base dmg, +30% scaling
+		int dmgBoost = augment.damageFactor(5 + buffedLvl());
+		Sword.cleaveAbility(hero, target, 1, dmgBoost, this);
+	}
+
+	@Override
+	public String abilityInfo() {
+		int dmgBoost = levelKnown ? 5 + buffedLvl() : 5;
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+		} else {
+			return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+		}
 	}
 
 }

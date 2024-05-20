@@ -43,6 +43,8 @@ public class ReclaimTrap extends TargetedSpell {
 	
 	{
 		image = ItemSpriteSheet.RECLAIM_TRAP;
+
+		talentChance = 1/(float)Recipe.OUT_QUANTITY;
 	}
 	
 	private Class<?extends Trap> storedTrap = null;
@@ -115,8 +117,12 @@ public class ReclaimTrap extends TargetedSpell {
 	
 	@Override
 	public int value() {
-		//prices of ingredients, divided by output quantity, rounds down
-		return (int)((40 + 50) * (quantity/4f));
+		return (int)(60 * (quantity/(float)Recipe.OUT_QUANTITY));
+	}
+
+	@Override
+	public int energyVal() {
+		return (int)(12 * (quantity/(float)Recipe.OUT_QUANTITY));
 	}
 	
 	private static final String STORED_TRAP = "stored_trap";
@@ -134,15 +140,17 @@ public class ReclaimTrap extends TargetedSpell {
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+		private static final int OUT_QUANTITY = 5;
 		
 		{
 			inputs =  new Class[]{ScrollOfMagicMapping.class, MetalShard.class};
 			inQuantity = new int[]{1, 1};
 			
-			cost = 6;
+			cost = 8;
 			
 			output = ReclaimTrap.class;
-			outQuantity = 4;
+			outQuantity = OUT_QUANTITY;
 		}
 		
 	}

@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
@@ -49,13 +50,23 @@ public class CavesFissureRoom extends StandardRoom {
 	}
 
 	@Override
-	public boolean canMerge(Level l, Point p, int mergeTerrain) {
+	public boolean canMerge(Level l, Room other, Point p, int mergeTerrain) {
 		if (mergeTerrain == Terrain.CHASM) {
 			return true;
 		} else {
 			int cell = l.pointToCell(pointInside(p, 1));
 			return l.map[cell] != Terrain.CHASM;
 		}
+	}
+
+	@Override
+	public boolean canPlaceItem(Point p, Level l) {
+		return super.canPlaceItem(p, l) && l.map[l.pointToCell(p)] != Terrain.EMPTY_SP;
+	}
+
+	@Override
+	public boolean canPlaceCharacter(Point p, Level l) {
+		return super.canPlaceItem(p, l) && l.map[l.pointToCell(p)] != Terrain.EMPTY_SP;
 	}
 
 	@Override

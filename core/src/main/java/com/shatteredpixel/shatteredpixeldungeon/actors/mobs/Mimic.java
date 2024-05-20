@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.MimicTooth;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -114,7 +115,11 @@ public class Mimic extends Mob {
 	@Override
 	public String description() {
 		if (alignment == Alignment.NEUTRAL){
-			return Messages.get(Heap.class, "chest_desc") + "\n\n" + Messages.get(this, "hidden_hint");
+			if (MimicTooth.stealthyMimics()){
+				return Messages.get(Heap.class, "chest_desc");
+			} else {
+				return Messages.get(Heap.class, "chest_desc") + "\n\n" + Messages.get(this, "hidden_hint");
+			}
 		} else {
 			return super.description();
 		}
@@ -213,15 +218,15 @@ public class Mimic extends Mob {
 	@Override
 	public int damageRoll() {
 		if (alignment == Alignment.NEUTRAL){
-			return Random.NormalIntRange( 2 + 2*level, 2 + 2*level);
+			return Char.combatRoll( 2 + 2*level, 2 + 2*level);
 		} else {
-			return Random.NormalIntRange( 1 + level, 2 + 2*level);
+			return Char.combatRoll( 1 + level, 2 + 2*level);
 		}
 	}
 
 	@Override
 	public int drRoll() {
-		return super.drRoll() + Random.NormalIntRange(0, 1 + level/2);
+		return super.drRoll() + Char.combatRoll(0, 1 + level/2);
 	}
 
 	@Override
@@ -291,6 +296,8 @@ public class Mimic extends Mob {
 			m = new GoldenMimic();
 		} else if (mimicType == CrystalMimic.class) {
 			m = new CrystalMimic();
+		} else if (mimicType == EbonyMimic.class) {
+			m = new EbonyMimic();
 		} else {
 			m = new Mimic();
 		}

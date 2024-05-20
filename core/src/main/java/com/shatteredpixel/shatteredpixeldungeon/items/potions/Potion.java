@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ItemStatusHandler;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
@@ -102,8 +103,8 @@ public class Potion extends Item {
 			put("ivory",ItemSpriteSheet.POTION_IVORY);
 		}
 	};
-	
-	private static final HashSet<Class<?extends Potion>> mustThrowPots = new HashSet<>();
+
+	protected static final HashSet<Class<?extends Potion>> mustThrowPots = new HashSet<>();
 	static{
 		mustThrowPots.add(PotionOfToxicGas.class);
 		mustThrowPots.add(PotionOfLiquidFlame.class);
@@ -116,13 +117,11 @@ public class Potion extends Item {
 		mustThrowPots.add(PotionOfShroudingFog.class);
 		mustThrowPots.add(PotionOfStormClouds.class);
 		
-		//also all brews, hardcoded
+		//also all brews except unstable, hardcoded
 	}
 	
-	private static final HashSet<Class<?extends Potion>> canThrowPots = new HashSet<>();
+	protected static final HashSet<Class<?extends Potion>> canThrowPots = new HashSet<>();
 	static{
-		canThrowPots.add(AlchemicalCatalyst.class);
-		
 		canThrowPots.add(PotionOfPurity.class);
 		canThrowPots.add(PotionOfLevitation.class);
 		
@@ -139,6 +138,8 @@ public class Potion extends Item {
 
 	//affects how strongly on-potion talents trigger from this potion
 	protected float talentFactor = 1;
+	//the chance (0-1) of whether on-potion talents trigger from this potion
+	protected float talentChance = 1;
 	
 	{
 		stackable = true;
@@ -293,7 +294,7 @@ public class Potion extends Item {
 		
 		hero.sprite.operate( hero.pos );
 
-		if (!anonymous){
+		if (!anonymous && Random.Float() < talentChance){
 			Talent.onPotionUsed(curUser, curUser.pos, talentFactor);
 		}
 	}
@@ -306,10 +307,13 @@ public class Potion extends Item {
 			
 		} else  {
 
-			Dungeon.level.pressCell( cell );
+			//aqua brew specifically doesn't press cells, so it can disarm traps
+			if (!(this instanceof AquaBrew)){
+				Dungeon.level.pressCell( cell );
+			}
 			shatter( cell );
 
-			if (!anonymous){
+			if (!anonymous && Random.Float() < talentChance){
 				Talent.onPotionUsed(curUser, cell, talentFactor);
 			}
 			

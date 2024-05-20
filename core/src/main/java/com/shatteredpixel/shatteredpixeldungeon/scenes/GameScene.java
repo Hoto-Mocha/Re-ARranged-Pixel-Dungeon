@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DemonSpawner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Ghoul;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BannerSprites;
@@ -62,6 +63,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.DimensionalSundial;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.MimicTooth;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -577,13 +580,13 @@ public class GameScene extends PixelScene {
 							int cell = transition.cell();
 							Level.set(cell, Terrain.WALL);
 							GameScene.updateMap(cell);
-							if (Dungeon.level.heroFOV[ cell ]) {
-								CellEmitter.get( cell - Dungeon.level.width() ).start(Speck.factory(Speck.ROCK), 0.07f, 10);
+							if (Dungeon.level.heroFOV[cell]) {
+								CellEmitter.get(cell - Dungeon.level.width()).start(Speck.factory(Speck.ROCK), 0.07f, 10);
 
 								PixelScene.shake(3, 0.7f);
 								Sample.INSTANCE.play(Assets.Sounds.ROCKS);
 							}
-							int targetCell = cell+Dungeon.level.width();
+							int targetCell = cell + Dungeon.level.width();
 							if (Dungeon.hero.pos == cell) {
 								Actor.add(new Pushing(Dungeon.hero, cell, targetCell, new Callback() {
 									@Override
@@ -607,6 +610,12 @@ public class GameScene extends PixelScene {
 						Dungeon.hero.buff(OldAmulet.TempleCurse.class).detach();
 					}
 				}
+			}
+			DimensionalSundial.sundialWarned = true;
+			if (DimensionalSundial.spawnMultiplierAtCurrentTime() > 1){
+				GLog.w(Messages.get(DimensionalSundial.class, "warning"));
+			} else {
+				DimensionalSundial.sundialWarned = false;
 			}
 
 			InterlevelScene.mode = InterlevelScene.Mode.NONE;
@@ -806,11 +815,13 @@ public class GameScene extends PixelScene {
 		}
 
 		cellSelector.enable(Dungeon.hero.ready);
-		
-		for (Gizmo g : toDestroy){
-			g.destroy();
+
+		if (!toDestroy.isEmpty()) {
+			for (Gizmo g : toDestroy) {
+				g.destroy();
+			}
+			toDestroy.clear();
 		}
-		toDestroy.clear();
 	}
 
 	private static Point lastOffset = null;
@@ -1324,8 +1335,16 @@ public class GameScene extends PixelScene {
 	
 	public static void afterObserve() {
 		if (scene != null) {
+			boolean stealthyMimics = MimicTooth.stealthyMimics();
 			for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
-				if (mob.sprite != null) mob.sprite.visible = Dungeon.level.heroFOV[mob.pos];
+				if (mob.sprite != null) {
+					if (stealthyMimics && mob instanceof Mimic && mob.state == mob.PASSIVE && mob.sprite.visible){
+						//mimics stay visible in fog of war after being first seen
+						mob.sprite.visible = true;
+					} else {
+						mob.sprite.visible = Dungeon.level.heroFOV[mob.pos];
+					}
+				}
 				if (mob instanceof Ghoul){
 					for (Ghoul.GhoulLifeLink link : mob.buffs(Ghoul.GhoulLifeLink.class)){
 						link.updateVisibility();

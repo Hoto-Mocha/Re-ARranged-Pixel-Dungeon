@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -92,6 +93,8 @@ public abstract class Scroll extends Item {
 
 	//affects how strongly on-scroll talents trigger from this scroll
 	protected float talentFactor = 1;
+	//the chance (0-1) of whether on-scroll talents trigger from this potion
+	protected float talentChance = 1;
 	
 	{
 		stackable = true;
@@ -189,7 +192,7 @@ public abstract class Scroll extends Item {
 		curUser.busy();
 		((HeroSprite)curUser.sprite).read();
 
-		if (!anonymous) {
+		if (!anonymous && Random.Float() < talentChance) {
 			Talent.onScrollUsed(curUser, curUser.pos, talentFactor);
 		}
 

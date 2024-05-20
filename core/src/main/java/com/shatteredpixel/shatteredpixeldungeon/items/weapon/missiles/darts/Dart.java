@@ -97,7 +97,7 @@ public class Dart extends MissileWeapon {
 		}
 	}
 	
-	private static Crossbow bow;
+	protected static Crossbow bow;
 	
 	private void updateCrossbow(){
 		if (Dungeon.hero.belongings.weapon() instanceof Crossbow){
@@ -168,7 +168,7 @@ public class Dart extends MissileWeapon {
 		//don't update xbow here, as dart may be the active weapon atm
 		processingChargedShot = true;
 		if (chargedShotPos != -1 && bow != null && Dungeon.hero.buff(Crossbow.ChargedShot.class) != null) {
-			PathFinder.buildDistanceMap(chargedShotPos, Dungeon.level.passable, 2);
+			PathFinder.buildDistanceMap(chargedShotPos, Dungeon.level.passable, 3);
 			//necessary to clone as some on-hit effects use Pathfinder
 			int[] distance = PathFinder.distance.clone();
 			for (Char ch : Actor.chars()){

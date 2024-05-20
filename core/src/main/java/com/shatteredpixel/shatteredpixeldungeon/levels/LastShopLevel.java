@@ -33,8 +33,8 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.builders.LineBuilder;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.CityPainter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.EntranceRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.ExitRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.entrance.EntranceRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.exit.ExitRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.ImpShopRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.noosa.Group;
@@ -167,6 +167,7 @@ public class LastShopLevel extends RegularLevel {
 	public String tileDesc(int tile) {
 		switch (tile) {
 			case Terrain.ENTRANCE:
+			case Terrain.ENTRANCE_SP:
 				return Messages.get(CityLevel.class, "entrance_desc");
 			case Terrain.EXIT:
 				return Messages.get(CityLevel.class, "exit_desc");

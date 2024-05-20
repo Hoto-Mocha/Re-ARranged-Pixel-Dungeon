@@ -180,7 +180,8 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 				}
 
 				if (hero.belongings.weapon() instanceof MeleeWeapon
-						&& hero.buff(RingOfForce.BrawlersStance.class) == null){
+						&& (hero.buff(RingOfForce.BrawlersStance.class) == null
+						|| !hero.buff(RingOfForce.BrawlersStance.class).active)){
 					if (((MeleeWeapon) hero.belongings.weapon()).tier <= 1 && points >= 3){
 						enGainMulti += 1.20f;
 					} else if (((MeleeWeapon) hero.belongings.weapon()).tier <= 2 && points >= 2){
@@ -278,7 +279,7 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 	@Override
 	public int indicatorColor() {
 		if (abilitiesEmpowered(Dungeon.hero)){
-			return 0x99CC33;
+			return 0xAAEE22;
 		} else {
 			return 0xA08840;
 		}
@@ -304,7 +305,11 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 		}
 
 		public String desc(){
-			return Messages.get(this, "desc");
+			if (Buff.affect(Dungeon.hero, MonkEnergy.class).abilitiesEmpowered(Dungeon.hero)){
+				return Messages.get(this, "empower_desc");
+			} else {
+				return Messages.get(this, "desc");
+			}
 		}
 
 		public abstract int energyCost();
@@ -335,8 +340,14 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 
 			@Override
 			public String desc() {
-				//hero unarmed damage
-				return Messages.get(this, "desc", 1, Dungeon.hero.STR()-8);
+				if (Buff.affect(Dungeon.hero, MonkEnergy.class).abilitiesEmpowered(Dungeon.hero)){
+					//hero unarmed damage
+					return Messages.get(this, "empower_desc", 1, Dungeon.hero.STR()-8);
+				} else {
+					//hero unarmed damage
+					return Messages.get(this, "desc", 1, Dungeon.hero.STR()-8);
+				}
+
 			}
 
 			@Override
@@ -356,15 +367,18 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 					return;
 				}
 
-				UnarmedAbilityTracker tracker = Buff.affect(hero, UnarmedAbilityTracker.class);
-				if (!hero.canAttack(enemy)){
-					GLog.w(Messages.get(MeleeWeapon.class, "ability_bad_position"));
-					tracker.detach();
-					return;
-				}
-
 				if (Buff.affect(hero, MonkEnergy.class).abilitiesEmpowered(hero)){
 					Buff.affect(hero, FlurryEmpowerTracker.class, 0f);
+				}
+
+				UnarmedAbilityTracker tracker = Buff.affect(hero, UnarmedAbilityTracker.class);
+				if (!hero.canAttack(enemy)){
+					GLog.w(Messages.get(MeleeWeapon.class, "ability_target_range"));
+					tracker.detach();
+					if (hero.buff(FlurryEmpowerTracker.class) != null){
+						hero.buff(FlurryEmpowerTracker.class).detach();
+					}
+					return;
 				}
 
 				hero.sprite.attack(enemy.pos, new Callback() {
@@ -496,21 +510,25 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 
 				if (Dungeon.hero.rooted){
 					PixelScene.shake( 1, 1f );
-					GLog.w(Messages.get(MeleeWeapon.class, "ability_bad_position"));
+					GLog.w(Messages.get(MeleeWeapon.class, "ability_target_range"));
 					return;
 				}
 
 				if (Dungeon.level.distance(hero.pos, target) > range){
-					GLog.w(Messages.get(MeleeWeapon.class, "ability_bad_position"));
+					GLog.w(Messages.get(MeleeWeapon.class, "ability_target_range"));
+					return;
+				}
+
+				if (Actor.findChar(target) != null){
+					GLog.w(Messages.get(MeleeWeapon.class, "ability_occupied"));
 					return;
 				}
 
 				Ballistica dash = new Ballistica(hero.pos, target, Ballistica.PROJECTILE);
 
 				if (!dash.collisionPos.equals(target)
-						|| Actor.findChar(target) != null
 						|| (Dungeon.level.solid[target] && !Dungeon.level.passable[target])){
-					GLog.w(Messages.get(MeleeWeapon.class, "ability_bad_position"));
+					GLog.w(Messages.get(MeleeWeapon.class, "ability_target_range"));
 					return;
 				}
 
@@ -547,8 +565,13 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 
 			@Override
 			public String desc() {
-				//3x hero unarmed damage
-				return Messages.get(this, "desc", 3, 3*(Dungeon.hero.STR()-8));
+				if (Buff.affect(Dungeon.hero, MonkEnergy.class).abilitiesEmpowered(Dungeon.hero)){
+					//4.5x hero unarmed damage (rounds the result)
+					return Messages.get(this, "empower_desc", 5, Math.round(4.5f*(Dungeon.hero.STR()-8)));
+				} else {
+					//3x hero unarmed damage
+					return Messages.get(this, "desc", 3, 3*(Dungeon.hero.STR()-8));
+				}
 			}
 
 			@Override
@@ -570,7 +593,7 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 
 				UnarmedAbilityTracker tracker = Buff.affect(hero, UnarmedAbilityTracker.class);
 				if (!hero.canAttack(enemy)){
-					GLog.w(Messages.get(MeleeWeapon.class, "ability_bad_position"));
+					GLog.w(Messages.get(MeleeWeapon.class, "ability_target_range"));
 					tracker.detach();
 					return;
 				}

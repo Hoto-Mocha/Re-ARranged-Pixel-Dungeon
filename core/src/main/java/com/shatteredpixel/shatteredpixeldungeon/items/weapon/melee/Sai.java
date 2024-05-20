@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -61,10 +62,22 @@ public class Sai extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		Sai.comboStrikeAbility(hero, target, 0.40f, this);
+		//+(3+0.67*lvl) damage, roughly +45% base damage, +45% scaling
+		int dmgBoost = augment.damageFactor(3 + Math.round(0.67f*buffedLvl()));
+		Sai.comboStrikeAbility(hero, target, 0, dmgBoost, this);
 	}
 
-	public static void comboStrikeAbility(Hero hero, Integer target, float boostPerHit, MeleeWeapon wep){
+	@Override
+	public String abilityInfo() {
+		int dmgBoost = levelKnown ? 3 + Math.round(0.67f*buffedLvl()) : 3;
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", augment.damageFactor(dmgBoost));
+		} else {
+			return Messages.get(this, "typical_ability_desc", augment.damageFactor(dmgBoost));
+		}
+	}
+
+	public static void comboStrikeAbility(Hero hero, Integer target, float multiPerHit, int boostPerHit, MeleeWeapon wep){
 		if (target == null) {
 			return;
 		}
@@ -77,7 +90,7 @@ public class Sai extends MeleeWeapon {
 
 		hero.belongings.abilityWeapon = wep;
 		if (!hero.canAttack(enemy)){
-			GLog.w(Messages.get(wep, "ability_bad_position"));
+			GLog.w(Messages.get(wep, "ability_target_range"));
 			hero.belongings.abilityWeapon = null;
 			return;
 		}
@@ -92,11 +105,11 @@ public class Sai extends MeleeWeapon {
 				int recentHits = 0;
 				ComboStrikeTracker buff = hero.buff(ComboStrikeTracker.class);
 				if (buff != null){
-					recentHits = buff.totalHits();
+					recentHits = buff.hits;
 					buff.detach();
 				}
 
-				boolean hit = hero.attack(enemy, 1f + boostPerHit*recentHits, 0, Char.INFINITE_ACCURACY);
+				boolean hit = hero.attack(enemy, 1f + multiPerHit*recentHits, boostPerHit*recentHits, Char.INFINITE_ACCURACY);
 				if (hit && !enemy.isAlive()){
 					wep.onAbilityKill(hero, enemy);
 				}
@@ -118,14 +131,12 @@ public class Sai extends MeleeWeapon {
 			type = buffType.POSITIVE;
 		}
 
-		public static int DURATION = 6; //to account for the turn the attack is made in
-		public int[] hits = new int[DURATION];
+		public static int DURATION = 5;
+		private float comboTime = 0f;
+		public int hits = 0;
 
 		@Override
 		public int icon() {
-			//pre-v2.1 saves
-			if (totalHits() == 0) return BuffIndicator.NONE;
-
 			if (Dungeon.hero.belongings.weapon() instanceof Gloves
 					|| Dungeon.hero.belongings.weapon() instanceof Sai
 					|| Dungeon.hero.belongings.weapon() instanceof Gauntlet
@@ -142,59 +153,63 @@ public class Sai extends MeleeWeapon {
 
 		@Override
 		public boolean act() {
-
-			//shuffle all hits down one turn
-			for (int i = 0; i < DURATION; i++){
-				if (i == DURATION-1){
-					hits[i] = 0;
-				} else {
-					hits[i] =  hits[i+1];
-				}
-			}
-
-			if (totalHits() == 0){
+			comboTime-=TICK;
+			spend(TICK);
+			if (comboTime <= 0) {
 				detach();
 			}
-
-			spend(TICK);
 			return true;
 		}
 
 		public void addHit(){
-			hits[DURATION-1]++;
+			hits++;
+			comboTime = 5f;
+
+			if (hits >= 2 && icon() != BuffIndicator.NONE){
+				GLog.p( Messages.get(Combo.class, "combo", hits) );
+			}
 		}
 
-		public int totalHits(){
-			int sum = 0;
-			for (int i = 0; i < DURATION; i++){
-				sum += hits[i];
-			}
-			return sum;
+		@Override
+		public float iconFadePercent() {
+			return Math.max(0, (DURATION - comboTime)/ DURATION);
 		}
 
 		@Override
 		public String iconTextDisplay() {
-			return Integer.toString(totalHits());
+			return Integer.toString((int)comboTime);
 		}
 
 		@Override
 		public String desc() {
-			return Messages.get(this, "desc", totalHits());
+			return Messages.get(this, "desc", hits, dispTurns(comboTime));
 		}
 
+		private static final String TIME  = "combo_time";
 		public static String RECENT_HITS = "recent_hits";
 
 		@Override
 		public void storeInBundle(Bundle bundle) {
 			super.storeInBundle(bundle);
+			bundle.put(TIME, comboTime);
 			bundle.put(RECENT_HITS, hits);
 		}
 
 		@Override
 		public void restoreFromBundle(Bundle bundle) {
 			super.restoreFromBundle(bundle);
-			if (bundle.contains(RECENT_HITS)) {
-				hits = bundle.getIntArray(RECENT_HITS);
+			if (bundle.contains(TIME)){
+				comboTime = bundle.getInt(TIME);
+				hits = bundle.getInt(RECENT_HITS);
+			} else {
+				//pre-2.4.0 saves
+				comboTime = 5f;
+				hits = 0;
+				if (bundle.contains(RECENT_HITS)) {
+					for (int i : bundle.getIntArray(RECENT_HITS)) {
+						hits += i;
+					}
+				}
 			}
 		}
 	}

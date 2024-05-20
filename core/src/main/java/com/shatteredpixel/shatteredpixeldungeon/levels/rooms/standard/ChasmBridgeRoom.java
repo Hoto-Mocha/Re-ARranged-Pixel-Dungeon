@@ -19,28 +19,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.quest;
+package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard;
 
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 
-//this one's still hanging around to support quests from old saves
-//I may reuse it at some point.
-public class RatSkull extends Item {
-	
-	{
-		image = ItemSpriteSheet.SKULL;
-		
-		unique = true;
+public class ChasmBridgeRoom extends StandardBridgeRoom {
+
+	protected int maxBridgeWidth( int roomDimension ) {
+		return roomDimension >= 7 ? 2 : 1;
 	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
+
+	protected int spaceTile(){
+		return Terrain.CHASM;
 	}
-	
-	@Override
-	public boolean isIdentified() {
-		return true;
-	}
+
 }

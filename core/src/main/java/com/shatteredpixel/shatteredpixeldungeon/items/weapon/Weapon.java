@@ -43,7 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ParchmentScrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Annoying;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Dazzling;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Displacing;
@@ -70,16 +70,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampir
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Venomous;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vorpal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualDagger;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -402,10 +399,10 @@ abstract public class Weapon extends KindOfWeapon {
 		//30% chance to be cursed
 		//10% chance to be enchanted
 		float effectRoll = Random.Float();
-		if (effectRoll < 0.3f) {
+		if (effectRoll < 0.3f * ParchmentScrap.curseChanceMultiplier()) {
 			enchant(Enchantment.randomCurse());
 			cursed = true;
-		} else if (effectRoll >= 0.9f){
+		} else if (effectRoll >= 1f - (0.1f * ParchmentScrap.enchantChanceMultiplier())){
 			enchant();
 		}
 
@@ -483,7 +480,7 @@ abstract public class Weapon extends KindOfWeapon {
 			}
 
 			if (attacker.buff(RunicBlade.RunicSlashTracker.class) != null){
-				multi += 3f;
+				multi += attacker.buff(RunicBlade.RunicSlashTracker.class).boost;
 				attacker.buff(RunicBlade.RunicSlashTracker.class).detach();
 			}
 

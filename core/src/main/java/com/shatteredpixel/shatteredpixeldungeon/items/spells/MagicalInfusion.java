@@ -39,6 +39,8 @@ public class MagicalInfusion extends InventorySpell {
 		image = ItemSpriteSheet.MAGIC_INFUSE;
 
 		unique = true;
+
+		talentFactor = 2;
 	}
 
 	@Override
@@ -73,17 +75,21 @@ public class MagicalInfusion extends InventorySpell {
 	
 	@Override
 	public int value() {
-		//prices of ingredients
-		return (50 + 40) * quantity;
+		return 60 * quantity;
+	}
+
+	@Override
+	public int energyVal() {
+		return 12 * quantity;
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
-			inputs =  new Class[]{ScrollOfUpgrade.class, ArcaneCatalyst.class};
-			inQuantity = new int[]{1, 1};
+			inputs =  new Class[]{ScrollOfUpgrade.class};
+			inQuantity = new int[]{1};
 			
-			cost = 4;
+			cost = 12;
 			
 			output = MagicalInfusion.class;
 			outQuantity = 1;

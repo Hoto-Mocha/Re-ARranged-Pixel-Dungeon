@@ -62,19 +62,13 @@ public class CausticBrew extends Brew {
 		}
 	}
 	
-	@Override
-	public int value() {
-		//prices of ingredients
-		return quantity * (30 + 30);
-	}
-	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
 			inputs =  new Class[]{PotionOfToxicGas.class, GooBlob.class};
 			inQuantity = new int[]{1, 1};
 			
-			cost = 2;
+			cost = 1;
 			
 			output = CausticBrew.class;
 			outQuantity = 1;

@@ -49,6 +49,7 @@ public enum Icons {
 	ROGUE,
 	HUNTRESS,
 	DUELIST,
+	//CLERIC,
 	GUNNER,
 	SAMURAI,
 	ADVENTURER,
@@ -80,6 +81,7 @@ public enum Icons {
 	CHECKED,
 	CLOSE,
 	PLUS,
+	REPEAT,
 	ARROW,
 	INFO,
 	WARNING,
@@ -189,20 +191,23 @@ public enum Icons {
 			case DUELIST:
 				icon.frame( icon.texture.uvRectBySize( 80, 16, 13, 14 ) );
 				break;
+//			case CLERIC:
+//				icon.frame( icon.texture.uvRectBySize( 96, 16, 16, 16 ) );
+//				break;
 			case GUNNER:
-				icon.frame( icon.texture.uvRectBySize( 96, 16, 10, 13 ) );
+				icon.frame( icon.texture.uvRectBySize( 112, 16, 10, 13 ) );
 				break;
 			case SAMURAI:
-				icon.frame( icon.texture.uvRectBySize( 112, 16, 14, 14 ) );
+				icon.frame( icon.texture.uvRectBySize( 128, 16, 14, 14 ) );
 				break;
 			case ADVENTURER:
-				icon.frame( icon.texture.uvRectBySize( 128, 16, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 144, 16, 16, 16 ) );
 				break;
 			case KNIGHT:
-				icon.frame( icon.texture.uvRectBySize( 144, 16, 16, 15 ) );
+				icon.frame( icon.texture.uvRectBySize( 160, 16, 16, 15 ) );
 				break;
 			case NURSE:
-				icon.frame( icon.texture.uvRectBySize( 160, 16, 13, 15 ) );
+				icon.frame( icon.texture.uvRectBySize( 176, 16, 13, 15 ) );
 				break;
 
 			case EXIT:
@@ -275,38 +280,41 @@ public enum Icons {
 			case PLUS:
 				icon.frame( icon.texture.uvRectBySize( 48, 48, 11, 11 ) );
 				break;
-			case ARROW:
+			case REPEAT:
 				icon.frame( icon.texture.uvRectBySize( 64, 48, 11, 11 ) );
 				break;
-			case INFO:
-				icon.frame( icon.texture.uvRectBySize( 80, 48, 14, 14 ) );
+			case ARROW:
+				icon.frame( icon.texture.uvRectBySize( 80, 48, 11, 11 ) );
 				break;
-			case WARNING:
+			case INFO:
 				icon.frame( icon.texture.uvRectBySize( 96, 48, 14, 14 ) );
 				break;
+			case WARNING:
+				icon.frame( icon.texture.uvRectBySize( 112, 48, 14, 14 ) );
+				break;
 			case BACKPACK_LRG:
-				icon.frame( icon.texture.uvRectBySize( 112, 48, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 128, 48, 16, 16 ) );
 				break;
 			case TALENT:
-				icon.frame( icon.texture.uvRectBySize( 128, 48, 13, 13 ) );
+				icon.frame( icon.texture.uvRectBySize( 144, 48, 13, 13 ) );
 				break;
 			case MAGNIFY:
-				icon.frame( icon.texture.uvRectBySize( 144, 48, 14, 14 ) );
+				icon.frame( icon.texture.uvRectBySize( 160, 48, 14, 14 ) );
 				break;
 			case SNAKE:
-				icon.frame( icon.texture.uvRectBySize( 160, 48,  9, 13 ) );
+				icon.frame( icon.texture.uvRectBySize( 176, 48,  9, 13 ) );
 				break;
 			case BUFFS:
-				icon.frame( icon.texture.uvRectBySize( 176, 48, 16, 15 ) );
+				icon.frame( icon.texture.uvRectBySize( 192, 48, 16, 15 ) );
 				break;
 			case ENERGY:
-				icon.frame( icon.texture.uvRectBySize( 192, 48, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 208, 48, 16, 16 ) );
 				break;
 			case COPY:
 				icon.frame( icon.texture.uvRectBySize( 224, 48, 13, 13 ) );
 				break;
 			case PASTE:
-				icon.frame( icon.texture.uvRectBySize( 208, 48, 13, 13 ) );
+				icon.frame( icon.texture.uvRectBySize( 240, 48, 13, 13 ) );
 				break;
 			case COIN_SML:
 				icon.frame( icon.texture.uvRectBySize( 192, 64, 7, 7 ) );
@@ -457,6 +465,8 @@ public enum Icons {
 				return get( Icons.HUNTRESS );
 			case DUELIST:
 				return get( Icons.DUELIST );
+//			case CLERIC:
+//				return get( Icons.CLERIC );
 			case GUNNER:
 				return get( Icons.GUNNER );
 			case SAMURAI:

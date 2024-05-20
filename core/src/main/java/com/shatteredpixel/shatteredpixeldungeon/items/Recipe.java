@@ -29,15 +29,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.changer.BluePrint;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.CausticBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.InfernalBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.ShockingBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.UnstableBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfAquaticRejuvenation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfArcaneArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
@@ -60,13 +62,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfThunderBolt;
 import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfWarding;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.SpellBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.AquaBlast;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.ArcaneCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireImbueSpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireMaker;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.IceMaker;
@@ -75,11 +75,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.RapidGrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Spell;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Xray;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableSpell;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -197,63 +202,53 @@ public abstract class Recipe {
 	};
 	
 	private static Recipe[] oneIngredientRecipes = new Recipe[]{
-			new Scroll.ScrollToStone(),
-			new ExoticPotion.PotionToExotic(),
-			new ExoticScroll.ScrollToExotic(),
-			new ArcaneResin.Recipe(),
-			new Alchemize.Recipe(),
-			new StewedMeat.oneMeat(),
-			new BulletItem.Recipe(),
-			new BulletBelt.Recipe(),
-			new BookOfBlast.Recipe(),
-			new BookOfCorrosion.Recipe(),
-			new BookOfCorruption.Recipe(),
-			new BookOfDisintegration.Recipe(),
-			new BookOfEarth.Recipe(),
-			new BookOfFire.Recipe(),
-			new BookOfFrost.Recipe(),
-			new BookOfLight.Recipe(),
-			new BookOfMagic.Recipe(),
-			new BookOfRegrowth.Recipe(),
-			new BookOfThunderBolt.Recipe(),
-			new BookOfTransfusion.Recipe(),
-			new BookOfWarding.Recipe()
+		new Scroll.ScrollToStone(),
+		new ExoticPotion.PotionToExotic(),
+		new ExoticScroll.ScrollToExotic(),
+		new ArcaneResin.Recipe(),
+		new BlizzardBrew.Recipe(),
+		new InfernalBrew.Recipe(),
+		new AquaBrew.Recipe(),
+		new ShockingBrew.Recipe(),
+		new ElixirOfDragonsBlood.Recipe(),
+		new ElixirOfIcyTouch.Recipe(),
+		new ElixirOfToxicEssence.Recipe(),
+		new ElixirOfMight.Recipe(),
+		new ElixirOfFeatherFall.Recipe(),
+		new MagicalInfusion.Recipe(),
+		new BeaconOfReturning.Recipe(),
+		new PhaseShift.Recipe(),
+		new Recycle.Recipe(),
+		new TelekineticGrab.Recipe(),
+		new SummonElemental.Recipe(),
+		new StewedMeat.oneMeat(),
+		new TrinketCatalyst.Recipe(),
+		new Trinket.UpgradeTrinket(),
+		new BulletItem.Recipe(),
+		new BulletBelt.Recipe(),
+		new SpellBook.WandToSpellBook()
 	};
 	
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
-			new Blandfruit.CookFruit(),
-			new Bomb.EnhanceBomb(),
-			new AlchemicalCatalyst.Recipe(),
-			new ArcaneCatalyst.Recipe(),
-			new ElixirOfArcaneArmor.Recipe(),
-			new ElixirOfAquaticRejuvenation.Recipe(),
-			new ElixirOfDragonsBlood.Recipe(),
-			new ElixirOfIcyTouch.Recipe(),
-			new ElixirOfMight.Recipe(),
-			new ElixirOfHoneyedHealing.Recipe(),
-			new ElixirOfToxicEssence.Recipe(),
-			new BlizzardBrew.Recipe(),
-			new InfernalBrew.Recipe(),
-			new ShockingBrew.Recipe(),
-			new CausticBrew.Recipe(),
-			new AquaBlast.Recipe(),
-			new BeaconOfReturning.Recipe(),
-			new CurseInfusion.Recipe(),
-			new FeatherFall.Recipe(),
-			new MagicalInfusion.Recipe(),
-			new PhaseShift.Recipe(),
-			new ReclaimTrap.Recipe(),
-			new Recycle.Recipe(),
-			new WildEnergy.Recipe(),
-			new TelekineticGrab.Recipe(),
-			new SummonElemental.Recipe(),
-			new StewedMeat.twoMeat(),
-			new GunSmithingTool.Recipe(),
-			new Evolution.Recipe(),
-			new UpgradeDust.Recipe(),
-			new FireMaker.Recipe(),
-			new IceMaker.Recipe(),
-			new RapidGrowth.Recipe()
+		new Blandfruit.CookFruit(),
+		new Bomb.EnhanceBomb(),
+		new UnstableBrew.Recipe(),
+		new CausticBrew.Recipe(),
+		new ElixirOfArcaneArmor.Recipe(),
+		new ElixirOfAquaticRejuvenation.Recipe(),
+		new ElixirOfHoneyedHealing.Recipe(),
+		new UnstableSpell.Recipe(),
+		new Alchemize.Recipe(),
+		new CurseInfusion.Recipe(),
+		new ReclaimTrap.Recipe(),
+		new WildEnergy.Recipe(),
+		new StewedMeat.twoMeat(),
+		new GunSmithingTool.Recipe(),
+		new Evolution.Recipe(),
+		new UpgradeDust.Recipe(),
+		new FireMaker.Recipe(),
+		new IceMaker.Recipe(),
+		new RapidGrowth.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
