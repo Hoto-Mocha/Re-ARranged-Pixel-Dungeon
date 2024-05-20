@@ -143,52 +143,20 @@ public enum HeroClass {
 
 		new ScrollOfIdentify().identify();
 
-		if (DeviceCompat.isDebug()) {
+		if (DeviceCompat.isDebug() || SPDSettings.customSeed().contains("test")) {
 			new RingOfMight().identify().upgrade(10).collect();
-//			new AR_T1().identify().upgrade().collect();
 			new RingOfHaste().upgrade(100).collect();
 			new RingOfAccuracy().upgrade(100).collect();
-//			new BulletBelt().quantity(20).collect();
-//			new GunSmithingTool().quantity(20).collect();
 			new AlchemistsToolkit().identify().upgrade(10).collect();
-//			new DriedRose().identify().upgrade(10).collect();
-//			new Spear().identify().collect();
-			new AR_T2().identify().collect();
-//			new RL_T4().identify().collect();
-//			new RL_T5().identify().collect();
-//			new RL_T6().identify().collect();
-//			new Greatsword().identify().collect();
-//			new Evolution().quantity(200).collect();
-//			new FT_T5().identify().collect();
-//			new LG_T5().identify().collect();
 			new ElixirOfHoneyedHealing().identify().quantity(500).collect();
-//			new ScrollOfUpgrade().identify().quantity(500).collect();
-//			new ScrollOfTransmutation().identify().quantity(500).collect();
-//			new ScrollOfMetamorphosis().identify().quantity(500).collect();
 			new PotionOfExperience().identify().quantity(29).collect();
-//			new PotionOfStrength().identify().quantity(29).collect();
-//			new PlateArmor().identify().upgrade(100).collect();
 			new PlateArmor().identify().upgrade(100).collect();
 			new TacticalShield().identify().upgrade(100).collect();
-//			new AR_T1().identify().collect();
-//			new HolySword().identify().collect();
 			new GunSmithingTool().quantity(200).collect();
-//			new BookOfTransfusion().collect();
-//			new BeamSaber().identify().collect();
 			new Teleporter().collect();
 			new TengusMask().collect();
 			new KingsCrown().collect();
-//			new Pasty().quantity(100).collect();
-//			new ScrollOfPassage().identify().collect();
-//			new LiquidMetal().quantity(500).collect();
-//			new ArcaneResin().quantity(500).collect();
-//			new Evolution().quantity(500).collect();
-//			new UpgradeDust().quantity(500).collect();
-//			new Spear().identify().collect();
-//			new RoundShield().identify().collect();
-//			new ScrollOfMagicMapping().identify().quantity(100).collect();
 			new OldAmulet().collect();
-//			new PotionOfMindVision().identify().quantity(100).collect();
 		}
 
 		switch (this) {
