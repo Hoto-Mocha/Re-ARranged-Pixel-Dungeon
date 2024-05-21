@@ -139,7 +139,7 @@ public class Hunger extends Buff implements Hero.Doom {
 			return;
 		}
 
-		if (energy > 0) {
+		if (energy > 0 && target.sprite != null) {
 			target.sprite.emitter().burst(Speck.factory(Speck.HUNGER), 1);
 		}
 

@@ -36,17 +36,15 @@ public class Xray extends Spell {
 	
 	{
 		image = ItemSpriteSheet.XRAY;
+		talentChance = 1/(float) Recipe.OUT_QUANTITY;
 	}
 	
 	@Override
 	protected void onCast(Hero hero) {
 		Buff.affect(hero, Awareness.class, 2f);
-		hero.sprite.operate(hero.pos);
-		Sample.INSTANCE.play(Assets.Sounds.READ );
 		
 		GLog.p(Messages.get(this, "xray"));
-		
-		detach( curUser.belongings.backpack );
+
 		updateQuickslot();
 		hero.spendAndNext( 1f );
 	}
@@ -54,16 +52,23 @@ public class Xray extends Spell {
 	@Override
 	public int value() {
 		//prices of ingredients, divided by output quantity
-		return Math.round(quantity * ((50+50+40) / 2f));
+		return Math.round(quantity * ((50+50+40) /(float) Recipe.OUT_QUANTITY));
+	}
+
+	@Override
+	public int energyVal() {
+		return (int)(32 * (quantity/(float) Recipe.OUT_QUANTITY));
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+		private static final int OUT_QUANTITY = 2;
 		
 		{
 			inputs =  new Class[]{PotionOfMagicalSight.class, ScrollOfForesight.class};
-			inQuantity = new int[]{1, 1, 1};
+			inQuantity = new int[]{1, 1};
 			
-			cost = 12;
+			cost = 10;
 			
 			output = Xray.class;
 			outQuantity = 2;

@@ -29,6 +29,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.IceMaker;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -42,6 +44,8 @@ public class ElixirOfTalent extends Elixir {
 	
 	{
 		image = ItemSpriteSheet.BREW_TALENT;
+
+		talentFactor = 4f;
 	}
 	
 	@Override
@@ -95,7 +99,12 @@ public class ElixirOfTalent extends Elixir {
 	@Override
 	public int value() {
 		//prices of ingredients
-		return quantity * (50 + 70 + 40);
+		return Math.round(((50 + 70 + 40) * (quantity/(float) Recipe.OUT_QUANTITY)));
+	}
+
+	@Override
+	public int energyVal() {
+		return (int)(40 * (quantity/(float) Recipe.OUT_QUANTITY));
 	}
 
 	public static class BonusTalentTracker extends Buff {
@@ -118,10 +127,12 @@ public class ElixirOfTalent extends Elixir {
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+		private static final int OUT_QUANTITY = 1;
 		
 		{
 			inputs =  new Class[]{PotionOfStrength.class, ElixirOfMight.class};
-			inQuantity = new int[]{1, 1, 1};
+			inQuantity = new int[]{1, 1};
 			
 			cost = 14;
 			

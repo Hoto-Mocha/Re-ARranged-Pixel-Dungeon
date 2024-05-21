@@ -1377,6 +1377,8 @@ public class ItemSpriteSheet {
 	public static final int ADVANCED_EVOLUTION	= NEW_SPELLS+6;
 	public static final int EVOLUTION			= NEW_SPELLS+7;
 	public static final int UPGRADE_DUST		= NEW_SPELLS+8;
+	public static final int ELECTRICITY_IMBUE	= NEW_SPELLS+9;
+	public static final int UNSTABLE_IDENTIFY	= NEW_SPELLS+10;
 	static{
 		assignItemRect(FIRE_IMBUE			, 11, 11);
 		assignItemRect(XRAY					, 11, 11);
@@ -1387,6 +1389,8 @@ public class ItemSpriteSheet {
 		assignItemRect(ADVANCED_EVOLUTION	, 10, 15);
 		assignItemRect(EVOLUTION			, 10, 15);
 		assignItemRect(UPGRADE_DUST			, 12, 11);
+		assignItemRect(ELECTRICITY_IMBUE	, 12, 11);
+		assignItemRect(UNSTABLE_IDENTIFY	, 12, 11);
 	}
 
 	// ****** new sprites end ******

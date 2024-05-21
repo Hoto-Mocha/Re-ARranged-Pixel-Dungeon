@@ -64,18 +64,4 @@ public class HandyBarricade extends TargetedSpell {
 		//prices of ingredients, divided by output quantity
 		return Math.round(quantity * ((60 + 40) / 12f));
 	}
-	
-	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
-		{
-			inputs =  new Class[]{PotionOfStormClouds.class};
-			inQuantity = new int[]{1, 1};
-			
-			cost = 10;
-			
-			output = HandyBarricade.class;
-			outQuantity = 12;
-		}
-		
-	}
 }

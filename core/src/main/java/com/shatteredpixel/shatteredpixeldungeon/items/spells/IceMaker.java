@@ -34,6 +34,7 @@ public class IceMaker extends TargetedSpell {
 	{
 		image = ItemSpriteSheet.ICEMAKER;
 		usesTargeting = true;
+		talentChance = 1/(float) Recipe.OUT_QUANTITY;
 	}
 	
 	@Override
@@ -46,16 +47,23 @@ public class IceMaker extends TargetedSpell {
 	@Override
 	public int value() {
 		//prices of ingredients, divided by output quantity
-		return Math.round(quantity * ((50 + 40) / 8f));
+		return Math.round((50 + 40) * (quantity/(float) Recipe.OUT_QUANTITY));
+	}
+
+	@Override
+	public int energyVal() {
+		return (int)(16 * (quantity/(float) Recipe.OUT_QUANTITY));
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+		private static final int OUT_QUANTITY = 8;
 		
 		{
 			inputs =  new Class[]{PotionOfSnapFreeze.class};
-			inQuantity = new int[]{1, 1};
+			inQuantity = new int[]{1};
 			
-			cost = 12;
+			cost = 6;
 			
 			output = IceMaker.class;
 			outQuantity = 8;

@@ -43,6 +43,8 @@ public class FireImbueSpell extends Spell {
 	{
 		image = ItemSpriteSheet.FIRE_IMBUE;
 
+		talentChance = 0;
+
 		unique = true;
 		bones = false;
 	}
@@ -112,7 +114,7 @@ public class FireImbueSpell extends Spell {
 		
 		{
 			inputs =  new Class[]{ElixirOfDragonsBlood.class, Embers.class};
-			inQuantity = new int[]{1, 1, 1};
+			inQuantity = new int[]{1, 1};
 			
 			cost = 18;
 			

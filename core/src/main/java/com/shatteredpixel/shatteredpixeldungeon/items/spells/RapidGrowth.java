@@ -34,6 +34,7 @@ public class RapidGrowth extends TargetedSpell {
 	{
 		image = ItemSpriteSheet.RAPID_GROWTH;
 		usesTargeting = true;
+		talentChance = 1/(float) Recipe.OUT_QUANTITY;
 	}
 	
 	@Override
@@ -46,16 +47,23 @@ public class RapidGrowth extends TargetedSpell {
 	@Override
 	public int value() {
 		//prices of ingredients, divided by output quantity
-		return Math.round(quantity * ((30 + 40) / 8f));
+		return Math.round(quantity * ((30 + 40) /(float) Recipe.OUT_QUANTITY));
+	}
+
+	@Override
+	public int energyVal() {
+		return (int)(14 * (quantity/(float) Recipe.OUT_QUANTITY));
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
+
+		private static final int OUT_QUANTITY = 8;
 		
 		{
 			inputs =  new Class[]{PotionOfHealing.class};
-			inQuantity = new int[]{1, 1};
+			inQuantity = new int[]{1};
 			
-			cost = 14;
+			cost = 8;
 			
 			output = RapidGrowth.class;
 			outQuantity = 8;

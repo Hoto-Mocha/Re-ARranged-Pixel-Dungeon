@@ -66,6 +66,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.SpellBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ElectricityImbue;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireImbueSpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireMaker;
@@ -78,6 +79,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Spell;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableIdentification;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Xray;
@@ -226,7 +228,12 @@ public abstract class Recipe {
 		new Trinket.UpgradeTrinket(),
 		new BulletItem.Recipe(),
 		new BulletBelt.Recipe(),
-		new SpellBook.WandToSpellBook()
+		new SpellBook.WandToSpellBook(),
+		new UpgradeDust.Recipe(),
+		new FireMaker.Recipe(),
+		new IceMaker.Recipe(),
+		new RapidGrowth.Recipe(),
+		new ElectricityImbue.Recipe()
 	};
 	
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
@@ -245,21 +252,18 @@ public abstract class Recipe {
 		new StewedMeat.twoMeat(),
 		new GunSmithingTool.Recipe(),
 		new Evolution.Recipe(),
-		new UpgradeDust.Recipe(),
-		new FireMaker.Recipe(),
-		new IceMaker.Recipe(),
-		new RapidGrowth.Recipe()
+		new Xray.Recipe(),
+		new FireImbueSpell.Recipe(),
+		new ElixirOfTalent.Recipe(),
+		new UnstableIdentification.Recipe()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
-			new Potion.SeedToPotion(),
-			new StewedMeat.threeMeat(),
-			new MeatPie.Recipe(),
-			new BluePrint.Recipe(),
-			new Xray.Recipe(),
-			new FireImbueSpell.Recipe(),
-			new ElixirOfTalent.Recipe(),
-			new Cross.Recipe()
+		new Potion.SeedToPotion(),
+		new StewedMeat.threeMeat(),
+		new MeatPie.Recipe(),
+		new BluePrint.Recipe(),
+		new Cross.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){

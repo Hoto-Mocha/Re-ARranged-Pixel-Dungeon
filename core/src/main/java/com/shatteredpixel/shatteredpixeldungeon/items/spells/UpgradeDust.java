@@ -45,6 +45,7 @@ public class UpgradeDust extends Spell {
 	
 	{
 		image = ItemSpriteSheet.UPGRADE_DUST;
+		talentChance = 1/(float) Recipe.OUT_QUANTITY;
 	}
 	
 	@Override
@@ -147,16 +148,23 @@ public class UpgradeDust extends Spell {
 	@Override
 	public int value() {
 		//prices of ingredients, divided by output quantity
-		return (40 + 40)/quantity;
+		return Math.round((40 + 40)/(float) Recipe.OUT_QUANTITY);
+	}
+
+	@Override
+	public int energyVal() {
+		return (int)(12 * (quantity/(float) Recipe.OUT_QUANTITY));
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
+		private static final int OUT_QUANTITY = 2;
+
 		{
 			inputs =  new Class[]{LiquidMetal.class};
-			inQuantity = new int[]{40, 1};
+			inQuantity = new int[]{40};
 
-			cost = 11;
+			cost = 12;
 
 			output = UpgradeDust.class;
 			outQuantity = 2;
