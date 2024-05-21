@@ -37,13 +37,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -107,16 +106,11 @@ public class UnholyBible extends MeleeWeapon implements AlchemyWeapon {
 	}
 
 	@Override
-	protected int baseChargeUse(Hero hero, Char target){
-		return 2;
-	}
-
-	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		angelAbility(hero, 5, this);
+		demonAbility(hero, 5+buffedLvl(), this);
 	}
 
-	public static void angelAbility(Hero hero, int duration, MeleeWeapon wep){
+	public static void demonAbility(Hero hero, int duration, MeleeWeapon wep){
 		wep.beforeAbilityUsed(hero, null);
 		Buff.prolong(hero, Demon.class, duration);
 		hero.next();
@@ -126,6 +120,16 @@ public class UnholyBible extends MeleeWeapon implements AlchemyWeapon {
 		Sample.INSTANCE.play( Assets.Sounds.CHALLENGE );
 		Sample.INSTANCE.play( Assets.Sounds.READ );
 		wep.afterAbilityUsed(hero);
+	}
+
+	@Override
+	public String abilityInfo() {
+		int duration = levelKnown ? 6+buffedLvl() : 6;
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", duration);
+		} else {
+			return Messages.get(this, "typical_ability_desc", duration);
+		}
 	}
 
 	public static class Demon extends FlavourBuff {

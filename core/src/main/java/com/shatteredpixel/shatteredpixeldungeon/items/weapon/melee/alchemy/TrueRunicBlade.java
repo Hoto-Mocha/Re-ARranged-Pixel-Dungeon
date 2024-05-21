@@ -59,15 +59,16 @@ public class TrueRunicBlade extends MeleeWeapon implements AlchemyWeapon {
 
         Char enemy = Actor.findChar(target);
         if (enemy == null || enemy == hero || hero.isCharmedBy(enemy) || !Dungeon.level.heroFOV[target]) {
-            GLog.w(Messages.get(RunicBlade.class, "ability_no_target"));
+            GLog.w(Messages.get(this, "ability_no_target"));
             return;
         }
 
         //we apply here because of projecting
         RunicBlade.RunicSlashTracker tracker = Buff.affect(hero, RunicBlade.RunicSlashTracker.class);
+        tracker.boost = 2f + 0.50f*buffedLvl();
         hero.belongings.abilityWeapon = this;
         if (!hero.canAttack(enemy)){
-            GLog.w(Messages.get(RunicBlade.class, "ability_bad_position"));
+            GLog.w(Messages.get(this, "ability_target_range"));
             tracker.detach();
             hero.belongings.abilityWeapon = null;
             return;
@@ -91,6 +92,15 @@ public class TrueRunicBlade extends MeleeWeapon implements AlchemyWeapon {
                 afterAbilityUsed(hero);
             }
         });
+    }
+
+    @Override
+    public String abilityInfo() {
+        if (levelKnown){
+            return Messages.get(this, "ability_desc", 200+50*buffedLvl());
+        } else {
+            return Messages.get(this, "typical_ability_desc", 200);
+        }
     }
 
     public static class TrueRunicSlashTracker extends FlavourBuff{};

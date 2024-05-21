@@ -366,6 +366,19 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe( new ArcaneResin.Recipe(),
 						new ArrayList<Item>(Arrays.asList(new Wand.PlaceHolder())),
 						new ArcaneResin()));
+				result.add(new QuickRecipe( new SpellBook.WandToSpellBook(),
+						new ArrayList<Item>(Arrays.asList(new Wand.PlaceHolder())),
+						new WndBag.Placeholder(ItemSpriteSheet.SPELLBOOK_HOLDER) {
+							@Override
+							public String name() {
+								return Messages.get(SpellBook.WandToSpellBook.class, "name");
+							}
+
+							@Override
+							public String info() {
+								return "";
+							}
+						}));
 				result.add(new QuickRecipe(new UpgradeDust.Recipe()));
 				result.add(null);
 				result.add(null);
@@ -381,10 +394,6 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new BulletBelt.Recipe()));
 				result.add(new QuickRecipe(new GunSmithingTool.Recipe()));
 				result.add(null);
-				result.add(null);
-				result.add(new QuickRecipe( new SpellBook.WandToSpellBook(),
-						new ArrayList<Item>(Arrays.asList(new Wand.PlaceHolder())),
-						new WndBag.Placeholder(ItemSpriteSheet.SPELLBOOK_HOLDER)));
 				result.add(null);
 				result.add(new QuickRecipe(new Cross.Recipe()));
 

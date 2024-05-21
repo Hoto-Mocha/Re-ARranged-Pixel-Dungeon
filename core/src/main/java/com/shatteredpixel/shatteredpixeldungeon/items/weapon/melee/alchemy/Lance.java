@@ -75,7 +75,7 @@ public class Lance extends MeleeWeapon implements AlchemyWeapon {
             return;
         }
 
-        int range = 3;
+        int range = 3+wep.buffedLvl();
 
         if (Dungeon.level.distance(hero.pos, target) > range){
             GLog.w(Messages.get(MeleeWeapon.class, "ability_bad_position"));
@@ -92,7 +92,7 @@ public class Lance extends MeleeWeapon implements AlchemyWeapon {
         }
         wep.beforeAbilityUsed(hero, null);
 
-        Buff.affect(hero, LanceBuff.class).setDamageFactor(2*(1+Dungeon.level.distance(hero.pos, target)), hero.belongings.secondWep == wep);
+        Buff.affect(hero, LanceBuff.class).setDamageFactor(1+Dungeon.level.distance(hero.pos, target), hero.belongings.secondWep == wep);
 
         hero.busy();
         Sample.INSTANCE.play(Assets.Sounds.MISS);
@@ -109,6 +109,16 @@ public class Lance extends MeleeWeapon implements AlchemyWeapon {
             }
         });
         wep.afterAbilityUsed(hero);
+    }
+
+    @Override
+    public String abilityInfo() {
+        int range = levelKnown ? 3+buffedLvl() : 3;
+        if (levelKnown){
+            return Messages.get(this, "ability_desc", range);
+        } else {
+            return Messages.get(this, "typical_ability_desc", range);
+        }
     }
 
     public static class LanceBuff extends Buff {

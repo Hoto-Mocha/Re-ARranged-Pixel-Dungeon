@@ -52,10 +52,10 @@ public class RapidGrowth extends TargetedSpell {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
-			inputs =  new Class[]{PotionOfHealing.class, ArcaneCatalyst.class};
+			inputs =  new Class[]{PotionOfHealing.class};
 			inQuantity = new int[]{1, 1};
 			
-			cost = 6;
+			cost = 14;
 			
 			output = RapidGrowth.class;
 			outQuantity = 8;

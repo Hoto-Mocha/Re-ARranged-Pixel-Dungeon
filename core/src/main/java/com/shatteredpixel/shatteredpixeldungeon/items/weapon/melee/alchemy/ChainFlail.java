@@ -62,19 +62,19 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 				lvl*(tier+3);  //+9 per level
 	}
 
-	private static float spinBonus = 1f;
+	private static int spinBoost = 0;
 
 	@Override
 	public int damageRoll(Char owner) {
-		int dmg = Math.round(super.damageRoll(owner) * spinBonus);
-		if (spinBonus > 1f) Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
-		spinBonus = 1f;
+		int dmg = super.damageRoll(owner) + spinBoost;
+		if (spinBoost > 0) Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+		spinBoost = 0;
 		return dmg;
 	}
 
 	@Override
 	public float accuracyFactor(Char owner, Char target) {
-		SpinAbilityTracker spin = owner.buff(SpinAbilityTracker.class);
+		Flail.SpinAbilityTracker spin = owner.buff(Flail.SpinAbilityTracker.class);
 		if (spin != null) {
 			Actor.add(new Actor() {
 				{ actPriority = VFX_PRIO; }
@@ -89,10 +89,11 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 			});
 			//we detach and calculate bonus here in case the attack misses (e.g. vs. monks)
 			spin.detach();
-			spinBonus = 1f + (spin.spins/5f);
+			//roughly +20% base damage
+			spinBoost = spin.spins * augment.damageFactor(Math.round(0.2f*max(buffedLvl())));
 			return Float.POSITIVE_INFINITY;
 		} else {
-			spinBonus = 1f;
+			spinBoost = 0;
 			return super.accuracyFactor(owner, target);
 		}
 	}
@@ -102,7 +103,7 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 		if (Dungeon.hero.buff(SpinAbilityTracker.class) != null){
 			return 0;
 		} else {
-			return 2;
+			return 1;
 		}
 	}
 
@@ -128,6 +129,16 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 		BuffIndicator.refreshHero();
 
 		afterAbilityUsed(hero);
+	}
+
+	@Override
+	public String abilityInfo() {
+		int dmgBoost = levelKnown ? Math.round(0.2f*max()) : Math.round(0.2f*max(0));
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+		} else {
+			return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+		}
 	}
 
 	public static class SpinAbilityTracker extends FlavourBuff {

@@ -76,6 +76,15 @@ public class SharpKatana extends MeleeWeapon implements AlchemyWeapon {
     }
 
     @Override
+    public String abilityInfo() {
+        if (levelKnown){
+            return Messages.get(this, "ability_desc", Messages.decimalFormat("#.##", 0.35f));
+        } else {
+            return Messages.get(this, "typical_ability_desc", Messages.decimalFormat("#.##", 0.35f));
+        }
+    }
+
+    @Override
     public ArrayList<Class<?extends Item>> weaponRecipe() {
         return new ArrayList<>(Arrays.asList(LargeKatana.class, UpgradeDust.class, Evolution.class));
     }

@@ -240,8 +240,7 @@ public class ItemSlot extends Button {
 
 		if (item instanceof Gun
 				&& Dungeon.hero.buff(MeleeWeapon.Charger.class) != null) {
-			if ((Dungeon.hero.belongings.weapon() == item && Dungeon.hero.buff(MeleeWeapon.Charger.class).charges >= 2)
-					|| Dungeon.hero.belongings.secondWep() == item && Dungeon.hero.buff(MeleeWeapon.Charger.class).secondCharges >= 2) {
+			if ((Dungeon.hero.belongings.weapon() == item || Dungeon.hero.belongings.secondWep() == item && Dungeon.hero.buff(MeleeWeapon.Charger.class).charges >= 2)) {
 				status.hardlight(ENHANCED);
 			}
 		}

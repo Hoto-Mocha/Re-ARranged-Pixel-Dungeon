@@ -65,20 +65,6 @@ public class BookOfWarding extends SpellBook {
         return info;
     }
 
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{WandOfWarding.class};
-            inQuantity = new int[]{1};
-
-            cost = 5;
-
-            output = BookOfWarding.class;
-            outQuantity = 1;
-        }
-
-    }
-
     public static int spawnImages( int centerPos, int amount, int distance ){
         ArrayList<Integer> respawnPoints = new ArrayList<>();
         PathFinder.buildDistanceMap( centerPos, BArray.or( Dungeon.level.passable, Dungeon.level.avoid, null ), distance );

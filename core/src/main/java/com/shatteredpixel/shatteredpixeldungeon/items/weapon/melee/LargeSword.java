@@ -83,10 +83,19 @@ public class LargeSword extends MeleeWeapon {
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 		beforeAbilityUsed(hero, null);
-		Buff.affect(hero, LargeSwordBuff.class).setDamageFactor(this.buffedLvl(), 4, (Dungeon.hero.belongings.secondWep instanceof LargeSword));
+		Buff.affect(hero, LargeSwordBuff.class).setDamageFactor(this.buffedLvl(), 4+buffedLvl(), (Dungeon.hero.belongings.secondWep instanceof LargeSword));
 		hero.sprite.operate(hero.pos);
 		hero.spendAndNext(Actor.TICK);
 		afterAbilityUsed(hero);
+	}
+
+	@Override
+	public String abilityInfo() {
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", 4+buffedLvl());
+		} else {
+			return Messages.get(this, "typical_ability_desc", 4);
+		}
 	}
 
 	public static class LargeSwordBuff extends Buff {

@@ -166,10 +166,10 @@ public class Evolution extends InventorySpell {
 
     public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
         {
-            inputs =  new Class[]{ScrollOfTransmutation.class, ArcaneCatalyst.class};
+            inputs =  new Class[]{ScrollOfTransmutation.class, UnstableSpell.class};
             inQuantity = new int[]{1, 1};
 
-            cost = 3;
+            cost = 4;
 
             output = Evolution.class;
             outQuantity = 1;

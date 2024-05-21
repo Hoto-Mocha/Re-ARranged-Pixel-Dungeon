@@ -9,10 +9,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DistortionTrap;
@@ -41,6 +44,7 @@ public class Teleporter extends Item {
     String AC_RANDOMSPAWN = "randomSpawn";
     String AC_GETITEM = "getItem";
     String AC_MAPPING = "mapping";
+    String AC_LEVELUP = "levelUp";
 
     static ArrayList<Class<?>> itemClass = new ArrayList<>();
 
@@ -79,7 +83,22 @@ public class Teleporter extends Item {
             itemClass.add(classes);
             itemClass.add(ExoticScroll.regToExo.get(classes));
         }
-        Collections.addAll(itemClass, Honeypot.class, Bomb.class, TengusMask.class, KingsCrown.class, EnergyCrystal.class, Stylus.class, Torch.class, Gold.class, BulletItem.class, BulletBelt.class, Ankh.class, LiquidMetal.class, Pickaxe.class);
+        Collections.addAll(itemClass,
+                Honeypot.class,
+                Bomb.class,
+                TengusMask.class,
+                KingsCrown.class,
+                EnergyCrystal.class,
+                Stylus.class,
+                Torch.class,
+                Gold.class,
+                BulletItem.class,
+                BulletBelt.class,
+                Ankh.class,
+                LiquidMetal.class,
+                Pickaxe.class,
+                UpgradeDust.class
+        );
     }
 
     @Override
@@ -91,6 +110,7 @@ public class Teleporter extends Item {
         actions.add(AC_RANDOMSPAWN);
         actions.add(AC_GETITEM);
         actions.add(AC_MAPPING);
+        actions.add(AC_LEVELUP);
         return actions;
     }
 
@@ -292,6 +312,12 @@ public class Teleporter extends Item {
             }
 
             SpellSprite.show( curUser, SpellSprite.MAP );
+        }
+        if (action.equals(AC_LEVELUP)) {
+            for (int lvl = hero.lvl; lvl < 30; lvl++) {
+                Potion expPotion = new PotionOfExperience();
+                expPotion.apply(hero);
+            }
         }
     }
 

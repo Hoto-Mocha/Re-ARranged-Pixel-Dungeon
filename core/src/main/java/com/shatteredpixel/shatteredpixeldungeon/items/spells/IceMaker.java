@@ -52,10 +52,10 @@ public class IceMaker extends TargetedSpell {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
-			inputs =  new Class[]{PotionOfSnapFreeze.class, ArcaneCatalyst.class};
+			inputs =  new Class[]{PotionOfSnapFreeze.class};
 			inQuantity = new int[]{1, 1};
 			
-			cost = 4;
+			cost = 12;
 			
 			output = IceMaker.class;
 			outQuantity = 8;

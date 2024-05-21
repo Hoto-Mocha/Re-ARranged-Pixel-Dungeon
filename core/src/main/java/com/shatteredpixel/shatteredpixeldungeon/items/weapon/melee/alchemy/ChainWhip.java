@@ -69,7 +69,7 @@ public class ChainWhip extends MeleeWeapon implements AlchemyWeapon {
         hero.belongings.abilityWeapon = null;
 
         if (targets.isEmpty()) {
-            GLog.w(Messages.get(Whip.class, "ability_no_target"));
+            GLog.w(Messages.get(this, "ability_no_target"));
             return;
         }
 
@@ -79,8 +79,10 @@ public class ChainWhip extends MeleeWeapon implements AlchemyWeapon {
             @Override
             public void call() {
                 beforeAbilityUsed(hero, finalClosest);
+                //roughly +10% base damage
+                int dmgBoost = augment.damageFactor(Math.round(0.1f*max(buffedLvl())));
                 for (Char ch : targets) {
-                    hero.attack(ch, 1, 0, ch == finalClosest ? Char.INFINITE_ACCURACY : 1);
+                    hero.attack(ch, 1, dmgBoost, Char.INFINITE_ACCURACY);
                     if (!ch.isAlive()){
                         onAbilityKill(hero, ch);
                     }
@@ -90,6 +92,16 @@ public class ChainWhip extends MeleeWeapon implements AlchemyWeapon {
                 afterAbilityUsed(hero);
             }
         });
+    }
+
+    @Override
+    public String abilityInfo() {
+        int dmgBoost = levelKnown ? Math.round(0.1f*max()) : Math.round(0.1f*max(0));
+        if (levelKnown){
+            return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+        } else {
+            return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+        }
     }
 
     @Override

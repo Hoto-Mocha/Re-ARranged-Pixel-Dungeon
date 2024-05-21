@@ -8,7 +8,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Barricade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Cannon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.MachineGun;
@@ -23,18 +22,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MinersTool;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
-import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBuild;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.Callback;
 import com.watabou.utils.Point;
 
 public class Build extends Buff implements ActionIndicator.Action {
@@ -153,7 +151,22 @@ public class Build extends Buff implements ActionIndicator.Action {
         GameScene.selectCell(builder);
     }
 
-    public boolean isBuildable(int target) {
+    public boolean isBuildable(int target, boolean isEntity) {
+        if (!isEntity) { //건설하고자 하는 대상이 엔티티(모래 바리케이드, 감시 타워, 야포, 거치형 기관총, 박격포)가 아닐 경우 커스텀 타일에 대한 건설을 막음
+            Point p = Dungeon.level.cellToPoint(target);
+            //if a custom tilemap is over that cell, don't put wire there
+            for (CustomTilemap cust : Dungeon.level.customTiles){
+                Point custPoint = new Point(p);
+                custPoint.x -= cust.tileX;
+                custPoint.y -= cust.tileY;
+                if (custPoint.x >= 0 && custPoint.y >= 0
+                        && custPoint.x < cust.tileW && custPoint.y < cust.tileH){
+                    if (cust.image(custPoint.x, custPoint.y) != null){
+                        return false;
+                    }
+                }
+            }
+        }
         return Dungeon.level.passable[target]
                 && Dungeon.level.map[target] != Terrain.ENTRANCE
                 && Dungeon.level.map[target] != Terrain.UNLOCKED_EXIT
@@ -184,7 +197,7 @@ public class Build extends Buff implements ActionIndicator.Action {
                 }
                 switch (beingBuilt) {
                     case WALL:
-                        if (isBuildable(target)) {
+                        if (isBuildable(target, false)) {
                             buildEffect(target);
                             //나무 벽 건설
                             Level.set(target, Terrain.BARRICADE);
@@ -229,7 +242,7 @@ public class Build extends Buff implements ActionIndicator.Action {
                                 GLog.w(Messages.get(Build.class, "cant_regular"));
                                 return;
                             }
-                            if (isBuildable(target)) {
+                            if (isBuildable(target, false)) {
                                 hero.sprite.operate(target);
                                 hero.spend(3f);
                                 hero.buff(Hunger.class).affectHunger(-3);
@@ -282,7 +295,7 @@ public class Build extends Buff implements ActionIndicator.Action {
                         }
                         break;
                     case BARRICADE:
-                        if (!isBuildable(target)) {
+                        if (!isBuildable(target, true)) {
                             GLog.w(Messages.get(Build.class, "invalid"));
                             return;
                         }
@@ -306,7 +319,7 @@ public class Build extends Buff implements ActionIndicator.Action {
                         }
                         break;
                     case WIRE:
-                        if (!isBuildable(target)) {
+                        if (!isBuildable(target, false)) {
                             GLog.w(Messages.get(Build.class, "invalid"));
                             return;
                         }
@@ -321,7 +334,7 @@ public class Build extends Buff implements ActionIndicator.Action {
                         }
                         break;
                     case WATCHTOWER:
-                        if (!isBuildable(target)) {
+                        if (!isBuildable(target, true)) {
                             GLog.w(Messages.get(Build.class, "invalid"));
                             return;
                         }
@@ -346,7 +359,7 @@ public class Build extends Buff implements ActionIndicator.Action {
                         }
                         break;
                     case CANNON:
-                        if (!isBuildable(target)) {
+                        if (!isBuildable(target, true)) {
                             GLog.w(Messages.get(Build.class, "invalid"));
                             return;
                         }
@@ -367,7 +380,7 @@ public class Build extends Buff implements ActionIndicator.Action {
                         GameScene.updateMap(target);
                         break;
                     case MACHINEGUN:
-                        if (!isBuildable(target)) {
+                        if (!isBuildable(target, true)) {
                             GLog.w(Messages.get(Build.class, "invalid"));
                             return;
                         }
@@ -388,7 +401,7 @@ public class Build extends Buff implements ActionIndicator.Action {
                         GameScene.updateMap(target);
                         break;
                     case MORTAR:
-                        if (!isBuildable(target)) {
+                        if (!isBuildable(target, true)) {
                             GLog.w(Messages.get(Build.class, "invalid"));
                             return;
                         }

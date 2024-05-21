@@ -68,10 +68,10 @@ public class HandyBarricade extends TargetedSpell {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
-			inputs =  new Class[]{PotionOfStormClouds.class, ArcaneCatalyst.class};
+			inputs =  new Class[]{PotionOfStormClouds.class};
 			inQuantity = new int[]{1, 1};
 			
-			cost = 2;
+			cost = 10;
 			
 			output = HandyBarricade.class;
 			outQuantity = 12;

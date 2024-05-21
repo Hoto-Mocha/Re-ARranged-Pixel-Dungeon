@@ -64,7 +64,7 @@ public class Knife extends MeleeWeapon {
 
 	@Override
 	protected int baseChargeUse(Hero hero, Char target){
-		return 3;
+		return 2;
 	}
 
 	@Override
@@ -119,6 +119,15 @@ public class Knife extends MeleeWeapon {
 				wep.afterAbilityUsed(hero);
 			}
 		});
+	}
+
+	@Override
+	public String abilityInfo() {
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", augment.damageFactor(Math.round(min()*0.5f)), augment.damageFactor(Math.round(max()*0.5f)));
+		} else {
+			return Messages.get(this, "typical_ability_desc", Math.round(min(0)*0.5f), Math.round(max(0)*0.5f));
+		}
 	}
 
 }

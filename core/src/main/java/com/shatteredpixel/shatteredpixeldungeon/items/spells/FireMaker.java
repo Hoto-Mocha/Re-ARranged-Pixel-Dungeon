@@ -52,10 +52,10 @@ public class FireMaker extends TargetedSpell {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
-			inputs =  new Class[]{PotionOfDragonsBreath.class, ArcaneCatalyst.class};
+			inputs =  new Class[]{PotionOfDragonsBreath.class};
 			inQuantity = new int[]{1, 1};
 
-			cost = 4;
+			cost = 12;
 			
 			output = FireMaker.class;
 			outQuantity = 3;

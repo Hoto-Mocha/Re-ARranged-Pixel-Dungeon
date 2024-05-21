@@ -79,7 +79,17 @@ public class ObsidianShield extends MeleeWeapon implements AlchemyWeapon {
 
     @Override
     protected void duelistAbility(Hero hero, Integer target) {
-        RoundShield.guardAbility(hero, 3, this);
+        RoundShield.guardAbility(hero, 3+buffedLvl(), this);
+    }
+
+    @Override
+    public String abilityInfo() {
+        int duration = levelKnown ? 3+buffedLvl() : 3;
+        if (levelKnown){
+            return Messages.get(this, "ability_desc", duration);
+        } else {
+            return Messages.get(this, "typical_ability_desc", duration);
+        }
     }
 
     @Override

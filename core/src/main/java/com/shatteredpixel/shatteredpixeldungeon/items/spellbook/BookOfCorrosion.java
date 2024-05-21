@@ -55,18 +55,4 @@ public class BookOfCorrosion extends SpellBook {
         }
         return info;
     }
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{WandOfCorrosion.class};
-            inQuantity = new int[]{1};
-
-            cost = 5;
-
-            output = BookOfCorrosion.class;
-            outQuantity = 1;
-        }
-
-    }
 }

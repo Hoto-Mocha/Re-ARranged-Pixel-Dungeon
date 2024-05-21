@@ -142,14 +142,6 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
         }
     }
 
-    public String abilityDesc() {
-        if (Dungeon.hero.STR() >= this.STRReq()) {
-            return Messages.get(this, "true_ability_desc");
-        } else {
-            return Messages.get(this, "ability_desc");
-        }
-    }
-
     @Override
     public int STRReq(int lvl) {
         return 24;
@@ -157,7 +149,7 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
 
     @Override
     protected int baseChargeUse(Hero hero, Char target){
-        return 2;
+        return 1;
     }
 
     @Override
@@ -168,6 +160,15 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
         Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
         hero.next();
         afterAbilityUsed(hero);
+    }
+
+    @Override
+    public String abilityInfo() {
+        if (Dungeon.hero.STR() >= this.STRReq()) {
+            return Messages.get(this, "true_ability_desc");
+        } else {
+            return Messages.get(this, "ability_desc");
+        }
     }
 
     @Override

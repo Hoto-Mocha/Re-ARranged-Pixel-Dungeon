@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -72,7 +73,19 @@ public class MeisterHammer extends MeleeWeapon implements AlchemyWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		Mace.heavyBlowAbility(hero, target, 1.25f, this);
+		//roughly +30% base dmg, +30% scaling
+		int dmgBoost = augment.damageFactor(Math.round(0.30f*max(buffedLvl())));
+		Mace.heavyBlowAbility(hero, target, 1, dmgBoost, this);
+	}
+
+	@Override
+	public String abilityInfo() {
+		int dmgBoost = levelKnown ? Math.round(0.30f*max()) : Math.round(0.30f*max(0));
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+		} else {
+			return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+		}
 	}
 
 	@Override

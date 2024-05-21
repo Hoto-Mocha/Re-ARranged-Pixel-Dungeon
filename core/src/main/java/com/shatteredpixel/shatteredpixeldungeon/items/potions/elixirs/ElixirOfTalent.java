@@ -28,7 +28,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -121,10 +120,10 @@ public class ElixirOfTalent extends Elixir {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
-			inputs =  new Class[]{PotionOfStrength.class, ElixirOfMight.class, AlchemicalCatalyst.class};
+			inputs =  new Class[]{PotionOfStrength.class, ElixirOfMight.class};
 			inQuantity = new int[]{1, 1, 1};
 			
-			cost = 8;
+			cost = 14;
 			
 			output = ElixirOfTalent.class;
 			outQuantity = 1;

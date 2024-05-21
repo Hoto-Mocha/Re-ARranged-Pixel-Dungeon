@@ -111,10 +111,10 @@ public class FireImbueSpell extends Spell {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
-			inputs =  new Class[]{ElixirOfDragonsBlood.class, ArcaneCatalyst.class, Embers.class};
+			inputs =  new Class[]{ElixirOfDragonsBlood.class, Embers.class};
 			inQuantity = new int[]{1, 1, 1};
 			
-			cost = 10;
+			cost = 18;
 			
 			output = FireImbueSpell.class;
 			outQuantity = 1;

@@ -876,6 +876,7 @@ public class ItemSpriteSheet {
 	public static final int OLD_AMULET	= BULLET_ITEM+5;
 	static{
 
+		assignItemRect(BULLET		, 13, 13);
 		assignItemRect(HP_BULLET	, 13, 13);
 		assignItemRect(AP_BULLET	, 13, 13);
 		assignItemRect(CARTRIDGE	, 11, 11);

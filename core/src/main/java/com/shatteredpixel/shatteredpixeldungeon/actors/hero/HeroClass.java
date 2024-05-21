@@ -145,8 +145,8 @@ public enum HeroClass {
 
 		if (DeviceCompat.isDebug() || SPDSettings.customSeed().contains("test")) {
 			new RingOfMight().identify().upgrade(10).collect();
-			new RingOfHaste().upgrade(100).collect();
-			new RingOfAccuracy().upgrade(100).collect();
+			new RingOfHaste().identify().upgrade(100).collect();
+			new RingOfAccuracy().identify().upgrade(100).collect();
 			new AlchemistsToolkit().identify().upgrade(10).collect();
 			new ElixirOfHoneyedHealing().identify().quantity(500).collect();
 			new PotionOfExperience().identify().quantity(29).collect();

@@ -78,7 +78,7 @@ public class OldAmulet extends Item {
         bones = false;
 
         while (abilityList.size() < 3) {
-            int index = Random.Int(14);
+            int index = Random.Int(16);
             if (!abilityList.contains(index)) {
                 abilityList.add(index);
             }
@@ -384,15 +384,15 @@ public class OldAmulet extends Item {
     public static class WndAbilitySelect extends WndOptions {
 
         private MeleeWeapon wep;
-        private static ArrayList<Integer> ability = new ArrayList<>();
+        private ArrayList<Integer> ability = new ArrayList<>();
 
         public WndAbilitySelect(MeleeWeapon wep, int ability_1, int ability_2, int ability_3) {
             super(new ItemSprite(new HeroSword()),
                     Messages.titleCase(new HeroSword().name()),
                     Messages.get(HeroSword.class, "ability_select"),
-                    Messages.get(HeroSword.class, "ability_name_" + ability_1),
-                    Messages.get(HeroSword.class, "ability_name_" + ability_2),
-                    Messages.get(HeroSword.class, "ability_name_" + ability_3),
+                    new HeroSword(ability_1, wep).abilityName(),
+                    new HeroSword(ability_2, wep).abilityName(),
+                    new HeroSword(ability_3, wep).abilityName(),
                     Messages.get(HeroSword.class, "cancel"));
             ability.add(ability_1);
             ability.add(ability_2);
@@ -469,10 +469,15 @@ public class OldAmulet extends Item {
 
         @Override
         protected void onInfo( int index ) {
+            HeroSword heroSword = new HeroSword(ability.get(index), wep);
+            if (wep.isIdentified()) {
+                heroSword.level(wep.buffedLvl());
+                heroSword.identify();
+            }
             GameScene.show(new WndTitledMessage(
                     Icons.get(Icons.INFO),
-                    Messages.titleCase(Messages.get(HeroSword.class, "ability_name_" + ability.get(index))),
-                    Messages.get(HeroSword.class, "ability_desc_" + ability.get(index))));
+                    Messages.titleCase(heroSword.abilityName()),
+                    heroSword.abilityInfo()));
         }
 
     }

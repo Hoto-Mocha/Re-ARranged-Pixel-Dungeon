@@ -94,10 +94,20 @@ public class AssassinsSpear extends MeleeWeapon implements AlchemyWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		assassinSpikeAbility(hero, target, 1.40f, this);
+		assassinSpikeAbility(hero, target, 1, Math.round(0.4f*max(buffedLvl())),this);
 	}
 
-	public static void assassinSpikeAbility(Hero hero, Integer target, float dmgMulti, MeleeWeapon wep){
+	@Override
+	public String abilityInfo() {
+		int dmgBoost = levelKnown ? Math.round(0.4f*max()) : Math.round(0.4f*max(0));
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+		} else {
+			return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+		}
+	}
+
+	public static void assassinSpikeAbility(Hero hero, Integer target, float dmgMulti, int dmgBoost, MeleeWeapon wep){
 		if (target == null) {
 			return;
 		}
@@ -121,7 +131,7 @@ public class AssassinsSpear extends MeleeWeapon implements AlchemyWeapon {
 			public void call() {
 				wep.beforeAbilityUsed(hero, enemy);
 				AttackIndicator.target(enemy);
-				if (hero.attack(enemy, dmgMulti, 0, 0.25f)){
+				if (hero.attack(enemy, dmgMulti, dmgBoost, 0.25f)){
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 				}
 

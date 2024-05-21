@@ -75,6 +75,15 @@ public class NormalKatana extends MeleeWeapon {
         flashSlashAbility(hero, target, 0.5f, this);
     }
 
+    @Override
+    public String abilityInfo() {
+        if (levelKnown){
+            return Messages.get(this, "ability_desc", Messages.decimalFormat("#.##", 0.5f));
+        } else {
+            return Messages.get(this, "typical_ability_desc", Messages.decimalFormat("#.##", 0.5f));
+        }
+    }
+
     public static void flashSlashAbility(Hero hero, Integer target, float energy, MeleeWeapon wep){
         if (target == null) {
             return;

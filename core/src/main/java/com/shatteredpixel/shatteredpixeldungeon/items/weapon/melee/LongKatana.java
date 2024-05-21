@@ -65,4 +65,13 @@ public class LongKatana extends MeleeWeapon {
     protected void duelistAbility(Hero hero, Integer target) {
         NormalKatana.flashSlashAbility(hero, target, 0.45f, this);
     }
+
+    @Override
+    public String abilityInfo() {
+        if (levelKnown){
+            return Messages.get(this, "ability_desc", Messages.decimalFormat("#.##", 0.45f));
+        } else {
+            return Messages.get(this, "typical_ability_desc", Messages.decimalFormat("#.##", 0.45f));
+        }
+    }
 }

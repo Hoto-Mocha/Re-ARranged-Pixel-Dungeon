@@ -62,20 +62,6 @@ public class BookOfTransfusion extends SpellBook {
         return info;
     }
 
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{WandOfTransfusion.class};
-            inQuantity = new int[]{1};
-
-            cost = 5;
-
-            output = BookOfTransfusion.class;
-            outQuantity = 1;
-        }
-
-    }
-
     public static void vampBuffEffect(int radius) {
         Ballistica aim;
         //The direction of the aim only matters if it goes outside the map

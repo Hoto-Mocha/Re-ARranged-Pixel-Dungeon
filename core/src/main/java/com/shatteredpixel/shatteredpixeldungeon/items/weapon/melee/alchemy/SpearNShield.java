@@ -170,9 +170,30 @@ public class SpearNShield extends MeleeWeapon implements AlchemyWeapon {
     @Override
     protected void duelistAbility(Hero hero, Integer target) {
         if (stance) {
-            Spear.spikeAbility(hero, target, 1.45f, this);
+            //roughly +65% base damage, +60% scaling
+            int dmgBoost = augment.damageFactor(7 + Math.round(1.5f*buffedLvl()));
+            Spear.spikeAbility(hero, target, 1, dmgBoost, this);
         } else {
-            RoundShield.guardAbility(hero, 8, this);
+            RoundShield.guardAbility(hero, 5+buffedLvl(), this);
+        }
+    }
+
+    @Override
+    public String abilityInfo() {
+        if (stance) {
+            int dmgBoost = levelKnown ? 7 + Math.round(1.5f*buffedLvl()) : 7;
+            if (levelKnown){
+                return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+            } else {
+                return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+            }
+        } else {
+            int duration = levelKnown ? 5+buffedLvl() : 5;
+            if (levelKnown){
+                return Messages.get(this, "ability_desc", duration);
+            } else {
+                return Messages.get(this, "typical_ability_desc", duration);
+            }
         }
     }
 

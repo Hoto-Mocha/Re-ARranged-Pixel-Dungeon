@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.audio.Sample;
@@ -75,11 +76,6 @@ public class DualDagger extends MeleeWeapon {
 	}
 
 	@Override
-	protected int baseChargeUse(Hero hero, Char target){
-		return 2;
-	}
-
-	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 		beforeAbilityUsed(hero, null);
 		Buff.prolong(hero, ReverseBlade.class, 5f); //5 turns as using the ability is instant
@@ -87,6 +83,15 @@ public class DualDagger extends MeleeWeapon {
 		hero.sprite.emitter().burst( Speck.factory( Speck.JET ), 20);
 		hero.next();
 		afterAbilityUsed(hero);
+	}
+
+	@Override
+	public String abilityInfo() {
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", 6+buffedLvl());
+		} else {
+			return Messages.get(this, "typical_ability_desc", 6);
+		}
 	}
 
 	public static class ReverseBlade extends FlavourBuff {

@@ -22,8 +22,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-import static com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon.Enchantment.genericProcChanceMultiplier;
-import static com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger.sneakAbility;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -33,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -104,7 +103,7 @@ public class UnformedBlade extends MeleeWeapon implements AlchemyWeapon {
 				float chance;
 				chance = maxChance * chanceMulti;
 
-				chance *= genericProcChanceMultiplier(attacker);
+				chance *= Weapon.Enchantment.genericProcChanceMultiplier(attacker);
 
 				if (Random.Float() < chance) {
 
@@ -238,7 +237,16 @@ public class UnformedBlade extends MeleeWeapon implements AlchemyWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		sneakAbility(hero, target, 3, this);
+		Dagger.sneakAbility(hero, target, 2, 2+buffedLvl(), this);
+	}
+
+	@Override
+	public String abilityInfo() {
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", 2+buffedLvl());
+		} else {
+			return Messages.get(this, "typical_ability_desc", 2);
+		}
 	}
 
 	@Override

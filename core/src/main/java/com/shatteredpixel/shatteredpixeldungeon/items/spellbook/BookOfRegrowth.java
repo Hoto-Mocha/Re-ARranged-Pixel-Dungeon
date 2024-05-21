@@ -67,20 +67,6 @@ public class BookOfRegrowth extends SpellBook {
         return info;
     }
 
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{WandOfRegrowth.class};
-            inQuantity = new int[]{1};
-
-            cost = 5;
-
-            output = BookOfRegrowth.class;
-            outQuantity = 1;
-        }
-
-    }
-
     public static boolean spawnPlants( int centerPos, float rate, int distance ){
         rate = Math.min(rate, 1);
         ArrayList<Integer> plantPoints = new ArrayList<>();

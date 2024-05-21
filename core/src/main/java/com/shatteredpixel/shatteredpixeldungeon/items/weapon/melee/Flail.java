@@ -56,39 +56,39 @@ public class Flail extends MeleeWeapon {
 
 	private static int spinBoost = 0;
 
-	@Override
-	public int damageRoll(Char owner) {
-		int dmg = super.damageRoll(owner) + spinBoost;
-		if (spinBoost > 0) Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
-		spinBoost = 0;
-		return dmg;
-	}
+			@Override
+			public int damageRoll(Char owner) {
+				int dmg = super.damageRoll(owner) + spinBoost;
+				if (spinBoost > 0) Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+				spinBoost = 0;
+				return dmg;
+			}
 
-	@Override
-	public float accuracyFactor(Char owner, Char target) {
-		SpinAbilityTracker spin = owner.buff(SpinAbilityTracker.class);
-		if (spin != null) {
-			Actor.add(new Actor() {
-				{ actPriority = VFX_PRIO; }
-				@Override
-				protected boolean act() {
-					if (owner instanceof Hero && !target.isAlive()){
-						onAbilityKill((Hero)owner, target);
-					}
-					Actor.remove(this);
-					return true;
+			@Override
+			public float accuracyFactor(Char owner, Char target) {
+				SpinAbilityTracker spin = owner.buff(SpinAbilityTracker.class);
+				if (spin != null) {
+					Actor.add(new Actor() {
+						{ actPriority = VFX_PRIO; }
+						@Override
+						protected boolean act() {
+							if (owner instanceof Hero && !target.isAlive()){
+								onAbilityKill((Hero)owner, target);
+							}
+							Actor.remove(this);
+							return true;
+						}
+					});
+					//we detach and calculate bonus here in case the attack misses (e.g. vs. monks)
+					spin.detach();
+					//+(6+2*lvl) damage per spin, roughly +30% base damage, +45% scaling
+					// so +90% base dmg, +135% scaling at 3 spins
+					spinBoost = spin.spins * augment.damageFactor(6 + 2*buffedLvl());
+					return Float.POSITIVE_INFINITY;
+				} else {
+					spinBoost = 0;
+					return super.accuracyFactor(owner, target);
 				}
-			});
-			//we detach and calculate bonus here in case the attack misses (e.g. vs. monks)
-			spin.detach();
-			//+(6+2*lvl) damage per spin, roughly +30% base damage, +45% scaling
-			// so +90% base dmg, +135% scaling at 3 spins
-			spinBoost = spin.spins * augment.damageFactor(6 + 2*buffedLvl());
-			return Float.POSITIVE_INFINITY;
-		} else {
-			spinBoost = 0;
-			return super.accuracyFactor(owner, target);
-		}
 	}
 
 	@Override

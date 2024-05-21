@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -79,13 +80,8 @@ public class Bible extends MeleeWeapon {
 	}
 
 	@Override
-	protected int baseChargeUse(Hero hero, Char target){
-		return 2;
-	}
-
-	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		angelAbility(hero, 5, this);
+		angelAbility(hero, 5+buffedLvl(), this);
 	}
 
 	public static void angelAbility(Hero hero, int duration, MeleeWeapon wep){
@@ -98,6 +94,15 @@ public class Bible extends MeleeWeapon {
 		Sample.INSTANCE.play( Assets.Sounds.PUFF );
 		Sample.INSTANCE.play( Assets.Sounds.READ );
 		wep.afterAbilityUsed(hero);
+	}
+
+	@Override
+	public String abilityInfo() {
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", 6+buffedLvl());
+		} else {
+			return Messages.get(this, "typical_ability_desc", 6);
+		}
 	}
 
 	public static class Angel extends FlavourBuff {

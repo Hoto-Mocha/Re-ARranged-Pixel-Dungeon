@@ -153,10 +153,10 @@ public class UpgradeDust extends Spell {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 
 		{
-			inputs =  new Class[]{LiquidMetal.class, ArcaneCatalyst.class};
+			inputs =  new Class[]{LiquidMetal.class};
 			inQuantity = new int[]{40, 1};
 
-			cost = 3;
+			cost = 11;
 
 			output = UpgradeDust.class;
 			outQuantity = 2;

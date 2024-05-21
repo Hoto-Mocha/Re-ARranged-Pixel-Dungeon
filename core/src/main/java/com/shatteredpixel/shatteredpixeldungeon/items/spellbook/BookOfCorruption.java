@@ -74,18 +74,4 @@ public class BookOfCorruption extends SpellBook {
         }
         return info;
     }
-
-    public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-
-        {
-            inputs =  new Class[]{WandOfCorruption.class};
-            inQuantity = new int[]{1};
-
-            cost = 5;
-
-            output = BookOfCorruption.class;
-            outQuantity = 1;
-        }
-
-    }
 }

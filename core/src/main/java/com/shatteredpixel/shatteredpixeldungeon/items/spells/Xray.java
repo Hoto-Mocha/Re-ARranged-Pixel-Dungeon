@@ -60,10 +60,10 @@ public class Xray extends Spell {
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{
-			inputs =  new Class[]{PotionOfMagicalSight.class, ScrollOfForesight.class, ArcaneCatalyst.class};
+			inputs =  new Class[]{PotionOfMagicalSight.class, ScrollOfForesight.class};
 			inQuantity = new int[]{1, 1, 1};
 			
-			cost = 4;
+			cost = 12;
 			
 			output = Xray.class;
 			outQuantity = 2;

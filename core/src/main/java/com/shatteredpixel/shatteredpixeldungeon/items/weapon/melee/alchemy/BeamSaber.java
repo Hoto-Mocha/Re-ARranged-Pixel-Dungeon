@@ -72,7 +72,19 @@ public class BeamSaber extends MeleeWeapon implements AlchemyWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		Sai.comboStrikeAbility(hero, target, 0.15f, this);
+		//+15% base damage, +15% scaling
+		int dmgBoost = augment.damageFactor(Math.round(0.15f*max(buffedLvl())));
+		Sai.comboStrikeAbility(hero, target, 0, dmgBoost, this);
+	}
+
+	@Override
+	public String abilityInfo() {
+		int dmgBoost = levelKnown ? Math.round(0.15f*max()) : Math.round(0.15f*max(0));
+		if (levelKnown){
+			return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+		} else {
+			return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+		}
 	}
 
 	@Override

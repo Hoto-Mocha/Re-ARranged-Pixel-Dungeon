@@ -187,7 +187,34 @@ public class LanceNShield extends MeleeWeapon implements AlchemyWeapon {
         if (stance) {
             Lance.dashAbility(hero, target, this);
         } else {
-            RoundShield.guardAbility(hero, 3, this);
+            RoundShield.guardAbility(hero, 3+buffedLvl(), this);
+        }
+    }
+
+    @Override
+    public String abilityName() {
+        if (stance) {
+            return Messages.upperCase(Messages.get(this, "ability1_name"));
+        } else {
+            return Messages.upperCase(Messages.get(this, "ability2_name"));
+        }
+    }
+
+    @Override
+    public String abilityInfo() {
+        int amt = levelKnown ? 3+buffedLvl() : 3;
+        if (stance) {
+            if (levelKnown){
+                return Messages.get(this, "ability1_desc", amt);
+            } else {
+                return Messages.get(this, "typical_ability1_desc", amt);
+            }
+        } else {
+            if (levelKnown){
+                return Messages.get(this, "ability2_desc", amt);
+            } else {
+                return Messages.get(this, "typical_ability2_desc", amt);
+            }
         }
     }
 
