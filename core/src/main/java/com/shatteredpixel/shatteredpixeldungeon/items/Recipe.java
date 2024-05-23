@@ -229,7 +229,6 @@ public abstract class Recipe {
 		new BulletItem.Recipe(),
 		new BulletBelt.Recipe(),
 		new SpellBook.WandToSpellBook(),
-		new UpgradeDust.Recipe(),
 		new FireMaker.Recipe(),
 		new IceMaker.Recipe(),
 		new RapidGrowth.Recipe(),
@@ -255,6 +254,7 @@ public abstract class Recipe {
 		new Xray.Recipe(),
 		new FireImbueSpell.Recipe(),
 		new ElixirOfTalent.Recipe(),
+		new UpgradeDust.Recipe(),
 		new UnstableIdentification.Recipe()
 	};
 	

@@ -162,8 +162,8 @@ public class UpgradeDust extends Spell {
 		private static final int OUT_QUANTITY = 3;
 
 		{
-			inputs =  new Class[]{LiquidMetal.class, StoneOfAugmentation.class};
-			inQuantity = new int[]{40, 1};
+			inputs =  new Class[]{StoneOfAugmentation.class, LiquidMetal.class};
+			inQuantity = new int[]{1, 20};
 
 			cost = 4;
 

@@ -41,6 +41,24 @@ public class TacticalBow extends SpiritBow {
     }
 
     @Override
+    public int min(int lvl) {
+        int dmg = 1 + Dungeon.hero.lvl/5
+                + (lvl-(int)(Dungeon.hero.lvl/5f))
+                + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
+                + (curseInfusionBonus ? 1 + Dungeon.hero.lvl/30 : 0);
+        return Math.max(0, dmg);
+    }
+
+    @Override
+    public int max(int lvl) {
+        int dmg = 6 + (int)(Dungeon.hero.lvl/2.5f)
+                + 2*(lvl-(int)(Dungeon.hero.lvl/5f))
+                + 2*RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
+                + (curseInfusionBonus ? 2 + Dungeon.hero.lvl/15 : 0);
+        return Math.max(0, dmg);
+    }
+
+    @Override
     public SpiritArrow knockArrow(){
         return new TacticalArrow();
     }
