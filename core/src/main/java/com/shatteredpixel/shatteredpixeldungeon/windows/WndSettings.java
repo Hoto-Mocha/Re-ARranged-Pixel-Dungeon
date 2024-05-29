@@ -174,10 +174,10 @@ public class WndSettings extends WndTabbed {
 			protected void createChildren() {
 				super.createChildren();
 				switch(Messages.lang().status()){
-					case UNFINISHED:
+					case X_UNFINISH:
 						icon.hardlight(1.5f, 0, 0);
 						break;
-					case UNREVIEWED:
+					case __UNREVIEW:
 						icon.hardlight(1.5f, 0.75f, 0f);
 						break;
 				}
@@ -1115,14 +1115,15 @@ public class WndSettings extends WndTabbed {
 
 			txtLangInfo = PixelScene.renderTextBlock(6);
 			String info = "_" + Messages.titleCase(currLang.nativeName()) + "_ - ";
+
 			if (currLang == Languages.KOREAN) info += "이 언어는 기본 언어로, 개발자에 의해 작성됩니다.";
-			else if (currLang.status() == Languages.Status._COMPLETE_) info += Messages.get(this, "completed");
-			else if (currLang.status() == Languages.Status.UNREVIEWED) info += Messages.get(this, "unreviewed");
-			else if (currLang.status() == Languages.Status.UNFINISHED) info += Messages.get(this, "unfinished");
+			else if (currLang.status() == Languages.Status.O_COMPLETE) info += Messages.get(this, "completed");
+			else if (currLang.status() == Languages.Status.__UNREVIEW) info += Messages.get(this, "unreviewed");
+			else if (currLang.status() == Languages.Status.X_UNFINISH) info += Messages.get(this, "unfinished");
 			txtLangInfo.text(info);
 
-			if (currLang.status() == Languages.Status.UNREVIEWED) txtLangInfo.setHightlighting(true, CharSprite.WARNING);
-			else if (currLang.status() == Languages.Status.UNFINISHED) txtLangInfo.setHightlighting(true, CharSprite.NEGATIVE);
+			if (currLang.status() == Languages.Status.__UNREVIEW) txtLangInfo.setHightlighting(true, CharSprite.WARNING);
+			else if (currLang.status() == Languages.Status.X_UNFINISH) txtLangInfo.setHightlighting(true, CharSprite.NEGATIVE);
 			add(txtLangInfo);
 
 			sep2 = new ColorBlock(1, 1, 0xFF000000);
@@ -1154,10 +1155,10 @@ public class WndSettings extends WndTabbed {
 					btn.textColor(TITLE_COLOR);
 				} else {
 					switch (langs.get(i).status()) {
-						case UNFINISHED:
+						case X_UNFINISH:
 							btn.textColor(0x888888);
 							break;
-						case UNREVIEWED:
+						case __UNREVIEW:
 							btn.textColor(0xBBBBBB);
 							break;
 					}
