@@ -100,9 +100,9 @@ public class Build extends Buff implements ActionIndicator.Action {
         BARRICADE   (8),
         WIRE        (8),
         WATCHTOWER  (12),
-        CANNON      (20),
-        MACHINEGUN  (16),
-        MORTAR      (20);
+        CANNON      (15),
+        MACHINEGUN  (15),
+        MORTAR      (40);
 
         public int metalReq;
 

@@ -28,6 +28,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CircleArc;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.levels.TempleLastLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.TempleLevel;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -113,7 +115,8 @@ public class StatusPane extends Component {
 
 		talentBlink = 0;
 
-		compass = new Compass( Statistics.amuletObtained ? Dungeon.level.entrance() : Dungeon.level.exit() );
+		boolean isAscending = (Dungeon.templeCompleted && (Dungeon.level instanceof TempleLevel || Dungeon.level instanceof TempleLastLevel)) || Statistics.amuletObtained;
+		compass = new Compass( isAscending ? Dungeon.level.entrance() : Dungeon.level.exit() );
 		add( compass );
 
 		if (large)  rawShielding = new Image(asset, 0, 112, 128, 9);

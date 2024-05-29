@@ -86,7 +86,7 @@ public class MachineGun extends Building {
         Game.runOnRenderThread(new Callback() {
             @Override
             public void call() {
-                int bulletReq = Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) > 2 ? 1 : 2;
+                int bulletReq = Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) > 2 ? 0 : 1;
                 if (Dungeon.bullet < bulletReq) {
                     GLog.w(Messages.get(MachineGun.class, "no_bullet"));
                     return;
@@ -133,7 +133,11 @@ public class MachineGun extends Building {
 
         @Override
         public int damageRoll(Char owner) {
-            return Random.NormalIntRange(5, Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) > 1 ? 30 : 15);
+            if (Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) > 1) {
+                return Random.NormalIntRange(15, Math.round(Dungeon.scalingDepth()*2f));
+            } else {
+                return Random.NormalIntRange(10, Math.round(Dungeon.scalingDepth()*1.33f));
+            }
         }
     }
 

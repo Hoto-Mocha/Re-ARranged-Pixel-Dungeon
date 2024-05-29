@@ -74,6 +74,8 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.TempleCenterItemRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
@@ -572,6 +574,21 @@ public class GameScene extends PixelScene {
 
 			if (Dungeon.templeCompleted) {
 				if (Dungeon.hero.buff(OldAmulet.TempleCurse.class) != null) {
+					if (Dungeon.level instanceof RegularLevel){
+						RegularLevel level = (RegularLevel) Dungeon.level;
+						for (Room r : level.rooms()) {
+							if (r instanceof TempleCenterItemRoom){
+								int terr;
+								for (Point p : r.getPoints()){
+									terr = level.map[level.pointToCell(p)];
+									if (terr == Terrain.STATUE_SP){
+										Level.set(level.pointToCell(p), Terrain.EMPTY_SP);
+										GameScene.updateMap(level.pointToCell(p));
+									}
+								}
+							}
+						}
+					}
 					Dungeon.hero.buff(OldAmulet.TempleCurse.class).saySwitch();
 				}
 				if (Dungeon.branch == 0) {

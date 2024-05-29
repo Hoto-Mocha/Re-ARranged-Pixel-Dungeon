@@ -24,6 +24,8 @@ package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
+import com.watabou.utils.Point;
+import com.watabou.utils.Random;
 
 public class TempleMazeRoom extends StandardRoom {
 
@@ -44,23 +46,57 @@ public class TempleMazeRoom extends StandardRoom {
 
 	@Override
 	public void paint(Level level) {
+//		Painter.fill(level, this, Terrain.WALL);
+//		Painter.fill(level, this, 1, Terrain.GRASS);
+//		Painter.fill(level, this, 2, Terrain.HIGH_GRASS);
+//		for (int i = 0; i < 15; i ++){
+//			Painter.set(level, random(2), Terrain.CHASM);
+//		}
+//		for (int i = 0; i < 10; i ++){
+//			Painter.set(level, random(3), Terrain.CHASM);
+//		}
+//		for (int i = 0; i < 5; i ++){
+//
+//		}
+
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.GRASS);
-		Painter.fill(level, this, 2, Terrain.HIGH_GRASS);
-		for (int i = 0; i < 15; i ++){
-			Painter.set(level, random(2), Terrain.CHASM);
-		}
-		for (int i = 0; i < 10; i ++){
-			Painter.set(level, random(3), Terrain.CHASM);
-		}
-		for (int i = 0; i < 5; i ++){
-			Painter.set(level, random(4), Terrain.CHASM);
+		int layers = (Math.min(width(), height())-1)/2;
+		for (int i = 1; i <= layers; i++){
+			Painter.fill(level, this, i, (i % 2 == 0) ? Terrain.WALL : Terrain.HIGH_GRASS);
+			if (i % 2 == 0) {
+				Painter.set(level, randomBridge(i), Terrain.HIGH_GRASS);
+			}
 		}
 
 		for (Door door : connected.values()) {
 			door.set(Door.Type.REGULAR);
 		}
-
-
 	}
+
+	public Point randomBridge(int m) {
+		int x;
+		int y;
+		int n = m+1; //모서리에 다리가 생기는 것을 방지하기 위함
+		switch (Random.Int(4)) {
+			case 0: default:
+				x = left + m;
+				y = Random.IntRange( top + n, bottom - n );
+				break;
+			case 1:
+				x = right - m;
+				y = Random.IntRange( top + n, bottom - n );
+				break;
+			case 2:
+				x = Random.IntRange( left + n, right - n );
+				y = top + m;
+				break;
+			case 3:
+				x = Random.IntRange( left + n, right - n );
+				y = bottom - m;
+				break;
+		}
+
+		return new Point(x, y);
+	}
+
 }

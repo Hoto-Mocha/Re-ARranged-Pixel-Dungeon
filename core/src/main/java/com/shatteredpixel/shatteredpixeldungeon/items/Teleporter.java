@@ -16,6 +16,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotio
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
+import com.shatteredpixel.shatteredpixeldungeon.levels.DeadEndLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.TempleLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DistortionTrap;
@@ -149,8 +151,12 @@ public class Teleporter extends Item {
         if (action.equals(AC_RETURN)) {
             InterlevelScene.mode = InterlevelScene.Mode.RETURN;
             InterlevelScene.returnDepth = Math.max(1, (Dungeon.depth - 1));
-            InterlevelScene.returnBranch = 0;
+            InterlevelScene.returnBranch = Dungeon.branch;
             InterlevelScene.returnPos = -2;
+            if (Dungeon.level instanceof TempleLevel && Dungeon.depth == 16) {
+                InterlevelScene.returnBranch = 0;
+                InterlevelScene.returnDepth = 14;
+            }
             Game.switchScene( InterlevelScene.class );
         }
         if (action.equals(AC_SPAWN)) {

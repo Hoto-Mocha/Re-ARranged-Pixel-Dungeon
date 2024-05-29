@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.PitRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.ShopRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.StandardRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.TempleCenterItemRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.entrance.CavesFissureEntranceRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.entrance.EntranceRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.exit.CavesFissureExitRoom;
@@ -756,8 +757,12 @@ public abstract class RegularLevel extends Level {
 				}
 			}
 		}
+		int cellToFall;
+		do {
+			cellToFall = super.fallCell( fallIntoPit );
+		} while (room(cellToFall) instanceof TempleCenterItemRoom && cellToFall == pointToCell(room(cellToFall).center())); //TempleCenterItemRoom의 중앙에는 떨어지지 않도록 함
 		
-		return super.fallCell( fallIntoPit );
+		return cellToFall;
 	}
 
 	@Override

@@ -82,7 +82,7 @@ public class Cannon extends Building {
         Game.runOnRenderThread(new Callback() {
             @Override
             public void call() {
-                int bulletReq = Dungeon.hero.pointsInTalent(Talent.CANNON) > 2 ? 5 : 10;
+                int bulletReq = Dungeon.hero.pointsInTalent(Talent.CANNON) > 2 ? 3 : 6;
                 if (Dungeon.bullet < bulletReq) {
                     GLog.w(Messages.get(Cannon.class, "no_bullet"));
                     return;

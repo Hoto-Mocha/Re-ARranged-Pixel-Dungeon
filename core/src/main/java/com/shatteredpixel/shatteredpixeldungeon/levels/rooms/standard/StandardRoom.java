@@ -191,7 +191,7 @@ public abstract class StandardRoom extends Room {
 
 	private static float[][] branchChances = new float[32][];
 	static {
-		branchChances[1] =  new float[]{0,  0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 1,0,1,0,1,0,1,1,1,0, 5,5,10};
+		branchChances[1] =  new float[]{0,  0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,  1,0,1,0,1,0,1,1,1,0, 10,6,8};
 		branchChances[31]
 				= branchChances[30]
 				= branchChances[29]

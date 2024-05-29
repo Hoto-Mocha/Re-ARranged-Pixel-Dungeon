@@ -92,30 +92,73 @@ public class ExitRoom extends StandardRoom {
 
 		rooms.add(ChasmExitRoom.class);
 		rooms.add(RitualExitRoom.class);
+
+		rooms.add(TempleLibraryExitRoom.class);
+		rooms.add(TempleMazeExitRoom.class);
 	}
 
 	private static float[][] chances = new float[32][];
 	static {
-		chances[1] =  new float[]{3,  6,1, 0,0, 0,0, 0,0, 0,0};
+		chances[1] =  new float[]{3,  6,1, 0,0, 0,0, 0,0, 0,0, 0,0};
 		chances[5] =  chances[4] = chances[3] = chances[2] = chances[1];
 
-		chances[6] =  new float[]{2,  0,0, 4,4, 0,0, 0,0, 0,0};
+		chances[6] =  new float[]{2,  0,0, 4,4, 0,0, 0,0, 0,0, 0,0};
 		chances[10] = chances[9] = chances[8] = chances[7] = chances[6];
 
-		chances[11] = new float[]{2,  0,0, 0,0, 4,4, 0,0, 0,0};
+		chances[11] = new float[]{2,  0,0, 0,0, 4,4, 0,0, 0,0, 0,0};
 		chances[15] = chances[14] = chances[13] = chances[12] = chances[11];
 
-		chances[16] = new float[]{2,  0,0, 0,0, 0,0, 4,4, 0,0};
+		chances[16] = new float[]{2,  0,0, 0,0, 0,0, 4,4, 0,0, 0,0};
 		chances[20] = chances[19] = chances[18] = chances[17] = chances[16];
 
-		chances[21] = new float[]{3,  0,0, 0,0, 0,0, 0,0, 6,1};
+		chances[21] = new float[]{3,  0,0, 0,0, 0,0, 0,0, 6,1, 0,0};
 		chances[25] = chances[24] = chances[23] = chances[22] = chances[21];
 
-		chances[26] = new float[]{2,  1,1, 1,1, 1,1, 1,1, 1,1};
+		chances[26] = new float[]{2,  1,1, 1,1, 1,1, 1,1, 1,1, 0,0};
 		chances[31] = chances[30] = chances[29] = chances[28] = chances[27] = chances[26];
 	}
 
+	private static float[][] branchChances = new float[32][];
+	static {
+		branchChances[1] =  new float[]{0,  0,0, 0,0, 0,0, 0,0, 0,0, 1,1};
+		branchChances[31]
+				= branchChances[30]
+				= branchChances[29]
+				= branchChances[28]
+				= branchChances[27]
+				= branchChances[26]
+				= branchChances[25]
+				= branchChances[24]
+				= branchChances[23]
+				= branchChances[22]
+				= branchChances[21]
+				= branchChances[20]
+				= branchChances[19]
+				= branchChances[18]
+				= branchChances[17]
+				= branchChances[16]
+				= branchChances[15]
+				= branchChances[14]
+				= branchChances[13]
+				= branchChances[12]
+				= branchChances[11]
+				= branchChances[10]
+				= branchChances[9]
+				= branchChances[8]
+				= branchChances[7]
+				= branchChances[6]
+				= branchChances[5]
+				= branchChances[4]
+				= branchChances[3]
+				= branchChances[2]
+				= branchChances[1];
+	}
+
 	public static StandardRoom createExit(){
-		return Reflection.newInstance(rooms.get(Random.chances(chances[Dungeon.depth])));
+		if (Dungeon.branch == 0) {
+			return Reflection.newInstance(rooms.get(Random.chances(chances[Dungeon.depth])));
+		} else {
+			return Reflection.newInstance(rooms.get(Random.chances(branchChances[Dungeon.depth])));
+		}
 	}
 }

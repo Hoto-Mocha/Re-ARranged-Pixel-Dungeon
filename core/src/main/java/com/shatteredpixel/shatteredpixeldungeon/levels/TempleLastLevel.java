@@ -95,7 +95,9 @@ public class TempleLastLevel extends Level {
 	protected boolean build() {
 		setSize(WIDTH, HEIGHT);
 
-		transitions.add(new LevelTransition(this, 15 + WIDTH*15, LevelTransition.Type.BRANCH_ENTRANCE, Dungeon.depth-1, Dungeon.branch, LevelTransition.Type.BRANCH_EXIT));
+		transitions.add(new LevelTransition(this,
+				15 + WIDTH*15,
+				LevelTransition.Type.REGULAR_ENTRANCE));
 
 		buildLevel();
 		return true;
