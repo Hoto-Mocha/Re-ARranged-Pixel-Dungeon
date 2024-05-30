@@ -88,6 +88,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.BrokenMagnifyingGlass;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.CrystalBall;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.MagicalCompass;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.PinkGem;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.SuspiciousKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
@@ -144,6 +149,11 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		if (DeviceCompat.isDebug() || SPDSettings.customSeed().contains("test")) {
+//			new MagicalCompass().collect();
+//			new CrystalBall().collect();
+//			new BrokenMagnifyingGlass().collect();
+//			new SuspiciousKey().collect();
+//			new PinkGem().collect();
 			new RingOfMight().identify().upgrade(10).collect();
 			new RingOfHaste().identify().upgrade(100).collect();
 			new RingOfAccuracy().identify().upgrade(100).collect();

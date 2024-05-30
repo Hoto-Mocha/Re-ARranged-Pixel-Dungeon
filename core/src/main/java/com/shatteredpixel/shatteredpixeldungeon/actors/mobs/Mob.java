@@ -60,6 +60,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Feint;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
@@ -74,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.PinkGem;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ExoticCrystals;
@@ -945,7 +947,7 @@ public abstract class Mob extends Char {
 			}
 		}
 
-		return lootChance * dropBonus;
+		return lootChance * dropBonus * PinkGem.dropChanceMultiplier();
 	}
 	
 	public void rollToDropLoot(){
@@ -977,6 +979,14 @@ public abstract class Mob extends Char {
 		if (buff(Lucky.LuckProc.class) != null){
 			Dungeon.level.drop(buff(Lucky.LuckProc.class).genLoot(), pos).sprite.drop();
 			Lucky.showFlare(sprite);
+		}
+
+		//pink gem logic
+		if (buff(PinkGem.LuckProc.class) != null){
+			Dungeon.level.drop(buff(PinkGem.LuckProc.class).genLoot(), pos).sprite.drop();
+			if (!(sprite == null || sprite.parent == null)) {
+				new Flare(8, 24).color(0xFF66FF, true).show(sprite, 3f);
+			}
 		}
 
 		//soul eater talent

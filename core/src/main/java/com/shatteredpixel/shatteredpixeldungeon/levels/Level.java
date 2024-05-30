@@ -75,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.CrystalBall;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.DimensionalSundial;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.EyeOfNewt;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.MimicTooth;
@@ -1497,7 +1498,6 @@ public abstract class Level implements Bundlable {
 				if (!heap.seen && fieldOfView[heap.pos])
 					heap.seen = true;
 		}
-
 	}
 
 	public boolean isLevelExplored( int depth ){
@@ -1647,5 +1647,9 @@ public abstract class Level implements Bundlable {
 			default:
 				return "";
 		}
+	}
+
+	public static void mindVision(int pos) {
+		heroMindFov[pos] = true;
 	}
 }

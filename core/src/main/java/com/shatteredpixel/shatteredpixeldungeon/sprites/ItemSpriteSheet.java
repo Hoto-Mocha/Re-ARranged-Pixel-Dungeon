@@ -1393,6 +1393,23 @@ public class ItemSpriteSheet {
 		assignItemRect(UNSTABLE_IDENTIFY	, 12, 11);
 	}
 
+	private static final int NEW_TRINKETS			=			xy(1, 68);  //16 slots
+	public static final int COMPASS			= NEW_TRINKETS+0;
+	public static final int CRYSTAL_BALL	= NEW_TRINKETS+1;
+	public static final int MAGNIFYING_GLASS= NEW_TRINKETS+2;
+	public static final int SUSPICIOUS_KEY	= NEW_TRINKETS+3;
+	public static final int PINK_GEM		= NEW_TRINKETS+4;
+	public static final int NECKLACE		= NEW_TRINKETS+5;
+	public static final int GRINDSTONE		= NEW_TRINKETS+6;
+	static {
+		assignItemRect(COMPASS			, 16, 11);
+		assignItemRect(CRYSTAL_BALL		, 12, 14);
+		assignItemRect(MAGNIFYING_GLASS	, 14, 14);
+		assignItemRect(SUSPICIOUS_KEY	, 8, 14);
+		assignItemRect(PINK_GEM			, 11, 9);
+		assignItemRect(NECKLACE			, 14, 15);
+		assignItemRect(GRINDSTONE		, 14, 11);
+	}
 	// ****** new sprites end ******
 
 

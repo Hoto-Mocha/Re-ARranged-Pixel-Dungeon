@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.levels.painters;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.SuspiciousKey;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Patch;
@@ -264,6 +265,14 @@ public abstract class RegularPainter extends Painter {
 							|| (Dungeon.depth == 2 && !Document.ADVENTURERS_GUIDE.isPageFound(Document.GUIDE_SEARCHING))) {
 							d.type = Room.Door.Type.HIDDEN;
 						}
+					}
+
+					//수상한 열쇠 메커니즘
+					if ((d.type == Room.Door.Type.REGULAR
+						|| d.type == Room.Door.Type.UNLOCKED
+						|| d.type == Room.Door.Type.BARRICADE)
+						&& Random.Float() < SuspiciousKey.doorHideChance()) {
+						d.type = Room.Door.Type.HIDDEN;
 					}
 				}
 				

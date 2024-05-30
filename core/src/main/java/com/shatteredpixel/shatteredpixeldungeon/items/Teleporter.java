@@ -16,7 +16,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotio
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
-import com.shatteredpixel.shatteredpixeldungeon.levels.DeadEndLevel;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.SuspiciousKey;
 import com.shatteredpixel.shatteredpixeldungeon.levels.TempleLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -47,8 +47,11 @@ public class Teleporter extends Item {
     String AC_GETITEM = "getItem";
     String AC_MAPPING = "mapping";
     String AC_LEVELUP = "levelUp";
+    String AC_TEST = "test";
 
     static ArrayList<Class<?>> itemClass = new ArrayList<>();
+
+    public static int[] secretRooms = new int[32];
 
     {
         defaultAction = AC_TELEPORT;
@@ -113,6 +116,7 @@ public class Teleporter extends Item {
         actions.add(AC_GETITEM);
         actions.add(AC_MAPPING);
         actions.add(AC_LEVELUP);
+        actions.add(AC_TEST);
         return actions;
     }
 
@@ -323,6 +327,27 @@ public class Teleporter extends Item {
             for (int lvl = hero.lvl; lvl < 30; lvl++) {
                 Potion expPotion = new PotionOfExperience();
                 expPotion.apply(hero);
+            }
+        }
+        if (action.equals(AC_TEST)) {
+            if (Dungeon.depth < 32) {
+                for (int i= 0; i < 6; i++) {
+                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_0[i] + ", ");
+                }
+                GLog.newLine();
+                for (int i= 0; i < 6; i++) {
+                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_1[i] + ", ");
+                }
+                GLog.newLine();
+                for (int i= 0; i < 6; i++) {
+                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_2[i] + ", ");
+                }
+                GLog.newLine();
+                for (int i= 0; i < 6; i++) {
+                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_3[i] + ", ");
+                }
+                GLog.newLine();
+                GLog.i("현재 비밀방 개수: " + secretRooms[Dungeon.depth]);
             }
         }
     }

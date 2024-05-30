@@ -159,6 +159,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMappi
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfDisintegration;
 import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.SpellBook;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.BrokenMagnifyingGlass;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.PinkGem;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
@@ -2110,6 +2112,8 @@ public class Hero extends Char {
 		if (buff(Sheath.CertainCrit.class) != null) {
 			buff(Sheath.CertainCrit.class).hit();
 		}
+
+		PinkGem.proc(enemy);
 		
 		return damage;
 	}
@@ -3123,11 +3127,11 @@ public class Hero extends Char {
 							
 						//unintentional trap detection scales from 40% at floor 0 to 30% at floor 25
 						} else if (Dungeon.level.map[curr] == Terrain.SECRET_TRAP) {
-							chance = 0.4f - (Dungeon.depth / 250f);
+							chance = BrokenMagnifyingGlass.trapNoticeChance();
 							
 						//unintentional door detection scales from 20% at floor 0 to 0% at floor 20
 						} else {
-							chance = 0.2f - (Dungeon.depth / 100f);
+							chance = BrokenMagnifyingGlass.doorNoticeChance();
 						}
 
 						//don't want to let the player search though hidden doors in tutorial

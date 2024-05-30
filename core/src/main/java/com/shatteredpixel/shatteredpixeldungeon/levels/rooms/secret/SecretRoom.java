@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.SuspiciousKey;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
@@ -83,9 +84,21 @@ public abstract class SecretRoom extends SpecialRoom {
 				secrets = (float)Math.floor(secrets);
 			}
 		}
+		float additionalSecrets;
+		if (floorsLeft == 0) {
+			additionalSecrets = SuspiciousKey.additionalSecretRoom(depth);
+		} else {
+			additionalSecrets = SuspiciousKey.additionalSecretRoom(depth) / (float)floorsLeft;
+			if (Random.Float() < additionalSecrets % 1f){
+				additionalSecrets = (float)Math.ceil(additionalSecrets);
+			} else {
+				additionalSecrets = (float)Math.floor(additionalSecrets);
+			}
+		}
 		
 		regionSecretsThisRun[region] -= (int)secrets;
-		return (int)secrets;
+		SuspiciousKey.secretUse(region, (int)additionalSecrets);
+		return (int)secrets + (int)additionalSecrets;
 	}
 	
 	public static SecretRoom createRoom(){
