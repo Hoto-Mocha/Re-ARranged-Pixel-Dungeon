@@ -6,6 +6,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
@@ -14,9 +15,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
-import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.SuspiciousKey;
 import com.shatteredpixel.shatteredpixeldungeon.levels.TempleLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -330,25 +333,34 @@ public class Teleporter extends Item {
             }
         }
         if (action.equals(AC_TEST)) {
-            if (Dungeon.depth < 32) {
-                for (int i= 0; i < 6; i++) {
-                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_0[i] + ", ");
-                }
-                GLog.newLine();
-                for (int i= 0; i < 6; i++) {
-                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_1[i] + ", ");
-                }
-                GLog.newLine();
-                for (int i= 0; i < 6; i++) {
-                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_2[i] + ", ");
-                }
-                GLog.newLine();
-                for (int i= 0; i < 6; i++) {
-                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_3[i] + ", ");
-                }
-                GLog.newLine();
-                GLog.i("현재 비밀방 개수: " + secretRooms[Dungeon.depth]);
+//            Ring r = new RingOfHaste();
+//            r.level(3);
+//            hero.necklaceBuff = r.buff();
+            if (hero.necklaceRing != null)  {
+                GLog.i(hero.necklaceRing.toString());
+                GLog.i(""+hero.necklaceRing.level());
+            } else {
+                GLog.i("null");
             }
+//            if (Dungeon.depth < 32) {
+//                for (int i= 0; i < 6; i++) {
+//                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_0[i] + ", ");
+//                }
+//                GLog.newLine();
+//                for (int i= 0; i < 6; i++) {
+//                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_1[i] + ", ");
+//                }
+//                GLog.newLine();
+//                for (int i= 0; i < 6; i++) {
+//                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_2[i] + ", ");
+//                }
+//                GLog.newLine();
+//                for (int i= 0; i < 6; i++) {
+//                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_3[i] + ", ");
+//                }
+//                GLog.newLine();
+//                GLog.i("현재 비밀방 개수: " + secretRooms[Dungeon.depth]);
+//            }
         }
     }
 

@@ -1410,6 +1410,24 @@ public class ItemSpriteSheet {
 		assignItemRect(NECKLACE			, 14, 15);
 		assignItemRect(GRINDSTONE		, 14, 11);
 	}
+
+	private static final int NECKLACE_GEMS			=			xy(1, 69);  //16 slots
+	public static final int NECKLACE_GARNET    			= NECKLACE_GEMS+0;
+	public static final int NECKLACE_RUBY      			= NECKLACE_GEMS+1;
+	public static final int NECKLACE_TOPAZ     			= NECKLACE_GEMS+2;
+	public static final int NECKLACE_EMERALD   			= NECKLACE_GEMS+3;
+	public static final int NECKLACE_ONYX      			= NECKLACE_GEMS+4;
+	public static final int NECKLACE_OPAL      			= NECKLACE_GEMS+5;
+	public static final int NECKLACE_TOURMALINE			= NECKLACE_GEMS+6;
+	public static final int NECKLACE_SAPPHIRE  			= NECKLACE_GEMS+7;
+	public static final int NECKLACE_AMETHYST  			= NECKLACE_GEMS+8;
+	public static final int NECKLACE_QUARTZ    			= NECKLACE_GEMS+9;
+	public static final int NECKLACE_AGATE     			= NECKLACE_GEMS+10;
+	public static final int NECKLACE_DIAMOND   			= NECKLACE_GEMS+11;
+	static {
+		for (int i = NECKLACE_GEMS; i < NECKLACE_GEMS+16; i++)
+			assignItemRect(i, 14, 15);
+	}
 	// ****** new sprites end ******
 
 

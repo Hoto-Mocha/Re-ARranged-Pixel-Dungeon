@@ -115,7 +115,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
@@ -157,9 +156,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfDisintegration;
 import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.SpellBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.BrokenMagnifyingGlass;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Necklace;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.PinkGem;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
@@ -215,7 +214,6 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.Delayer;
-import com.watabou.utils.BArray;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
@@ -278,6 +276,8 @@ public class Hero extends Char {
 	//This list is maintained so that some logic checks can be skipped
 	// for enemies we know we aren't seeing normally, resulting in better performance
 	public ArrayList<Mob> mindVisionEnemies = new ArrayList<>();
+
+	public Ring necklaceRing;
 
 	public Hero() {
 		super();
@@ -349,6 +349,7 @@ public class Hero extends Char {
 	private static final String LEVEL		= "lvl";
 	private static final String EXPERIENCE	= "exp";
 	private static final String HTBOOST     = "htboost";
+	private static final String NECKLACE_BUFF = "necklaceBuff";
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -370,6 +371,8 @@ public class Hero extends Char {
 		
 		bundle.put( HTBOOST, HTBoost );
 
+		bundle.put( NECKLACE_BUFF, necklaceRing );
+
 		belongings.storeInBundle( bundle );
 	}
 	
@@ -380,6 +383,13 @@ public class Hero extends Char {
 		exp = bundle.getInt( EXPERIENCE );
 
 		HTBoost = bundle.getInt(HTBOOST);
+
+		necklaceRing = (Ring) bundle.get(NECKLACE_BUFF);
+		if (necklaceRing != null) {
+			Ring.RingBuff ringBuff = necklaceRing.buff();
+			ringBuff.attachTo( this );
+			Necklace.buff = ringBuff;
+		}
 
 		super.restoreFromBundle( bundle );
 
@@ -394,6 +404,14 @@ public class Hero extends Char {
 		STR = bundle.getInt( STRENGTH );
 
 		belongings.restoreFromBundle( bundle );
+	}
+
+	public void removeNecklaceRing() {
+		necklaceRing = null;
+	}
+
+	public void setNecklaceRing(Ring r) {
+		necklaceRing = r;
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
