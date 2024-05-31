@@ -20,6 +20,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.levels.TempleLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -105,8 +106,10 @@ public class Teleporter extends Item {
                 Ankh.class,
                 LiquidMetal.class,
                 Pickaxe.class,
-                UpgradeDust.class
+                UpgradeDust.class,
+                TrinketCatalyst.class
         );
+        Collections.addAll(itemClass, Generator.Category.TRINKET.classes);
     }
 
     @Override

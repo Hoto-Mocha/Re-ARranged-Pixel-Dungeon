@@ -19,7 +19,7 @@ public class SuspiciousKey extends Trinket {
 
     @Override
     protected int upgradeEnergyCost() {
-        return 6+2*level();
+        return 8+3*level();
     }
 
     @Override

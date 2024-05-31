@@ -1388,7 +1388,7 @@ public class ItemSpriteSheet {
 		assignItemRect(HANDY_BARRICADE		, 8, 16);
 		assignItemRect(ADVANCED_EVOLUTION	, 10, 15);
 		assignItemRect(EVOLUTION			, 10, 15);
-		assignItemRect(UPGRADE_DUST			, 12, 11);
+		assignItemRect(UPGRADE_DUST			, 15, 11);
 		assignItemRect(ELECTRICITY_IMBUE	, 12, 11);
 		assignItemRect(UNSTABLE_IDENTIFY	, 12, 11);
 	}

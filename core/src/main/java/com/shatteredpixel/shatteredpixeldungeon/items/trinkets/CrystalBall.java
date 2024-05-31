@@ -29,8 +29,7 @@ public class CrystalBall extends Trinket {
 
     @Override
     protected int upgradeEnergyCost() {
-        //6 -> 8(14) -> 10(24) -> 12(36)
-        return 6+2*level();
+        return 8+3*level();
     }
 
     @Override

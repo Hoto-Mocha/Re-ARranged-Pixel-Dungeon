@@ -15,7 +15,7 @@ public class PinkGem extends Trinket {
 
     @Override
     protected int upgradeEnergyCost() {
-        return 6+2*level();
+        return 10+10*level();
     }
 
     @Override
