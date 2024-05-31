@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -49,7 +47,7 @@ public class RingOfForce extends Ring {
 	}
 
 	@Override
-	protected RingBuff buff( ) {
+	public RingBuff buff() {
 		return new Force();
 	}
 	

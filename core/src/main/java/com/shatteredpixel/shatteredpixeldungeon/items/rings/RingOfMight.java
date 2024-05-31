@@ -22,12 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -92,7 +89,7 @@ public class RingOfMight extends Ring {
 	}
 
 	@Override
-	protected RingBuff buff( ) {
+	public RingBuff buff() {
 		return new Might();
 	}
 	

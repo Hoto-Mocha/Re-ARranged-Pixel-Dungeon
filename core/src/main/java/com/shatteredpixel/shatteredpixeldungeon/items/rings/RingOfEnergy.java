@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -53,7 +51,7 @@ public class RingOfEnergy extends Ring {
 	}
 	
 	@Override
-	protected RingBuff buff( ) {
+	public RingBuff buff() {
 		return new Energy();
 	}
 	
