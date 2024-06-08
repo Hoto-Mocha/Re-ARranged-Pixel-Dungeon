@@ -1726,7 +1726,8 @@ public class Hero extends Char {
 		if (buff(Sheath.Sheathing.class) != null) {
 			if (subClass == HeroSubClass.MASTER &&
 					buff(Sheath.FlashSlashCooldown.class) == null &&
-					buff(Sheath.DashAttackTracker.class) == null) {
+					buff(Sheath.DashAttackTracker.class) == null &&
+					this.belongings.attackingWeapon() instanceof MeleeWeapon) {
 				switch (pointsInTalent(Talent.ENHANCED_CRIT)) {
 					case 0: default:
 						chance *= 1.5f;
@@ -2446,13 +2447,17 @@ public class Hero extends Char {
 				Buff.affect(this, Momentum.class).gainStack();
 			}
 
-			if (hero.buff(Talent.RollingTracker.class) != null && hero.belongings.weapon instanceof Gun && Dungeon.bullet > 1) {
+			if (hero.buff(Talent.RollingTracker.class) != null && hero.belongings.weapon instanceof Gun && Dungeon.bullet > 1 && !((Gun) hero.belongings.weapon).isReloaded()) {
 				Dungeon.bullet --;
 				((Gun)hero.belongings.weapon).manualReload();
 				hero.buff(Talent.RollingTracker.class).detach();
 			}
 
-			if (hero.hasTalent(Talent.QUICK_RELOAD) && hero.belongings.weapon instanceof Gun && Random.Float() < 0.03f * hero.pointsInTalent(Talent.QUICK_RELOAD) && Dungeon.bullet > 1) {
+			if (hero.hasTalent(Talent.QUICK_RELOAD)
+					&& hero.belongings.weapon instanceof Gun
+					&& Random.Float() < 0.03f * hero.pointsInTalent(Talent.QUICK_RELOAD)
+					&& Dungeon.bullet > 1
+					&& !((Gun) hero.belongings.weapon).isReloaded()) {
 				Dungeon.bullet --;
 				((Gun)hero.belongings.weapon).manualReload();
 			}

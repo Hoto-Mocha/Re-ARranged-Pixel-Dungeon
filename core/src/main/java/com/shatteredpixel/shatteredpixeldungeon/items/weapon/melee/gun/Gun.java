@@ -393,6 +393,10 @@ public class Gun extends MeleeWeapon {
 		updateQuickslot();
 	}
 
+	public boolean isReloaded() {
+		return round >= maxRound();
+	}
+
 	public int shotPerShoot() { //발사 당 탄환의 수
 		return shotPerShoot;
 	}

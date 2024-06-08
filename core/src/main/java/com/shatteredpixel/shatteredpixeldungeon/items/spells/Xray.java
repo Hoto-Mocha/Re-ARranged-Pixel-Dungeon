@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -42,8 +43,11 @@ public class Xray extends Spell {
 	@Override
 	protected void onCast(Hero hero) {
 		Buff.affect(hero, Awareness.class, 2f);
-		
+
+		this.detach(hero.belongings.backpack);
 		GLog.p(Messages.get(this, "xray"));
+		hero.sprite.operate(hero.pos);
+		Sample.INSTANCE.play(Assets.Sounds.READ);
 
 		updateQuickslot();
 		hero.spendAndNext( 1f );
@@ -57,7 +61,7 @@ public class Xray extends Spell {
 
 	@Override
 	public int energyVal() {
-		return (int)(32 * (quantity/(float) Recipe.OUT_QUANTITY));
+		return (int)((10+12+6) * (quantity/(float) Recipe.OUT_QUANTITY));
 	}
 	
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
@@ -68,7 +72,7 @@ public class Xray extends Spell {
 			inputs =  new Class[]{PotionOfMagicalSight.class, ScrollOfForesight.class};
 			inQuantity = new int[]{1, 1};
 			
-			cost = 10;
+			cost = 6;
 			
 			output = Xray.class;
 			outQuantity = 2;

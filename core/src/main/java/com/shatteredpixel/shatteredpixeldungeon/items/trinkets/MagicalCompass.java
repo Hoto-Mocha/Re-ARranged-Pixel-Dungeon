@@ -57,8 +57,8 @@ public class MagicalCompass extends Trinket {
                 }
 
                 //TODO: boolean[] vis 부분에 passable을 넣는 것이 어떤 역할을 하는지 정확히 모르는 상태에서 진행함. 버그 발생 시 수정 필요
-                PathFinder.Path path = Dungeon.findPath(Dungeon.hero, Dungeon.level.exit(), passable, passable, true);
-                if (PathFinder.distance[Dungeon.level.exit()] == Integer.MAX_VALUE){
+                PathFinder.Path path = Dungeon.findPath(Dungeon.hero, Dungeon.level.exit(), passable, passable, false);
+                if (PathFinder.distance[Dungeon.level.exit()] == Integer.MAX_VALUE || path == null){
                     GLog.w(Messages.get(MagicalCompass.class, "cant_find"));
                 } else {
                     int[] map = Dungeon.level.map;

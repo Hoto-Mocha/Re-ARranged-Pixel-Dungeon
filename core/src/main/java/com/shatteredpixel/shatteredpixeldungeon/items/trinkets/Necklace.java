@@ -56,7 +56,7 @@ public class Necklace extends Trinket {
 
     @Override
     protected int upgradeEnergyCost() {
-        return 6+2*level();
+        return 15+8*level();
     }
 
     @Override

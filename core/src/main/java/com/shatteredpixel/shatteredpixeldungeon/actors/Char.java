@@ -129,6 +129,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -368,7 +369,7 @@ public abstract class Char extends Actor {
 		if (this instanceof Hero && hero.subClass == HeroSubClass.EXPLORER) {
 			Rope rope = hero.belongings.getItem(Rope.class);
 			KindOfWeapon wep = hero.belongings.attackingWeapon();
-			if (rope != null && wep != null) {
+			if (rope != null && wep instanceof MeleeWeapon) {
 				int weaponReach = wep.reachFactor(hero) + KindOfWeapon.additionalReach();
 				int attackReach = weaponReach + rope.quantity();
 

@@ -1054,13 +1054,17 @@ public enum Talent {
 			hero.belongings.weapon.identify();
 		}
 
+		if (talent == LARGER_MAGAZINE) {
+			Item.updateQuickslot();
+		}
+
 		//samurai
 		if (talent == MASTERS_INTUITION && hero.belongings.weapon instanceof MeleeWeapon && !(hero.belongings.weapon instanceof Gun)) {
 			hero.belongings.weapon.identify();
 		}
 
-		if (talent == LARGER_MAGAZINE) {
-			Item.updateQuickslot();
+		if (talent == STORED_POWER) {
+			BuffIndicator.refreshHero();
 		}
 
 		//adventurer

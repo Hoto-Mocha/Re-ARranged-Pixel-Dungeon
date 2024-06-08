@@ -637,7 +637,7 @@ public class Dungeon {
 	public static boolean labRoomNeeded(){
 		//one laboratory each floor set, in floor 3 or 4, 1/2 chance each floor
 		int region = 1+depth/5;
-		if (region > LimitedDrops.LAB_ROOM.count){
+		if (region > LimitedDrops.LAB_ROOM.count && Dungeon.branch != 2){ //no lab room in temple
 			int floorThisRegion = depth%5;
 			if (floorThisRegion >= 4 || (floorThisRegion == 3 && Random.Int(2) == 0)){
 				return true;

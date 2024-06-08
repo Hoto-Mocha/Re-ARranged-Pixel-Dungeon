@@ -196,6 +196,10 @@ public class Badges {
 		BOSS_SLAIN_3_SLASHER,
 		BOSS_SLAIN_3_MASTER,
 		BOSS_SLAIN_3_SLAYER,
+
+		BOSS_SLAIN_3_ENGINEER,
+		BOSS_SLAIN_3_EXPLORER,
+		BOSS_SLAIN_3_RESEARCHER,
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 106, true ),
 		BOSS_CHALLENGE_3            ( 107 ),
 		BOSS_CHALLENGE_4            ( 108 ),
@@ -783,6 +787,9 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.SLASHER, Badge.BOSS_SLAIN_3_SLASHER);
 		thirdBossSubclassBadges.put(HeroSubClass.MASTER, Badge.BOSS_SLAIN_3_MASTER);
 		thirdBossSubclassBadges.put(HeroSubClass.SLAYER, Badge.BOSS_SLAIN_3_SLAYER);
+		thirdBossSubclassBadges.put(HeroSubClass.ENGINEER, Badge.BOSS_SLAIN_3_ENGINEER);
+		thirdBossSubclassBadges.put(HeroSubClass.EXPLORER, Badge.BOSS_SLAIN_3_EXPLORER);
+		thirdBossSubclassBadges.put(HeroSubClass.RESEARCHER, Badge.BOSS_SLAIN_3_RESEARCHER);
 	}
 	
 	public static void validateBossSlain() {

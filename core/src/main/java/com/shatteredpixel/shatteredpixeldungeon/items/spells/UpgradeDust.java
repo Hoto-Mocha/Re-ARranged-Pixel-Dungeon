@@ -154,7 +154,7 @@ public class UpgradeDust extends Spell {
 
 	@Override
 	public int energyVal() {
-		return (int)(17 * (quantity/(float) Recipe.OUT_QUANTITY));
+		return (int)(8 * (quantity/(float) Recipe.OUT_QUANTITY));
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
@@ -165,7 +165,7 @@ public class UpgradeDust extends Spell {
 			inputs =  new Class[]{StoneOfAugmentation.class, LiquidMetal.class};
 			inQuantity = new int[]{1, 20};
 
-			cost = 4;
+			cost = 3;
 
 			output = UpgradeDust.class;
 			outQuantity = 3;

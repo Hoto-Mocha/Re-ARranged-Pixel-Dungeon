@@ -98,7 +98,7 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
 
     @Override
     public float iconFadePercent(){
-        return Math.max(0, damage/(float)maxDamage());
+        return Math.max(0, (maxDamage()-damage)/(float)maxDamage());
     }
 
     @Override
