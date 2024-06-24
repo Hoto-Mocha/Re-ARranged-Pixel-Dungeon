@@ -89,8 +89,9 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 			});
 			//we detach and calculate bonus here in case the attack misses (e.g. vs. monks)
 			spin.detach();
-			//roughly +20% base damage
-			spinBoost = spin.spins * augment.damageFactor(Math.round(0.2f*max(buffedLvl())));
+			//+(8+2*lvl) damage per spin, roughly +40% base damage, +45% scaling
+			// so +120% base dmg, +135% scaling at 3 spins
+			spinBoost = spin.spins * augment.damageFactor(8 + 2*buffedLvl());
 			return Float.POSITIVE_INFINITY;
 		} else {
 			spinBoost = 0;

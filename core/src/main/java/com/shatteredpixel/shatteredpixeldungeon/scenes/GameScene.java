@@ -72,6 +72,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.CrystalBall;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.DimensionalSundial;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.MagicalCompass;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.MimicTooth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -769,6 +770,10 @@ public class GameScene extends PixelScene {
 			updateItemDisplays = false;
 			QuickSlotButton.refresh();
 			InventoryPane.refresh();
+			if (ActionIndicator.action instanceof MeleeWeapon.Charger) {
+				//Champion weapon swap uses items, needs refreshing whenever item displays are updated
+				ActionIndicator.refresh();
+			}
 		}
 
 		if (Dungeon.hero == null || scene == null) {

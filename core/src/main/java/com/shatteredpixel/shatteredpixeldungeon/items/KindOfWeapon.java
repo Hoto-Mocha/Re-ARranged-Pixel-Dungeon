@@ -38,7 +38,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.audio.Sample;
@@ -125,7 +124,6 @@ abstract public class KindOfWeapon extends EquipableItem {
 			activate( hero );
 			Talent.onItemEquipped(hero, this);
 			Badges.validateDuelistUnlock();
-			ActionIndicator.refresh();
 			updateQuickslot();
 
 			cursedKnown = true;
@@ -173,7 +171,6 @@ abstract public class KindOfWeapon extends EquipableItem {
 			activate( hero );
 			Talent.onItemEquipped(hero, this);
 			Badges.validateDuelistUnlock();
-			ActionIndicator.refresh();
 			updateQuickslot();
 
 			cursedKnown = true;
