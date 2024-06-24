@@ -304,21 +304,32 @@ public class HeroSelectScene extends PixelScene {
 
 			int btnWidth = HeroBtn.MIN_WIDTH;
 
-			float curX = (Camera.main.width - btnWidth * heroBtns.size()) / 2f;
+			float curX = (Camera.main.width - btnWidth * heroBtns.size() / 2f) / 2f;
 			if (curX > 0) {
 				btnWidth += Math.min(curX / (heroBtns.size() / 2f), 15);
-				curX = (Camera.main.width - btnWidth * heroBtns.size()) / 2f;
+				curX = (Camera.main.width - btnWidth * heroBtns.size() / 2f) / 2f;
 			}
 			float curY = Camera.main.height - HeroBtn.HEIGHT + 3;
 
-			for (StyledButton button : heroBtns) {
+			//for (StyledButton button : heroBtns) {
+			//	button.setRect(curX, curY, btnWidth, HeroBtn.HEIGHT);
+			//	curX += btnWidth;
+			//}
+
+			int count = 0;
+			for (StyledButton button : heroBtns){
 				button.setRect(curX, curY, btnWidth, HeroBtn.HEIGHT);
 				curX += btnWidth;
+				count++;
+				if (count >= (1+heroBtns.size())/2){
+					curX -= btnWidth*count;
+					curY -= HeroBtn.HEIGHT;
+					count = 0;
+				}
 			}
+			title.setPos((Camera.main.width - title.width()) / 2f, (Camera.main.height - HeroBtn.HEIGHT*2 - title.height() - 4));
 
-			title.setPos((Camera.main.width - title.width()) / 2f, (Camera.main.height - HeroBtn.HEIGHT - title.height() - 4));
-
-			btnOptions.setRect(heroBtns.get(0).left() + 16, Camera.main.height-HeroBtn.HEIGHT-16, 20, 21);
+			btnOptions.setRect(heroBtns.get(0).left() + 16, Camera.main.height-HeroBtn.HEIGHT*2-16, 20, 21);
 			optionsPane.setPos(heroBtns.get(0).left(), 0);
 		}
 
@@ -417,7 +428,7 @@ public class HeroSelectScene extends PixelScene {
 			startBtn.text(Messages.titleCase(cl.title()));
 			startBtn.setSize(startBtn.reqWidth() + 8, 21);
 
-			startBtn.setPos((Camera.main.width - startBtn.width())/2f, (Camera.main.height - HeroBtn.HEIGHT + 2 - startBtn.height()));
+			startBtn.setPos((Camera.main.width - startBtn.width())/2f, (Camera.main.height - HeroBtn.HEIGHT*2 + 2 - startBtn.height()));
 			PixelScene.align(startBtn);
 
 			infoButton.visible = infoButton.active = true;
