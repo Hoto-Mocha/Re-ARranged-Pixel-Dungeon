@@ -178,21 +178,29 @@ public class SpearNShield extends MeleeWeapon implements AlchemyWeapon {
         }
     }
 
+    public String abilityName() {
+        if (stance) {
+            return Messages.upperCase(Messages.get(this, "ability1_name"));
+        } else {
+            return Messages.upperCase(Messages.get(this, "ability2_name"));
+        }
+    }
+
     @Override
     public String abilityInfo() {
         if (stance) {
             int dmgBoost = levelKnown ? 7 + Math.round(1.5f*buffedLvl()) : 7;
             if (levelKnown){
-                return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+                return Messages.get(this, "ability1_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
             } else {
-                return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+                return Messages.get(this, "typical_ability1_desc", min(0)+dmgBoost, max(0)+dmgBoost);
             }
         } else {
             int duration = levelKnown ? 5+buffedLvl() : 5;
             if (levelKnown){
-                return Messages.get(this, "ability_desc", duration);
+                return Messages.get(this, "ability2_desc", duration);
             } else {
-                return Messages.get(this, "typical_ability_desc", duration);
+                return Messages.get(this, "typical_ability2_desc", duration);
             }
         }
     }

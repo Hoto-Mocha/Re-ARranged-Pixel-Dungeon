@@ -452,6 +452,11 @@ public class Gun extends MeleeWeapon {
 	}
 
 	@Override
+	public int STRReq(int lvl) {
+		return STRReq(tier(), lvl);
+	}
+
+	@Override
 	public int max(int lvl) {
 		int damage = 3*(tier()+1) +
 					 lvl*(tier()+1); //근접 무기로서의 최대 데미지

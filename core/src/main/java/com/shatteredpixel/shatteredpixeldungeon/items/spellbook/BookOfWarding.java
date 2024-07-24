@@ -60,7 +60,7 @@ public class BookOfWarding extends SpellBook {
         String info = super.info();
         if (Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
             info += "\n\n" + Messages.get(this, "time",
-                    Math.round((2+Dungeon.hero.lvl/2f)*(1+0.5f*Dungeon.hero.pointsInTalent(Talent.SPELL_ENHANCE))));
+                    Math.round((1+Dungeon.hero.lvl/4f)*(1+0.5f*Dungeon.hero.pointsInTalent(Talent.SPELL_ENHANCE))));
         }
         return info;
     }

@@ -19,8 +19,7 @@ public class MagicalCompass extends Trinket {
 
     @Override
     protected int upgradeEnergyCost() {
-        //6 -> 8(14) -> 10(24) -> 12(36)
-        return 6+2*level();
+        return 2 + Math.round(level()*1.33f);
     }
 
     @Override

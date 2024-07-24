@@ -473,8 +473,8 @@ public enum Icons {
 				return get( Icons.SAMURAI );
 			case ADVENTURER:
 				return get( Icons.ADVENTURER );
-//			case KNIGHT:
-//				return get( Icons.KNIGHT );
+			case KNIGHT:
+				return get( Icons.KNIGHT );
 //			case NURSE:
 //				return get( Icons.NURSE );
 			default:

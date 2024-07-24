@@ -91,13 +91,13 @@ public class NormalKatana extends MeleeWeapon {
 
         Char enemy = Actor.findChar(target);
         if (enemy == null || enemy == hero || hero.isCharmedBy(enemy) || !Dungeon.level.heroFOV[target]) {
-            GLog.w(Messages.get(wep, "ability_no_target"));
+            GLog.w(Messages.get(NormalKatana.class, "ability_no_target"));
             return;
         }
 
         hero.belongings.abilityWeapon = wep;
         if (!hero.canAttack(enemy)){
-            GLog.w(Messages.get(wep, "ability_bad_position"));
+            GLog.w(Messages.get(NormalKatana.class, "ability_bad_position"));
             hero.belongings.abilityWeapon = null;
             return;
         }

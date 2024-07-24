@@ -39,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SacrificialFire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
@@ -56,6 +57,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cloaking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awakening;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Enduring;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRingsCombo;
@@ -65,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GhostSpawner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Levitation;
@@ -78,13 +81,16 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Pray;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RouletteOfDeath;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulCollect;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SwordAura;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Undead;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
@@ -115,11 +121,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Afterimage;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Obfuscation;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
@@ -147,6 +156,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.quest.DarkGold;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
@@ -168,6 +178,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DeathSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualDagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.LargeSword;
@@ -214,6 +225,7 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.Delayer;
+import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
@@ -307,10 +319,15 @@ public class Hero extends Char {
 		if (buff(ElixirOfTalent.ElixirOfTalentHTBoost.class) != null){
 			HT += buff(ElixirOfTalent.ElixirOfTalentHTBoost.class).boost();
 		}
+
+		if (hero.buff(DeathSword.MaxHPBoost.class) != null) {
+			HT += hero.buff(DeathSword.MaxHPBoost.class).HTBonus();
+		}
 		
 		if (boostHP){
 			HP += Math.max(HT - curHT, 0);
 		}
+
 		HP = Math.min(HP, HT);
 	}
 
@@ -701,6 +718,10 @@ public class Hero extends Char {
 			evasion = belongings.armor().evasionFactor(this, evasion);
 		}
 
+		if (belongings.getItem(KnightsShield.class) != null && belongings.getItem(KnightsShield.class).hasGlyph(Afterimage.class, this)) {
+			evasion *= Math.pow(1.2f, belongings.getItem(KnightsShield.class).buffedLvl()) * RingOfArcana.enchantPowerMultiplier(this);
+		}
+
 		return Math.round(evasion);
 	}
 
@@ -779,6 +800,15 @@ public class Hero extends Char {
 			if (wepDr > 0) dr += wepDr;
 		}
 
+		if (belongings.getItem(KnightsShield.class) != null) {
+			int shieldDr = Char.combatRoll(0, belongings.getItem(KnightsShield.class).defenseFactor());
+			if (shieldDr > 0) dr += shieldDr;
+		}
+
+		if (hero.heroClass != HeroClass.KNIGHT && hero.hasTalent(Talent.HARD_SHIELD)) {
+			dr += Char.combatRoll(0, 2*hero.pointsInTalent(Talent.HARD_SHIELD));
+		}
+
 		if (buff(HoldFast.class) != null){
 			dr += buff(HoldFast.class).armorBonus();
 		}
@@ -839,7 +869,11 @@ public class Hero extends Char {
 		if (belongings.armor() != null) {
 			speed = belongings.armor().speedFactor(this, speed);
 		}
-		
+
+		if (belongings.getItem(KnightsShield.class) != null) {
+			speed = belongings.getItem(KnightsShield.class).speedFactor(this, speed);
+		}
+
 		Momentum momentum = buff(Momentum.class);
 		if (momentum != null){
 			((HeroSprite)sprite).sprint( momentum.freerunning() ? 1.5f : 1f );
@@ -871,6 +905,14 @@ public class Hero extends Char {
 
 		if (level.map[hero.pos] == Terrain.FURROWED_GRASS && hero.hasTalent(Talent.JUNGLE_EXPLORE)) {
 			speed *= Math.pow(1.2f, hero.pointsInTalent(Talent.JUNGLE_EXPLORE));
+		}
+
+		if (hero.buff(HorseRiding.class) != null
+				&& hero.hasTalent(Talent.PILOTING)
+				&& hero.belongings.armor != null
+				&& hero.STR() > hero.belongings.armor.STRReq()) {
+			int aEnc = hero.STR() - hero.belongings.armor.STRReq();
+			speed *= Math.pow(1+0.03f*hero.pointsInTalent(Talent.PILOTING), aEnc);
 		}
 
 		speed = AscensionChallenge.modifyHeroSpeed(speed);
@@ -936,7 +978,7 @@ public class Hero extends Char {
 			//This is for that one guy, you shall get your fists of fury!
 			float speed = RingOfFuror.attackSpeedMultiplier(this);
 
-			if (hero.hasTalent(Talent.LESS_RESIST)) {
+			if (hero.hasTalent(Talent.LESS_RESIST) && belongings.attackingWeapon() == null) {
 				int aEnc = hero.belongings.armor.STRReq() - hero.STR();
 				if (aEnc < 0) {
 					speed *= 1 + 0.05f * hero.pointsInTalent(Talent.LESS_RESIST) * (-aEnc);
@@ -1113,6 +1155,10 @@ public class Hero extends Char {
 
 		if (hero.subClass == HeroSubClass.SLAYER && hero.buff(Awakening.class) == null) {
 			Buff.affect(hero, Awakening.class).indicate();
+		}
+
+		if (buff(Undead.class) != null) {
+			hero.HP = 0;
 		}
 		
 		return actResult;
@@ -1983,17 +2029,6 @@ public class Hero extends Char {
 			default:
 		}
 
-		if (hero.hasTalent(Talent.WATER_FRIENDLY) && Dungeon.level.map[hero.pos] == Terrain.WATER) {
-			damage += Random.NormalIntRange(1, hero.pointsInTalent(Talent.WATER_FRIENDLY));
-			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
-		}
-
-		if (hero.buff(Talent.SkilledHandTracker.class) != null) {
-			damage += 1+hero.pointsInTalent(Talent.SKILLED_HAND);
-			hero.buff(Talent.SkilledHandTracker.class).detach();
-			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
-		}
-
 		if (Random.Float() < hero.pointsInTalent(Talent.MADNESS)/10f) {
 			Buff.prolong(enemy, Amok.class, 3f);
 		}
@@ -2043,47 +2078,12 @@ public class Hero extends Char {
 			damage = (int)Math.round(damage * Math.pow(0.8f, dist));
 		}
 
-		//damage addition
-		if (hero.hasTalent(Talent.NATURE_FRIENDLY) && (level.map[this.pos] == Terrain.HIGH_GRASS || level.map[this.pos] == Terrain.FURROWED_GRASS)) {
-			damage += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
-		}
-
 		if (hero.buff(TreasureMap.GoldTracker.class) != null) {
 			damage *= 1 + 0.1f * hero.pointsInTalent(Talent.GOLD_HUNTER);
 			hero.buff(TreasureMap.GoldTracker.class).detach();
 		}
 
 		//attacking procs
-		if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-			if (hero.hasTalent(Talent.POISONOUS_BLADE)) {
-				Buff.affect(enemy, Poison.class).set(2+hero.pointsInTalent(Talent.POISONOUS_BLADE));
-			}
-			if (hero.hasTalent(Talent.SOUL_COLLECT) && damage >= enemy.HP) {
-				int healAmt = 3*hero.pointsInTalent(Talent.SOUL_COLLECT);
-				healAmt = Math.min( healAmt, hero.HT - hero.HP );
-				if (healAmt > 0 && hero.isAlive()) {
-					hero.HP += healAmt;
-					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 2 );
-					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
-				}
-			}
-			if (hero.hasTalent(Talent.TRAIL_TRACKING) && damage >= enemy.HP) {
-				Buff.affect(hero, MindVision.class, hero.pointsInTalent(Talent.TRAIL_TRACKING));
-			}
-
-			if (hero.pointsInTalent(Talent.MASTER_OF_CLOAKING) == 3) {
-				if (hero.buff(Talent.ChaseCooldown.class) != null) {
-					hero.buff(Talent.ChaseCooldown.class).spendTime();
-				}
-				if (hero.buff(Talent.ChainCooldown.class) != null) {
-					hero.buff(Talent.ChainCooldown.class).spendTime();
-				}
-				if (hero.buff(Talent.LethalCooldown.class) != null) {
-					hero.buff(Talent.LethalCooldown.class).spendTime();
-				}
-			}
-		}
-
 		if (hero.hasTalent(Talent.BAYONET) && hero.buff(ReinforcedArmor.ReinforcedArmorTracker.class) != null){
 			if (wep instanceof Gun) {
 				Buff.affect( enemy, Bleeding.class ).set( 4 + hero.pointsInTalent(Talent.BAYONET));
@@ -2102,22 +2102,6 @@ public class Hero extends Char {
 			Buff.affect(hero, SwordAura.class).hit(damage);
 		}
 
-		if (hero.hasTalent(Talent.BLOOMING_WEAPON)
-				&& Random.Float() < 0.05f*hero.pointsInTalent(Talent.BLOOMING_WEAPON)) {
-			boolean secondPlant = Random.Float() <= 0.33f;
-			ArrayList<Integer> positions = new ArrayList<>();
-			Blooming blooming = new Blooming();
-			for (int i : PathFinder.NEIGHBOURS8){
-				positions.add(i);
-			}
-			Random.shuffle( positions );
-			for (int i : positions){
-				if (blooming.plantGrass(enemy.pos + i)) {
-					if (secondPlant) secondPlant = false;
-					else return damage;
-				}
-			}
-		}
 
 		if (hero.subClass == HeroSubClass.RESEARCHER && Random.Float() < 0.2f) {
 			Buff.affect(enemy, Ooze.class).set(Ooze.DURATION/4f * (1+0.5f*hero.pointsInTalent(Talent.POWERFUL_ACID)));
@@ -2130,6 +2114,30 @@ public class Hero extends Char {
 
 		if (buff(Sheath.CertainCrit.class) != null) {
 			buff(Sheath.CertainCrit.class).hit();
+		}
+
+		if (hero.subClass == HeroSubClass.CRUSADER && hero.buff(Bless.class) != null) {
+			int healAmt = Math.round(damage*0.4f);
+			int excessHeal = healAmt - (hero.HT - hero.HP);
+			hero.heal(healAmt);
+			if (hero.hasTalent(Talent.HOLY_SHIELD) && excessHeal > 0) {
+				int maxShield = Math.round(hero.HT*0.2f*hero.pointsInTalent(Talent.HOLY_SHIELD));
+				Barrier barrier = hero.buff(Barrier.class);
+				if (barrier != null) {
+					if (barrier.shielding()+excessHeal > maxShield) {
+						excessHeal = maxShield - barrier.shielding(); //방어막을 얻을 때 최대치를 넘길 경우 얻을 방어막의 양을 감소시킴
+						Buff.affect(hero, Barrier.class).setShield(excessHeal);
+					} else {
+						Buff.affect(hero, Barrier.class).setShield(excessHeal);
+					}
+				} else {
+					Buff.affect(hero, Barrier.class).setShield(Math.min(excessHeal, maxShield));
+				}
+			}
+		}
+
+		if (hero.buff(Pray.Punishment.class) != null) {
+			hero.buff(Pray.Punishment.class).hit(enemy, damage);
 		}
 
 		PinkGem.proc(enemy);
@@ -2154,9 +2162,19 @@ public class Hero extends Char {
 			damage = belongings.armor().proc( enemy, this, damage );
 		}
 
+		if (belongings.getItem(KnightsShield.class) != null) {
+			KnightsShield shield = belongings.getItem(KnightsShield.class);
+			damage = shield.proc( enemy, this, damage );
+		}
+
 		WandOfLivingEarth.RockArmor rockArmor = buff(WandOfLivingEarth.RockArmor.class);
 		if (rockArmor != null) {
 			damage = rockArmor.absorb(damage);
+		}
+
+		Talent.ArmorEmpower armorEmpower = buff(Talent.ArmorEmpower.class);
+		if (armorEmpower != null) {
+			damage = armorEmpower.proc(damage);
 		}
 
 		if (hero.hasTalent(Talent.EMERGENCY_ESCAPE) && Random.Float() < hero.pointsInTalent(Talent.EMERGENCY_ESCAPE)/50f) {
@@ -2170,6 +2188,10 @@ public class Hero extends Char {
 				if (hero.pointsInTalent(Talent.OVERCOMING) > 1) Buff.affect(this, Adrenaline.class, 2f);
 				if (hero.pointsInTalent(Talent.OVERCOMING) > 2) Buff.affect(this, EvasiveMove.class, 2f);
 			}
+		}
+
+		if (hero.buff(Pray.Praying.class) != null) {
+			hero.buff(Pray.Praying.class).defenseProc(enemy, damage);
 		}
 
 		if (Dungeon.isChallenged(Challenges.FATIGUE)) {
@@ -2216,6 +2238,11 @@ public class Hero extends Char {
 			dmg = thorns.proc(dmg, (src instanceof Char ? (Char)src : null),  this);
 		}
 
+		//~17%/~33% damage reduction, proportional to hero's lost health
+		if (hero.hasTalent(Talent.PROTECTION)) {
+			dmg = (int)Math.ceil(dmg * (1 - hero.pointsInTalent(Talent.PROTECTION)/6f * ((float)(this.HT - this.HP)/this.HT)));
+		}
+
 		dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
 
 		LargeSword.LargeSwordBuff largeSwordBuff = hero.buff(LargeSword.LargeSwordBuff.class);
@@ -2227,6 +2254,12 @@ public class Hero extends Char {
 		if (belongings.armor() != null && belongings.armor().hasGlyph(AntiMagic.class, this)
 				&& AntiMagic.RESISTS.contains(src.getClass())){
 			dmg -= AntiMagic.drRoll(this, belongings.armor().buffedLvl());
+			dmg = Math.max(dmg, 0);
+		}
+
+		if (belongings.getItem(KnightsShield.class) != null && belongings.getItem(KnightsShield.class).hasGlyph(AntiMagic.class, this)
+				&& AntiMagic.RESISTS.contains(src.getClass())) {
+			dmg -= AntiMagic.drRoll(this, belongings.getItem(KnightsShield.class).buffedLvl());
 			dmg = Math.max(dmg, 0);
 		}
 
@@ -2283,6 +2316,10 @@ public class Hero extends Char {
 				interrupt();
 				damageInterrupt = true;
 			}
+		}
+
+		if (buff(HorseRiding.class) != null) {
+			buff(HorseRiding.class).onDamage(dmg);
 		}
 	}
 	
@@ -2638,7 +2675,8 @@ public class Hero extends Char {
 				GLog.p( Messages.get(this, "level_cap"));
 				Sample.INSTANCE.play( Assets.Sounds.LEVELUP );
 			}
-			
+
+			Talent.onLevelUp();
 		}
 		
 		if (levelUp) {
@@ -2659,6 +2697,16 @@ public class Hero extends Char {
 			Item.updateQuickslot();
 			
 			Badges.validateLevelReached();
+		}
+	}
+
+	public boolean expUsed(int useExp) {
+		if (this.exp < useExp) {
+			return false;
+		} else {
+			this.exp = Math.max(this.exp - useExp, 0);
+			Dungeon.hero.sprite.showStatusWithIcon(CharSprite.NEGATIVE, Integer.toString(-useExp), FloatingText.EXPERIENCE_USE);
+			return true;
 		}
 	}
 	
@@ -2716,6 +2764,11 @@ public class Hero extends Char {
 		if (belongings.armor() != null){
 			stealth = belongings.armor().stealthFactor(this, stealth);
 		}
+
+		if ((belongings.getItem(KnightsShield.class) != null && belongings.getItem(KnightsShield.class).hasGlyph(Obfuscation.class, this))) {
+			KnightsShield shield = belongings.getItem(KnightsShield.class);
+			stealth += (1 + shield.buffedLvl()/3f) * shield.glyph.procChanceMultiplier(this);
+		}
 		
 		return stealth;
 	}
@@ -2726,6 +2779,17 @@ public class Hero extends Char {
 		if (buff(Enduring.class) != null) {
 			this.HP = 1;
 			return;
+		}
+
+		if (hero.buff(Undead.class) == null && hero.hasTalent(Talent.UNDEAD)) {
+			Buff.affect(hero, Undead.class, hero.pointsInTalent(Talent.UNDEAD));
+			return;
+		}
+
+		if (buff(SoulCollect.class) != null) {
+			if (buff(SoulCollect.class).soulUsed(this)) {
+				return;
+			}
 		}
 		
 		curAction = null;
@@ -2874,6 +2938,7 @@ public class Hero extends Char {
 	public boolean isAlive() {
 		
 		if (HP <= 0){
+			if (hero.buff(Undead.class) != null) return true;
 			if (berserk == null) berserk = buff(Berserk.class);
 			return berserk != null && berserk.berserking();
 		} else {
@@ -3056,8 +3121,10 @@ public class Hero extends Char {
 	@Override
 	public boolean isImmune(Class effect) {
 		if (effect == Burning.class
-				&& belongings.armor() != null
-				&& belongings.armor().hasGlyph(Brimstone.class, this)){
+				&& (
+				(belongings.armor() != null && belongings.armor().hasGlyph(Brimstone.class, this)) ||
+				(belongings.getItem(KnightsShield.class) != null && belongings.getItem(KnightsShield.class).hasGlyph(Brimstone.class, this))
+			)){
 			return true;
 		}
 		return super.isImmune(effect);

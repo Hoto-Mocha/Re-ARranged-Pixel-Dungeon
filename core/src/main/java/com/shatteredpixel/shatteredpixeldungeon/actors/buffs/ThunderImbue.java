@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
@@ -86,15 +87,21 @@ public class ThunderImbue extends Buff {
 	}
 
 	public void proc(Char enemy, int damage){
-		enemy.damage(Random.IntRange(Math.round(damage*0.2f), Math.round(damage*0.6f)), target);
-		ArrayList<ThunderBolt.Arc> arcs = new ArrayList<>();
-		enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
-		enemy.sprite.flash();
-		arcs.add(new ThunderBolt.Arc(new PointF( enemy.sprite.center().x, enemy.sprite.center().y-35 ), enemy.sprite.center()));
-		hero.sprite.parent.addToFront( new ThunderBolt( arcs, null ) );
-		Sample.INSTANCE.play(Assets.Sounds.ROCKS, 0.7f, 0.5f);
-		Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
-		Sample.INSTANCE.play( Assets.Sounds.BLAST );
+		enemy.damage(Char.combatRoll(Math.round(damage*0.2f), Math.round(damage*0.6f)), target);
+		thunderEffect(enemy.sprite);
+	}
+
+	public static void thunderEffect(CharSprite sprite) {
+		if (sprite != null) {
+			ArrayList<ThunderBolt.Arc> arcs = new ArrayList<>();
+			sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
+			sprite.flash();
+			arcs.add(new ThunderBolt.Arc(new PointF( sprite.center().x, sprite.center().y-35 ), sprite.center()));
+			hero.sprite.parent.addToFront( new ThunderBolt( arcs, null ) );
+			Sample.INSTANCE.play(Assets.Sounds.ROCKS, 0.7f, 0.5f);
+			Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+			Sample.INSTANCE.play( Assets.Sounds.BLAST );
+		}
 	}
 
 	@Override
@@ -124,5 +131,11 @@ public class ThunderImbue extends Buff {
 
 	{
 		immunities.add( Electricity.class );
+	}
+
+	@Override
+	public void fx(boolean on) {
+		if (on) target.sprite.add(CharSprite.State.ELECTRIC);
+		else target.sprite.remove(CharSprite.State.ELECTRIC);
 	}
 }

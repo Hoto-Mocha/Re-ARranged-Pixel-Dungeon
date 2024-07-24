@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Pray;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
@@ -464,6 +465,10 @@ public abstract class Char extends Actor {
 			Berserk berserk = buff(Berserk.class);
 			if (berserk != null) dmg = berserk.damageFactor(dmg);
 
+			if (hero.subClass == HeroSubClass.DEATHKNIGHT) {
+				dmg *= 1+(0.2f+0.1f*hero.pointsInTalent(Talent.RESENTMENT))*((hero.HT-hero.HP)/(float)hero.HT);
+			}
+
 			if (buff( Fury.class ) != null) {
 				dmg *= 1.5f;
 			}
@@ -499,6 +504,13 @@ public abstract class Char extends Actor {
 			if ( buff(SoulMark.class) != null && hero.hasTalent(Talent.MARK_OF_WEAKNESS)) {
 				if (this.alignment != Alignment.ALLY) {
 					dmg *= Math.pow(0.9f, hero.pointsInTalent(Talent.MARK_OF_WEAKNESS));
+				}
+			}
+
+			if (enemy != hero && enemy.alignment == Alignment.ALLY && Dungeon.level.heroFOV[enemy.pos] && hero.hasTalent(Talent.CHIVALRY)) {
+				enemy = hero;
+				if (hero.pointsInTalent(Talent.CHIVALRY) > 1) {
+					dmg *= 0.5;
 				}
 			}
 			
@@ -578,6 +590,27 @@ public abstract class Char extends Actor {
 					}
 				}
 				combinedLethality.detach();
+			}
+
+			Talent.JudgementTracker judgement = enemy.buff(Talent.JudgementTracker.class);
+			if (judgement != null) {
+				if ( enemy.isAlive() && enemy.alignment != alignment && !Char.hasProp(enemy, Property.BOSS)
+						&& !Char.hasProp(enemy, Property.MINIBOSS) && this instanceof Hero &&
+						(enemy.HP/(float)enemy.HT) <= 0.4f*((Hero)this).pointsInTalent(Talent.JUDGEMENT)/3f) {
+					enemy.HP = 0;
+					if (!enemy.isAlive()) {
+						enemy.die(this);
+					} else {
+						//helps with triggering any on-damage effects that need to activate
+						enemy.damage(-1, this);
+						DeathMark.processFearTheReaper(enemy);
+					}
+					if (enemy.sprite != null) {
+						enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Talent.JudgementTracker.class, "executed"));
+						ThunderImbue.thunderEffect(enemy.sprite);
+					}
+				}
+				judgement.detach();
 			}
 
 			if (enemy.sprite != null) {
@@ -1240,6 +1273,11 @@ public abstract class Char extends Actor {
 				result *= 0.5f;
 			}
 		}
+
+		if (buff(Pray.Praying.class) != null) {
+			result *= Pray.Praying.resist(this, effect);
+		}
+
 		return result * RingOfElements.resist(this, effect);
 	}
 	

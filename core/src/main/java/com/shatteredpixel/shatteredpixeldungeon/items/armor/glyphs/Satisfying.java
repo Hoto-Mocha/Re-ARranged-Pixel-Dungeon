@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor.Glyph;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite.Glowing;
 import com.watabou.utils.Random;
 
@@ -41,9 +42,12 @@ public class Satisfying extends Glyph {
 		int level = Math.max(0, armor.buffedLvl());
 		
 		// 25% fixed
-		if (Random.Int(4) == 0 && defender == Dungeon.hero) {
+		float procChance = 0.25f;
+		procChance *= procChanceMultiplier(defender);
+		float powerMulti = Math.max(1f, procChance);
+		if (Random.Float() < procChance && defender == Dungeon.hero) {
 
-			Buff.affect(Dungeon.hero, Hunger.class).affectHunger(Math.max(1, Math.round(damage*0.1*level)));
+			Buff.affect(Dungeon.hero, Hunger.class).affectHunger(Math.max(1, Math.round(damage*0.1*level)*powerMulti));
 			Dungeon.hero.sprite.emitter().burst(Speck.factory(Speck.HUNGER), 1);
 
 		}

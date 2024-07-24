@@ -83,14 +83,14 @@ public class HeroIcon extends Image {
 	public static final int RESEARCHER	= 34;
 //	public static final int 			= 35;
 
-//	public static final int 			= 36;
-//	public static final int 			= 37;
-//	public static final int 			= 38;
+	public static final int DEATHKNIGHT = 36;
+	public static final int HORSEMAN	= 37;
+	public static final int CRUSADER	= 38;
 //	public static final int 			= 39;
 
-//	public static final int 			= 40;
-//	public static final int 			= 41;
-//	public static final int 			= 42;
+	public static final int MEDIC		= 40;
+	public static final int ANGEL		= 41;
+	public static final int SURGEON		= 42;
 //	public static final int 			= 43;
 
 //	public static final int 			= 44;
@@ -145,14 +145,14 @@ public class HeroIcon extends Image {
 	public static final int ROOT	    	= 82;
 //	public static final int 				= 83;
 
-//	public static final int 				= 84;
-//	public static final int 				= 85;
-//	public static final int 				= 86;
+	public static final int HOLY_SHIELD		= 84;
+	public static final int STIMPACK		= 85;
+	public static final int UNSTABLE_ANKH	= 86;
 //	public static final int 				= 87;
 
-//	public static final int 				= 88;
-//	public static final int 				= 89;
-//	public static final int 				= 90;
+	public static final int HEAL_GENERATOR	= 88;
+	public static final int ANGEL_WING		= 89;
+	public static final int GAMMA_EMMIT		= 90;
 //	public static final int 				= 91;
 
 //	public static final int 				= 92;
@@ -204,8 +204,8 @@ public class HeroIcon extends Image {
 //	public static final int 				= 135;
 
 //	public static final int 				= 136;
-//	public static final int 				= 137;
-//	public static final int 				= 138;
+	public static final int RIDE			= 137;
+	public static final int PRAY			= 138;
 //	public static final int 				= 139;
 
 //	public static final int 				= 140;

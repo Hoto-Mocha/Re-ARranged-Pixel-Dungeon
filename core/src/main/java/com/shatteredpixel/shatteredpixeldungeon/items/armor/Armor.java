@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awakening;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
@@ -42,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.AntiEntropy;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Bulk;
@@ -187,7 +189,7 @@ public class Armor extends EquipableItem {
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
 		if (seal != null) actions.add(AC_DETACH);
-		if (!isEquipped(hero) && isIdentified() && hero.heroClass == HeroClass.GUNNER) {
+		if (!isEquipped(hero) && hero.heroClass == HeroClass.GUNNER) {
 			actions.add(AC_SCRAP);
 		}
 		return actions;
@@ -224,10 +226,12 @@ public class Armor extends EquipableItem {
 			Game.runOnRenderThread(new Callback() {
 				@Override
 				public void call() {
+					int level = Armor.this.isIdentified() ? Armor.this.level() : 0;
+					int amount = Math.round(5 * (Armor.this.tier+1) * (float)Math.pow(2, Math.min(3, level)));
 					GameScene.show(
 							new WndOptions( new ItemSprite(Armor.this),
 									Messages.get(MeleeWeapon.class, "scrap_title"),
-									Messages.get(MeleeWeapon.class, "scrap_desc", Math.round(5 * (Armor.this.tier+1) * (float)Math.pow(2, Math.min(3, Armor.this.level())))),
+									Messages.get(MeleeWeapon.class, "scrap_desc", amount),
 									Messages.get(MeleeWeapon.class, "scrap_yes"),
 									Messages.get(MeleeWeapon.class, "scrap_no") ) {
 
@@ -250,8 +254,8 @@ public class Armor extends EquipableItem {
 								protected void onSelect( int index ) {
 									if (index == 0 && elapsed > 0.2f) {
 										LiquidMetal metal = new LiquidMetal();
-										int metalQuantity = Math.round(5 * (Armor.this.tier+1) * (float)Math.pow(2, Math.min(3, Armor.this.level())));
-										if (Armor.this.cursed) {
+										int metalQuantity = amount;
+										if (Armor.this.cursed || !Armor.this.isIdentified()) {
 											metalQuantity /= 2;
 										}
 
@@ -276,7 +280,7 @@ public class Armor extends EquipableItem {
 							}
 					);
 				}
-			});
+			});;
 		}
 	}
 
@@ -375,8 +379,14 @@ public class Armor extends EquipableItem {
 		if (hasGlyph(Afterimage.class, hero)) {
 			upgradefactor --;
 		}
+		if (hero.belongings.getItem(KnightsShield.class) != null && hero.belongings.getItem(KnightsShield.class).hasGlyph(Afterimage.class, hero)){
+			upgradefactor --;
+		}
 		int max;
 		max = (upgradefactor) * (2 + lvl) + augment.defenseFactor(lvl);
+		if (hero.hasTalent(Talent.ARMOR_ADAPTION) && this.STRReq() < hero.STR()) {
+			max += Math.round((hero.STR() - this.STRReq())*(0.5f+0.5f*hero.pointsInTalent(Talent.ARMOR_ADAPTION)));
+		}
 		if (lvl > max) {
 			return ((lvl - max) + 1) / 2;
 		} else {
@@ -517,6 +527,24 @@ public class Armor extends EquipableItem {
 		// instead of being part of true level
 		if (curseInfusionBonus) level += 1 + level/6;
 		return level;
+	}
+
+	@Override
+	public int buffedLvl() {
+		int lvl;
+		if (isEquipped( hero ) || hero.belongings.contains( this )){
+			lvl = super.buffedLvl();
+		} else {
+			lvl = level();
+		}
+		ArmorEnhance armorEnhance = hero.buff(ArmorEnhance.class);
+		if (armorEnhance != null && isEquipped( hero )) {
+			lvl = armorEnhance.armorLevel(lvl);
+		}
+		if (hero.hasTalent(Talent.CRAFTMANS_SKILLS) && isEquipped( hero )) {
+			lvl += hero.pointsInTalent(Talent.CRAFTMANS_SKILLS);
+		}
+		return lvl;
 	}
 	
 	@Override
@@ -791,7 +819,7 @@ public class Armor extends EquipableItem {
 		
 		public abstract int proc( Armor armor, Char attacker, Char defender, int damage );
 
-		protected float procChanceMultiplier( Char defender ){
+		public float procChanceMultiplier( Char defender ){
 			return genericProcChanceMultiplier( defender );
 		}
 

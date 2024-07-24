@@ -22,9 +22,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -51,7 +53,8 @@ public class UpgradeDust extends Spell {
 	
 	@Override
 	protected void onCast(Hero hero) {
-		Buff.affect(hero, WeaponEnhance.class).set(1+hero.lvl/10, 30f);
+		Buff.affect(hero, WeaponEnhance.class).set(1+hero.lvl/10, 20f);
+		Buff.affect(hero, ArmorEnhance.class).set(1+hero.lvl/10, 20f);
 
 		hero.sprite.operate(hero.pos);
 		Sample.INSTANCE.play( Assets.Sounds.EVOKE );
@@ -63,87 +66,6 @@ public class UpgradeDust extends Spell {
 		updateQuickslot();
 		Invisibility.dispel();
 		hero.spendAndNext( 1f );
-	}
-	
-	public static class WeaponEnhance extends Buff {
-		{
-			type = buffType.POSITIVE;
-		}
-
-		private int lvl = 0;
-		private float duration = 0f;
-		private float maxTime = 0f;
-
-		public void set( int level, float duration ) {
-			this.duration = duration+1f;
-			maxTime = this.duration-1f;
-			lvl = level;
-		}
-
-		@Override
-		public void detach() {
-			super.detach();
-			Item.updateQuickslot();
-		}
-
-		@Override
-		public int icon() {
-			return BuffIndicator.UPGRADE;
-		}
-
-		@Override
-		public void tintIcon(Image icon) {
-			icon.hardlight(1, 1, 0);
-		}
-
-		@Override
-		public String toString() {
-			return Messages.get(this, "name");
-		}
-
-		@Override
-		public String desc() {
-			return Messages.get(this, "desc", lvl, new DecimalFormat("#").format(duration));
-		}
-
-		@Override
-		public float iconFadePercent() {
-			return Math.max((maxTime - duration)/maxTime, 0);
-		}
-
-		@Override
-		public boolean act() {
-			duration-=1f;
-			spend(1f);
-			if (duration <= 0) {
-				detach();
-			}
-			return true;
-		}
-
-		public int getLvl() {
-			return lvl;
-		}
-
-		private static final String DURATION = "duration";
-		private static final String MAXTIME = "maxTime";
-		private static final String LVL = "lvl";
-
-		@Override
-		public void storeInBundle(Bundle bundle) {
-			super.storeInBundle(bundle);
-			bundle.put(DURATION, duration);
-			bundle.put(MAXTIME, maxTime);
-			bundle.put(LVL, lvl);
-		}
-
-		@Override
-		public void restoreFromBundle(Bundle bundle) {
-			super.restoreFromBundle(bundle);
-			duration = bundle.getFloat(DURATION);
-			maxTime = bundle.getFloat(MAXTIME);
-			lvl = bundle.getInt(LVL);
-		}
 	}
 
 	@Override

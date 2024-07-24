@@ -59,6 +59,7 @@ public class Badges {
 		MASTERY_GUNNER,
 		MASTERY_SAMURAI,
 		MASTERY_ADVENTURER,
+		MASTERY_KNIGHT,
 		FOUND_RATMOGRIFY,
 
 		//bronze
@@ -117,6 +118,7 @@ public class Badges {
 		BOSS_SLAIN_1_GUNNER,
 		BOSS_SLAIN_1_SAMURAI,
 		BOSS_SLAIN_1_ADVENTURER,
+		BOSS_SLAIN_1_KNIGHT,
 		BOSS_SLAIN_1_ALL_CLASSES    ( 55, true ),
 		GAMES_PLAYED_2              ( 56, true ),
 		HIGH_SCORE_2                ( 57 ),
@@ -167,6 +169,7 @@ public class Badges {
 		VICTORY_GUNNER,
 		VICTORY_SAMURAI,
 		VICTORY_ADVENTURER,
+		VICTORY_KNIGHT,
 		VICTORY_ALL_CLASSES         ( 104, true ),
 		DEATH_FROM_ALL              ( 105, true ),
 		BOSS_SLAIN_3_BERSERKER,
@@ -200,6 +203,10 @@ public class Badges {
 		BOSS_SLAIN_3_ENGINEER,
 		BOSS_SLAIN_3_EXPLORER,
 		BOSS_SLAIN_3_RESEARCHER,
+
+		BOSS_SLAIN_3_DEATHKNIGHT,
+		BOSS_SLAIN_3_SPARTA,
+		BOSS_SLAIN_3_CRUSADER,
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 106, true ),
 		BOSS_CHALLENGE_3            ( 107 ),
 		BOSS_CHALLENGE_4            ( 108 ),
@@ -217,8 +224,8 @@ public class Badges {
 		//new badges
 		UNLOCK_GUNNER				( 136 ),
 		UNLOCK_SAMURAI				( 137 ),
-		UNLOCK_ADVENTURER			( 138 );
-//		UNLOCK_KNIGHT				( 139 ),
+		UNLOCK_ADVENTURER			( 138 ),
+		UNLOCK_KNIGHT				( 139 );
 //		UNLOCK_NURSE				( 140 );
 
 		public boolean meta;
@@ -750,6 +757,7 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.GUNNER, Badge.BOSS_SLAIN_1_GUNNER);
 		firstBossClassBadges.put(HeroClass.SAMURAI, Badge.BOSS_SLAIN_1_SAMURAI);
 		firstBossClassBadges.put(HeroClass.ADVENTURER, Badge.BOSS_SLAIN_1_ADVENTURER);
+		firstBossClassBadges.put(HeroClass.KNIGHT, Badge.BOSS_SLAIN_1_KNIGHT);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
@@ -762,6 +770,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.GUNNER, Badge.VICTORY_GUNNER);
 		victoryClassBadges.put(HeroClass.SAMURAI, Badge.VICTORY_SAMURAI);
 		victoryClassBadges.put(HeroClass.ADVENTURER, Badge.VICTORY_ADVENTURER);
+		victoryClassBadges.put(HeroClass.KNIGHT, Badge.VICTORY_KNIGHT);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
@@ -918,6 +927,9 @@ public class Badges {
 			case ADVENTURER:
 				badge = Badge.MASTERY_ADVENTURER;
 				break;
+			case KNIGHT:
+				badge = Badge.MASTERY_KNIGHT;
+				break;
 		}
 		
 		unlock(badge);
@@ -980,11 +992,11 @@ public class Badges {
 		}
 	}
 
-//	public static void validateKnightUnlock() {
-//		if (!isUnlocked(Badge.UNLOCK_KNIGHT)) {
-//			displayBadge(Badge.UNLOCK_KNIGHT);
-//		}
-//	}
+	public static void validateKnightUnlock() {
+		if (Statistics.plateObtained && !isUnlocked(Badge.UNLOCK_KNIGHT)) {
+			displayBadge(Badge.UNLOCK_KNIGHT);
+		}
+	}
 
 //	public static void validateNurseUnlock() {
 //		if (!isUnlocked(Badge.UNLOCK_NURSE)) {

@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
 import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -30,30 +31,42 @@ import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.WatchTower;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.effects.TalentSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.BulletItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -70,6 +83,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -500,6 +514,60 @@ public enum Talent {
 	ROOT_ARMOR					(39, 8, 4),
 
 
+
+	//Knight T1
+	TOUGH_MEAL					(0, 9),
+	KNIGHTS_INTUITION			(1, 9),
+	KINETIC_BATTLE				(2, 9),
+	HARD_SHIELD					(3, 9),
+	WAR_CRY						(4, 9),
+	//Knight T2
+	IMPREGNABLE_MEAL			(5, 9),
+	SMITHING_SPELL				(6, 9),
+	ARMOR_ADAPTION				(7, 9),
+	CHIVALRY					(8, 9),
+	PROTECTION					(9, 9),
+	FLAG_OF_CONQUEST			(10, 9),
+	//Knight T3
+	CRAFTMANS_SKILLS			(11, 9, 3),
+	TACKLE						(12, 9, 3),
+	//DeathKnight T3
+	ARMY_OF_DEATH				(13, 9, 3),
+	DEATHS_CHILL				(14, 9, 3),
+	OVERCOME					(15, 9, 3),
+	RESENTMENT					(16, 9, 3),
+	UNDEAD						(17, 9, 3),
+	DEATHS_FEAR					(18, 9, 3),
+	//Horseman T3
+	SHOCKWAVE					(19, 9, 3),
+	CALL_OF_MASTER				(20, 9, 3),
+	DASH_ENHANCE				(21, 9, 3),
+	BUFFER						(22, 9, 3),
+	PARKOUR						(23, 9, 3),
+	PILOTING					(24, 9, 3),
+	//Crusader T3
+	HOLY_SHIELD					(25, 9, 3),
+	PRAY_FOR_DEAD				(26, 9, 3),
+	JUDGEMENT					(27, 9, 3),
+	CLEANSING_PRAY				(28, 9, 3),
+	PUNISHMENT					(29, 9, 3),
+	ANTI_DEMON					(30, 9, 3),
+	//HolyShield T4
+	BUFFER_BARRIER				(31, 9, 4),
+	HOLY_LIGHT					(32, 9, 4),
+	BLESS						(33, 9, 4),
+	//StimPack T4
+	BURDEN_RELIEF				(34, 9, 4),
+	LASTING_PACK				(35, 9, 4),
+	TIME_STOP					(36, 9, 4),
+	//UnstableAnkh T4
+	BLESSED_ANKH				(37, 9, 4),
+	ANKH_ENHANCE				(38, 9, 4),
+	COMPLETE_ANKH				(39, 9, 4),
+
+
+
+
 	//universal T4
 	HEROIC_ENERGY				(43, 0, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -851,6 +919,183 @@ public enum Talent {
 	//Samurai 2-3
 	public static class UnexpectedSlashTracker extends Buff {}
 
+	//Knight 1-1
+	public static class ArmorEmpower extends Buff {
+
+		{
+			type = buffType.POSITIVE;
+		}
+
+		@Override
+		public int icon() {
+			return BuffIndicator.ARMOR;
+		}
+
+		@Override
+		public void tintIcon(Image icon) {
+			icon.hardlight(1, 0.5f, 0);
+		}
+
+		@Override
+		public float iconFadePercent() {
+			float max = 1 + Dungeon.hero.pointsInTalent(Talent.TOUGH_MEAL);
+			return Math.max(0, (max-left) / max);
+		}
+
+		@Override
+		public String iconTextDisplay() {
+			return Integer.toString(left);
+		}
+
+		@Override
+		public String desc() {
+			return Messages.get(this, "desc", armorBoost, left);
+		}
+
+		public int armorBoost;
+		public int left;
+
+		public void set(int armor, int hits){
+			if (armor*hits > armorBoost*left) {
+				armorBoost = armor;
+				left = hits;
+			}
+		}
+
+		public int proc(int damage) {
+			damage = Math.max(0, damage-armorBoost);
+			return damage;
+		}
+
+		private static final String BOOST = "boost";
+		private static final String LEFT = "left";
+
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put( BOOST, armorBoost);
+			bundle.put( LEFT, left );
+		}
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			armorBoost = bundle.getInt( BOOST );
+			left = bundle.getInt( LEFT );
+		}
+
+	}
+
+	public static class KineticBattle extends Buff {
+
+		{
+			type = buffType.POSITIVE;
+		}
+
+		public float duration = 0f;
+		public float maxDuration = 0f;
+		public int dmgBoost = 0;
+
+		@Override
+		public int icon() {
+			return BuffIndicator.WEAPON;
+		}
+
+		@Override
+		public void tintIcon(Image icon) {
+			icon.hardlight(0, 1f, 0);
+		}
+
+		public void set() {
+			dmgBoost = Math.min(5, ++dmgBoost);
+			maxDuration = 1+2*hero.pointsInTalent(Talent.KINETIC_BATTLE);
+			duration = maxDuration;
+		}
+
+		public int proc(int damage) {
+			damage += this.dmgBoost;
+			return damage;
+		}
+
+		@Override
+		public boolean act() {
+			if (--duration <= 0) {
+				detach();
+			} else {
+				spend(TICK);
+			}
+			return true;
+		}
+
+		@Override
+		public String iconTextDisplay() {
+			return Integer.toString((int)duration);
+		}
+
+		@Override
+		public String desc() {
+			return Messages.get(this, "desc", dmgBoost, duration);
+		}
+
+		@Override
+		public float iconFadePercent() {
+			return Math.max(0, (maxDuration-duration) / maxDuration);
+		}
+
+		private static final String DURATION = "duration";
+		private static final String MAX_DURATION = "maxDuration";
+
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put( DURATION, duration );
+			bundle.put( MAX_DURATION, maxDuration );
+		}
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			duration = bundle.getFloat( DURATION );
+			maxDuration = bundle.getFloat( MAX_DURATION );
+		}
+	}
+
+	public static class PrayForDeadTracker extends FlavourBuff {
+		public static final float DURATION = 1f;
+	}
+
+	public static class JudgementTracker extends FlavourBuff {
+
+		public static final float DURATION = 5f;
+
+		{
+			type = buffType.NEUTRAL;
+			announced = true;
+		}
+
+		@Override
+		public int icon() {
+			return BuffIndicator.JUDGEMENT;
+		}
+
+		@Override
+		public void tintIcon(Image icon) {
+			icon.hardlight(0xFFFF66);
+		}
+
+		@Override
+		public float iconFadePercent() {
+			return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+		}
+
+		@Override
+		public void fx(boolean on) {
+			if (on) target.sprite.add(CharSprite.State.JUDGED);
+			else target.sprite.remove(CharSprite.State.JUDGED);
+		}
+
+	}
+
 	int icon;
 	int maxPoints;
 
@@ -895,6 +1140,9 @@ public enum Talent {
 					break;
 				case ADVENTURER:
 					y = 8;
+					break;
+				case KNIGHT:
+					y = 9;
 					break;
 			}
 			if (Ratmogrify.useRatroicEnergy){
@@ -1063,6 +1311,11 @@ public enum Talent {
 			hero.belongings.weapon.identify();
 		}
 
+		//knight
+		if (talent == KNIGHTS_INTUITION && hero.belongings.armor != null) {
+			hero.belongings.armor.identify();
+		}
+
 		if (talent == STORED_POWER) {
 			BuffIndicator.refreshHero();
 		}
@@ -1074,6 +1327,11 @@ public enum Talent {
 					((WatchTower) ch).updateFOV();
 				}
 			}
+		}
+
+		//knight
+		if (talent == CALL_OF_MASTER && hero.buff(HorseRiding.RidingCooldown.class) != null) {
+			hero.buff(HorseRiding.RidingCooldown.class).updateCooldown();
 		}
 	}
 
@@ -1169,7 +1427,12 @@ public enum Talent {
 					}
 				}
 			}
-
+		}
+		if (hero.hasTalent(Talent.TOUGH_MEAL)) {
+			Buff.affect(hero, ArmorEmpower.class).set(3, 1+hero.pointsInTalent(Talent.TOUGH_MEAL));
+		}
+		if (hero.hasTalent(Talent.IMPREGNABLE_MEAL)) {
+			Buff.affect(hero, ArmorEnhance.class).set(hero.pointsInTalent(Talent.IMPREGNABLE_MEAL), 15f);
 		}
 	}
 
@@ -1259,7 +1522,7 @@ public enum Talent {
 			Buff.prolong(hero, RestoredAgilityTracker.class, hero.cooldown() + Math.max(0, factor-1));
 		}
 		if (hero.hasTalent(PHARMACEUTICS)) {
-			hero.heal(2+3*hero.pointsInTalent(PHARMACEUTICS));
+			hero.heal(Math.round(factor*(2+3*hero.pointsInTalent(PHARMACEUTICS))));
 		}
 	}
 
@@ -1288,6 +1551,10 @@ public enum Talent {
 		}
 		if (hero.hasTalent(Talent.INSCRIBED_LETHALITY)) {
 			Buff.affect(hero, Sheath.CertainCrit.class).set((int)(factor * hero.pointsInTalent(Talent.INSCRIBED_LETHALITY)));
+		}
+		if (hero.hasTalent(Talent.SMITHING_SPELL)) {
+			Buff.affect(hero, WeaponEnhance.class).set(hero.pointsInTalent(Talent.SMITHING_SPELL), 10f*factor);
+			Buff.affect(hero, ArmorEnhance.class).set(hero.pointsInTalent(Talent.SMITHING_SPELL), 10f*factor);
 		}
 	}
 
@@ -1332,6 +1599,9 @@ public enum Talent {
 		if (hero.hasTalent(MASTERS_INTUITION) && item instanceof MeleeWeapon && !(item instanceof Gun)) {
 			item.identify();
 		}
+		if (hero.hasTalent(KNIGHTS_INTUITION) && item instanceof Armor) {
+			item.identify();
+		}
 	}
 
 	public static void onItemCollected( Hero hero, Item item ){
@@ -1342,6 +1612,9 @@ public enum Talent {
 			item.cursedKnown = true;
 		}
 		if (hero.pointsInTalent(MASTERS_INTUITION) == 2 && item instanceof MeleeWeapon && !(item instanceof Gun)) {
+			item.cursedKnown = true;
+		}
+		if (hero.pointsInTalent(KNIGHTS_INTUITION) == 2 && item instanceof Armor) {
 			item.cursedKnown = true;
 		}
 	}
@@ -1411,22 +1684,140 @@ public enum Talent {
 			}
 		}
 
-		if (hero.hasTalent(SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(SpeedyMoveTracker.class) == null){
-			Buff.affect(enemy, SpeedyMoveTracker.class);
-			Buff.prolong(hero, Haste.class, 1f + hero.pointsInTalent(SPEEDY_MOVE));
-		}
-
 		if (hero.hasTalent(DRAWING_ENHANCE) && hero.buff(Sheath.Sheathing.class) != null) {
 			dmg += 1+hero.pointsInTalent(DRAWING_ENHANCE);
 		}
 
 		if (hero.heroClass != HeroClass.SAMURAI && hero.hasTalent(DRAWING_ENHANCE) && enemy.buff(Talent.DrawEnhanceMetaTracker.class) == null ) {
-			dmg += Random.IntRange(hero.pointsInTalent(Talent.DRAWING_ENHANCE), 2);
+			dmg += Char.combatRoll(hero.pointsInTalent(Talent.DRAWING_ENHANCE), 2);
 			Buff.affect(enemy, Talent.DrawEnhanceMetaTracker.class);
 		}
 
+		if (hero.hasTalent(Talent.WATER_FRIENDLY) && Dungeon.level.map[hero.pos] == Terrain.WATER) {
+			dmg += Char.combatRoll(1, hero.pointsInTalent(Talent.WATER_FRIENDLY));
+			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+		}
+
+		if (hero.buff(Talent.SkilledHandTracker.class) != null) {
+			dmg += 1+hero.pointsInTalent(Talent.SKILLED_HAND);
+			hero.buff(Talent.SkilledHandTracker.class).detach();
+			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+		}
+
+		if (hero.hasTalent(Talent.NATURE_FRIENDLY) && (level.map[hero.pos] == Terrain.HIGH_GRASS || level.map[hero.pos] == Terrain.FURROWED_GRASS)) {
+			dmg += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
+		}
+
+		if (hero.buff(Talent.KineticBattle.class) != null) {
+			dmg = hero.buff(Talent.KineticBattle.class).proc(dmg);
+		}
+
+		if (hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos) && hero.belongings.armor != null && (hero.belongings.attackingWeapon() instanceof MeleeWeapon || (hero.belongings.attackingWeapon() == null))) {
+			dmg += hero.belongings.armor.DRMax()*0.05f*hero.pointsInTalent(Talent.TACKLE);
+		}
+
+		//attacking procs
+		if (hero.hasTalent(SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(SpeedyMoveTracker.class) == null){
+			Buff.affect(enemy, SpeedyMoveTracker.class);
+			Buff.prolong(hero, Haste.class, 1f + hero.pointsInTalent(SPEEDY_MOVE));
+		}
+
+		if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
+			if (hero.hasTalent(Talent.POISONOUS_BLADE)) {
+				Buff.affect(enemy, Poison.class).set(2+hero.pointsInTalent(Talent.POISONOUS_BLADE));
+			}
+			if (hero.hasTalent(Talent.SOUL_COLLECT) && dmg >= enemy.HP) {
+				int healAmt = 3*hero.pointsInTalent(Talent.SOUL_COLLECT);
+				healAmt = Math.min( healAmt, hero.HT - hero.HP );
+				if (healAmt > 0 && hero.isAlive()) {
+					hero.HP += healAmt;
+					hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 2 );
+					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
+				}
+			}
+			if (hero.hasTalent(Talent.TRAIL_TRACKING) && dmg >= enemy.HP) {
+				Buff.affect(hero, MindVision.class, hero.pointsInTalent(Talent.TRAIL_TRACKING));
+			}
+
+			if (hero.pointsInTalent(Talent.MASTER_OF_CLOAKING) == 3) {
+				if (hero.buff(Talent.ChaseCooldown.class) != null) {
+					hero.buff(Talent.ChaseCooldown.class).spendTime();
+				}
+				if (hero.buff(Talent.ChainCooldown.class) != null) {
+					hero.buff(Talent.ChainCooldown.class).spendTime();
+				}
+				if (hero.buff(Talent.LethalCooldown.class) != null) {
+					hero.buff(Talent.LethalCooldown.class).spendTime();
+				}
+			}
+		}
+
+		if (hero.hasTalent(Talent.KINETIC_BATTLE)) {
+			Buff.affect(hero, Talent.KineticBattle.class).set();
+		}
+
+		if (hero.hasTalent(Talent.WAR_CRY)) {
+			Buff.prolong(hero, Adrenaline.class, 1+hero.pointsInTalent(Talent.WAR_CRY));
+		}
+
+		if (hero.hasTalent(Talent.BLOOMING_WEAPON)
+				&& Random.Float() < 0.05f*hero.pointsInTalent(Talent.BLOOMING_WEAPON)) {
+			boolean secondPlant = Random.Float() <= 0.33f;
+			ArrayList<Integer> positions = new ArrayList<>();
+			Blooming blooming = new Blooming();
+			for (int i : PathFinder.NEIGHBOURS8){
+				positions.add(i);
+			}
+			Random.shuffle( positions );
+			for (int i : positions){
+				if (blooming.plantGrass(enemy.pos + i)) {
+					if (secondPlant) secondPlant = false;
+					else break;
+				}
+			}
+		}
+
+		if (hero.hasTalent(Talent.ANTI_DEMON) &&
+				hero.buff(Bless.class) != null &&
+				(Char.hasProp(enemy, Char.Property.DEMONIC) || Char.hasProp(enemy, Char.Property.UNDEAD))) {
+			dmg *= 1f+hero.pointsInTalent(Talent.ANTI_DEMON)/3f;
+		}
+
+		if (hero.hasTalent(Talent.ARMY_OF_DEATH)) {
+			float procChance = 0.1f * hero.pointsInTalent(Talent.ARMY_OF_DEATH);
+			if (dmg >= enemy.HP
+					&& Random.Float() < procChance
+					&& !enemy.isImmune(Corruption.class)
+					&& enemy.buff(Corruption.class) == null
+					&& enemy instanceof Mob
+					&& enemy.isAlive()){
+				Corruption.corruptionHeal(enemy);
+				AllyBuff.affectAndLoot((Mob) enemy, hero, Corruption.class);
+				dmg = 0;
+			}
+
+		}
 		return dmg;
 	}
+
+	public static void onLevelUp() {
+		if (hero.hasTalent(Talent.FLAG_OF_CONQUEST)) { //deals 50/75% of enemies' maximum health who are in hero's sight
+			for (Char ch : Actor.chars()) {
+				if (level.heroFOV[ch.pos] && ch.alignment == Char.Alignment.ENEMY && !ch.properties().contains(Char.Property.BOSS) && !ch.properties().contains(Char.Property.MINIBOSS)){
+					ch.sprite.emitter().burst(ShadowParticle.UP, 10);
+					ch.damage(Math.round(0.25f*(1+hero.pointsInTalent(Talent.FLAG_OF_CONQUEST))*ch.HT), hero);
+					GameScene.flash(0x30FFFF40);
+					Sample.INSTANCE.play(Assets.Sounds.BLAST);
+				}
+			}
+			TalentSprite.show(hero, FLAG_OF_CONQUEST);
+		}
+
+		if (hero.buff(HorseRiding.class) != null) {
+			hero.buff(HorseRiding.class).onLevelUp();
+		}
+	}
+
 	public static class ParryCooldown extends Buff{
 		float cooldown;
 		public void set() {
@@ -1574,6 +1965,9 @@ public enum Talent {
 			case ADVENTURER:
 				Collections.addAll(tierTalents, NATURE_FRIENDLY, SAFE_POTION, ROOT, PLANT_BARRIER, ROPE_MAKING);
 				break;
+			case KNIGHT:
+				Collections.addAll(tierTalents, TOUGH_MEAL, KNIGHTS_INTUITION, KINETIC_BATTLE, HARD_SHIELD, WAR_CRY	);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1609,6 +2003,9 @@ public enum Talent {
 			case ADVENTURER:
 				Collections.addAll(tierTalents, NATURES_MEAL, PHARMACEUTICS, HERB_EXTRACTION, FIREWATCH, ROPE_REBOUND, WEAKENING_POISON);
 				break;
+			case KNIGHT:
+				Collections.addAll(tierTalents, IMPREGNABLE_MEAL, SMITHING_SPELL, ARMOR_ADAPTION, CHIVALRY, PROTECTION, FLAG_OF_CONQUEST);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1643,6 +2040,9 @@ public enum Talent {
 				break;
 			case ADVENTURER:
 				Collections.addAll(tierTalents, LONG_MACHETE, BLOOMING_WEAPON);
+				break;
+			case KNIGHT:
+				Collections.addAll(tierTalents, CRAFTMANS_SKILLS, TACKLE);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1743,7 +2143,16 @@ public enum Talent {
 				Collections.addAll(tierTalents, JUNGLE_EXPLORE, DURABLE_ROPE, LASSO, ROPE_COLLECTOR, ROPE_MASTER, VINE_BIND );
 				break;
 			case RESEARCHER:
-				Collections.addAll(tierTalents, BIOLOGY_PROJECT, RAPID_GROWTH, BIO_ENERGY, WATER_ABSORB, POWERFUL_ACID, STICKY_OOZE);
+				Collections.addAll(tierTalents, BIOLOGY_PROJECT, RAPID_GROWTH, BIO_ENERGY, WATER_ABSORB, POWERFUL_ACID, STICKY_OOZE );
+				break;
+			case DEATHKNIGHT:
+				Collections.addAll(tierTalents, ARMY_OF_DEATH, DEATHS_CHILL, OVERCOME, RESENTMENT, UNDEAD, DEATHS_FEAR );
+				break;
+			case HORSEMAN:
+				Collections.addAll(tierTalents, SHOCKWAVE, CALL_OF_MASTER, DASH_ENHANCE, BUFFER, PARKOUR, PILOTING);
+				break;
+			case CRUSADER:
+				Collections.addAll(tierTalents, HOLY_SHIELD, PRAY_FOR_DEAD, JUDGEMENT, CLEANSING_PRAY, PUNISHMENT, ANTI_DEMON);
 				break;
 		}
 		for (Talent talent : tierTalents){

@@ -16,6 +16,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.Rosary;
+import com.shatteredpixel.shatteredpixeldungeon.items.Saddle;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
@@ -25,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.TacticalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.WindBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DeathSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.EnhancedMachete;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HeroSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Machete;
@@ -149,6 +153,8 @@ public class OldAmulet extends Item {
             return changeShovel((Shovel)item);
         } else if (item instanceof Machete) {
             return changeMachete((Machete)item);
+        } else if (item instanceof KnightsShield) {
+            return changeShield();
         } else {
             return null;
         }
@@ -244,6 +250,26 @@ public class OldAmulet extends Item {
         return newMachete;
     }
 
+    private static Item changeShield() {
+        Item newItem;
+        switch (Dungeon.hero.subClass) {
+            case DEATHKNIGHT:
+                newItem = new DeathSword();
+                break;
+            case HORSEMAN:
+                newItem = new Saddle();
+                break;
+            case CRUSADER:
+                newItem = new Rosary();
+                break;
+            default:
+                newItem = null;
+                break;
+        }
+
+        return newItem;
+    }
+
     protected void onItemSelected(Item item) {
         Item result = changeItem(item);
 
@@ -329,6 +355,7 @@ public class OldAmulet extends Item {
 
         @Override
         public boolean itemSelectable(Item item) {
+            if (!item.isIdentified()) return false;
             switch (Dungeon.hero.heroClass) {
                 case WARRIOR: default:
                     return item instanceof BrokenSeal;
@@ -345,6 +372,8 @@ public class OldAmulet extends Item {
                     return item instanceof Gun;
                 case ADVENTURER:
                     return item instanceof Machete || item instanceof Shovel;
+                case KNIGHT:
+                    return item instanceof KnightsShield;
             }
         }
 

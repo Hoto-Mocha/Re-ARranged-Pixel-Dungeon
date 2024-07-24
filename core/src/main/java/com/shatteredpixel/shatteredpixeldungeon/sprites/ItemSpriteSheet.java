@@ -1339,8 +1339,14 @@ public class ItemSpriteSheet {
 
 	private static final int SPECIAL_ITEM			=		xy(9, 63);  //8 slots
 	public static final int HERO_SWORD	= SPECIAL_ITEM+0;
+	public static final int DEATHS_SWORD	= SPECIAL_ITEM+1;
+	public static final int SADDLE			= SPECIAL_ITEM+2;
+	public static final int ROSARY			= SPECIAL_ITEM+3;
 	static{
 		assignItemRect(HERO_SWORD	, 14, 14);
+		assignItemRect(DEATHS_SWORD	, 14, 16);
+		assignItemRect(SADDLE		, 14, 13);
+		assignItemRect(ROSARY		, 14, 15);
 	}
 
 	private static final int NEW_POTIONS		=			xy(1, 64);  //16 slots

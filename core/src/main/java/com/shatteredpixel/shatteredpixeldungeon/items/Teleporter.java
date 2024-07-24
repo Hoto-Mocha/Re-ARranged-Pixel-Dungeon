@@ -7,6 +7,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
@@ -14,6 +15,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
@@ -107,7 +110,9 @@ public class Teleporter extends Item {
                 LiquidMetal.class,
                 Pickaxe.class,
                 UpgradeDust.class,
-                TrinketCatalyst.class
+                TrinketCatalyst.class,
+                MetalShard.class,
+                GooBlob.class
         );
         Collections.addAll(itemClass, Generator.Category.TRINKET.classes);
     }
@@ -336,34 +341,41 @@ public class Teleporter extends Item {
             }
         }
         if (action.equals(AC_TEST)) {
-//            Ring r = new RingOfHaste();
-//            r.level(3);
-//            hero.necklaceBuff = r.buff();
+            /*
+            //목걸이 레벨 확인
             if (hero.necklaceRing != null)  {
                 GLog.i(hero.necklaceRing.toString());
                 GLog.i(""+hero.necklaceRing.level());
             } else {
                 GLog.i("null");
             }
-//            if (Dungeon.depth < 32) {
-//                for (int i= 0; i < 6; i++) {
-//                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_0[i] + ", ");
-//                }
-//                GLog.newLine();
-//                for (int i= 0; i < 6; i++) {
-//                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_1[i] + ", ");
-//                }
-//                GLog.newLine();
-//                for (int i= 0; i < 6; i++) {
-//                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_2[i] + ", ");
-//                }
-//                GLog.newLine();
-//                for (int i= 0; i < 6; i++) {
-//                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_3[i] + ", ");
-//                }
-//                GLog.newLine();
-//                GLog.i("현재 비밀방 개수: " + secretRooms[Dungeon.depth]);
-//            }
+            *
+            /*
+            //현재 층 비밀방 개수 확인
+
+            if (Dungeon.depth < 32) {
+                for (int i= 0; i < 6; i++) {
+                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_0[i] + ", ");
+                }
+                GLog.newLine();
+                for (int i= 0; i < 6; i++) {
+                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_1[i] + ", ");
+                }
+                GLog.newLine();
+                for (int i= 0; i < 6; i++) {
+                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_2[i] + ", ");
+                }
+                GLog.newLine();
+                for (int i= 0; i < 6; i++) {
+                    GLog.i(""+SuspiciousKey.additionalRoomsThisRun_3[i] + ", ");
+                }
+                GLog.newLine();
+                GLog.i("현재 비밀방 개수: " + secretRooms[Dungeon.depth]);
+             }
+             */
+            if (hero.buff(HorseRiding.RidingCooldown.class) != null) {
+                hero.buff(HorseRiding.RidingCooldown.class).kill();
+            }
         }
     }
 

@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.watabou.utils.Random;
@@ -34,13 +35,16 @@ public class Mirrorimage extends Armor.Glyph {
 
     @Override
     public int proc(Armor armor, Char attacker, Char defender, int damage) {
+        int level = Math.max( 0, armor.buffedLvl() );
+
         // lvl 0 - 20%
         // lvl 1 - 33%
         // lvl 2 - 43%
-        int level = Math.max( 0, armor.buffedLvl() );
+        float procChance = (1+level)/(float)(5+level) * procChanceMultiplier(defender);
+        float powerMulti = Math.max(1f, procChance);
 
-        if (Random.Int( level + 5 ) >= 4 && defender == Dungeon.hero){
-            ScrollOfMirrorImage.spawnImages(Dungeon.hero, 1);
+        if (Random.Float() < procChance && defender == Dungeon.hero){
+            ScrollOfMirrorImage.spawnImages(Dungeon.hero, (int)powerMulti);
         }
         return damage;
     }

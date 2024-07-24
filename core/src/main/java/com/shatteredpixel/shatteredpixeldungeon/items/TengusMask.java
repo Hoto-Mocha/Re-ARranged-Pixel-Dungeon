@@ -26,6 +26,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Build;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Pray;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -107,6 +109,14 @@ public class TengusMask extends Item {
 
 		if (way == HeroSubClass.ENGINEER) {
 			Buff.affect(curUser, Build.class);
+		}
+
+		if (way == HeroSubClass.HORSEMAN) {
+			Buff.affect(curUser, HorseRiding.class).set();
+		}
+
+		if (way == HeroSubClass.CRUSADER) {
+			Buff.affect(curUser, Pray.class);
 		}
 		
 		curUser.sprite.operate( curUser.pos );

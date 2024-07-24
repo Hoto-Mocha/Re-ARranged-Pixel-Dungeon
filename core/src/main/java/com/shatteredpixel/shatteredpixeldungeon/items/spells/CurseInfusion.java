@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
@@ -50,7 +51,7 @@ public class CurseInfusion extends InventorySpell {
 
 	@Override
 	protected boolean usableOnItem(Item item) {
-		return ((item instanceof EquipableItem && !(item instanceof MissileWeapon)) || item instanceof Wand);
+		return ((item instanceof EquipableItem && !(item instanceof MissileWeapon)) || item instanceof Wand || item instanceof KnightsShield);
 	}
 
 	@Override
@@ -90,6 +91,9 @@ public class CurseInfusion extends InventorySpell {
 			((Wand) item).updateLevel();
 		} else if (item instanceof RingOfMight){
 			curUser.updateHT(false);
+		} else if (item instanceof KnightsShield) {
+			((KnightsShield) item).inscribe(true);
+			((KnightsShield) item).curseInfusionBonus = true;
 		}
 		Badges.validateItemLevelAquired(item);
 		updateQuickslot();

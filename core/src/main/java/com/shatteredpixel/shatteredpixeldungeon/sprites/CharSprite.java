@@ -34,8 +34,10 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.TorchHalo;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LightParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -82,7 +84,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected float shadowOffset    = 0.25f;
 
 	public enum State {
-		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, HEARTS
+		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, HEALING, SHIELDED, HEARTS, JUDGED, ELECTRIC
 	}
 	private int stunStates = 0;
 	
@@ -103,7 +105,9 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected Emitter levitation;
 	protected Emitter healing;
 	protected Emitter hearts;
-	
+	protected Emitter judged;
+	protected Emitter electric;
+
 	protected IceBlock iceBlock;
 	protected DarkBlock darkBlock;
 	protected TorchHalo light;
@@ -413,6 +417,14 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				hearts = emitter();
 				hearts.pour(Speck.factory(Speck.HEART), 0.5f);
 				break;
+			case JUDGED:
+				judged = emitter();
+				judged.pour(LightParticle.UP, 0.1f);
+				break;
+			case ELECTRIC:
+				electric = emitter();
+				electric.pour( SparkParticle.STATIC, 0.06f );
+				break;
 		}
 	}
 	
@@ -484,6 +496,18 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				if (hearts != null){
 					hearts.on = false;
 					hearts = null;
+				}
+				break;
+			case JUDGED:
+				if (judged != null){
+					judged.on = false;
+					judged = null;
+				}
+				break;
+			case ELECTRIC:
+				if (electric != null){
+					electric.on = false;
+					electric = null;
 				}
 				break;
 		}

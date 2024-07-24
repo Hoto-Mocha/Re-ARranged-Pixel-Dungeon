@@ -145,7 +145,7 @@ public class MachineGun extends Building {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
-                int bulletReq = Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) > 2 ? 1 : 2;
+                int bulletReq = Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) > 2 ? 0 : 1;
                 if (target == MachineGun.this.pos) return;
                 final Ballistica aim = new Ballistica(MachineGun.this.pos, target, Ballistica.PROJECTILE);
                 cell = aim.collisionPos;

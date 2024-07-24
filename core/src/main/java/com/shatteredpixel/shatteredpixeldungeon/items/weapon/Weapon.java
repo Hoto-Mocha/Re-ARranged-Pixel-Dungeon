@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -42,7 +43,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ParchmentScrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Annoying;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Dazzling;
@@ -232,17 +232,17 @@ abstract public class Weapon extends KindOfWeapon {
 	protected float speedMultiplier(Char owner ){
 		float multi = RingOfFuror.attackSpeedMultiplier(owner);
 
-		if (hero.hasTalent(Talent.LESS_RESIST)) {
-			int aEnc = hero.belongings.armor.STRReq() - hero.STR();
-			if (aEnc < 0) {
-				multi *= 1 + 0.05f * hero.pointsInTalent(Talent.LESS_RESIST) * (-aEnc);
-			}
-		}
-
 		if (hero.hasTalent(Talent.LIGHT_WEAPON) && hero.belongings.attackingWeapon() instanceof MeleeWeapon) {
 			int aEnc = ((MeleeWeapon)hero.belongings.attackingWeapon()).STRReq() - hero.STR();
 			if (aEnc < 0) {
 				multi *= 1 + 0.05f * hero.pointsInTalent(Talent.LIGHT_WEAPON) * (-aEnc);
+			}
+		}
+
+		if (hero.hasTalent(Talent.PARKOUR) && hero.belongings.attackingWeapon() instanceof MeleeWeapon) {
+			int aEnc = ((MeleeWeapon)hero.belongings.attackingWeapon()).STRReq() - hero.STR();
+			if (aEnc < 0) {
+				multi *= Math.pow(1+0.025f*hero.pointsInTalent(Talent.PARKOUR), -aEnc);
 			}
 		}
 
@@ -336,9 +336,9 @@ abstract public class Weapon extends KindOfWeapon {
 			lvl = level();
 		}
 
-		UpgradeDust.WeaponEnhance weaponEmpower = hero.buff(UpgradeDust.WeaponEnhance.class);
-		if (weaponEmpower != null && isEquipped(hero)) {
-			lvl += weaponEmpower.getLvl();
+		WeaponEnhance weaponEnhance = hero.buff(WeaponEnhance.class);
+		if (weaponEnhance != null && isEquipped(hero)) {
+			lvl = weaponEnhance.weaponLevel(lvl);
 		}
 
 		return lvl;

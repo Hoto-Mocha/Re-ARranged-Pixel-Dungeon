@@ -103,6 +103,10 @@ public class Swiftthistle extends Plant {
 		public void twoTurns() {
 			left = 2f;
 		}
+
+		public void set(float duration) {
+			left = duration;
+		}
 		
 		@Override
 		public String desc() {

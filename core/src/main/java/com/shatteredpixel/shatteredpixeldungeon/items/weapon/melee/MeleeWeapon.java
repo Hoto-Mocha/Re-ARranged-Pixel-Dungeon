@@ -112,7 +112,7 @@ public class MeleeWeapon extends Weapon {
 		if (isEquipped(hero) && hero.heroClass == HeroClass.DUELIST){
 			actions.add(AC_ABILITY);
 		}
-		if (!isEquipped(hero) && isIdentified() && hero.heroClass == HeroClass.GUNNER) {
+		if (!isEquipped(hero) && hero.heroClass == HeroClass.GUNNER) {
 			actions.add(AC_SCRAP);
 		}
 		return actions;
@@ -181,10 +181,12 @@ public class MeleeWeapon extends Weapon {
 			Game.runOnRenderThread(new Callback() {
 				@Override
 				public void call() {
+					int level = MeleeWeapon.this.isIdentified() ? MeleeWeapon.this.level() : 0;
+					final int amount = Math.round(5 * (MeleeWeapon.this.tier+1) * (float)Math.pow(2, Math.min(3, level)));
 					GameScene.show(
 							new WndOptions( new ItemSprite(MeleeWeapon.this),
 									Messages.get(MeleeWeapon.class, "scrap_title"),
-									Messages.get(MeleeWeapon.class, "scrap_desc", Math.round(5 * (MeleeWeapon.this.tier+1) * (float)Math.pow(2, Math.min(3, MeleeWeapon.this.level())))),
+									Messages.get(MeleeWeapon.class, "scrap_desc", amount),
 									Messages.get(MeleeWeapon.class, "scrap_yes"),
 									Messages.get(MeleeWeapon.class, "scrap_no") ) {
 
@@ -207,12 +209,8 @@ public class MeleeWeapon extends Weapon {
 								protected void onSelect( int index ) {
 									if (index == 0 && elapsed > 0.2f) {
 										LiquidMetal metal = new LiquidMetal();
-										int metalQuantity = Math.round(5 * (MeleeWeapon.this.tier+1) * (float)Math.pow(2, Math.min(3, MeleeWeapon.this.level())));
-										if (MeleeWeapon.this.cursed) {
-											metalQuantity /= 2;
-										}
 
-										metal.quantity(metalQuantity);
+										metal.quantity(amount);
 										if (!metal.doPickUp(hero)) {
 											Dungeon.level.drop( metal, hero.pos ).sprite.drop();
 										}
@@ -224,7 +222,7 @@ public class MeleeWeapon extends Weapon {
 										MeleeWeapon.this.detach(hero.belongings.backpack);
 
 										hero.sprite.operate(hero.pos);
-										GLog.p(Messages.get(MeleeWeapon.class, "scrap", metalQuantity));
+										GLog.p(Messages.get(MeleeWeapon.class, "scrap", amount));
 										Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
 
 										updateQuickslot();
@@ -572,6 +570,14 @@ public class MeleeWeapon extends Weapon {
 					//40 to 30 turns per charge for champion
 					if (Dungeon.hero.subClass == HeroSubClass.CHAMPION){
 						chargeToGain *= 1.5f;
+					}
+
+					if (hero.hasTalent(Talent.FASTER_CHARGE)) {
+						chargeToGain *= 1+hero.pointsInTalent(Talent.FASTER_CHARGE)/12f;
+					}
+
+					if (hero.hasTalent(Talent.TWIN_SWORD) && hero.belongings.weapon.getClass() == hero.belongings.secondWep.getClass()) {
+						chargeToGain *= 1.25f;
 					}
 
 					//50% slower charge gain with brawler's stance enabled, even if buff is inactive

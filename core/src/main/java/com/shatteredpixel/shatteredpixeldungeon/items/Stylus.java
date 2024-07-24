@@ -107,6 +107,23 @@ public class Stylus extends Item {
 		curUser.spend(TIME_TO_INSCRIBE);
 		curUser.busy();
 	}
+
+	private void inscribe( KnightsShield shield ) {
+		shield.inscribe(false);
+		updateQuickslot();
+
+		detach(curUser.belongings.backpack);
+
+		GLog.w( Messages.get(this, "inscribed"));
+
+		curUser.sprite.operate(curUser.pos);
+		curUser.sprite.centerEmitter().start(PurpleParticle.BURST, 0.05f, 10);
+		Enchanting.show(curUser, shield);
+		Sample.INSTANCE.play(Assets.Sounds.BURNING);
+
+		curUser.spend(TIME_TO_INSCRIBE);
+		curUser.busy();
+	}
 	
 	@Override
 	public int value() {
@@ -127,13 +144,17 @@ public class Stylus extends Item {
 
 		@Override
 		public boolean itemSelectable(Item item) {
-			return item instanceof Armor;
+			return item instanceof Armor || item instanceof KnightsShield;
 		}
 
 		@Override
 		public void onSelect( Item item ) {
 			if (item != null) {
-				Stylus.this.inscribe( (Armor)item );
+				if (item instanceof Armor) {
+					Stylus.this.inscribe( (Armor)item );
+				} else {
+					Stylus.this.inscribe( (KnightsShield) item );
+				}
 			}
 		}
 	};

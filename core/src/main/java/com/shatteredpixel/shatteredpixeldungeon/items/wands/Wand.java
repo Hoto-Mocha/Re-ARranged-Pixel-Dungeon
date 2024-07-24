@@ -798,9 +798,14 @@ public abstract class Wand extends Item {
 
 
 			if (Regeneration.regenOn()) {
-				partialCharge += (1f/turnsToCharge) * RingOfEnergy.wandChargeMultiplier(target) * (1f + 0.1f * Dungeon.hero.pointsInTalent(Talent.FASTER_CHARGER));
+				float multi = RingOfEnergy.wandChargeMultiplier(target);
+				multi *= (1f + 0.1f * Dungeon.hero.pointsInTalent(Talent.FASTER_CHARGER));
+				if (Dungeon.hero.hasTalent(Talent.MAGICAL_CIRCLE) && Dungeon.hero.buff(MagicalCircle.class) != null) {
+					multi += 1;
+				}
+				partialCharge += (1f/turnsToCharge) * multi;
 				if (Dungeon.hero.subClass == HeroSubClass.WIZARD) {
-					partialCharge *= Math.pow(1.05f, Dungeon.hero.belongings.getAllItems(SpellBook.class).size());
+					partialCharge *= Math.pow(1.05f, Math.max(10, Dungeon.hero.belongings.getAllItems(SpellBook.class).size()));
 				}
 			}
 

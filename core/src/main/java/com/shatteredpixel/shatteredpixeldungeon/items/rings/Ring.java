@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRingsCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
@@ -688,7 +689,9 @@ public class Ring extends KindofMisc {
 			case RING_ELEMENTS:	//20% 확률로 가진 디버프 전부 제거
 				if (Random.Float() < 0.2f) {
 					for (Buff buff : hero.buffs()) {
-						if (buff.type == Buff.buffType.NEGATIVE){
+						if (buff.type == Buff.buffType.NEGATIVE
+								&& !(buff instanceof AllyBuff)
+								&& !(buff instanceof LostInventory)){
 							buff.detach();
 						}
 						hero.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 12 );

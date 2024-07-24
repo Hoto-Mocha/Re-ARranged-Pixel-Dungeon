@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -48,6 +49,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulCollect;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.ArtifactRechargeArea;
@@ -785,7 +787,7 @@ public abstract class Mob extends Char {
 	
 	@Override
 	public void destroy() {
-		
+
 		super.destroy();
 		
 		Dungeon.level.mobs.remove( this );
@@ -821,6 +823,10 @@ public abstract class Mob extends Char {
 
 				if (Dungeon.hero.subClass == HeroSubClass.MONK){
 					Buff.affect(Dungeon.hero, MonkEnergy.class).gainEnergy(this);
+				}
+
+				if (Dungeon.hero.subClass == HeroSubClass.DEATHKNIGHT){
+					Buff.affect(Dungeon.hero, SoulCollect.class).killMob(this);
 				}
 			}
 		}
@@ -895,6 +901,14 @@ public abstract class Mob extends Char {
 
 			if (hero.hasTalent(Talent.ADRENALINE_SURGE)) {
 				Buff.prolong(hero, Adrenaline.class, 1+2*hero.pointsInTalent(Talent.ADRENALINE_SURGE));
+			}
+
+			if (hero.hasTalent(Talent.PRAY_FOR_DEAD)) {
+				Buff.affect(hero, Talent.PrayForDeadTracker.class, Talent.PrayForDeadTracker.DURATION);
+			}
+
+			if (hero.buff(HorseRiding.RidingCooldown.class) != null && (Dungeon.hero.lvl <= maxLvl + 2)) {
+				hero.buff(HorseRiding.RidingCooldown.class).kill();
 			}
 		}
 

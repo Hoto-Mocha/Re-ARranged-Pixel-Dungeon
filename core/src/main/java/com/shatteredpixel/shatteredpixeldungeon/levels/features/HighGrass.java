@@ -41,7 +41,9 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Camouflage;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
@@ -159,7 +161,8 @@ public class HighGrass {
 			//Camouflage
 			if (ch instanceof Hero) {
 				Hero hero = (Hero) ch;
-				if (hero.belongings.armor() != null && hero.belongings.armor().hasGlyph(Camouflage.class, hero)) {
+				if ((hero.belongings.armor() != null && hero.belongings.armor().hasGlyph(Camouflage.class, hero))
+						|| (hero.belongings.getItem(KnightsShield.class) != null && hero.belongings.getItem(KnightsShield.class).hasGlyph(Brimstone.class, hero))) {
 					Camouflage.activate(hero, hero.belongings.armor.buffedLvl());
 				}
 			} else if (ch instanceof DriedRose.GhostHero){
