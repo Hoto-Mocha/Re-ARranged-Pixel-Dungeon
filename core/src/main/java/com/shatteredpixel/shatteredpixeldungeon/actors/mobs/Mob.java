@@ -70,6 +70,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle
 import com.shatteredpixel.shatteredpixeldungeon.items.BulletItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Saddle;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
@@ -910,6 +911,8 @@ public abstract class Mob extends Char {
 			if (hero.buff(HorseRiding.RidingCooldown.class) != null && (Dungeon.hero.lvl <= maxLvl + 2)) {
 				hero.buff(HorseRiding.RidingCooldown.class).kill();
 			}
+
+			Saddle.kill(this);
 		}
 
 		if (Dungeon.hero.isAlive() && !Dungeon.level.heroFOV[pos]) {
@@ -933,7 +936,7 @@ public abstract class Mob extends Char {
 			}
 		}
 
-		if (this instanceof Wraith && Dungeon.isChallenged(Challenges.CURSED_DUNGEON) && Random.Int(5) < 1) {
+		if (this instanceof Wraith && Dungeon.isChallenged(Challenges.CURSED_DUNGEON) && Random.Float() < 0.2f) {
 			Wraith w = Wraith.spawnAt(pos, Wraith.class);
 			if (w != null) {
 				Buff.affect(w, Corruption.class);
@@ -996,12 +999,7 @@ public abstract class Mob extends Char {
 		}
 
 		//pink gem logic
-		if (buff(PinkGem.LuckProc.class) != null){
-			Dungeon.level.drop(buff(PinkGem.LuckProc.class).genLoot(), pos).sprite.drop();
-			if (!(sprite == null || sprite.parent == null)) {
-				new Flare(8, 24).color(0xFF66FF, true).show(sprite, 3f);
-			}
-		}
+		PinkGem.drop(this);
 
 		//soul eater talent
 		if (buff(SoulMark.class) != null &&

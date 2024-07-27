@@ -62,7 +62,7 @@ public class SoulCollect extends Buff {
     public boolean soulUsed(Hero hero) {
         if (this.souls > 0) {
             souls --;
-            hero.heal(healAmount(hero));
+            hero.heal(healAmount(hero), false);
             onResurrect();
             if (souls <= 0) {
                 detach();

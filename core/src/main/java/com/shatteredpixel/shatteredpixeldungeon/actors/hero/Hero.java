@@ -1800,8 +1800,14 @@ public class Hero extends Char {
 
 	public int criticalDamage(int damage, Weapon wep, Char enemy) {
 		int max = wep.max();
+		if (STR() > wep.STRReq()) {
+			max += STR()-wep.STRReq();
+		}
 		float multi = 1f+Math.max(0, critChance(enemy, wep)-1);
 		int bonusDamage = 0;
+		System.out.println(max);
+		System.out.println(damage);
+		System.out.println();
 
 		damage = (int)(max * 0.75f + damage * 0.25f);
 
@@ -2139,8 +2145,6 @@ public class Hero extends Char {
 		if (hero.buff(Pray.Punishment.class) != null) {
 			hero.buff(Pray.Punishment.class).hit(enemy, damage);
 		}
-
-		PinkGem.proc(enemy);
 		
 		return damage;
 	}

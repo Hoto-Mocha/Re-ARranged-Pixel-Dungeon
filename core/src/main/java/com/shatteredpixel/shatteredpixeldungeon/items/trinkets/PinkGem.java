@@ -1,7 +1,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.trinkets;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -23,9 +25,16 @@ public class PinkGem extends Trinket {
         return Messages.get(this, "desc", (int)(100*dropChance(buffedLvl())), ringLevel(buffedLvl()), Messages.decimalFormat("#.#", dropChanceMultiplier(buffedLvl())));
     }
 
-    public static void proc(Char enemy) {
+    public static Item genLoot(){
+        return RingOfWealth.genConsumableDrop(PinkGem.ringLevel());
+    }
+
+    public static void drop(Char enemy) {
         if (trinketLevel(PinkGem.class) != -1 && Random.Float() < dropChance()) {
-            Buff.affect(enemy, PinkGem.LuckProc.class);
+            Dungeon.level.drop(PinkGem.genLoot(), enemy.pos).sprite.drop();
+            if (!(enemy.sprite == null || enemy.sprite.parent == null)) {
+                new Flare(8, 24).color(0xFF66FF, true).show(enemy.sprite, 3f);
+            }
         }
     }
 
@@ -81,23 +90,6 @@ public class PinkGem extends Trinket {
                 return 0.3f;
             case 3:
                 return 0f;
-        }
-    }
-
-    //used to keep track of whether a luck proc is incoming. see Mob.die()
-    public static class LuckProc extends Buff {
-
-        public int ringLevel = PinkGem.ringLevel();
-
-        @Override
-        public boolean act() {
-            detach();
-            return true;
-        }
-
-        public Item genLoot(){
-            detach();
-            return RingOfWealth.genConsumableDrop(ringLevel);
         }
     }
 }

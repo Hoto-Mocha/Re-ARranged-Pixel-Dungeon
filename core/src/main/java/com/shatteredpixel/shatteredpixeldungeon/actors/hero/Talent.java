@@ -1060,6 +1060,8 @@ public enum Talent {
 		}
 	}
 
+	public static class WarCryTracker extends Buff {}
+
 	public static class PrayForDeadTracker extends FlavourBuff {
 		public static final float DURATION = 1f;
 	}
@@ -1756,7 +1758,8 @@ public enum Talent {
 			Buff.affect(hero, Talent.KineticBattle.class).set();
 		}
 
-		if (hero.hasTalent(Talent.WAR_CRY)) {
+		if (hero.hasTalent(Talent.WAR_CRY) && enemy.buff(WarCryTracker.class) == null) {
+			Buff.affect(enemy, WarCryTracker.class);
 			Buff.prolong(hero, Adrenaline.class, 1+hero.pointsInTalent(Talent.WAR_CRY));
 		}
 

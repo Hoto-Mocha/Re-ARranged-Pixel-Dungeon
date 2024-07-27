@@ -11,6 +11,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Rosary;
@@ -80,7 +81,7 @@ public class Pray extends Buff implements ActionIndicator.Action {
     }
 
     public void onPray() {
-        Buff.affect(hero, Praying.class);
+        Buff.affect(hero, Praying.class, 1f);
 
         if (hero.buff(Talent.PrayForDeadTracker.class) != null) {
             switch (hero.pointsInTalent(Talent.PRAY_FOR_DEAD)) {
@@ -119,9 +120,15 @@ public class Pray extends Buff implements ActionIndicator.Action {
         }
     }
 
-    public static class Praying extends Buff {
+    public static class Praying extends FlavourBuff {
+
+//        {
+//            //acts after mobs, this should be detached after mob attack
+//            actPriority = MOB_PRIO - 1;
+//        }
 
         public void defenseProc(Char enemy, int damage) {
+            System.out.println("defenseProc 작동");
             if (hero.hasTalent(Talent.JUDGEMENT)) {
                 Buff.affect(enemy, Talent.JudgementTracker.class, Talent.JudgementTracker.DURATION);
             }
@@ -159,11 +166,11 @@ public class Pray extends Buff implements ActionIndicator.Action {
             return 1f;
         }
 
-        @Override
-        public boolean act() {
-            detach();
-            return true;
-        }
+//        @Override
+//        public boolean act() {
+//
+//            return true;
+//        }
     }
 
     public static class Punishment extends CounterBuff {

@@ -5,6 +5,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Rosary extends Item {
@@ -17,8 +18,8 @@ public class Rosary extends Item {
     }
 
     public void onPray(Hero hero) {
-        Buff.affect(hero, Bless.class, 1f);
-        if (hero.buff(Barrier.class) != null) {
+        Buff.affect(hero, Bless.class, 2f);
+        if (hero.buff(Barrier.class) == null) {
             Buff.affect(hero, Barrier.class).setShield(1+this.buffedLvl());
         } else {
             Buff.affect(hero, Barrier.class).incShield(1+this.buffedLvl());
@@ -45,5 +46,10 @@ public class Rosary extends Item {
     @Override
     public boolean isIdentified() {
         return true;
+    }
+
+    @Override
+    public String desc() {
+        return Messages.get(this, "desc", 1+this.buffedLvl());
     }
 }

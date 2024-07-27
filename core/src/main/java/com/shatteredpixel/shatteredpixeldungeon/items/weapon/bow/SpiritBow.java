@@ -320,6 +320,16 @@ public class SpiritBow extends Weapon {
 		public int damageRoll(Char owner) {
 			return SpiritBow.this.damageRoll(owner);
 		}
+
+		@Override
+		public int min() { //this is for critical damage logic. see Hero.criticalDamage(). it requires the weapon's max()
+			return SpiritBow.this.min(SpiritBow.this.buffedLvl());
+		}
+
+		@Override
+		public int max() { //this is for critical damage logic. see Hero.criticalDamage(). it requires the weapon's max()
+			return SpiritBow.this.max(SpiritBow.this.buffedLvl());
+		}
 		
 		@Override
 		public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {

@@ -240,6 +240,7 @@ public class HeroSelectScene extends PixelScene {
 
 			int cols = (int)Math.ceil(heroBtns.size()/2f);
 			float curX = (leftArea - btnWidth * cols + (cols-1))/2f;
+			curX = Math.max(btnWidth/4f, curX);
 			float curY = title.bottom() + uiSpacing;
 
 			int count = 0;
@@ -248,12 +249,18 @@ public class HeroSelectScene extends PixelScene {
 				align(button);
 				curX += btnWidth+1;
 				count++;
-				if (count >= (1+heroBtns.size())/2){
+//				if (count >= (1+heroBtns.size())/2){
+//					curX -= btnWidth*count + count;
+//					curY += btnHeight+1;
+//					if (heroBtns.size()%2 != 0){
+//						curX += btnWidth/2f;
+//					}
+//					count = 0;
+//				}
+				if (count >= 3){ //버튼 3개마다 줄바꿈
 					curX -= btnWidth*count + count;
 					curY += btnHeight+1;
-					if (heroBtns.size()%2 != 0){
-						curX += btnWidth/2f;
-					}
+					curX += btnWidth/4f;
 					count = 0;
 				}
 			}

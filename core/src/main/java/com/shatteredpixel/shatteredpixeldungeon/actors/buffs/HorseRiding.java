@@ -64,6 +64,10 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
         BuffIndicator.refreshHero();
     }
 
+    public void healHorse(int amount) {
+        this.horseHP = Math.min(HorseRiding.this.horseHP + amount, HorseRiding.this.horseHT);;
+    }
+
     @Override
     public int icon() {
         return BuffIndicator.HORSE_RIDING;
@@ -212,15 +216,6 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
                         damage -= hero.drRoll();
                         damage -= (hero.pointsInTalent(Talent.BUFFER) * chars.size());
                         hero.damage(damage, HorseRiding.this);
-
-                        Saddle saddle = hero.belongings.getItem(Saddle.class);
-                        if (saddle != null) {
-                            for (int i = 0; i < chars.size(); i++) {
-                                if (Random.Float() < (1+saddle.buffedLvl())/10f) {
-                                    HorseRiding.this.horseHP = Math.min(HorseRiding.this.horseHP + 1, HorseRiding.this.horseHT);
-                                }
-                            }
-                        }
 
                         if (hero.hasTalent(Talent.SHOCKWAVE)) {
                             int knockDist = (int) Math.floor(dash.dist/(float)(8-2*hero.pointsInTalent(Talent.SHOCKWAVE)));

@@ -1378,4 +1378,17 @@ public abstract class Char extends Actor {
 			this.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString( amount ), FloatingText.HEALING);
 		}
 	}
+
+	public void heal(int amount, boolean shouldAlive) {
+		if (shouldAlive) {
+			heal(amount);
+			return;
+		}
+		amount = Math.min( amount, this.HT - this.HP );
+		if (amount > 0) {
+			this.HP += amount;
+			this.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
+			this.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString( amount ), FloatingText.HEALING);
+		}
+	}
 }
