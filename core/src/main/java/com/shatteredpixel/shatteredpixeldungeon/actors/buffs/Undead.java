@@ -14,8 +14,8 @@ public class Undead extends FlavourBuff {
 
     @Override
     public void detach() {
-        target.die(this);
         super.detach();
+        target.die(this);
     }
 
     @Override
