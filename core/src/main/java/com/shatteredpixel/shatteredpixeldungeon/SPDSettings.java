@@ -57,7 +57,7 @@ public class SPDSettings extends GameSettings {
 	public static final String KEY_GRID 	    = "visual_grid";
 	public static final String KEY_CAMERA_FOLLOW= "camera_follow";
 	public static final String KEY_SCREEN_SHAKE = "screen_shake";
-	
+
 	public static void fullscreen( boolean value ) {
 		put( KEY_FULLSCREEN, value );
 		
@@ -145,6 +145,7 @@ public class SPDSettings extends GameSettings {
 	public static final String KEY_SLOTWATERSKIN= "quickslot_waterskin";
 	public static final String KEY_SYSTEMFONT	= "system_font";
 	public static final String KEY_VIBRATION    = "vibration";
+	public static final String KEY_UI_TYPE		= "ui_type";
 
 	//0 = mobile, 1 = mixed (large without inventory in main UI), 2 = large
 	public static void interfaceSize( int value ){
@@ -220,6 +221,15 @@ public class SPDSettings extends GameSettings {
 	public static boolean vibration(){
 		return getBoolean(KEY_VIBRATION, true);
 	}
+
+	public static void uiType(int idx) {
+		put(KEY_UI_TYPE, idx);
+	}
+
+	public static int uiType() {
+		return getInt(KEY_UI_TYPE, 0);
+	}
+
 
 	//Game State
 	

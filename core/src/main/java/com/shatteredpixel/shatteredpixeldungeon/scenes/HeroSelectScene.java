@@ -260,7 +260,9 @@ public class HeroSelectScene extends PixelScene {
 				if (count >= 3){ //버튼 3개마다 줄바꿈
 					curX -= btnWidth*count + count;
 					curY += btnHeight+1;
-					curX += btnWidth/4f;
+//					if (heroBtns.size()%3 != 0){
+//						curX += btnWidth/2f;
+//					}
 					count = 0;
 				}
 			}

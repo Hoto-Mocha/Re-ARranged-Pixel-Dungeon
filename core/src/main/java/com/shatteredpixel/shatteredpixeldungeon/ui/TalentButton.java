@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -80,7 +81,14 @@ public class TalentButton extends Button {
 	protected void createChildren() {
 		super.createChildren();
 
-		fill = new ColorBlock(0, 4, 0xFFFFFF44);
+		switch (SPDSettings.uiType()) {
+			case 0: case 1: default:
+				fill = new ColorBlock(0, 4, 0xFFFFFF44);
+				break;
+			case 2:
+				fill = new ColorBlock(0, 4, 0xFF9CCDFF);
+				break;
+		}
 		add(fill);
 
 		bg = new Image(Assets.Interfaces.TALENT_BUTTON);

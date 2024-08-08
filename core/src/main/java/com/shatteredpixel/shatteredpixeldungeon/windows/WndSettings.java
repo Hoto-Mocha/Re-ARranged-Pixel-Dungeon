@@ -418,6 +418,7 @@ public class WndSettings extends WndTabbed {
 		ColorBlock sep2;
 		CheckBox chkFont;
 		CheckBox chkVibrate;
+		RedButton btnUiSettings;
 
 		@Override
 		protected void createChildren() {
@@ -651,6 +652,95 @@ public class WndSettings extends WndTabbed {
 				chkVibrate.checked(SPDSettings.vibration());
 			}
 			add(chkVibrate);
+			btnUiSettings = new RedButton(Messages.get(this, "ui_settings"), 9){
+				void showConfirmWindow() {
+					ShatteredPixelDungeon.scene().addToFront(new Window(){
+						RedButton confirm;
+						RedButton cancel;
+						RenderedTextBlock uiDesc;
+						{
+							uiDesc = PixelScene.renderTextBlock(Messages.get(WndSettings.UITab.this, "ui_comfirm_desc"), 6);
+							add(uiDesc);
+
+							cancel = new RedButton(Messages.get(WndSettings.UITab.this, "ui_comfirm_no")) {
+								@Override
+								protected void onClick() {
+									hide();
+								}
+							};
+							add(cancel);
+
+							confirm = new RedButton(Messages.get(WndSettings.UITab.this, "ui_comfirm_yes")) {
+								@Override
+								protected void onClick() {
+									Game.instance.finish();
+								}
+							};
+							add(confirm);
+
+							//layout
+							resize((int)uiDesc.width(), 0);
+
+							uiDesc.setPos(0, GAP);
+							PixelScene.align(uiDesc);
+							int btnWidth = (int) (width - 2 * GAP) / 2;
+							cancel.setRect(0, uiDesc.bottom()+GAP, btnWidth, BTN_HEIGHT);
+							confirm.setRect(cancel.right() + GAP, cancel.top(), btnWidth, BTN_HEIGHT);
+
+							resize((int)uiDesc.right(), (int)confirm.bottom());
+						}
+					});
+				}
+
+				@Override
+				protected void onClick() {
+					ShatteredPixelDungeon.scene().addToFront(new Window(){
+						RedButton original;
+						RedButton shattered;
+						RedButton blueArchive;
+
+						{
+							original = new RedButton(Messages.get(WndSettings.UITab.this, "ui_original")) {
+								@Override
+								protected void onClick() {
+									SPDSettings.uiType(0);
+									showConfirmWindow();
+								}
+							};
+							add(original);
+
+							shattered = new RedButton(Messages.get(WndSettings.UITab.this, "ui_shattered")) {
+								@Override
+								protected void onClick() {
+									SPDSettings.uiType(1);
+									showConfirmWindow();
+								}
+							};
+							add(shattered);
+
+							blueArchive = new RedButton(Messages.get(WndSettings.UITab.this, "ui_blue_archive")) {
+								@Override
+								protected void onClick() {
+									SPDSettings.uiType(2);
+									showConfirmWindow();
+								}
+							};
+							add(blueArchive);
+
+							//layout
+							resize(WIDTH_P, 0);
+
+							int btnWidth = (int) (width);
+							original.setRect(0, 0, btnWidth, BTN_HEIGHT);
+							shattered.setRect(0, original.bottom()+GAP, btnWidth, BTN_HEIGHT);
+							blueArchive.setRect(0, shattered.bottom()+GAP, btnWidth, BTN_HEIGHT);
+
+							resize(WIDTH_P, (int)blueArchive.bottom());
+						}
+					});
+				}
+			};
+			add(btnUiSettings);
 		}
 
 		@Override
@@ -698,6 +788,8 @@ public class WndSettings extends WndTabbed {
 				chkVibrate.setRect(0, chkFont.bottom() + GAP, width, BTN_HEIGHT);
 				height = chkVibrate.bottom();
 			}
+			btnUiSettings.setRect(0, chkVibrate.bottom() + GAP, width, BTN_HEIGHT);
+			height = btnUiSettings.bottom();
 		}
 
 	}
