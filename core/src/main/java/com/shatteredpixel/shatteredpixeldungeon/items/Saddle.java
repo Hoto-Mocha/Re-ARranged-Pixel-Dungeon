@@ -5,6 +5,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -50,7 +51,7 @@ public class Saddle extends Item {
                 hero.buff(HorseRiding.class).healHorse(2 * (2+saddle.buffedLvl()));
             } else if (horse != null) {
                 horse.heal(2 * (2+saddle.buffedLvl()));
-            } else if (hero.buff(HorseRiding.RidingCooldown.class) != null && (Dungeon.hero.lvl <= enemy.maxLvl + 2)) {
+            } else if (hero.buff(HorseRiding.RidingCooldown.class) != null && (Dungeon.hero.lvl <= maxLvl + 2 || Dungeon.hero.buff(AscensionChallenge.class) != null)) {
                 hero.buff(HorseRiding.RidingCooldown.class).kill();
             }
         }

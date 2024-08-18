@@ -373,9 +373,9 @@ public class Teleporter extends Item {
                 GLog.i("현재 비밀방 개수: " + secretRooms[Dungeon.depth]);
              }
              */
-            if (hero.buff(HorseRiding.RidingCooldown.class) != null) {
-                hero.buff(HorseRiding.RidingCooldown.class).kill();
-            }
+//            if (hero.buff(HorseRiding.RidingCooldown.class) != null) {
+//                hero.buff(HorseRiding.RidingCooldown.class).kill();
+//            }
         }
     }
 
