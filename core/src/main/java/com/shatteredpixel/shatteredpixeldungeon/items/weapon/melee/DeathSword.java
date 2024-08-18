@@ -1,6 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -53,7 +54,7 @@ public class DeathSword extends MeleeWeapon {
         if (Dungeon.hero.buff(MaxHPBoost.class) != null) {
             HTBoost = Dungeon.hero.buff(MaxHPBoost.class).HTBonus();
         }
-        return Messages.get(this, "desc", HTBoost, 15+Dungeon.hero.lvl*5);
+        return Messages.get(this, "desc", HTBoost, Dungeon.isChallenged(Challenges.SUPERMAN) ? 10 : 15+Dungeon.hero.lvl*5);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class DeathSword extends MeleeWeapon {
         private int stack = 0;
 
         public void kill() {
-            stack = Math.min(stack+1, 15+Dungeon.hero.lvl*5);
+            stack = Math.min(stack+1, Dungeon.isChallenged(Challenges.SUPERMAN) ? 10 : 15+Dungeon.hero.lvl*5);
             Dungeon.hero.updateHT(false);
         }
 
