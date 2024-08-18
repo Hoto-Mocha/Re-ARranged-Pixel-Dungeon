@@ -184,6 +184,10 @@ public class Assets {
 		public static final String HALLS_TENSE          = "music/halls_tense.ogg";
 		public static final String HALLS_BOSS           = "music/halls_boss.ogg";
 		public static final String HALLS_BOSS_FINALE    = "music/halls_boss_finale.ogg";
+
+		public static final String OLD_MAIN				= "music/old_main.ogg";
+		public static final String OLD_THEME			= "music/old_theme.ogg";
+		public static final String OLD_SURFACE			= "music/old_surface.ogg";
 	}
 
 	public static class Sounds {
