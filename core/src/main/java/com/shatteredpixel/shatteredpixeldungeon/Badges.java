@@ -205,7 +205,7 @@ public class Badges {
 		BOSS_SLAIN_3_RESEARCHER,
 
 		BOSS_SLAIN_3_DEATHKNIGHT,
-		BOSS_SLAIN_3_SPARTA,
+		BOSS_SLAIN_3_HORSEMAN,
 		BOSS_SLAIN_3_CRUSADER,
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 106, true ),
 		BOSS_CHALLENGE_3            ( 107 ),
@@ -799,6 +799,9 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.ENGINEER, Badge.BOSS_SLAIN_3_ENGINEER);
 		thirdBossSubclassBadges.put(HeroSubClass.EXPLORER, Badge.BOSS_SLAIN_3_EXPLORER);
 		thirdBossSubclassBadges.put(HeroSubClass.RESEARCHER, Badge.BOSS_SLAIN_3_RESEARCHER);
+		thirdBossSubclassBadges.put(HeroSubClass.DEATHKNIGHT, Badge.BOSS_SLAIN_3_DEATHKNIGHT);
+		thirdBossSubclassBadges.put(HeroSubClass.HORSEMAN, Badge.BOSS_SLAIN_3_HORSEMAN);
+		thirdBossSubclassBadges.put(HeroSubClass.CRUSADER, Badge.BOSS_SLAIN_3_CRUSADER);
 	}
 	
 	public static void validateBossSlain() {

@@ -66,11 +66,11 @@ public enum HeroSubClass {
 
 	DEATHKNIGHT(HeroIcon.DEATHKNIGHT),
 	HORSEMAN(HeroIcon.HORSEMAN),
-	CRUSADER(HeroIcon.CRUSADER),
+	CRUSADER(HeroIcon.CRUSADER);
 
-	MEDIC(HeroIcon.MEDIC),
-	ANGEL(HeroIcon.ANGEL),
-	SURGEON(HeroIcon.SURGEON);
+//	MEDIC(HeroIcon.MEDIC),
+//	ANGEL(HeroIcon.ANGEL),
+//	SURGEON(HeroIcon.SURGEON);
 
 	int icon;
 
