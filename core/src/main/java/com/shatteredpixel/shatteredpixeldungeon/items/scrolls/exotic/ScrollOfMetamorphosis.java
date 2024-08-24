@@ -179,6 +179,7 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 		static {
 			restrictedTalents.put(Talent.SKILLED_HAND, HeroClass.DUELIST);
 			restrictedTalents.put(Talent.ACCUMULATION, HeroClass.DUELIST);
+			restrictedTalents.put(Talent.DRAGONS_EYE, HeroClass.SAMURAI);
 
 //			restrictedTalents.put(Talent.PLANT_SHIELD, HeroClass.PLANTER);
 //			restrictedTalents.put(Talent.FLOWER_BED, HeroClass.PLANTER);

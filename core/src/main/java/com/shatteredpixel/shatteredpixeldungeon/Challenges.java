@@ -21,8 +21,49 @@
 
 package com.shatteredpixel.shatteredpixeldungeon;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Acidic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Albino;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bandit;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bat;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Brute;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CausticSlime;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Crab;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM100;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM200;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM201;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Eye;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Ghoul;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Gnoll;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Golem;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Guard;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Medic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Necromancer;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Researcher;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.SWAT;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Scorpio;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Senior;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Shaman;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Skeleton;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Slime;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Soldier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.SpectralNecromancer;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Spinner;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Succubus;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Supression;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tank;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Warlock;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.watabou.utils.Random;
+
+import java.util.ArrayList;
 
 public class Challenges {
 
@@ -81,6 +122,72 @@ public class Challenges {
 
 		return false;
 
+	}
+
+	public static final ArrayList<Class<? extends Mob>> enemyListR1 = new ArrayList<>();
+	static {
+		enemyListR1.add(Rat.class);
+		enemyListR1.add(Albino.class);
+		enemyListR1.add(Snake.class);
+		enemyListR1.add(Gnoll.class);
+		enemyListR1.add(Swarm.class);
+		enemyListR1.add(Crab.class);
+		enemyListR1.add(Slime.class);
+		enemyListR1.add(CausticSlime.class);
+	}
+
+	public static final ArrayList<Class<? extends Mob>> enemyListR2 = new ArrayList<>();
+	static {
+		enemyListR2.add(Skeleton.class);
+		enemyListR2.add(Thief.class);
+		enemyListR2.add(Bandit.class);
+		enemyListR2.add(DM100.class);
+		enemyListR2.add(Guard.class);
+		enemyListR2.add(Necromancer.class);
+		enemyListR2.add(SpectralNecromancer.class);
+	}
+
+	public static final ArrayList<Class<? extends Mob>> enemyListR3 = new ArrayList<>();
+	static {
+		enemyListR3.add(Bat.class);
+		enemyListR3.add(Brute.class);
+		enemyListR3.add(Shaman.RedShaman.class);
+		enemyListR3.add(Shaman.BlueShaman.class);
+		enemyListR3.add(Shaman.PurpleShaman.class);
+		enemyListR3.add(Spinner.class);
+		enemyListR3.add(DM200.class);
+		enemyListR3.add(DM201.class);
+	}
+
+	public static final ArrayList<Class<? extends Mob>> enemyListR4 = new ArrayList<>();
+	static {
+		enemyListR4.add(Elemental.FireElemental.class);
+		enemyListR4.add(Elemental.FrostElemental.class);
+		enemyListR4.add(Elemental.ShockElemental.class);
+		enemyListR4.add(Elemental.ChaosElemental.class);
+		enemyListR4.add(Warlock.class);
+		enemyListR4.add(Ghoul.class);
+		enemyListR4.add(Monk.class);
+		enemyListR4.add(Senior.class);
+		enemyListR4.add(Golem.class);
+	}
+
+	public static final ArrayList<Class<? extends Mob>> enemyListR5 = new ArrayList<>();
+	static {
+		enemyListR5.add(Succubus.class);
+		enemyListR5.add(Eye.class);
+		enemyListR5.add(Scorpio.class);
+		enemyListR5.add(Acidic.class);
+	}
+
+	public static final ArrayList<Class<? extends Mob>> enemyListR6 = new ArrayList<>();
+	static {
+		enemyListR6.add(Soldier.class);
+		enemyListR6.add(SWAT.class);
+		enemyListR6.add(Researcher.class);
+		enemyListR6.add(Medic.class);
+		enemyListR6.add(Supression.class);
+		enemyListR6.add(Tank.class);
 	}
 
 }

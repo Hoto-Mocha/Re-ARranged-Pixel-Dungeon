@@ -9,6 +9,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Freezing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -24,9 +25,11 @@ public class SoulCollect extends Buff {
         type = buffType.POSITIVE;
     }
 
-    public void killMob(Char enemy) {
-        int maxSouls = Math.max(1, 1+(int)(((Hero) target).lvl/10f));
-        souls = Math.min(++souls, maxSouls);
+    public void killMob(Mob enemy) {
+        int maxSouls = maxSouls();
+        if (Dungeon.hero.lvl <= enemy.maxLvl + 2 || Dungeon.hero.buff(AscensionChallenge.class) != null) {
+            souls = Math.min(++souls, maxSouls);
+        }
 
         //TODO: 적 위치로부터 영웅에게 영혼이 이동하는 이펙트 추가
     }

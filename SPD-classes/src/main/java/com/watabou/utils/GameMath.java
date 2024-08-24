@@ -33,7 +33,7 @@ public class GameMath {
 		
 		return speed;
 	}
-	
+
 	public static float gate( float min, float value, float max ) {
 		if (value < min) {
 			return min;
@@ -42,5 +42,11 @@ public class GameMath {
 		} else {
 			return value;
 		}
+	}
+
+	public static int intGate( int min, int value, int max ) {
+		if (value < min) {
+			return min;
+		} else return Math.min(value, max);
 	}
 }

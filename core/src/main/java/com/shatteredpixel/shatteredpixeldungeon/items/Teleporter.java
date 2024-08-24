@@ -279,6 +279,10 @@ public class Teleporter extends Item {
 
                             //아이템 감정 여부 결정 메커니즘
                             String identify = strInput[3].replaceAll(Messages.get(Teleporter.class, "getitem_identify"), "").replaceAll(" ", ""); //기본 문장과 공백을 제거
+                            System.out.println(Messages.get(Teleporter.class, "true"));
+                            if (identify.equals(Messages.get(Teleporter.class, "true"))) {
+                                identify = "true";
+                            }
                             boolean isIdentified = Boolean.parseBoolean(identify);
 
                             //최종 아이템 지급

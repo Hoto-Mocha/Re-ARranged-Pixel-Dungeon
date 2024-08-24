@@ -144,12 +144,12 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
         ArrayList<Integer> spawnPoints = new ArrayList<>();
         for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
             int p = hero.pos + PathFinder.NEIGHBOURS8[i];
-            if (Actor.findChar(p) == null && (Dungeon.level.passable[p] || Dungeon.level.avoid[p])) {
+            if (Actor.findChar(p) == null && Dungeon.level.passable[p]) {
                 spawnPoints.add(p);
             }
         }
 
-        if (spawnPoints.size() > 0) {
+        if (!spawnPoints.isEmpty()) {
             this.horse = new HorseAlly(hero, this.horseHP);
 
             horse.pos = Random.element(spawnPoints);
@@ -193,7 +193,9 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
                 int finalCell = dash.collisionPos;
                 ArrayList<Char> chars = new ArrayList<>();
                 for (int c : dash.subPath(1, dash.dist)) {
-                    Dungeon.level.pressCell(c);
+                    if (!hero.flying) {
+                        Dungeon.level.pressCell(c);
+                    }
                     Char enemy;
                     if ((enemy = Actor.findChar( c )) != null) {
                         chars.add( enemy );

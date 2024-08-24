@@ -287,10 +287,6 @@ public class Bestiary {
 	private static void swapMobAlts(ArrayList<Class<?extends Mob>> rotation){
 		float altChance = 1/50f * RatSkull.exoticChanceMultiplier();
 
-		if (Dungeon.isChallenged(Challenges.MUTATION)) {
-			altChance *= 5;
-		}
-
 		for (int i = 0; i < rotation.size(); i++){
 			if (Random.Float() < altChance) {
 				Class<? extends Mob> cl = rotation.get(i);

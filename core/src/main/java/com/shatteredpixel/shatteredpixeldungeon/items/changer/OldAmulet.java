@@ -117,7 +117,11 @@ public class OldAmulet extends Item {
         super.execute(hero, action);
 
         if (action.equals(AC_USE)) {
-            GameScene.selectItem( itemSelector );
+            if (hero.buff(TempleCurse.class) != null) {
+                GLog.w(Messages.get(this, "cannot_use"));
+            } else {
+                GameScene.selectItem( itemSelector );
+            }
         }
     }
 

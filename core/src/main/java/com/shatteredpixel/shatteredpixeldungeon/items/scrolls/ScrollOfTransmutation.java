@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DeathSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -70,7 +71,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 	protected boolean usableOnItem(Item item) {
 		//all melee weapons, except pickaxe when in a mining level
 		if (item instanceof MeleeWeapon){
-			return !(item instanceof Pickaxe && Dungeon.level instanceof MiningLevel);
+			return !(item instanceof Pickaxe && Dungeon.level instanceof MiningLevel) && !(item instanceof DeathSword); //exclude DeathSword
 
 		//all missile weapons except untipped darts
 		} else if (item instanceof MissileWeapon){

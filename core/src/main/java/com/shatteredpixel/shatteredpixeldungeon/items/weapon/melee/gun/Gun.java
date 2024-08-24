@@ -650,7 +650,7 @@ public class Gun extends MeleeWeapon {
 			}
 
 			int distance = Dungeon.level.distance(attacker.pos, defender.pos) - 1;
-			float multiplier = Math.min(2f, (float)Math.pow(1 + 0.025f * hero.pointsInTalent(Talent.RANGED_SNIPING), distance));
+			float multiplier = Math.min(2.5f, (float)Math.pow(1 + 0.025f * hero.pointsInTalent(Talent.RANGED_SNIPING), distance));
 			damage = Math.round(damage * multiplier);
 
 			if (hero.buff(Riot.RiotTracker.class) != null) {

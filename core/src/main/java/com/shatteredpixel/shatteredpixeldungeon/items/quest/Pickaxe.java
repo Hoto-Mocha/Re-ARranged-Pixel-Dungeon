@@ -98,7 +98,7 @@ public class Pickaxe extends MeleeWeapon {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
-		if (Blacksmith.Quest.completed()) {
+		if (Blacksmith.Quest.completed() && Dungeon.hero.heroClass == HeroClass.ADVENTURER) {
 			actions.add(AC_INFUSE);
 		}
 		if (Blacksmith.Quest.oldMiningQuest()) {

@@ -102,10 +102,20 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Rio
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Albino;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CausticSlime;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Crab;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Gnoll;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Slime;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Statue;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
@@ -217,6 +227,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StatusPane;
+import com.shatteredpixel.shatteredpixeldungeon.ui.TargetHealthIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndHero;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndResurrect;
@@ -233,6 +244,7 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
+import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1147,10 +1159,6 @@ public class Hero extends Char {
 
 		if (hasTalent(Talent.PARRY) && buff(Talent.ParryCooldown.class) == null){
 			Buff.affect(this, Talent.ParryTracker.class);
-		}
-
-		if (Dungeon.isChallenged(Challenges.CURSED_DUNGEON) && hero.buff(GhostSpawner.class) == null) {
-			Buff.affect(hero, GhostSpawner.class);
 		}
 
 		if (hero.subClass == HeroSubClass.SLAYER && hero.buff(Awakening.class) == null) {
@@ -2145,7 +2153,85 @@ public class Hero extends Char {
 		if (hero.buff(Pray.Punishment.class) != null) {
 			hero.buff(Pray.Punishment.class).hit(enemy, damage);
 		}
-		
+
+		if (Dungeon.isChallenged(Challenges.MUTATION) //돌연변이 챌린지 활성화 시
+				&& !(enemy instanceof Thief && ((Thief)enemy).item != null) //도적류 적인데 훔친 물건이 있다면 발동하지 않음
+				&& ( //보스, 미니보스, 보스 사역마, 석상류, 미믹류 적이 아닌 적에게만 발동
+					!Char.hasProp(enemy, Property.BOSS)
+					&& !Char.hasProp(enemy, Property.MINIBOSS)
+					&& !Char.hasProp(enemy, Property.BOSS_MINION)
+					&& !(enemy instanceof Statue)
+					&& !(enemy instanceof Mimic)
+				)
+				&& enemy.alignment == Char.Alignment.ENEMY //적으로 분류되는 적에게만 발동
+				&& damage < enemy.HP //공격으로 입힌 피해보다 적의 체력이 높을 때에만 발동
+				&& Dungeon.depth % 5 != 0 //현재 층이 보스층이면 발동하지 않음
+				&& Random.Float() < 0.05f) { //5% 확률로 적 변이 메커니즘 작동
+
+			Mob newEnemy;
+			int region = 1+(Dungeon.depth - 1)/5;
+			float chance = Random.Float();
+			if (chance < 0.2f) { //각각 5%, 20%의 확률로 다음 계층의 몹이 나오거나 이전 계층의 몹이 나옴
+				region++;
+			} else if (chance > 0.95f) {
+				region--;
+			}
+			region = GameMath.intGate(1, region, 6); //현재 계층이 1이거나 6일 경우 이전 혹은 다음 계층이 되지 않음
+
+			switch (region) { //지역별로 나올 수 있는 일반 몹들 중 랜덤하게 하나를 추출
+				case 1: default:
+                    //noinspection unchecked
+                    newEnemy = Reflection.newInstance((Class<Mob>) Random.oneOf(Challenges.enemyListR1.toArray()));
+					break;
+				case 2:
+					//noinspection unchecked
+					newEnemy = Reflection.newInstance((Class<Mob>) Random.oneOf(Challenges.enemyListR2.toArray()));
+					break;
+				case 3:
+					//noinspection unchecked
+					newEnemy = Reflection.newInstance((Class<Mob>) Random.oneOf(Challenges.enemyListR3.toArray()));
+					break;
+				case 4:
+					//noinspection unchecked
+					newEnemy = Reflection.newInstance((Class<Mob>) Random.oneOf(Challenges.enemyListR4.toArray()));
+					break;
+				case 5:
+					//noinspection unchecked
+					newEnemy = Reflection.newInstance((Class<Mob>) Random.oneOf(Challenges.enemyListR5.toArray()));
+					break;
+				case 6:
+					//noinspection unchecked
+					newEnemy = Reflection.newInstance((Class<Mob>) Random.oneOf(Challenges.enemyListR6.toArray()));
+					break;
+			}
+			if (Random.Float() < 0.01) { //1% 확률로 양이 됨
+				newEnemy = new Sheep();
+			}
+
+			if (newEnemy != null) {
+				newEnemy.pos = enemy.pos;
+
+				float enemyHPPercent = (enemy.HP-damage)/(float)enemy.HT; //적이 변하고 나서 체력 비율이 그대로일 수 있도록 현재 적의 체력 비율을 확인
+
+				Actor.remove( enemy );
+				enemy.sprite.killAndErase();
+				Dungeon.level.mobs.remove(enemy);
+
+				if (!(newEnemy instanceof Sheep)) {
+					newEnemy.HP = Math.max(1, (int)Math.ceil(newEnemy.HT * enemyHPPercent)); //체력 비율은 올림 처리, 적어도 1의 체력을 보유하고 있어야 함
+				}
+
+				GameScene.add(newEnemy);
+
+				TargetHealthIndicator.instance.target(null);
+				CellEmitter.get(newEnemy.pos).burst(Speck.factory(Speck.WOOL), 4);
+				Sample.INSTANCE.play(Assets.Sounds.PUFF);
+
+				Dungeon.level.occupyCell(newEnemy);
+			}
+		}
+
+
 		return damage;
 	}
 	

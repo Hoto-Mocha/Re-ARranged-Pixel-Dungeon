@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -122,7 +123,7 @@ public class Shovel extends MeleeWeapon {
                 GameScene.updateMap( tile );
                 CellEmitter.get( tile ).burst( Speck.factory( Speck.STEAM ), 10 );
                 if (Random.Float() < 0.05f*hero.pointsInTalent(Talent.WATER_ABSORB)) {
-                    Dungeon.level.drop(Generator.randomUsingDefaults(Generator.Category.SEED), tile).sprite.drop(tile);
+                    Dungeon.level.drop(new Dewdrop(), tile).sprite.drop(tile);
                 }
             }
         }
