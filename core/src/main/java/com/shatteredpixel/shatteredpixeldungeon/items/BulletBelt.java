@@ -78,7 +78,7 @@ public class BulletBelt extends Item {
 	
 	@Override
 	public int value() {
-		return 50*quantity;
+		return 5*quantity;
 	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
