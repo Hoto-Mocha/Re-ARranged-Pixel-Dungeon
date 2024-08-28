@@ -95,7 +95,7 @@ public class ForceGlove extends MeleeWeapon implements AlchemyWeapon {
 		int range = 4+wep.buffedLvl();
 
 		if (Dungeon.level.distance(hero.pos, target) > range || Dungeon.level.distance(hero.pos, target) <= 1){
-			GLog.w(Messages.get(MeleeWeapon.class, "ability_bad_position"));
+			GLog.w(Messages.get(ForceGlove.class, "ability_bad_position"));
 			return;
 		}
 
