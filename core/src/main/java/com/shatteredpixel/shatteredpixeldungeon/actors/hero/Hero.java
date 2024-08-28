@@ -2154,6 +2154,12 @@ public class Hero extends Char {
 			hero.buff(Pray.Punishment.class).hit(enemy, damage);
 		}
 
+		if (hero.belongings.attackingWeapon() instanceof Gun && hasTalent(Talent.BULLET_COLLECT)) {
+			if (Random.Float() < 0.05f * hero.pointsInTalent(Talent.BULLET_COLLECT)) {
+				((Gun)hero.belongings.attackingWeapon()).manualReload(1, true);
+			}
+		}
+
 		if (Dungeon.isChallenged(Challenges.MUTATION) //돌연변이 챌린지 활성화 시
 				&& !(enemy instanceof Thief && ((Thief)enemy).item != null) //도적류 적인데 훔친 물건이 있다면 발동하지 않음
 				&& ( //보스, 미니보스, 보스 사역마, 석상류, 미믹류 적이 아닌 적에게만 발동

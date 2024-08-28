@@ -884,12 +884,6 @@ public abstract class Mob extends Char {
 			}
 		}
 
-		if (this.alignment == Alignment.ENEMY && hero.hasTalent(Talent.BULLET_COLLECT)) {
-			BulletItem bullet = new BulletItem();
-			bullet.quantity(hero.pointsInTalent(Talent.BULLET_COLLECT));
-			Dungeon.level.drop(bullet, pos).sprite.drop();
-		}
-
 		if (cause == hero) {
 			if (Dungeon.hero.hasTalent(Talent.LETHAL_RAGE)){
 				Berserk berserk = Buff.affect(hero, Berserk.class);
