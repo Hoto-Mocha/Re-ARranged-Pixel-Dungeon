@@ -121,6 +121,7 @@ public class Dungeon {
 		INT_STONE,
 		TRINKET_CATA,
 		LAB_ROOM, //actually a room, but logic is the same
+		BULLET_BELT,
 
 		//Health potion sources
 		//enemies
@@ -644,6 +645,16 @@ public class Dungeon {
 			}
 		}
 		return false;
+	}
+
+	public static boolean beltNeeded() {
+		//1 AS each floor set
+		int asLeftThisSet = 1 - (LimitedDrops.BULLET_BELT.count - (depth / 5));
+		if (asLeftThisSet <= 0) return false;
+
+		int floorThisSet = (depth % 5);
+		//chance is floors left / scrolls left
+		return Random.Int(5 - floorThisSet) < asLeftThisSet;
 	}
 
 	// 1/4
