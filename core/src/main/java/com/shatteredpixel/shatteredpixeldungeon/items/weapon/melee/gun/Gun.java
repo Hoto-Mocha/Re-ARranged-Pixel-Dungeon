@@ -683,7 +683,7 @@ public class Gun extends MeleeWeapon {
 		public float delayFactor(Char user) {
 			float speed = Gun.this.delayFactor(user) * shootingSpeed;
 			if (hero.buff(Riot.RiotTracker.class) != null) {
-				speed *= 2;
+				speed *= 0.5f;
 			}
 			return speed;
 		}
