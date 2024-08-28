@@ -426,6 +426,9 @@ public class Gun extends MeleeWeapon {
 
 		if (user == hero) {
 			amount -= hero.pointsInTalent(Talent.FAST_RELOAD);
+			if (((Hero)user).heroClass == HeroClass.GUNNER) {
+				amount -= 1;
+			}
 		}
 
 		amount = Math.max(0, amount);
