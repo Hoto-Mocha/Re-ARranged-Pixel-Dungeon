@@ -699,7 +699,23 @@ public class WndSettings extends WndTabbed {
 						RedButton shattered;
 						RedButton blueArchive;
 
+						RenderedTextBlock uiDesc;
+
 						{
+							String uiString;
+							switch (SPDSettings.uiType()) {
+								case 0: default:
+									uiString = Messages.get(WndSettings.UITab.this, "ui_original");
+									break;
+								case 1:
+									uiString = Messages.get(WndSettings.UITab.this, "ui_shattered");
+									break;
+								case 2:
+									uiString = Messages.get(WndSettings.UITab.this, "ui_blue_archive");
+									break;
+							}
+							uiDesc = PixelScene.renderTextBlock(Messages.get(WndSettings.UITab.this, "ui_current") + " " + uiString, 6);
+							add(uiDesc);
 							original = new RedButton(Messages.get(WndSettings.UITab.this, "ui_original")) {
 								@Override
 								protected void onClick() {
@@ -731,7 +747,11 @@ public class WndSettings extends WndTabbed {
 							resize(WIDTH_P, 0);
 
 							int btnWidth = (int) (width);
-							original.setRect(0, 0, btnWidth, BTN_HEIGHT);
+							resize((int)uiDesc.width(), 0);
+
+							uiDesc.setPos(0, GAP);
+
+							original.setRect(0, uiDesc.bottom()+2*GAP, btnWidth, BTN_HEIGHT);
 							shattered.setRect(0, original.bottom()+GAP, btnWidth, BTN_HEIGHT);
 							blueArchive.setRect(0, shattered.bottom()+GAP, btnWidth, BTN_HEIGHT);
 
