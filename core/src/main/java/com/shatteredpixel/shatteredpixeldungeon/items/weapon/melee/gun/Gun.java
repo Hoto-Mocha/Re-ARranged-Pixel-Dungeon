@@ -323,11 +323,6 @@ public class Gun extends MeleeWeapon {
 			quickReload();
 		}
 
-		if (hero.hasTalent(Talent.BULLET_SAVING) && hero.buff(Talent.BulletSavingCooldown.class) == null) {
-			manualReload(hero.pointsInTalent(Talent.BULLET_SAVING), true);
-			Buff.affect(hero, Talent.BulletSavingCooldown.class, 9f+reloadTime(hero));
-		}
-
 		hero.busy();
 		hero.sprite.operate(hero.pos);
 		Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
@@ -462,7 +457,8 @@ public class Gun extends MeleeWeapon {
 	@Override
 	public int max(int lvl) {
 		int damage = 3*(tier()+1) +
-					 lvl*(tier()+1); //근접 무기로서의 최대 데미지
+					 lvl*(tier()+1) +
+					 Dungeon.hero.pointsInTalent(Talent.CLOSE_COMBAT); //근접 무기로서의 최대 데미지
 		return damage;
 
 	}

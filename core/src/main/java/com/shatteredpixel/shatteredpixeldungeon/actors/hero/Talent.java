@@ -368,11 +368,11 @@ public enum Talent {
 	GUNNERS_INTUITION			(1,  6),	//총기를 장착 시 감정/습득 시 저주 여부 감정
 	SPEEDY_MOVE					(2,  6),	//적을 처음 공격하면 신속 2/3턴
 	SAFE_RELOAD					(3,  6),	//재장전 시 3/5의 방어막을 얻음
-	MIND_VISION					(4,  6),	//이동 시 1%/2% 확률로 1턴의 심안을 얻음
+	CLOSE_COMBAT				(4,  6),	//총기 근접 공격력이 0-4/0-6 증가
 	//Gunner T2
 	INFINITE_BULLET_MEAL		(5,  6),	//식사에 1턴만 소모하고, 식사 시 2/3턴의 무한 탄환을 얻음
 	INSCRIBED_BULLET			(6,  6),	//주문서 사용 시 5/10개의 탄환을 얻음
-	BULLET_SAVING				(7,  6),	//재장전 시 1/2개의 탄환을 추가로 장전함. 탄환을 추가로 소모하지 않음. 쿨타임 10턴
+	MIND_VISION					(7,  6),	//이동 시 1%/2% 확률로 1턴의 심안을 얻음
 	CAMOUFLAGE					(8,  6),	//길게 자란 풀을 밟으면 2/3턴의 투명화를 얻음
 	LARGER_MAGAZINE				(9,  6),	//총기의 최대 탄약 수 1/2 증가
 	BULLET_COLLECT				(10, 6),	//적을 처치하면 1/2개의 탄환을 드랍함
@@ -1960,7 +1960,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, AGGRESSIVE_BARRIER, SKILLED_HAND);
 				break;
 			case GUNNER:
-				Collections.addAll(tierTalents, RELOADING_MEAL, GUNNERS_INTUITION, SPEEDY_MOVE, SAFE_RELOAD, MIND_VISION);
+				Collections.addAll(tierTalents, RELOADING_MEAL, GUNNERS_INTUITION, SPEEDY_MOVE, SAFE_RELOAD, CLOSE_COMBAT);
 				break;
 			case SAMURAI:
 				Collections.addAll(tierTalents, BASIC_PRACTICE, MASTERS_INTUITION, DRAWING_ENHANCE, PARRING, ADRENALINE_SURGE);
@@ -1998,7 +1998,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, FOCUSED_MEAL, LIQUID_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, ACCUMULATION);
 				break;
 			case GUNNER:
-				Collections.addAll(tierTalents, INFINITE_BULLET_MEAL, INSCRIBED_BULLET, BULLET_SAVING, CAMOUFLAGE, LARGER_MAGAZINE, BULLET_COLLECT);
+				Collections.addAll(tierTalents, INFINITE_BULLET_MEAL, INSCRIBED_BULLET, MIND_VISION, CAMOUFLAGE, LARGER_MAGAZINE, BULLET_COLLECT);
 				break;
 			case SAMURAI:
 				Collections.addAll(tierTalents, CRITICAL_MEAL, INSCRIBED_LETHALITY, UNEXPECTED_SLASH, DRAGONS_EYE, WEAPON_MASTERY, CRITICAL_THROW);
