@@ -148,6 +148,15 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
         }
 
         @Override
+        public float accuracyFactor(Char owner, Char target) {
+            float accFactor = super.accuracyFactor(owner, target);
+
+            accFactor *= 1.5f;
+            
+            return accFactor;
+        }
+
+        @Override
         public int max() {
             return SwordAura.this.damageUse();
         }
