@@ -152,7 +152,7 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
             float accFactor = super.accuracyFactor(owner, target);
 
             accFactor *= 1.5f;
-            
+
             return accFactor;
         }
 
