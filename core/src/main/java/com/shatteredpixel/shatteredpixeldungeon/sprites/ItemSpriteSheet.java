@@ -874,6 +874,7 @@ public class ItemSpriteSheet {
 	public static final int CARTRIDGE	= BULLET_ITEM+3;
 	public static final int BULLET_BELT	= BULLET_ITEM+4;
 	public static final int OLD_AMULET	= BULLET_ITEM+5;
+	public static final int GUNSMITHING_TOOL= BULLET_ITEM+6;
 	static{
 
 		assignItemRect(BULLET		, 13, 13);
@@ -882,6 +883,7 @@ public class ItemSpriteSheet {
 		assignItemRect(CARTRIDGE	, 11, 11);
 		assignItemRect(BULLET_BELT	, 15, 15);
 		assignItemRect(OLD_AMULET	, 16, 16);
+		assignItemRect(GUNSMITHING_TOOL	, 16, 13);
 	}
 
 	private static final int BULLETS		=			xy(1, 42);  //16 slots

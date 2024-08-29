@@ -35,7 +35,7 @@ public class GunSmithingTool extends Item {
     public static final String AC_USE		= "USE";
 
     {
-        image = ItemSpriteSheet.KIT;
+        image = ItemSpriteSheet.GUNSMITHING_TOOL;
         defaultAction = AC_USE;
         stackable = true;
 
