@@ -16,6 +16,8 @@ public class PillOfAwakening extends Pill {
         talentFactor = 1;
         talentChance = 1;
         enemyAlternative = true;
+        unique = true;
+        bones = false;
     }
 
     @Override
