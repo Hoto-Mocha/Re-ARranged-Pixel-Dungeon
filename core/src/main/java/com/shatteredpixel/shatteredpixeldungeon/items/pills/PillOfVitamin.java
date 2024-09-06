@@ -11,6 +11,8 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 public class PillOfVitamin extends Pill {
     {
         image = ItemSpriteSheet.PILL_EXP;
+        talentChance = 1;
+        talentFactor = 1;
     }
 
     @Override
