@@ -87,6 +87,7 @@ public class Teleporter extends Item {
         Collections.addAll(itemClass, Generator.Category.SEED.classes);
         Collections.addAll(itemClass, Generator.Category.STONE.classes);
         Collections.addAll(itemClass, Generator.Category.FOOD.classes);
+        Collections.addAll(itemClass, Generator.Category.PILL.classes);
         for (Class classes : Generator.Category.POTION.classes){
             itemClass.add(classes);
             itemClass.add(ExoticPotion.regToExo.get(classes));
