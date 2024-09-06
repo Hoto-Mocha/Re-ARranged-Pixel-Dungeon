@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.Pill;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.Brew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.Elixir;
@@ -56,6 +57,7 @@ public class Recycle extends InventorySpell {
 		return (item instanceof Potion && !(item instanceof Elixir || item instanceof Brew)) ||
 				item instanceof Scroll ||
 				item instanceof Plant.Seed ||
+				item instanceof Pill ||
 				item instanceof Runestone ||
 				item instanceof TippedDart;
 	}
@@ -76,6 +78,8 @@ public class Recycle extends InventorySpell {
 				}
 			} else if (item instanceof Plant.Seed) {
 				result = Generator.randomUsingDefaults(Generator.Category.SEED);
+			} else if (item instanceof Pill) {
+				result = Generator.randomUsingDefaults(Generator.Category.PILL);
 			} else if (item instanceof Runestone) {
 				result = Generator.randomUsingDefaults(Generator.Category.STONE);
 			} else {

@@ -860,10 +860,12 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 8, 10);
 	}
 
-	private static final int NEW_PLACEHOLDERS =			xy(1, 40);  //16 slots
-	public static final int SPELLBOOK_HOLDER   = NEW_PLACEHOLDERS +0;
+	private static final int NEW_PLACEHOLDERS 	=			xy(1, 40);  //16 slots
+	public static final int SPELLBOOK_HOLDER    = NEW_PLACEHOLDERS +0;
+	public static final int PILLS_HOLDER   	    = NEW_PLACEHOLDERS +1;
 	static{
 		assignItemRect(SPELLBOOK_HOLDER	, 10, 14);
+		assignItemRect(PILLS_HOLDER	, 11, 11);
 	}
 
 
@@ -1436,6 +1438,25 @@ public class ItemSpriteSheet {
 		for (int i = NECKLACE_GEMS; i < NECKLACE_GEMS+16; i++)
 			assignItemRect(i, 14, 15);
 	}
+
+	private static final int PILL					=			xy(1, 70);
+	public static final int PILL_STRENGTH =  PILL+0;
+	public static final int PILL_HEALING  =  PILL+1;
+	public static final int PILL_MINDVIS  =  PILL+2;
+	public static final int PILL_FROST    =  PILL+3;
+	public static final int PILL_LIQFLAME =  PILL+4;
+	public static final int PILL_TOXICGAS =  PILL+5;
+	public static final int PILL_HASTE    =  PILL+6;
+	public static final int PILL_INVIS    =  PILL+7;
+	public static final int PILL_LEVITATE =  PILL+8;
+	public static final int PILL_PARAGAS  =  PILL+9;
+	public static final int PILL_PURITY   =  PILL+10;
+	public static final int PILL_EXP      =  PILL+11;
+	static {
+		for (int i = PILL; i < PILL+11; i++)
+			assignItemRect(i, 11, 11);
+	}
+
 	// ****** new sprites end ******
 
 

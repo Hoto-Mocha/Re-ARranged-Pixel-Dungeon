@@ -37,6 +37,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ItemStatusHandler;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.Pill;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfAcceleration;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfAntibiotics;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfAwakening;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfFlame;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfFrost;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfHealing;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfInvisibility;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfLevitation;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfMindFocus;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfParalysis;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfToxin;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfVitamin;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.AquaBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
@@ -45,6 +58,32 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCor
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShroudingFog;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfSnapFreeze;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfStormClouds;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfBlast;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfBlink;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfClairvoyance;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfDeepSleep;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfDisarming;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFear;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFlock;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfShock;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -546,6 +585,66 @@ public class Potion extends Item {
 					return "";
 				}
 			};
+		}
+	}
+
+	public static class PotionToPill extends Recipe {
+
+		private static HashMap<Class<?extends Potion>, Class<?extends Pill>> pills = new HashMap<>();
+		static {
+			pills.put(PotionOfInvisibility.class, 	PillOfInvisibility.class);
+			pills.put(PotionOfPurity.class, 		PillOfAntibiotics.class);
+			pills.put(PotionOfParalyticGas.class, 	PillOfParalysis.class);
+			pills.put(PotionOfMindVision.class, 	PillOfMindFocus.class);
+			pills.put(PotionOfLiquidFlame.class, 	PillOfFlame.class);
+			pills.put(PotionOfFrost.class, 			PillOfFrost.class);
+			pills.put(PotionOfStrength.class, 		PillOfAwakening.class);
+			pills.put(PotionOfToxicGas.class, 		PillOfToxin.class);
+			pills.put(PotionOfExperience.class, 	PillOfVitamin.class);
+			pills.put(PotionOfLevitation.class, 	PillOfLevitation.class);
+			pills.put(PotionOfHealing.class, 		PillOfHealing.class);
+			pills.put(PotionOfHaste.class, 			PillOfAcceleration.class);
+		}
+
+		@Override
+		public boolean testIngredients(ArrayList<Item> ingredients) {
+			if (ingredients.size() != 1
+					|| !(ingredients.get(0) instanceof Potion)
+					|| !pills.containsKey(ingredients.get(0).getClass())){
+				return false;
+			}
+
+			return true;
+		}
+
+		@Override
+		public int cost(ArrayList<Item> ingredients) {
+			return 0;
+		}
+
+		@Override
+		public Item brew(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+
+			Potion p = (Potion) ingredients.get(0);
+
+			p.quantity(p.quantity() - 1);
+			p.identify();
+
+			return Reflection.newInstance(pills.get(p.getClass())).quantity(2);
+		}
+
+		@Override
+		public Item sampleOutput(ArrayList<Item> ingredients) {
+			if (!testIngredients(ingredients)) return null;
+
+			Potion p = (Potion) ingredients.get(0);
+
+			if (!p.isKnown()){
+				return new Pill.PlaceHolder().quantity(2);
+			} else {
+				return Reflection.newInstance(pills.get(p.getClass())).quantity(2);
+			}
 		}
 	}
 }

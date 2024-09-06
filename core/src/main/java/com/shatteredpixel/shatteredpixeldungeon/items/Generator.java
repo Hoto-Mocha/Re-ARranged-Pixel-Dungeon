@@ -52,6 +52,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.Pill;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfAcceleration;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfAntibiotics;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfAwakening;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfFlame;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfFrost;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfHealing;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfInvisibility;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfLevitation;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfMindFocus;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfParalysis;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfToxin;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.PillOfVitamin;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
@@ -323,7 +336,8 @@ public class Generator {
 		
 		POTION	( 8, 8, Potion.class ),
 		SEED	( 1, 1, Plant.Seed.class ),
-		
+		PILL	( 1, 1, Pill.class ),
+
 		SCROLL	( 8, 8, Scroll.class ),
 		STONE   ( 1, 1, Runestone.class),
 		
@@ -436,6 +450,22 @@ public class Generator {
 					Starflower.Seed.class};
 			SEED.defaultProbs = new float[]{ 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 };
 			SEED.probs = SEED.defaultProbs.clone();
+
+			PILL.classes = new Class<?>[]{
+					PillOfAwakening.class,
+					PillOfHealing.class,
+					PillOfMindFocus.class,
+					PillOfFrost.class,
+					PillOfFlame.class,
+					PillOfToxin.class,
+					PillOfAcceleration.class,
+					PillOfInvisibility.class,
+					PillOfLevitation.class,
+					PillOfParalysis.class,
+					PillOfAntibiotics.class,
+					PillOfVitamin.class};
+			PILL.defaultProbs = new float[]{ 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 };
+			PILL.probs = PILL.defaultProbs.clone();
 			
 			SCROLL.classes = new Class<?>[]{
 					ScrollOfUpgrade.class, //3 drop every chapter, see Dungeon.souNeeded()

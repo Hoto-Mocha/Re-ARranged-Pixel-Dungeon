@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.Pill;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.Brew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.Elixir;
@@ -88,7 +89,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		//all rings, wands, artifacts, trinkets, seeds, and runestones
 		} else {
 			return item instanceof Ring || item instanceof Wand || item instanceof Artifact
-					|| item instanceof Trinket || item instanceof Plant.Seed
+					|| item instanceof Trinket || item instanceof Plant.Seed || item instanceof Pill
 					|| item instanceof Runestone;
 		}
 	}
@@ -163,6 +164,8 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			return changeWand( (Wand)item );
 		} else if (item instanceof Plant.Seed) {
 			return changeSeed((Plant.Seed) item);
+		} else if (item instanceof Pill) {
+			return changePill((Pill) item);
 		} else if (item instanceof Runestone) {
 			return changeStone((Runestone) item);
 		} else if (item instanceof Artifact) {
@@ -340,6 +343,16 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			n = (Plant.Seed)Generator.randomUsingDefaults( Generator.Category.SEED );
 		} while (n.getClass() == s.getClass());
 		
+		return n;
+	}
+
+	private static Pill changePill( Pill p ) {
+		Pill n;
+
+		do {
+			n = (Pill) Generator.randomUsingDefaults( Generator.Category.PILL );
+		} while (n.getClass() == p.getClass());
+
 		return n;
 	}
 	

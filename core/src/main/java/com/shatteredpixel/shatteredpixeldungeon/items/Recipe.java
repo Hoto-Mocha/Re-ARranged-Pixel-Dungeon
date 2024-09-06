@@ -232,7 +232,8 @@ public abstract class Recipe {
 		new FireMaker.Recipe(),
 		new IceMaker.Recipe(),
 		new RapidGrowth.Recipe(),
-		new ElectricityImbue.Recipe()
+		new ElectricityImbue.Recipe(),
+		new Potion.PotionToPill()
 	};
 	
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
