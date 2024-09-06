@@ -445,6 +445,15 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new ElectricityImbue.Recipe()));
 				result.add(new QuickRecipe(new UnstableIdentification.Recipe()));
 				return result;
+			case 9:
+				Recipe pillRecipe = new Potion.PotionToPill();
+				for (Class<?> cls : Generator.Category.POTION.classes){
+					Potion potion = (Potion) Reflection.newInstance(cls);
+					if (!potion.isKnown()) potion.anonymize();
+					ArrayList<Item> in = new ArrayList<Item>(Arrays.asList(potion));
+					result.add(new QuickRecipe( pillRecipe, in, pillRecipe.sampleOutput(in)));
+				}
+				return result;
 		}
 	}
 
