@@ -1453,7 +1453,7 @@ public class ItemSpriteSheet {
 	public static final int PILL_PURITY   =  PILL+10;
 	public static final int PILL_EXP      =  PILL+11;
 	static {
-		for (int i = PILL; i < PILL+11; i++)
+		for (int i = PILL; i < PILL+12; i++)
 			assignItemRect(i, 11, 11);
 	}
 
