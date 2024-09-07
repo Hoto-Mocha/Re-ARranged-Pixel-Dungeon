@@ -1,7 +1,7 @@
 ---
 name: 수정사항
 about: 개발자에 의해 작성되는 이슈 템플릿
-title: "[업데이트]"
+title: "수정사항"
 labels: ''
 assignees: ''
 

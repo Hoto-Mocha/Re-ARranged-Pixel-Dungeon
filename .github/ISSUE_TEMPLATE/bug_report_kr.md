@@ -1,8 +1,8 @@
 ---
 name: 버그 리포트
 about: 의도한 바와 다른 일이 발생했을 때
-title: "[버그]"
-labels: ''
+title: ""
+labels: '버그'
 assignees: ''
 
 ---
