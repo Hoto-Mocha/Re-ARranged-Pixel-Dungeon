@@ -16,7 +16,7 @@ A clear and concise description of what the bug is.
 **How to reproduce the bug (required)**
 The steps you need to take to reproduce the bug again.
 
-**What it should have been (required)**
+**How is it supposed to be (required)**
 A description of how things should have worked originally if the bug didn't happen.
 
 **Screenshots**
