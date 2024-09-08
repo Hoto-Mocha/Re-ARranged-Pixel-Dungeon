@@ -805,7 +805,7 @@ public abstract class Wand extends Item {
 				}
 				partialCharge += (1f/turnsToCharge) * multi;
 				if (Dungeon.hero.subClass == HeroSubClass.WIZARD) {
-					partialCharge *= Math.pow(1.05f, Math.max(10, Dungeon.hero.belongings.getAllItems(SpellBook.class).size()));
+					partialCharge *= (float) Math.pow(1.05f, Math.max(10, Dungeon.hero.belongings.getAllItems(SpellBook.class).size()));
 				}
 			}
 
