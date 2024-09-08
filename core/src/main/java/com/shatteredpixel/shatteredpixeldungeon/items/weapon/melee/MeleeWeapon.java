@@ -576,9 +576,12 @@ public class MeleeWeapon extends Weapon {
 						chargeToGain *= 1+hero.pointsInTalent(Talent.FASTER_CHARGE)/12f;
 					}
 
-					if (hero.hasTalent(Talent.TWIN_SWORD) && hero.belongings.weapon.getClass() == hero.belongings.secondWep.getClass()) {
-						chargeToGain *= 1.25f;
+					if (hero.hasTalent(Talent.TWIN_SWORD) && hero.belongings.weapon != null && hero.belongings.secondWep != null) {
+						if (hero.belongings.weapon.getClass() == hero.belongings.secondWep.getClass()) {
+							chargeToGain *= 1.25f;
+						}
 					}
+
 
 					//50% slower charge gain with brawler's stance enabled, even if buff is inactive
 					if (Dungeon.hero.buff(RingOfForce.BrawlersStance.class) != null){
