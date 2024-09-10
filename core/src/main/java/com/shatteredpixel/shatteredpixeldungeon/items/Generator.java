@@ -336,7 +336,7 @@ public class Generator {
 		
 		POTION	( 8, 8, Potion.class ),
 		SEED	( 1, 1, Plant.Seed.class ),
-		PILL	( 1, 1, Pill.class ),
+		PILL	( 0, 0, Pill.class ),
 
 		SCROLL	( 8, 8, Scroll.class ),
 		STONE   ( 1, 1, Runestone.class),
