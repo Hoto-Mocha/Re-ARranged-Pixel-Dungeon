@@ -26,6 +26,7 @@ public class ElectricityImbue extends Spell {
     @Override
     protected void onCast(Hero hero) {
         Buff.affect(hero, ElectricityImbueBuff.class).set(ElectricityImbueBuff.DURATION);
+        detach(hero.belongings.backpack);
     }
 
     @Override
