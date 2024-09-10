@@ -965,6 +965,7 @@ public enum Talent {
 		public int proc(int damage) {
 			damage = Math.max(0, damage-armorBoost);
 			left--;
+			if (left <= 0) detach();
 			return damage;
 		}
 
