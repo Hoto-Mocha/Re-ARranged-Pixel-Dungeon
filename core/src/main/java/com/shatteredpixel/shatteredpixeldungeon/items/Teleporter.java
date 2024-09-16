@@ -230,7 +230,7 @@ public class Teleporter extends Item {
 
                             Class finalItemClass = null;
                             for (Class classes : itemClass) {
-                                if (itemName.equals(Messages.get(classes, "name"))) {
+                                if (itemName.equalsIgnoreCase(Messages.get(classes, "name"))) {
                                     finalItemClass = classes;
                                     break;
                                 }
