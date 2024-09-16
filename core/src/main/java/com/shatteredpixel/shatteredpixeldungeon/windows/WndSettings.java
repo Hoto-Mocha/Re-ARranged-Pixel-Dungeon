@@ -679,15 +679,27 @@ public class WndSettings extends WndTabbed {
 							add(confirm);
 
 							//layout
-							resize((int)uiDesc.width(), 0);
+							if (PixelScene.landscape()) {
+								resize((int)uiDesc.width(), 0);
 
-							uiDesc.setPos(0, GAP);
-							PixelScene.align(uiDesc);
-							int btnWidth = (int) (width - 2 * GAP) / 2;
-							cancel.setRect(0, uiDesc.bottom()+2*GAP, btnWidth, BTN_HEIGHT);
-							confirm.setRect(cancel.right() + GAP, cancel.top(), btnWidth, BTN_HEIGHT);
+								uiDesc.setPos(0, GAP);
+								PixelScene.align(uiDesc);
+								int btnWidth = (int) (width - 2 * GAP) / 2;
+								cancel.setRect(0, uiDesc.bottom()+2*GAP, btnWidth, BTN_HEIGHT);
+								confirm.setRect(cancel.right() + GAP, cancel.top(), btnWidth, BTN_HEIGHT);
 
-							resize((int)uiDesc.right(), (int)confirm.bottom());
+								resize((int)uiDesc.right(), (int)confirm.bottom());
+							} else {
+								resize(Math.min((int)uiDesc.width(), 120), 0);
+								uiDesc.maxWidth(120);
+								uiDesc.setPos(0, GAP);
+								PixelScene.align(uiDesc);
+								int btnWidth = (int) (width - 6 * GAP);
+								cancel.setRect(0, uiDesc.bottom()+2*GAP, btnWidth, BTN_HEIGHT);
+								confirm.setRect(cancel.left(), cancel.bottom(), btnWidth, BTN_HEIGHT);
+
+								resize(Math.min((int)uiDesc.right(), 120), (int)confirm.bottom());
+							}
 						}
 					});
 				}
@@ -1176,13 +1188,27 @@ public class WndSettings extends WndTabbed {
 							//layout
 							resize((int)uiDesc.width(), 0);
 
-							uiDesc.setPos(0, GAP);
-							PixelScene.align(uiDesc);
-							int btnWidth = (int) (width - 2 * GAP) / 2;
-							cancel.setRect(0, uiDesc.bottom()+2*GAP, btnWidth, BTN_HEIGHT);
-							confirm.setRect(cancel.right() + GAP, cancel.top(), btnWidth, BTN_HEIGHT);
+							if (PixelScene.landscape()) {
+								resize((int)uiDesc.width(), 0);
 
-							resize((int)uiDesc.right(), (int)confirm.bottom());
+								uiDesc.setPos(0, GAP);
+								PixelScene.align(uiDesc);
+								int btnWidth = (int) (width - 2 * GAP) / 2;
+								cancel.setRect(0, uiDesc.bottom()+2*GAP, btnWidth, BTN_HEIGHT);
+								confirm.setRect(cancel.right() + GAP, cancel.top(), btnWidth, BTN_HEIGHT);
+
+								resize((int)uiDesc.right(), (int)confirm.bottom());
+							} else {
+								resize(Math.min((int)uiDesc.width(), 120), 0);
+								uiDesc.maxWidth(120);
+								uiDesc.setPos(0, GAP);
+								PixelScene.align(uiDesc);
+								int btnWidth = (int) (width - 8 * GAP);
+								cancel.setRect(0, uiDesc.bottom()+2*GAP, btnWidth, BTN_HEIGHT);
+								confirm.setRect(cancel.left(), cancel.bottom(), btnWidth, BTN_HEIGHT);
+
+								resize(Math.min((int)uiDesc.right(), 120), (int)confirm.bottom());
+							}
 						}
 					});
 				}
