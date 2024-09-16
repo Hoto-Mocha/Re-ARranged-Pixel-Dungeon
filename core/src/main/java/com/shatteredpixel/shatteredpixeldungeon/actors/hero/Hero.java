@@ -3206,7 +3206,7 @@ public class Hero extends Char {
 			}
 			if (hero.pointsInTalent(Talent.LETHAL_SURPRISE) >= 2) {
 				for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-					if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos] && mob.state != mob.SLEEPING) {
+					if (mob.alignment == Alignment.ENEMY && Dungeon.level.heroFOV[mob.pos] && mob.state != mob.SLEEPING) {
 						Buff.affect( mob, Paralysis.class, 1f);
 					}
 				}
