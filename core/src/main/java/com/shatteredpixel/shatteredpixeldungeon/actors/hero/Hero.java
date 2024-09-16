@@ -104,7 +104,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.En
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Necromancer;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.SpectralNecromancer;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Statue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
@@ -2258,6 +2260,20 @@ public class Hero extends Char {
 			}
 
 			if (newEnemy != null) {
+				if (wep instanceof MissileWeapon) {
+					if (((MissileWeapon)wep).durabilityLeft() > 0) {
+						Dungeon.level.drop(wep, enemy.pos).sprite.drop();
+					}
+				}
+				if (enemy.buff(PinCushion.class) != null) {
+					enemy.buff(PinCushion.class).detach();
+				}
+				if (enemy instanceof Necromancer) {
+					((Necromancer) enemy).killSkeleton();
+				}
+				if (enemy instanceof SpectralNecromancer) {
+					((SpectralNecromancer) enemy).killWraith();
+				}
 				newEnemy.pos = enemy.pos;
 
 				float enemyHPPercent = (enemy.HP-damage)/(float)enemy.HT; //적이 변하고 나서 체력 비율이 그대로일 수 있도록 현재 적의 체력 비율을 확인

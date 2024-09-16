@@ -110,6 +110,12 @@ public class Necromancer extends Mob {
 	
 	@Override
 	public void die(Object cause) {
+		killSkeleton();
+		
+		super.die(cause);
+	}
+
+	public void killSkeleton() {
 		if (storedSkeletonID != -1){
 			Actor ch = Actor.findById(storedSkeletonID);
 			storedSkeletonID = -1;
@@ -117,12 +123,10 @@ public class Necromancer extends Mob {
 				mySkeleton = (NecroSkeleton) ch;
 			}
 		}
-		
+
 		if (mySkeleton != null && mySkeleton.isAlive() && mySkeleton.alignment == alignment){
 			mySkeleton.die(null);
 		}
-		
-		super.die(cause);
 	}
 
 	@Override

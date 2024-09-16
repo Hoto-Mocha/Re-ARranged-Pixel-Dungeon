@@ -73,14 +73,18 @@ public class SpectralNecromancer extends Necromancer {
 
 	@Override
 	public void die(Object cause) {
+		killWraith();
+
+		super.die(cause);
+	}
+
+	public void killWraith() {
 		for (int ID : wraithIDs){
 			Actor a = Actor.findById(ID);
 			if (a instanceof Wraith && ((Wraith) a).alignment == alignment){
 				((Wraith) a).die(null);
 			}
 		}
-
-		super.die(cause);
 	}
 
 	private static final String WRAITH_IDS = "wraith_ids";
