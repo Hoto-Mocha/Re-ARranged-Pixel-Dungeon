@@ -44,7 +44,7 @@ public class BadgesGrid extends Component {
 
 		for (Badges.Badge badge : Badges.filterReplacedBadges( global )) {
 
-			if (badge.image == -1) {
+			if (badge.type == Badges.BadgeType.HIDDEN) {
 				continue;
 			}
 
@@ -57,7 +57,7 @@ public class BadgesGrid extends Component {
 
 			ArrayList<Badges.Badge> lockedBadges = new ArrayList<>();
 			for (Badges.Badge badge : Badges.Badge.values()) {
-				if (badge.image != -1 && !Badges.isUnlocked(badge)) {
+				if (badge.type != Badges.BadgeType.HIDDEN && !Badges.isUnlocked(badge)) {
 					lockedBadges.add(badge);
 				}
 			}
@@ -77,19 +77,9 @@ public class BadgesGrid extends Component {
 	protected void layout() {
 		super.layout();
 
-		//2-5 columns in portrait, 5-8 in landscape
-		int nCols;
-		if (width() > height()){
-			if (badgeButtons.size() > 35)       nCols = 8;
-			else if (badgeButtons.size() > 24)  nCols = 7;
-			else if (badgeButtons.size() > 15)  nCols = 6;
-			else                                nCols = 5;
-		} else {
-			if (badgeButtons.size() > 32)       nCols = 5;
-			else if (badgeButtons.size() > 21)  nCols = 4;
-			else if (badgeButtons.size() > 10)  nCols = 3;
-			else                                nCols = 2;
-		}
+		//determines roughly how much space each badge will get ideally, determines columns based on that
+		float badgeArea = (float) Math.sqrt(width * height / badgeButtons.size());
+		int nCols = Math.round(width / badgeArea);
 
 		int nRows = (int) Math.ceil(badgeButtons.size()/(float)nCols);
 
@@ -149,7 +139,7 @@ public class BadgesGrid extends Component {
 		@Override
 		protected void onClick() {
 			Sample.INSTANCE.play( Assets.Sounds.CLICK, 0.7f, 0.7f, 1.2f );
-			Game.scene().add( new WndBadge( badge, unlocked ) );
+			Game.scene().addToFront( new WndBadge( badge, unlocked ) );
 		}
 
 		@Override

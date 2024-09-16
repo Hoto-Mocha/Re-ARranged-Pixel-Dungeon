@@ -80,6 +80,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -785,8 +786,27 @@ public enum Talent {
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 50); }
 	};
 	//2-2
-	public static class RestoredAgilityTracker extends FlavourBuff{};
-	//2-4
+	public static class LiquidAgilEVATracker extends FlavourBuff{};
+	public static class LiquidAgilACCTracker extends FlavourBuff{
+		public int uses;
+
+		{ type = buffType.POSITIVE; }
+		public int icon() { return BuffIndicator.INVERT_MARK; }
+		public void tintIcon(Image icon) { icon.hardlight(0.5f, 0f, 1f); }
+		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
+
+		private static final String USES = "uses";
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(USES, uses);
+		}
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			uses = bundle.getInt(USES);
+		}
+	};
 	public static class LethalHasteCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
@@ -796,7 +816,7 @@ public enum Talent {
 	public static class SwiftEquipCooldown extends FlavourBuff{
 		public boolean secondUse;
 		public boolean hasSecondUse(){
-			return secondUse && cooldown() > 14f;
+			return secondUse;
 		}
 
 		public int icon() { return BuffIndicator.TIME; }
@@ -864,16 +884,25 @@ public enum Talent {
 	public static class CombinedLethalityAbilityTracker extends FlavourBuff{
 		public MeleeWeapon weapon;
 	};
-	public static class CombinedLethalityTriggerTracker extends FlavourBuff{
-		{ type = buffType.POSITIVE; }
-		public int icon() { return BuffIndicator.CORRUPT; }
-		public void tintIcon(Image icon) { icon.hardlight(0.6f, 0.15f, 0.6f); }
-		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
-	};
 	//Monk 3-5
 	public static class CombinedEnergyAbilityTracker extends FlavourBuff{
-		public int energySpent = -1;
+		public boolean monkAbilused = false;
 		public boolean wepAbilUsed = false;
+
+		private static final String MONK_ABIL_USED  = "monk_abil_used";
+		private static final String WEP_ABIL_USED   = "wep_abil_used";
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(MONK_ABIL_USED, monkAbilused);
+			bundle.put(WEP_ABIL_USED, wepAbilUsed);
+		}
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			monkAbilused = bundle.getBoolean(MONK_ABIL_USED);
+			wepAbilUsed = bundle.getBoolean(WEP_ABIL_USED);
+		}
 	}
 	public static class AgressiveMovementAbilityTracker extends FlavourBuff{
 		public boolean wepAbilUsed = false;
@@ -1226,7 +1255,9 @@ public enum Talent {
 		}
 
 		if (talent == VETERANS_INTUITION && hero.pointsInTalent(VETERANS_INTUITION) == 2){
-			if (hero.belongings.armor() != null)  hero.belongings.armor.identify();
+			if (hero.belongings.armor() != null && !ShardOfOblivion.passiveIDDisabled())  {
+				hero.belongings.armor.identify();
+			}
 		}
 
 		if (talent == MAX_HEALTH) {
@@ -1241,8 +1272,12 @@ public enum Talent {
 
 		//rouge
 		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 2){
-			if (hero.belongings.ring instanceof Ring) hero.belongings.ring.identify();
-			if (hero.belongings.misc instanceof Ring) hero.belongings.misc.identify();
+			if (hero.belongings.ring instanceof Ring && !ShardOfOblivion.passiveIDDisabled()) {
+				hero.belongings.ring.identify();
+			}
+			if (hero.belongings.misc instanceof Ring && !ShardOfOblivion.passiveIDDisabled()) {
+				hero.belongings.misc.identify();
+			}
 			for (Item item : Dungeon.hero.belongings){
 				if (item instanceof Ring){
 					((Ring) item).setKnown();
@@ -1252,6 +1287,12 @@ public enum Talent {
 		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 1){
 			if (hero.belongings.ring instanceof Ring) hero.belongings.ring.setKnown();
 			if (hero.belongings.misc instanceof Ring) ((Ring) hero.belongings.misc).setKnown();
+		}
+
+		if (talent == ADVENTURERS_INTUITION && hero.pointsInTalent(ADVENTURERS_INTUITION) == 2){
+			if (hero.belongings.weapon() != null && !ShardOfOblivion.passiveIDDisabled()){
+				hero.belongings.weapon().identify();
+			}
 		}
 
 		if (talent == PROTECTIVE_SHADOWS && hero.invisible > 0){
@@ -1268,17 +1309,10 @@ public enum Talent {
 			}
 		}
 
-
-
 		//huntress
-		if (talent == ADVENTURERS_INTUITION && hero.pointsInTalent(ADVENTURERS_INTUITION) == 2){
-			if (hero.belongings.weapon() != null) hero.belongings.weapon().identify();
-		}
-
 		if (talent == HEIGHTENED_SENSES || talent == FARSIGHT || talent == TELESCOPE || talent == DRAGONS_EYE){
 			Dungeon.observe();
 		}
-
 
 		//duelist
 		if (talent == ACCUMULATION) {
@@ -1311,13 +1345,17 @@ public enum Talent {
 		}
 
 		//samurai
-		if (talent == MASTERS_INTUITION && hero.belongings.weapon instanceof MeleeWeapon && !(hero.belongings.weapon instanceof Gun)) {
-			hero.belongings.weapon.identify();
+		if (talent == MASTERS_INTUITION) {
+			if (hero.belongings.weapon instanceof MeleeWeapon && !(hero.belongings.weapon instanceof Gun) && !ShardOfOblivion.passiveIDDisabled()) {
+				hero.belongings.weapon.identify();
+			}
 		}
 
 		//knight
-		if (talent == KNIGHTS_INTUITION && hero.belongings.armor != null) {
-			hero.belongings.armor.identify();
+		if (talent == KNIGHTS_INTUITION) {
+			if (hero.belongings.armor != null && !ShardOfOblivion.passiveIDDisabled()) {
+				hero.belongings.armor.identify();
+			}
 		}
 
 		if (talent == STORED_POWER) {
@@ -1523,7 +1561,10 @@ public enum Talent {
 			Dungeon.observe();
 		}
 		if (hero.hasTalent(LIQUID_AGILITY)){
-			Buff.prolong(hero, RestoredAgilityTracker.class, hero.cooldown() + Math.max(0, factor-1));
+			Buff.prolong(hero, LiquidAgilEVATracker.class, hero.cooldown() + Math.max(0, factor-1));
+			if (factor >= 0.5f){
+				Buff.prolong(hero, LiquidAgilACCTracker.class, 5f).uses = Math.round(factor);
+			}
 		}
 		if (hero.hasTalent(PHARMACEUTICS)) {
 			hero.heal(Math.round(factor*(2+3*hero.pointsInTalent(PHARMACEUTICS))));
@@ -1584,17 +1625,21 @@ public enum Talent {
 	}
 
 	public static void onItemEquipped( Hero hero, Item item ){
+		boolean identify = false;
 		if (hero.pointsInTalent(VETERANS_INTUITION) == 2 && item instanceof Armor){
-			item.identify();
+			identify = true;
 		}
 		if (hero.hasTalent(THIEFS_INTUITION) && item instanceof Ring){
 			if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
-				item.identify();
-			} else {
-				((Ring) item).setKnown();
+				identify = true;
 			}
+			((Ring) item).setKnown();
 		}
 		if (hero.pointsInTalent(ADVENTURERS_INTUITION) == 2 && item instanceof Weapon){
+			identify = true;
+		}
+
+		if (identify && !ShardOfOblivion.passiveIDDisabled()){
 			item.identify();
 		}
 		if (hero.hasTalent(GUNNERS_INTUITION) && item instanceof Gun) {
@@ -1684,7 +1729,7 @@ public enum Talent {
 				}
 			} else if (hero.buff(DeadlyFollowupTracker.class) != null
 					&& hero.buff(DeadlyFollowupTracker.class).object == enemy.id()){
-				dmg = Math.round(dmg * (1.0f + .08f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
+				dmg = Math.round(dmg * (1.0f + .1f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
 			}
 		}
 
@@ -1693,12 +1738,12 @@ public enum Talent {
 		}
 
 		if (hero.heroClass != HeroClass.SAMURAI && hero.hasTalent(DRAWING_ENHANCE) && enemy.buff(Talent.DrawEnhanceMetaTracker.class) == null ) {
-			dmg += Char.combatRoll(hero.pointsInTalent(Talent.DRAWING_ENHANCE), 2);
+			dmg += Hero.heroDamageIntRange(hero.pointsInTalent(Talent.DRAWING_ENHANCE), 2);
 			Buff.affect(enemy, Talent.DrawEnhanceMetaTracker.class);
 		}
 
 		if (hero.hasTalent(Talent.WATER_FRIENDLY) && Dungeon.level.map[hero.pos] == Terrain.WATER) {
-			dmg += Char.combatRoll(1, hero.pointsInTalent(Talent.WATER_FRIENDLY));
+			dmg += Hero.heroDamageIntRange(1, hero.pointsInTalent(Talent.WATER_FRIENDLY));
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 		}
 

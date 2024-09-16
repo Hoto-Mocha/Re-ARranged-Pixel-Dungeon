@@ -178,7 +178,7 @@ public class DesktopLauncher {
 		//going fullscreen on launch is a bit buggy
 		// so game always starts windowed and then switches in DesktopPlatformSupport.updateSystemUI
 		//config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
-		
+
 		//records whether window is maximized or not for settings
 		DesktopWindowListener listener = new DesktopWindowListener();
 		config.setWindowListener( listener );

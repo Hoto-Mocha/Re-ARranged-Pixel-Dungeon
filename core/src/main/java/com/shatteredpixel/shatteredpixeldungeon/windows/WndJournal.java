@@ -21,43 +21,74 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.windows;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CrystalSpire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Pylon;
+import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Bestiary;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.TerrainFeaturesTilemap;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BadgesGrid;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BadgesList;
+import com.shatteredpixel.shatteredpixeldungeon.ui.CustomNoteButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickRecipe;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
+import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollingGridPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollingListPane;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.watabou.input.KeyBindings;
+import com.watabou.input.KeyEvent;
+import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Image;
+import com.watabou.noosa.Visual;
 import com.watabou.noosa.ui.Component;
+import com.watabou.utils.RectF;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Collection;
 
 public class WndJournal extends WndTabbed {
 	
 	public static final int WIDTH_P     = 126;
 	public static final int HEIGHT_P    = 180;
 	
-	public static final int WIDTH_L     = 200;
+	public static final int WIDTH_L     = 216;
 	public static final int HEIGHT_L    = 130;
 	
 	private static final int ITEM_HEIGHT	= 18;
@@ -66,7 +97,7 @@ public class WndJournal extends WndTabbed {
 	private AlchemyTab alchemyTab;
 	private NotesTab notesTab;
 	private CatalogTab catalogTab;
-	private LoreTab loreTab;
+	private BadgesTab badgesTab;
 	
 	public static int last_index = 0;
 	
@@ -96,49 +127,74 @@ public class WndJournal extends WndTabbed {
 		catalogTab.setRect(0, 0, width, height);
 		catalogTab.updateList();
 
-		loreTab = new LoreTab();
-		add(loreTab);
-		loreTab.setRect(0, 0, width, height);
-		loreTab.updateList();
+		badgesTab = new BadgesTab();
+		add(badgesTab);
+		badgesTab.setRect(0, 0, width, height);
+		badgesTab.updateList();
 		
 		Tab[] tabs = {
+				new IconTab( Icons.JOURNAL.get() ) {
+					protected void select( boolean value ) {
+						super.select( value );
+						notesTab.active = notesTab.visible = value;
+						if (value) last_index = 0;
+					}
+
+					@Override
+					protected String hoverText() {
+						return Messages.get(notesTab, "title");
+					}
+				},
 				new IconTab( new ItemSprite(ItemSpriteSheet.MASTERY, null) ) {
 					protected void select( boolean value ) {
 						super.select( value );
 						guideTab.active = guideTab.visible = value;
-						if (value) last_index = 0;
+						if (value) last_index = 1;
+					}
+
+					@Override
+					protected String hoverText() {
+						return Messages.get(guideTab, "title");
 					}
 				},
-				new IconTab( new ItemSprite(ItemSpriteSheet.ALCH_PAGE, null) ) {
+				new IconTab( Icons.ALCHEMY.get() ) {
 					protected void select( boolean value ) {
 						super.select( value );
 						alchemyTab.active = alchemyTab.visible = value;
-						if (value) last_index = 1;
-					}
-				},
-				new IconTab( Icons.get(Icons.STAIRS) ) {
-					protected void select( boolean value ) {
-						super.select( value );
-						notesTab.active = notesTab.visible = value;
 						if (value) last_index = 2;
 					}
+
+					@Override
+					protected String hoverText() {
+						return Messages.get(alchemyTab, "title");
+					}
 				},
-				new IconTab( new ItemSprite(ItemSpriteSheet.WEAPON_HOLDER, null) ) {
+				new IconTab( Icons.CATALOG.get() ) {
 					protected void select( boolean value ) {
 						super.select( value );
 						catalogTab.active = catalogTab.visible = value;
 						if (value) last_index = 3;
 					}
+
+					@Override
+					protected String hoverText() {
+						return Messages.get(catalogTab, "title");
+					}
 				},
-				new IconTab( new ItemSprite(ItemSpriteSheet.GUIDE_PAGE, null) ) {
+				new IconTab( Icons.BADGES.get() ) {
 					protected void select( boolean value ) {
 						super.select( value );
-						loreTab.active = loreTab.visible = value;
+						badgesTab.active = badgesTab.visible = value;
 						if (value) last_index = 4;
+					}
+
+					@Override
+					protected String hoverText() {
+						return Messages.get(badgesTab, "title");
 					}
 				}
 		};
-		
+
 		for (Tab tab : tabs) {
 			add( tab );
 		}
@@ -149,13 +205,22 @@ public class WndJournal extends WndTabbed {
 	}
 
 	@Override
+	public boolean onSignal(KeyEvent event) {
+		if (event.pressed && KeyBindings.getActionForKey( event ) == SPDAction.JOURNAL) {
+			onBackPressed();
+			return true;
+		} else {
+			return super.onSignal(event);
+		}
+	}
+
+	@Override
 	public void offset(int xOffset, int yOffset) {
 		super.offset(xOffset, yOffset);
 		guideTab.layout();
 		alchemyTab.layout();
 		notesTab.layout();
 		catalogTab.layout();
-		loreTab.layout();
 	}
 	
 	public static class GuideTab extends Component {
@@ -171,10 +236,10 @@ public class WndJournal extends WndTabbed {
 		@Override
 		protected void layout() {
 			super.layout();
-			list.setRect( 0, 0, width, height);
+			list.setRect( x, y, width, height);
 		}
 		
-		private void updateList(){
+		public void updateList(){
 			list.addTitle(Document.ADVENTURERS_GUIDE.title());
 
 			for (String page : Document.ADVENTURERS_GUIDE.pageNames()){
@@ -187,7 +252,7 @@ public class WndJournal extends WndTabbed {
 					@Override
 					public boolean onClick(float x, float y) {
 						if (inside( x, y ) && found) {
-							GameScene.show( new WndStory( Document.ADVENTURERS_GUIDE.pageSprite(page),
+							ShatteredPixelDungeon.scene().addToFront( new WndStory( Document.ADVENTURERS_GUIDE.pageSprite(page),
 									Document.ADVENTURERS_GUIDE.pageTitle(page),
 									Document.ADVENTURERS_GUIDE.pageBody(page) ));
 							Document.ADVENTURERS_GUIDE.readPage(page);
@@ -270,10 +335,10 @@ public class WndJournal extends WndTabbed {
 		protected void layout() {
 			super.layout();
 			
-			if (PixelScene.landscape()){
+			if (width() >= 180){
 				float buttonWidth = width()/pageButtons.length;
 				for (int i = 0; i < NUM_BUTTONS; i++) {
-					pageButtons[i].setRect(i*buttonWidth, 0, buttonWidth, ITEM_HEIGHT);
+					pageButtons[i].setRect(x + i*buttonWidth, y, buttonWidth, ITEM_HEIGHT);
 					PixelScene.align(pageButtons[i]);
 				}
 			} else {
@@ -282,7 +347,7 @@ public class WndJournal extends WndTabbed {
 				float y = 0;
 				float x = 0;
 				for (int i = 0; i < NUM_BUTTONS; i++) {
-					pageButtons[i].setRect(x, y, buttonWidth, ITEM_HEIGHT);
+					pageButtons[i].setRect(this.x + x, this.y + y, buttonWidth, ITEM_HEIGHT);
 					PixelScene.align(pageButtons[i]);
 					x += buttonWidth;
 					if (i == 4){
@@ -293,8 +358,8 @@ public class WndJournal extends WndTabbed {
 				}
 			}
 			
-			list.setRect(0, pageButtons[NUM_BUTTONS-1].bottom() + 1, width,
-					height - pageButtons[NUM_BUTTONS-1].bottom() - 1);
+			list.setRect(x, pageButtons[NUM_BUTTONS-1].bottom() + 1, width,
+					height - pageButtons[NUM_BUTTONS-1].bottom() + y - 1);
 			
 			updateList();
 		}
@@ -399,82 +464,113 @@ public class WndJournal extends WndTabbed {
 	
 	private static class NotesTab extends Component {
 		
-		private ScrollingListPane list;
+		private ScrollingGridPane grid;
+		private CustomNoteButton custom;
 		
 		@Override
 		protected void createChildren() {
-			list = new ScrollingListPane();
-			add( list );
+			grid = new ScrollingGridPane();
+			add(grid);
 		}
 		
 		@Override
 		protected void layout() {
 			super.layout();
-			list.setRect( x, y, width, height);
+			grid.setRect( x, y, width, height);
 		}
 		
 		private void updateList(){
-			//Keys
-			ArrayList<Notes.KeyRecord> keys = Notes.getRecords(Notes.KeyRecord.class);
-			if (!keys.isEmpty()){
-				list.addTitle(Messages.get(this, "keys"));
 
-				for(Notes.Record rec : keys){
-					ScrollingListPane.ListItem item = new ScrollingListPane.ListItem( Icons.get(Icons.STAIRS),
-							Integer.toString(rec.depth()),
-							Messages.titleCase(rec.desc()));
-					if (Dungeon.depth == rec.depth()) item.hardlight(TITLE_COLOR);
-					list.addItem(item);
+			grid.addHeader("_" + Messages.get(this, "title") + "_", 9, true);
+
+			grid.addHeader(Messages.get(this, "desc"), 6, true);
+
+			ArrayList<Notes.CustomRecord> customRecs = Notes.getRecords(Notes.CustomRecord.class);
+
+			if (!customRecs.isEmpty()){
+				grid.addHeader("_" + Messages.get(this, "custom_notes") + "_ (" + customRecs.size() + "/" + Notes.customRecordLimit() + ")");
+
+				for (Notes.CustomRecord rec : customRecs){
+					ScrollingGridPane.GridItem gridItem = new ScrollingGridPane.GridItem(rec.icon()){
+						@Override
+						public boolean onClick(float x, float y) {
+							if (inside(x, y)) {
+								GameScene.show(new CustomNoteButton.CustomNoteWindow(rec));
+								return true;
+							} else {
+								return false;
+							}
+						}
+					};
+
+					Visual secondIcon = rec.secondIcon();
+					if (secondIcon != null){
+						gridItem.addSecondIcon( secondIcon );
+					}
+
+					grid.addItem(gridItem);
 				}
 			}
-			
-			//Landmarks
-			ArrayList<Notes.LandmarkRecord> landmarks = Notes.getRecords(Notes.LandmarkRecord.class);
-			if (!landmarks.isEmpty()){
 
-				list.addTitle(Messages.get(this, "landmarks"));
+			for (int i = Statistics.deepestFloor; i > 0; i--){
 
-				for (Notes.Record rec : landmarks) {
-					ScrollingListPane.ListItem item = new ScrollingListPane.ListItem( Icons.get(Icons.STAIRS),
-							Integer.toString(rec.depth()),
-							Messages.titleCase(rec.desc()));
-					if (Dungeon.depth == rec.depth()) item.hardlight(TITLE_COLOR);
-					list.addItem(item);
+				ArrayList<Notes.Record> recs = Notes.getRecords(i);
+
+				if (i == Dungeon.depth) {
+					grid.addHeader("_" + Messages.get(this, "floor_header", i) + "_");
+				} else {
+					grid.addHeader(Messages.get(this, "floor_header", i));
 				}
+				for( Notes.Record rec : recs){
 
+					ScrollingGridPane.GridItem gridItem = new ScrollingGridPane.GridItem(rec.icon()){
+						@Override
+						public boolean onClick(float x, float y) {
+							if (inside(x, y)) {
+								GameScene.show(new WndJournalItem(rec.icon(),
+										Messages.titleCase(rec.title()),
+										rec.desc()));
+								return true;
+							} else {
+								return false;
+							}
+						}
+					};
+
+					Visual secondIcon = rec.secondIcon();
+					if (secondIcon != null){
+						gridItem.addSecondIcon( secondIcon );
+					}
+
+					grid.addItem(gridItem);
+				}
 			}
 
-			list.setRect(x, y, width, height);
+			custom = new CustomNoteButton();
+			grid.content().add(custom);
+			custom.setPos(width-custom.width()-1, 0);
+
+			grid.setRect(x, y, width, height);
+
 		}
 		
 	}
 	
-	private static class CatalogTab extends Component{
+	public static class CatalogTab extends Component{
 		
 		private RedButton[] itemButtons;
-		private static final int NUM_BUTTONS = 7;
-		
-		private static int currentItemIdx   = 0;
+		private static final int NUM_BUTTONS = 4;
+
+		public static int currentItemIdx   = 0;
+		private static float[] scrollPositions = new float[NUM_BUTTONS];
 		
 		//sprite locations
-		private static final int WEAPON_IDX = 0;
-		private static final int ARMOR_IDX  = 1;
-		private static final int WAND_IDX   = 2;
-		private static final int RING_IDX   = 3;
-		private static final int ARTIF_IDX  = 4;
-		private static final int POTION_IDX = 5;
-		private static final int SCROLL_IDX = 6;
-		
-		private static final int spriteIndexes[] =
-				{ItemSpriteSheet.WEAPON_HOLDER,
-						ItemSpriteSheet.ARMOR_HOLDER,
-						ItemSpriteSheet.WAND_HOLDER,
-						ItemSpriteSheet.RING_HOLDER,
-						ItemSpriteSheet.ARTIFACT_HOLDER,
-						ItemSpriteSheet.POTION_HOLDER,
-						ItemSpriteSheet.SCROLL_HOLDER};
+		private static final int EQUIP_IDX = 0;
+		private static final int CONSUM_IDX = 1;
+		private static final int BESTIARY_IDX = 2;
+		private static final int LORE_IDX = 3;
 
-		private ScrollingListPane list;
+		private ScrollingGridPane grid;
 		
 		@Override
 		protected void createChildren() {
@@ -488,12 +584,21 @@ public class WndJournal extends WndTabbed {
 						updateList();
 					}
 				};
-				itemButtons[i].icon(new ItemSprite(spriteIndexes[i], null));
 				add( itemButtons[i] );
 			}
+			itemButtons[EQUIP_IDX].icon(new ItemSprite(ItemSpriteSheet.WEAPON_HOLDER));
+			itemButtons[CONSUM_IDX].icon(new ItemSprite(ItemSpriteSheet.POTION_HOLDER));
+			itemButtons[BESTIARY_IDX].icon(new ItemSprite(ItemSpriteSheet.MOB_HOLDER));
+			itemButtons[LORE_IDX].icon(new ItemSprite(ItemSpriteSheet.DOCUMENT_HOLDER));
 
-			list = new ScrollingListPane();
-			add( list );
+			grid = new ScrollingGridPane(){
+				@Override
+				public synchronized void update() {
+					super.update();
+					scrollPositions[currentItemIdx] = content.camera.scroll.y;
+				}
+			};
+			add( grid );
 		}
 		
 		@Override
@@ -504,18 +609,21 @@ public class WndJournal extends WndTabbed {
 			float buttonWidth = width()/perRow;
 			
 			for (int i = 0; i < NUM_BUTTONS; i++) {
-				itemButtons[i].setRect((i%perRow) * (buttonWidth), (i/perRow) * (ITEM_HEIGHT ),
+				itemButtons[i].setRect(x +(i%perRow) * (buttonWidth),
+						y + (i/perRow) * (ITEM_HEIGHT ),
 						buttonWidth, ITEM_HEIGHT);
 				PixelScene.align(itemButtons[i]);
 			}
 			
-			list.setRect(0, itemButtons[NUM_BUTTONS-1].bottom() + 1, width,
-					height - itemButtons[NUM_BUTTONS-1].bottom() - 1);
+			grid.setRect(x,
+					itemButtons[NUM_BUTTONS-1].bottom() + 1,
+					width,
+					height - itemButtons[NUM_BUTTONS-1].height() - 1);
 		}
 		
-		private void updateList() {
+		public void updateList() {
 			
-			list.clear();
+			grid.clear();
 			
 			for (int i = 0; i < NUM_BUTTONS; i++){
 				if (i == currentItemIdx){
@@ -525,147 +633,496 @@ public class WndJournal extends WndTabbed {
 				}
 			}
 			
-			list.scrollTo( 0, 0 );
-			
-			ArrayList<Class<? extends Item>> itemClasses;
-			final HashMap<Class<?  extends Item>, Boolean> known = new HashMap<>();
-			if (currentItemIdx == WEAPON_IDX) {
-				itemClasses = new ArrayList<>(Catalog.WEAPONS.items());
-				for (Class<? extends Item> cls : itemClasses) known.put(cls, true);
-			} else if (currentItemIdx == ARMOR_IDX){
-				itemClasses = new ArrayList<>(Catalog.ARMOR.items());
-				for (Class<? extends Item> cls : itemClasses) known.put(cls, true);
-			} else if (currentItemIdx == WAND_IDX){
-				itemClasses = new ArrayList<>(Catalog.WANDS.items());
-				for (Class<? extends Item> cls : itemClasses) known.put(cls, true);
-			} else if (currentItemIdx == RING_IDX){
-				itemClasses = new ArrayList<>(Catalog.RINGS.items());
-				for (Class<? extends Item> cls : itemClasses) known.put(cls, Ring.getKnown().contains(cls));
-			} else if (currentItemIdx == ARTIF_IDX){
-				itemClasses = new ArrayList<>(Catalog.ARTIFACTS.items());
-				for (Class<? extends Item> cls : itemClasses) known.put(cls, true);
-			} else if (currentItemIdx == POTION_IDX){
-				itemClasses = new ArrayList<>(Catalog.POTIONS.items());
-				for (Class<? extends Item> cls : itemClasses) known.put(cls, Potion.getKnown().contains(cls));
-			} else if (currentItemIdx == SCROLL_IDX) {
-				itemClasses = new ArrayList<>(Catalog.SCROLLS.items());
-				for (Class<? extends Item> cls : itemClasses) known.put(cls, Scroll.getKnown().contains(cls));
+			grid.scrollTo( 0, 0 );
+
+			if (currentItemIdx == EQUIP_IDX) {
+				int totalItems = 0;
+				int totalSeen = 0;
+				for (Catalog catalog : Catalog.equipmentCatalogs){
+					totalItems += catalog.totalItems();
+					totalSeen += catalog.totalSeen();
+				}
+				grid.addHeader("_" + Messages.get(this, "title_equipment") + "_ (" + totalSeen + "/" + totalItems + ")", 9, true);
+
+				for (Catalog catalog : Catalog.equipmentCatalogs){
+					grid.addHeader("_" + Messages.titleCase(catalog.title()) + "_ (" + catalog.totalSeen() + "/" + catalog.totalItems() + "):");
+					addGridItems(grid, catalog.items());
+				}
+
+			} else if (currentItemIdx == CONSUM_IDX){
+				int totalItems = 0;
+				int totalSeen = 0;
+				for (Catalog catalog : Catalog.consumableCatalogs){
+					totalItems += catalog.totalItems();
+					totalSeen += catalog.totalSeen();
+				}
+				grid.addHeader("_" + Messages.get(this, "title_consumables") + "_ (" + totalSeen + "/" + totalItems + ")", 9, true);
+
+				for (Catalog catalog : Catalog.consumableCatalogs){
+					grid.addHeader("_" + Messages.titleCase(catalog.title()) + "_ (" + catalog.totalSeen() + "/" + catalog.totalItems() + "):");
+					addGridItems(grid, catalog.items());
+				}
+
+			} else if (currentItemIdx == BESTIARY_IDX){
+				int totalItems = 0;
+				int totalSeen = 0;
+				for (Bestiary bestiary : Bestiary.values()){
+					totalItems += bestiary.totalEntities();
+					totalSeen += bestiary.totalSeen();
+				}
+				grid.addHeader("_" + Messages.get(this, "title_bestiary") + "_ (" + totalSeen + "/" + totalItems + ")", 9, true);
+
+				for (Bestiary bestiary : Bestiary.values()){
+					grid.addHeader("_" + Messages.titleCase(bestiary.title()) + "_ (" + bestiary.totalSeen() + "/" + bestiary.totalEntities() + "):");
+					addGridEntities(grid, bestiary.entities());
+				}
+
 			} else {
-				itemClasses = new ArrayList<>();
-			}
-			
-			Collections.sort(itemClasses, new Comparator<Class<? extends Item>>() {
-				@Override
-				public int compare(Class<? extends Item> a, Class<? extends Item> b) {
-					int result = 0;
-					
-					//specifically known items appear first, then seen items, then unknown items.
-					if (known.get(a) && Catalog.isSeen(a)) result -= 2;
-					if (known.get(b) && Catalog.isSeen(b)) result += 2;
-					if (Catalog.isSeen(a))                 result --;
-					if (Catalog.isSeen(b))                 result ++;
-					
-					return result;
-				}
-			});
-			
-			for (Class<? extends Item> itemClass : itemClasses) {
-				Item item = Reflection.newInstance(itemClass);
-				boolean itemIDed = known.get(itemClass);
-				boolean itemSeen = Catalog.isSeen(itemClass);
-				if ( itemSeen && !itemIDed ){
-					if (item instanceof Ring){
-						((Ring) item).anonymize();
-					} else if (item instanceof Potion){
-						((Potion) item).anonymize();
-					} else if (item instanceof Scroll){
-						((Scroll) item).anonymize();
+				int totalItems = 0;
+				int totalSeen = 0;
+				for (Document doc : Document.values()){
+					if (!doc.isLoreDoc()){
+						continue;
 					}
-				}
-				ScrollingListPane.ListItem listItem = new ScrollingListPane.ListItem(
-						(itemIDed && itemSeen) ? new ItemSprite(item) : new ItemSprite( ItemSpriteSheet.SOMETHING + spriteIndexes[currentItemIdx]),
-						null,
-						itemSeen ? Messages.titleCase(item.trueName()) : "???"
-				){
-					@Override
-					public boolean onClick(float x, float y) {
-						if (inside( x, y ) && itemSeen) {
-							if (item instanceof ClassArmor){
-								GameScene.show(new WndTitledMessage(new Image(icon),
-										Messages.titleCase(item.trueName()), item.desc()));
-							} else {
-								GameScene.show(new WndTitledMessage(new Image(icon),
-										Messages.titleCase(item.trueName()), item.info()));
-							}
-							return true;
-						} else {
-							return false;
+					for (String page : doc.pageNames()){
+						totalItems++;
+						if (doc.isPageFound(page)){
+							totalSeen++;
 						}
 					}
-				};
-
-				if (!itemSeen) {
-					listItem.hardlight( 0x999999 );
-				} else if (!itemIDed) {
-					listItem.hardlight( 0xCCCCCC );
 				}
+				grid.addHeader("_" + Messages.get(this, "title_lore") + "_ (" + totalSeen + "/" + totalItems + ")", 9, true);
 
-				list.addItem(listItem);
+				for (Document doc : Document.values()){
+					if (!doc.isLoreDoc()){
+						continue;
+					}
 
+					for (String page : doc.pageNames()){
+						totalItems++;
+						if (doc.isPageFound(page)){
+							totalSeen++;
+						}
+					}
+				}
+				for (Document doc : Document.values()){
+					if (!doc.isLoreDoc()){
+						continue;
+					}
+					totalItems = totalSeen = 0;
+					for (String page : doc.pageNames()){
+						totalItems++;
+						if (doc.isPageFound(page)){
+							totalSeen++;
+						}
+					}
+					if (!doc.anyPagesFound()){
+						grid.addHeader("_???_ (" + totalSeen + "/" + totalItems + "):");
+					} else {
+						grid.addHeader("_" + Messages.titleCase(doc.title()) + "_ (" + totalSeen + "/" + totalItems + "):");
+					}
+					addGridDocuments(grid, doc);
+				}
 			}
 
-			list.setRect(x, itemButtons[NUM_BUTTONS-1].bottom() + 1, width,
-					height - itemButtons[NUM_BUTTONS-1].bottom() - 1);
+			grid.setRect(x, itemButtons[NUM_BUTTONS-1].bottom() + 1, width,
+					height - itemButtons[NUM_BUTTONS-1].height() - 1);
+
+			grid.scrollTo(0, scrollPositions[currentItemIdx]);
 		}
 		
 	}
 
-	public static class LoreTab extends Component{
+	//also includes item-like things such as enchantments, glyphs, curses.
+	private static void addGridItems( ScrollingGridPane grid, Collection<Class<?>> classes) {
+		for (Class<?> itemClass : classes) {
 
-		private ScrollingListPane list;
+			boolean seen = Catalog.isSeen(itemClass);;
+			ItemSprite sprite = null;
+			Image secondIcon = null;
+			String title = "";
+			String desc = "";
+
+			if (Item.class.isAssignableFrom(itemClass)) {
+
+				Item item = (Item) Reflection.newInstance(itemClass);
+
+				if (seen) {
+					if (item instanceof Ring) {
+						((Ring) item).anonymize();
+					} else if (item instanceof Potion) {
+						((Potion) item).anonymize();
+					} else if (item instanceof Scroll) {
+						((Scroll) item).anonymize();
+					}
+				}
+
+				sprite = new ItemSprite(item.image, seen ? item.glowing() : null);
+				if (!seen)  {
+					sprite.lightness(0);
+					title = "???";
+					desc = Messages.get(CatalogTab.class, "not_seen_item");
+				} else {
+					title = Messages.titleCase(item.trueName());
+					//some items don't include direct stats, generally when they're not applicable
+					if (item instanceof ClassArmor || item instanceof SpiritBow){
+						desc += item.desc();
+					} else {
+						desc += item.info();
+					}
+
+					if (Catalog.useCount(itemClass) > 1) {
+						if (item.isUpgradable() || item instanceof Artifact) {
+							desc += "\n\n" + Messages.get(CatalogTab.class, "upgrade_count", Catalog.useCount(itemClass));
+						} else if (item instanceof Trinket) {
+							desc += "\n\n" + Messages.get(CatalogTab.class, "trinket_count", Catalog.useCount(itemClass));
+						} else if (item instanceof Gold) {
+							desc += "\n\n" + Messages.get(CatalogTab.class, "gold_count", Catalog.useCount(itemClass));
+						} else if (item instanceof EnergyCrystal) {
+							desc += "\n\n" + Messages.get(CatalogTab.class, "energy_count", Catalog.useCount(itemClass));
+						} else {
+							desc += "\n\n" + Messages.get(CatalogTab.class, "use_count", Catalog.useCount(itemClass));
+						}
+					}
+
+					//mage's staff normally has 2 pixels extra at the top for particle effects, we chop that off here
+					if (item instanceof MagesStaff){
+						RectF frame = sprite.frame();
+						frame.top += frame.height()/8f;
+						sprite.frame(frame);
+					}
+
+					if (item.icon != -1) {
+						secondIcon = new Image(Assets.Sprites.ITEM_ICONS);
+						secondIcon.frame(ItemSpriteSheet.Icons.film.get(item.icon));
+					}
+				}
+
+			} else if (Weapon.Enchantment.class.isAssignableFrom(itemClass)){
+
+				Weapon.Enchantment ench = (Weapon.Enchantment) Reflection.newInstance(itemClass);
+
+				if (seen){
+					sprite = new ItemSprite(ItemSpriteSheet.WORN_SHORTSWORD, ench.glowing());
+					title = Messages.titleCase(ench.name());
+					desc = ench.desc();
+				} else {
+					sprite = new ItemSprite(ItemSpriteSheet.WORN_SHORTSWORD);
+					sprite.lightness(0f);
+					title = "???";
+					desc = Messages.get(CatalogTab.class, "not_seen_enchantment");
+				}
+
+			} else if (Armor.Glyph.class.isAssignableFrom(itemClass)){
+
+				Armor.Glyph glyph = (Armor.Glyph) Reflection.newInstance(itemClass);
+
+				if (seen){
+					sprite = new ItemSprite(ItemSpriteSheet.ARMOR_CLOTH, glyph.glowing());
+					title = Messages.titleCase(glyph.name());
+					desc = glyph.desc();
+				} else {
+					sprite = new ItemSprite(ItemSpriteSheet.ARMOR_CLOTH);
+					sprite.lightness(0f);
+					title = "???";
+					desc = Messages.get(CatalogTab.class, "not_seen_glyph");
+				}
+
+			}
+
+			String finalTitle = title;
+			String finalDesc = desc;
+			ScrollingGridPane.GridItem gridItem = new ScrollingGridPane.GridItem(sprite) {
+				@Override
+				public boolean onClick(float x, float y) {
+					if (inside(x, y)) {
+						Image sprite = new ItemSprite();
+						sprite.copy(icon);
+						if (ShatteredPixelDungeon.scene() instanceof GameScene){
+							GameScene.show(new WndJournalItem(sprite, finalTitle, finalDesc));
+						} else {
+							ShatteredPixelDungeon.scene().addToFront(new WndJournalItem(sprite, finalTitle, finalDesc));
+						}
+						return true;
+					} else {
+						return false;
+					}
+				}
+			};
+			if (secondIcon != null){
+				gridItem.addSecondIcon(secondIcon);
+			}
+			if (!seen) {
+				gridItem.hardLightBG(2f, 1f, 2f);
+			}
+			grid.addItem(gridItem);
+		}
+	}
+
+	private static void addGridEntities(ScrollingGridPane grid, Collection<Class<?>> classes) {
+		for (Class<?> entityCls : classes){
+
+			boolean seen = Bestiary.isSeen(entityCls);
+			Mob mob = null;
+			Image icon = null;
+			String title = null;
+			String desc = null;
+
+			if (Mob.class.isAssignableFrom(entityCls)) {
+
+				mob = (Mob) Reflection.newInstance(entityCls);
+
+				if (mob instanceof Mimic || mob instanceof Pylon || mob instanceof CrystalSpire) {
+					mob.alignment = Char.Alignment.ENEMY;
+				}
+				if (mob instanceof WandOfWarding.Ward){
+					if (mob instanceof WandOfWarding.Ward.WardSentry){
+						((WandOfWarding.Ward) mob).upgrade(3);
+						((WandOfWarding.Ward) mob).upgrade(3);
+						((WandOfWarding.Ward) mob).upgrade(3);
+						((WandOfWarding.Ward) mob).upgrade(3);
+					} else {
+						((WandOfWarding.Ward) mob).upgrade(0);
+					}
+				}
+
+				CharSprite sprite = mob.sprite();
+				sprite.idle();
+
+				icon = new Image(sprite);
+				if (seen) {
+					title = Messages.titleCase(mob.name());
+					desc = mob.description();
+					if (Bestiary.encounterCount(entityCls) > 1){
+						desc += "\n\n" + Messages.get(CatalogTab.class, "enemy_count", Bestiary.encounterCount(entityCls));
+					}
+				} else {
+					icon.lightness(0f);
+					title = "???";
+					desc = mob.alignment == Char.Alignment.ENEMY ? Messages.get(CatalogTab.class, "not_seen_enemy") : Messages.get(CatalogTab.class, "not_seen_ally");
+				}
+
+				//we have to clip the bounds of the sprite if it's too large
+				if (icon.width() >= 17 || icon.height() >= 17) {
+					RectF frame = icon.frame();
+
+					float wShrink = frame.width() * (1f - 17f / icon.width());
+					if (wShrink > 0) {
+						frame.left += wShrink / 2f;
+						frame.right -= wShrink / 2f;
+					}
+					float hShrink = frame.height() * (1f - 17f / icon.height());
+					if (hShrink > 0) {
+						frame.top += hShrink / 2f;
+						frame.bottom -= hShrink / 2f;
+					}
+					icon.frame(frame);
+				}
+			} else if (Trap.class.isAssignableFrom(entityCls)){
+
+				Trap trap = (Trap) Reflection.newInstance(entityCls);
+				icon = TerrainFeaturesTilemap.getTrapVisual(trap);
+
+				if (seen) {
+					title = Messages.titleCase(trap.name());
+					desc = trap.desc();
+					if (Bestiary.encounterCount(entityCls) > 1){
+						desc += "\n\n" + Messages.get(CatalogTab.class, "trap_count", Bestiary.encounterCount(entityCls));
+					}
+				} else {
+					icon.lightness(0f);
+					title = "???";
+					desc = Messages.get(CatalogTab.class, "not_seen_trap");
+				}
+
+			} else if (Plant.class.isAssignableFrom(entityCls)){
+
+				Plant plant = (Plant) Reflection.newInstance(entityCls);
+				icon = TerrainFeaturesTilemap.getPlantVisual(plant);
+
+				if (seen) {
+					title = Messages.titleCase(plant.name());
+					desc = plant.desc();
+					if (Bestiary.encounterCount(entityCls) > 1){
+						desc += "\n\n" + Messages.get(CatalogTab.class, "plant_count", Bestiary.encounterCount(entityCls));
+					}
+				} else {
+					icon.lightness(0f);
+					title = "???";
+					desc = Messages.get(CatalogTab.class, "not_seen_plant");
+				}
+
+			}
+
+			Mob finalMob = mob;
+			String finalTitle = title;
+			String finalDesc = desc;
+			ScrollingGridPane.GridItem gridItem = new ScrollingGridPane.GridItem(icon) {
+				@Override
+				public boolean onClick(float x, float y) {
+					if (inside(x, y)) {
+						Image image;
+						if (seen && finalMob != null){
+							image = finalMob.sprite();
+						} else {
+							image = new Image(icon);
+						}
+
+						if (ShatteredPixelDungeon.scene() instanceof GameScene){
+							GameScene.show(new WndJournalItem(image, finalTitle, finalDesc));
+						} else {
+							ShatteredPixelDungeon.scene().addToFront(new WndJournalItem(image, finalTitle, finalDesc));
+						}
+
+						return true;
+					} else {
+						return false;
+					}
+				}
+			};
+			if (!seen) {
+				gridItem.hardLightBG(2f, 1f, 2f);
+			}
+			grid.addItem(gridItem);
+		}
+	};
+
+	private static void addGridDocuments( ScrollingGridPane grid, Document doc ){
+		for (String page : doc.pageNames()){
+
+			Image sprite = doc.pageSprite(page);
+
+			boolean seen = doc.isPageFound(page);
+			boolean read = doc.isPageRead(page);
+
+			if (!seen){
+				sprite.lightness(0f);
+			}
+
+			ScrollingGridPane.GridItem gridItem = new ScrollingGridPane.GridItem(sprite) {
+				@Override
+				public boolean onClick(float x, float y) {
+					if (inside(x, y)) {
+						Image sprite = new Image(icon);
+						if (seen) {
+							if (ShatteredPixelDungeon.scene() instanceof GameScene){
+								GameScene.show(new WndStory(sprite, doc.pageTitle(page), doc.pageBody(page)));
+							} else {
+								ShatteredPixelDungeon.scene().addToFront(new WndStory(sprite, doc.pageTitle(page), doc.pageBody(page)));
+							}
+
+							doc.readPage(page);
+							hardLightBG(1, 1, 1);
+						} else {
+							if (ShatteredPixelDungeon.scene() instanceof GameScene){
+								GameScene.show(new WndJournalItem(sprite, "???", Messages.get(CatalogTab.class, "not_seen_lore")));
+							} else {
+								ShatteredPixelDungeon.scene().addToFront(new WndJournalItem(sprite, "???", Messages.get(CatalogTab.class, "not_seen_lore")));
+							}
+
+						}
+						return true;
+					} else {
+						return false;
+					}
+				}
+			};
+
+			if (seen){
+				BitmapText text = new BitmapText(Integer.toString(doc.pageIdx(page)+1), PixelScene.pixelFont);
+				text.measure();
+				gridItem.addSecondIcon( text );
+				if (!read) {
+					gridItem.hardLightBG(1f, 1f, 2f);
+				}
+			} else {
+				gridItem.hardLightBG(2f, 1f, 2f);
+			}
+			grid.addItem(gridItem);
+		}
+	}
+
+	public static class BadgesTab extends Component {
+
+		private RedButton btnLocal;
+		private RedButton btnGlobal;
+
+		private RenderedTextBlock title;
+
+		private Component badgesLocal;
+		private Component badgesGlobal;
+
+		public static boolean global = false;
 
 		@Override
 		protected void createChildren() {
-			list = new ScrollingListPane();
-			add( list );
+
+			if (Dungeon.hero != null) {
+				btnLocal = new RedButton(Messages.get(this, "this_run")) {
+					@Override
+					protected void onClick() {
+						super.onClick();
+						global = false;
+						updateList();
+					}
+				};
+				btnLocal.icon(Icons.BADGES.get());
+				add(btnLocal);
+
+				btnGlobal = new RedButton(Messages.get(this, "overall")) {
+					@Override
+					protected void onClick() {
+						super.onClick();
+						global = true;
+						updateList();
+					}
+				};
+				btnGlobal.icon(Icons.BADGES.get());
+				add(btnGlobal);
+
+				if (Badges.filterReplacedBadges(false).size() <= 8){
+					badgesLocal = new BadgesList(false);
+				} else {
+					badgesLocal = new BadgesGrid(false);
+				}
+				add( badgesLocal );
+			} else {
+				title = PixelScene.renderTextBlock(Messages.get(this, "title_main_menu"), 9);
+				title.hardlight(Window.TITLE_COLOR);
+				add(title);
+			}
+
+			badgesGlobal = new BadgesGrid(true);
+			add( badgesGlobal );
 		}
 
 		@Override
 		protected void layout() {
 			super.layout();
-			list.setRect( 0, 0, width, height);
+
+			if (btnLocal != null) {
+				btnLocal.setRect(x, y, width / 2, 18);
+				btnGlobal.setRect(x + width / 2, y, width / 2, 18);
+
+				badgesLocal.setRect(x, y + 20, width, height-20);
+				badgesGlobal.setRect( x, y + 20, width, height-20);
+			} else {
+				title.setPos( x + (width - title.width())/2, y + (12-title.height())/2);
+
+				badgesGlobal.setRect( x, y + 14, width, height-14);
+			}
 		}
 
 		private void updateList(){
-			list.addTitle(Messages.get(this, "title"));
+			if (btnLocal != null) {
+				badgesLocal.visible = badgesLocal.active = !global;
+				badgesGlobal.visible = badgesGlobal.active = global;
 
-			for (Document doc : Document.values()){
-				if (!doc.isLoreDoc()) continue;
-
-				boolean found = doc.anyPagesFound();
-				ScrollingListPane.ListItem item = new ScrollingListPane.ListItem(
-						doc.pageSprite(),
-						null,
-						found ? Messages.titleCase(doc.title()) : "???"
-				){
-					@Override
-					public boolean onClick(float x, float y) {
-						if (inside( x, y ) && found) {
-							ShatteredPixelDungeon.scene().addToFront( new WndDocument( doc ));
-							return true;
-						} else {
-							return false;
-						}
-					}
-				};
-				if (!found){
-					item.hardlight(0x999999);
-					item.hardlightIcon(0x999999);
-				}
-				list.addItem(item);
+				btnLocal.textColor(global ? Window.WHITE : Window.TITLE_COLOR);
+				btnGlobal.textColor(global ? Window.TITLE_COLOR : Window.WHITE);
+			} else {
+				badgesGlobal.visible = badgesGlobal.active = true;
 			}
-
-			list.setRect(x, y, width, height);
 		}
 
 	}

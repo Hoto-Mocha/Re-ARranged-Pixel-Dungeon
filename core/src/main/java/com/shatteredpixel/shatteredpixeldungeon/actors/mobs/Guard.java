@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.GuardSprite;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.Random;
 
 public class Guard extends Mob {
 
@@ -63,7 +64,7 @@ public class Guard extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Char.combatRoll(4, 12);
+		return Random.NormalIntRange(4, 12);
 	}
 
 	private boolean chain(int target){
@@ -136,14 +137,14 @@ public class Guard extends Mob {
 
 	@Override
 	public int drRoll() {
-		return super.drRoll() + Char.combatRoll(0, 7);
+		return super.drRoll() + Random.NormalIntRange(0, 7);
 	}
 
 	@Override
 	public float lootChance() {
-		//each drop makes future drops 1/2 as likely
-		// so loot chance looks like: 1/5, 1/10, 1/20, 1/40, etc.
-		return super.lootChance() * (float)Math.pow(1/2f, Dungeon.LimitedDrops.GUARD_ARM.count);
+		//each drop makes future drops 1/3 as likely
+		// so loot chance looks like: 1/5, 1/15, 1/45, 1/135, etc.
+		return super.lootChance() * (float)Math.pow(1/3f, Dungeon.LimitedDrops.GUARD_ARM.count);
 	}
 
 	@Override

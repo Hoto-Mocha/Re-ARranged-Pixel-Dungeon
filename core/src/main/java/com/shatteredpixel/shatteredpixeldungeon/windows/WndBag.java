@@ -283,7 +283,9 @@ public class WndBag extends WndTabbed {
 
 				} else if (selector != null) {
 
-					hide();
+					if (selector.hideAfterSelecting()){
+						hide();
+					}
 					selector.onSelect( item );
 
 				} else {
@@ -301,7 +303,9 @@ public class WndBag extends WndTabbed {
 
 				} else if (selector != null) {
 
-					hide();
+					if (selector.hideAfterSelecting()){
+						hide();
+					}
 					selector.onSelect( item );
 
 				} else {
@@ -465,6 +469,9 @@ public class WndBag extends WndTabbed {
 		public abstract String textPrompt();
 		public Class<?extends Bag> preferredBag(){
 			return null; //defaults to last bag opened
+		}
+		public boolean hideAfterSelecting(){
+			return true; //defaults to hiding the window when an item is picked
 		}
 		public abstract boolean itemSelectable( Item item );
 		public abstract void onSelect( Item item );

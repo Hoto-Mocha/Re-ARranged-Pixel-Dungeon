@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.levels.traps;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
@@ -29,9 +30,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.PoisonDart;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
@@ -74,17 +78,24 @@ public class PoisonDartTrap extends Trap {
 				}
 
 				//find the closest char that can be aimed at
+				//can't target beyond view distance, with a min of 6 (torch range)
+				int range = Math.max(6, Dungeon.level.viewDistance);
 				if (target == null){
 					float closestDist = Float.MAX_VALUE;
 					for (Char ch : Actor.chars()){
 						if (!ch.isAlive()) continue;
 						float curDist = Dungeon.level.trueDistance(pos, ch.pos);
-						if (ch.invisible > 0) curDist += 1000;
+						//invis targets are considered to be at max range
+						if (ch.invisible > 0) curDist = Math.max(curDist, range);
 						Ballistica bolt = new Ballistica(pos, ch.pos, Ballistica.PROJECTILE);
-						if (canTarget(ch) && bolt.collisionPos == ch.pos && curDist < closestDist){
+						if (canTarget(ch) && bolt.collisionPos == ch.pos
+								&& ( curDist < closestDist || (curDist == closestDist && target instanceof Hero))){
 							target = ch;
 							closestDist = curDist;
 						}
+					}
+					if (closestDist > range){
+						target = null;
 					}
 				}
 
@@ -95,7 +106,7 @@ public class PoisonDartTrap extends Trap {
 								reset(pos, finalTarget.sprite, new PoisonDart(), new Callback() {
 									@Override
 									public void call() {
-										int dmg = Char.combatRoll(4, 8) - finalTarget.drRoll();
+										int dmg = Random.NormalIntRange(4, 8) - finalTarget.drRoll();
 										finalTarget.damage(dmg, PoisonDartTrap.this);
 										if (finalTarget == Dungeon.hero){
 											//for the poison dart traps in the Tengu fight
@@ -105,6 +116,8 @@ public class PoisonDartTrap extends Trap {
 											}
 											if (!finalTarget.isAlive()) {
 												Dungeon.fail(PoisonDartTrap.this);
+												GLog.n(Messages.get(PoisonDartTrap.class, "ondeath"));
+												if (reclaimed) Badges.validateDeathFromFriendlyMagic();
 											}
 										}
 										Buff.affect( finalTarget, Poison.class ).set( poisonAmount() );
@@ -116,7 +129,7 @@ public class PoisonDartTrap extends Trap {
 								});
 						return false;
 					} else {
-						finalTarget.damage(Char.combatRoll(4, 8) - finalTarget.drRoll(), PoisonDartTrap.this);
+						finalTarget.damage(Random.NormalIntRange(4, 8) - finalTarget.drRoll(), PoisonDartTrap.this);
 						Buff.affect( finalTarget, Poison.class ).set( poisonAmount() );
 						return true;
 					}

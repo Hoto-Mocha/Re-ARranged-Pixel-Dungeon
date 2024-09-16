@@ -24,14 +24,12 @@ package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
@@ -45,7 +43,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShaftParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
@@ -60,6 +57,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.FT.FT;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.LG.LG;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG.SG;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
@@ -524,6 +522,7 @@ public class DriedRose extends Artifact {
 
 		@Override
 		public boolean doPickUp(Hero hero, int pos) {
+			Catalog.setSeen(getClass());
 			DriedRose rose = hero.belongings.getItem( DriedRose.class );
 
 			if (rose == null){
@@ -536,6 +535,7 @@ public class DriedRose extends Artifact {
 			} else {
 
 				rose.upgrade();
+				Catalog.countUse(rose.getClass());
 				if (rose.level() == rose.levelCap) {
 					GLog.p( Messages.get(this, "maxlevel") );
 				} else
@@ -741,7 +741,7 @@ public class DriedRose extends Artifact {
 					dmg += rose.weapon.damageRoll(this);
 				}
 			} else {
-				dmg += Char.combatRoll(0, 5);
+				dmg += Random.NormalIntRange(0, 5);
 			}
 
 			return dmg;
@@ -855,10 +855,10 @@ public class DriedRose extends Artifact {
 		public int drRoll() {
 			int dr = super.drRoll();
 			if (rose != null && rose.armor != null){
-				dr += Char.combatRoll( rose.armor.DRMin(), rose.armor.DRMax());
+				dr += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax());
 			}
 			if (rose != null && rose.weapon != null){
-				dr += Char.combatRoll( 0, rose.weapon.defenseFactor( this ));
+				dr += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this ));
 			}
 			return dr;
 		}

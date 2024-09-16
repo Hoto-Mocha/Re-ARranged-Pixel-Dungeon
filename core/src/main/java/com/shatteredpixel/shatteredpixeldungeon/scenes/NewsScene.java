@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTitledMessage;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Camera;
@@ -72,10 +73,10 @@ public class NewsScene extends PixelScene {
 		btnExit.setPos(w - btnExit.width(), 0);
 		add(btnExit);
 
-		RenderedTextBlock title = PixelScene.renderTextBlock(Messages.get(this, "title"), 9);
-		title.hardlight(Window.TITLE_COLOR);
+		IconTitle title = new IconTitle( Icons.NEWS.get(), Messages.get(this, "title"));
+		title.setSize(200, 0);
 		title.setPos(
-				(w - title.width()) / 2f,
+				(w - title.reqWidth()) / 2f,
 				(20 - title.height()) / 2f
 		);
 		align(title);
@@ -144,12 +145,7 @@ public class NewsScene extends PixelScene {
 			@Override
 			protected void onClick() {
 				super.onClick();
-				String link = "https://ShatteredPixel.com";
-				//tracking codes, so that the website knows where this pageview came from
-				link += "?utm_source=shatteredpd";
-				link += "&utm_medium=news_page";
-				link += "&utm_campaign=ingame_link";
-				ShatteredPixelDungeon.platform.openURI(link);
+				ShatteredPixelDungeon.platform.openURI("https://ShatteredPixel.com");
 			}
 		};
 		btnSite.icon(Icons.get(Icons.NEWS));
@@ -314,12 +310,7 @@ public class NewsScene extends PixelScene {
 				@Override
 				protected void onClick() {
 					super.onClick();
-					String link = article.URL;
-					//tracking codes, so that the website knows where this pageview came from
-					link += "?utm_source=shatteredpd";
-					link += "&utm_medium=news_page";
-					link += "&utm_campaign=ingame_link";
-					ShatteredPixelDungeon.platform.openURI(link);
+					ShatteredPixelDungeon.platform.openURI(article.URL);
 				}
 			};
 			link.setRect(0, height + 2, width, BTN_HEIGHT);

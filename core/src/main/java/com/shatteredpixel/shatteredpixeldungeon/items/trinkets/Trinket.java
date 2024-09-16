@@ -22,12 +22,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.trinkets;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Bundle;
 
 import java.util.ArrayList;
 
@@ -37,11 +36,6 @@ public abstract class Trinket extends Item {
 		levelKnown = true;
 
 		unique = true;
-	}
-
-	@Override
-	public boolean isIdentified() {
-		return true;
 	}
 
 	@Override
@@ -65,6 +59,25 @@ public abstract class Trinket extends Item {
 		}
 	}
 
+	@Override
+	public String info() {
+		String info = super.info();
+		info += "\n\n" + statsDesc();
+		return info;
+	}
+
+	public abstract String statsDesc();
+
+	public int energyVal() {
+		return 5;
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		levelKnown = cursedKnown = true; //for pre-2.5 saves
+	}
+
 	public static class PlaceHolder extends Trinket {
 
 		{
@@ -86,6 +99,11 @@ public abstract class Trinket extends Item {
 				return "";
 			}
 
+		@Override
+		public String statsDesc() {
+			return "";
+		}
+
 	}
 
 	public static class UpgradeTrinket extends Recipe {
@@ -105,6 +123,9 @@ public abstract class Trinket extends Item {
 			Item result = ingredients.get(0).duplicate();
 			ingredients.get(0).quantity(0);
 			result.upgrade();
+
+			Catalog.countUse(result.getClass());
+
 			return result;
 		}
 

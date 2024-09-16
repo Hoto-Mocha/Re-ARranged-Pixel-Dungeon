@@ -130,7 +130,7 @@ public abstract class Recipe {
 		}
 		
 		@Override
-		public final boolean testIngredients(ArrayList<Item> ingredients) {
+		public boolean testIngredients(ArrayList<Item> ingredients) {
 			
 			int[] needed = inQuantity.clone();
 			
@@ -153,12 +153,12 @@ public abstract class Recipe {
 			return true;
 		}
 		
-		public final int cost(ArrayList<Item> ingredients){
+		public int cost(ArrayList<Item> ingredients){
 			return cost;
 		}
 		
 		@Override
-		public final Item brew(ArrayList<Item> ingredients) {
+		public Item brew(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
 			
 			int[] needed = inQuantity.clone();
@@ -182,7 +182,7 @@ public abstract class Recipe {
 		}
 		
 		//ingredients are ignored, as output doesn't vary
-		public final Item sampleOutput(ArrayList<Item> ingredients){
+		public Item sampleOutput(ArrayList<Item> ingredients){
 			try {
 				Item result = Reflection.newInstance(output);
 				result.quantity(outQuantity);

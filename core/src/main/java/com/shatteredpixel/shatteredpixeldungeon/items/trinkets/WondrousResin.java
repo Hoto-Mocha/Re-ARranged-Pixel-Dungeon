@@ -32,21 +32,30 @@ public class WondrousResin extends Trinket {
 
 	@Override
 	protected int upgradeEnergyCost() {
-		//5 -> 10(15) -> 15(30) -> 20(50)
+		//6 -> 10(16) -> 15(31) -> 20(51)
 		return 10+5*level();
 	}
 
 	@Override
-	public String desc() {
-		return Messages.get(this, "desc",
-				Messages.decimalFormat("#.##", 100*positiveCurseEffectChance(buffedLvl())),
-				Messages.decimalFormat("#.##", 100*extraCurseEffectChance(buffedLvl())));
+	public String statsDesc() {
+		if (isIdentified()){
+			return Messages.get(this, "stats_desc",
+					Messages.decimalFormat("#.##", 100*positiveCurseEffectChance(buffedLvl())),
+					Messages.decimalFormat("#.##", 100*extraCurseEffectChance(buffedLvl())));
+		} else {
+			return Messages.get(this, "typical_stats_desc",
+					Messages.decimalFormat("#.##", 100*positiveCurseEffectChance(0)),
+					Messages.decimalFormat("#.##", 100*extraCurseEffectChance(0)));
+		}
 	}
 
-	//TODO currently this trims most rare/v.rare wand effects entirely. Need to improve variety there
-	// certain effects might also be extremely good with no negatives
+	//used when bonus curse effects are being created
+	public static boolean forcePositive = false;
 
 	public static float positiveCurseEffectChance(){
+		if (forcePositive){
+			return 1;
+		}
 		return positiveCurseEffectChance( trinketLevel(WondrousResin.class) );
 	}
 

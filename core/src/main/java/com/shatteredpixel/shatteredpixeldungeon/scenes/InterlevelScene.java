@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -29,8 +30,10 @@ import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.ShadowBox;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LostBackpack;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -38,18 +41,22 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.GameLog;
+import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
-import com.watabou.utils.BArray;
+import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndError;
 import com.watabou.gltextures.TextureCache;
-import com.watabou.glwrap.Blending;
+import com.watabou.input.KeyEvent;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
-import com.watabou.noosa.NoosaScript;
-import com.watabou.noosa.NoosaScriptNoLighting;
-import com.watabou.noosa.SkinnedBlock;
+import com.watabou.noosa.tweeners.Tweener;
+import com.watabou.utils.BArray;
 import com.watabou.utils.DeviceCompat;
+import com.watabou.utils.GameMath;
+import com.watabou.utils.Random;
+import com.watabou.utils.Signal;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -83,8 +90,15 @@ public class InterlevelScene extends PixelScene {
 	}
 	private Phase phase;
 	private float timeLeft;
-	
-	private RenderedTextBlock message;
+
+	public Image background;
+
+	private RenderedTextBlock loadingText;
+
+	private RenderedTextBlock storyMessage;
+	private ShadowBox storyBG;
+	private StyledButton btnContinue;
+	private IconButton btnHideStory;
 	
 	private static Thread thread;
 	private static Exception error = null;
@@ -102,16 +116,16 @@ public class InterlevelScene extends PixelScene {
 		
 		String loadingAsset;
 		int loadingDepth;
-		final float scrollSpeed;
 		fadeTime = NORM_FADE;
+
+		long seed = Dungeon.seed;
 		switch (mode){
 			default:
 				loadingDepth = Dungeon.depth;
-				scrollSpeed = 0;
 				break;
 			case CONTINUE:
 				loadingDepth = GamesInProgress.check(GamesInProgress.curSlot).depth;
-				scrollSpeed = 5;
+				seed = GamesInProgress.check(GamesInProgress.curSlot).seed;
 				break;
 			case DESCEND:
 				if (Dungeon.hero == null){
@@ -123,25 +137,21 @@ public class InterlevelScene extends PixelScene {
 					if (Statistics.deepestFloor >= loadingDepth) {
 						fadeTime = FAST_FADE;
 					} else if (loadingDepth == 6 || loadingDepth == 11
-							|| loadingDepth == 16 || loadingDepth == 21) {
+							|| loadingDepth == 16 || loadingDepth == 21 || loadingDepth == 26) {
 						fadeTime = SLOW_FADE;
 					}
 				}
-				scrollSpeed = 5;
 				break;
 			case FALL:
 				loadingDepth = Dungeon.depth+1;
-				scrollSpeed = 50;
 				break;
 			case ASCEND:
 				fadeTime = FAST_FADE;
 				if (curTransition != null)  loadingDepth = curTransition.destDepth;
 				else                        loadingDepth = Dungeon.depth-1;
-				scrollSpeed = -5;
 				break;
 			case RETURN:
 				loadingDepth = returnDepth;
-				scrollSpeed = returnDepth > Dungeon.depth ? 15 : -15;
 				break;
 		}
 
@@ -152,47 +162,88 @@ public class InterlevelScene extends PixelScene {
 			lastRegion = region;
 		}
 
-		if      (lastRegion == 1)    loadingAsset = Assets.Interfaces.LOADING_SEWERS;
-		else if (lastRegion == 2)    loadingAsset = Assets.Interfaces.LOADING_PRISON;
-		else if (lastRegion == 3)    loadingAsset = Assets.Interfaces.LOADING_CAVES;
-		else if (lastRegion == 4)    loadingAsset = Assets.Interfaces.LOADING_CITY;
-		else if (lastRegion == 5)    loadingAsset = Assets.Interfaces.LOADING_HALLS;
-		else                         loadingAsset = Assets.Interfaces.SHADOW;
+		int loadingCenter = 400;
+
+		//for portrait users, each run the splashes change what details they focus on
+		Random.pushGenerator(seed+lastRegion);
+			switch (lastRegion){
+				case 1:
+					loadingAsset = Assets.Splashes.SEWERS;
+					switch (Random.Int(2)){
+						case 0: loadingCenter = 180; break; //focus on rats and left side
+						case 1: loadingCenter = 485; break; //focus on center pipe and door
+					}
+					break;
+				case 2:
+					loadingAsset = Assets.Splashes.PRISON;
+					switch (Random.Int(3)){
+						case 0: loadingCenter = 190; break; //focus on left skeleton
+						case 1: loadingCenter = 402; break; //focus on center arch
+					}
+					break;
+				case 3:
+					loadingAsset = Assets.Splashes.CAVES;
+					switch (Random.Int(3)){
+						case 0: loadingCenter = 340; break; //focus on center gnoll groups
+						case 1: loadingCenter = 625; break; //focus on right gnoll
+					}
+					break;
+				case 4:
+					loadingAsset = Assets.Splashes.CITY;
+					switch (Random.Int(3)){
+						case 0: loadingCenter = 275; break; //focus on left bookcases
+						case 1: loadingCenter = 485; break; //focus on center pathway
+					}
+					break;
+				case 5: default:
+					loadingAsset = Assets.Splashes.HALLS;
+					switch (Random.Int(3)){
+						case 0: loadingCenter = 145; break; //focus on left arches
+						case 1: loadingCenter = 400; break; //focus on ripper demon
+					}
+					break;
+			}
+		Random.popGenerator();
 		
 		if (DeviceCompat.isDebug()){
 			fadeTime = 0f;
 		}
-		
-		SkinnedBlock bg = new SkinnedBlock(Camera.main.width, Camera.main.height, loadingAsset ){
-			@Override
-			protected NoosaScript script() {
-				return NoosaScriptNoLighting.get();
-			}
-			
-			@Override
-			public void draw() {
-				Blending.disable();
-				super.draw();
-				Blending.enable();
-			}
-			
+
+		background = new Image(loadingAsset);
+		background.scale.set(Camera.main.height/background.height);
+
+		if (Camera.main.width >= background.width()){
+			background.x = (Camera.main.width - background.width())/2f;
+		} else {
+			background.x = Camera.main.width/2f - loadingCenter*background.scale.x;
+			background.x = GameMath.gate(Camera.main.width - background.width(), background.x, 0);
+		}
+		background.y = (Camera.main.height - background.height())/2f;
+		PixelScene.align(background);
+		add(background);
+
+		Image fadeLeft, fadeRight;
+		fadeLeft = new Image(TextureCache.createGradient(0xFF000000, 0xFF000000, 0x00000000));
+		fadeLeft.x = background.x-2;
+		fadeLeft.scale.set(3, background.height());
+		fadeLeft.visible = background.x > 0;
+		add(fadeLeft);
+
+		fadeRight = new Image(fadeLeft);
+		fadeRight.x = background.x + background.width() + 2;
+		fadeRight.y = background.y + background.height();
+		fadeRight.angle = 180;
+		fadeRight.visible = fadeLeft.visible;
+		add(fadeRight);
+
+		Image im = new Image(TextureCache.createGradient(0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0xFF000000)){
 			@Override
 			public void update() {
 				super.update();
-				offset(0, Game.elapsed * scrollSpeed);
-			}
-		};
-		bg.scale(4, 4);
-		bg.autoAdjust = true;
-		add(bg);
-		
-		Image im = new Image(TextureCache.createGradient(0xAA000000, 0xBB000000, 0xCC000000, 0xDD000000, 0xFF000000)){
-			@Override
-			public void update() {
-				super.update();
-				if (phase == Phase.FADE_IN)         aa = Math.max( 0, (timeLeft - (fadeTime - 0.333f)));
-				else if (phase == Phase.FADE_OUT)   aa = Math.max( 0, (0.333f - timeLeft));
-				else                                aa = 0;
+				if (lastRegion == 6)                aa = 1;
+				else if (phase == Phase.FADE_IN)    aa = Math.max( 0, 2*(timeLeft - (fadeTime - 0.333f)));
+				else if (phase == Phase.FADE_OUT)   aa = Math.max( 0, 2*(0.333f - timeLeft));
+				//else                                aa = 0;
 			}
 		};
 		im.angle = 90;
@@ -203,13 +254,144 @@ public class InterlevelScene extends PixelScene {
 
 		String text = Messages.get(Mode.class, mode.name());
 		
-		message = PixelScene.renderTextBlock( text, 9 );
-		message.setPos(
-				(Camera.main.width - message.width()) / 2,
-				(Camera.main.height - message.height()) / 2
+		loadingText = PixelScene.renderTextBlock( text, 9 );
+		loadingText.setPos(
+				(Camera.main.width - loadingText.width() - 8),
+				(Camera.main.height - loadingText.height() - 6)
 		);
-		align(message);
-		add( message );
+		align(loadingText);
+		add(loadingText);
+
+		if (mode == Mode.DESCEND && lastRegion <= 5 && !DeviceCompat.isDebug()){
+			if (Dungeon.hero == null || (loadingDepth > Statistics.deepestFloor && loadingDepth % 5 == 1)){
+					storyMessage = PixelScene.renderTextBlock(Document.INTROS.pageBody(region), 6);
+					storyMessage.maxWidth( PixelScene.landscape() ? 180 : 125);
+					storyMessage.setPos((Camera.main.width-storyMessage.width())/2f, (Camera.main.height-storyMessage.height())/2f);
+
+					storyBG = new ShadowBox();
+					storyBG.boxRect(storyMessage.left()-10, storyMessage.top()-10, storyMessage.width()+20, storyMessage.height()+20);
+					storyBG.alpha(0.8f);
+					add(storyBG);
+					add(storyMessage);
+
+					btnContinue = new StyledButton(Chrome.Type.TOAST_TR, "Continue", 9){
+						@Override
+						protected void onClick() {
+							phase = Phase.FADE_OUT;
+							timeLeft = fadeTime;
+
+							btnContinue.enable(false);
+							Document.INTROS.readPage(region);
+						}
+					};
+					btnContinue.icon(Icons.STAIRS.get());
+					btnContinue.setSize(btnContinue.reqWidth()+10, 22);
+					btnContinue.visible = false;
+					btnContinue.enable(false);
+
+					KeyEvent.addKeyListener(new Signal.Listener<KeyEvent>() {
+						@Override
+						public boolean onSignal(KeyEvent keyEvent) {
+							if (!keyEvent.pressed && btnContinue.active){
+								if (btnHideStory.active && !btnHideStory.icon().visible){
+									btnHideStory.setRect(btnContinue.right()+2, btnContinue.top(), 20, 21);
+									align(btnHideStory);
+									btnHideStory.icon().visible = true;
+									btnHideStory.parent.add(new Tweener(parent, 0.5f) {
+										@Override
+										protected void updateValues(float progress) {
+											float uiAlpha = progress;
+											btnContinue.alpha(uiAlpha);
+											storyBG.alpha(uiAlpha*0.8f);
+											storyMessage.alpha(uiAlpha);
+											btnHideStory.icon().alpha(uiAlpha);
+											loadingText.alpha(uiAlpha);
+											im.am = uiAlpha;
+										}
+									});
+								} else {
+									phase = Phase.FADE_OUT;
+									timeLeft = fadeTime;
+									btnContinue.enable(false);
+									Document.INTROS.readPage(region);
+								}
+								return true;
+							}
+							return false;
+						}
+					});
+
+					btnContinue.setPos((Camera.main.width - btnContinue.width())/2f, storyMessage.bottom()+10);
+					add(btnContinue);
+
+					btnHideStory = new IconButton(Icons.CHEVRON.get()){
+						@Override
+						protected void onClick() {
+							if (btnContinue.alpha() != 0 && btnContinue.alpha() != 1){
+								return;
+							}
+							if (icon.visible) {
+								enable(false);
+								//button is effectively screen-sized, but invisible
+								parent.add(new Tweener(parent, 0.5f) {
+									@Override
+									protected void updateValues(float progress) {
+										float uiAlpha = 1 - progress;
+										btnContinue.alpha(uiAlpha);
+										storyBG.alpha(uiAlpha * 0.8f);
+										storyMessage.alpha(uiAlpha);
+										icon.alpha(uiAlpha);
+										loadingText.alpha(uiAlpha);
+										im.am = uiAlpha;
+									}
+
+									@Override
+									protected void onComplete() {
+										super.onComplete();
+										setRect(0, 0, Camera.main.width, Camera.main.height);
+										enable(true);
+										icon.visible = false;
+									}
+								});
+							} else {
+								setRect(btnContinue.right()+2, btnContinue.top(), 20, 21);
+								align(this);
+								icon.visible = true;
+								parent.add(new Tweener(parent, 0.5f) {
+									@Override
+									protected void updateValues(float progress) {
+										float uiAlpha = progress;
+										btnContinue.alpha(uiAlpha);
+										storyBG.alpha(uiAlpha*0.8f);
+										storyMessage.alpha(uiAlpha);
+										icon.alpha(uiAlpha);
+										loadingText.alpha(uiAlpha);
+										im.am = uiAlpha;
+									}
+								});
+							}
+						}
+
+						@Override
+						protected void onPointerDown() {
+							if (icon.visible) {
+								super.onPointerDown();
+							}
+						}
+					};
+					btnHideStory.icon().originToCenter();
+					btnHideStory.icon().angle = 180f;
+					btnHideStory.setRect(btnContinue.right()+2, btnContinue.top(), 20, 21);
+					align(btnHideStory);
+					btnHideStory.enable(false);
+					add(btnHideStory);
+
+					btnContinue.alpha(0);
+					storyBG.alpha(0);
+					storyMessage.alpha(0);
+					btnHideStory.icon().alpha(0);
+			}
+		}
 
 		phase = Phase.FADE_IN;
 		timeLeft = fadeTime;
@@ -255,8 +437,7 @@ public class InterlevelScene extends PixelScene {
 
 					synchronized (thread) {
 						if (phase == Phase.STATIC && error == null) {
-							phase = Phase.FADE_OUT;
-							timeLeft = fadeTime;
+							afterLoading();
 						}
 					}
 				}
@@ -265,24 +446,42 @@ public class InterlevelScene extends PixelScene {
 		}
 		waitingTime = 0f;
 	}
-	
+
+	private int dots = 0;
+	private boolean textFadingIn = true;
+
 	@Override
 	public void update() {
 		super.update();
 
-		waitingTime += Game.elapsed;
-		
-		float p = timeLeft / fadeTime;
+		if (btnContinue == null || !btnContinue.isActive()) {
+			waitingTime += Game.elapsed;
+		}
+
+		if (mode != Mode.FALL && dots != Math.ceil(waitingTime / ((2*fadeTime)/3f))) {
+			String text = Messages.get(Mode.class, mode.name());
+			dots = (int)Math.ceil(waitingTime / ((2*fadeTime)/3f))%3;
+			switch (dots){
+				case 1: default:
+					loadingText.text(text + ".");
+					break;
+				case 2:
+					loadingText.text(text + "..");
+					break;
+				case 0:
+					loadingText.text(text + "...");
+					break;
+			}
+		}
 		
 		switch (phase) {
 		
 		case FADE_IN:
-			message.alpha( 1 - p );
+			loadingText.alpha( Math.max(0, fadeTime - (timeLeft-0.333f)));
 			if ((timeLeft -= Game.elapsed) <= 0) {
 				synchronized (thread) {
 					if (!thread.isAlive() && error == null) {
-						phase = Phase.FADE_OUT;
-						timeLeft = fadeTime;
+						afterLoading();
 					} else {
 						phase = Phase.STATIC;
 					}
@@ -291,16 +490,55 @@ public class InterlevelScene extends PixelScene {
 			break;
 			
 		case FADE_OUT:
-			message.alpha( p );
+			background.acc.set(0);
+			background.speed.set(0);
+
+			loadingText.alpha( Math.min(1, timeLeft+0.333f) );
+
+			if (btnContinue != null){
+				btnContinue.alpha((timeLeft/fadeTime));
+				storyMessage.alpha(btnContinue.alpha());
+				storyBG.alpha(btnContinue.alpha()*0.8f);
+				btnHideStory.icon().alpha(btnContinue.alpha());
+			}
 			
 			if ((timeLeft -= Game.elapsed) <= 0) {
 				Game.switchScene( GameScene.class );
+				KeyEvent.clearListeners(); //removes potential listener for continue
 				thread = null;
 				error = null;
 			}
 			break;
 			
 		case STATIC:
+
+			if (btnContinue != null && textFadingIn) {
+				btnContinue.alpha(Math.min(1, btnContinue.alpha() + Game.elapsed));
+				storyMessage.alpha(btnContinue.alpha());
+				storyBG.alpha(btnContinue.alpha()*0.8f);
+				btnHideStory.icon().alpha(btnContinue.alpha());
+
+				if (btnContinue.alpha() == 1){
+					textFadingIn = false;
+					btnHideStory.enable(true);
+				}
+			}
+
+			//slowly pan the background side to side in portait mode, if story text is displayed
+			if (btnContinue != null && !textFadingIn && Game.width < Game.height){
+				if (background.speed.isZero() && background.acc.isZero()){
+					background.acc.x = background.center().x >= Camera.main.width ? -1f : 1f;
+				} else {
+					background.speed.x = GameMath.gate(-10, background.speed.x, 10);
+					if (background.acc.x > 0 && background.x >= -25){
+						background.acc.x = -2.5f;
+					} else if (background.acc.x < 0 && background.x + background.width() <= Camera.main.width+25){
+						background.acc.x = 2.5f;
+					}
+				}
+
+			}
+
 			if (error != null) {
 				String errorMsg;
 				if (error instanceof FileNotFoundException)     errorMsg = Messages.get(this, "file_not_found");
@@ -336,6 +574,28 @@ public class InterlevelScene extends PixelScene {
 			}
 			break;
 		}
+
+		if (mode == Mode.FALL) {
+			loadingText.setPos(
+					(Camera.main.width - loadingText.width() - 4) + Random.NormalFloat(-2, 2),
+					(Camera.main.height - loadingText.height() - 6) + Random.NormalFloat(-2, 2)
+			);
+			align(loadingText);
+		}
+	}
+
+	private void afterLoading(){
+		if (btnContinue != null){
+			btnContinue.visible = true;
+			float alpha = btnContinue.alpha();
+			btnContinue.enable(true);
+			btnContinue.alpha(alpha);
+			phase = Phase.STATIC;
+		} else {
+			phase = Phase.FADE_OUT;
+			timeLeft = fadeTime;
+		}
+
 	}
 
 	private void descend() throws IOException {

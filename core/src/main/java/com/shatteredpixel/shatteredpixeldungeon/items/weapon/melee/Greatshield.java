@@ -42,7 +42,16 @@ public class Greatshield extends MeleeWeapon {
 
 	@Override
 	public int defenseFactor( Char owner ) {
-		return 6+2*buffedLvl();             //6 extra defence, plus 2 per level
+		return DRMax();
+	}
+
+	public int DRMax(){
+		return DRMax(buffedLvl());
+	}
+
+	//6 extra defence, plus 2 per level
+	public int DRMax(int lvl){
+		return 6 + 2*lvl;
 	}
 	
 	public String statsInfo(){
@@ -65,5 +74,10 @@ public class Greatshield extends MeleeWeapon {
 		} else {
 			return Messages.get(this, "typical_ability_desc", 3);
 		}
+	}
+
+	@Override
+	public String upgradeAbilityStat(int level) {
+		return Integer.toString(3 + level);
 	}
 }

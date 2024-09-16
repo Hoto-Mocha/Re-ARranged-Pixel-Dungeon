@@ -29,7 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShaftParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.TormentedSpiritSprite;
 import com.watabou.noosa.audio.Sample;
@@ -44,7 +44,7 @@ public class TormentedSpirit extends Wraith {
 	//50% more damage scaling than regular wraiths
 	@Override
 	public int damageRoll() {
-		return Char.combatRoll( 1 + Math.round(1.5f*level)/2, 2 + Math.round(1.5f*level) );
+		return Random.NormalIntRange( 1 + Math.round(1.5f*level)/2, 2 + Math.round(1.5f*level) );
 	}
 
 	//50% more accuracy (and by extension evasion) scaling than regular wraiths
@@ -57,21 +57,21 @@ public class TormentedSpirit extends Wraith {
 		Sample.INSTANCE.play( Assets.Sounds.GHOST );
 		yell(Messages.get(this, "thank_you"));
 
-		//50/50 between weapon or armor, always uncursed
+		//50/50 between weapon or armor, always uncursed & enchanted, 50% chance to be +1 if level 0
 		Item prize;
 		if (Random.Int(2) == 0){
 			prize = Generator.randomWeapon(true);
-			if (((MeleeWeapon)prize).hasCurseEnchant()){
-				((MeleeWeapon) prize).enchantment = null;
-			}
+			((Weapon)prize).enchant();
 		} else {
 			prize = Generator.randomArmor();
-			if (((Armor) prize).hasCurseGlyph()){
-				((Armor) prize).glyph = null;
-			}
+			((Armor) prize).inscribe();
 		}
 		prize.cursed = false;
 		prize.cursedKnown = true;
+
+		if (prize.level() == 0 && Random.Int(2) == 0){
+			prize.upgrade();
+		}
 
 		Dungeon.level.drop(prize, pos).sprite.drop();
 

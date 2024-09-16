@@ -46,6 +46,11 @@ public class RingOfFuror extends Ring {
 		}
 	}
 
+	public String upgradeStat1(int level){
+		if (cursed && cursedKnown) level = Math.min(-1, level-3);
+		return Messages.decimalFormat("#.##", 100f * (Math.pow(1.09051f, level+1)-1f)) + "%";
+	}
+
 	@Override
 	public RingBuff buff() {
 		return new Furor();

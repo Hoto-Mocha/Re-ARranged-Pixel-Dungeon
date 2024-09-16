@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SlimeSprite;
+import com.watabou.utils.Random;
 
 public class Slime extends Mob {
 	
@@ -45,7 +46,7 @@ public class Slime extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Char.combatRoll( 2, 5 );
+		return Random.NormalIntRange( 2, 5 );
 	}
 	
 	@Override
@@ -67,9 +68,9 @@ public class Slime extends Mob {
 
 	@Override
 	public float lootChance(){
-		//each drop makes future drops 1/3 as likely
-		// so loot chance looks like: 1/5, 1/15, 1/45, 1/135, etc.
-		return super.lootChance() * (float)Math.pow(1/3f, Dungeon.LimitedDrops.SLIME_WEP.count);
+		//each drop makes future drops 1/4 as likely
+		// so loot chance looks like: 1/5, 1/20, 1/80, 1/320, etc.
+		return super.lootChance() * (float)Math.pow(1/4f, Dungeon.LimitedDrops.SLIME_WEP.count);
 	}
 	
 	@Override

@@ -33,13 +33,17 @@ public class ThirteenLeafClover extends Trinket {
 
 	@Override
 	protected int upgradeEnergyCost() {
-		//5 -> 2(7) -> 3(10) -> 5(15)
-		return 2 + Math.round(level()*1.33f);
+		//6 -> 5(11) -> 7(18) -> 8(26)
+		return Math.round(5+1.67f*level());
 	}
 
 	@Override
-	public String desc() {
-		return Messages.get(this, "desc", (int)(100*combatDistributionInverseChance(buffedLvl())));
+	public String statsDesc() {
+		if (isIdentified()){
+			return Messages.get(this, "stats_desc", (int)(100*combatDistributionInverseChance(buffedLvl())));
+		} else {
+			return Messages.get(this, "typical_stats_desc", (int)(100*combatDistributionInverseChance(0)));
+		}
 	}
 
 	public static float combatDistributionInverseChance(){

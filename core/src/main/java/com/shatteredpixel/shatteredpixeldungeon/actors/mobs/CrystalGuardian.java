@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Bestiary;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -84,7 +85,7 @@ public class CrystalGuardian extends Mob{
 
 	@Override
 	public int damageRoll() {
-		return Char.combatRoll( 10, 16 );
+		return Random.NormalIntRange( 10, 16 );
 	}
 
 	@Override
@@ -106,7 +107,7 @@ public class CrystalGuardian extends Mob{
 
 	@Override
 	public int drRoll() {
-		return super.drRoll() + Char.combatRoll(0, 10);
+		return super.drRoll() + Random.NormalIntRange(0, 10);
 	}
 
 	@Override
@@ -138,6 +139,8 @@ public class CrystalGuardian extends Mob{
 
 			if (!recovering) {
 				recovering = true;
+				Bestiary.setSeen(getClass());
+				Bestiary.countEncounter(getClass());
 				if (sprite != null) ((CrystalGuardianSprite) sprite).crumple();
 			}
 		}

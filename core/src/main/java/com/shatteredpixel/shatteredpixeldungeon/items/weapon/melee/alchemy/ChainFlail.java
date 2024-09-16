@@ -101,7 +101,7 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 
 	@Override
 	protected int baseChargeUse(Hero hero, Char target){
-		if (Dungeon.hero.buff(SpinAbilityTracker.class) != null){
+		if (Dungeon.hero.buff(Flail.SpinAbilityTracker.class) != null){
 			return 0;
 		} else {
 			return 1;
@@ -111,7 +111,7 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 
-		SpinAbilityTracker spin = hero.buff(SpinAbilityTracker.class);
+		Flail.SpinAbilityTracker spin = hero.buff(Flail.SpinAbilityTracker.class);
 		if (spin != null && spin.spins >= 3){
 			GLog.w(Messages.get(this, "spin_warn"));
 			return;
@@ -119,11 +119,11 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 
 		beforeAbilityUsed(hero, null);
 		if (spin == null){
-			spin = Buff.affect(hero, SpinAbilityTracker.class, 3f);
+			spin = Buff.affect(hero, Flail.SpinAbilityTracker.class, 3f);
 		}
 
 		spin.spins++;
-		Buff.prolong(hero, SpinAbilityTracker.class, 3f);
+		Buff.prolong(hero, Flail.SpinAbilityTracker.class, 3f);
 		Sample.INSTANCE.play(Assets.Sounds.CHAINS, 1, 1, 0.9f + 0.1f*spin.spins);
 		hero.sprite.operate(hero.pos);
 		hero.spendAndNext(Actor.TICK);
@@ -134,12 +134,16 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 
 	@Override
 	public String abilityInfo() {
-		int dmgBoost = levelKnown ? Math.round(0.2f*max()) : Math.round(0.2f*max(0));
+		int dmgBoost = levelKnown ? 8 + 2*buffedLvl() : 8;
 		if (levelKnown){
-			return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+			return Messages.get(this, "ability_desc", augment.damageFactor(dmgBoost));
 		} else {
-			return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+			return Messages.get(this, "typical_ability_desc", augment.damageFactor(dmgBoost));
 		}
+	}
+
+	public String upgradeAbilityStat(int level){
+		return "+" + augment.damageFactor(8 + 2*level);
 	}
 
 	public static class SpinAbilityTracker extends FlavourBuff {
@@ -177,7 +181,7 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 
 		@Override
 		public String desc() {
-			return Messages.get(this, "desc", (int)Math.round((spins/5f)*100f), dispTurns());
+			return Messages.get(this, "desc", (int)Math.round((spins/3f)*100f), dispTurns());
 		}
 
 		public static String SPINS = "spins";

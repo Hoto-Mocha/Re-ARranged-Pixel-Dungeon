@@ -21,47 +21,66 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.watabou.noosa.Image;
 
-public class AnkhInvulnerability extends FlavourBuff {
+//currently only applies to the hero
+public class GreaterHaste extends Buff {
 
 	{
-		type = Buff.buffType.POSITIVE;
+		type = buffType.POSITIVE;
 	}
 
-	public static final float DURATION	= 3f;
+	private int left;
 
 	@Override
-	public void fx(boolean on) {
-		if (on) target.sprite.aura( 0xFFFF00 );
-		else target.sprite.clearAura();
+	public boolean act() {
+
+		spendMove();
+
+		spend(TICK);
+		return true;
+	}
+
+	public void spendMove(){
+		left--;
+		if (left <= 0){
+			detach();
+		}
+	}
+
+	public void set(int time){
+		left = time;
 	}
 
 	@Override
 	public int icon() {
-		return BuffIndicator.ANKH;
+		return BuffIndicator.HASTE;
+	}
+
+	@Override
+	public void tintIcon(Image icon) {
+		icon.hardlight(1f, 0.3f, 0f);
 	}
 
 	@Override
 	public float iconFadePercent() {
-		return Math.max(0, (DURATION - visualcooldown()) / DURATION);
-	}
-
-	{
-		immunities.add(Paralysis.class);
-		immunities.add(Frost.class);
+		//currently tied to the lethal haste talent, as that's the only source
+		float duration = 1 + 2*Dungeon.hero.pointsInTalent(Talent.LETHAL_HASTE);
+		return Math.max(0, (duration - left) / duration);
 	}
 
 	@Override
-	public boolean attachTo(Char target) {
-		if (super.attachTo(target)){
-			Buff.detach(target, Paralysis.class);
-			Buff.detach(target, Frost.class);
-			return true;
-		} else {
-			return false;
-		}
+	public String iconTextDisplay() {
+		return Integer.toString(left);
+	}
+
+	@Override
+	public String desc() {
+		return Messages.get(this, "desc", left);
 	}
 
 }

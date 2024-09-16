@@ -24,10 +24,12 @@ package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.utils.Random;
 
 public class CapeOfThorns extends Artifact {
 
@@ -99,7 +101,7 @@ public class CapeOfThorns extends Artifact {
 			}
 
 			if (cooldown != 0){
-				int deflected = Char.combatRoll(0, damage);
+				int deflected = Random.NormalIntRange(0, damage);
 				damage -= deflected;
 
 				if (attacker != null && Dungeon.level.adjacent(attacker.pos, defender.pos)) {
@@ -111,6 +113,7 @@ public class CapeOfThorns extends Artifact {
 				if (exp >= (level()+1)*5 && level() < levelCap){
 					exp -= (level()+1)*5;
 					upgrade();
+					Catalog.countUse(CapeOfThorns.class);
 					GLog.p( Messages.get(this, "levelup") );
 				}
 

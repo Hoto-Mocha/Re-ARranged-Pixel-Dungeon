@@ -43,10 +43,19 @@ public class ShatteredPixelDungeon extends Game {
 	public static final int v2_1_4 = 737; //iOS was 737, other platforms were 736
 	public static final int v2_2_1 = 755; //iOS was 755 (also called v2.2.2), other platforms were 754
 	public static final int v2_3_2 = 768;
-	public static final int v2_4_0 = 780;
+	public static final int v2_4_2 = 782;
+	public static final int v2_5_0 = 794;
 	
 	public ShatteredPixelDungeon( PlatformSupport platform ) {
 		super( sceneClass == null ? WelcomeScene.class : sceneClass, platform );
+
+		//pre-v2.5.0
+		com.watabou.utils.Bundle.addAlias(
+				com.shatteredpixel.shatteredpixeldungeon.actors.mobs.MobSpawner.class,
+				"com.shatteredpixel.shatteredpixeldungeon.levels.Level$Respawner" );
+		com.watabou.utils.Bundle.addAlias(
+				com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invulnerability.class,
+				"com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability" );
 
 		//pre-v2.4.0
 		com.watabou.utils.Bundle.addAlias(

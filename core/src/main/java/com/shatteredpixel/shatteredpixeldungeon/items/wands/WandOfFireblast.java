@@ -200,7 +200,8 @@ public class WandOfFireblast extends DamageWand {
 
 	@Override
 	protected int chargesPerCast() {
-		if (cursed || charger != null && charger.target.buff(WildMagic.WildMagicTracker.class) != null){
+		if (cursed ||
+				(charger != null && charger.target == null && charger.target.buff(WildMagic.WildMagicTracker.class) != null)){
 			return 1;
 		}
 		//consumes 30% of current charges, rounded up, with a min of 1 and a max of 3.
@@ -213,6 +214,21 @@ public class WandOfFireblast extends DamageWand {
 			return Messages.get(this, "stats_desc", chargesPerCast(), min(), max());
 		else
 			return Messages.get(this, "stats_desc", chargesPerCast(), min(0), max(0));
+	}
+
+	@Override
+	public String upgradeStat1(int level) {
+		return (1+level) + "-" + (2+2*level);
+	}
+
+	@Override
+	public String upgradeStat2(int level) {
+		return (2+2*level) + "-" + 2*(4+2*level);
+	}
+
+	@Override
+	public String upgradeStat3(int level) {
+		return (3+3*level) + "-" + 3*(6+2*level);
 	}
 
 	@Override

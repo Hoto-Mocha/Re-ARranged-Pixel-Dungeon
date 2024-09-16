@@ -184,7 +184,21 @@ public class WandOfLivingEarth extends DamageWand {
 		}
 
 	}
-	
+
+	@Override
+	public String upgradeStat2(int level) {
+		return Integer.toString(16 + 8*level);
+	}
+
+	@Override
+	public String upgradeStat3(int level) {
+		if (Dungeon.isChallenged(Challenges.NO_ARMOR)){
+			return level + "-" + (2+level);
+		} else {
+			return level + "-" + (3+(3*level));
+		}
+	}
+
 	@Override
 	public void fx(Ballistica bolt, Callback callback) {
 		MagicMissile.boltFromChar(curUser.sprite.parent,
@@ -353,26 +367,32 @@ public class WandOfLivingEarth extends DamageWand {
 
 		@Override
 		public int damageRoll() {
-			return Char.combatRoll(2, 4 + Dungeon.scalingDepth()/2);
+			return Random.NormalIntRange(2, 4 + Dungeon.scalingDepth()/2);
 		}
 
 		@Override
 		public int drRoll() {
 			int dr = super.drRoll();
 			if (Dungeon.isChallenged(Challenges.NO_ARMOR)){
-				return dr + Char.combatRoll(wandLevel, 2 + wandLevel);
+				return dr + Random.NormalIntRange(wandLevel, 2 + wandLevel);
 			} else {
-				return dr + Char.combatRoll(wandLevel, 3 + 3 * wandLevel);
+				return dr + Random.NormalIntRange(wandLevel, 3 + 3 * wandLevel);
 			}
 		}
 
 		@Override
 		public String description() {
-			if (Dungeon.isChallenged(Challenges.NO_ARMOR)){
-				return Messages.get(this, "desc", wandLevel, 2 + wandLevel);
-			} else {
-				return Messages.get(this, "desc", wandLevel, 3 + 3*wandLevel);
+			String desc = Messages.get(this, "desc");
+
+			if (Actor.chars().contains(this)) {
+				if (Dungeon.isChallenged(Challenges.NO_ARMOR)) {
+					desc += "\n\n" + Messages.get(this, "wand_info", wandLevel, 2 + wandLevel);
+				} else {
+					desc += "\n\n" + Messages.get(this, "wand_info", wandLevel, 3 + 3 * wandLevel);
+				}
 			}
+
+			return desc;
 			
 		}
 		

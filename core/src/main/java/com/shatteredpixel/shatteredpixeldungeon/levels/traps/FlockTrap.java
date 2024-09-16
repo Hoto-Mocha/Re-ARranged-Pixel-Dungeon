@@ -27,9 +27,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Bestiary;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.watabou.utils.BArray;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.BArray;
 import com.watabou.utils.PathFinder;
 
 import java.util.ArrayList;
@@ -66,13 +67,15 @@ public class FlockTrap extends Trap {
 				if ((t = Dungeon.level.traps.get(i)) != null && t.active){
 					if (t.disarmedByActivation) t.disarm();
 					t.reveal();
+					Bestiary.setSeen(t.getClass());
+					Bestiary.countEncounter(t.getClass());
 					t.activate();
 				}
 				Dungeon.level.occupyCell(sheep);
-				Sample.INSTANCE.play(Assets.Sounds.PUFF);
-				Sample.INSTANCE.play(Assets.Sounds.SHEEP);
 			}
 		}
+		Sample.INSTANCE.play(Assets.Sounds.PUFF);
+		Sample.INSTANCE.play(Assets.Sounds.SHEEP);
 	}
 
 }
