@@ -851,6 +851,7 @@ public class ItemSpriteSheet {
 	public static final int BLUEPRINT		= NEW_SCROLL+1;
 	static{
 		assignItemRect(SCROLL_PLUS, 15, 14);
+		assignItemRect(BLUEPRINT, 15, 14);
 	}
 
 	private static final int NEW_EXOTIC_SCROLL 	=		xy(1, 38);  //16 slots
