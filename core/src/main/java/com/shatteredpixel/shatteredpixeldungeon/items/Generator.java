@@ -282,6 +282,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSp
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Tomahawk;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.Cross;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
@@ -332,7 +333,8 @@ public class Generator {
 		MIS_T3  ( 0, 0, MissileWeapon.class ),
 		MIS_T4  ( 0, 0, MissileWeapon.class ),
 		MIS_T5  ( 0, 0, MissileWeapon.class ),
-		
+		MIS_SP  ( 0, 0, MissileWeapon.class ),
+
 		WAND	( 1, 1, Wand.class ),
 		SPELLBOOK	( 0, 0, SpellBook.class ),
 		RING	( 1, 0, Ring.class ),
@@ -755,6 +757,12 @@ public class Generator {
 			};
 			MIS_T5.defaultProbs = new float[]{ 3, 3, 3 };
 			MIS_T5.probs = MIS_T5.defaultProbs.clone();
+
+			MIS_SP.classes = new Class<?>[]{
+					Cross.class
+			};
+			MIS_SP.defaultProbs = new float[]{ 0 };
+			MIS_SP.probs = MIS_SP.defaultProbs.clone();
 			
 			FOOD.classes = new Class<?>[]{
 					Food.class,

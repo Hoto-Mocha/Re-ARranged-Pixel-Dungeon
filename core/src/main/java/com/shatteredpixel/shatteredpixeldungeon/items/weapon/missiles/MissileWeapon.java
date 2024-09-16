@@ -522,7 +522,7 @@ abstract public class MissileWeapon extends Weapon {
 			info += " " + Messages.get(this, "unlimited_uses");
 		}
 
-		if (hero.critChance(null, this) > 0) {
+		if (hero != null && hero.critChance(null, this) > 0) {
 			info += "\n\n" + Messages.get(Weapon.class, "critchance", Messages.decimalFormat("#.##", 100*hero.critChance(null, this)));
 		}
 

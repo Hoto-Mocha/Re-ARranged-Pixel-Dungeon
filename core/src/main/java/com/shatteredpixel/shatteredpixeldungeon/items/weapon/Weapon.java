@@ -360,15 +360,17 @@ abstract public class Weapon extends KindOfWeapon {
 	@Override
 	public int buffedLvl() {
 		int lvl;
-		if (isEquipped(Dungeon.hero) || Dungeon.hero.belongings.contains(this)) {
+		if (hero != null && (isEquipped(Dungeon.hero) || Dungeon.hero.belongings.contains(this))) {
 			lvl = super.buffedLvl();
 		} else {
 			lvl = level();
 		}
 
-		WeaponEnhance weaponEnhance = hero.buff(WeaponEnhance.class);
-		if (weaponEnhance != null && isEquipped(hero)) {
-			lvl = weaponEnhance.weaponLevel(lvl);
+		if (hero != null) {
+			WeaponEnhance weaponEnhance = hero.buff(WeaponEnhance.class);
+			if (weaponEnhance != null && isEquipped(hero)) {
+				lvl = weaponEnhance.weaponLevel(lvl);
+			}
 		}
 
 		return lvl;
