@@ -4,10 +4,16 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.audio.Sample;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Pill extends Item {
 
@@ -27,6 +33,15 @@ public class Pill extends Item {
     //the chance (0-1) of whether on-potion talents trigger from this potion
     protected float talentChance = 0.5f;
 
+    protected static final HashSet<Class<?extends Pill>> dangerousPills = new HashSet<>();
+    static {
+        dangerousPills.add(PillOfParalysis.class);
+        dangerousPills.add(PillOfFlame.class);
+        dangerousPills.add(PillOfFrost.class);
+        dangerousPills.add(PillOfToxin.class);
+    }
+
+
     @Override
     public ArrayList<String> actions( Hero hero ) {
         ArrayList<String> actions = super.actions( hero );
@@ -38,7 +53,23 @@ public class Pill extends Item {
     public void execute( Hero hero, String action ) {
         super.execute(hero, action);
         if (action.equals(AC_USE)) {
-            apply(hero);
+            if (dangerousPills.contains(getClass())) {
+                GameScene.show(
+                     new WndOptions(new ItemSprite(this),
+                             Messages.get(Pill.class, "harmful"),
+                             Messages.get(Pill.class, "sure_take"),
+                             Messages.get(Pill.class, "yes"), Messages.get(Pill.class, "no") ) {
+                         @Override
+                         protected void onSelect(int index) {
+                             if (index == 0) {
+                                 apply( hero );
+                             }
+                         }
+                     }
+                );
+            } else {
+                apply(hero);
+            }
         }
     }
 
