@@ -23,8 +23,12 @@ public class SuspiciousKey extends Trinket {
     }
 
     @Override
-    public String desc() {
-        return Messages.get(this, "desc", Messages.decimalFormat("#.#", secretRoomChance(buffedLvl())), (int)(100*doorHideChance(buffedLvl())));
+    public String statsDesc() {
+        if (isIdentified()){
+            return Messages.get(this, "stats_desc", Messages.decimalFormat("#.#", secretRoomChance(buffedLvl())), (int)(100*doorHideChance(buffedLvl())));
+        } else {
+            return Messages.get(this, "typical_stats_desc", Messages.decimalFormat("#.#", secretRoomChance(buffedLvl())), (int)(100*doorHideChance(buffedLvl())));
+        }
     }
 
     public static void initForRun() { //던전을 생성할 때 배열의 값을 결정한다.

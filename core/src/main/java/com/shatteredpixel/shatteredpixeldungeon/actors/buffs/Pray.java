@@ -182,7 +182,7 @@ public class Pray extends Buff implements ActionIndicator.Action {
         }
 
         public void hit(Char enemy, int damage) {
-            enemy.damage(Char.combatRoll(Math.round(damage*0.2f), Math.round(damage*0.6f)), target);
+            enemy.damage(Hero.heroDamageIntRange(Math.round(damage*0.2f), Math.round(damage*0.6f)), target);
             ThunderImbue.thunderEffect(enemy.sprite);
             countUp(1);
             if (count() >= hero.pointsInTalent(Talent.PUNISHMENT)) { //it counts from 0, so the count become +1 after 1 hit

@@ -24,9 +24,9 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invulnerability;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
@@ -57,7 +57,7 @@ public class UnstableAnkh extends ArmorAbility {
 			if (points == 4) duration = 3;
 		}
 
-		Buff.affect(hero, AnkhInvulnerability.class, duration);
+		Buff.prolong(hero, Invulnerability.class, duration);
 
 		if (hero.hasTalent(Talent.COMPLETE_ANKH) && Random.Int(100) < hero.pointsInTalent(Talent.COMPLETE_ANKH)) {
 			Ankh ankh = new Ankh();

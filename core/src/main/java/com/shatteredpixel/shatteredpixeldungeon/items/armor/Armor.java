@@ -401,13 +401,17 @@ public class Armor extends EquipableItem {
 		if (hasGlyph(Afterimage.class, hero)) {
 			upgradefactor --;
 		}
-		if (hero.belongings.getItem(KnightsShield.class) != null && hero.belongings.getItem(KnightsShield.class).hasGlyph(Afterimage.class, hero)){
-			upgradefactor --;
+		if (hero != null) {
+			if (hero.belongings.getItem(KnightsShield.class) != null && hero.belongings.getItem(KnightsShield.class).hasGlyph(Afterimage.class, hero)){
+				upgradefactor --;
+			}
 		}
 		int max;
 		max = (upgradefactor) * (2 + lvl) + augment.defenseFactor(lvl);
-		if (hero.hasTalent(Talent.ARMOR_ADAPTION) && this.STRReq() < hero.STR()) {
-			max += Math.round((hero.STR() - this.STRReq())*(0.5f+0.5f*hero.pointsInTalent(Talent.ARMOR_ADAPTION)));
+		if (hero != null) {
+			if (hero.hasTalent(Talent.ARMOR_ADAPTION) && this.STRReq() < hero.STR()) {
+				max += Math.round((hero.STR() - this.STRReq())*(0.5f+0.5f*hero.pointsInTalent(Talent.ARMOR_ADAPTION)));
+			}
 		}
 		if (lvl > max) {
 			return ((lvl - max) + 1) / 2;

@@ -57,17 +57,9 @@ public class BulletItem extends Item {
 	}
 
 	@Override
-	public boolean collect() {
-		Dungeon.bullet += quantity;
-		updateQuickslot();
-		return true;
-	}
-
-	@Override
 	public boolean doPickUp(Hero hero, int pos) {
 
 		Dungeon.bullet += quantity;
-		//TODO track energy collected maybe? We do already track recipes crafted though..
 
 		GameScene.pickUp( this, pos );
 		hero.sprite.showStatus( 0xFFFFFF, TXT_VALUE, quantity );

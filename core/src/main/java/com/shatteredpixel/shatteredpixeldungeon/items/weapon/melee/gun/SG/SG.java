@@ -1,11 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-
-import java.util.ArrayList;
 
 public class SG extends Gun {
     //근접 시 탄환 명중률이 크게 증가. Hero.attackSkill()참고
@@ -24,10 +20,9 @@ public class SG extends Gun {
     }
 
     @Override
-    public int bulletMax(int lvl) {
+    public int baseBulletMax(int lvl) {
         return  (tier+1) +
-                Math.round(0.5f * lvl * (tier+1)) + //2강 당 2/3/4/5/6 증가
-                RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                Math.round(0.5f * lvl * (tier+1)); //2강 당 2/3/4/5/6 증가
     }
 
     @Override

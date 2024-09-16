@@ -225,7 +225,7 @@ public class WndHeroInfo extends WndTabbed {
 					break;
 				case ADVENTURER:
 					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.MACHETE),
-							new Image(Assets.Environment.TILES_SEWERS, 32, 64, 16, 16),
+							Icons.GRASS.get(),
 							new ItemSprite(ItemSpriteSheet.ADVENTURER_SHOVEL),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;

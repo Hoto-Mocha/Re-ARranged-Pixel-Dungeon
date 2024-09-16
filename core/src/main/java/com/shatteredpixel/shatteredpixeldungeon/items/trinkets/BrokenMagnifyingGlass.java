@@ -15,9 +15,14 @@ public class BrokenMagnifyingGlass extends Trinket {
     }
 
     @Override
-    public String desc() {
-        return Messages.get(this, "desc", (int)(100*doorNoticeChance(buffedLvl())), (int)(100*trapNoticeChance(buffedLvl())));
+    public String statsDesc() {
+        if (isIdentified()){
+            return Messages.get(this, "stats_desc", (int)(100*doorNoticeChance(buffedLvl())), (int)(100*trapNoticeChance(buffedLvl())));
+        } else {
+            return Messages.get(this, "typical_stats_desc", (int)(100*doorNoticeChance(buffedLvl())), (int)(100*trapNoticeChance(buffedLvl())));
+        }
     }
+
 
     public static float trapNoticeChance() {
         return BrokenMagnifyingGlass.trapNoticeChance(trinketLevel(BrokenMagnifyingGlass.class));

@@ -21,8 +21,12 @@ public class PinkGem extends Trinket {
     }
 
     @Override
-    public String desc() {
-        return Messages.get(this, "desc", (int)(100*dropChance(buffedLvl())), ringLevel(buffedLvl()), Messages.decimalFormat("#.#", dropChanceMultiplier(buffedLvl())));
+    public String statsDesc() {
+        if (isIdentified()){
+            return Messages.get(this, "stats_desc", (int)(100*dropChance(buffedLvl())), ringLevel(buffedLvl()), Messages.decimalFormat("#.#", dropChanceMultiplier(buffedLvl())));
+        } else {
+            return Messages.get(this, "typical_stats_desc", (int)(100*dropChance(buffedLvl())), ringLevel(buffedLvl()), Messages.decimalFormat("#.#", dropChanceMultiplier(buffedLvl())));
+        }
     }
 
     public static Item genLoot(){

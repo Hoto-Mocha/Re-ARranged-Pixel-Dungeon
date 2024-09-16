@@ -460,7 +460,7 @@ public class MeleeWeapon extends Weapon {
 			info += "\n\n" + abilityInfo();
 		}
 
-		if (isEquipped(hero) && hero.critChance(null, this) > 0) {
+		if (hero != null && isEquipped(hero) && hero.critChance(null, this) > 0) {
 			info += "\n\n" + Messages.get(Weapon.class, "critchance", Messages.decimalFormat("#.##", 100*hero.critChance(null, this)));
 		}
 		

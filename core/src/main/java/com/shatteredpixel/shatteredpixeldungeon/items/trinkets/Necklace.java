@@ -62,9 +62,21 @@ public class Necklace extends Trinket {
     @Override
     public String desc() {
         if (ring != null) {
-            return Messages.get(this, "desc_ring", buffedLvl(), ring.trueName(), buffedRing(ring).statsInfo());
+            return Messages.get(this, "desc_ring");
         } else {
             return Messages.get(this, "desc");
+        }
+    }
+
+    @Override
+    public String statsDesc() {
+        if (ring == null) {
+            return Messages.get(this, "stats_desc");
+        }
+        if (isIdentified()) {
+            return Messages.get(this, "stats_desc_ring", buffedLvl(), ring.trueName(), buffedRing(ring).statsInfo());
+        } else {
+            return Messages.get(this, "typical_stats_desc_ring", buffedLvl(), ring.trueName(), buffedRing(ring).statsInfo());
         }
     }
 

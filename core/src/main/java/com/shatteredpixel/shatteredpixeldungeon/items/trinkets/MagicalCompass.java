@@ -23,8 +23,12 @@ public class MagicalCompass extends Trinket {
     }
 
     @Override
-    public String desc() {
-        return Messages.get(this, "desc", (int)(100*compassChance(buffedLvl())));
+    public String statsDesc() {
+        if (isIdentified()){
+            return Messages.get(this, "stats_desc", (int)(100*compassChance(buffedLvl())));
+        } else {
+            return Messages.get(this, "typical_stats_desc", (int)(100*compassChance(buffedLvl())));
+        }
     }
 
     public static boolean[] compassed = new boolean[32];

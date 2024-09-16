@@ -5,4 +5,9 @@ public class GrindStone extends Trinket {
     protected int upgradeEnergyCost() {
         return 0;
     }
+
+    @Override
+    public String statsDesc() {
+        return "";
+    }
 }

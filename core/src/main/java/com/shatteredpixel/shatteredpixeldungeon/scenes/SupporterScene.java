@@ -82,7 +82,7 @@ public class SupporterScene extends PixelScene {
 				ShatteredPixelDungeon.platform.openURI(link);
 			}
 		};
-		link.icon(Icons.get(Icons.WARNING));
+		link.icon(Icons.get(Icons.GITHUB));
 		link.textColor(Window.TITLE_COLOR);
 		link.setSize(elementWidth/2-GAP/2, BTN_HEIGHT);
 		add(link);

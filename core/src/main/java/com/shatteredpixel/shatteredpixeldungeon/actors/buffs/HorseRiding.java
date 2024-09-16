@@ -90,7 +90,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
             //The lower the hero's HP, the more bleed and the less upfront damage.
             //Hero has a 50% chance to bleed out at 66% HP, and begins to risk instant-death at 25%
             int bleedAmt = Math.round(target.HT / (6f + (6f*(target.HP/(float)target.HT))) * dmgMulti);
-            int fallDmg = Math.round(Math.max( target.HP / 2, Char.combatRoll( target.HP / 2, target.HT / 4 ))*dmgMulti);
+            int fallDmg = Math.round(Math.max( target.HP / 2, Random.NormalIntRange( target.HP / 2, target.HT / 4 ))*dmgMulti);
             Buff.affect( target, Bleeding.class).set( bleedAmt, RideFall.class);
             target.damage( fallDmg, new RideFall() );
             Buff.affect(target, RidingCooldown.class).set();

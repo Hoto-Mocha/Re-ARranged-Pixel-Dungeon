@@ -119,6 +119,7 @@ public class Badges {
 		BOSS_SLAIN_2                ( 48 ),
 		BOSS_SLAIN_3                ( 49 ),
 		ALL_POTIONS_IDENTIFIED      , //still exists internally for pre-2.5 saves
+		ALL_PILLS_IDENTIFIED      	, //still exists internally for pre-2.5 saves
 		ALL_SCROLLS_IDENTIFIED      , //still exists internally for pre-2.5 saves
 		CATALOG_POTIONS_SCROLLS     ( 50 ),
 		DEATH_FROM_ENEMY_MAGIC      ( 51 ),
@@ -178,6 +179,7 @@ public class Badges {
 		ALL_WEAPONS_IDENTIFIED      , //still exists internally for pre-2.5 saves
 		ALL_ARMOR_IDENTIFIED        , //still exists internally for pre-2.5 saves
 		ALL_WANDS_IDENTIFIED        , //still exists internally for pre-2.5 saves
+		ALL_SPELLBOOKS_IDENTIFIED   , //still exists internally for pre-2.5 saves
 		ALL_ITEMS_IDENTIFIED        , //still exists internally for pre-2.5 saves
 		VICTORY_WARRIOR,
 		VICTORY_MAGE,
@@ -244,8 +246,8 @@ public class Badges {
 		UNLOCK_GUNNER				(136),
 		UNLOCK_SAMURAI				(137),
 		UNLOCK_ADVENTURER			(138),
-		UNLOCK_KNIGHT				(139),
-		UNLOCK_NURSE				(140);
+		UNLOCK_KNIGHT				(139);
+//		UNLOCK_NURSE				(140);
 
 		public boolean meta;
 
@@ -1316,9 +1318,11 @@ public class Badges {
 			{Badge.ALL_WEAPONS_IDENTIFIED, Badge.ALL_ITEMS_IDENTIFIED},
 			{Badge.ALL_ARMOR_IDENTIFIED, Badge.ALL_ITEMS_IDENTIFIED},
 			{Badge.ALL_WANDS_IDENTIFIED, Badge.ALL_ITEMS_IDENTIFIED},
+			{Badge.ALL_SPELLBOOKS_IDENTIFIED, Badge.ALL_ITEMS_IDENTIFIED},
 			{Badge.ALL_RINGS_IDENTIFIED, Badge.ALL_ITEMS_IDENTIFIED},
 			{Badge.ALL_ARTIFACTS_IDENTIFIED, Badge.ALL_ITEMS_IDENTIFIED},
 			{Badge.ALL_POTIONS_IDENTIFIED, Badge.ALL_ITEMS_IDENTIFIED},
+			{Badge.ALL_PILLS_IDENTIFIED, Badge.ALL_ITEMS_IDENTIFIED},
 			{Badge.ALL_SCROLLS_IDENTIFIED, Badge.ALL_ITEMS_IDENTIFIED}
 	};
 	

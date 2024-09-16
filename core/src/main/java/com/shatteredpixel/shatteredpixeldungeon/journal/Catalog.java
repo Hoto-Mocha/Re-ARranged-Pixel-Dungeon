@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.RegrowthBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ShockBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.ShrapnelBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.WoollyBomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Berry;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.ChargrilledMeat;
@@ -82,6 +83,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfFe
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.CeremonialCandle;
@@ -100,17 +102,30 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScrol
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.ElectricityImbue;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireImbueSpell;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireMaker;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.IceMaker;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.RapidGrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableIdentification;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableSpell;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.Xray;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.CorrosiveBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.NaturesBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.TacticalBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.TippedDart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
@@ -130,6 +145,7 @@ public enum Catalog {
 	GLYPHS,
 	THROWN_WEAPONS,
 	WANDS,
+	SPELLBOOKS,
 	RINGS,
 	ARTIFACTS,
 	TRINKETS,
@@ -137,6 +153,7 @@ public enum Catalog {
 
 	//CONSUMABLES
 	POTIONS,
+	PILLS,
 	SEEDS,
 	SCROLLS,
 	STONES,
@@ -216,7 +233,8 @@ public enum Catalog {
 		GLYPHS.addItems(Armor.Glyph.curses);
 
 		WANDS.addItems(Generator.Category.WAND.classes);
-		WANDS.addItems(Generator.Category.SPELLBOOK.classes);
+
+		SPELLBOOKS.addItems(Generator.Category.SPELLBOOK.classes);
 
 		RINGS.addItems(Generator.Category.RING.classes);
 
@@ -224,12 +242,14 @@ public enum Catalog {
 
 		TRINKETS.addItems(Generator.Category.TRINKET.classes);
 
-		MISC_EQUIPMENT.addItems(BrokenSeal.class, SpiritBow.class, Waterskin.class, VelvetPouch.class,
-				PotionBandolier.class, ScrollHolder.class, MagicalHolster.class, Amulet.class);
+		MISC_EQUIPMENT.addItems(BrokenSeal.class, SpiritBow.class, WindBow.class, TacticalBow.class, GoldenBow.class, NaturesBow.class, CorrosiveBow.class, Waterskin.class, VelvetPouch.class,
+				PotionBandolier.class, ScrollHolder.class, MagicalHolster.class, OldAmulet.class, Amulet.class);
 
 
 
 		POTIONS.addItems(Generator.Category.POTION.classes);
+
+		PILLS.addItems(Generator.Category.PILL.classes);
 
 		SCROLLS.addItems(Generator.Category.SCROLL.classes);
 
@@ -253,11 +273,14 @@ public enum Catalog {
 		BREWS_ELIXIRS.addItems( UnstableBrew.class, InfernalBrew.class, BlizzardBrew.class,
 				ShockingBrew.class, CausticBrew.class, AquaBrew.class, ElixirOfHoneyedHealing.class,
 				ElixirOfAquaticRejuvenation.class, ElixirOfArcaneArmor.class, ElixirOfDragonsBlood.class,
-				ElixirOfIcyTouch.class, ElixirOfToxicEssence.class, ElixirOfMight.class, ElixirOfFeatherFall.class);
+				ElixirOfIcyTouch.class, ElixirOfToxicEssence.class, ElixirOfMight.class, ElixirOfFeatherFall.class,
+				ElixirOfTalent.class);
 
 		SPELLS.addItems( UnstableSpell.class, WildEnergy.class, TelekineticGrab.class, PhaseShift.class,
 				Alchemize.class, CurseInfusion.class, MagicalInfusion.class, Recycle.class,
-				ReclaimTrap.class, SummonElemental.class, BeaconOfReturning.class);
+				ReclaimTrap.class, SummonElemental.class, BeaconOfReturning.class,
+				Evolution.class, RapidGrowth.class, IceMaker.class, FireMaker.class, Xray.class,
+				FireImbueSpell.class, ElectricityImbue.class, UnstableIdentification.class);
 
 		MISC_CONSUMABLES.addItems( Gold.class, EnergyCrystal.class, Dewdrop.class,
 				IronKey.class, GoldenKey.class, CrystalKey.class, SkeletonKey.class,
@@ -275,9 +298,11 @@ public enum Catalog {
 		catalogBadges.put(MELEE_WEAPONS, Badges.Badge.ALL_WEAPONS_IDENTIFIED);
 		catalogBadges.put(ARMOR, Badges.Badge.ALL_ARMOR_IDENTIFIED);
 		catalogBadges.put(WANDS, Badges.Badge.ALL_WANDS_IDENTIFIED);
+		catalogBadges.put(SPELLBOOKS, Badges.Badge.ALL_SPELLBOOKS_IDENTIFIED);
 		catalogBadges.put(RINGS, Badges.Badge.ALL_RINGS_IDENTIFIED);
 		catalogBadges.put(ARTIFACTS, Badges.Badge.ALL_ARTIFACTS_IDENTIFIED);
 		catalogBadges.put(POTIONS, Badges.Badge.ALL_POTIONS_IDENTIFIED);
+		catalogBadges.put(PILLS, Badges.Badge.ALL_PILLS_IDENTIFIED);
 		catalogBadges.put(SCROLLS, Badges.Badge.ALL_SCROLLS_IDENTIFIED);
 	}
 
@@ -289,6 +314,7 @@ public enum Catalog {
 		equipmentCatalogs.add(GLYPHS);
 		equipmentCatalogs.add(THROWN_WEAPONS);
 		equipmentCatalogs.add(WANDS);
+		equipmentCatalogs.add(SPELLBOOKS);
 		equipmentCatalogs.add(RINGS);
 		equipmentCatalogs.add(ARTIFACTS);
 		equipmentCatalogs.add(TRINKETS);
@@ -298,6 +324,7 @@ public enum Catalog {
 	public static ArrayList<Catalog> consumableCatalogs = new ArrayList<>();
 	static {
 		consumableCatalogs.add(POTIONS);
+		consumableCatalogs.add(PILLS);
 		consumableCatalogs.add(SCROLLS);
 		consumableCatalogs.add(SEEDS);
 		consumableCatalogs.add(STONES);

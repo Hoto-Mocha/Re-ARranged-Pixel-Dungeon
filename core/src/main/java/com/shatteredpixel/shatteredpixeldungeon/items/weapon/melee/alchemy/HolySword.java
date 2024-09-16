@@ -49,6 +49,7 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
     {
         hitSound = Assets.Sounds.HIT_SLASH;
         hitSoundPitch = 1f;
+        image = ItemSpriteSheet.HOLYSWORD;
 
         tier = 7;
     }

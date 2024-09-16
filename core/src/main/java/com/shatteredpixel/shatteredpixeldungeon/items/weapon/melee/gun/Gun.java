@@ -401,7 +401,9 @@ public class Gun extends MeleeWeapon {
 
 		amount = this.magazineMod.magazineFactor(amount);
 
-		amount += hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+		if (hero != null) {
+			amount += hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+		}
 
 		return amount;
 	}
@@ -419,7 +421,7 @@ public class Gun extends MeleeWeapon {
 
 		amount = this.magazineMod.reloadTimeFactor(amount);
 
-		if (user == hero) {
+		if (hero != null && user == hero) {
 			amount -= hero.pointsInTalent(Talent.FAST_RELOAD);
 			if (((Hero)user).heroClass == HeroClass.GUNNER) {
 				amount -= 1;
@@ -456,33 +458,54 @@ public class Gun extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		int damage = 3*(tier()+1) +
-					 lvl*(tier()+1) +
-					 Dungeon.hero.pointsInTalent(Talent.CLOSE_COMBAT); //근접 무기로서의 최대 데미지
+		int damage;
+		if (Dungeon.hero != null) {
+			damage = 3*(tier()+1) +
+					lvl*(tier()+1) +
+					Dungeon.hero.pointsInTalent(Talent.CLOSE_COMBAT); //근접 무기로서의 최대 데미지
+		} else {
+			damage = 3*(tier()+1) +
+					lvl*(tier()+1);
+		}
 		return damage;
 
 	}
 
-	public int bulletMin(int lvl) {
-		return tier() +
-				lvl +
-				RingOfSharpshooting.levelDamageBonus(hero);
+	protected int bulletMin(int lvl) {
+		if (Dungeon.hero != null) {
+			return tier() +
+					lvl +
+					RingOfSharpshooting.levelDamageBonus(hero);
+		} else {
+			return tier() +
+					lvl;
+		}
+
 	}
 
-	public int bulletMin() {
+	protected int bulletMin() {
 		return bulletMin(this.buffedLvl());
 	}
 
 	//need to be overridden
-	public int bulletMax(int lvl) {
-		return 0; //총알의 최대 데미지
+	protected int baseBulletMax(int lvl) {
+		return 0;
 	}
 
-	public int bulletMax() {
+	protected int bulletMax(int lvl) {
+		if (Dungeon.hero != null) {
+			return baseBulletMax(lvl) +
+					RingOfSharpshooting.levelDamageBonus(hero);
+		} else {
+			return baseBulletMax(lvl);
+		}
+	}
+
+	protected int bulletMax() {
 		return bulletMax(this.buffedLvl());
 	}
 
-	public int bulletDamage() {
+	protected int bulletDamage() {
 		int damage = Random.NormalIntRange(bulletMin(), bulletMax());
 
 		damage = augment.damageFactor(damage);  //증강에 따라 변화하는 효과

@@ -87,7 +87,7 @@ public class ThunderImbue extends Buff {
 	}
 
 	public void proc(Char enemy, int damage){
-		enemy.damage(Char.combatRoll(Math.round(damage*0.2f), Math.round(damage*0.6f)), target);
+		enemy.damage(Hero.heroDamageIntRange(Math.round(damage*0.2f), Math.round(damage*0.6f)), target);
 		thunderEffect(enemy.sprite);
 	}
 

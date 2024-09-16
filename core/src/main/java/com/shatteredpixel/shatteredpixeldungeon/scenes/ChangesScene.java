@@ -80,7 +80,7 @@ public class ChangesScene extends PixelScene {
 				ShatteredPixelDungeon.platform.openURI(link);
 			}
 		};
-		link.icon(Icons.get(Icons.CHANGES));
+		link.icon(Icons.get(Icons.GITHUB));
 		link.textColor(Window.TITLE_COLOR);
 		link.setSize(elementWidth, BTN_HEIGHT);
 		add(link);

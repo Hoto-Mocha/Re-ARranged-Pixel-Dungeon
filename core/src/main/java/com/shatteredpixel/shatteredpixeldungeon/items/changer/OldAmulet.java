@@ -105,7 +105,7 @@ public class OldAmulet extends Item {
     public String desc() {
         String desc = super.desc();
 
-        if (Dungeon.hero.buff(TempleCurse.class) != null) {
+        if (Dungeon.hero != null && Dungeon.hero.buff(TempleCurse.class) != null) {
             desc += "\n\n" + Messages.get(this, "cannot_use");
         }
 

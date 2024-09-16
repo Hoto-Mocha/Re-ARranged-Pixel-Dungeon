@@ -33,8 +33,12 @@ public class CrystalBall extends Trinket {
     }
 
     @Override
-    public String desc() {
-        return Messages.get(this, "desc", new DecimalFormat("#.##").format(100*itemVisionChance(buffedLvl())), new DecimalFormat("#.##").format(100*mappingChance(buffedLvl())));
+    public String statsDesc() {
+        if (isIdentified()){
+            return Messages.get(this, "stats_desc", new DecimalFormat("#.##").format(100*itemVisionChance(buffedLvl())), new DecimalFormat("#.##").format(100*mappingChance(buffedLvl())));
+        } else {
+            return Messages.get(this, "typical_stats_desc", new DecimalFormat("#.##").format(100*itemVisionChance(buffedLvl())), new DecimalFormat("#.##").format(100*mappingChance(buffedLvl())));
+        }
     }
 
     public static boolean[] visited = new boolean[32];

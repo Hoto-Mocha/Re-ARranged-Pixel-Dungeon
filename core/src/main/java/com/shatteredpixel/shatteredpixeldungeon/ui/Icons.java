@@ -44,6 +44,7 @@ public enum Icons {
 	SHPX,
 	ARRANGED,
 	DISCORD,
+	GITHUB,
 	JOURNAL,
 
 	//grey icons, mainly used for buttons, spacing for 16x16
@@ -174,10 +175,13 @@ public enum Icons {
 				icon.frame( icon.texture.uvRectBySize( 119, 0, 16, 16 ) );
 				break;
 			case ARRANGED:
-				icon.frame( icon.texture.uvRectBySize( 144, 0, 15, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 48, 128, 15, 16 ) );
 				break;
 			case DISCORD:
-				icon.frame( icon.texture.uvRectBySize( 160, 0, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 64, 128, 16, 16 ) );
+				break;
+			case GITHUB:
+				icon.frame( icon.texture.uvRectBySize( 80, 128, 16, 16 ) );
 				break;
 			case JOURNAL:
 				icon.frame( icon.texture.uvRectBySize( 136, 0, 17, 15 ) );
