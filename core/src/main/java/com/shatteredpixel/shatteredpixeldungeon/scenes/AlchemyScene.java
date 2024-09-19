@@ -109,6 +109,7 @@ public class AlchemyScene extends PixelScene {
 	private boolean energyAddBlinking = false;
 
 	private static boolean splitAlchGuide = false;
+	private WndJournal.AlchemyTab alchGuide = null;
 	private static int centerW;
 
 	private static final int BTN_SIZE	= 28;
@@ -192,7 +193,7 @@ public class AlchemyScene extends PixelScene {
 			guideBG.x = Camera.main.width - left - guideBG.width();
 			add(guideBG);
 
-			WndJournal.AlchemyTab alchGuide = new WndJournal.AlchemyTab();
+			alchGuide = new WndJournal.AlchemyTab();
 			add(alchGuide);
 			alchGuide.setRect(guideBG.x + guideBG.marginLeft(),
 					guideBG.y + guideBG.marginTop(),
@@ -650,6 +651,10 @@ public class AlchemyScene extends PixelScene {
 
 		energyAddBlinking = promptToAddEnergy;
 
+		if (alchGuide != null){
+			alchGuide.updateList();
+		}
+
 	}
 	
 	private void combine( int slot ){
@@ -722,6 +727,10 @@ public class AlchemyScene extends PixelScene {
 					break;
 				}
 			}
+		}
+
+		if (alchGuide != null){
+			alchGuide.updateList();
 		}
 	}
 
@@ -821,6 +830,9 @@ public class AlchemyScene extends PixelScene {
 		}
 		cancel.enable(false);
 		repeat.enable(lastRecipe != null);
+		if (alchGuide != null){
+			alchGuide.updateList();
+		}
 	}
 
 	public void createEnergy(){

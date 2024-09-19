@@ -81,7 +81,7 @@ public class ShardOfOblivion extends Trinket {
 			curItem = this;
 			GameScene.selectItem(identifySelector);
 		} else {
-			super.execute(hero);
+			super.execute(hero, action);
 		}
 	}
 
@@ -185,7 +185,7 @@ public class ShardOfOblivion extends Trinket {
 		}
 
 		wornUnIDed = Math.min(wornUnIDed, level+1);
-		return 1f + .125f*wornUnIDed;
+		return 1f + .2f*wornUnIDed;
 
 	}
 }

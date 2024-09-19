@@ -659,10 +659,13 @@ public class GameScene extends PixelScene {
 			if (Document.ADVENTURERS_GUIDE.isPageFound(Document.GUIDE_INTRO)){
 				GameScene.flashForDocument(Document.ADVENTURERS_GUIDE, Document.GUIDE_INTRO);
 			} else if (ControllerHandler.isControllerConnected()) {
+				GameLog.wipe();
 				GLog.p(Messages.get(GameScene.class, "tutorial_move_controller"));
 			} else if (SPDSettings.interfaceSize() == 0) {
+				GameLog.wipe();
 				GLog.p(Messages.get(GameScene.class, "tutorial_move_mobile"));
 			} else {
+				GameLog.wipe();
 				GLog.p(Messages.get(GameScene.class, "tutorial_move_desktop"));
 			}
 			toolbar.visible = toolbar.active = false;
@@ -1395,7 +1398,7 @@ public class GameScene extends PixelScene {
 		if (scene != null) {
 			for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
 				if (mob.sprite != null) {
-					if (mob instanceof Mimic && mob.state == mob.PASSIVE && ((Mimic) mob).stealthy() &&  mob.sprite.visible){
+					if (mob instanceof Mimic && mob.state == mob.PASSIVE && ((Mimic) mob).stealthy() && Dungeon.level.visited[mob.pos]){
 						//mimics stay visible in fog of war after being first seen
 						mob.sprite.visible = true;
 					} else {
