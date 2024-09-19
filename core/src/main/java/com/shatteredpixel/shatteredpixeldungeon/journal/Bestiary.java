@@ -159,6 +159,7 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Stormvine;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.DeviceCompat;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -286,6 +287,7 @@ public enum Bestiary {
 	}
 
 	public static boolean isSeen(Class<?> cls){
+		if (DeviceCompat.isDebug()) return true;
 		for (Bestiary cat : values()) {
 			if (cat.seen.containsKey(cls)) {
 				return cat.seen.get(cls);

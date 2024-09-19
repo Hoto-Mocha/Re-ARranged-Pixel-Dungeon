@@ -133,6 +133,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.TippedDart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.DeviceCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -347,6 +348,7 @@ public enum Catalog {
 	}
 	
 	public static boolean isSeen(Class<?> cls){
+		if (DeviceCompat.isDebug()) return true;
 		for (Catalog cat : values()) {
 			if (cat.seen.containsKey(cls)) {
 				return cat.seen.get(cls);
