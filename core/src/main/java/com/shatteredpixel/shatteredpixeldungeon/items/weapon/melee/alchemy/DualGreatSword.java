@@ -52,7 +52,11 @@ public class DualGreatSword extends MeleeWeapon implements AlchemyWeapon {
 
 	@Override
 	public int STRReq(int lvl) {
-		return STRReq(8, lvl); //base 24
+		int req = STRReq(tier+2, lvl); //base 24
+		if (masteryPotionBonus){
+			req -= 2;
+		}
+		return req;
 	}
 
 	@Override

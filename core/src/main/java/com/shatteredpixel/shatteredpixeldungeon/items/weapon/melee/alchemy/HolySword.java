@@ -84,7 +84,7 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
 
     @Override
     public int max(int lvl) {
-        if (Dungeon.hero.STR() >= this.STRReq()) {
+        if (Dungeon.hero != null && Dungeon.hero.STR() >= this.STRReq()) {
             return  8*(tier+1) +
                     lvl*(tier+1);
         } else {
@@ -95,7 +95,7 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
 
     @Override
     public String desc() {
-        if (Dungeon.hero.STR() >= this.STRReq()) {
+        if (Dungeon.hero != null && Dungeon.hero.STR() >= this.STRReq()) {
             return Messages.get(this, "true_desc");
         } else {
             return Messages.get(this, "normal_desc");
@@ -145,7 +145,11 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
 
     @Override
     public int STRReq(int lvl) {
-        return 24;
+        int req = 24; //base 24, cannot be reduced from upgrades
+        if (masteryPotionBonus){
+            req -= 2;
+        }
+        return req;
     }
 
     @Override
