@@ -54,7 +54,7 @@ public class BookOfLight extends SpellBook {
     @Override
     public String info() {
         String info = super.info();
-        if (Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
+        if (Dungeon.hero != null && Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
             info += "\n\n" + Messages.get(this, "time",
                     new DecimalFormat("#").format(50*(1 + 0.5f * Dungeon.hero.pointsInTalent(Talent.SPELL_ENHANCE))),
                     new DecimalFormat("#").format((2+(int)Math.floor(Dungeon.hero.lvl/6f)*(1+0.5f*Dungeon.hero.pointsInTalent(Talent.SPELL_ENHANCE)))));

@@ -53,7 +53,7 @@ public class BookOfTransfusion extends SpellBook {
     @Override
     public String info() {
         String info = super.info();
-        if (Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
+        if (Dungeon.hero != null && Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
             info += "\n\n" + Messages.get(this, "time",
                     3+hero.lvl/5,
                     Math.round(5+Dungeon.scalingDepth()/2f),

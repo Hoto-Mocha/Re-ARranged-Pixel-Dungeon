@@ -40,7 +40,7 @@ public class BookOfFrost extends SpellBook {
     @Override
     public String info() {
         String info = super.info();
-        if (Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
+        if (Dungeon.hero != null && Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
             info += "\n\n" + Messages.get(this, "time", 5+Math.round(Dungeon.hero.lvl/2f*(1 + 0.5f*Dungeon.hero.pointsInTalent(Talent.SPELL_ENHANCE))));
         }
         return info;

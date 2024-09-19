@@ -127,7 +127,7 @@ public class SeedFinder {
 
 		for (int i = Random.Int(9999999); i < DungeonSeed.TOTAL_SEEDS && findingStatus == FINDING.CONTINUE ; i++) {
 			if (testSeedALL(seedDigits + i, floor)) {
-				result = logSeedItems(seedDigits + Integer.toString(i), floor);
+				result = logSeedItems(seedDigits + i, floor);
 				break;
 			}
 		}
@@ -385,8 +385,7 @@ public class SeedFinder {
 		return false;
 	}
 
-	private static boolean areAllTrue(boolean[] array)
-	{
+	private static boolean areAllTrue(boolean[] array) {
 		for(boolean b : array) if(!b) return false;
 		return true;
 	}

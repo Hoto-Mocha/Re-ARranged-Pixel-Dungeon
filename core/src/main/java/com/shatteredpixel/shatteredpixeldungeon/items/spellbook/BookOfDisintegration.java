@@ -42,7 +42,7 @@ public class BookOfDisintegration extends SpellBook {
     @Override
     public String info() {
         String info = super.info();
-        if (Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
+        if (Dungeon.hero != null && Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
             info += "\n\n" + Messages.get(this, "time", Math.round(10*(1 + 0.5f*Dungeon.hero.pointsInTalent(Talent.SPELL_ENHANCE))), 1+Dungeon.hero.lvl/6);
         }
         return info;

@@ -59,7 +59,7 @@ public class BookOfRegrowth extends SpellBook {
     @Override
     public String info() {
         String info = super.info();
-        if (Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
+        if (Dungeon.hero != null && Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
             info += "\n\n" + Messages.get(this, "time",
                     5,
                     new DecimalFormat("#.##").format(100*((0.1f+0.01f*hero.lvl)*(1+0.5f*hero.pointsInTalent(Talent.SPELL_ENHANCE)))));

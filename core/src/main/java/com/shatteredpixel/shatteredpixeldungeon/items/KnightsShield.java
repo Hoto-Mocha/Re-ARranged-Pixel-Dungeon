@@ -59,7 +59,10 @@ public class KnightsShield extends Item {
 
     @Override
     public String info() {
-        String info = Messages.get(this, "desc", this.defenseFactor());
+        String info = Messages.get(this, "desc");
+        if (Dungeon.hero != null) {
+            info += "\n\n" + Messages.get(this, "stats_desc", this.defenseFactor());
+        }
         if (glyph != null) {
             info += "\n\n" +  Messages.capitalize(Messages.get(Armor.class, "inscribed", glyph.name()));
             info += " " + glyph.desc();
@@ -139,7 +142,7 @@ public class KnightsShield extends Item {
 
     public int defenseFactor() {
         int additionalArmor = 2*(1+buffedLvl());
-        if (Dungeon.hero.hasTalent(Talent.HARD_SHIELD)) {
+        if (Dungeon.hero != null && Dungeon.hero.hasTalent(Talent.HARD_SHIELD)) {
             additionalArmor += 2*Dungeon.hero.pointsInTalent(Talent.HARD_SHIELD);
         }
         return additionalArmor;
