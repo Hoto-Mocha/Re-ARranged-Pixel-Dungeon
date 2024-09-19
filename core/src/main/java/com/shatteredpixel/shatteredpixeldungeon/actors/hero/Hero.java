@@ -201,6 +201,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG.SG;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
@@ -2267,7 +2268,7 @@ public class Hero extends Char {
 			}
 
 			if (newEnemy != null) {
-				if (wep instanceof MissileWeapon) {
+				if (wep instanceof MissileWeapon && !(wep instanceof DisposableMissileWeapon)) {
 					if (((MissileWeapon)wep).durabilityLeft() > 0) {
 						Dungeon.level.drop(wep, enemy.pos).sprite.drop();
 					}
