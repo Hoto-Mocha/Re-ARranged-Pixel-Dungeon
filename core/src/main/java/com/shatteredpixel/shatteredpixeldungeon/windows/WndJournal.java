@@ -353,7 +353,7 @@ public class WndJournal extends WndTabbed {
 					if (i == 4){
 						y += ITEM_HEIGHT;
 						x = 0;
-						buttonWidth = width()/4;
+						buttonWidth = width()/5;
 					}
 				}
 			}
