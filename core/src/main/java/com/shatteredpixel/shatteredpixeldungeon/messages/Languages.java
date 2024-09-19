@@ -44,19 +44,11 @@ public enum Languages {
 	DUTCH("nederlands",     "nl", Status.O_COMPLETE, new String[]{"AlbertBrand", "Mvharen"}, new String[]{"AvanLieshout", "Blokheck011", "Frankwert", "Gehenna", "Valco", "ZephyrZodiac", "link200023", "rmw", "th3f4llenh0rr0r"}),
 	//FINNISH("suomi", 		"fi", Status.X_UNFIN, new String[]{"TenguKnight"}, new String[]{"Allugaattori10", "Dakkus", "Jaskas123", "MailBoxGod", "Oftox", "Sautari", "Tikkari"} ),
 	GREEK("ελληνικά",       "el", Status.X_UNFINISH, new String[]{"Aeonius", "Saxy"}, new String[]{"DU_Clouds", "VasKyr", "YiorgosH", "fr3sh", "stefboi", "toumbo", "val.exe"}),
-<<<<<<< HEAD
-	BELARUSIAN("беларуская","be", Status.X_UNFINISH, new String[]{"AprilRain(Vadzim Navumaû)"}, new String[]{"4ebotar"});
-	//CATALAN("català",     "ca", Status.X_UNFINISH, new String[]{"Illyatwo2"}, new String[]{"Elosy", "n1ngu"})
-	//GALICIAN("galego",    "gl", Status.X_UNFINISH, new String[]{"xecarballido"}, null),
-	//BASQUE("euskara",     "eu", Status.X_UNFINISH, new String[]{"Deathrevenge", "Osoitz"}, null),
-	//ESPERANTO("esperanto","eo", Status.X_UNFINISH, new String[]{"Verdulo"}, new String[]{"Raizin"});
-=======
 	BELARUSIAN("беларуская","be", Status.X_UNFINISH, new String[]{"AprilRain(Vadzim Navumaû)"}, new String[]{"4ebotar"}),
 	//CATALAN("català",     "ca", Status.X_UNFIN, new String[]{"Illyatwo2"}, new String[]{"Elosy", "n1ngu"})
 	//GALICIAN("galego",    "gl", Status.X_UNFIN, new String[]{"xecarballido"}, null),
 	//BASQUE("euskara",     "eu", Status.X_UNFIN, new String[]{"Deathrevenge", "Osoitz"}, null),
 	ESPERANTO("esperanto",  "eo", Status.__UNREVIEW, new String[]{"Verdulo"}, new String[]{"Raizin"});
->>>>>>> a6b20c5c053a3045d8e885903a861dd304f943e6
 
 	public enum Status{
 		//below 80% translated languages are not added or removed
