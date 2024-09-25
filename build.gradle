@@ -22,8 +22,8 @@ allprojects {
 
         appVersionCode = 797
         appVersionName = '2.5.2'
-        appVersionCode += 31
-        appVersionName += '_based_3.15.1'
+        appVersionCode += 32
+        appVersionName += '_based_3.16.0'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
