@@ -36,7 +36,7 @@ public class EnhancedRings extends FlavourBuff {
 
 	@Override
 	public boolean attachTo(Char target) {
-		if (super.attachTo(target)){
+		if (target != null && super.attachTo(target)){
 			if (target instanceof Hero) ((Hero) target).updateHT(false);
 			return true;
 		}
