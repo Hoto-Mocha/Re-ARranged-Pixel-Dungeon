@@ -113,7 +113,8 @@ public class Teleporter extends Item {
                 UpgradeDust.class,
                 TrinketCatalyst.class,
                 MetalShard.class,
-                GooBlob.class
+                GooBlob.class,
+                GunSmithingTool.class
         );
         Collections.addAll(itemClass, Generator.Category.TRINKET.classes);
     }
