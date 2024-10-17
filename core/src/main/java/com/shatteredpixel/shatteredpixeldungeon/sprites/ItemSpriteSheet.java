@@ -188,8 +188,8 @@ public class ItemSpriteSheet {
 	public static final int FIRE_BOMB       = BOMBS+2;
 	public static final int FROST_BOMB      = BOMBS+3;
 	public static final int REGROWTH_BOMB   = BOMBS+4;
-	public static final int FLASHBANG       = BOMBS+5;
-	public static final int SHOCK_BOMB      = BOMBS+6;
+	public static final int SMOKE_BOMB      = BOMBS+5;
+	public static final int FLASHBANG       = BOMBS+6;
 	public static final int HOLY_BOMB       = BOMBS+7;
 	public static final int WOOLY_BOMB      = BOMBS+8;
 	public static final int NOISEMAKER      = BOMBS+9;
@@ -202,8 +202,8 @@ public class ItemSpriteSheet {
 		assignItemRect(FIRE_BOMB,       13, 12);
 		assignItemRect(FROST_BOMB,      13, 12);
 		assignItemRect(REGROWTH_BOMB,   13, 12);
-		assignItemRect(FLASHBANG,       13, 12);
-		assignItemRect(SHOCK_BOMB,      10, 13);
+		assignItemRect(SMOKE_BOMB,      13, 12);
+		assignItemRect(FLASHBANG,       10, 13);
 		assignItemRect(HOLY_BOMB,       10, 13);
 		assignItemRect(WOOLY_BOMB,      10, 13);
 		assignItemRect(NOISEMAKER,      10, 13);
@@ -556,7 +556,7 @@ public class ItemSpriteSheet {
 	public static final int STONE_BLINK         = STONES+4;
 	public static final int STONE_CLAIRVOYANCE  = STONES+5;
 	public static final int STONE_SLEEP         = STONES+6;
-	public static final int STONE_DISARM        = STONES+7;
+	public static final int STONE_DETECT        = STONES+7;
 	public static final int STONE_ENCHANT       = STONES+8;
 	public static final int STONE_FLOCK         = STONES+9;
 	public static final int STONE_INTUITION     = STONES+10;
