@@ -749,7 +749,8 @@ public class DriedRose extends Artifact {
 
 		@Override
 		public boolean attack(Char enemy, float dmgMulti, float dmgBonus, float accMulti) {
-			if (nextBullet != null && ((Gun) rose.ghostWeapon()).shotPerShoot() > 1) {
+			//nextBullet != null이면 rose.ghostWeapon()은 항상 Gun인데 왜인지 모르게 ClassCastException이 떠서 일단 인스턴스 확인 조건 추가함
+			if (nextBullet != null && rose.ghostWeapon() instanceof Gun && ((Gun) rose.ghostWeapon()).shotPerShoot() > 1) {
 				for (int i = 0; i < ((Gun) rose.ghostWeapon()).shotPerShoot() - 1; i++) { //이 코드는 한 발에 여러 번 타격하는 총기에 한해서 발동할 것
 					super.attack(enemy, dmgMulti, dmgBonus, accMulti);
 				}
