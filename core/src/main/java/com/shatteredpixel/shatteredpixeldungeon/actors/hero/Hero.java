@@ -330,8 +330,8 @@ public class Hero extends Char {
 			HT += buff(ElixirOfTalent.ElixirOfTalentHTBoost.class).boost();
 		}
 
-		if (hero.buff(DeathSword.MaxHPBoost.class) != null) {
-			HT += hero.buff(DeathSword.MaxHPBoost.class).HTBonus();
+		if (buff(DeathSword.MaxHPBoost.class) != null) {
+			HT += buff(DeathSword.MaxHPBoost.class).HTBonus();
 		}
 		
 		if (boostHP){
