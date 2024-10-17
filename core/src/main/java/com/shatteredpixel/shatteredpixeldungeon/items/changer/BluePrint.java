@@ -59,6 +59,7 @@ public class BluePrint extends Item {
         image = ItemSpriteSheet.BLUEPRINT;
         defaultAction = AC_USE;
         stackable = false;
+        levelKnown = true;
 
         unique = true;
         bones = false;
@@ -155,11 +156,11 @@ public class BluePrint extends Item {
             desc += "\n\n" + Messages.get(this, "item_desc",
                     newWeapon.tier,
                     newWeapon.trueName(),
-                    Math.min(100, 100-20*(newWeapon.tier-1)),
-                    Math.min(100, 100-20*(newWeapon.tier-2)),
-                    Math.min(100, 100-20*(newWeapon.tier-3)),
-                    Math.min(100, 100-20*(newWeapon.tier-4)),
-                    Math.min(100, 100-20*(newWeapon.tier-5)));
+                    Math.min(100, 100-20*(newWeapon.tier-1)+10*this.level()),
+                    Math.min(100, 100-20*(newWeapon.tier-2)+10*this.level()),
+                    Math.min(100, 100-20*(newWeapon.tier-3)+10*this.level()),
+                    Math.min(100, 100-20*(newWeapon.tier-4)+10*this.level()),
+                    Math.min(100, 100-20*(newWeapon.tier-5)+10*this.level()));
         }
 
         return desc;
@@ -168,7 +169,9 @@ public class BluePrint extends Item {
     protected void onItemSelected(Item item) {
         Item result = null;
 
-        if ((Random.Float() < 1-0.2f*(((MeleeWeapon)changeItem(item)).tier-((MeleeWeapon)item).tier)) || DeviceCompat.isDebug()) {
+        float chance = 1-0.2f*(((MeleeWeapon)changeItem(item)).tier-((MeleeWeapon)item).tier)+0.1f*this.level();
+
+        if (Random.Float() < chance || DeviceCompat.isDebug()) {
             result = changeItem(item);
         }
 
@@ -215,7 +218,7 @@ public class BluePrint extends Item {
 
     @Override
     public boolean isUpgradable() {
-        return false;
+        return true;
     }
 
     @Override

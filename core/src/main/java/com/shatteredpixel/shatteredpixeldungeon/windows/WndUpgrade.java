@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.changer.BluePrint;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
@@ -312,6 +313,13 @@ public class WndUpgrade extends Window {
 							bottom);
 				}
 			}
+		}
+
+		if (toUpgrade instanceof BluePrint) {
+			bottom = fillFields(Messages.get(this, "chance_bonus"),
+					"+"+Math.min(100, 10*levelFrom)+"%",
+					"+"+Math.min(100, 10*levelTo)+"%",
+					bottom);
 		}
 
 		//visual separators for each column
