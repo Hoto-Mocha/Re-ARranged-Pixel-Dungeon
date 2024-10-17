@@ -12,8 +12,8 @@ public class AR extends Gun {
 
     @Override
     public int baseBulletMax(int lvl) {
-        return 4 * (tier + 1) +
-                lvl * (tier + 1);
+        return 4 * (tier() + 1) +
+                lvl * (tier() + 1);
     }
 
     @Override

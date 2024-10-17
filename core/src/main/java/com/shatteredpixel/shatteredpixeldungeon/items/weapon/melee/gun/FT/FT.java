@@ -34,8 +34,8 @@ public class FT extends Gun {
 
     @Override
     public int baseBulletMax(int lvl) {
-        return 3 * (tier + 1) +
-                lvl * (tier + 1);
+        return 3 * (tier() + 1) +
+                lvl * (tier() + 1);
     }
 
     @Override
