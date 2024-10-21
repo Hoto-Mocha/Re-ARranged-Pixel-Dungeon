@@ -912,7 +912,7 @@ public abstract class Mob extends Char {
 			}
 
 			if (hero.hasTalent(Talent.ADRENALINE_SURGE)) {
-				Buff.prolong(hero, Adrenaline.class, 1+hero.pointsInTalent(Talent.ADRENALINE_SURGE));
+				Buff.prolong(hero, Adrenaline.class, 1+2*hero.pointsInTalent(Talent.ADRENALINE_SURGE));
 			}
 
 			if (hero.hasTalent(Talent.PRAY_FOR_DEAD)) {
@@ -921,6 +921,10 @@ public abstract class Mob extends Char {
 
 			if (hero.buff(HorseRiding.RidingCooldown.class) != null && (Dungeon.hero.lvl <= maxLvl + 2 || Dungeon.hero.buff(AscensionChallenge.class) != null)) {
 				hero.buff(HorseRiding.RidingCooldown.class).kill();
+			}
+
+			if (hero.hasTalent(Talent.KINETIC_BATTLE)) {
+				Buff.affect(hero, Talent.KineticBattle.class).set();
 			}
 
 			Saddle.kill(this);

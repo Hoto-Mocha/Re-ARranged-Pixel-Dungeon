@@ -419,7 +419,7 @@ public enum Talent {
 	MASTERS_INTUITION			(1, 7),	//총기를 제외한 근접 무기 장착 시 즉시 감정/총기를 제외한 근접 무기 획득 시 저주 여부 감정
 	DRAWING_ENHANCE				(2, 7),	//발도술 공격이 2/3의 추가 피해를 입힘
 	PARRING						(3, 7),	//방어력 0-2/0-3 증가
-	ADRENALINE_SURGE			(4, 7),	//적 처치 시 2/3턴의 아드레날린 획득
+	ADRENALINE_SURGE			(4, 7),	//적 처치 시 3/5턴의 아드레날린 획득
 	//Samurai T2
 	CRITICAL_MEAL				(5, 7),	//식사에 1턴만 소모, 식사 시 다음 1/2회의 물리 공격에 반드시 치명타 발생
 	INSCRIBED_LETHALITY			(6, 7),	//주문서 사용 시 다음 1/2회의 물리 공격에 반드시 치명타 발생
@@ -1799,10 +1799,6 @@ public enum Talent {
 					hero.buff(Talent.LethalCooldown.class).spendTime();
 				}
 			}
-		}
-
-		if (hero.hasTalent(Talent.KINETIC_BATTLE)) {
-			Buff.affect(hero, Talent.KineticBattle.class).set();
 		}
 
 		if (hero.hasTalent(Talent.WAR_CRY) && enemy.buff(WarCryTracker.class) == null) {
