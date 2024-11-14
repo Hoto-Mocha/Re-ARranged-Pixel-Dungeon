@@ -18,6 +18,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.levels.features.HighGrass;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -109,14 +110,17 @@ public class Machete extends MeleeWeapon {
                 Ballistica.STOP_TARGET | Ballistica.STOP_SOLID | Ballistica.IGNORE_SOFT_SOLID);
 
         int count = 0;
-        for (int cells : cone.cells){
-            if (Dungeon.level.map[cells] == Terrain.HIGH_GRASS || Dungeon.level.map[cells] == Terrain.FURROWED_GRASS) {
-                Level.set(cells, Terrain.GRASS);
-                GameScene.updateMap(cells);
-                CellEmitter.get(cells).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+        for (int cell : cone.cells){
+            if (Dungeon.level.map[cell] == Terrain.HIGH_GRASS || Dungeon.level.map[cell] == Terrain.FURROWED_GRASS) {
+                if (Dungeon.level.map[cell] == Terrain.HIGH_GRASS) {
+                    Dungeon.level.pressCell(cell);
+                }
+                Level.set(cell, Terrain.GRASS);
+                GameScene.updateMap(cell);
+                CellEmitter.get(cell).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
                 float chance = 0.33f;
                 if (hero.hasTalent(Talent.ROPE_COLLECTOR)) {
-                    chance *= 1+0.2f*hero.pointsInTalent(Talent.ROPE_COLLECTOR);
+                    chance *= 1+0.2f * hero.pointsInTalent(Talent.ROPE_COLLECTOR);
                 }
                 if (Random.Float() < chance) {
                     count ++;
