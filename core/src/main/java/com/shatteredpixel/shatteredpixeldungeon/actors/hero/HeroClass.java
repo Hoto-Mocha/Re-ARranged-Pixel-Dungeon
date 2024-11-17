@@ -122,8 +122,8 @@ public enum HeroClass {
 	GUNNER( HeroSubClass.OUTLAW, HeroSubClass.GUNSLINGER, HeroSubClass.SPECIALIST ),
 	SAMURAI( HeroSubClass.SLASHER, HeroSubClass.MASTER, HeroSubClass.SLAYER ),
 	ADVENTURER( HeroSubClass.ENGINEER, HeroSubClass.EXPLORER, HeroSubClass.RESEARCHER ),
-	KNIGHT( HeroSubClass.DEATHKNIGHT, HeroSubClass.HORSEMAN, HeroSubClass.CRUSADER);
-//	NURSE( HeroSubClass.MEDIC, HeroSubClass.ANGEL, HeroSubClass.SURGEON );
+	KNIGHT( HeroSubClass.DEATHKNIGHT, HeroSubClass.HORSEMAN, HeroSubClass.CRUSADER),
+	MEDIC( HeroSubClass.SAVIOR, HeroSubClass.THERAPIST, HeroSubClass.MEDICALOFFICER );
 
 	private HeroSubClass[] subClasses;
 
@@ -210,6 +210,10 @@ public enum HeroClass {
 
 			case KNIGHT:
 				initKnight( hero );
+				break;
+
+			case MEDIC:
+				initMedic( hero );
 				break;
 		}
 
@@ -385,23 +389,18 @@ public enum HeroClass {
 		new ScrollOfRemoveCurse().identify();
 		new PotionOfParalyticGas().identify();
 	}
-//
-//	private static void initNurse( Hero hero ) {
-//		HealBook healBook = new HealBook();
-//		(hero.belongings.weapon = healBook).identify();
-//		hero.belongings.weapon.activate(hero);
-//
-//		GammaRayGun gammaRayGun = new GammaRayGun();
-//		gammaRayGun.collect();
-//		Dungeon.quickslot.setSlot(0, gammaRayGun);
-//
-//		HandMirror handMirror = new HandMirror();
-//		handMirror.collect();
-//		Dungeon.quickslot.setSlot(1, handMirror);
-//
-//		new ScrollOfMirrorImage().identify();
-//		new PotionOfHealing().identify();
-//	}
+
+	private static void initMedic( Hero hero ) {
+		HealBook healBook = new HealBook();
+		hero.belongings.weapon.activate(hero);
+
+		GammaRayGun gammaRayGun = new GammaRayGun();
+		gammaRayGun.collect();
+		Dungeon.quickslot.setSlot(0, gammaRayGun);
+
+		new ScrollOfMirrorImage().identify();
+		new PotionOfHealing().identify();
+	}
 
 	public String title() {
 		return Messages.get(HeroClass.class, name());
