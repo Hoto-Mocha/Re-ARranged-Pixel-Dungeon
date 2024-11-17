@@ -1470,6 +1470,16 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 11, 11);
 	}
 
+	private static final int MEDIC			=			xy(1, 71);  //16 slots
+	public static final int SCALPEL			= MEDIC+0;
+	public static final int GAMMARAY_GUN	= MEDIC+1;
+	public static final int FIRST_AID_KIT	= MEDIC+2;
+	static{
+		assignItemRect(SCALPEL			, 13, 13);
+		assignItemRect(GAMMARAY_GUN		, 12, 15);
+		assignItemRect(FIRST_AID_KIT	, 16, 13);
+	}
+
 	// ****** new sprites end ******
 
 
