@@ -57,6 +57,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.BulletBelt;
+import com.shatteredpixel.shatteredpixeldungeon.items.GammaRayGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
@@ -100,6 +101,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Machete;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Saber;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scalpel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -391,7 +393,8 @@ public enum HeroClass {
 	}
 
 	private static void initMedic( Hero hero ) {
-		HealBook healBook = new HealBook();
+		Scalpel scalpel = new Scalpel();
+		(hero.belongings.weapon = scalpel).identify();
 		hero.belongings.weapon.activate(hero);
 
 		GammaRayGun gammaRayGun = new GammaRayGun();
