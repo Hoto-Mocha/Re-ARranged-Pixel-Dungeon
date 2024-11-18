@@ -251,6 +251,8 @@ public enum HeroClass {
 				return Badges.Badge.MASTERY_ADVENTURER;
 			case KNIGHT:
 				return Badges.Badge.MASTERY_KNIGHT;
+			case MEDIC:
+				return Badges.Badge.MASTERY_MEDIC;
 		}
 		return null;
 	}
@@ -446,8 +448,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Sprout(), new TreasureMap(), new Root()};
 			case KNIGHT:
 				return new ArmorAbility[]{new HolyShield(), new StimPack(), new UnstableAnkh()};
-//			case NURSE:
-//				return new ArmorAbility[]{new HealareaGenerator(), new AngelWing(), new GammaRayEmmit()};
+			case MEDIC:
+				return new ArmorAbility[]{new HealareaGenerator(), new AngelWing(), new GammaRayEmmit()};
 		}
 	}
 
