@@ -69,6 +69,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MedicKit;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
@@ -400,6 +401,10 @@ public enum HeroClass {
 		GammaRayGun gammaRayGun = new GammaRayGun();
 		gammaRayGun.collect();
 		Dungeon.quickslot.setSlot(0, gammaRayGun);
+
+		MedicKit kit = new MedicKit();
+		(hero.belongings.artifact = kit).identify();
+		hero.belongings.artifact.activate( hero );
 
 		new ScrollOfMirrorImage().identify();
 		new PotionOfHealing().identify();
