@@ -23,10 +23,10 @@ package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class NurseArmor extends ClassArmor {
+public class MedicArmor extends ClassArmor {
 
 	{
-		image = ItemSpriteSheet.ARMOR_NURSE;
+		image = ItemSpriteSheet.ARMOR_MEDIC;
 	}
 
 }

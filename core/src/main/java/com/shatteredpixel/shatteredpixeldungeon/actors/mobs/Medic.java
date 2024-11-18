@@ -99,11 +99,4 @@ public class Medic extends Mob {
 		return Random.NormalIntRange(0, 15);
 	}
 
-	@Override
-	public void die( Object cause ) {
-		super.die(cause);
-		Statistics.medicKilled = true;
-		Badges.validateMedicUnlock();
-	}
-
 }

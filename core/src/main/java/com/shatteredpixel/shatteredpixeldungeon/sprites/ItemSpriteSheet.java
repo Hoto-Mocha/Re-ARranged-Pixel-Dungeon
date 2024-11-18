@@ -837,13 +837,13 @@ public class ItemSpriteSheet {
 	public static final int ARMOR_SAMURAI	= NEW_ARMOR+1;
 	public static final int ARMOR_PLANTER	= NEW_ARMOR+2;
 	public static final int ARMOR_KNIGHT	= NEW_ARMOR+3;
-	public static final int ARMOR_NURSE		= NEW_ARMOR+4;
+	public static final int ARMOR_MEDIC 	= NEW_ARMOR+4;
 	static{
 		assignItemRect(ARMOR_GUNNER	, 15, 13);
 		assignItemRect(ARMOR_SAMURAI, 12, 16);
 		assignItemRect(ARMOR_PLANTER, 15, 12);
 		assignItemRect(ARMOR_KNIGHT	, 14, 12);
-		assignItemRect(ARMOR_NURSE	, 14, 12);
+		assignItemRect(ARMOR_MEDIC	, 14, 12);
 	}
 
 	private static final int NEW_SCROLL 	=			xy(1, 37);  //16 slots

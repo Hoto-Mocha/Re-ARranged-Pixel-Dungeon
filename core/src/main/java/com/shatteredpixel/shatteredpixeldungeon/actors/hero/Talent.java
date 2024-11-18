@@ -567,11 +567,11 @@ public enum Talent {
 	COMPLETE_ANKH				(39, 9, 4),
 
 	//Medic T1
-	SCAR_ATTACK					(0, 9),
-	DOCTORS_INTUITION			(1, 9),
-	PRECISION_HANDSKILL			(2, 9),
-	FIRST_AID_TREAT				(3, 9),
-	BREAKTHROUGH				(4, 9),
+	SCAR_ATTACK					(0, 10),
+	DOCTORS_INTUITION			(1, 10),
+	PRECISION_HANDSKILL			(2, 10),
+	FIRST_AID_TREAT				(3, 10),
+	BREAKTHROUGH				(4, 10),
 	//Medic T2
 	HEALING_MEAL				(5, 10),
 	RECYCLING					(6, 10),

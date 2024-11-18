@@ -58,7 +58,7 @@ public class Statistics {
 	public static boolean katanaObtained;
 	public static int plantTriggered;
 	public static boolean plateObtained;
-	public static boolean medicKilled;
+	public static boolean rebelKilled;
 
 	public static int spawnersAlive;
 	
