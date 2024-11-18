@@ -501,8 +501,8 @@ public enum Icons {
 				return new ItemSprite(ItemSpriteSheet.ADVENTURER_SHOVEL);
 			case KNIGHT:
 				return new ItemSprite(ItemSpriteSheet.KNIGHT_SHIELD);
-//			case NURSE:
-//				return new ItemSprite(ItemSpriteSheet.RAPIER);
+			case MEDIC:
+				return new ItemSprite(ItemSpriteSheet.GAMMA_RAY_GUN);
 			default:
 				return null;
 		}
