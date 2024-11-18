@@ -30,19 +30,19 @@ public class GammaRayGun extends Item {
     {
         image = ItemSpriteSheet.GAMMA_RAY_GUN;
 
-        defaultAction = AC_SHOOT;
+        defaultAction = AC_USE;
         usesTargeting = true;
 
         bones = false;
         unique = true;
     }
 
-    private static final String AC_SHOOT = "SHOOT";
+    private static final String AC_USE = "USE";
 
     @Override
     public ArrayList<String> actions(Hero hero ) {
         ArrayList<String> actions = super.actions( hero );
-        actions.add( AC_SHOOT );
+        actions.add(AC_USE);
         return actions;
     }
 
@@ -51,7 +51,7 @@ public class GammaRayGun extends Item {
 
         super.execute( hero, action );
 
-        if (action.equals(AC_SHOOT)) {
+        if (action.equals(AC_USE)) {
             usesTargeting = true;
             curUser = hero;
             curItem = this;
