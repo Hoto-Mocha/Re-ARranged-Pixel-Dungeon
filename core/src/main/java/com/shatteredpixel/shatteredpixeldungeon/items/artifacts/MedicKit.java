@@ -1,5 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -29,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
+import com.watabou.noosa.audio.Sample;
 
 import java.util.ArrayList;
 
@@ -41,6 +43,20 @@ public class MedicKit extends Artifact {
 
     public static final String AC_USE = "USE";
     public static final String AC_ADD = "ADD";
+
+    public static ArrayList<String> immuneList = new ArrayList<>();
+    static {
+        immuneList.add(Messages.get(Cripple.class, "name"));
+        immuneList.add(Messages.get(Ooze.class, "name"));
+        immuneList.add(Messages.get(Blindness.class, "name"));
+        immuneList.add(Messages.get(Chill.class, "name"));
+        immuneList.add(Messages.get(Vertigo.class, "name"));
+        immuneList.add(Messages.get(Corrosion.class, "name"));
+        immuneList.add(Messages.get(Weakness.class, "name"));
+        immuneList.add(Messages.get(Poison.class, "name"));
+        immuneList.add(Messages.get(Bleeding.class, "name"));
+        immuneList.add(Messages.get(Paralysis.class, "name"));
+    }
 
     @Override
     public ArrayList<String> actions(Hero hero ) {
@@ -98,9 +114,11 @@ public class MedicKit extends Artifact {
         } else if (!isIdentified() && cursedKnown && !isEquipped( Dungeon.hero)) {
             info += "\n\n" + Messages.get(Artifact.class, "not_cursed");
         }
+
         if (!cursed && isEquipped( Dungeon.hero )) {
             info += "\n\n" + Messages.get(this, "use_desc", healAmt);
         }
+
         return info;
     }
 
@@ -108,11 +126,15 @@ public class MedicKit extends Artifact {
         return Messages.get(this, "inv_title");
     }
 
-    private void onUpgrade(int upgrades) {
+    private void onUpgrade(int upgrades, Item item) {
         if (upgrades > 0) {
             GLog.p(Messages.get(MedicKit.class, "upgrade"));
 
             MedicKit.this.upgrade(upgrades);
+            item.detach(Dungeon.hero.belongings.backpack);
+            Dungeon.hero.sprite.operate(Dungeon.hero.pos);
+            Dungeon.hero.spendAndNext(Actor.TICK);
+            Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
         }
     }
 
@@ -131,6 +153,18 @@ public class MedicKit extends Artifact {
         updateQuickslot();
     }
 
+    private String immuneList() {
+        StringBuilder list = new StringBuilder();
+        for (int i = 0; i < this.level(); i++) {
+            if (i == 0) {
+                list.append(immuneList.get(i));
+            } else {
+                list.append(", ").append(immuneList.get(i));
+            }
+        }
+        return list.toString();
+    }
+
     @Override
     public String desc() {
         String desc = super.desc();
@@ -140,7 +174,7 @@ public class MedicKit extends Artifact {
             if (cursed)
                 desc += Messages.get(this, "desc_cursed");
             else
-                desc += Messages.get(this, "desc_equipped");
+                desc += Messages.get(this, "desc_equipped", immuneList());
         }
         return desc;
     }
@@ -185,7 +219,7 @@ public class MedicKit extends Artifact {
                 upgrade = 0;
             }
 
-            onUpgrade(upgrade);
+            onUpgrade(upgrade, item);
         }
     };
 
