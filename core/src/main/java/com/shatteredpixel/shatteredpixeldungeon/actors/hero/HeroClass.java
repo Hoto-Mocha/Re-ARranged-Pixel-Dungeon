@@ -46,6 +46,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.knight.Uns
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WildMagic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.AngelWing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.GammaRayEmmit;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.HealareaGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.ShadowClone;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.SmokeBomb;
@@ -473,8 +476,8 @@ public enum HeroClass {
 				return Assets.Sprites.ADVENTURER;
 			case KNIGHT:
 				return Assets.Sprites.KNIGHT;
-//			case NURSE:
-//				return Assets.Sprites.NURSE;
+			case MEDIC:
+				return Assets.Sprites.MEDIC;
 		}
 	}
 
@@ -498,8 +501,8 @@ public enum HeroClass {
 				return Assets.Splashes.ADVENTURER;
 			case KNIGHT:
 				return Assets.Splashes.KNIGHT;
-//			case NURSE:
-//				return Assets.Splashes.NURSE;
+			case MEDIC:
+				return Assets.Splashes.MEDIC;
 		}
 	}
 	
@@ -526,8 +529,8 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_ADVENTURER);
 			case KNIGHT:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_KNIGHT);
-//			case NURSE:
-//				return Badges.isUnlocked(Badges.Badge.UNLOCK_NURSE);
+			case MEDIC:
+				return Badges.isUnlocked(Badges.Badge.UNLOCK_MEDIC);
 		}
 	}
 	

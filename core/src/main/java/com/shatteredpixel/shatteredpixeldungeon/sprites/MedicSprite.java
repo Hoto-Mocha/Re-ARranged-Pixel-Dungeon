@@ -29,7 +29,7 @@ public class MedicSprite extends MobSprite {
 	public MedicSprite() {
 		super();
 		
-		texture( Assets.Sprites.MEDIC );
+		texture( Assets.Sprites.MEDIC_ENEMY );
 		
 		TextureFilm frames = new TextureFilm( texture, 12, 15 );
 
