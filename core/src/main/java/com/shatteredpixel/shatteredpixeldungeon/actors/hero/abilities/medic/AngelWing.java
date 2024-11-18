@@ -33,13 +33,15 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
+import com.watabou.noosa.Image;
 
 public class AngelWing extends ArmorAbility {
 
@@ -60,7 +62,7 @@ public class AngelWing extends ArmorAbility {
 		hero.spendAndNext(Actor.TICK);
 
 		armor.charge -= chargeUse(hero);
-		armor.updateQuickslot();
+		Item.updateQuickslot();
 		Invisibility.dispel();
 	}
 
@@ -99,7 +101,7 @@ public class AngelWing extends ArmorAbility {
 			target.flying = false;
 			super.detach();
 			if (Dungeon.hero.hasTalent(Talent.LIGHT_LIKE_FEATHER)) {
-				Buff.affect(Dungeon.hero, FeatherFall.FeatherBuff.class, 2*Dungeon.hero.pointsInTalent(Talent.LIGHT_LIKE_FEATHER));
+				Buff.affect(Dungeon.hero, ElixirOfFeatherFall.FeatherBuff.class, 2*Dungeon.hero.pointsInTalent(Talent.LIGHT_LIKE_FEATHER));
 			}
 			//only press tiles if we're current in the game screen
 			if (ShatteredPixelDungeon.scene() instanceof GameScene) {
@@ -115,7 +117,12 @@ public class AngelWing extends ArmorAbility {
 
 		@Override
 		public int icon() {
-			return BuffIndicator.ANGELWING;
+			return BuffIndicator.LEVITATION;
+		}
+
+		@Override
+		public void tintIcon(Image icon) {
+			icon.hardlight(1f, 1f, 0);
 		}
 
 		@Override
@@ -127,10 +134,5 @@ public class AngelWing extends ArmorAbility {
 		public String toString() {
 			return Messages.get(this, "name");
 		}
-
-		@Override
-		public String desc() {
-			return Messages.get(this, "desc", dispTurns());
-		}
-	}
+    }
 }

@@ -566,8 +566,55 @@ public enum Talent {
 	ANKH_ENHANCE				(38, 9, 4),
 	COMPLETE_ANKH				(39, 9, 4),
 
-
-
+	//Medic T1
+	SCAR_ATTACK					(0, 9),
+	DOCTORS_INTUITION			(1, 9),
+	PRECISION_HANDSKILL			(2, 9),
+	FIRST_AID_TREAT				(3, 9),
+	BREAKTHROUGH				(4, 9),
+	//Medic T2
+	HEALING_MEAL				(5, 10),
+	RECYCLING					(6, 10),
+	HIGH_POWER					(7, 10),
+	RADIATION					(8, 10),
+	STRONG_HEALPOWER			(9, 10),
+	DIET						(10, 10),
+	//Medic T3
+	STRONG_NEXUS				(11, 10, 3),
+	TARGET_SET					(12, 10, 3),
+	//Savior T3
+	RECRUIT						(13, 10, 3),
+	DELAYED_HEALING				(14, 10, 3),
+	APPEASE						(15, 10, 3),
+	ADRENALINE					(16, 10, 3),
+	STIMPACK					(17, 10, 3),
+	MEDICAL_RAY					(18, 10, 3),
+	//Therapist T3
+	OINTMENT					(19, 10, 3),
+	COMPRESS_BANDAGE			(20, 10, 3),
+	ANTIBIOTICS					(21, 10, 3),
+	QUICK_PREPARE				(22, 10, 3),
+	SPLINT						(23, 10, 3),
+	DEFIBRILLATOR				(24, 10, 3),
+	//MedicalOfficer T3
+	MOVE_ORDER					(25, 10, 3),
+	REINFORCE_ORDER				(26, 10, 3),
+	ENGINEER_ORDER				(27, 10, 3),
+	STANCE_ORDER				(28, 10, 3),
+	ATTACK_ORDER				(29, 10, 3),
+	CAS_ORDER					(30, 10, 3),
+	//HealGenerator T4
+	AREA_AMP					(31, 10, 4),
+	SHIELD_GEN					(32, 10, 4),
+	DURABLE_GEN					(33, 10, 4),
+	//AngelWing T4
+	LIGHT_LIKE_FEATHER			(34, 10, 4),
+	ANGELS_BLESS				(35, 10, 4),
+	HEALING_WING				(36, 10, 4),
+	//GammaRayEmmit T4
+	TRANSMOG_BIAS				(37, 10, 4),
+	IMPRINTING_EFFECT			(38, 10, 4),
+	SHEEP_TRANSMOG				(39, 10, 4),
 
 	//universal T4
 	HEROIC_ENERGY				(43, 0, 4), //See icon() and title() for special logic for this one
@@ -1176,6 +1223,9 @@ public enum Talent {
 					break;
 				case KNIGHT:
 					y = 9;
+					break;
+				case MEDIC:
+					y = 10;
 					break;
 			}
 			if (Ratmogrify.useRatroicEnergy){
@@ -2014,6 +2064,9 @@ public enum Talent {
 			case KNIGHT:
 				Collections.addAll(tierTalents, TOUGH_MEAL, KNIGHTS_INTUITION, KINETIC_BATTLE, HARD_SHIELD, WAR_CRY	);
 				break;
+			case MEDIC:
+				Collections.addAll(tierTalents, SCAR_ATTACK, DOCTORS_INTUITION, PRECISION_HANDSKILL, FIRST_AID_TREAT, BREAKTHROUGH);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -2052,6 +2105,9 @@ public enum Talent {
 			case KNIGHT:
 				Collections.addAll(tierTalents, IMPREGNABLE_MEAL, SMITHING_SPELL, ARMOR_ADAPTION, CHIVALRY, PROTECTION, FLAG_OF_CONQUEST);
 				break;
+			case MEDIC:
+				Collections.addAll(tierTalents, HEALING_MEAL, RECYCLING, HIGH_POWER, RADIATION, STRONG_HEALPOWER, DIET);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -2089,6 +2145,9 @@ public enum Talent {
 				break;
 			case KNIGHT:
 				Collections.addAll(tierTalents, CRAFTMANS_SKILLS, TACKLE);
+				break;
+			case MEDIC:
+				Collections.addAll(tierTalents, STRONG_NEXUS, TARGET_SET);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -2199,6 +2258,15 @@ public enum Talent {
 				break;
 			case CRUSADER:
 				Collections.addAll(tierTalents, HOLY_SHIELD, PRAY_FOR_DEAD, JUDGEMENT, CLEANSING_PRAY, PUNISHMENT, ANTI_DEMON);
+				break;
+			case SAVIOR:
+				Collections.addAll(tierTalents, RECRUIT, DELAYED_HEALING, APPEASE, ADRENALINE, STIMPACK, MEDICAL_RAY);
+				break;
+			case THERAPIST:
+				Collections.addAll(tierTalents, OINTMENT, COMPRESS_BANDAGE, ANTIBIOTICS, QUICK_PREPARE, SPLINT, DEFIBRILLATOR);
+				break;
+			case MEDICALOFFICER:
+				Collections.addAll(tierTalents, MOVE_ORDER, REINFORCE_ORDER, ENGINEER_ORDER, STANCE_ORDER, ATTACK_ORDER, CAS_ORDER);
 				break;
 		}
 		for (Talent talent : tierTalents){
