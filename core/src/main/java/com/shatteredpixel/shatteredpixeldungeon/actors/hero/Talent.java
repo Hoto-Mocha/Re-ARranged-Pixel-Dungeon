@@ -75,9 +75,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfDivination;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
@@ -94,10 +97,16 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
+import com.shatteredpixel.shatteredpixeldungeon.ui.TalentIcon;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
@@ -105,6 +114,7 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
+import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1425,6 +1435,11 @@ public enum Talent {
 		if (talent == CALL_OF_MASTER && hero.buff(HorseRiding.RidingCooldown.class) != null) {
 			hero.buff(HorseRiding.RidingCooldown.class).updateCooldown();
 		}
+
+		//medic
+		if (talent == DOCTORS_INTUITION) {
+			identifyPotions(1+2*hero.pointsInTalent(talent));
+		}
 	}
 
 	public static class CachedRationsDropped extends CounterBuff{{revivePersists = true;}};
@@ -1892,6 +1907,13 @@ public enum Talent {
 				dmg = 0;
 			}
 
+		}
+
+		if (hero.hasTalent(Talent.SCAR_ATTACK)) {
+			int debuffs = enemy.buffs().size();
+			if (debuffs > 0) {
+				dmg += debuffs * Random.NormalIntRange(1, hero.pointsInTalent(Talent.SCAR_ATTACK));
+			}
 		}
 		return dmg;
 	}
@@ -2387,6 +2409,60 @@ public enum Talent {
 				}
 			}
 		}
+	}
+
+	private static void identifyPotions(int amount) {
+		//this is from ScrollOfDivination
+		HashSet<Class<? extends Potion>> potions = Potion.getUnknown();
+
+		ArrayList<Item> IDed = new ArrayList<>();
+		int left = amount;
+
+		while (left > 0) {
+			if (potions.isEmpty()) {
+				break;
+			}
+			Potion p = Reflection.newInstance(Random.element(potions));
+			p.identify();
+			IDed.add(p);
+			potions.remove(p.getClass());
+			left --;
+		}
+
+		if (left == 0) {
+			GameScene.show(new WndIdentify(IDed, Talent.DOCTORS_INTUITION));
+		}
+	}
+
+	private static class WndIdentify extends Window {
+
+		private static final int WIDTH = 120;
+
+		WndIdentify(ArrayList<Item> IDed, Talent talent ){
+			IconTitle cur = new IconTitle(new TalentIcon(talent),
+					Messages.titleCase(Messages.get(this, "name")));
+			cur.setRect(0, 0, WIDTH, 0);
+			add(cur);
+
+			RenderedTextBlock msg = PixelScene.renderTextBlock(Messages.get(this, "desc"), 6);
+			msg.maxWidth(120);
+			msg.setPos(0, cur.bottom() + 2);
+			add(msg);
+
+			float pos = msg.bottom() + 10;
+
+			for (Item i : IDed){
+
+				cur = new IconTitle(i);
+				cur.setRect(0, pos, WIDTH, 0);
+				add(cur);
+				pos = cur.bottom() + 2;
+
+			}
+
+			resize(WIDTH, (int)pos);
+		}
+
 	}
 
 }
