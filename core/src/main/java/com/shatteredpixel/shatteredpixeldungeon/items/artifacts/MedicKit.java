@@ -39,6 +39,8 @@ public class MedicKit extends Artifact {
         image = ItemSpriteSheet.FIRST_AID_KIT;
 
         levelCap = 10;
+
+        defaultAction = AC_USE;
     }
 
     public static final String AC_USE = "USE";
@@ -66,10 +68,18 @@ public class MedicKit extends Artifact {
                 && !cursed) {
             actions.add(AC_ADD);
         }
-        if (isEquipped( hero ) && charge >= 1) {
+        if (isEquipped( hero )
+                && charge >= 1
+                && !cursed) {
             actions.add(AC_USE);
         }
         return actions;
+    }
+
+    private int healAmt() {
+        int healing = Math.round(charge * (this.level()+1) * 0.5f);
+        if (Dungeon.isChallenged(Challenges.NO_HEALING)) healing = Math.round(healing * 0.33f);
+        return healing;
     }
 
     @Override
@@ -85,29 +95,23 @@ public class MedicKit extends Artifact {
     }
 
     private void useKit(Hero hero) {
-        if (charge < 1) {
+        if (healAmt() < 1) {
             GLog.w(Messages.get(this, "no_charge"));
             return;
         }
-        int healAmt = Math.round(charge * this.level() * 0.5f);
-        if (Dungeon.isChallenged(Challenges.NO_HEALING)) healAmt = Math.round(healAmt * 0.33f);
-        if (healAmt > 0) {
-            Healing healing = Buff.affect(hero, Healing.class);
-            healing.setHeal(healAmt, 0.25f, 0);
-            healing.applyVialEffect();
-            hero.sprite.operate(hero.pos);
-            hero.spendAndNext(Actor.TICK);
-
-            charge = 0;
-        }
+        charge = 0;
+        Healing healing = Buff.affect(hero, Healing.class);
+        healing.setHeal(healAmt(), 0.25f, 0);
+        healing.applyVialEffect();
+        hero.sprite.operate(hero.pos);
+        hero.spendAndNext(Actor.TICK);
+        Sample.INSTANCE.play(Assets.Sounds.DRINK);
+        updateQuickslot();
     }
 
     @Override
     public String info() {
         String info = super.info();
-
-        int healAmt = Math.round(charge * this.level() * 0.5f); // for desc
-        if (Dungeon.isChallenged(Challenges.NO_HEALING)) healAmt = Math.round(healAmt * 0.33f); // for desc
 
         if (cursed && cursedKnown && !isEquipped( Dungeon.hero )) {
             info += "\n\n" + Messages.get(Artifact.class, "curse_known");
@@ -116,10 +120,15 @@ public class MedicKit extends Artifact {
         }
 
         if (!cursed && isEquipped( Dungeon.hero )) {
-            info += "\n\n" + Messages.get(this, "use_desc", healAmt);
+            info += "\n\n" + Messages.get(this, "use_desc", healAmt());
         }
 
         return info;
+    }
+
+    @Override
+    public String status() {
+        return Messages.format( "%d", healAmt() );
     }
 
     private String inventoryTitle(){
@@ -202,7 +211,7 @@ public class MedicKit extends Artifact {
 
         @Override
         public void onSelect( Item item ) {
-            if (item != null && itemSelectable(item)) {
+            if (itemSelectable(item)) {
                 onItemSelected(item);
             }
         }
