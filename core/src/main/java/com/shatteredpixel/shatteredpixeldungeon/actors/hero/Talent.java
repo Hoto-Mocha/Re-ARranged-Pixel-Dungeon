@@ -86,6 +86,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
@@ -1958,6 +1959,23 @@ public enum Talent {
 		if (hero.hasTalent(Talent.FINISH_ATTACK) && enemy.HP <= enemy.HT*0.25f) {
 			dmg += 1+hero.pointsInTalent(Talent.FINISH_ATTACK);
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+		}
+
+		if (hero.hasTalent(Talent.STRONG_NEXUS)) {
+			for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+				if (mob.alignment == Char.Alignment.ALLY && level.heroFOV[mob.pos]) { // 아군이 영웅의 시야 내에 있을 때
+					int healAmt = 3 * hero.pointsInTalent(Talent.STRONG_NEXUS) - Dungeon.level.distance(hero.pos, mob.pos) + 1;
+					if (healAmt > 0) {
+						mob.heal(healAmt);
+					}
+				}
+			} //heals nearby enemies and herself per every attack
+		}
+
+		if (hero.hasTalent(Talent.TARGET_SET) && hero.belongings.attackingWeapon() instanceof MissileWeapon) {
+			int duration = hero.pointsInTalent(Talent.TARGET_SET);
+			if (enemy.alignment != Char.Alignment.ENEMY) duration *= 5;
+			Buff.prolong(enemy, StoneOfAggression.Aggression.class, duration);
 		}
 		return dmg;
 	}
