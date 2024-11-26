@@ -185,4 +185,10 @@ public class Buff extends Actor {
 			b.detach();
 		}
 	}
+
+	public static boolean isDebuff(Buff b) {
+		return b.type == buffType.NEGATIVE
+				&& !(b instanceof AllyBuff)
+				&& !(b instanceof LostInventory);
+	}
 }

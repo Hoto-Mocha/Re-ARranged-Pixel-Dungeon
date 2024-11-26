@@ -7,7 +7,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RadioactiveMutation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PoisonParticle;
@@ -38,6 +40,14 @@ public class GammaRayGun extends Item {
     }
 
     private static final String AC_USE = "USE";
+
+    private float powerMulti() {
+        float multi = 1f;
+        if (hero.hasTalent(Talent.HIGH_POWER)) {
+            multi += 0.25f * hero.pointsInTalent(Talent.HIGH_POWER);
+        }
+        return multi;
+    }
 
     @Override
     public ArrayList<String> actions(Hero hero ) {
@@ -71,13 +81,16 @@ public class GammaRayGun extends Item {
                     Char ch = Actor.findChar(beam.collisionPos);
                     if (ch != null) {
                         if (ch.alignment == Char.Alignment.ENEMY) {
-                            Buff.affect(ch, Poison.class).set( 3 + Math.round(2*Dungeon.depth / 3f) );
+                            Buff.affect(ch, Poison.class).set( Math.round((3f + 2f*Dungeon.depth / 3f) * powerMulti()) );
                             if (Dungeon.level.heroFOV[ch.pos]) {
                                 CellEmitter.center( ch.pos ).burst( PoisonParticle.SPLASH, 3 );
                             }
+                            if (curUser.hasTalent(Talent.RADIATION)) {
+                                Buff.affect(ch, RadioactiveMutation.class).set(6-curUser.pointsInTalent(Talent.RADIATION));
+                            }
                         }
                         if (ch.alignment == Char.Alignment.ALLY && (ch != curUser)) {
-                            int healAmt = 5+Math.round(curUser.lvl/2f);
+                            int healAmt = Math.round((5f+curUser.lvl/2f)*powerMulti());
 
                             ch.heal(healAmt);
                         }
@@ -95,7 +108,7 @@ public class GammaRayGun extends Item {
                     CellEmitter.center( curUser.pos ).burst( PoisonParticle.SPLASH, 3 );
                 }
                 if (Random.Float() < 0.33f) {
-                    Buff.affect(hero, GammaRayCooldown.class).set(Random.NormalIntRange(3, 5));
+                    Buff.affect(hero, GammaRayCooldown.class).set(Random.NormalIntRange(3, 5) + hero.pointsInTalent(Talent.HIGH_POWER));
                 }
                 hero.spendAndNext(Actor.TICK);
             }

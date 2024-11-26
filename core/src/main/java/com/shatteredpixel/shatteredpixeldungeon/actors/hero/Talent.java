@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
@@ -75,12 +76,15 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.Pill;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.Elixir;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfDivination;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
@@ -98,7 +102,6 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -579,7 +582,7 @@ public enum Talent {
 	//Medic T1
 	SCAR_ATTACK					(0, 10),
 	DOCTORS_INTUITION			(1, 10),
-	PRECISION_HANDSKILL			(2, 10),
+	FINISH_ATTACK				(2, 10),
 	FIRST_AID_TREAT				(3, 10),
 	BREAKTHROUGH				(4, 10),
 	//Medic T2
@@ -1186,6 +1189,14 @@ public enum Talent {
 
 	}
 
+	public static class FirstAidTreatCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.2f, 1f, 0.2f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (50)); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+
 	int icon;
 	int maxPoints;
 
@@ -1541,6 +1552,15 @@ public enum Talent {
 		if (hero.hasTalent(Talent.IMPREGNABLE_MEAL)) {
 			Buff.affect(hero, ArmorEnhance.class).set(hero.pointsInTalent(Talent.IMPREGNABLE_MEAL), 15f);
 		}
+		if (hero.hasTalent(Talent.HEALING_MEAL)) { // 식사 시 디버프 제거 / 디버프가 없을 경우 3의 체력을 회복
+			if (hero.isHeroDebuffed()) {
+				PotionOfCleansing.cleanse(hero);
+			} else {
+				if (hero.pointsInTalent(Talent.HEALING_MEAL) > 1) {
+					hero.heal(3);
+				}
+			}
+		}
 	}
 
 	public static class WarriorFoodImmunity extends FlavourBuff{
@@ -1570,6 +1590,25 @@ public enum Talent {
 			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
 		}
 		return factor;
+	}
+
+	public static void onPotionUsed( Hero hero, int cell, float factor, Potion potion ){
+		onPotionUsed(hero, cell, factor);
+
+		if (hero.hasTalent(Talent.RECYCLING) && !(potion instanceof PotionOfStrength || potion instanceof ExoticPotion || potion instanceof Elixir)) {
+			Class<?extends Pill> potionClass = Potion.PotionToPill.pills.get(potion.getClass());
+			Pill pill = Reflection.newInstance(potionClass);
+			if (pill != null) {
+				int amount = Random.IntRange(hero.pointsInTalent(Talent.RECYCLING)-1, hero.pointsInTalent(Talent.RECYCLING)); // +1: 0-1, +2: 1-2
+				pill.quantity(amount);
+				if (pill.doPickUp( Dungeon.hero )) {
+					GLog.i( Messages.get(Dungeon.hero, "you_now_have", pill.name() ));
+					hero.spend(-1);
+				} else {
+					Dungeon.level.drop( pill, Dungeon.hero.pos ).sprite.drop();
+				}
+			}
+		}
 	}
 
 	public static void onPotionUsed( Hero hero, int cell, float factor ){
@@ -1915,7 +1954,21 @@ public enum Talent {
 				dmg += debuffs * Random.NormalIntRange(1, hero.pointsInTalent(Talent.SCAR_ATTACK));
 			}
 		}
+
+		if (hero.hasTalent(Talent.FINISH_ATTACK) && enemy.HP <= enemy.HT*0.25f) {
+			dmg += 1+hero.pointsInTalent(Talent.FINISH_ATTACK);
+			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+		}
 		return dmg;
+	}
+
+	public static int onDefenseProc(Hero hero, Char enemy, int damage) {
+		if (hero.hasTalent(Talent.FIRST_AID_TREAT) && hero.buff(FirstAidTreatCooldown.class) == null && damage > (11-3*hero.pointsInTalent(Talent.FIRST_AID_TREAT))) {
+			hero.heal(3);
+			Buff.affect(hero, FirstAidTreatCooldown.class, 50f);
+		}
+
+		return damage;
 	}
 
 	public static void onLevelUp() {
@@ -2087,7 +2140,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, TOUGH_MEAL, KNIGHTS_INTUITION, KINETIC_BATTLE, HARD_SHIELD, WAR_CRY	);
 				break;
 			case MEDIC:
-				Collections.addAll(tierTalents, SCAR_ATTACK, DOCTORS_INTUITION, PRECISION_HANDSKILL, FIRST_AID_TREAT, BREAKTHROUGH);
+				Collections.addAll(tierTalents, SCAR_ATTACK, DOCTORS_INTUITION, FINISH_ATTACK, FIRST_AID_TREAT, BREAKTHROUGH);
 				break;
 		}
 		for (Talent talent : tierTalents){

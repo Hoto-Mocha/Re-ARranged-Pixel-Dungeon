@@ -40,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SacrificialFire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HeroDisguise;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invulnerability;
@@ -773,6 +774,18 @@ public class Hero extends Char {
 
 		if (belongings.getItem(KnightsShield.class) != null && belongings.getItem(KnightsShield.class).hasGlyph(Afterimage.class, this)) {
 			evasion *= Math.pow(1.2f, belongings.getItem(KnightsShield.class).buffedLvl()) * RingOfArcana.enchantPowerMultiplier(this);
+		}
+
+		if (hero.hasTalent(Talent.BREAKTHROUGH)) {
+			int debuffs = 0;
+			for (Buff b : hero.buffs()) {
+				if (Buff.isDebuff(b)) {
+					debuffs++;
+				}
+			}
+			if (debuffs > 0) {
+				evasion += defenseSkill * (0.9f+0.3f*hero.pointsInTalent(Talent.BREAKTHROUGH));
+			}
 		}
 
 		return Math.round(evasion);
@@ -2360,7 +2373,9 @@ public class Hero extends Char {
 		if (Dungeon.isChallenged(Challenges.FATIGUE)) {
 			Buff.affect(this, Fatigue.class).hit(false);
 		}
-		
+
+		damage = Talent.onDefenseProc(this, enemy, damage);
+
 		return super.defenseProc( enemy, damage );
 	}
 	
@@ -3534,5 +3549,14 @@ public class Hero extends Char {
 
 	public static interface Doom {
 		public void onDeath();
+	}
+
+	public boolean isHeroDebuffed() {
+		for (Buff b : this.buffs()) {
+			if (Buff.isDebuff(b)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

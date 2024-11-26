@@ -147,6 +147,7 @@ public class BuffIndicator extends Component {
 	public static final int LUCK		= 156;
 	public static final int JUDGEMENT	= 157;
 	public static final int HORSE_RIDING= 158;
+	public static final int RADIOACTIVE	= 159;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

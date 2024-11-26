@@ -343,7 +343,7 @@ public class Potion extends Item {
 		if (!anonymous) {
 			Catalog.countUse(getClass());
 			if (Random.Float() < talentChance) {
-				Talent.onPotionUsed(curUser, curUser.pos, talentFactor);
+				Talent.onPotionUsed(curUser, curUser.pos, talentFactor, this);
 			}
 		}
 	}
@@ -365,7 +365,7 @@ public class Potion extends Item {
 			if (!anonymous) {
 				Catalog.countUse(getClass());
 				if (Random.Float() < talentChance) {
-					Talent.onPotionUsed(curUser, cell, talentFactor);
+					Talent.onPotionUsed(curUser, cell, talentFactor, this);
 				}
 			}
 			
@@ -609,7 +609,7 @@ public class Potion extends Item {
 
 	public static class PotionToPill extends Recipe {
 
-		private static HashMap<Class<?extends Potion>, Class<?extends Pill>> pills = new HashMap<>();
+		public static HashMap<Class<?extends Potion>, Class<?extends Pill>> pills = new HashMap<>();
 		static {
 			pills.put(PotionOfInvisibility.class, 	PillOfInvisibility.class);
 			pills.put(PotionOfPurity.class, 		PillOfAntibiotics.class);

@@ -78,7 +78,8 @@ public class FloatingText extends RenderedTextBlock {
 	public static int ENERGY    = 24;
 
 	//new icons
-	public static int EXPERIENCE_USE=26;
+	public static int EXPERIENCE_USE = 26;
+	public static int RADIOACTIVE	 = 27;
 
 	private Image icon;
 	private boolean iconLeft;
