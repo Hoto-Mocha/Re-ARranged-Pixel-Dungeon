@@ -5,14 +5,21 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RadioactiveMutation;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SaviorAllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PoisonParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfSirensSong;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -88,11 +95,33 @@ public class GammaRayGun extends Item {
                             if (curUser.hasTalent(Talent.RADIATION)) {
                                 Buff.affect(ch, RadioactiveMutation.class).set(6-curUser.pointsInTalent(Talent.RADIATION));
                             }
+                            if (curUser.subClass == HeroSubClass.SAVIOR) {
+                                int allyNumber = 0;
+                                for (Char mob : Actor.chars()) {
+                                    if (mob.buff(SaviorAllyBuff.class) != null) {
+                                        allyNumber++;
+                                    }
+                                }
+                                if (ch instanceof Mob
+                                        && allyNumber < 2 + hero.pointsInTalent(Talent.RECRUIT)
+                                        && !ch.isImmune(SaviorAllyBuff.class)
+                                        && Random.Float() < (ch.HT - ch.HP + 5*(1+hero.pointsInTalent(Talent.APPEASE))) / (float)ch.HT) {
+                                    AllyBuff.affectAndLoot((Mob)ch, curUser, SaviorAllyBuff.class);
+                                    if (hero.hasTalent(Talent.DELAYED_HEALING)) {
+                                        Buff.affect(ch, Healing.class).setHeal((int)(0.2f*hero.pointsInTalent(Talent.DELAYED_HEALING))*ch.HT, 0, 1);
+                                    }
+                                }
+                            }
                         }
                         if (ch.alignment == Char.Alignment.ALLY && (ch != curUser)) {
                             int healAmt = Math.round((5f+curUser.lvl/2f)*powerMulti());
 
                             ch.heal(healAmt);
+
+                            if (hero.hasTalent(Talent.ADRENALINE)) {
+                                Buff.prolong(ch, Adrenaline.class, 3*hero.pointsInTalent(Talent.ADRENALINE));
+                                Buff.affect(ch, Poison.class).set(3*hero.pointsInTalent(Talent.ADRENALINE));
+                            }
                         }
                     }
                     curUser.sprite.zap(target);
