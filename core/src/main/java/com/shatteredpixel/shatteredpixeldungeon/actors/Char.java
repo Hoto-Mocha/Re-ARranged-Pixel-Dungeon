@@ -76,6 +76,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Speed;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Stamina;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StimPack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ThunderImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
@@ -150,6 +151,7 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MobSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
@@ -405,6 +407,11 @@ public abstract class Char extends Actor {
 		if (enemy == null) return false;
 		
 		boolean visibleFight = Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[enemy.pos];
+
+		if (buff(StimPack.class) != null) {
+			accMulti *= 1.6f;
+			dmgMulti *= 1.3f;
+		}
 
 		if (enemy.isInvulnerable(getClass())) {
 
@@ -793,6 +800,11 @@ public abstract class Char extends Actor {
 		if ( this.alignment != Alignment.ALLY
 				&& buff( Ooze.class ) != null
 				&& hero.hasTalent(Talent.STICKY_OOZE)) speed *= 1-0.1f*hero.pointsInTalent(Talent.STICKY_OOZE);
+		if (buff(StimPack.class) != null) {
+			sprite.attackAcceleration( 3f );
+		} else {
+			sprite.attackAcceleration( 1f );
+		}
 		return speed;
 	}
 

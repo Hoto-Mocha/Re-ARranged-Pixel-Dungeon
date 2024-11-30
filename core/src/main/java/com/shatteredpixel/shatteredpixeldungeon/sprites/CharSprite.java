@@ -784,6 +784,10 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 		}
 	}
 
+	public void attackAcceleration( float speed ) {
+		attack.delay = attack.delay / speed;
+	}
+
 	private static class JumpTweener extends Tweener {
 
 		public CharSprite visual;
