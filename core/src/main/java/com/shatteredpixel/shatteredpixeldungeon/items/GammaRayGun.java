@@ -134,6 +134,9 @@ public class GammaRayGun extends Item {
                         }
                         if (ch.alignment == Char.Alignment.ALLY && (ch != curUser)) {
                             int healAmt = Math.round((5f+curUser.lvl/2f)*powerMulti());
+                            if (hero.hasTalent(Talent.MEDICAL_RAY)) {
+                                healAmt = Math.round(healAmt * (1f + 0.2f * hero.pointsInTalent(Talent.MEDICAL_RAY)));
+                            }
                             // 아군 회복
                             ch.heal(healAmt);
 
