@@ -208,6 +208,7 @@ public abstract class Char extends Actor {
 		if (properties().contains(Property.IMMOVABLE)){
 			throwItems();
 		}
+
 		return false;
 	}
 
@@ -800,11 +801,6 @@ public abstract class Char extends Actor {
 		if ( this.alignment != Alignment.ALLY
 				&& buff( Ooze.class ) != null
 				&& hero.hasTalent(Talent.STICKY_OOZE)) speed *= 1-0.1f*hero.pointsInTalent(Talent.STICKY_OOZE);
-		if (buff(StimPack.class) != null) {
-			sprite.attackAcceleration( 3f );
-		} else {
-			sprite.attackAcceleration( 1f );
-		}
 		return speed;
 	}
 

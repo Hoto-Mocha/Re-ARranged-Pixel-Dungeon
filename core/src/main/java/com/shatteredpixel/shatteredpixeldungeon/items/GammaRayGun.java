@@ -9,9 +9,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RadioactiveMutation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SaviorAllyBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StimPack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -106,7 +109,23 @@ public class GammaRayGun extends Item {
                                         && allyNumber < 2 + hero.pointsInTalent(Talent.RECRUIT)
                                         && !ch.isImmune(SaviorAllyBuff.class)
                                         && Random.Float() < (ch.HT - ch.HP + 5*(1+hero.pointsInTalent(Talent.APPEASE))) / (float)ch.HT) {
+                                    
+                                    // 아군으로 만드는 버프
                                     AllyBuff.affectAndLoot((Mob)ch, curUser, SaviorAllyBuff.class);
+                                    
+                                    // 디버프 제거
+                                    for (Buff b : ch.buffs()){
+                                        if (b.type == Buff.buffType.NEGATIVE
+                                                && !(b instanceof AllyBuff)
+                                                && !(b instanceof LostInventory)){
+                                            b.detach();
+                                        }
+                                        if (b instanceof Hunger){
+                                            ((Hunger) b).satisfy(Hunger.STARVING);
+                                        }
+                                    }
+                                    
+                                    // 구원자 3-8 특성
                                     if (hero.hasTalent(Talent.DELAYED_HEALING)) {
                                         Buff.affect(ch, Healing.class).setHeal((int)(0.2f*hero.pointsInTalent(Talent.DELAYED_HEALING))*ch.HT, 0, 1);
                                     }
@@ -115,12 +134,16 @@ public class GammaRayGun extends Item {
                         }
                         if (ch.alignment == Char.Alignment.ALLY && (ch != curUser)) {
                             int healAmt = Math.round((5f+curUser.lvl/2f)*powerMulti());
-
+                            // 아군 회복
                             ch.heal(healAmt);
 
                             if (hero.hasTalent(Talent.ADRENALINE)) {
                                 Buff.prolong(ch, Adrenaline.class, 3*hero.pointsInTalent(Talent.ADRENALINE));
                                 Buff.affect(ch, Poison.class).set(3*hero.pointsInTalent(Talent.ADRENALINE));
+                            }
+
+                            if (hero.hasTalent(Talent.STIMPACK)) {
+                                Buff.prolong(ch, StimPack.class, hero.pointsInTalent(Talent.STIMPACK));
                             }
                         }
                     }

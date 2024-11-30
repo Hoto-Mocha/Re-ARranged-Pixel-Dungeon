@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulCollect;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StimPack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.ArtifactRechargeArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.BarrierRechargeArea;
@@ -649,11 +650,13 @@ public abstract class Mob extends Char {
 	public float attackDelay() {
 		float delay = 1f;
 		if ( buff(Adrenaline.class) != null) delay /= 1.5f;
+
 		return delay;
 	}
 	
 	protected boolean doAttack( Char enemy ) {
-		
+		sprite.attackAcceleration( buff(StimPack.class) != null ? 1.5f : 1f );
+
 		if (sprite != null && (sprite.visible || enemy.sprite.visible)) {
 			sprite.attack( enemy.pos );
 			return false;

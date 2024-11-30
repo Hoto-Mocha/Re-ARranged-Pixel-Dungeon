@@ -112,11 +112,13 @@ public class MovieClip extends Image {
 	public static class Animation {
 		
 		public float delay;
+		public float fps;
 		public RectF[] frames;
 		public boolean looped;
 		
 		public Animation( int fps, boolean looped ) {
 			this.delay = 1f / fps;
+			this.fps = fps;
 			this.looped = looped;
 		}
 		
