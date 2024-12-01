@@ -179,11 +179,15 @@ public class MedicKit extends Artifact {
         String desc = super.desc();
 
         if (isEquipped( Dungeon.hero )){
-            desc += "\n\n";
-            if (cursed)
+            if (cursed) {
+                desc += "\n\n";
                 desc += Messages.get(this, "desc_cursed");
-            else
-                desc += Messages.get(this, "desc_equipped", immuneList());
+            } else {
+                if (!immuneList().isEmpty()) {
+                    desc += "\n\n";
+                    desc += Messages.get(this, "desc_equipped", immuneList());
+                }
+            }
         }
         return desc;
     }
@@ -206,7 +210,11 @@ public class MedicKit extends Artifact {
         // ElixirOfTalent: +4
         @Override
         public boolean itemSelectable(Item item) {
-            return item instanceof PillOfAwakening || item instanceof PotionOfStrength || item instanceof ElixirOfMight || item instanceof ElixirOfTalent;
+            return (item instanceof PillOfAwakening
+                    || item instanceof PotionOfStrength
+                    || item instanceof ElixirOfMight
+                    || item instanceof ElixirOfTalent)
+                    && item.isIdentified();
         }
 
         @Override
