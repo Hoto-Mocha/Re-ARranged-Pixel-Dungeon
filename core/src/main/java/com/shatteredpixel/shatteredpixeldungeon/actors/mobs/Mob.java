@@ -40,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FirstAidBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GreaterHaste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
@@ -902,6 +903,10 @@ public abstract class Mob extends Char {
 					}
 					break;
 			}
+		}
+
+		if (hero.buff(FirstAidBuff.FirstAidBuffCooldown.class) != null) {
+			hero.buff(FirstAidBuff.FirstAidBuffCooldown.class).kill();
 		}
 
 		if (cause == hero) {

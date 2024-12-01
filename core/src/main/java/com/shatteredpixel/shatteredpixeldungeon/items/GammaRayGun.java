@@ -162,7 +162,7 @@ public class GammaRayGun extends Item {
                     BuffIndicator.refreshHero();
                     CellEmitter.center( curUser.pos ).burst( PoisonParticle.SPLASH, 3 );
                 }
-                if (Random.Float() < 0.33f) {
+                if (Random.Float() < 0.5f) {
                     Buff.affect(hero, GammaRayCooldown.class).set(Random.NormalIntRange(3, 5) + hero.pointsInTalent(Talent.HIGH_POWER));
                 }
                 hero.spendAndNext(Actor.TICK);

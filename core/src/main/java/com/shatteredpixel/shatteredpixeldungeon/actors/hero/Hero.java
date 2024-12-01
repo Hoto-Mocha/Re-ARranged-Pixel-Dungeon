@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FirstAidBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HeroDisguise;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invulnerability;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
@@ -79,6 +80,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PainKiller;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
@@ -2370,6 +2372,13 @@ public class Hero extends Char {
 			hero.buff(Pray.Praying.class).defenseProc(enemy, damage);
 		}
 
+		if (hero.subClass == HeroSubClass.THERAPIST) {
+			if (buff(FirstAidBuff.FirstAidBuffCooldown.class) == null) {
+				//방어력 적용 전 데미지 기준
+				Buff.affect(this, FirstAidBuff.class).set(damage);
+			}
+		}
+
 		if (Dungeon.isChallenged(Challenges.FATIGUE)) {
 			Buff.affect(this, Fatigue.class).hit(false);
 		}
@@ -2410,6 +2419,10 @@ public class Hero extends Char {
 			//and to monk meditate damage reduction
 			if (buff(MonkEnergy.MonkAbility.Meditate.MeditateResistance.class) != null){
 				dmg *= 0.2f;
+			}
+			//고통 저항 버프 효과
+			if (buff(PainKiller.class) != null) {
+				dmg *= 0.5f;
 			}
 		}
 

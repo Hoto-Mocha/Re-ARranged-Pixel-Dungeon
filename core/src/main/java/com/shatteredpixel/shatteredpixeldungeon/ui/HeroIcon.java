@@ -208,7 +208,7 @@ public class HeroIcon extends Image {
 	public static final int PRAY			= 138;
 //	public static final int 				= 139;
 
-//	public static final int 				= 140;
+	public static final int FIRST_AID		= 140;
 //	public static final int 				= 141;
 //	public static final int 				= 142;
 //	public static final int 				= 143;
