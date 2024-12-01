@@ -410,6 +410,7 @@ public enum HeroClass {
 		MedicKit kit = new MedicKit();
 		(hero.belongings.artifact = kit).identify();
 		hero.belongings.artifact.activate( hero );
+		Dungeon.quickslot.setSlot(1, kit);
 
 		new ScrollOfMirrorImage().identify();
 		new PotionOfHealing().identify();
