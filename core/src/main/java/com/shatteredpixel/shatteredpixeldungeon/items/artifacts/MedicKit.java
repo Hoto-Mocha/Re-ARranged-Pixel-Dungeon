@@ -99,13 +99,13 @@ public class MedicKit extends Artifact {
             GLog.w(Messages.get(this, "no_charge"));
             return;
         }
-        charge = 0;
         Healing healing = Buff.affect(hero, Healing.class);
         healing.setHeal(healAmt(), 0.25f, 0);
         healing.applyVialEffect();
         hero.sprite.operate(hero.pos);
         hero.spendAndNext(Actor.TICK);
         Sample.INSTANCE.play(Assets.Sounds.DRINK);
+        charge = 0;
         updateQuickslot();
     }
 
