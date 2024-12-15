@@ -46,7 +46,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
@@ -611,12 +610,12 @@ public enum Talent {
 	SPLINT						(23, 10, 3),
 	DEFIBRILLATOR				(24, 10, 3),
 	//MedicalOfficer T3
-	MOVE_ORDER					(25, 10, 3),
-	REINFORCE_ORDER				(26, 10, 3),
-	ENGINEER_ORDER				(27, 10, 3),
-	STANCE_ORDER				(28, 10, 3),
-	ATTACK_ORDER				(29, 10, 3),
-	CAS_ORDER					(30, 10, 3),
+	MOVE_CMD					(25, 10, 3),
+	STIMPACK_CMD				(26, 10, 3),
+	ENGINEER_CMD				(27, 10, 3),
+	STAY_CMD					(28, 10, 3),
+	ATTACK_CMD					(29, 10, 3),
+	CAS_CMD						(30, 10, 3), //CAS = Close Air Support
 	//HealGenerator T4
 	AREA_AMP					(31, 10, 4),
 	SHIELD_GEN					(32, 10, 4),
@@ -2359,7 +2358,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, OINTMENT, COMPRESS_BANDAGE, ANTIBIOTICS, QUICK_PREPARE, SPLINT, DEFIBRILLATOR);
 				break;
 			case MEDICALOFFICER:
-				Collections.addAll(tierTalents, MOVE_ORDER, REINFORCE_ORDER, ENGINEER_ORDER, STANCE_ORDER, ATTACK_ORDER, CAS_ORDER);
+				Collections.addAll(tierTalents, MOVE_CMD, STIMPACK_CMD, ENGINEER_CMD, STAY_CMD, ATTACK_CMD, CAS_CMD);
 				break;
 		}
 		for (Talent talent : tierTalents){
