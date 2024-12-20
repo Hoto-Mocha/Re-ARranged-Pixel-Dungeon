@@ -118,9 +118,7 @@ public class Command extends Buff implements ActionIndicator.Action {
 
     //적을 처치하면 명령권을 얻는 메서드. 최대 6까지 스택 가능
     public void kill() {
-        if (this.charge++ > 6) {
-            this.charge = 6;
-        }
+        this.charge = Math.min(++this.charge, 6);
         ActionIndicator.setAction( this );
     }
 
