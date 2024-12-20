@@ -10,12 +10,17 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Building;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Cannon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.MachineGun;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Mortar;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.GL.GL;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -111,6 +116,7 @@ public class Command extends Buff implements ActionIndicator.Action {
         GameScene.show(new WndCommand(this));
     }
 
+    //적을 처치하면 명령권을 얻는 메서드. 최대 6까지 스택 가능
     public void kill() {
         if (this.charge++ > 6) {
             this.charge = 6;
@@ -118,6 +124,7 @@ public class Command extends Buff implements ActionIndicator.Action {
         ActionIndicator.setAction( this );
     }
 
+    //명령을 사용할 수 있는지 여부
     public boolean canUse(CommandMove command) {
         if (charge < commandChargeReq(command)) return false;
         switch (command) {
@@ -138,6 +145,7 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
+    //입력받은 명령에 따라서 다른 명령을 실행하는 메서드
     public void useCommand(CommandMove command) {
         switch (command) {
             case RECRUIT:
@@ -150,8 +158,10 @@ public class Command extends Buff implements ActionIndicator.Action {
                 cmdMove();
                 break;
             case STIMPACK:
+                cmdStimpack();
                 break;
             case ENGINEER:
+                cmdEnginner();
                 break;
             case STAY:
                 break;
@@ -162,6 +172,8 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
+    /* --- 명령 수행 메서드 --- */
+    
     public void cmdRecruit() {
         Hero hero = (Hero) target;
         ArrayList<Integer> spawnPoints = new ArrayList<>();
@@ -218,6 +230,40 @@ public class Command extends Buff implements ActionIndicator.Action {
         GameScene.selectCell( cmdMoveCellSelector );
     }
 
+    public void cmdStimpack() {
+        ArrayList<SupportAlly> allies = new ArrayList<>();
+        for (Char ch : Actor.chars()) {
+            if (ch instanceof SupportAlly) {
+                if (!Dungeon.level.heroFOV[ch.pos]) {
+                    continue;
+                }
+                allies.add((SupportAlly) ch);
+            }
+        }
+
+        if (!allies.isEmpty()) {
+
+            for (SupportAlly ally : allies) {
+                Buff.affect(ally, StimPack.class, 5*hero.pointsInTalent(Talent.STIMPACK_CMD));
+            }
+
+            useCharge(CommandMove.STIMPACK);
+
+            Sample.INSTANCE.play(Assets.Sounds.BEACON);
+            hero.spendAndNext(1f);
+            hero.sprite.operate(hero.pos);
+        } else {
+            GLog.w(Messages.get(Command.class, "no_allies_to_cmd"));
+        }
+    }
+
+    public void cmdEnginner() {
+        GameScene.selectCell( cmdEngineerCellSelector );
+    }
+
+    /* --- 명령 수행 메서드 --- */
+    
+    //명령에 필요한 명령권 수
     public static int commandChargeReq(CommandMove command) {
         switch (command) {
             default:
@@ -235,6 +281,7 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
+    //명령권 사용 메서드
     public void useCharge(CommandMove command) {
         charge -= commandChargeReq(command);
         ActionIndicator.setAction(this);
@@ -286,22 +333,24 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
+    /* --- 명령에 필요한 타일 선택기 --- */
+
     private CellSelector.Listener cmdMoveCellSelector = new CellSelector.Listener() {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
-                ArrayList<Command.SupportAlly> allies = new ArrayList<>();
+                ArrayList<SupportAlly> allies = new ArrayList<>();
                 for (Char ch : Actor.chars()) {
-                    if (ch instanceof Command.SupportAlly) {
+                    if (ch instanceof SupportAlly) {
                         if (hero.pointsInTalent(Talent.MOVE_CMD) < 3 && !Dungeon.level.heroFOV[ch.pos]) {
                             continue;
                         }
-                        allies.add((Command.SupportAlly) ch);
+                        allies.add((SupportAlly) ch);
                     }
                 }
 
                 if (!allies.isEmpty()) {
-                    for (Command.SupportAlly ally : allies) {
+                    for (SupportAlly ally : allies) {
                         ally.directTocell(target);
                     }
 
@@ -311,7 +360,7 @@ public class Command extends Buff implements ActionIndicator.Action {
                     hero.spendAndNext(1f);
                     hero.sprite.zap(target);
                 } else {
-                    GLog.w(Messages.get(Command.class, "no_allies_to_move"));
+                    GLog.w(Messages.get(Command.class, "no_allies_to_cmd"));
                 }
             }
         }
@@ -326,7 +375,42 @@ public class Command extends Buff implements ActionIndicator.Action {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
+                if (Build.isBuildable(target, true)) {
+                    Trap t;
+                    Building b;
+                    //특성 레벨에 따라 다른 빌딩을 건설
+                    switch (hero.pointsInTalent(Talent.ENGINEER_CMD)) {
+                        case 1: default:
+                            b = new MachineGun(); //거치형 기관총
+                            break;
+                        case 2:
+                            b = new Cannon(); //야포
+                            break;
+                        case 3:
+                            b = new Mortar(); //박격포
+                            break;
+                    }
+                    //빌딩 건설 부분
+                    b.pos = target;
+                    GameScene.add(b);
+                    if ((t = Dungeon.level.traps.get(b.pos)) != null && t.active){
+                        if (t.disarmedByActivation) t.disarm();
+                        t.reveal();
+                        t.activate();
+                    }
+                    Dungeon.level.occupyCell(b);
+                    GameScene.updateMap(target);
 
+                    hero.spendAndNext(1f);
+                    hero.sprite.zap(target);
+
+                    CellEmitter.center( target ).burst( Speck.factory( Speck.STAR ), 7 );
+                    Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+
+                    useCharge(CommandMove.ENGINEER);
+                } else {
+                    GLog.w(Messages.get(Build.class, "invalid"));
+                }
             }
         }
 
@@ -364,6 +448,9 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     };
 
+    /* --- 명령에 필요한 타일 선택기 --- */
+
+    //아군 군인
     public static class SupportAlly extends DirectableAlly {
 
         {
