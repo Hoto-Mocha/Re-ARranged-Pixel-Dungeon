@@ -613,7 +613,7 @@ public enum Talent {
 	MOVE_CMD					(25, 10, 3),
 	STIMPACK_CMD				(26, 10, 3),
 	ENGINEER_CMD				(27, 10, 3),
-	STAY_CMD					(28, 10, 3),
+	PROMOTE_CMD					(28, 10, 3),
 	ATTACK_CMD					(29, 10, 3),
 	CAS_CMD						(30, 10, 3), //CAS = Close Air Support
 	//HealGenerator T4
@@ -2358,7 +2358,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, OINTMENT, COMPRESS_BANDAGE, ANTIBIOTICS, QUICK_PREPARE, SPLINT, DEFIBRILLATOR);
 				break;
 			case MEDICALOFFICER:
-				Collections.addAll(tierTalents, MOVE_CMD, STIMPACK_CMD, ENGINEER_CMD, STAY_CMD, ATTACK_CMD, CAS_CMD);
+				Collections.addAll(tierTalents, MOVE_CMD, STIMPACK_CMD, ENGINEER_CMD, PROMOTE_CMD, ATTACK_CMD, CAS_CMD);
 				break;
 		}
 		for (Talent talent : tierTalents){

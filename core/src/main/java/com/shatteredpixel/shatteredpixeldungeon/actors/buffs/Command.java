@@ -8,8 +8,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Building;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Cannon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.MachineGun;
@@ -19,7 +19,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.GL.GL;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -32,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MobSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
+import com.shatteredpixel.shatteredpixeldungeon.ui.TargetHealthIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndCommand;
 import com.watabou.noosa.BitmapText;
@@ -134,8 +134,8 @@ public class Command extends Buff implements ActionIndicator.Action {
                 return hero.hasTalent(Talent.STIMPACK_CMD);
             case ENGINEER:
                 return hero.hasTalent(Talent.ENGINEER_CMD);
-            case STAY:
-                return hero.hasTalent(Talent.STAY_CMD);
+            case PROMOTE:
+                return hero.hasTalent(Talent.PROMOTE_CMD);
             case ATTACK:
                 return hero.hasTalent(Talent.ATTACK_CMD);
             case CLOSE_AIR_SUPPORT:
@@ -161,7 +161,8 @@ public class Command extends Buff implements ActionIndicator.Action {
             case ENGINEER:
                 cmdEnginner();
                 break;
-            case STAY:
+            case PROMOTE:
+                cmdPromote();
                 break;
             case ATTACK:
                 break;
@@ -183,7 +184,9 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
 
         if (!spawnPoints.isEmpty()) {
-            SupportAlly newAlly = new SupportAlly();
+            useCharge(CommandMove.RECRUIT);
+
+            SupportSoldier newAlly = new SupportSoldier();
 
             newAlly.pos = Random.element(spawnPoints);
 
@@ -195,21 +198,19 @@ public class Command extends Buff implements ActionIndicator.Action {
 
             hero.spendAndNext(1f);
             hero.sprite.operate(hero.pos);
-
-            useCharge(CommandMove.RECRUIT);
         } else
             GLog.i( Messages.get(this, "no_space") );
     }
 
     public void cmdMedicalSupport() {
-        ArrayList<SupportAlly> allies = new ArrayList<>();
+        ArrayList<SupportSoldier> allies = new ArrayList<>();
         for (Char ch : Actor.chars()) {
-            if (ch instanceof SupportAlly && ch.HP < ch.HT && Dungeon.level.heroFOV[ch.pos]) {
-                allies.add((SupportAlly) ch);
+            if (ch instanceof SupportSoldier && ch.HP < ch.HT && Dungeon.level.heroFOV[ch.pos]) {
+                allies.add((SupportSoldier) ch);
             }
         }
         if (!allies.isEmpty()) {
-            for (SupportAlly ally : allies) {
+            for (SupportSoldier ally : allies) {
                 Buff.affect(ally, Healing.class).setHeal(Math.round(ally.HT*0.2f), 0, (int)Math.ceil(Dungeon.scalingDepth()/5f));
             }
 
@@ -229,19 +230,19 @@ public class Command extends Buff implements ActionIndicator.Action {
     }
 
     public void cmdStimpack() {
-        ArrayList<SupportAlly> allies = new ArrayList<>();
+        ArrayList<SupportSoldier> allies = new ArrayList<>();
         for (Char ch : Actor.chars()) {
-            if (ch instanceof SupportAlly) {
+            if (ch instanceof SupportSoldier) {
                 if (!Dungeon.level.heroFOV[ch.pos]) {
                     continue;
                 }
-                allies.add((SupportAlly) ch);
+                allies.add((SupportSoldier) ch);
             }
         }
 
         if (!allies.isEmpty()) {
 
-            for (SupportAlly ally : allies) {
+            for (SupportSoldier ally : allies) {
                 Buff.affect(ally, StimPack.class, 5*hero.pointsInTalent(Talent.STIMPACK_CMD));
             }
 
@@ -259,6 +260,11 @@ public class Command extends Buff implements ActionIndicator.Action {
         GameScene.selectCell( cmdEngineerCellSelector );
     }
 
+    public void cmdPromote() {
+        GameScene.selectCell( cmdPromoteCellSelector );
+    }
+
+
     /* --- 명령 수행 메서드 --- */
     
     //명령에 필요한 명령권 수
@@ -269,13 +275,18 @@ public class Command extends Buff implements ActionIndicator.Action {
             case RECRUIT:
                 int allies = 0;
                 for (Char ch : Actor.chars()) {
-                    if (ch instanceof SupportAlly) {
+                    if (ch instanceof SupportSoldier
+                            || ch instanceof SupportSniper
+                            || ch instanceof SupportShielder
+                            || ch instanceof SupportBomber) {
                         allies++;
                     }
                 }
                 return allies+1;
             case MOVE:
                 return hero.pointsInTalent(Talent.MOVE_CMD) < 2 ? 1 : 0; //특성 레벨이 2 이상이면 명령권을 소모하지 않음
+            case PROMOTE:
+                return hero.pointsInTalent(Talent.MOVE_CMD) < 2 ? 2 : 3; //특성 레벨이 3이면 명령권 소모량 -1
         }
     }
 
@@ -291,7 +302,7 @@ public class Command extends Buff implements ActionIndicator.Action {
         MOVE                (1),
         STIMPACK            (1),
         ENGINEER            (1),
-        STAY                (1),
+        PROMOTE             (3),
         ATTACK              (1),
         CLOSE_AIR_SUPPORT   (1);
 
@@ -318,8 +329,8 @@ public class Command extends Buff implements ActionIndicator.Action {
                 case ENGINEER:
                     talentLv = Math.max(1, hero.pointsInTalent(Talent.ENGINEER_CMD));
                     return Messages.get(this, name() + ".desc" + talentLv);
-                case STAY:
-                    talentLv = Math.max(1, hero.pointsInTalent(Talent.STAY_CMD));
+                case PROMOTE:
+                    talentLv = Math.max(1, hero.pointsInTalent(Talent.PROMOTE_CMD));
                     return Messages.get(this, name() + ".desc", 5*talentLv, Messages.decimalFormat("#.#", (1+0.5f*talentLv)));
                 case ATTACK:
                     talentLv = Math.max(1, hero.pointsInTalent(Talent.ATTACK_CMD));
@@ -337,18 +348,18 @@ public class Command extends Buff implements ActionIndicator.Action {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
-                ArrayList<SupportAlly> allies = new ArrayList<>();
+                ArrayList<SupportSoldier> allies = new ArrayList<>();
                 for (Char ch : Actor.chars()) {
-                    if (ch instanceof SupportAlly) {
+                    if (ch instanceof SupportSoldier) {
                         if (hero.pointsInTalent(Talent.MOVE_CMD) < 3 && !Dungeon.level.heroFOV[ch.pos]) {
                             continue;
                         }
-                        allies.add((SupportAlly) ch);
+                        allies.add((SupportSoldier) ch);
                     }
                 }
 
                 if (!allies.isEmpty()) {
-                    for (SupportAlly ally : allies) {
+                    for (SupportSoldier ally : allies) {
                         ally.directTocell(target);
                     }
 
@@ -418,6 +429,62 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     };
 
+    private CellSelector.Listener cmdPromoteCellSelector = new CellSelector.Listener() {
+        @Override
+        public void onSelect(Integer target) {
+            if (target != null) {
+                Char ch = Actor.findChar(target);
+                if (ch instanceof SupportSoldier) {
+                    DirectableAlly newAlly;
+                    switch (Random.Int(3)) {
+                        case 0: default:
+                            newAlly = new SupportSniper();
+                            break;
+                        case 1:
+                            newAlly = new SupportShielder();
+                            break;
+                        case 2:
+                            newAlly = new SupportBomber();
+                            break;
+                    }
+                    float enemyHPPercent = (ch.HP)/(float)ch.HT; //적이 변하고 나서 체력 비율이 그대로일 수 있도록 현재 적의 체력 비율을 확인
+                    newAlly.pos = ch.pos;
+
+                    Actor.remove( ch );
+                    ch.sprite.killAndErase();
+                    Dungeon.level.mobs.remove(ch);
+
+                    if (hero.pointsInTalent(Talent.PROMOTE_CMD) > 1) {
+                        newAlly.HP = newAlly.HT;
+                    } else {
+                        newAlly.HP = Math.max(1, (int)Math.ceil(newAlly.HT * enemyHPPercent)); //체력 비율은 올림 처리, 적어도 1의 체력을 보유하고 있어야 함
+                    }
+
+                    GameScene.add(newAlly);
+
+                    TargetHealthIndicator.instance.target(null);
+                    CellEmitter.get(newAlly.pos).burst(Speck.factory(Speck.WOOL), 4);
+                    Sample.INSTANCE.play(Assets.Sounds.PUFF);
+
+                    Dungeon.level.occupyCell(newAlly);
+
+                    hero.spendAndNext(1f);
+                    hero.sprite.operate(hero.pos);
+                    Sample.INSTANCE.play(Assets.Sounds.BEACON);
+
+                    useCharge(CommandMove.PROMOTE);
+                } else {
+                    GLog.w(Messages.get(Command.class, "no_allies_to_cmd"));
+                }
+            }
+        }
+
+        @Override
+        public String prompt() {
+            return Messages.get(Command.class, "prompt");
+        }
+    };
+
     private CellSelector.Listener cmdAttackCellSelector = new CellSelector.Listener() {
         @Override
         public void onSelect(Integer target) {
@@ -446,13 +513,11 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     };
 
-    /* --- 명령에 필요한 타일 선택기 --- */
-
     //아군 군인
-    public static class SupportAlly extends DirectableAlly {
+    public static class SupportSoldier extends DirectableAlly {
 
         {
-            spriteClass = SupportSprite.class;
+            spriteClass = SupportSoldirSprite.class;
 
             HP = HT = hero.HT/4;
 
@@ -486,7 +551,7 @@ public class Command extends Buff implements ActionIndicator.Action {
         @Override
         public int damageRoll() {
             int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
-            return Random.NormalIntRange(3*region, 10*region);
+            return Random.NormalIntRange(2*region, 8*region);
         }
 
         @Override
@@ -523,11 +588,262 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
-    public static class SupportSprite extends MobSprite {
+    public static class SupportSniper extends DirectableAlly {
+
+        {
+            spriteClass = SupportSniperSprite.class;
+
+            HP = HT = hero.HT/8; //less HT
+
+            viewDistance = Light.DISTANCE+3; //longer viewDistance
+
+            immunities.add(AllyBuff.class);
+        }
+
+        @Override
+        protected boolean canAttack( Char enemy ) {
+            Ballistica attack = new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE);
+            return Dungeon.level.adjacent( pos, enemy.pos ) || attack.collisionPos == enemy.pos; //can't attack at melee distance
+        }
+
+        @Override
+        public int defenseSkill(Char target) {
+            return 4+hero.lvl; //same with hero's base defenseSkill
+        }
+
+        @Override
+        public int attackSkill(Char target) {
+            return (9+hero.lvl)*3; //x3 of hero's base attackSkill
+        }
+
+        @Override
+        public int drRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(region, 2*region); //weaker dr
+        }
+
+        @Override
+        public int damageRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(4*region, 12*region); //stronger damage
+        }
+
+        @Override
+        public int attackProc(Char enemy, int damage) {
+            damage = super.attackProc( enemy, damage );
+
+            return damage;
+        }
+
+        @Override
+        protected boolean act() {
+            boolean result = super.act();
+            if (enemy == null && !movingToDefendPos && defendingPos == -1) {
+                followHero();
+            }
+            return result;
+        }
+
+        @Override
+        public void die(Object cause) {
+            super.die(cause);
+        }
+
+        @Override
+        protected void spend(float time) {
+            super.spend(time);
+        }
+
+        @Override
+        public void destroy() {
+            super.destroy();
+            Dungeon.observe();
+            GameScene.updateFog();
+        }
+    }
+
+    public static class SupportShielder extends DirectableAlly {
+
+        {
+            spriteClass = SupportShielderSprite.class;
+
+            HP = HT = hero.HT/3; //higher HT
+
+            viewDistance = Light.DISTANCE;
+
+            immunities.add(AllyBuff.class);
+        }
+
+        @Override
+        protected boolean canAttack( Char enemy ) {
+            return Dungeon.level.adjacent( pos, enemy.pos );
+        }
+
+        @Override
+        public int defenseSkill(Char target) {
+            return 4+hero.lvl; //same with hero's base defenseSkill
+        }
+
+        @Override
+        public int attackSkill(Char target) {
+            return 9+hero.lvl; //same with hero's base attackSkill
+        }
+
+        @Override
+        public int drRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(2*region, 6*region); //higher dr
+        }
+
+        @Override
+        public int damageRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(region, 5*region); //less damage
+        }
+
+        @Override
+        public int attackProc(Char enemy, int damage) {
+            damage = super.attackProc( enemy, damage );
+            if (Random.Float() < 0.1f) { //10% chance of inflicting short Paralysis
+                Buff.affect(enemy, Paralysis.class, 2f);
+            }
+            this.aggro(enemy); //aggros the enemy to themselves
+            return damage;
+        }
+
+        @Override
+        protected boolean act() {
+            boolean result = super.act();
+            if (enemy == null && !movingToDefendPos && defendingPos == -1) {
+                followHero();
+            }
+            return result;
+        }
+
+        @Override
+        public void die(Object cause) {
+            super.die(cause);
+        }
+
+        @Override
+        protected void spend(float time) {
+            super.spend(time);
+        }
+
+        @Override
+        public void destroy() {
+            super.destroy();
+            Dungeon.observe();
+            GameScene.updateFog();
+        }
+    }
+
+    public static class SupportBomber extends DirectableAlly {
+
+        {
+            spriteClass = SupportBomberSprite.class;
+
+            HP = HT = hero.HT/4;
+
+            viewDistance = Light.DISTANCE;
+
+            immunities.add(AllyBuff.class);
+        }
+
+        @Override
+        protected boolean canAttack( Char enemy ) {
+            Ballistica attack = new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE);
+            return Dungeon.level.adjacent( pos, enemy.pos ) || attack.collisionPos == enemy.pos;
+        }
+
+        @Override
+        public int defenseSkill(Char target) {
+            return 4+hero.lvl; //same with hero's base defenseSkill
+        }
+
+        @Override
+        public int attackSkill(Char target) {
+            return Math.round((9+hero.lvl)*0.67f); //2/3 of hero's base attackSkill
+        }
+
+        @Override
+        public int drRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(region, 5*region);
+        }
+
+        @Override
+        public int damageRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(3*region, 10*region);
+        }
+
+        @Override
+        public int attackProc(Char enemy, int damage) {
+            damage = super.attackProc( enemy, damage );
+            return damage;
+        }
+
+        @Override
+        public void onAttackComplete() {
+            super.onAttackComplete();
+
+            if (!Dungeon.level.adjacent(enemy.pos, this.pos)) {
+                for (int i : PathFinder.NEIGHBOURS8) {
+                    int cell = enemy.pos + i;
+                    Char ch;
+                    if ((ch = Actor.findChar(cell)) != null) {
+                        if (ch.alignment == Alignment.ENEMY) {
+                            this.attack(ch);
+                        }
+                    }
+                }
+                for (int i : PathFinder.NEIGHBOURS9) {
+                    int cell = enemy.pos + i;
+                    if (Dungeon.level.heroFOV[cell]) {
+                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 4);
+                        CellEmitter.center(enemy.pos).burst(BlastParticle.FACTORY, 4);
+                    }
+                    if (Dungeon.level.flamable[cell]) {
+                        Dungeon.level.destroy(cell);
+                        GameScene.updateMap(cell);
+                    }
+                }
+            }
+        }
+
+        @Override
+        protected boolean act() {
+            boolean result = super.act();
+            if (enemy == null && !movingToDefendPos && defendingPos == -1) {
+                followHero();
+            }
+            return result;
+        }
+
+        @Override
+        public void die(Object cause) {
+            super.die(cause);
+        }
+
+        @Override
+        protected void spend(float time) {
+            super.spend(time);
+        }
+
+        @Override
+        public void destroy() {
+            super.destroy();
+            Dungeon.observe();
+            GameScene.updateFog();
+        }
+    }
+
+    public static class SupportSoldirSprite extends MobSprite {
 
         private int cellToAttack;
 
-        public SupportSprite() {
+        public SupportSoldirSprite() {
             super();
 
             texture( Assets.Sprites.SUPPORT_FORCE );
@@ -583,6 +899,93 @@ public class Command extends Buff implements ActionIndicator.Action {
             } else {
                 super.onComplete( anim );
             }
+        }
+    }
+
+    public static class SupportSniperSprite extends SupportSoldirSprite {
+
+        public SupportSniperSprite() {
+            super();
+
+            int offset = 21;
+
+            texture( Assets.Sprites.SUPPORT_FORCE );
+
+            TextureFilm frames = new TextureFilm( texture, 12, 15 );
+
+            idle = new Animation( 1, true );
+            idle.frames( frames, offset+0, offset+0, offset+0, offset+1, offset+0, offset+0, offset+1, offset+1 );
+
+            run = new Animation( 20, true );
+            run.frames( frames, offset+2, offset+3, offset+4, offset+5, offset+6, offset+7 );
+
+            attack = new Animation( 15, false );
+            attack.frames( frames, offset+8, offset+9, offset+10, offset+0 );
+
+            zap = attack.clone();
+
+            die = new Animation( 20, false );
+            die.frames( frames, offset+11, offset+12, offset+13, offset+14, offset+15, offset+14);
+
+            play( idle );
+        }
+    }
+
+    public static class SupportShielderSprite extends SupportSoldirSprite {
+
+        public SupportShielderSprite() {
+            super();
+
+            int offset = 42;
+
+            texture( Assets.Sprites.SUPPORT_FORCE );
+
+            TextureFilm frames = new TextureFilm( texture, 12, 15 );
+
+            idle = new Animation( 1, true );
+            idle.frames( frames, offset+0, offset+0, offset+0, offset+1, offset+0, offset+0, offset+1, offset+1 );
+
+            run = new Animation( 20, true );
+            run.frames( frames, offset+2, offset+3, offset+4, offset+5, offset+6, offset+7 );
+
+            attack = new Animation( 15, false );
+            attack.frames( frames, offset+8, offset+9, offset+10, offset+0 );
+
+            zap = attack.clone();
+
+            die = new Animation( 20, false );
+            die.frames( frames, offset+11, offset+12, offset+13, offset+14, offset+15, offset+14);
+
+            play( idle );
+        }
+    }
+
+    public static class SupportBomberSprite extends SupportSoldirSprite {
+
+        public SupportBomberSprite() {
+            super();
+
+            int offset = 63;
+
+            texture( Assets.Sprites.SUPPORT_FORCE );
+
+            TextureFilm frames = new TextureFilm( texture, 12, 15 );
+
+            idle = new Animation( 1, true );
+            idle.frames( frames, offset+0, offset+0, offset+0, offset+1, offset+0, offset+0, offset+1, offset+1 );
+
+            run = new Animation( 20, true );
+            run.frames( frames, offset+2, offset+3, offset+4, offset+5, offset+6, offset+7 );
+
+            attack = new Animation( 15, false );
+            attack.frames( frames, offset+8, offset+9, offset+10, offset+0 );
+
+            zap = attack.clone();
+
+            die = new Animation( 20, false );
+            die.frames( frames, offset+11, offset+12, offset+13, offset+14, offset+15, offset+14);
+
+            play( idle );
         }
     }
 
