@@ -490,7 +490,6 @@ public class Command extends Buff implements ActionIndicator.Action {
                 Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f) );
                 ((MissileSprite)parent.recycle( MissileSprite.class )).
                         reset( this, cellToAttack, new SupportShot(), new Callback() {
-
                             @Override
                             public void call() {
                                 ch.onAttackComplete();

@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Command;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FirstAidBuff;
@@ -933,6 +934,10 @@ public abstract class Mob extends Char {
 
 			if (hero.hasTalent(Talent.KINETIC_BATTLE)) {
 				Buff.affect(hero, Talent.KineticBattle.class).set();
+			}
+
+			if (hero.subClass == HeroSubClass.MEDICALOFFICER) {
+				Buff.affect(hero, Command.class).kill();
 			}
 
 			Saddle.kill(this);
