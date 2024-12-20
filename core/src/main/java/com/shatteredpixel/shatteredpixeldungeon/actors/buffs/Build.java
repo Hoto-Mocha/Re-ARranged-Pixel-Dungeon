@@ -151,7 +151,7 @@ public class Build extends Buff implements ActionIndicator.Action {
         GameScene.selectCell(builder);
     }
 
-    public boolean isBuildable(int target, boolean isEntity) {
+    public static boolean isBuildable(int target, boolean isEntity) {
         if (!isEntity) { //건설하고자 하는 대상이 엔티티(모래 바리케이드, 감시 타워, 야포, 거치형 기관총, 박격포)가 아닐 경우 커스텀 타일에 대한 건설을 막음
             Point p = Dungeon.level.cellToPoint(target);
             //if a custom tilemap is over that cell, don't put wire there
