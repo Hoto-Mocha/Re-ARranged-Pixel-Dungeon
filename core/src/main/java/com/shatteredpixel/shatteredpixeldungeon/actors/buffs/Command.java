@@ -147,6 +147,7 @@ public class Command extends Buff implements ActionIndicator.Action {
                 cmdMedicalSupport();
                 break;
             case MOVE:
+                cmdMove();
                 break;
             case STIMPACK:
                 break;
@@ -182,8 +183,7 @@ public class Command extends Buff implements ActionIndicator.Action {
             Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
             CellEmitter.get(newAlly.pos).start( Speck.factory(Speck.LIGHT), 0.2f, 3 );
 
-            hero.spend(1f);
-            hero.busy();
+            hero.spendAndNext(1f);
             hero.sprite.operate(hero.pos);
 
             useCharge(CommandMove.RECRUIT);
@@ -202,14 +202,20 @@ public class Command extends Buff implements ActionIndicator.Action {
             for (SupportAlly ally : allies) {
                 Buff.affect(ally, Healing.class).setHeal(Math.round(ally.HT*0.2f), 0, (int)Math.ceil(Dungeon.scalingDepth()/5f));
             }
-            hero.spend(1f);
-            hero.busy();
+
+            Sample.INSTANCE.play(Assets.Sounds.BEACON);
+
+            hero.spendAndNext(1f);
             hero.sprite.operate(hero.pos);
 
             useCharge(CommandMove.MEDICAL_SUPPORT);
         } else {
             GLog.w(Messages.get(this, "no_allies"));
         }
+    }
+
+    public void cmdMove() {
+        GameScene.selectCell( cmdMoveCellSelector );
     }
 
     public static int commandChargeReq(CommandMove command) {
@@ -225,7 +231,7 @@ public class Command extends Buff implements ActionIndicator.Action {
                 }
                 return allies+1;
             case MOVE:
-                return hero.pointsInTalent(Talent.MOVE_CMD) < 3 ? 1 : 0; //특성 레벨이 3이면 명령권을 소모하지 않음
+                return hero.pointsInTalent(Talent.MOVE_CMD) < 2 ? 1 : 0; //특성 레벨이 2 이상이면 명령권을 소모하지 않음
         }
     }
 
@@ -284,7 +290,29 @@ public class Command extends Buff implements ActionIndicator.Action {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
+                ArrayList<Command.SupportAlly> allies = new ArrayList<>();
+                for (Char ch : Actor.chars()) {
+                    if (ch instanceof Command.SupportAlly) {
+                        if (hero.pointsInTalent(Talent.MOVE_CMD) < 3 && !Dungeon.level.heroFOV[ch.pos]) {
+                            continue;
+                        }
+                        allies.add((Command.SupportAlly) ch);
+                    }
+                }
 
+                if (!allies.isEmpty()) {
+                    for (Command.SupportAlly ally : allies) {
+                        ally.directTocell(target);
+                    }
+
+                    useCharge(CommandMove.MOVE);
+
+                    Sample.INSTANCE.play(Assets.Sounds.BEACON);
+                    hero.spendAndNext(1f);
+                    hero.sprite.zap(target);
+                } else {
+                    GLog.w(Messages.get(Command.class, "no_allies_to_move"));
+                }
             }
         }
 
@@ -341,11 +369,10 @@ public class Command extends Buff implements ActionIndicator.Action {
         {
             spriteClass = SupportSprite.class;
 
-            HP = HT = hero.HT;
+            HP = HT = hero.HT/4;
 
             viewDistance = Light.DISTANCE;
 
-            immunities.addAll(new BlobImmunity().immunities());
             immunities.add(AllyBuff.class);
         }
 
@@ -387,7 +414,7 @@ public class Command extends Buff implements ActionIndicator.Action {
         @Override
         protected boolean act() {
             boolean result = super.act();
-            if (enemy == null) {
+            if (enemy == null && !movingToDefendPos && defendingPos == -1) {
                 followHero();
             }
             return result;
