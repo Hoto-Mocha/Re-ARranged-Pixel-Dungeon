@@ -275,10 +275,7 @@ public class Command extends Buff implements ActionIndicator.Action {
             case RECRUIT:
                 int allies = 0;
                 for (Char ch : Actor.chars()) {
-                    if (ch instanceof SupportSoldier
-                            || ch instanceof SupportSniper
-                            || ch instanceof SupportShielder
-                            || ch instanceof SupportBomber) {
+                    if (ch instanceof SupportSoldier) {
                         allies++;
                     }
                 }
@@ -588,257 +585,6 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
-    public static class SupportSniper extends DirectableAlly {
-
-        {
-            spriteClass = SupportSniperSprite.class;
-
-            HP = HT = hero.HT/8; //less HT
-
-            viewDistance = Light.DISTANCE+3; //longer viewDistance
-
-            immunities.add(AllyBuff.class);
-        }
-
-        @Override
-        protected boolean canAttack( Char enemy ) {
-            Ballistica attack = new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE);
-            return Dungeon.level.adjacent( pos, enemy.pos ) || attack.collisionPos == enemy.pos; //can't attack at melee distance
-        }
-
-        @Override
-        public int defenseSkill(Char target) {
-            return 4+hero.lvl; //same with hero's base defenseSkill
-        }
-
-        @Override
-        public int attackSkill(Char target) {
-            return (9+hero.lvl)*3; //x3 of hero's base attackSkill
-        }
-
-        @Override
-        public int drRoll() {
-            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
-            return Random.NormalIntRange(region, 2*region); //weaker dr
-        }
-
-        @Override
-        public int damageRoll() {
-            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
-            return Random.NormalIntRange(4*region, 12*region); //stronger damage
-        }
-
-        @Override
-        public int attackProc(Char enemy, int damage) {
-            damage = super.attackProc( enemy, damage );
-
-            return damage;
-        }
-
-        @Override
-        protected boolean act() {
-            boolean result = super.act();
-            if (enemy == null && !movingToDefendPos && defendingPos == -1) {
-                followHero();
-            }
-            return result;
-        }
-
-        @Override
-        public void die(Object cause) {
-            super.die(cause);
-        }
-
-        @Override
-        protected void spend(float time) {
-            super.spend(time);
-        }
-
-        @Override
-        public void destroy() {
-            super.destroy();
-            Dungeon.observe();
-            GameScene.updateFog();
-        }
-    }
-
-    public static class SupportShielder extends DirectableAlly {
-
-        {
-            spriteClass = SupportShielderSprite.class;
-
-            HP = HT = hero.HT/3; //higher HT
-
-            viewDistance = Light.DISTANCE;
-
-            immunities.add(AllyBuff.class);
-        }
-
-        @Override
-        protected boolean canAttack( Char enemy ) {
-            return Dungeon.level.adjacent( pos, enemy.pos );
-        }
-
-        @Override
-        public int defenseSkill(Char target) {
-            return 4+hero.lvl; //same with hero's base defenseSkill
-        }
-
-        @Override
-        public int attackSkill(Char target) {
-            return 9+hero.lvl; //same with hero's base attackSkill
-        }
-
-        @Override
-        public int drRoll() {
-            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
-            return Random.NormalIntRange(2*region, 6*region); //higher dr
-        }
-
-        @Override
-        public int damageRoll() {
-            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
-            return Random.NormalIntRange(region, 5*region); //less damage
-        }
-
-        @Override
-        public int attackProc(Char enemy, int damage) {
-            damage = super.attackProc( enemy, damage );
-            if (Random.Float() < 0.1f) { //10% chance of inflicting short Paralysis
-                Buff.affect(enemy, Paralysis.class, 2f);
-            }
-            this.aggro(enemy); //aggros the enemy to themselves
-            return damage;
-        }
-
-        @Override
-        protected boolean act() {
-            boolean result = super.act();
-            if (enemy == null && !movingToDefendPos && defendingPos == -1) {
-                followHero();
-            }
-            return result;
-        }
-
-        @Override
-        public void die(Object cause) {
-            super.die(cause);
-        }
-
-        @Override
-        protected void spend(float time) {
-            super.spend(time);
-        }
-
-        @Override
-        public void destroy() {
-            super.destroy();
-            Dungeon.observe();
-            GameScene.updateFog();
-        }
-    }
-
-    public static class SupportBomber extends DirectableAlly {
-
-        {
-            spriteClass = SupportBomberSprite.class;
-
-            HP = HT = hero.HT/4;
-
-            viewDistance = Light.DISTANCE;
-
-            immunities.add(AllyBuff.class);
-        }
-
-        @Override
-        protected boolean canAttack( Char enemy ) {
-            Ballistica attack = new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE);
-            return Dungeon.level.adjacent( pos, enemy.pos ) || attack.collisionPos == enemy.pos;
-        }
-
-        @Override
-        public int defenseSkill(Char target) {
-            return 4+hero.lvl; //same with hero's base defenseSkill
-        }
-
-        @Override
-        public int attackSkill(Char target) {
-            return Math.round((9+hero.lvl)*0.67f); //2/3 of hero's base attackSkill
-        }
-
-        @Override
-        public int drRoll() {
-            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
-            return Random.NormalIntRange(region, 5*region);
-        }
-
-        @Override
-        public int damageRoll() {
-            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
-            return Random.NormalIntRange(3*region, 10*region);
-        }
-
-        @Override
-        public int attackProc(Char enemy, int damage) {
-            damage = super.attackProc( enemy, damage );
-            return damage;
-        }
-
-        @Override
-        public void onAttackComplete() {
-            super.onAttackComplete();
-
-            if (!Dungeon.level.adjacent(enemy.pos, this.pos)) {
-                for (int i : PathFinder.NEIGHBOURS8) {
-                    int cell = enemy.pos + i;
-                    Char ch;
-                    if ((ch = Actor.findChar(cell)) != null) {
-                        if (ch.alignment == Alignment.ENEMY) {
-                            this.attack(ch);
-                        }
-                    }
-                }
-                for (int i : PathFinder.NEIGHBOURS9) {
-                    int cell = enemy.pos + i;
-                    if (Dungeon.level.heroFOV[cell]) {
-                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 4);
-                        CellEmitter.center(enemy.pos).burst(BlastParticle.FACTORY, 4);
-                    }
-                    if (Dungeon.level.flamable[cell]) {
-                        Dungeon.level.destroy(cell);
-                        GameScene.updateMap(cell);
-                    }
-                }
-            }
-        }
-
-        @Override
-        protected boolean act() {
-            boolean result = super.act();
-            if (enemy == null && !movingToDefendPos && defendingPos == -1) {
-                followHero();
-            }
-            return result;
-        }
-
-        @Override
-        public void die(Object cause) {
-            super.die(cause);
-        }
-
-        @Override
-        protected void spend(float time) {
-            super.spend(time);
-        }
-
-        @Override
-        public void destroy() {
-            super.destroy();
-            Dungeon.observe();
-            GameScene.updateFog();
-        }
-    }
-
     public static class SupportSoldirSprite extends MobSprite {
 
         private int cellToAttack;
@@ -902,6 +648,37 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
+    //아군 저격수
+    public static class SupportSniper extends SupportSoldier {
+
+        {
+            spriteClass = SupportSniperSprite.class;
+
+            HP = HT = hero.HT/8; //less HT
+
+            viewDistance = Light.DISTANCE+3; //longer viewDistance
+
+            immunities.add(AllyBuff.class);
+        }
+
+        @Override
+        public int attackSkill(Char target) {
+            return (9+hero.lvl)*3; //x3 of hero's base attackSkill
+        }
+
+        @Override
+        public int drRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(region, 2*region); //weaker dr
+        }
+
+        @Override
+        public int damageRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(4*region, 12*region); //stronger damage
+        }
+    }
+
     public static class SupportSniperSprite extends SupportSoldirSprite {
 
         public SupportSniperSprite() {
@@ -928,6 +705,47 @@ public class Command extends Buff implements ActionIndicator.Action {
             die.frames( frames, offset+11, offset+12, offset+13, offset+14, offset+15, offset+14);
 
             play( idle );
+        }
+    }
+
+    //아군 방패수
+    public static class SupportShielder extends SupportSoldier {
+
+        {
+            spriteClass = SupportShielderSprite.class;
+
+            HP = HT = hero.HT/3; //higher HT
+
+            viewDistance = Light.DISTANCE;
+
+            immunities.add(AllyBuff.class);
+        }
+
+        @Override
+        protected boolean canAttack( Char enemy ) {
+            return Dungeon.level.adjacent( pos, enemy.pos );
+        }
+
+        @Override
+        public int drRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(2*region, 6*region); //higher dr
+        }
+
+        @Override
+        public int damageRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(region, 5*region); //less damage
+        }
+
+        @Override
+        public int attackProc(Char enemy, int damage) {
+            damage = super.attackProc( enemy, damage );
+            if (Random.Float() < 0.1f) { //10% chance of inflicting short Paralysis
+                Buff.affect(enemy, Paralysis.class, 2f);
+            }
+            this.aggro(enemy); //aggros the enemy to themselves
+            return damage;
         }
     }
 
@@ -960,6 +778,59 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
+    //아군 폭격수
+    public static class SupportBomber extends SupportSoldier {
+
+        {
+            spriteClass = SupportBomberSprite.class;
+
+            HP = HT = hero.HT/4;
+
+            viewDistance = Light.DISTANCE;
+
+            immunities.add(AllyBuff.class);
+        }
+
+        @Override
+        public int attackSkill(Char target) {
+            return Math.round((9+hero.lvl)*0.67f); //2/3 of hero's base attackSkill
+        }
+
+        @Override
+        public int damageRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(3*region, 10*region);
+        }
+
+        @Override
+        public void onAttackComplete() {
+            super.onAttackComplete();
+
+            if (!Dungeon.level.adjacent(enemy.pos, this.pos)) {
+                for (int i : PathFinder.NEIGHBOURS8) {
+                    int cell = enemy.pos + i;
+                    Char ch;
+                    if ((ch = Actor.findChar(cell)) != null) {
+                        if (ch.alignment == Alignment.ENEMY) {
+                            this.attack(ch);
+                        }
+                    }
+                }
+                for (int i : PathFinder.NEIGHBOURS9) {
+                    int cell = enemy.pos + i;
+                    if (Dungeon.level.heroFOV[cell]) {
+                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 4);
+                        CellEmitter.center(enemy.pos).burst(BlastParticle.FACTORY, 4);
+                    }
+                    if (Dungeon.level.flamable[cell]) {
+                        Dungeon.level.destroy(cell);
+                        GameScene.updateMap(cell);
+                    }
+                }
+            }
+        }
+    }
+
     public static class SupportBomberSprite extends SupportSoldirSprite {
 
         public SupportBomberSprite() {
@@ -989,6 +860,7 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
+    //아군 군인 총알
     public static class SupportShot extends Item {
         {
             image = ItemSpriteSheet.SINGLE_BULLET;
