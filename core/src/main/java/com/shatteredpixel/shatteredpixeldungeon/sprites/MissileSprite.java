@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Command;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SwordAura;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.GnollGeomancer;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.MachineGun;
@@ -108,6 +109,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(SpiritBow.SpiritArrow.class,       0);
 		ANGULAR_SPEEDS.put(ScorpioSprite.ScorpioShot.class,   0);
 		ANGULAR_SPEEDS.put(SoldierSprite.SoldierShot.class,   0);
+		ANGULAR_SPEEDS.put(Command.SupportShot.class,   0);
 		ANGULAR_SPEEDS.put(TankSprite.TankShot.class, 		  0);
 		ANGULAR_SPEEDS.put(SWATSprite.SWATShot.class, 		  0);
 		ANGULAR_SPEEDS.put(RebelSprite.RebelShot.class, 	  0);
@@ -183,6 +185,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		} else if (item instanceof SpiritBow.SpiritArrow
 				|| item instanceof ScorpioSprite.ScorpioShot
 				|| item instanceof SoldierSprite.SoldierShot
+				|| item instanceof Command.SupportShot
 				|| item instanceof TankSprite.TankShot
 				|| item instanceof SWATSprite.SWATShot
 				|| item instanceof RebelSprite.RebelShot

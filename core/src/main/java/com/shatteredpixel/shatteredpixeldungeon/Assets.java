@@ -386,5 +386,6 @@ public class Assets {
 		public static final String MACHINEGUN= "sprites/machinegun.png";
 		public static final String MORTAR = "sprites/mortar.png";
 		public static final String SPIRIT_HORSE = "sprites/spirit_horse.png";
+		public static final String SUPPORT_FORCE = "sprites/support_force.png";
 	}
 }

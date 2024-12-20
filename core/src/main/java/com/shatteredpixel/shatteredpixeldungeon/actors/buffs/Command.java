@@ -2,21 +2,41 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.MobSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndCombo;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndCommand;
 import com.watabou.noosa.BitmapText;
+import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.Visual;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
+import com.watabou.utils.PathFinder;
+import com.watabou.utils.Random;
+
+import java.util.ArrayList;
 
 public class Command extends Buff implements ActionIndicator.Action {
     {
@@ -93,6 +113,7 @@ public class Command extends Buff implements ActionIndicator.Action {
         if (this.charge++ > 6) {
             this.charge = 6;
         }
+        ActionIndicator.setAction( this );
     }
 
     public boolean canUse(CommandMove command) {
@@ -118,6 +139,7 @@ public class Command extends Buff implements ActionIndicator.Action {
     public void useCommand(CommandMove command) {
         switch (command) {
             case RECRUIT:
+                cmdRecruit();
                 break;
             case MEDICAL_SUPPORT:
                 break;
@@ -136,6 +158,36 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
+    public void cmdRecruit() {
+        Hero hero = (Hero) target;
+        ArrayList<Integer> spawnPoints = new ArrayList<>();
+        for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
+            int p = hero.pos + PathFinder.NEIGHBOURS8[i];
+            if (Actor.findChar(p) == null && Dungeon.level.passable[p]) {
+                spawnPoints.add(p);
+            }
+        }
+
+        if (!spawnPoints.isEmpty()) {
+            SupportAlly newAlly = new SupportAlly();
+
+            newAlly.pos = Random.element(spawnPoints);
+
+            GameScene.add(newAlly, 1f);
+            Dungeon.level.occupyCell(newAlly);
+
+            Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
+            CellEmitter.get(newAlly.pos).start( Speck.factory(Speck.LIGHT), 0.2f, 3 );
+
+            hero.spend(1f);
+            hero.busy();
+            hero.sprite.operate(hero.pos);
+
+            useCharge(CommandMove.RECRUIT);
+        } else
+            GLog.i( Messages.get(this, "no_space") );
+    }
+
     public static int commandChargeReq(CommandMove command) {
         switch (command) {
             default:
@@ -143,6 +195,11 @@ public class Command extends Buff implements ActionIndicator.Action {
             case MOVE:
                 return hero.pointsInTalent(Talent.MOVE_CMD) < 3 ? 1 : 0; //특성 레벨이 3이면 명령권을 소모하지 않음
         }
+    }
+
+    public void useCharge(CommandMove command) {
+        charge -= commandChargeReq(command);
+        ActionIndicator.setAction(this);
     }
 
     public enum CommandMove {
@@ -246,4 +303,149 @@ public class Command extends Buff implements ActionIndicator.Action {
             return Messages.get(Command.class, "prompt");
         }
     };
+
+    public static class SupportAlly extends DirectableAlly {
+
+        {
+            spriteClass = SupportSprite.class;
+
+            HP = HT = hero.HT;
+
+            viewDistance = Light.DISTANCE;
+
+            immunities.addAll(new BlobImmunity().immunities());
+            immunities.add(AllyBuff.class);
+        }
+
+        @Override
+        protected boolean canAttack( Char enemy ) {
+            Ballistica attack = new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE);
+            return Dungeon.level.adjacent( pos, enemy.pos ) || attack.collisionPos == enemy.pos;
+        }
+
+        @Override
+        public int defenseSkill(Char target) {
+            return 4+hero.lvl; //same with hero's base defenseSkill
+        }
+
+        @Override
+        public int attackSkill(Char target) {
+            return 9+hero.lvl; //same with hero's base attackSkill
+        }
+
+        @Override
+        public int drRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(region, 5*region);
+        }
+
+        @Override
+        public int damageRoll() {
+            int region = (int)Math.ceil(Dungeon.scalingDepth()/5f);
+            return Random.NormalIntRange(3*region, 10*region);
+        }
+
+        @Override
+        public int attackProc(Char enemy, int damage) {
+            damage = super.attackProc( enemy, damage );
+
+            return damage;
+        }
+
+        @Override
+        protected boolean act() {
+            boolean result = super.act();
+            if (enemy == null) {
+                followHero();
+            }
+            return result;
+        }
+
+        @Override
+        public void die(Object cause) {
+            super.die(cause);
+        }
+
+        @Override
+        protected void spend(float time) {
+            super.spend(time);
+        }
+
+        @Override
+        public void destroy() {
+            super.destroy();
+            Dungeon.observe();
+            GameScene.updateFog();
+        }
+    }
+
+    public static class SupportSprite extends MobSprite {
+
+        private int cellToAttack;
+
+        public SupportSprite() {
+            super();
+
+            texture( Assets.Sprites.SUPPORT_FORCE );
+
+            TextureFilm frames = new TextureFilm( texture, 12, 15 );
+
+            idle = new Animation( 1, true );
+            idle.frames( frames, 0, 0, 0, 1, 0, 0, 1, 1 );
+
+            run = new Animation( 20, true );
+            run.frames( frames, 2, 3, 4, 5, 6, 7 );
+
+            attack = new Animation( 15, false );
+            attack.frames( frames, 8, 9, 10, 0 );
+
+            zap = attack.clone();
+
+            die = new Animation( 20, false );
+            die.frames( frames, 11, 12, 13, 14, 15, 14);
+
+            play( idle );
+        }
+
+        @Override
+        public void attack( int cell ) {
+            if (!Dungeon.level.adjacent( cell, ch.pos )) {
+
+                cellToAttack = cell;
+                turnTo( ch.pos , cell );
+                play( zap );
+
+            } else {
+
+                super.attack( cell );
+
+            }
+        }
+
+        @Override
+        public void onComplete( Animation anim ) {
+            if (anim == zap) {
+                idle();
+                CellEmitter.get(ch.pos).burst(SmokeParticle.FACTORY, 2);
+                CellEmitter.center(ch.pos).burst(BlastParticle.FACTORY, 2);
+                Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f) );
+                ((MissileSprite)parent.recycle( MissileSprite.class )).
+                        reset( this, cellToAttack, new SupportShot(), new Callback() {
+
+                            @Override
+                            public void call() {
+                                ch.onAttackComplete();
+                            }
+                        } );
+            } else {
+                super.onComplete( anim );
+            }
+        }
+    }
+
+    public static class SupportShot extends Item {
+        {
+            image = ItemSpriteSheet.SINGLE_BULLET;
+        }
+    }
 }
