@@ -6,6 +6,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Command;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -382,7 +383,7 @@ public class Teleporter extends Item {
 //            if (hero.buff(HorseRiding.RidingCooldown.class) != null) {
 //                hero.buff(HorseRiding.RidingCooldown.class).kill();
 //            }
-            Dungeon.level.drop(Generator.randomWeapon( (Dungeon.depth / 5) + 1), hero.pos).sprite.drop();
+            Buff.affect(hero, Command.class).kill();
         }
     }
 
