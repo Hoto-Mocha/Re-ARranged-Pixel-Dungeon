@@ -8,12 +8,14 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.GL.GL;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -142,6 +144,7 @@ public class Command extends Buff implements ActionIndicator.Action {
                 cmdRecruit();
                 break;
             case MEDICAL_SUPPORT:
+                cmdMedicalSupport();
                 break;
             case MOVE:
                 break;
@@ -188,10 +191,39 @@ public class Command extends Buff implements ActionIndicator.Action {
             GLog.i( Messages.get(this, "no_space") );
     }
 
+    public void cmdMedicalSupport() {
+        ArrayList<SupportAlly> allies = new ArrayList<>();
+        for (Char ch : Actor.chars()) {
+            if (ch instanceof SupportAlly && ch.HP < ch.HT && Dungeon.level.heroFOV[ch.pos]) {
+                allies.add((SupportAlly) ch);
+            }
+        }
+        if (!allies.isEmpty()) {
+            for (SupportAlly ally : allies) {
+                Buff.affect(ally, Healing.class).setHeal(Math.round(ally.HT*0.2f), 0, (int)Math.ceil(Dungeon.scalingDepth()/5f));
+            }
+            hero.spend(1f);
+            hero.busy();
+            hero.sprite.operate(hero.pos);
+
+            useCharge(CommandMove.MEDICAL_SUPPORT);
+        } else {
+            GLog.w(Messages.get(this, "no_allies"));
+        }
+    }
+
     public static int commandChargeReq(CommandMove command) {
         switch (command) {
             default:
                 return command.chargeReq;
+            case RECRUIT:
+                int allies = 0;
+                for (Char ch : Actor.chars()) {
+                    if (ch instanceof SupportAlly) {
+                        allies++;
+                    }
+                }
+                return allies+1;
             case MOVE:
                 return hero.pointsInTalent(Talent.MOVE_CMD) < 3 ? 1 : 0; //특성 레벨이 3이면 명령권을 소모하지 않음
         }
