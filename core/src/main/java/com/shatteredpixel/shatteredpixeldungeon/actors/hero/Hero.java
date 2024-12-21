@@ -104,6 +104,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.El
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.AngelWing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.HealingGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
@@ -991,6 +992,10 @@ public class Hero extends Char {
 				&& hero.STR() > hero.belongings.armor.STRReq()) {
 			int aEnc = hero.STR() - hero.belongings.armor.STRReq();
 			speed *= Math.pow(1+0.03f*hero.pointsInTalent(Talent.PILOTING), aEnc);
+		}
+
+		if (hero.buff(AngelWing.AngelWingBuff.class) != null) {
+			speed *= 3f;
 		}
 
 		speed = AscensionChallenge.modifyHeroSpeed(speed);
