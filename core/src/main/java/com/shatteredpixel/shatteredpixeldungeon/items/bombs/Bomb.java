@@ -72,9 +72,14 @@ public class Bomb extends Item {
 		usesTargeting = true;
 
 		stackable = true;
+
+		minDamage = 4 + Dungeon.scalingDepth();
+		maxDamage = 12 + 3*Dungeon.scalingDepth();
 	}
 
 	public Fuse fuse;
+	public int minDamage;
+	public int maxDamage;
 
 	//FIXME using a static variable for this is kinda gross, should be a better way
 	private static boolean lightingFuse = false;
@@ -185,7 +190,7 @@ public class Bomb extends Item {
 					continue;
 				}
 
-				int dmg = Random.NormalIntRange(4 + Dungeon.scalingDepth(), 12 + 3*Dungeon.scalingDepth());
+				int dmg = Random.NormalIntRange(minDamage, maxDamage);
 				dmg -= ch.drRoll();
 
 				if (dmg > 0) {
