@@ -617,7 +617,7 @@ public enum Talent {
 	EXPLOSION_CMD				(29, 10, 3),
 	CAS_CMD						(30, 10, 3), //CAS = Close Air Support
 	//HealGenerator T4
-	AREA_AMP					(31, 10, 4),
+	HEALING_AMP					(31, 10, 4),
 	SHIELD_GEN					(32, 10, 4),
 	DURABLE_GEN					(33, 10, 4),
 	//AngelWing T4

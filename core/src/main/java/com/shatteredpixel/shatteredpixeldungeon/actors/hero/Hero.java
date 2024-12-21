@@ -104,6 +104,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.El
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.HealingGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
@@ -2166,6 +2167,11 @@ public class Hero extends Char {
 		}
 
 		//attacking procs
+		HealingGenerator.RegenBuff regenBuff = hero.buff(HealingGenerator.RegenBuff.class);
+		if (regenBuff != null) {
+			regenBuff.attackProc();
+		}
+
 		if (hero.hasTalent(Talent.BAYONET) && hero.buff(ReinforcedArmor.ReinforcedArmorTracker.class) != null){
 			if (wep instanceof Gun) {
 				Buff.affect( enemy, Bleeding.class ).set( 4 + hero.pointsInTalent(Talent.BAYONET));

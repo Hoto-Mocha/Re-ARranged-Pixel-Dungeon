@@ -48,7 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpB
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WildMagic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.AngelWing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.GammaRayEmmit;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.HealareaGenerator;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.HealingGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.ShadowClone;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.SmokeBomb;
@@ -453,7 +453,7 @@ public enum HeroClass {
 			case KNIGHT:
 				return new ArmorAbility[]{new HolyShield(), new StimPack(), new UnstableAnkh()};
 			case MEDIC:
-				return new ArmorAbility[]{new HealareaGenerator(), new AngelWing(), new GammaRayEmmit()};
+				return new ArmorAbility[]{new HealingGenerator(), new AngelWing(), new GammaRayEmmit()};
 		}
 	}
 
