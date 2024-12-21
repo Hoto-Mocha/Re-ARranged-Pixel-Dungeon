@@ -404,41 +404,45 @@ public class Command extends Buff implements ActionIndicator.Action {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
-                if (Build.isBuildable(target, true)) {
-                    Trap t;
-                    Building b;
-                    //특성 레벨에 따라 다른 빌딩을 건설
-                    switch (hero.pointsInTalent(Talent.ENGINEER_CMD)) {
-                        case 1: default:
-                            b = new MachineGun(); //거치형 기관총
-                            break;
-                        case 2:
-                            b = new Cannon(); //야포
-                            break;
-                        case 3:
-                            b = new Mortar(); //박격포
-                            break;
+                if (Dungeon.level.heroFOV[target]) {
+                    if (Build.isBuildable(target, true)) {
+                        Trap t;
+                        Building b;
+                        //특성 레벨에 따라 다른 빌딩을 건설
+                        switch (hero.pointsInTalent(Talent.ENGINEER_CMD)) {
+                            case 1: default:
+                                b = new MachineGun(); //거치형 기관총
+                                break;
+                            case 2:
+                                b = new Cannon(); //야포
+                                break;
+                            case 3:
+                                b = new Mortar(); //박격포
+                                break;
+                        }
+                        //빌딩 건설 부분
+                        b.pos = target;
+                        GameScene.add(b);
+                        if ((t = Dungeon.level.traps.get(b.pos)) != null && t.active){
+                            if (t.disarmedByActivation) t.disarm();
+                            t.reveal();
+                            t.activate();
+                        }
+                        Dungeon.level.occupyCell(b);
+                        GameScene.updateMap(target);
+
+                        hero.spendAndNext(1f);
+                        hero.sprite.zap(target);
+
+                        CellEmitter.center( target ).burst( Speck.factory( Speck.STAR ), 7 );
+                        Sample.INSTANCE.play( Assets.Sounds.EVOKE );
+
+                        useCharge(CommandMove.ENGINEER);
+                    } else {
+                        GLog.w(Messages.get(Build.class, "invalid"));
                     }
-                    //빌딩 건설 부분
-                    b.pos = target;
-                    GameScene.add(b);
-                    if ((t = Dungeon.level.traps.get(b.pos)) != null && t.active){
-                        if (t.disarmedByActivation) t.disarm();
-                        t.reveal();
-                        t.activate();
-                    }
-                    Dungeon.level.occupyCell(b);
-                    GameScene.updateMap(target);
-
-                    hero.spendAndNext(1f);
-                    hero.sprite.zap(target);
-
-                    CellEmitter.center( target ).burst( Speck.factory( Speck.STAR ), 7 );
-                    Sample.INSTANCE.play( Assets.Sounds.EVOKE );
-
-                    useCharge(CommandMove.ENGINEER);
                 } else {
-                    GLog.w(Messages.get(Build.class, "invalid"));
+                    GLog.w(Messages.get(Command.class, "bad_target"));
                 }
             }
         }
@@ -453,48 +457,52 @@ public class Command extends Buff implements ActionIndicator.Action {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
-                Char ch = Actor.findChar(target);
-                if (ch instanceof SupportSoldier) {
-                    SupportSoldier newAlly;
-                    switch (Random.Int(3)) {
-                        case 0: default:
-                            newAlly = new SupportSniper();
-                            break;
-                        case 1:
-                            newAlly = new SupportShielder();
-                            break;
-                        case 2:
-                            newAlly = new SupportBomber();
-                            break;
-                    }
-                    float enemyHPPercent = (ch.HP)/(float)ch.HT; //적이 변하고 나서 체력 비율이 그대로일 수 있도록 현재 적의 체력 비율을 확인
-                    newAlly.pos = ch.pos;
+                if (Dungeon.level.heroFOV[target]) {
+                    Char ch = Actor.findChar(target);
+                    if (ch instanceof SupportSoldier) {
+                        SupportSoldier newAlly;
+                        switch (Random.Int(3)) {
+                            case 0: default:
+                                newAlly = new SupportSniper();
+                                break;
+                            case 1:
+                                newAlly = new SupportShielder();
+                                break;
+                            case 2:
+                                newAlly = new SupportBomber();
+                                break;
+                        }
+                        float enemyHPPercent = (ch.HP)/(float)ch.HT; //적이 변하고 나서 체력 비율이 그대로일 수 있도록 현재 적의 체력 비율을 확인
+                        newAlly.pos = ch.pos;
 
-                    Actor.remove( ch );
-                    ch.sprite.killAndErase();
-                    Dungeon.level.mobs.remove(ch);
+                        Actor.remove( ch );
+                        ch.sprite.killAndErase();
+                        Dungeon.level.mobs.remove(ch);
 
-                    if (hero.pointsInTalent(Talent.PROMOTE_CMD) > 1) {
-                        newAlly.HP = newAlly.HT;
+                        if (hero.pointsInTalent(Talent.PROMOTE_CMD) > 1) {
+                            newAlly.HP = newAlly.HT;
+                        } else {
+                            newAlly.HP = Math.max(1, (int)Math.ceil(newAlly.HT * enemyHPPercent)); //체력 비율은 올림 처리, 적어도 1의 체력을 보유하고 있어야 함
+                        }
+
+                        GameScene.add(newAlly);
+
+                        TargetHealthIndicator.instance.target(null);
+                        CellEmitter.get(newAlly.pos).burst(Speck.factory(Speck.WOOL), 4);
+                        Sample.INSTANCE.play(Assets.Sounds.PUFF);
+
+                        Dungeon.level.occupyCell(newAlly);
+
+                        hero.spendAndNext(1f);
+                        hero.sprite.operate(hero.pos);
+                        Sample.INSTANCE.play(Assets.Sounds.BEACON);
+
+                        useCharge(CommandMove.PROMOTE);
                     } else {
-                        newAlly.HP = Math.max(1, (int)Math.ceil(newAlly.HT * enemyHPPercent)); //체력 비율은 올림 처리, 적어도 1의 체력을 보유하고 있어야 함
+                        GLog.w(Messages.get(Command.class, "no_allies_to_cmd"));
                     }
-
-                    GameScene.add(newAlly);
-
-                    TargetHealthIndicator.instance.target(null);
-                    CellEmitter.get(newAlly.pos).burst(Speck.factory(Speck.WOOL), 4);
-                    Sample.INSTANCE.play(Assets.Sounds.PUFF);
-
-                    Dungeon.level.occupyCell(newAlly);
-
-                    hero.spendAndNext(1f);
-                    hero.sprite.operate(hero.pos);
-                    Sample.INSTANCE.play(Assets.Sounds.BEACON);
-
-                    useCharge(CommandMove.PROMOTE);
                 } else {
-                    GLog.w(Messages.get(Command.class, "no_allies_to_cmd"));
+                    GLog.w(Messages.get(Command.class, "bad_target"));
                 }
             }
         }
@@ -509,16 +517,20 @@ public class Command extends Buff implements ActionIndicator.Action {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
-                Ballistica aim = new Ballistica(hero.pos, target, Ballistica.STOP_TARGET);
-                new Explosive().effect(null, hero, aim, false);
-                hero.sprite.parent.add(new TargetedCell(target, 0xFF0000));
+                if (Dungeon.level.heroFOV[target]) {
+                    Ballistica aim = new Ballistica(hero.pos, target, Ballistica.STOP_TARGET);
+                    new Explosive().effect(null, hero, aim, false);
+                    hero.sprite.parent.add(new TargetedCell(target, 0xFF0000));
 
-                hero.sprite.operate(hero.pos);
-                hero.spendAndNext(1f);
+                    hero.sprite.operate(hero.pos);
+                    hero.spendAndNext(1f);
 
-                Sample.INSTANCE.play(Assets.Sounds.BEACON);
+                    Sample.INSTANCE.play(Assets.Sounds.BEACON);
 
-                useCharge(CommandMove.EXPLOSION);
+                    useCharge(CommandMove.EXPLOSION);
+                } else {
+                    GLog.w(Messages.get(Command.class, "bad_target"));
+                }
             }
         }
 
