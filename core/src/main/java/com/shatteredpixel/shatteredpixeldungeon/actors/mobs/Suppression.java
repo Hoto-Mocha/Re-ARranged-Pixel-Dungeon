@@ -46,7 +46,7 @@ public class Suppression extends Mob {
 		defenseSkill = 15;
 		
 		EXP = 5;
-		maxLvl = 20;
+		maxLvl = 30;
 		
 		SLEEPING = new Sleeping();
 		WANDERING = new Wandering();
