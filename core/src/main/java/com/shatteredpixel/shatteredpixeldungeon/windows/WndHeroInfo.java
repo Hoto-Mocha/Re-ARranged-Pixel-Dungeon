@@ -240,6 +240,7 @@ public class WndHeroInfo extends WndTabbed {
 				case MEDIC:
 					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.GAMMA_RAY_GUN),
 							Icons.BUFFS.get(),
+							new ItemSprite(ItemSpriteSheet.PILL_STRENGTH),
 							new ItemSprite(ItemSpriteSheet.SCALPEL),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;

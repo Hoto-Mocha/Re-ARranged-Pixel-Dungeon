@@ -1,15 +1,22 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.pills;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.InventoryStone;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndUseItem;
 import com.watabou.noosa.audio.Sample;
 
 import java.util.ArrayList;
@@ -18,6 +25,9 @@ import java.util.HashSet;
 public class Pill extends Item {
 
     public static final String AC_USE = "USE";
+
+    //used internally for potions that can be drunk or thrown
+    public static final String AC_CHOOSE = "CHOOSE";
 
     private static final float TIME_TO_USE = 1f;
 
@@ -50,6 +60,15 @@ public class Pill extends Item {
     }
 
     @Override
+    public String defaultAction() {
+        if (Dungeon.hero.heroClass == HeroClass.MEDIC && dangerousPills.contains(this.getClass())){
+            return AC_CHOOSE;
+        } else {
+            return AC_USE;
+        }
+    }
+
+    @Override
     public void execute( Hero hero, String action ) {
         super.execute(hero, action);
         if (action.equals(AC_USE)) {
@@ -70,14 +89,22 @@ public class Pill extends Item {
             } else {
                 apply(hero);
             }
+            return;
+        }
+        if (action.equals(AC_CHOOSE)) {
+            GameScene.show(new WndUseItem(null, this) );
+            return;
         }
     }
 
     public void apply( Hero hero ) {
         detach( hero.belongings.backpack );
 
-        hero.spend( TIME_TO_USE );
-        hero.busy();
+        if (curUser.heroClass == HeroClass.MEDIC) {
+            hero.spendAndNext( 0 );
+        } else {
+            hero.spendAndNext( TIME_TO_USE );
+        }
 
         Sample.INSTANCE.play( Assets.Sounds.DRINK );
 
@@ -85,13 +112,22 @@ public class Pill extends Item {
         useEffect(hero);
     }
 
+    @Override
+    protected void onThrow(int cell) {
+        if (curUser.heroClass == HeroClass.MEDIC) {
+            if (Dungeon.level.pit[cell] || Actor.findChar(cell) == null || cell == curUser.pos){
+                super.onThrow( cell );
+            } else {
+                useEffect(Actor.findChar(cell));
+                Invisibility.dispel();
+            }
+        } else {
+            super.onThrow(cell);
+        }
+    }
+
     public void useEffect(Char appliedCh) { //pills can be applied to the enemies
-//        TODO: 간호사 기능 추가
-//        if (curUser.heroClass == HeroClass.NURSE) {
-//            if (Random.Float() < talentChance){
-//                Talent.onPotionUsed(curUser, appliedCh.pos, talentFactor);
-//            }
-//        }
+        Catalog.countUse(getClass());
     };
 
     @Override
