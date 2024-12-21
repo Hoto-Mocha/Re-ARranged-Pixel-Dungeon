@@ -1022,6 +1022,10 @@ public class CursedWand {
 		return effect;
 	}
 
+	public static CursedEffect chooseVeryRareEffect(CursedEffect effect, Item origin, Char user, Ballistica bolt, boolean positiveOnly) {
+		return effect;
+	}
+
 	public static class ForestFire extends CursedEffect {
 		@Override
 		public boolean effect(Item origin, Char user, Ballistica bolt, boolean positiveOnly) {

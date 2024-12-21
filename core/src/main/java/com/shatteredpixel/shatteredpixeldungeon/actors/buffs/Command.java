@@ -9,16 +9,17 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Building;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Cannon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.MachineGun;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Mortar;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.TargetedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.CursedWand;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -136,8 +137,8 @@ public class Command extends Buff implements ActionIndicator.Action {
                 return hero.hasTalent(Talent.ENGINEER_CMD);
             case PROMOTE:
                 return hero.hasTalent(Talent.PROMOTE_CMD);
-            case ATTACK:
-                return hero.hasTalent(Talent.ATTACK_CMD);
+            case EXPLOSION:
+                return hero.hasTalent(Talent.EXPLOSION_CMD);
             case CLOSE_AIR_SUPPORT:
                 return hero.hasTalent(Talent.CAS_CMD);
         }
@@ -164,7 +165,8 @@ public class Command extends Buff implements ActionIndicator.Action {
             case PROMOTE:
                 cmdPromote();
                 break;
-            case ATTACK:
+            case EXPLOSION:
+                cmdExplosion();
                 break;
             case CLOSE_AIR_SUPPORT:
                 break;
@@ -221,7 +223,7 @@ public class Command extends Buff implements ActionIndicator.Action {
 
             useCharge(CommandMove.MEDICAL_SUPPORT);
         } else {
-            GLog.w(Messages.get(this, "no_allies"));
+            GLog.w(Messages.get(this, "no_allies_to_cmd"));
         }
     }
 
@@ -264,6 +266,9 @@ public class Command extends Buff implements ActionIndicator.Action {
         GameScene.selectCell( cmdPromoteCellSelector );
     }
 
+    public void cmdExplosion() {
+        GameScene.selectCell(cmdExplosionCellSelector);
+    }
 
     /* --- 명령 수행 메서드 --- */
     
@@ -300,8 +305,8 @@ public class Command extends Buff implements ActionIndicator.Action {
         STIMPACK            (1),
         ENGINEER            (1),
         PROMOTE             (3),
-        ATTACK              (1),
-        CLOSE_AIR_SUPPORT   (1);
+        EXPLOSION           (5),
+        CLOSE_AIR_SUPPORT   (3);
 
         public int chargeReq;
 
@@ -329,9 +334,9 @@ public class Command extends Buff implements ActionIndicator.Action {
                 case PROMOTE:
                     talentLv = Math.max(1, hero.pointsInTalent(Talent.PROMOTE_CMD));
                     return Messages.get(this, name() + ".desc", 5*talentLv, Messages.decimalFormat("#.#", (1+0.5f*talentLv)));
-                case ATTACK:
-                    talentLv = Math.max(1, hero.pointsInTalent(Talent.ATTACK_CMD));
-                    return Messages.get(this, name() + ".desc", talentLv);
+                case EXPLOSION:
+                    talentLv = Math.max(1, hero.pointsInTalent(Talent.EXPLOSION_CMD));
+                    return Messages.get(this, name() + ".desc", talentLv*3);
                 case CLOSE_AIR_SUPPORT:
                     talentLv = Math.max(1, hero.pointsInTalent(Talent.CAS_CMD));
                     return Messages.get(this, name() + ".desc", talentLv, talentLv);
@@ -432,7 +437,7 @@ public class Command extends Buff implements ActionIndicator.Action {
             if (target != null) {
                 Char ch = Actor.findChar(target);
                 if (ch instanceof SupportSoldier) {
-                    DirectableAlly newAlly;
+                    SupportSoldier newAlly;
                     switch (Random.Int(3)) {
                         case 0: default:
                             newAlly = new SupportSniper();
@@ -482,11 +487,20 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     };
 
-    private CellSelector.Listener cmdAttackCellSelector = new CellSelector.Listener() {
+    private CellSelector.Listener cmdExplosionCellSelector = new CellSelector.Listener() {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
+                Ballistica aim = new Ballistica(hero.pos, target, Ballistica.STOP_TARGET);
+                new ExplosiveBomb().effect(null, hero, aim, false);
+                hero.sprite.parent.add(new TargetedCell(target, 0xFF0000));
 
+                hero.sprite.operate(hero.pos);
+                hero.spendAndNext(1f);
+
+                Sample.INSTANCE.play(Assets.Sounds.BEACON);
+
+                useCharge(CommandMove.EXPLOSION);
             }
         }
 
@@ -864,6 +878,17 @@ public class Command extends Buff implements ActionIndicator.Action {
     public static class SupportShot extends Item {
         {
             image = ItemSpriteSheet.SINGLE_BULLET;
+        }
+    }
+
+    public static class ExplosiveBomb extends CursedWand.SuperNova {
+        @Override
+        public boolean effect(Item origin, Char user, Ballistica bolt, boolean positiveOnly) {
+            ExplosiveBombTracker nova = Buff.append(Dungeon.hero, ExplosiveBombTracker.class);
+            nova.pos = bolt.collisionPos;
+            nova.harmsAllies = !positiveOnly;
+
+            return true;
         }
     }
 }
