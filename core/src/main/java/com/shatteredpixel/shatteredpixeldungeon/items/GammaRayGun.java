@@ -18,6 +18,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StimPack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.AngelWing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -55,6 +56,9 @@ public class GammaRayGun extends Item {
         float multi = 1f;
         if (hero.hasTalent(Talent.HIGH_POWER)) {
             multi += 0.25f * hero.pointsInTalent(Talent.HIGH_POWER);
+        }
+        if (hero.hasTalent(Talent.HEALING_WING) && hero.buff(AngelWing.AngelWingBuff.class) != null) {
+            multi += hero.pointsInTalent(Talent.HEALING_WING);
         }
         return multi;
     }
