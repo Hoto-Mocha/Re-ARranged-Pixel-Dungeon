@@ -63,7 +63,9 @@ public class Regeneration extends Buff {
 						((Hero) target).resting = false;
 					}
 					MedicKit.firstAidBuff firstAidBuff = Dungeon.hero.buff( MedicKit.firstAidBuff.class );
-					firstAidBuff.charge((Hero)target, 1);
+					if (firstAidBuff != null) {
+						firstAidBuff.charge((Hero)target, 1);
+					}
 				}
 			}
 
