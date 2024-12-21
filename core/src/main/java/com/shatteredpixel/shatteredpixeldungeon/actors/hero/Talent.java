@@ -1407,7 +1407,7 @@ public enum Talent {
 
 
 		//gunner
-		if (talent == GUNNERS_INTUITION && hero.belongings.weapon instanceof Gun){
+		if ((talent == GUNNERS_INTUITION && hero.belongings.weapon instanceof Gun) && !ShardOfOblivion.passiveIDDisabled()){
 			hero.belongings.weapon.identify();
 		}
 

@@ -153,6 +153,8 @@ public class OldAmulet extends Item {
     public static Item changeItem( Item item ){
         if (item instanceof SpiritBow) {
             return changeBow((SpiritBow)item);
+        } else if (item instanceof Gun) {
+            return changeGun((Gun)item);
         } else if (item instanceof Shovel) {
             return changeShovel((Shovel)item);
         } else if (item instanceof Machete) {
@@ -204,6 +206,11 @@ public class OldAmulet extends Item {
         newBow.enchantHardened = bow.enchantHardened;
 
         return newBow;
+    }
+
+    private static Gun changeGun(Gun gun) {
+        gun.inscribeMod = Gun.InscribeMod.INSCRIBED;
+        return gun;
     }
 
     private static Spade changeShovel(Shovel shovel) {
