@@ -51,8 +51,6 @@ public class Saddle extends Item {
                 hero.buff(HorseRiding.class).healHorse(2 * (2+saddle.buffedLvl()));
             } else if (horse != null) {
                 horse.heal(2 * (2+saddle.buffedLvl()));
-            } else if (hero.buff(HorseRiding.RidingCooldown.class) != null && (Dungeon.hero.lvl <= enemy.maxLvl + 2 || Dungeon.hero.buff(AscensionChallenge.class) != null)) {
-                hero.buff(HorseRiding.RidingCooldown.class).kill();
             }
         }
     }
