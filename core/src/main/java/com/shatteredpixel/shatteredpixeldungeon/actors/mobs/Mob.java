@@ -77,6 +77,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Saddle;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
@@ -941,6 +942,10 @@ public abstract class Mob extends Char {
 			}
 
 			Saddle.kill(this);
+		}
+
+		if (cause instanceof Command.CASBomb && hero.subClass == HeroSubClass.MEDICALOFFICER) { //직접적인 데미지를 입히는 군의관의 영웅 능력으로 적을 처치해도 명령권을 얻으며, 이 경우 최대치를 넘을 수 있음
+			Buff.affect(hero, Command.class).kill(true);
 		}
 
 		if (Dungeon.hero.isAlive() && !Dungeon.level.heroFOV[pos]) {

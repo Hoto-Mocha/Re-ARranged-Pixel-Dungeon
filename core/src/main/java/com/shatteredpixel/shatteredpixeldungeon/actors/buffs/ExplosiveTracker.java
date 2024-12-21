@@ -34,14 +34,12 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Halo;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
 
-public class ExplosiveBombTracker extends Buff {
+public class ExplosiveTracker extends Buff {
 
 	public int pos;
 	private int depth = Dungeon.depth;
@@ -97,7 +95,7 @@ public class ExplosiveBombTracker extends Buff {
 			PixelScene.shake( 2+Dungeon.hero.pointsInTalent(Talent.EXPLOSION_CMD), 0.5f*(1+Dungeon.hero.pointsInTalent(Talent.EXPLOSION_CMD)) );
 			for (int i = 0; i < Dungeon.level.length(); i++){
 				if (fieldOfView[i] && !Dungeon.level.solid[i]){
-					new Bomb.ConjuredBomb().explode(i); //yes, a bomb at every cell
+					new Command.CASBomb().explode(i); //yes, a bomb at every cell
 					//this means that something in the blast effectively takes:
 					//9x bomb dmg when fully inside
 					//6x when along straight edge

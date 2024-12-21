@@ -383,7 +383,7 @@ public class Teleporter extends Item {
 //            if (hero.buff(HorseRiding.RidingCooldown.class) != null) {
 //                hero.buff(HorseRiding.RidingCooldown.class).kill();
 //            }
-            Buff.affect(hero, Command.class).kill();
+            Buff.affect(hero, Command.class).kill(true);
         }
     }
 

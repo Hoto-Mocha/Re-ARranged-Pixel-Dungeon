@@ -19,6 +19,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.TargetedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.CursedWand;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -39,6 +40,7 @@ import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.tweeners.Tweener;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
@@ -119,8 +121,19 @@ public class Command extends Buff implements ActionIndicator.Action {
 
     //적을 처치하면 명령권을 얻는 메서드. 최대 6까지 스택 가능
     public void kill() {
-        this.charge = Math.min(++this.charge, 6);
-        ActionIndicator.setAction( this );
+        kill(false);
+    }
+
+    public void kill(boolean overcharge) {
+        if (overcharge) { //최대치를 넘어서도 될 경우 최대치 적용 X
+            this.charge++;
+            ActionIndicator.setAction( this );
+        } else {
+            if (this.charge <= 6) { //현재 충전량이 6 이하인 경우에만 최대치를 적용. 이미 최대치를 넘어선 경우 충전량에 변화는 없다.
+                this.charge = Math.min(++this.charge, 6);
+            }
+            ActionIndicator.setAction( this );
+        }
     }
 
     //명령을 사용할 수 있는지 여부
@@ -169,6 +182,7 @@ public class Command extends Buff implements ActionIndicator.Action {
                 cmdExplosion();
                 break;
             case CLOSE_AIR_SUPPORT:
+                cmdCAS();
                 break;
         }
     }
@@ -267,7 +281,11 @@ public class Command extends Buff implements ActionIndicator.Action {
     }
 
     public void cmdExplosion() {
-        GameScene.selectCell(cmdExplosionCellSelector);
+        GameScene.selectCell( cmdExplosionCellSelector );
+    }
+
+    public void cmdCAS() {
+        GameScene.selectCell( cmdCASCellSelector );
     }
 
     /* --- 명령 수행 메서드 --- */
@@ -339,7 +357,7 @@ public class Command extends Buff implements ActionIndicator.Action {
                     return Messages.get(this, name() + ".desc", talentLv*3);
                 case CLOSE_AIR_SUPPORT:
                     talentLv = Math.max(1, hero.pointsInTalent(Talent.CAS_CMD));
-                    return Messages.get(this, name() + ".desc", talentLv, talentLv);
+                    return Messages.get(this, name() + ".desc", 2+3*talentLv);
             }
         }
     }
@@ -492,7 +510,7 @@ public class Command extends Buff implements ActionIndicator.Action {
         public void onSelect(Integer target) {
             if (target != null) {
                 Ballistica aim = new Ballistica(hero.pos, target, Ballistica.STOP_TARGET);
-                new ExplosiveBomb().effect(null, hero, aim, false);
+                new Explosive().effect(null, hero, aim, false);
                 hero.sprite.parent.add(new TargetedCell(target, 0xFF0000));
 
                 hero.sprite.operate(hero.pos);
@@ -514,7 +532,43 @@ public class Command extends Buff implements ActionIndicator.Action {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
+                Ballistica aim = new Ballistica(hero.pos, target, Ballistica.DASH);
+                float delay = 0f;
+                for (int cell : aim.subPath(2, Math.min((2+3*hero.pointsInTalent(Talent.CAS_CMD)), aim.dist))) { //경로의 3번째 타일부터 5/8/11타일 까지가 범위. 경로의 끝을 벗어나지 않음.
+                    float finalDelay = delay; //폭발 이펙트 지연 시간. 0에서 시작해 루프 한 번을 돌 때마다 0.05가 추가된다.
+                    Actor.add(new Actor() { //폭발 이펙트를 발생시키는 액터 추가
 
+                        {
+                            actPriority = VFX_PRIO;
+                        }
+
+                        @Override
+                        protected boolean act() { //액터가 행동하면 지연 시간을 가진 Tweener를 추가하고 사라진다.
+                            hero.sprite.parent.add(new Tweener(hero.sprite.parent, finalDelay) { //finalDelay초 후에 폭발 이펙트가 작동하도록 설정한 Tweener
+                                @Override
+                                protected void updateValues(float progress) { //시간이 지남에 따라 실행되는 함수
+                                    hero.spendAndNext(0); //아직 터지지 않았을 경우 영웅은 행동할 수 없다.
+                                }
+
+                                @Override
+                                protected void onComplete() { //시간이 다 지나면 실행되는 함수
+                                    super.onComplete();
+                                    new CASBomb().explode(cell); //폭발
+                                }
+                            });
+                            Actor.remove(this);
+                            spend(0);
+                            return true;
+                        }
+                    });
+                    delay += 0.05f; //0.05초마다 1번 터진다.
+                }
+
+                hero.spendAndNext(1f);
+                hero.sprite.operate(hero.pos);
+                Sample.INSTANCE.play(Assets.Sounds.BEACON);
+
+                useCharge(CommandMove.CLOSE_AIR_SUPPORT);
             }
         }
 
@@ -881,14 +935,22 @@ public class Command extends Buff implements ActionIndicator.Action {
         }
     }
 
-    public static class ExplosiveBomb extends CursedWand.SuperNova {
+    //폭발물 설치 메커니즘. 저주 완드의 그것과 같다.
+    public static class Explosive extends CursedWand.SuperNova {
         @Override
         public boolean effect(Item origin, Char user, Ballistica bolt, boolean positiveOnly) {
-            ExplosiveBombTracker nova = Buff.append(Dungeon.hero, ExplosiveBombTracker.class);
+            ExplosiveTracker nova = Buff.append(Dungeon.hero, ExplosiveTracker.class);
             nova.pos = bolt.collisionPos;
             nova.harmsAllies = !positiveOnly;
 
             return true;
+        }
+    }
+
+    public static class CASBomb extends Bomb {
+        { //이 곳에서 폭발의 데미지를 조절 가능하다.
+            minDamage = 4 + Dungeon.scalingDepth();
+            maxDamage = 12 + 3*Dungeon.scalingDepth();
         }
     }
 }
