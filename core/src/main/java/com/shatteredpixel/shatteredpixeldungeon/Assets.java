@@ -377,7 +377,7 @@ public class Assets {
 		public static final String SOLDIER= "sprites/soldier.png";
 		public static final String RESEARCHER= "sprites/researcher.png";
 		public static final String TANK= "sprites/tank.png";
-		public static final String SUPRESSION= "sprites/supression.png";
+		public static final String SUPPRESSION = "sprites/suppression.png";
 		public static final String MEDIC_ENEMY= "sprites/medic_enemy.png";
 		public static final String REBEL= "sprites/rebel.png";
 		public static final String BARRICADE= "sprites/barricade.png";

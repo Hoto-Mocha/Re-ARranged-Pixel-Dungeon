@@ -24,12 +24,12 @@ package com.shatteredpixel.shatteredpixeldungeon.sprites;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
-public class SupressionSprite extends MobSprite {
+public class SuppressionSprite extends MobSprite {
 
-	public SupressionSprite() {
+	public SuppressionSprite() {
 		super();
 		
-		texture( Assets.Sprites.SUPRESSION);
+		texture( Assets.Sprites.SUPPRESSION);
 		
 		TextureFilm frames = new TextureFilm( texture, 12, 15 );
 

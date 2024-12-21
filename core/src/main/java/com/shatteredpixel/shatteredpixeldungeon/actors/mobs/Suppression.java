@@ -31,7 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.SupressionSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.SuppressionSprite;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 public class Suppression extends Mob {
 	
 	{
-		spriteClass = SupressionSprite.class;
+		spriteClass = SuppressionSprite.class;
 		
 		HP = HT = 150;
 		defenseSkill = 15;
