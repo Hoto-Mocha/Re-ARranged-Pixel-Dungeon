@@ -437,12 +437,12 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
         }
 
         public void set() {
-            maxCoolDown = 20-5*Dungeon.hero.pointsInTalent(Talent.CALL_OF_MASTER);
+            maxCoolDown = 8-2*Dungeon.hero.pointsInTalent(Talent.CALL_OF_MASTER);
             coolDown = maxCoolDown;
         }
 
         public void updateCooldown() {
-            maxCoolDown = 20-5*Dungeon.hero.pointsInTalent(Talent.CALL_OF_MASTER);
+            maxCoolDown = 8-2*Dungeon.hero.pointsInTalent(Talent.CALL_OF_MASTER);
             if (coolDown > maxCoolDown) {
                 coolDown = maxCoolDown;
             }
