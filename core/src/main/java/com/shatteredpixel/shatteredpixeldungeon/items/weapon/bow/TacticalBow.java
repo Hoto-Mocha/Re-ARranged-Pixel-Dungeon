@@ -41,7 +41,7 @@ public class TacticalBow extends SpiritBow {
     public float delayFactor(Char owner) {
         float delay = super.delayFactor(owner);
 
-        delay *= (float) Math.pow(0.95f, modified); //x5% attack speed per modification
+        delay *= (float) Math.pow(0.97f, modified); //x3% attack speed per modification
 
         return delay;
     }
