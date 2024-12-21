@@ -54,7 +54,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Soldier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Spinner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Succubus;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Supression;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Suppression;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tank;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
@@ -106,7 +106,7 @@ public class AscensionChallenge extends Buff {
 
 		modifiers.put(Soldier.class,   		1.2f);
 		modifiers.put(Researcher.class,     1.2f);
-		modifiers.put(Supression.class,     1.1f);
+		modifiers.put(Suppression.class,     1.1f);
 		modifiers.put(Tank.class,       	1.1f);
 		modifiers.put(Medic.class,      	1.1f);
 	}

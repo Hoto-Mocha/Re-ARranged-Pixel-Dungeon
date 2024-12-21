@@ -54,14 +54,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Soldier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.SpectralNecromancer;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Spinner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Succubus;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Supression;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Suppression;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tank;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Warlock;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -186,7 +185,7 @@ public class Challenges {
 		enemyListR6.add(SWAT.class);
 		enemyListR6.add(Researcher.class);
 		enemyListR6.add(Medic.class);
-		enemyListR6.add(Supression.class);
+		enemyListR6.add(Suppression.class);
 		enemyListR6.add(Tank.class);
 	}
 

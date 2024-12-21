@@ -247,7 +247,7 @@ public class Rebel extends Mob {
 	private HashSet<Mob> getSubjects(){
 		HashSet<Mob> subjects = new HashSet<>();
 		for (Mob m : Dungeon.level.mobs){
-			if (m.alignment == alignment && (m instanceof Soldier || m instanceof Medic || m instanceof Supression || m instanceof Researcher || m instanceof Tank)){
+			if (m.alignment == alignment && (m instanceof Soldier || m instanceof Medic || m instanceof Suppression || m instanceof Researcher || m instanceof Tank)){
 				subjects.add(m);
 			}
 		}

@@ -37,7 +37,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class Supression extends Mob {
+public class Suppression extends Mob {
 	
 	{
 		spriteClass = SupressionSprite.class;
@@ -115,7 +115,7 @@ public class Supression extends Mob {
 			}
 			
 			if (!candidates.isEmpty()){
-				Supression child = new Supression();
+				Suppression child = new Suppression();
 				child.partnerID = this.id();
 				this.partnerID = child.id();
 				if (state != SLEEPING) {
@@ -167,7 +167,7 @@ public class Supression extends Mob {
 	private class Sleeping extends Mob.Sleeping {
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
-			Supression partner = (Supression) Actor.findById( partnerID );
+			Suppression partner = (Suppression) Actor.findById( partnerID );
 			if (partner != null && partner.state != partner.SLEEPING){
 				state = WANDERING;
 				target = partner.pos;
@@ -184,7 +184,7 @@ public class Supression extends Mob {
 		protected boolean continueWandering() {
 			enemySeen = false;
 			
-			Supression partner = (Supression) Actor.findById( partnerID );
+			Suppression partner = (Suppression) Actor.findById( partnerID );
 			if (partner != null && (partner.state != partner.WANDERING || Dungeon.level.distance( pos,  partner.target) > 1)){
 				target = partner.pos;
 				int oldPos = pos;

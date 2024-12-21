@@ -63,7 +63,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Soldier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.SpectralNecromancer;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Spinner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Succubus;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Supression;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Suppression;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tank;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
@@ -170,7 +170,7 @@ public class GammaRayEmmit extends ArmorAbility {
 								new SWAT(),
 								new Researcher(),
 								new Medic(),
-								new Supression(),
+								new Suppression(),
 								new Tank());
 					}
 					break;
@@ -227,7 +227,7 @@ public class GammaRayEmmit extends ArmorAbility {
 								new SWAT(),
 								new Researcher(),
 								new Medic(),
-								new Supression(),
+								new Suppression(),
 								new Tank());
 					}
 					break;
@@ -284,7 +284,7 @@ public class GammaRayEmmit extends ArmorAbility {
 								new SWAT(),
 								new Researcher(),
 								new Medic(),
-								new Supression(),
+								new Suppression(),
 								new Tank());
 					}
 					break;
@@ -341,7 +341,7 @@ public class GammaRayEmmit extends ArmorAbility {
 								new SWAT(),
 								new Researcher(),
 								new Medic(),
-								new Supression(),
+								new Suppression(),
 								new Tank());
 					}
 					break;
@@ -398,7 +398,7 @@ public class GammaRayEmmit extends ArmorAbility {
 								new SWAT(),
 								new Researcher(),
 								new Medic(),
-								new Supression(),
+								new Suppression(),
 								new Tank());
 					}
 			}

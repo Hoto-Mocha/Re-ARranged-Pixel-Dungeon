@@ -254,13 +254,13 @@ public class MobSpawner extends Actor {
 					return new ArrayList<>(Arrays.asList(
 							Soldier.class, Soldier.class,
 							Researcher.class, Researcher.class,
-							Supression.class));
+							Suppression.class));
 				case 28:
 					// 2x soldier, 1x researcher, 1x supression, 1x tank, 1x medic
 					return new ArrayList<>(Arrays.asList(
 							Soldier.class, Soldier.class,
 							Researcher.class,
-							Supression.class,
+							Suppression.class,
 							Tank.class,
 							Medic.class));
 				case 29: case 30: case 31:
@@ -268,7 +268,7 @@ public class MobSpawner extends Actor {
 					return new ArrayList<>(Arrays.asList(
 							Soldier.class,
 							Researcher.class, Researcher.class,
-							Supression.class, Supression.class,
+							Suppression.class, Suppression.class,
 							Tank.class,
 							Medic.class, Medic.class));
 			}
