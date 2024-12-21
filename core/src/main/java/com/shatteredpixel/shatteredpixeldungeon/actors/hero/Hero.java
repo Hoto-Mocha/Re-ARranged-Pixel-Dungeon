@@ -2383,6 +2383,10 @@ public class Hero extends Char {
 			Buff.affect(this, Fatigue.class).hit(false);
 		}
 
+		if (buff(HorseRiding.class) != null) {
+			buff(HorseRiding.class).onDamage(damage);
+		}
+
 		damage = Talent.onDefenseProc(this, enemy, damage);
 
 		return super.defenseProc( enemy, damage );
@@ -2509,10 +2513,6 @@ public class Hero extends Char {
 				interrupt();
 				damageInterrupt = true;
 			}
-		}
-
-		if (buff(HorseRiding.class) != null) {
-			buff(HorseRiding.class).onDamage(dmg);
 		}
 	}
 	
