@@ -5,7 +5,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 public class TacticalBow extends SpiritBow {
@@ -19,13 +21,29 @@ public class TacticalBow extends SpiritBow {
         return true;
     }
 
+    private int modified = 0;
+
+    public void modify() {
+        modified++;
+        updateQuickslot();
+    }
+
     @Override
     public float accuracyFactor(Char owner, Char target) {
         float acc = super.accuracyFactor(owner, target);
 
-        acc *= 1.2f;
+        acc *= (float) Math.pow(1.05f, modified); //x5% accuracy per modification
 
         return acc;
+    }
+
+    @Override
+    public float delayFactor(Char owner) {
+        float delay = super.delayFactor(owner);
+
+        delay *= (float) Math.pow(0.95f, modified); //x5% attack speed per modification
+
+        return delay;
     }
 
     @Override
@@ -55,7 +73,28 @@ public class TacticalBow extends SpiritBow {
                 + 2*(lvl-(int)(Dungeon.hero.lvl/5f))
                 + 2*RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
                 + (curseInfusionBonus ? 2 + Dungeon.hero.lvl/15 : 0);
-        return Math.max(0, dmg);
+        return Math.max(0, dmg+modified); //+1 max damage per modification
+    }
+
+    public static final String MODIFIED = "modified";
+
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put(MODIFIED, modified);
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        modified = bundle.getInt(MODIFIED);
+    }
+
+    @Override
+    public String info() {
+        String info = super.info();
+        info += "\n\n" + Messages.get(this, "modification", modified);
+        return info;
     }
 
     @Override

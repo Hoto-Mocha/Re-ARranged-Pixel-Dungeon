@@ -12,6 +12,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.TacticalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -66,7 +67,7 @@ public class GunSmithingTool extends Item {
     protected Class<?extends Bag> preferredBag = Belongings.Backpack.class;
 
     protected boolean usableOnItem( Item item ){
-        return item instanceof Gun;
+        return item instanceof Gun || item instanceof TacticalBow;
     }
 
     protected static void onItemSelected() {
@@ -341,7 +342,12 @@ public class GunSmithingTool extends Item {
             }
 
             if (item != null && itemSelectable(item)) {
-                GameScene.show(new WndModSelect((Gun)item));
+                if (item instanceof TacticalBow) {
+                    ((TacticalBow) item).modify();
+                    onItemSelected();
+                } else {
+                    GameScene.show(new WndModSelect((Gun)item));
+                }
             }
         }
     };
