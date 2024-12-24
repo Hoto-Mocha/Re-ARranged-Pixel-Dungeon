@@ -554,8 +554,8 @@ public class HeroSelectScene extends PixelScene {
 
 		private HeroClass cl;
 
-		private static final int MIN_WIDTH = 20;
-		private static final int HEIGHT = 24;
+		private static final int MIN_WIDTH = 12;
+		private static final int HEIGHT = 20;
 
 		HeroBtn ( HeroClass cl ){
 			super(Chrome.Type.GREY_BUTTON_TR, "");
