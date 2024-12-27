@@ -306,7 +306,7 @@ public class Command extends Buff implements ActionIndicator.Action {
             case MOVE:
                 return hero.pointsInTalent(Talent.MOVE_CMD) < 2 ? 1 : 0; //특성 레벨이 2 이상이면 명령권을 소모하지 않음
             case PROMOTE:
-                return hero.pointsInTalent(Talent.MOVE_CMD) < 2 ? 2 : 3; //특성 레벨이 3이면 명령권 소모량 -1
+                return hero.pointsInTalent(Talent.PROMOTE_CMD) > 2 ? 2 : 3; //특성 레벨이 3이면 명령권 소모량 -1
         }
     }
 
