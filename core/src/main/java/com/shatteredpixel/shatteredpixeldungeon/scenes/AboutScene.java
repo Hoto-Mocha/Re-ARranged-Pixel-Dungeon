@@ -85,6 +85,20 @@ public class AboutScene extends PixelScene {
 		}
 		content.add(splash);
 
+		CreditsBlock arrangedTransifex = new CreditsBlock(true,
+				Window.TITLE_COLOR,
+				null,
+				null,
+				"ReARrangedPD is also being community-translated via _Transifex_ now, please consider joining our translation team.",
+				"transifex.com/rearranged-pixel-dungeon/...",
+				"https://explore.transifex.com/rearranged-pixel-dungeon/rearranged-pixel-dungeon/");
+		arrangedTransifex.setRect((Camera.main.width - colWidth)/2f, arranged.bottom() + 12, colWidth, 0);
+		content.add(arrangedTransifex);
+
+		addLine(arrangedTransifex.top() - 4, content);
+
+		addLine(arrangedTransifex.bottom() + 4, content);
+
 		//*** Shattered Pixel Dungeon Credits ***
 
 		CreditsBlock shpx = new CreditsBlock(true, Window.SHPX_COLOR,
@@ -94,7 +108,7 @@ public class AboutScene extends PixelScene {
 				"ShatteredPixel.com",
 				"https://ShatteredPixel.com");
 		if (landscape()){
-			shpx.setRect(arranged.left(), arranged.bottom() + 12, colWidth, 0);
+			shpx.setRect(arranged.left(), arrangedTransifex.bottom() + 12, colWidth, 0);
 		} else {
 			shpx.setRect(splash.left(), splash.bottom() + 12, colWidth, 0);
 		}
