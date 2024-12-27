@@ -4,6 +4,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -140,6 +141,9 @@ public class MedicKit extends Artifact {
             GLog.p(Messages.get(MedicKit.class, "upgrade"));
 
             MedicKit.this.upgrade(upgrades);
+            if (Dungeon.hero.buff(MedicKitBuff.class) != null) {
+                Dungeon.hero.buff(MedicKitBuff.class).updateImmunity();
+            }
             item.detach(Dungeon.hero.belongings.backpack);
             Dungeon.hero.sprite.operate(Dungeon.hero.pos);
             Dungeon.hero.spendAndNext(Actor.TICK);
@@ -247,11 +251,49 @@ public class MedicKit extends Artifact {
 
     @Override
     protected ArtifactBuff passiveBuff() {
-        return new firstAidBuff();
+        return new MedicKitBuff();
     }
 
-    public class firstAidBuff extends ArtifactBuff {
+    public class MedicKitBuff extends ArtifactBuff {
         {
+            updateImmunity();
+        }
+
+        @Override
+        public boolean act() {
+            cleanse();
+            return super.act();
+        }
+
+        private void cleanse() {
+            Buff debuff;
+            switch (MedicKit.this.level()) {
+                case 10:
+                    if ((debuff = Dungeon.hero.buff(Paralysis.class)) != null) debuff.detach();
+                case 9:
+                    if ((debuff = Dungeon.hero.buff(Bleeding.class)) != null) debuff.detach();
+                case 8:
+                    if ((debuff = Dungeon.hero.buff(Poison.class)) != null) debuff.detach();
+                case 7:
+                    if ((debuff = Dungeon.hero.buff(Weakness.class)) != null) debuff.detach();
+                case 6:
+                    if ((debuff = Dungeon.hero.buff(Corrosion.class)) != null) debuff.detach();
+                case 5:
+                    if ((debuff = Dungeon.hero.buff(Vertigo.class)) != null) debuff.detach();
+                case 4:
+                    if ((debuff = Dungeon.hero.buff(Chill.class)) != null) debuff.detach();
+                case 3:
+                    if ((debuff = Dungeon.hero.buff(Blindness.class)) != null) debuff.detach();
+                case 2:
+                    if ((debuff = Dungeon.hero.buff(Ooze.class)) != null) debuff.detach();
+                case 1:
+                    if ((debuff = Dungeon.hero.buff(Cripple.class)) != null) debuff.detach();
+                case 0: default:
+                    break;
+            }
+        }
+
+        private void updateImmunity() {
             switch (MedicKit.this.level()) {
                 case 10:
                     immunities.add(Paralysis.class);

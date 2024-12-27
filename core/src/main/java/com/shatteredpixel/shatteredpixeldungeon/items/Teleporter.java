@@ -7,10 +7,13 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Command;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FirstAidBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MedicKit;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
@@ -383,7 +386,15 @@ public class Teleporter extends Item {
 //            if (hero.buff(HorseRiding.RidingCooldown.class) != null) {
 //                hero.buff(HorseRiding.RidingCooldown.class).kill();
 //            }
-            Buff.affect(hero, Command.class).kill(true);
+
+//            Buff.affect(hero, Command.class).kill(true);
+
+//            Buff b = hero.buff(MedicKit.MedicKitBuff.class);
+//            if (b != null) {
+//                GLog.i(b.toString());
+//            }
+
+            GLog.i("" + hero.isImmune(Poison.class));
         }
     }
 
