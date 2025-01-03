@@ -1861,6 +1861,10 @@ public enum Talent {
 			dmg += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
 		}
 
+		if (hero.hasTalent(Talent.NATURE_FRIENDLY) && (level.map[hero.pos] == Terrain.GRASS) && hero.heroClass != HeroClass.ADVENTURER) {
+			dmg += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
+		}
+
 		if (hero.buff(Talent.KineticBattle.class) != null) {
 			dmg = hero.buff(Talent.KineticBattle.class).proc(dmg);
 		}
