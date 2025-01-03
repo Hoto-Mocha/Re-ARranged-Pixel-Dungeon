@@ -329,6 +329,9 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
         protected boolean act() {
             if (this.HP < this.HT && Regeneration.regenOn()) {
                 partialCharge += 0.1f;
+                if (Dungeon.level.map[this.pos] == Terrain.GRASS) {
+                    partialCharge += 0.4f; //풀 위에 있으면 회복 속도 5배
+                }
                 while (partialCharge > 1) {
                     this.HP++;
                     partialCharge--;
