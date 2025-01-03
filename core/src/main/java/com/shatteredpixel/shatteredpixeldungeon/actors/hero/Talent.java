@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RadioactiveMutation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
@@ -1979,6 +1980,12 @@ public enum Talent {
 			int duration = hero.pointsInTalent(Talent.TARGET_SET);
 			if (enemy.alignment != Char.Alignment.ENEMY) duration *= 5;
 			Buff.prolong(enemy, StoneOfAggression.Aggression.class, duration);
+		}
+
+		if (hero.hasTalent(Talent.RADIATION) && hero.heroClass != HeroClass.MEDIC && enemy.buff(RadioactiveMutation.class) == null) {
+			if (Random.Float() < 0.03f) {
+				Buff.affect(enemy, RadioactiveMutation.class).set(6-hero.pointsInTalent(Talent.RADIATION));
+			}
 		}
 		return dmg;
 	}
