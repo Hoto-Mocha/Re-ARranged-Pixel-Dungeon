@@ -51,6 +51,7 @@ import java.util.ArrayList;
 public class Command extends Buff implements ActionIndicator.Action {
     {
         type = buffType.POSITIVE;
+        revivePersists = true;
     }
 
     int charge = 0;
