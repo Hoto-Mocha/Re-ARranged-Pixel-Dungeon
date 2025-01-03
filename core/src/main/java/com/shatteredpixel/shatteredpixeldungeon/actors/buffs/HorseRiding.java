@@ -87,7 +87,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
             detach();
             PixelScene.shake( 2, 1f );
             GLog.n(Messages.get(this, "fall"));
-            float dmgMulti = 1-0.25f*Dungeon.hero.pointsInTalent(Talent.BUFFER);
+            float dmgMulti = 1-0.25f*Dungeon.hero.pointsInTalent(Talent.PARKOUR);
             Buff.prolong( target, Cripple.class, Cripple.DURATION );
 
             //The lower the hero's HP, the more bleed and the less upfront damage.

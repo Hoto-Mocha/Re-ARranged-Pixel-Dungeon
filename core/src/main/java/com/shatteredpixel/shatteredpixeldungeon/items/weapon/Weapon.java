@@ -273,13 +273,6 @@ abstract public class Weapon extends KindOfWeapon {
 			}
 		}
 
-		if (hero.hasTalent(Talent.PARKOUR) && hero.belongings.attackingWeapon() instanceof MeleeWeapon) {
-			int aEnc = ((MeleeWeapon)hero.belongings.attackingWeapon()).STRReq() - hero.STR();
-			if (aEnc < 0) {
-				multi *= Math.pow(1+0.025f*hero.pointsInTalent(Talent.PARKOUR), -aEnc);
-			}
-		}
-
 		if (hero.hasTalent(Talent.QUICK_FOLLOWUP) && hero.buff(Talent.QuickFollowupTracker.class) != null) {
 			multi *= 1+hero.pointsInTalent(Talent.QUICK_FOLLOWUP)/3f;
 		}
