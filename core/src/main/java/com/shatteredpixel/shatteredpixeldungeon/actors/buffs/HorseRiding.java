@@ -219,7 +219,9 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
                         hero.spendAndNext(Actor.TICK);
                         int damage = dash.dist * 3;
                         damage -= hero.drRoll();
-                        damage -= (hero.pointsInTalent(Talent.BUFFER) * chars.size());
+                        for (int i = 0; i < chars.size(); i++) {
+                            damage -= Random.NormalIntRange(hero.pointsInTalent(Talent.BUFFER), 3*hero.pointsInTalent(Talent.BUFFER));
+                        }
                         hero.damage(damage, HorseRiding.this);
 
                         if (hero.hasTalent(Talent.SHOCKWAVE)) {
