@@ -314,7 +314,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
         horseHT = bundle.getInt(HORSE_HT);
     }
 
-    public static class HorseAlly extends DirectableAlly {
+    public class HorseAlly extends DirectableAlly {
         {
             spriteClass = SpiritHorseSprite.class;
 
@@ -408,6 +408,11 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
             }
 
             return speed;
+        }
+
+        @Override
+        public int drRoll() {
+            return HorseRiding.this.drRoll();
         }
     }
 
