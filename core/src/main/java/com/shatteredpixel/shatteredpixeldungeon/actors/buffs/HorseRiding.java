@@ -1,5 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -14,6 +16,8 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Saddle;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.LanceNShield;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
@@ -238,6 +242,11 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
                                     }
                                 }
                             }
+                        }
+
+                        if ((hero.belongings.weapon instanceof Lance ||
+                                (hero.belongings.weapon instanceof LanceNShield && ((LanceNShield)hero.belongings.weapon).stance))) {
+                            Buff.affect(hero, Lance.LanceBuff.class).setDamageFactor(dash.dist, false);
                         }
 
                         Sample.INSTANCE.play(Assets.Sounds.BLAST);
