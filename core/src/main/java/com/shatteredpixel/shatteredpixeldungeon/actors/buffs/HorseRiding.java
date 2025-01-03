@@ -79,6 +79,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
     }
 
     public void onDamage(int damage) {
+        damage -= Dungeon.hero.drRoll();
         horseHP -= damage;
         if (horseHP <= 0) {
             detach();
