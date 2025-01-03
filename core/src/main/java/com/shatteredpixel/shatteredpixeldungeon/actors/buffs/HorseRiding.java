@@ -86,6 +86,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
         int baseDr = Random.NormalIntRange(2, 16); //기본 방어력: 2~16
         int dr = baseDr + Random.NormalIntRange(Dungeon.hero.pointsInTalent(Talent.ARMORED_HORSE), 8*Dungeon.hero.pointsInTalent(Talent.ARMORED_HORSE)); //추가 방어력: 특성 레벨~8*특성 레벨
         damage -= dr;
+        damage = Math.max(damage, 0); //최소 0
         horseHP -= damage;
         if (horseHP <= 0) {
             detach();
