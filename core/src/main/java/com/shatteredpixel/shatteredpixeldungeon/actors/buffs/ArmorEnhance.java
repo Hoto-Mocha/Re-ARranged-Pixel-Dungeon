@@ -12,13 +12,13 @@ public class ArmorEnhance extends Buff {
         type = buffType.POSITIVE;
     }
 
-    private float duration = 0f;
-    private float maxDuration = 0f;
+    private int hit = 0;
+    private int maxHit = 0;
     private int level = 0;
 
-    public void set( int level, float duration ) {
-        this.maxDuration = duration;
-        this.duration = this.maxDuration;
+    public void set( int level, int hit ) {
+        this.maxHit = hit;
+        this.hit = this.maxHit;
         this.level = level;
         Item.updateQuickslot();
     }
@@ -31,17 +31,15 @@ public class ArmorEnhance extends Buff {
 
     @Override
     public float iconFadePercent() {
-        return Math.max((maxDuration - duration)/maxDuration, 0);
+        return Math.max((maxHit - hit)/(float) maxHit, 0);
     }
 
-    @Override
-    public boolean act() {
-        if (--duration <= 0) {
+    public void defenseProc() {
+        hit--;
+        if (hit <= 0) {
             detach();
-        } else {
-            spend(TICK);
         }
-        return true;
+        BuffIndicator.refreshHero();
     }
 
     public int armorLevel(int armorLevel){
@@ -66,26 +64,26 @@ public class ArmorEnhance extends Buff {
 
     @Override
     public String desc() {
-        return Messages.get(this, "desc", level, duration);
+        return Messages.get(this, "desc", level, hit);
     }
 
-    private static final String DURATION = "duration";
-    private static final String MAX_DURATION = "maxDuration";
+    private static final String HIT = "hit";
+    private static final String MAX_HIT = "maxHit";
     private static final String LEVEL = "level";
 
     @Override
     public void storeInBundle(Bundle bundle) {
         super.storeInBundle(bundle);
-        bundle.put(DURATION, duration);
-        bundle.put(MAX_DURATION, maxDuration);
+        bundle.put(HIT, hit);
+        bundle.put(MAX_HIT, maxHit);
         bundle.put(LEVEL, level);
     }
 
     @Override
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
-        duration = bundle.getFloat(DURATION);
-        maxDuration = bundle.getFloat(MAX_DURATION);
+        hit = bundle.getInt(HIT);
+        maxHit = bundle.getInt(MAX_HIT);
         level = bundle.getInt(LEVEL);
     }
 }

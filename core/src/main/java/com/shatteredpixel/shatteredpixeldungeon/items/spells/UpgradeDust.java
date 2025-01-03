@@ -53,8 +53,8 @@ public class UpgradeDust extends Spell {
 	
 	@Override
 	protected void onCast(Hero hero) {
-		Buff.affect(hero, WeaponEnhance.class).set(1+hero.lvl/10, 20f);
-		Buff.affect(hero, ArmorEnhance.class).set(1+hero.lvl/10, 20f);
+		Buff.affect(hero, WeaponEnhance.class).set(1+hero.lvl/10, 20);
+		Buff.affect(hero, ArmorEnhance.class).set(1+hero.lvl/10, 20);
 
 		hero.sprite.operate(hero.pos);
 		Sample.INSTANCE.play( Assets.Sounds.EVOKE );

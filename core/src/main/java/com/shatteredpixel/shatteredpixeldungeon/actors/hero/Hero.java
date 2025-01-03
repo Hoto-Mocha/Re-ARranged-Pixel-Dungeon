@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FirstAidBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HeroDisguise;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invulnerability;
@@ -97,6 +98,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.TimeStasis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Undead;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.adventurer.TreasureMap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Challenge;
@@ -2239,6 +2241,10 @@ public class Hero extends Char {
 			}
 		}
 
+		if (hero.buff(WeaponEnhance.class) != null) {
+			hero.buff(WeaponEnhance.class).attackProc();
+		}
+
 		if (Dungeon.isChallenged(Challenges.MUTATION) //돌연변이 챌린지 활성화 시
 				&& !(enemy instanceof Thief && ((Thief)enemy).item != null) //도적류 적인데 훔친 물건이 있다면 발동하지 않음
 				&& ( //보스, 미니보스, 보스 사역마, 석상류, 미믹류 적이 아닌 적에게만 발동
@@ -2396,6 +2402,10 @@ public class Hero extends Char {
 
 		if (buff(HorseRiding.class) != null) {
 			buff(HorseRiding.class).onDamage(damage);
+		}
+
+		if (buff(ArmorEnhance.class) != null) {
+			buff(ArmorEnhance.class).defenseProc();
 		}
 
 		damage = Talent.onDefenseProc(this, enemy, damage);
