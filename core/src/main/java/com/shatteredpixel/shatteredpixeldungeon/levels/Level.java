@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
@@ -1423,6 +1424,9 @@ public abstract class Level implements Bundlable {
 				int mindVisRange = 0;
 				if (((Hero) c).hasTalent(Talent.HEIGHTENED_SENSES)){
 					mindVisRange = 1+((Hero) c).pointsInTalent(Talent.HEIGHTENED_SENSES);
+				}
+				if (((Hero) c).hasTalent(Talent.DRAGONS_EYE) && ((Hero) c).heroClass != HeroClass.SAMURAI){
+					mindVisRange = 1+((Hero) c).pointsInTalent(Talent.DRAGONS_EYE);
 				}
 				if (((Hero) c).hasTalent(Talent.DRAGONS_EYE) && ((Hero) c).buff(Sheath.Sheathing.class) != null) {
 					mindVisRange += 2+((Hero) c).pointsInTalent(Talent.DRAGONS_EYE);
