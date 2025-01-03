@@ -1853,6 +1853,10 @@ public enum Talent {
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 		}
 
+		if (hero.hasTalent(Talent.SKILLED_HAND) && hero.heroClass != HeroClass.DUELIST) {
+			dmg += Random.NormalIntRange(0, 1+hero.pointsInTalent(Talent.SKILLED_HAND));
+		}
+
 		if (hero.hasTalent(Talent.NATURE_FRIENDLY) && (level.map[hero.pos] == Terrain.HIGH_GRASS || level.map[hero.pos] == Terrain.FURROWED_GRASS)) {
 			dmg += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
 		}
