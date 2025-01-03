@@ -514,6 +514,10 @@ abstract public class Weapon extends KindOfWeapon {
 				multi = rage.enchantFactor(multi);
 			}
 
+			if (attacker instanceof Hero && ((Hero) attacker).belongings.attackingWeapon() instanceof Gun.Bullet) {
+				multi *= ((Gun.Bullet) ((Hero) attacker).belongings.attackingWeapon()).whatEnchant().enchantFactor();
+			}
+
 			if (attacker.buff(RunicBlade.RunicSlashTracker.class) != null){
 				multi += attacker.buff(RunicBlade.RunicSlashTracker.class).boost;
 				attacker.buff(RunicBlade.RunicSlashTracker.class).detach();
@@ -536,10 +540,6 @@ abstract public class Weapon extends KindOfWeapon {
 			if (attacker.buff(Talent.StrikingWaveTracker.class) != null
 					&& ((Hero)attacker).pointsInTalent(Talent.STRIKING_WAVE) == 4){
 				multi += 0.2f;
-			}
-
-			if (attacker instanceof Hero && ((Hero) attacker).belongings.attackingWeapon() instanceof Gun.Bullet) {
-				multi *= ((Gun.Bullet) ((Hero) attacker).belongings.attackingWeapon()).whatEnchant().enchantFactor();
 			}
 
 			if (attacker instanceof Hero && attacker.buff(Tackle.MysticalTackleTracker.class) != null) {
