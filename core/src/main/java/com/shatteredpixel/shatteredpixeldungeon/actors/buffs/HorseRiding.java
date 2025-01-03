@@ -225,7 +225,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
                         hero.pos = finalCell;
                         Dungeon.level.occupyCell(hero);
                         hero.spendAndNext(Actor.TICK);
-                        int damage = dash.dist * 3;
+                        int damage = dash.dist * 5;
                         damage -= hero.drRoll();
                         for (int i = 0; i < chars.size(); i++) {
                             damage -= Random.NormalIntRange(hero.pointsInTalent(Talent.BUFFER), 3*hero.pointsInTalent(Talent.BUFFER));
