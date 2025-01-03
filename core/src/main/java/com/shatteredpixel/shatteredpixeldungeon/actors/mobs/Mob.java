@@ -929,7 +929,7 @@ public abstract class Mob extends Char {
 				Buff.affect(hero, Talent.PrayForDeadTracker.class, Talent.PrayForDeadTracker.DURATION);
 			}
 
-			if (hero.buff(HorseRiding.RidingCooldown.class) != null && (Dungeon.hero.lvl <= maxLvl + 2 || Dungeon.hero.buff(AscensionChallenge.class) != null)) {
+			if (hero.buff(HorseRiding.RidingCooldown.class) != null) {
 				hero.buff(HorseRiding.RidingCooldown.class).kill();
 			}
 
