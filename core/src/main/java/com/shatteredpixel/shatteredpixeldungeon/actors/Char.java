@@ -426,6 +426,11 @@ public abstract class Char extends Actor {
 			return false;
 
 		} else if (hit( this, enemy, accMulti, false )) {
+			boolean isDirectedToHero = false;
+			if (enemy != hero && enemy.alignment == Alignment.ALLY && Dungeon.level.heroFOV[enemy.pos] && hero.hasTalent(Talent.CHIVALRY)) {
+				enemy = hero;
+				isDirectedToHero = true;
+			}
 			
 			int dr = Math.round(enemy.drRoll() * AscensionChallenge.statModifier(enemy));
 			
@@ -517,18 +522,16 @@ public abstract class Char extends Actor {
 				dmg *= 0.67f;
 			}
 
+			if (isDirectedToHero && hero.pointsInTalent(Talent.CHIVALRY) > 1) {
+				dmg *= 0.5f;
+			}
+
 			if ( buff(SoulMark.class) != null && hero.hasTalent(Talent.MARK_OF_WEAKNESS)) {
 				if (this.alignment != Alignment.ALLY) {
 					dmg *= Math.pow(0.9f, hero.pointsInTalent(Talent.MARK_OF_WEAKNESS));
 				}
 			}
 
-			if (enemy != hero && enemy.alignment == Alignment.ALLY && Dungeon.level.heroFOV[enemy.pos] && hero.hasTalent(Talent.CHIVALRY)) {
-				enemy = hero;
-				if (hero.pointsInTalent(Talent.CHIVALRY) > 1) {
-					dmg *= 0.5;
-				}
-			}
 			//characters influenced by aggression deal 1/2 damage to bosses
 			if ( enemy.buff(StoneOfAggression.Aggression.class) != null
 					&& enemy.alignment == alignment
