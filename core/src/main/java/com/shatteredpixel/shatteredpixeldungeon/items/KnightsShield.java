@@ -141,7 +141,7 @@ public class KnightsShield extends Item {
     }
 
     public int defenseFactor() {
-        int additionalArmor = 2*(1+buffedLvl());
+        int additionalArmor = (1+buffedLvl());
         if (Dungeon.hero != null && Dungeon.hero.hasTalent(Talent.HARD_SHIELD)) {
             additionalArmor += 2*Dungeon.hero.pointsInTalent(Talent.HARD_SHIELD);
         }
