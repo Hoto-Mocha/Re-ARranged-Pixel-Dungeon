@@ -1902,7 +1902,7 @@ public enum Talent {
 
 		if (hero.hasTalent(Talent.WAR_CRY) && enemy.buff(WarCryTracker.class) == null) {
 			Buff.affect(enemy, WarCryTracker.class);
-			Buff.prolong(hero, Adrenaline.class, 1+hero.pointsInTalent(Talent.WAR_CRY));
+			Buff.prolong(hero, Adrenaline.class, hero.pointsInTalent(Talent.WAR_CRY));
 		}
 
 		if (hero.hasTalent(Talent.BLOOMING_WEAPON)
