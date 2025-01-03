@@ -48,9 +48,9 @@ public class Saddle extends Item {
         }
         if (saddle != null) {
             if (hero.buff(HorseRiding.class) != null) {
-                hero.buff(HorseRiding.class).healHorse(2 * (2+saddle.buffedLvl()));
+                hero.buff(HorseRiding.class).healHorse(1+saddle.buffedLvl());
             } else if (horse != null) {
-                horse.heal(2 * (2+saddle.buffedLvl()));
+                horse.heal(1+saddle.buffedLvl());
             }
         }
     }
@@ -67,6 +67,6 @@ public class Saddle extends Item {
 
     @Override
     public String desc() {
-        return Messages.get(this, "desc", 2 * (2+this.buffedLvl()));
+        return Messages.get(this, "desc", 1+this.buffedLvl());
     }
 }
