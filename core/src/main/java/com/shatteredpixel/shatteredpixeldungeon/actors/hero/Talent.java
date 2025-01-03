@@ -554,7 +554,7 @@ public enum Talent {
 	DEATHS_FEAR					(18, 9, 3),
 	//Horseman T3
 	SHOCKWAVE					(19, 9, 3),
-	CALL_OF_MASTER				(20, 9, 3),
+	ARMORED_HORSE				(20, 9, 3),
 	DASH_ENHANCE				(21, 9, 3),
 	BUFFER						(22, 9, 3),
 	PARKOUR						(23, 9, 3),
@@ -1440,11 +1440,6 @@ public enum Talent {
 					((WatchTower) ch).updateFOV();
 				}
 			}
-		}
-
-		//knight
-		if (talent == CALL_OF_MASTER && hero.buff(HorseRiding.RidingCooldown.class) != null) {
-			hero.buff(HorseRiding.RidingCooldown.class).updateCooldown();
 		}
 
 		//medic
@@ -2346,7 +2341,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ARMY_OF_DEATH, DEATHS_CHILL, OVERCOME, RESENTMENT, UNDEAD, DEATHS_FEAR );
 				break;
 			case HORSEMAN:
-				Collections.addAll(tierTalents, SHOCKWAVE, CALL_OF_MASTER, DASH_ENHANCE, BUFFER, PARKOUR, PILOTING);
+				Collections.addAll(tierTalents, SHOCKWAVE, ARMORED_HORSE, DASH_ENHANCE, BUFFER, PARKOUR, PILOTING);
 				break;
 			case CRUSADER:
 				Collections.addAll(tierTalents, HOLY_SHIELD, PRAY_FOR_DEAD, JUDGEMENT, CLEANSING_PRAY, PUNISHMENT, ANTI_DEMON);

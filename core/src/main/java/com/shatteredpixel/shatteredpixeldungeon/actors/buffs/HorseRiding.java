@@ -79,7 +79,9 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
     }
 
     public void onDamage(int damage) {
-        damage -= Dungeon.hero.drRoll();
+        int baseDr = Random.NormalIntRange(2, 16); //기본 방어력: 2~16
+        int dr = baseDr + Random.NormalIntRange(Dungeon.hero.pointsInTalent(Talent.ARMORED_HORSE), 8*Dungeon.hero.pointsInTalent(Talent.ARMORED_HORSE)); //추가 방어력: 특성 레벨~8*특성 레벨
+        damage -= dr;
         horseHP -= damage;
         if (horseHP <= 0) {
             detach();
@@ -438,16 +440,8 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
         }
 
         public void set() {
-            maxCoolDown = 8-2*Dungeon.hero.pointsInTalent(Talent.CALL_OF_MASTER);
+            maxCoolDown = 5;
             coolDown = maxCoolDown;
-        }
-
-        public void updateCooldown() {
-            maxCoolDown = 8-2*Dungeon.hero.pointsInTalent(Talent.CALL_OF_MASTER);
-            if (coolDown > maxCoolDown) {
-                coolDown = maxCoolDown;
-            }
-            BuffIndicator.refreshHero();
         }
 
         @Override
