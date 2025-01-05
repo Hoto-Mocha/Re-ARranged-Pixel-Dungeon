@@ -914,7 +914,7 @@ public abstract class Mob extends Char {
 
 		GLog.i(cause.toString());
 
-		if (cause == hero || cause instanceof Wand || cause instanceof DirectableAlly) {
+		if ((this.alignment != Alignment.ALLY) && (cause == hero || cause instanceof Wand || cause instanceof DirectableAlly)) {
 			if (Dungeon.hero.hasTalent(Talent.LETHAL_RAGE)){
 				Berserk berserk = Buff.affect(hero, Berserk.class);
 				berserk.add(0.067f*Dungeon.hero.pointsInTalent(Talent.LETHAL_RAGE));
