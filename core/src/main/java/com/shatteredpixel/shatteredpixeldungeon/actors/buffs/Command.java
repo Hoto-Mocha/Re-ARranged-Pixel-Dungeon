@@ -597,7 +597,9 @@ public class Command extends Buff implements ActionIndicator.Action {
         {
             spriteClass = SupportSoldirSprite.class;
 
-            HP = HT = hero.HT/4;
+            if (hero != null) {
+                HP = HT = hero.HT/4;
+            }
 
             viewDistance = Light.DISTANCE;
 
@@ -735,7 +737,9 @@ public class Command extends Buff implements ActionIndicator.Action {
         {
             spriteClass = SupportSniperSprite.class;
 
-            HP = HT = hero.HT/8; //less HT
+            if (hero != null) {
+                HP = HT = hero.HT / 8; //less HT
+            }
 
             viewDistance = Light.DISTANCE+3; //longer viewDistance
 
@@ -795,7 +799,9 @@ public class Command extends Buff implements ActionIndicator.Action {
         {
             spriteClass = SupportShielderSprite.class;
 
-            HP = HT = hero.HT/3; //higher HT
+            if (hero != null) {
+                HP = HT = hero.HT/3; //higher HT
+            }
 
             viewDistance = Light.DISTANCE;
 
@@ -865,7 +871,9 @@ public class Command extends Buff implements ActionIndicator.Action {
         {
             spriteClass = SupportBomberSprite.class;
 
-            HP = HT = hero.HT/4;
+            if (hero != null) {
+                HP = HT = hero.HT/4;
+            }
 
             viewDistance = Light.DISTANCE;
 
