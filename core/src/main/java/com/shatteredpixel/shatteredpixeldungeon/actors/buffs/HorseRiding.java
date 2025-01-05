@@ -189,6 +189,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
                 spawnHorse();
             } else {
                 Hero hero = (Hero) target;
+                Invisibility.dispel();
                 Ballistica dash = new Ballistica(hero.pos, cell, Ballistica.STOP_SOLID | Ballistica.IGNORE_SOFT_SOLID);
 //                if (dash.collisionPos.equals(cell)){
 //                    GLog.w(Messages.get(MeleeWeapon.class, "dash_bad_position"));
