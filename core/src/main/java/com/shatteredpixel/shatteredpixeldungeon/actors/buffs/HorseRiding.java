@@ -103,7 +103,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
         }
     }
 
-    public int drRoll() {
+    public static int drRoll() {
         int baseDr = Random.NormalIntRange(2, 16); //기본 방어력: 2~16
         return baseDr + Random.NormalIntRange(Dungeon.hero.pointsInTalent(Talent.ARMORED_HORSE), 8*Dungeon.hero.pointsInTalent(Talent.ARMORED_HORSE)); //추가 방어력: 특성 레벨~8*특성 레벨
     }
@@ -314,7 +314,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
         horseHT = bundle.getInt(HORSE_HT);
     }
 
-    public class HorseAlly extends DirectableAlly {
+    public static class HorseAlly extends DirectableAlly {
         {
             spriteClass = SpiritHorseSprite.class;
 
@@ -412,7 +412,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
 
         @Override
         public int drRoll() {
-            return HorseRiding.this.drRoll();
+            return HorseRiding.drRoll();
         }
     }
 
