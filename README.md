@@ -6,6 +6,8 @@
 
 This game fully supports Korean language basically. English language is supported too, which is translated by ChatGPT.
 
+Started community-based translation on [Transifex](https://explore.transifex.com/rearranged-pixel-dungeon/rearranged-pixel-dungeon/), please consider joining translation work if you are interested.
+
 ## What is added?
 - New Melee Weapons
     >Katanas, Knife, Nunchaku, Bible, ...etc.
@@ -23,7 +25,7 @@ This game fully supports Korean language basically. English language is supporte
 - Many of new Items
 - Lots of Alchemy Recipes
 - 1 of New Subclasses for all Classes
-- 4 of New Classes(and +1 Planned)
+- 5 of New Classes
 - 6 of New Trinkets
 - Spellbooks
 - 2 of New UI Style
