@@ -123,8 +123,8 @@ public class LargeSword extends MeleeWeapon {
 			turn += amount;
 			maxDamage = 1.80f + 0.20f * (lvl + 1);
 			maxAccuracy = 1.40f + 0.10f * (lvl + 1);
-			damageFactor += 0.20f;
-			accuracyFactor += 0.10f;
+			damageFactor += 0.20f * amount;
+			accuracyFactor += 0.10f * amount;
 			defenseFactor = (float)Math.pow(0.90f, lvl + 1);
 
 			if (damageFactor > maxDamage) {
