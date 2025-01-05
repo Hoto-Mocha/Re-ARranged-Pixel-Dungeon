@@ -84,6 +84,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.PinkGem;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ExoticCrystals;
@@ -911,7 +912,9 @@ public abstract class Mob extends Char {
 			hero.buff(FirstAidBuff.FirstAidBuffCooldown.class).kill();
 		}
 
-		if (cause == hero) {
+		GLog.i(cause.toString());
+
+		if (cause == hero || cause instanceof Wand || cause instanceof DirectableAlly) {
 			if (Dungeon.hero.hasTalent(Talent.LETHAL_RAGE)){
 				Berserk berserk = Buff.affect(hero, Berserk.class);
 				berserk.add(0.067f*Dungeon.hero.pointsInTalent(Talent.LETHAL_RAGE));
