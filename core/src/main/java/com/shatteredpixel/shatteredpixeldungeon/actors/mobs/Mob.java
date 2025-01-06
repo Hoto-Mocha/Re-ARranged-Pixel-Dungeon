@@ -912,8 +912,6 @@ public abstract class Mob extends Char {
 			hero.buff(FirstAidBuff.FirstAidBuffCooldown.class).kill();
 		}
 
-		GLog.i(cause.toString());
-
 		if ((this.alignment != Alignment.ALLY) && (cause == hero || cause instanceof Wand || cause instanceof DirectableAlly)) {
 			if (Dungeon.hero.hasTalent(Talent.LETHAL_RAGE)){
 				Berserk berserk = Buff.affect(hero, Berserk.class);
