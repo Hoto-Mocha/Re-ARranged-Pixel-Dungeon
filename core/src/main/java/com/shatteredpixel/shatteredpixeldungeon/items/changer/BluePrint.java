@@ -130,6 +130,7 @@ public class BluePrint extends Item {
             ((Gun) result).weightMod = ((Gun) wep).weightMod;
             ((Gun) result).attachMod = ((Gun) wep).attachMod;
             ((Gun) result).enchantMod = ((Gun) wep).enchantMod;
+            ((Gun) result).inscribeMod = ((Gun) wep).inscribeMod;
         }
 
         result.enchantment = wep.enchantment;
