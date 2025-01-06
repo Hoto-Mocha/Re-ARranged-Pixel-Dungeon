@@ -26,8 +26,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
+import com.shatteredpixel.shatteredpixeldungeon.items.BulletBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
+import com.shatteredpixel.shatteredpixeldungeon.items.GammaRayGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.GunSmithingTool;
@@ -36,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.KnightsShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
+import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.Stylus;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
@@ -250,6 +253,7 @@ public enum Catalog {
 
 		MISC_EQUIPMENT.addItems(BrokenSeal.class, KnightsShield.class,
 				SpiritBow.class, WindBow.class, TacticalBow.class, GoldenBow.class, NaturesBow.class, CorrosiveBow.class,
+				Sheath.class, GammaRayGun.class,
 				Waterskin.class, VelvetPouch.class, PotionBandolier.class, ScrollHolder.class, MagicalHolster.class,
 				OldAmulet.class, Amulet.class);
 
@@ -297,7 +301,7 @@ public enum Catalog {
 				GooBlob.class, TengusMask.class, MetalShard.class, KingsCrown.class,
 				LiquidMetal.class, ArcaneResin.class,
 				SealShard.class, BrokenStaff.class, CloakScrap.class, BowFragment.class, BrokenHilt.class,
-				Rope.class, GunSmithingTool.class);
+				Rope.class, GunSmithingTool.class, BulletBelt.class);
 
 	}
 
