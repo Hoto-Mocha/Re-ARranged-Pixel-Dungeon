@@ -1,7 +1,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -77,6 +79,9 @@ public class GunSmithingTool extends Item {
         Invisibility.dispel();
 
         updateQuickslot();
+
+        Statistics.gunModified = true;
+        Badges.validateGunnerUnlock();
 
         Item tool = Dungeon.hero.belongings.getItem(GunSmithingTool.class);
         if (tool != null) {

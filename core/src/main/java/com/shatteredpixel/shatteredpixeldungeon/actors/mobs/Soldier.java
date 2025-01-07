@@ -120,12 +120,5 @@ public class Soldier extends Mob {
 			return super.createLoot();
 		}
 	}
-
-	@Override
-	public void die( Object cause ) {
-		super.die(cause);
-		Statistics.soldierKilled = true;
-		Badges.validateGunnerUnlock();
-	}
 	
 }
