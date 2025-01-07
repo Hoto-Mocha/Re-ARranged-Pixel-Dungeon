@@ -58,7 +58,7 @@ public class Statistics {
 	public static boolean katanaObtained;
 	public static int plantTriggered;
 	public static boolean plateObtained;
-	public static boolean rebelKilled;
+	public static int pillsMade;
 
 	public static int spawnersAlive;
 	
@@ -147,6 +147,7 @@ public class Statistics {
 	private static final String KATANA_OBTAINED		= "katanaObtained";
 	private static final String PLANT_TRIGGERED		= "plantTriggered";
 	private static final String PLATE_OBTAINED		= "plateObtained";
+	private static final String PILLS_MADE		= "pillsMade";
 
 	private static final String SPAWNERS	= "spawnersAlive";
 	
@@ -194,6 +195,7 @@ public class Statistics {
 		bundle.put( KATANA_OBTAINED, katanaObtained);
 		bundle.put( PLANT_TRIGGERED, plantTriggered);
 		bundle.put( PLATE_OBTAINED, plateObtained);
+		bundle.put( PILLS_MADE, pillsMade);
 
 		bundle.put( SPAWNERS,	spawnersAlive );
 		
@@ -245,6 +247,7 @@ public class Statistics {
 		katanaObtained	= bundle.getBoolean( KATANA_OBTAINED );
 		plantTriggered	= bundle.getInt( PLANT_TRIGGERED );
 		plateObtained	= bundle.getBoolean( PLATE_OBTAINED );
+		pillsMade		= bundle.getInt( PILLS_MADE );
 
 		spawnersAlive   = bundle.getInt( SPAWNERS );
 		

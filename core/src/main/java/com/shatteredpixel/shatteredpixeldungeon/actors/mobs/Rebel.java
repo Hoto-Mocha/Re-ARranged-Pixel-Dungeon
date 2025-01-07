@@ -277,9 +277,6 @@ public class Rebel extends Mob {
 		yell( Messages.get(this, "defeated") );
 
 		isDied = true;
-
-		Statistics.rebelKilled = true;
-		Badges.validateMedicUnlock();
 	}
 
 	@Override

@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
+import com.shatteredpixel.shatteredpixeldungeon.items.pills.Pill;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
@@ -746,6 +747,11 @@ public class AlchemyScene extends PixelScene {
 
 		Statistics.itemsCrafted++;
 		Badges.validateItemsCrafted();
+
+		if (result instanceof Pill) {
+			Statistics.pillsMade++;
+			Badges.validateMedicUnlock();
+		}
 
 		try {
 			Dungeon.saveAll();

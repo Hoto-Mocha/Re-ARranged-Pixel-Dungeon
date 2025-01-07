@@ -1094,7 +1094,7 @@ public class Badges {
 	}
 
 	public static void validateMedicUnlock() {
-		if (Statistics.rebelKilled && !isUnlocked(Badge.UNLOCK_MEDIC)) {
+		if (Statistics.pillsMade > 4 && !isUnlocked(Badge.UNLOCK_MEDIC)) {
 			displayBadge(Badge.UNLOCK_MEDIC);
 		}
 	}
