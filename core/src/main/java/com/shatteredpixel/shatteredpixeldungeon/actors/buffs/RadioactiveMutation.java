@@ -67,15 +67,18 @@ public class RadioactiveMutation extends Buff implements Hero.Doom {
 
 	@Override
 	public boolean act() {
-		if (target.isAlive()) {
-			if ((time -= TICK) == 0) {
-				target.damage( 1, this );
-				time = maxTime;
-			}
-			spend( TICK );
-		} else {
+		if (!target.isAlive()) {
 			detach();
 		}
+
+		if ((time -= TICK) == 0) {
+			if (target != null && target.isAlive()) {
+				target.damage( 1, this );
+			}
+			time = maxTime;
+		}
+
+		spend( TICK );
 		
 		return true;
 	}
