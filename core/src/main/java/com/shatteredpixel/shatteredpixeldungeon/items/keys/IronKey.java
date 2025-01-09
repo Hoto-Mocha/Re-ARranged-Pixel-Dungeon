@@ -39,4 +39,10 @@ public class IronKey extends Key {
 		this.branch = 0;
 	}
 
+	public IronKey( int depth, int branch ) {
+		super();
+		this.depth = depth;
+		this.branch = branch;
+	}
+
 }
