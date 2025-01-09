@@ -586,21 +586,6 @@ public class GameScene extends PixelScene {
 
 			if (Dungeon.templeCompleted) {
 				if (Dungeon.hero.buff(OldAmulet.TempleCurse.class) != null) {
-					if (Dungeon.level instanceof RegularLevel){
-						RegularLevel level = (RegularLevel) Dungeon.level;
-						for (Room r : level.rooms()) {
-							if (r instanceof TempleCenterItemRoom){
-								int terr;
-								for (Point p : r.getPoints()){
-									terr = level.map[level.pointToCell(p)];
-									if (terr == Terrain.STATUE_SP){
-										Level.set(level.pointToCell(p), Terrain.EMPTY_SP);
-										GameScene.updateMap(level.pointToCell(p));
-									}
-								}
-							}
-						}
-					}
 					Dungeon.hero.buff(OldAmulet.TempleCurse.class).saySwitch();
 				}
 				if (Dungeon.branch == 0) {

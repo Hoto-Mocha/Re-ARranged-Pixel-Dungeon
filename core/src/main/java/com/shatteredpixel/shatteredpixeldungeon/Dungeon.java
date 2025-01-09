@@ -521,10 +521,6 @@ public class Dungeon {
 			hero.buff(AscensionChallenge.class).onLevelSwitch();
 		}
 
-		if (hero.buff(OldAmulet.TempleCurse.class) != null){
-			hero.buff(OldAmulet.TempleCurse.class).onLevelSwitch();
-		}
-
 		Mob.restoreAllies( level, pos );
 
 		Actor.init();
