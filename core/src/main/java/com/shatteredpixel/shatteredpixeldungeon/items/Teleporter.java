@@ -394,7 +394,11 @@ public class Teleporter extends Item {
 //                GLog.i(b.toString());
 //            }
 
-            GLog.i("" + hero.isImmune(Poison.class));
+            InterlevelScene.mode = InterlevelScene.Mode.RETURN;
+            InterlevelScene.returnDepth = 14;
+            InterlevelScene.returnBranch = 2;
+            InterlevelScene.returnPos = -2;
+            Game.switchScene( InterlevelScene.class );
         }
     }
 
