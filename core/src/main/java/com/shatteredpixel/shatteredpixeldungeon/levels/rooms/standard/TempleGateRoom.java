@@ -59,7 +59,7 @@ public class TempleGateRoom extends StandardRoom {
 		level.transitions.add(new LevelTransition(level,
 				entranceCell,
 				LevelTransition.Type.BRANCH_EXIT,
-				Dungeon.depth + 2,
+				Dungeon.depth,
 				Dungeon.branch + 2,
 				LevelTransition.Type.BRANCH_ENTRANCE));
 		Painter.set(level, entranceCell, Terrain.UNLOCKED_EXIT);
