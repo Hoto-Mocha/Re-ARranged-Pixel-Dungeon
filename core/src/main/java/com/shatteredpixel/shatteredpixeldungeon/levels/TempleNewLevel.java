@@ -7,14 +7,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
-import com.shatteredpixel.shatteredpixeldungeon.items.keys.CrystalKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.IronKey;
-import com.shatteredpixel.shatteredpixeldungeon.items.keys.Key;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
+
+import java.util.ArrayList;
 
 public class TempleNewLevel extends Level {
 
@@ -106,14 +106,24 @@ public class TempleNewLevel extends Level {
                 int top = CHAMBER_FIRST_Y + y*(CHAMBER_HEIGHT+1);   //chamber's actual top pos. chamber includes this pos
                 int bottom = top + CHAMBER_HEIGHT+2;                //chamber's actual right pos. chamber doesn't include this pos
                 Point center = new Point(left + Math.round(CHAMBER_WIDTH/2f), top + Math.round(CHAMBER_HEIGHT/2f)); //chamber's center point.
-                Rect chamber = new Rect(
+                //makes default empty room
+                Chamber chamber = new Chamber(
+                        this,
                         left,
                         top,
                         right,
-                        bottom);
-                Painter.fill(this, chamber, Terrain.WALL);
-                Painter.fill(this, chamber, 1, Terrain.EMPTY_SP);
-                Painter.set(this, center, Terrain.PEDESTAL);
+                        bottom,
+                        center);
+                chamber.build();
+                //fills room for other type of room
+                TestChamber testChamber = new TestChamber(
+                        this,
+                        left,
+                        top,
+                        right,
+                        bottom,
+                        center);
+                testChamber.build();
 
                 //door placing logic
                 int doorX;
@@ -184,5 +194,113 @@ public class TempleNewLevel extends Level {
     @Override
     protected void createItems() {
 
+    }
+
+    public static class Chamber {
+        public Level level;
+        public final Point center;
+        public final Rect innerRoom;
+        private final Rect outerRoom;
+        private ArrayList<Integer> innerRoomPos = new ArrayList<>();
+        public boolean isBuildWithStructure = false; //make this false if you want to make room with Painter
+
+        public Chamber(Level level, int left, int top, int right, int bottom, Point center) {
+            this.level      = level;
+            this.center     = center;
+            this.outerRoom  = new Rect( //this includes the wall
+                    left,
+                    top,
+                    right,
+                    bottom);
+            this.innerRoom = new Rect( //this excludes the wall
+                    left+1,
+                    top+1,
+                    right-1,
+                    bottom-1);
+
+            Point leftTopPoint = new Point(center.x-(CHAMBER_WIDTH/2-1), center.y-(CHAMBER_HEIGHT/2));
+            for (int y = 0; y < CHAMBER_HEIGHT; y++) {
+                for (int x = 0; x < CHAMBER_WIDTH; x++) {
+                    Point p = new Point((leftTopPoint.x-1)+x, leftTopPoint.y+y);
+                    innerRoomPos.add(this.level.pointToCell(p));
+                }
+            }
+        }
+
+        public int[] roomStructure() {
+            return new int[] {}; //must be overridden if isBuildWithStructure is true
+        }
+
+        public void build() {
+            Painter.fill(this.level, this.outerRoom, Terrain.WALL);
+            Painter.fill(this.level, this.outerRoom, 1, Terrain.EMPTY);
+            Painter.set(this.level, this.center, Terrain.PEDESTAL);
+
+            /*
+                if the build does not work well, check the roomStructure() is correctly overridden
+                if roomStructure() is too short, it will make uncomplete room
+                if roomStructure() is too long, it will throw ArrayIndexOutOfBoundsException
+            */
+            if (isBuildWithStructure) {
+                int index = 0;
+                try {
+                    for (int pos : innerRoomPos) {
+                        if (roomStructure()[index] != -1) this.level.map[pos] = roomStructure()[index];
+                        index++;
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static class EmptySPChamber extends Chamber {
+
+        {
+            this.isBuildWithStructure = false;
+        }
+
+        public EmptySPChamber(Level level, int left, int top, int right, int bottom, Point center) {
+            super(level, left, top, right, bottom, center);
+        }
+
+        @Override
+        public void build() {
+            super.build();
+            Painter.fill(this.level, this.innerRoom, Terrain.EMPTY_SP);
+            Painter.set(this.level, this.center, Terrain.PEDESTAL);
+        }
+    }
+
+    public static class TestChamber extends Chamber {
+        {
+            this.isBuildWithStructure = true;
+        }
+
+        public TestChamber(Level level, int left, int top, int right, int bottom, Point center) {
+            super(level, left, top, right, bottom, center);
+        }
+
+        @Override
+        public int[] roomStructure() {
+            int n = -1;
+            int E = Terrain.EMPTY;
+            int S = Terrain.STATUE;
+            return new int[] {
+                    E,S,E,S,E,S,E,
+                    S,E,S,E,S,E,S,
+                    E,S,E,S,E,S,E,
+                    S,E,S,n,S,E,S,
+                    E,S,E,S,E,S,E,
+                    S,E,S,E,S,E,S,
+                    E,S,E,S,E,S,E
+            };
+        }
+
+        @Override
+        public void build() {
+            super.build();
+        }
     }
 }
