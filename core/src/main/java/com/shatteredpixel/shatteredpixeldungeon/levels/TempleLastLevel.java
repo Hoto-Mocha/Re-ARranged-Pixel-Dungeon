@@ -235,8 +235,8 @@ public class TempleLastLevel extends Level {
 			properties.add(Property.IMMOVABLE);
 		}
 
-		private float initialChargeDelay;
-		private float curChargeDelay;
+		public float initialChargeDelay;
+		public float curChargeDelay;
 
 		@Override
 		protected boolean act() {
