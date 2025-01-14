@@ -14,9 +14,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.IronKey;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
+import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 
@@ -103,6 +105,15 @@ public class TempleNewLevel extends Level {
         Painter.set(this, keyPoint(), Terrain.PEDESTAL);
 
         //chamber build logic
+        Class<?>[] chamberClasses = {
+                MimicInTheGrassChamber.class,
+                PiranhaPoolChamber.class,
+                AlchemyChamber.class,
+                SentryChamber.class,
+                MineFieldChamber.class
+        };
+        float[] deck = {1, 1, 1, 1, 1};
+
         for (int x = 0; x < CHAMBER_X_NUM; x++) {                   //chamber's x coordinate. 0~CHAMBER_X_NUM
             for (int y = 0; y < CHAMBER_Y_NUM; y++) {               //chamber's y coordinate. 0~CHAMBER_Y_NUM
                 int left = CHAMBER_FIRST_X + x*(CHAMBER_WIDTH+1);   //chamber's actual left pos. chamber includes this pos
@@ -110,32 +121,28 @@ public class TempleNewLevel extends Level {
                 int top = CHAMBER_FIRST_Y + y*(CHAMBER_HEIGHT+1);   //chamber's actual top pos. chamber includes this pos
                 int bottom = top + CHAMBER_HEIGHT+2;                //chamber's actual right pos. chamber doesn't include this pos
                 Point center = new Point(left + Math.round(CHAMBER_WIDTH/2f), top + Math.round(CHAMBER_HEIGHT/2f)); //chamber's center point.
-                //makes default empty room
-                Chamber chamber = new Chamber(
-                        this,
-                        left,
-                        top,
-                        right,
-                        bottom,
-                        center);
-                chamber.build();
-                //fills room for other type of room
-//                TestChamber testChamber = new TestChamber(
-//                        this,
-//                        left,
-//                        top,
-//                        right,
-//                        bottom,
-//                        center);
-//                testChamber.build();
 
-                SentryChamber sentryChamber = new SentryChamber(this,
-                        left,
-                        top,
-                        right,
-                        bottom,
-                        center);
-                sentryChamber.build();
+                int index = Random.chances(deck); //picks random index from deck
+                if (index == -1) { //if the index is -1, that means 
+                    break;
+                }
+                deck[index] = 0;
+
+                Class<?> chamberClass;
+                try {
+                    chamberClass = chamberClasses[index];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    chamberClass = Chamber.class;
+                }
+                Chamber finalChamber = (Chamber) Reflection.newInstance(chamberClass);
+                if (finalChamber != null) {
+                    finalChamber.set(this,
+                            left,
+                            top,
+                            right,
+                            bottom,
+                            center);
+                }
 
                 //door placing logic
                 int doorX;
@@ -210,13 +217,13 @@ public class TempleNewLevel extends Level {
 
     public static class Chamber {
         public Level level;
-        public final Point center;
-        public final Rect innerRoom;
-        private final Rect outerRoom;
+        public Point center;
+        public Rect innerRoom;
+        private Rect outerRoom;
         private ArrayList<Integer> innerRoomPos = new ArrayList<>();
         public boolean isBuildWithStructure = false; //make this false if you want to make room with Painter
 
-        public Chamber(Level level, int left, int top, int right, int bottom, Point center) {
+        public void set(Level level, int left, int top, int right, int bottom, Point center) {
             this.level      = level;
             this.center     = center;
             this.outerRoom  = new Rect( //this includes the wall
@@ -237,6 +244,7 @@ public class TempleNewLevel extends Level {
                     innerRoomPos.add(this.level.pointToCell(p));
                 }
             }
+            build();
         }
 
         public int[] roomStructure() {
@@ -300,10 +308,6 @@ public class TempleNewLevel extends Level {
             isBuildWithStructure = false;
         }
 
-        public EmptySPChamber(Level level, int left, int top, int right, int bottom, Point center) {
-            super(level, left, top, right, bottom, center);
-        }
-
         @Override
         public void build() {
             super.build();
@@ -313,12 +317,9 @@ public class TempleNewLevel extends Level {
     }
 
     public static class TestChamber extends Chamber {
+
         {
             isBuildWithStructure = true;
-        }
-
-        public TestChamber(Level level, int left, int top, int right, int bottom, Point center) {
-            super(level, left, top, right, bottom, center);
         }
 
         @Override
@@ -353,10 +354,6 @@ public class TempleNewLevel extends Level {
             isBuildWithStructure = false;
         }
 
-        public MimicInTheGrassChamber(Level level, int left, int top, int right, int bottom, Point center) {
-            super(level, left, top, right, bottom, center);
-        }
-
         @Override
         public void build() {
             super.build();
@@ -372,12 +369,9 @@ public class TempleNewLevel extends Level {
     }
 
     public static class PiranhaPoolChamber extends Chamber {
+
         {
             isBuildWithStructure = false;
-        }
-
-        public PiranhaPoolChamber(Level level, int left, int top, int right, int bottom, Point center) {
-            super(level, left, top, right, bottom, center);
         }
 
         @Override
@@ -411,12 +405,9 @@ public class TempleNewLevel extends Level {
     }
 
     public static class AlchemyChamber extends Chamber {
+
         {
             isBuildWithStructure = true;
-        }
-
-        public AlchemyChamber(Level level, int left, int top, int right, int bottom, Point center) {
-            super(level, left, top, right, bottom, center);
         }
 
         @Override
@@ -467,12 +458,9 @@ public class TempleNewLevel extends Level {
     }
 
     public static class SentryChamber extends Chamber {
+
         {
             isBuildWithStructure = true;
-        }
-
-        public SentryChamber(Level level, int left, int top, int right, int bottom, Point center) {
-            super(level, left, top, right, bottom, center);
         }
 
         @Override
@@ -533,12 +521,9 @@ public class TempleNewLevel extends Level {
     }
 
     public static class MineFieldChamber extends Chamber {
+
         {
             isBuildWithStructure = false;
-        }
-
-        public MineFieldChamber(Level level, int left, int top, int right, int bottom, Point center) {
-            super(level, left, top, right, bottom, center);
         }
 
         @Override
@@ -557,6 +542,20 @@ public class TempleNewLevel extends Level {
 
             for (Point p : floorPoint) {
                 Painter.set(level, p, Terrain.EMPTY_SP);
+            }
+
+            ArrayList<Integer> emberCellArray = randomRoomPos(50);
+            for (int emberCell : emberCellArray) {
+                if (!floorPoint.contains(level.cellToPoint(emberCell))) {
+                    Painter.set(level, emberCell, Terrain.EMBERS);
+                }
+            }
+
+            for (int trapCell : randomRoomPos(30)) {
+                if (!floorPoint.contains(level.cellToPoint(trapCell)) && !emberCellArray.contains(trapCell)) {
+                    Painter.set(level, trapCell, Terrain.SECRET_TRAP);
+                    level.setTrap(new ExplosiveTrap().hide(), trapCell);
+                }
             }
         }
     }
