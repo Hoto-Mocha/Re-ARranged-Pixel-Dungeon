@@ -96,6 +96,39 @@ public class TempleNewLevel extends Level {
         return true;
     }
 
+    //chamber build logic
+    Class<?>[] chamberClasses = {
+            MimicInTheGrassChamber.class,
+            PiranhaPoolChamber.class,
+            AlchemyChamber.class,
+            SentryChamber.class,
+            MineFieldChamber.class,
+    };
+    float[] deck = {1, 1, 1, 1, 1};
+
+    private void createChamber(Level level, int left, int top, int right, int bottom, Point center) {
+        int index = Random.chances(deck); //picks random index from deck
+        if (index == -1) return;
+        deck[index] = 0; //makes the index's chance to 0
+
+        Class<?> chamberClass;
+        try { //deck's length can be longer than chamberClasses's length, so I put try-catch here
+            chamberClass = chamberClasses[index];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            chamberClass = Chamber.class;
+        }
+        Chamber finalChamber = (Chamber) Reflection.newInstance(chamberClass); //finally makes new instance of the chamber
+        if (finalChamber != null) {
+            finalChamber.set(level,
+                    left,
+                    top,
+                    right,
+                    bottom,
+                    center);
+            finalChamber.build();
+        }
+    }
+
     private void buildLevel() {
         Painter.fill(this, rect, Terrain.WALL);
         Painter.fill(this, rect, 1, Terrain.EMPTY);
@@ -104,45 +137,19 @@ public class TempleNewLevel extends Level {
 
         Painter.set(this, keyPoint(), Terrain.PEDESTAL);
 
-        //chamber build logic
-        Class<?>[] chamberClasses = {
-                MimicInTheGrassChamber.class,
-                PiranhaPoolChamber.class,
-                AlchemyChamber.class,
-                SentryChamber.class,
-                MineFieldChamber.class
-        };
-        float[] deck = {1, 1, 1, 1, 1};
-
         for (int x = 0; x < CHAMBER_X_NUM; x++) {                   //chamber's x coordinate. 0~CHAMBER_X_NUM
             for (int y = 0; y < CHAMBER_Y_NUM; y++) {               //chamber's y coordinate. 0~CHAMBER_Y_NUM
                 int left = CHAMBER_FIRST_X + x*(CHAMBER_WIDTH+1);   //chamber's actual left pos. chamber includes this pos
-                int right = left + CHAMBER_WIDTH+2;                 //chamber's actual right pos. chamber doesn't include this pos
                 int top = CHAMBER_FIRST_Y + y*(CHAMBER_HEIGHT+1);   //chamber's actual top pos. chamber includes this pos
+                int right = left + CHAMBER_WIDTH+2;                 //chamber's actual right pos. chamber doesn't include this pos
                 int bottom = top + CHAMBER_HEIGHT+2;                //chamber's actual right pos. chamber doesn't include this pos
                 Point center = new Point(left + Math.round(CHAMBER_WIDTH/2f), top + Math.round(CHAMBER_HEIGHT/2f)); //chamber's center point.
 
-                int index = Random.chances(deck); //picks random index from deck
-                if (index == -1) { //if the index is -1, that means 
-                    break;
-                }
-                deck[index] = 0;
+                Chamber chamber = new Chamber();
+                chamber.set(this, left, top, right, bottom, center);
+                chamber.build();
 
-                Class<?> chamberClass;
-                try {
-                    chamberClass = chamberClasses[index];
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    chamberClass = Chamber.class;
-                }
-                Chamber finalChamber = (Chamber) Reflection.newInstance(chamberClass);
-                if (finalChamber != null) {
-                    finalChamber.set(this,
-                            left,
-                            top,
-                            right,
-                            bottom,
-                            center);
-                }
+                createChamber(this, left, top, right, bottom, center);
 
                 //door placing logic
                 int doorX;
@@ -244,7 +251,6 @@ public class TempleNewLevel extends Level {
                     innerRoomPos.add(this.level.pointToCell(p));
                 }
             }
-            build();
         }
 
         public int[] roomStructure() {
@@ -544,15 +550,15 @@ public class TempleNewLevel extends Level {
                 Painter.set(level, p, Terrain.EMPTY_SP);
             }
 
-            ArrayList<Integer> emberCellArray = randomRoomPos(50);
+            ArrayList<Integer> emberCellArray = randomRoomPos(100);
             for (int emberCell : emberCellArray) {
-                if (!floorPoint.contains(level.cellToPoint(emberCell))) {
+                if (!floorPoint.contains(level.cellToPoint(emberCell)) && emberCell != level.pointToCell(center)) {
                     Painter.set(level, emberCell, Terrain.EMBERS);
                 }
             }
 
-            for (int trapCell : randomRoomPos(30)) {
-                if (!floorPoint.contains(level.cellToPoint(trapCell)) && !emberCellArray.contains(trapCell)) {
+            for (int trapCell : randomRoomPos(100)) {
+                if (!floorPoint.contains(level.cellToPoint(trapCell)) && !emberCellArray.contains(trapCell) && trapCell != level.pointToCell(center)) {
                     Painter.set(level, trapCell, Terrain.SECRET_TRAP);
                     level.setTrap(new ExplosiveTrap().hide(), trapCell);
                 }
