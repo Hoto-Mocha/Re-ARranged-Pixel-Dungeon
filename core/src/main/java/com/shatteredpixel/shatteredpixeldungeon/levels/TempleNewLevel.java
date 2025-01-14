@@ -3,6 +3,10 @@ package com.shatteredpixel.shatteredpixeldungeon.levels;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.EbonyMimic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
+import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -23,12 +27,12 @@ public class TempleNewLevel extends Level {
         color2 = 0x569545;
     }
 
-    private static final int CHAMBER_X_NUM = 5; // chamber's horizontal number, at least 1
-    private static final int CHAMBER_Y_NUM = 5; // chamber's vertical number, at least 1
-    private static final int CHAMBER_WIDTH = 7; // chamber's horizontal length(excluding wall), at least 1, and must be odd
-    private static final int CHAMBER_HEIGHT = 7; // chamber's vertical length(excluding wall), at least 1, and must be odd
-    private static final int CHAMBER_FIRST_X = 0; //cannot be changed
-    private static final int CHAMBER_FIRST_Y = 2 /* <- this means how far the chamber is from the top pedestal*/ +4;
+    private static final int CHAMBER_X_NUM      = 5; // chamber's horizontal number, at least 1
+    private static final int CHAMBER_Y_NUM      = 5; // chamber's vertical number, at least 1
+    private static final int CHAMBER_WIDTH      = 17; // chamber's horizontal length(excluding wall), at least 1, and must be odd
+    private static final int CHAMBER_HEIGHT     = 17; // chamber's vertical length(excluding wall), at least 1, and must be odd
+    private static final int CHAMBER_FIRST_X    = 0; //cannot be changed
+    private static final int CHAMBER_FIRST_Y    = 2 /* <- this means how far the chamber is from the top pedestal*/ +4;
     private static final int WIDTH = 1+CHAMBER_X_NUM*(CHAMBER_WIDTH+1); //cannot be changed
     private static final int HEIGHT = 2 /* <- this means how far the chamber is from the bottom entrance*/ +12+CHAMBER_Y_NUM*(CHAMBER_HEIGHT+1);
     Rect rect = new Rect(0, 0, WIDTH, HEIGHT);
@@ -116,14 +120,22 @@ public class TempleNewLevel extends Level {
                         center);
                 chamber.build();
                 //fills room for other type of room
-                TestChamber testChamber = new TestChamber(
-                        this,
+//                TestChamber testChamber = new TestChamber(
+//                        this,
+//                        left,
+//                        top,
+//                        right,
+//                        bottom,
+//                        center);
+//                testChamber.build();
+
+                SentryChamber sentryChamber = new SentryChamber(this,
                         left,
                         top,
                         right,
                         bottom,
                         center);
-                testChamber.build();
+                sentryChamber.build();
 
                 //door placing logic
                 int doorX;
@@ -232,9 +244,9 @@ public class TempleNewLevel extends Level {
         }
 
         public void build() {
-            Painter.fill(this.level, this.outerRoom, Terrain.WALL);
-            Painter.fill(this.level, this.outerRoom, 1, Terrain.EMPTY);
-            Painter.set(this.level, this.center, Terrain.PEDESTAL);
+            Painter.fill(level, outerRoom, Terrain.WALL);
+            Painter.fill(level, outerRoom, 1, Terrain.EMPTY);
+            Painter.set(level, center, Terrain.PEDESTAL);
 
             /*
                 if the build does not work well, check the roomStructure() is correctly overridden
@@ -245,7 +257,7 @@ public class TempleNewLevel extends Level {
                 int index = 0;
                 try {
                     for (int pos : innerRoomPos) {
-                        if (roomStructure()[index] != -1) this.level.map[pos] = roomStructure()[index];
+                        if (roomStructure()[index] != -1) level.map[pos] = roomStructure()[index];
                         index++;
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
@@ -253,12 +265,39 @@ public class TempleNewLevel extends Level {
                 }
             }
         }
+
+        //returns random pos in the room
+        public ArrayList<Integer> randomRoomPos(int num) {
+            ArrayList<Integer> result = new ArrayList<>();
+            while (result.size() < num) {
+                int randomResult = Random.element(innerRoomPos);
+                if (!result.contains(randomResult)) {
+                    result.add(randomResult);
+                }
+            }
+
+            return result;
+        }
+
+        public Point doorPoint(int direction) {
+            //direction: 0=top, 1=left, 2=bottom, 3=right, other=top (counterclockwise)
+            switch (direction) {
+                default: case 0:
+                    return new Point(center.x, center.y-CHAMBER_HEIGHT/2);
+                case 1:
+                    return new Point(center.x-CHAMBER_WIDTH/2, center.y);
+                case 2:
+                    return new Point(center.x, center.y+CHAMBER_HEIGHT/2);
+                case 3:
+                    return new Point(center.x+CHAMBER_WIDTH/2, center.y);
+            }
+        }
     }
 
     public static class EmptySPChamber extends Chamber {
 
         {
-            this.isBuildWithStructure = false;
+            isBuildWithStructure = false;
         }
 
         public EmptySPChamber(Level level, int left, int top, int right, int bottom, Point center) {
@@ -268,14 +307,14 @@ public class TempleNewLevel extends Level {
         @Override
         public void build() {
             super.build();
-            Painter.fill(this.level, this.innerRoom, Terrain.EMPTY_SP);
-            Painter.set(this.level, this.center, Terrain.PEDESTAL);
+            Painter.fill(level, innerRoom, Terrain.EMPTY_SP);
+            Painter.set(level, center, Terrain.PEDESTAL);
         }
     }
 
     public static class TestChamber extends Chamber {
         {
-            this.isBuildWithStructure = true;
+            isBuildWithStructure = true;
         }
 
         public TestChamber(Level level, int left, int top, int right, int bottom, Point center) {
@@ -301,6 +340,224 @@ public class TempleNewLevel extends Level {
         @Override
         public void build() {
             super.build();
+        }
+    }
+
+    //actual chambers
+    public static class MimicInTheGrassChamber extends Chamber {
+        /*
+            this room contains full of furrowed grass and 12 of hidden ebony mimic
+        */
+
+        {
+            isBuildWithStructure = false;
+        }
+
+        public MimicInTheGrassChamber(Level level, int left, int top, int right, int bottom, Point center) {
+            super(level, left, top, right, bottom, center);
+        }
+
+        @Override
+        public void build() {
+            super.build();
+
+            Painter.fill(level, innerRoom, Terrain.FURROWED_GRASS);
+            Painter.set(level, center, Terrain.PEDESTAL);
+
+            ArrayList<Integer> randomPos = randomRoomPos(12);
+            for (int pos : randomPos) {
+                level.mobs.add(Mimic.spawnAt(pos, EbonyMimic.class, false));
+            }
+        }
+    }
+
+    public static class PiranhaPoolChamber extends Chamber {
+        {
+            isBuildWithStructure = false;
+        }
+
+        public PiranhaPoolChamber(Level level, int left, int top, int right, int bottom, Point center) {
+            super(level, left, top, right, bottom, center);
+        }
+
+        @Override
+        public void build() {
+            super.build();
+
+            Painter.fill(level, innerRoom, 1, Terrain.EMPTY_SP);
+            Painter.fill(level, innerRoom, 2, Terrain.WATER);
+            for (int i = 0; i < 4; i++) {
+                Painter.drawLine(level, doorPoint(i), center, Terrain.EMPTY_SP);
+            }
+
+            Painter.set(level, center, Terrain.PEDESTAL);
+
+            Piranha piranha1 = Piranha.random();
+            piranha1.pos = level.pointToCell(new Point(center.x-2, center.y-2));
+            level.mobs.add(piranha1);
+
+            Piranha piranha2 = Piranha.random();
+            piranha2.pos = level.pointToCell(new Point(center.x+2, center.y-2));
+            level.mobs.add(piranha2);
+
+            Piranha piranha3 = Piranha.random();
+            piranha3.pos = level.pointToCell(new Point(center.x-2, center.y+2));
+            level.mobs.add(piranha3);
+
+            Piranha piranha4 = Piranha.random();
+            piranha4.pos = level.pointToCell(new Point(center.x+2, center.y+2));
+            level.mobs.add(piranha4);
+        }
+    }
+
+    public static class AlchemyChamber extends Chamber {
+        {
+            isBuildWithStructure = true;
+        }
+
+        public AlchemyChamber(Level level, int left, int top, int right, int bottom, Point center) {
+            super(level, left, top, right, bottom, center);
+        }
+
+        @Override
+        public int[] roomStructure() {
+            int n = -1;
+            int E = Terrain.EMPTY_SP;
+            int B = Terrain.BOOKSHELF;
+            int P = Terrain.PEDESTAL;
+            int A = Terrain.ALCHEMY;
+            int S = Terrain.STATUE_SP;
+            return new int[] {
+                    E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E,
+                    E, B, B, B, B, B, B, B, E, B, B, B, B, B, B, B, E,
+                    E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E,
+                    E, B, B, B, B, B, B, B, E, B, B, B, B, B, B, B, E,
+                    E, E, E, E, E, E, E, E, E, E, P, E, E, E, P, E, E,
+                    E, B, B, B, B, B, B, B, E, E, P, E, A, E, P, E, E,
+                    E, E, E, E, E, E, E, E, E, E, P, E, E, E, P, E, E,
+                    E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E,
+                    E, E, E, E, E, E, E, E, n, E, E, E, E, E, E, E, E,
+                    E, E, E, E, E, E, E, E, E, E, S, E, S, E, S, E, E,
+                    E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E,
+                    E, B, B, B, B, B, B, B, E, B, B, B, B, B, B, B, E,
+                    E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E,
+                    E, B, B, B, B, B, B, B, E, B, B, B, B, B, B, B, E,
+                    E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E,
+                    E, B, B, B, B, B, B, B, E, B, B, B, B, B, B, B, E,
+                    E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E,
+            };
+        }
+
+        @Override
+        public void build() {
+            super.build();
+            for (int i = 2; i < 5; i++) {
+                Point pedestalPos = new Point(center.x+2, center.y-i);
+                if (i == 2) {
+                    level.drop(Generator.randomUsingDefaults(Generator.Category.FOOD), level.pointToCell(pedestalPos));
+                } else {
+                    level.drop(new EnergyCrystal().quantity(Random.IntRange(6,10)), level.pointToCell(pedestalPos));
+                }
+            }
+            for (int i = 2; i < 5; i++) {
+                Point pedestalPos = new Point(center.x+6, center.y-i);
+                level.drop(Generator.randomUsingDefaults(Generator.Category.POTION), level.pointToCell(pedestalPos));
+            }
+        }
+    }
+
+    public static class SentryChamber extends Chamber {
+        {
+            isBuildWithStructure = true;
+        }
+
+        public SentryChamber(Level level, int left, int top, int right, int bottom, Point center) {
+            super(level, left, top, right, bottom, center);
+        }
+
+        @Override
+        public int[] roomStructure() {
+            int n = -1;
+            int F = Terrain.EMPTY;
+            int W = Terrain.WALL;
+            int E = Terrain.EMPTY_SP;
+            int S = Terrain.STATUE_SP;
+            int P = Terrain.PEDESTAL;
+            int M = Terrain.EMBERS;
+            return new int[] {
+                    W, W, W, W, P, P, P, W, F, W, P, P, P, W, W, W, W,
+                    W, W, W, W, S, S, S, W, F, W, S, S, S, W, W, W, W,
+                    W, W, E, E, E, E, E, E, E, E, E, E, E, E, E, W, W,
+                    W, W, E, E, E, E, E, E, E, E, E, E, E, E, E, W, W,
+                    P, S, E, E, E, E, E, E, E, E, E, E, E, E, E, S, P,
+                    P, S, E, E, E, E, E, S, S, S, E, E, E, E, E, S, P,
+                    P, S, E, E, E, E, E, E, E, E, E, E, E, E, E, S, P,
+                    W, W, E, E, E, S, E, M, M, M, E, S, E, E, E, W, W,
+                    F, F, E, E, E, S, E, M, P, M, E, S, E, E, E, F, F,
+                    W, W, E, E, E, S, E, M, M, M, E, S, E, E, E, W, W,
+                    P, S, E, E, E, E, E, E, E, E, E, E, E, E, E, S, P,
+                    P, S, E, E, E, E, E, S, S, S, E, E, E, E, E, S, P,
+                    P, S, E, E, E, E, E, E, E, E, E, E, E, E, E, S, P,
+                    W, W, E, E, E, E, E, E, E, E, E, E, E, E, E, W, W,
+                    W, W, E, E, E, E, E, E, E, E, E, E, E, E, E, W, W,
+                    W, W, W, W, S, S, S, W, F, W, S, S, S, W, W, W, W,
+                    W, W, W, W, P, P, P, W, F, W, P, P, P, W, W, W, W,
+            };
+        }
+
+        @Override
+        public void build() {
+            super.build();
+            ArrayList<Point> sentryPoint = new ArrayList<>();
+
+            int[] offsets = {-4, -3, -2, 2, 3, 4};
+            for (int offset : offsets) {
+                // 상단 및 하단 센트리 위치
+                sentryPoint.add(new Point(center.x + offset, center.y - CHAMBER_HEIGHT / 2));
+                sentryPoint.add(new Point(center.x + offset, center.y + CHAMBER_HEIGHT / 2));
+
+                // 좌측 및 우측 센트리 위치
+                sentryPoint.add(new Point(center.x - CHAMBER_WIDTH / 2, center.y + offset));
+                sentryPoint.add(new Point(center.x + CHAMBER_WIDTH / 2, center.y + offset));
+            }
+
+            for (Point p : sentryPoint) {
+                int sentryCell = level.pointToCell(p);
+                TempleLastLevel.Sentry sentry = new TempleLastLevel.Sentry();
+                sentry.pos = sentryCell;
+                sentry.initialChargeDelay = sentry.curChargeDelay = 3f + 0.1f;
+                level.mobs.add( sentry );
+            }
+
+        }
+    }
+
+    public static class MineFieldChamber extends Chamber {
+        {
+            isBuildWithStructure = false;
+        }
+
+        public MineFieldChamber(Level level, int left, int top, int right, int bottom, Point center) {
+            super(level, left, top, right, bottom, center);
+        }
+
+        @Override
+        public void build() {
+            super.build();
+
+            ArrayList<Point> floorPoint = new ArrayList<>();
+
+            int[] offsets = {-1, 0, 1};
+            for (int offset : offsets) {
+                floorPoint.add(new Point(center.x + offset, center.y - CHAMBER_HEIGHT / 2));
+                floorPoint.add(new Point(center.x + offset, center.y + CHAMBER_HEIGHT / 2));
+                floorPoint.add(new Point(center.x - CHAMBER_WIDTH / 2, center.y + offset));
+                floorPoint.add(new Point(center.x + CHAMBER_WIDTH / 2, center.y + offset));
+            }
+
+            for (Point p : floorPoint) {
+                Painter.set(level, p, Terrain.EMPTY_SP);
+            }
         }
     }
 }
