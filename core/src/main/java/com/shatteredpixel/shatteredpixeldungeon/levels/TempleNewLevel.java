@@ -4,25 +4,20 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.EbonyMimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.TempleEbonyMimic;
 import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
-import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.CrystalKey;
-import com.shatteredpixel.shatteredpixeldungeon.items.keys.GoldenKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.IronKey;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireMaker;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.IceMaker;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfBlink;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.MagicalFireRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SentryRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -113,8 +108,9 @@ public class TempleNewLevel extends Level {
             SentryChamber.class,
             MineFieldChamber.class,
             SentryMazeChamber.class,
+            WarpStoneChamber.class
     };
-    float[] deck = {1, 1, 1, 1, 1, 1};
+    float[] deck = {1, 1, 1, 1, 1, 1, 1};
 
     private void createChamber(Level level, int left, int top, int right, int bottom, Point center) {
         int index = Random.chances(deck); //picks random index from deck
@@ -379,9 +375,9 @@ public class TempleNewLevel extends Level {
             Painter.fill(level, innerRoom, Terrain.FURROWED_GRASS);
             Painter.set(level, center, Terrain.PEDESTAL);
 
-            ArrayList<Integer> randomPos = randomRoomPos(12);
+            ArrayList<Integer> randomPos = randomRoomPos(32);
             for (int pos : randomPos) {
-                level.mobs.add(Mimic.spawnAt(pos, EbonyMimic.class, false));
+                level.mobs.add(Mimic.spawnAt(pos, TempleEbonyMimic.class, false));
             }
         }
     }
@@ -623,7 +619,43 @@ public class TempleNewLevel extends Level {
                 sentry.initialChargeDelay = sentry.curChargeDelay = dangerDist / 3f + 0.1f;
                 level.mobs.add( sentry );
             }
+        }
+    }
 
+    public static class WarpStoneChamber extends Chamber {
+        {
+            isBuildWithStructure = true;
+        }
+
+        @Override
+        public int[] roomStructure() {
+            return new int[] {
+                    //this is made by sandbox pd
+                    25, 26, 25, 25, 11, 25, 25, 26, 14, 25, 25, 25, 25, 25, 25, 25, 25, 25, 0, 0, 0, 0, 0, 0, 0, 11, 25, 0, 0, 26, 0, 0, 0, 26, 25, 0, 0, 0, 25, 25, 25, 25, 14, 25, 0, 0, 0, 11, 0, 0, 25, 25, 0, 11, 0, 0, 0, 25, 14, 25, 25, 0, 0, 0, 0, 0, 0, 25, 25, 26, 0, 0, 25, 11, 25, 26, 0, 25, 0, 0, 25, 0, 25, 0, 11, 25, 0, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0, 11, 0, 25, 0, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0, 25, 25, 25, 0, 25, 25, 25, 25, 25, 25, 25, 25, 25, 14, 25, 0, 0, 26, 14, 25, 0, 25, 14, 11, 14, 25, 0, 0, 0, 14, 11, 14, 0, 0, 0, 25, 14, 11, 14, 26, 0, 25, 14, 26, 0, 0, 25, 14, 25, 25, 25, 25, 25, 25, 25, 25, 25, 0, 25, 25, 25, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 0, 25, 0, 11, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 25, 11, 0, 25, 0, 25, 0, 0, 25, 0, 26, 25, 11, 25, 0, 0, 26, 25, 25, 0, 0, 0, 0, 0, 0, 25, 25, 14, 25, 0, 0, 0, 11, 0, 25, 25, 0, 0, 11, 0, 0, 0, 25, 14, 25, 25, 25, 25, 0, 0, 0, 25, 26, 0, 0, 0, 26, 0, 0, 25, 11, 0, 0, 0, 0, 0, 0, 0, 25, 25, 25, 25, 25, 25, 25, 25, 25, 14, 26, 25, 25, 11, 25, 25, 26, 25
+            };
+        }
+
+        @Override
+        public void build() {
+            super.build();
+
+            ArrayList<Integer> stonePos = new ArrayList<>();
+
+            int[][] offsets = {
+                {-3, -4}, {-6, -5}, {-4, -8},
+                {4, -3}, {5, -6}, {8, -4},
+                {3, 4}, {6, 5}, {4, 8},
+                {-4, 3}, {-5, 6}, {-8, 4},
+                {0, 0}, {0, -7}, {7, 0}, {0, 7}, {-7, 0},
+            };
+
+            for (int[] offset : offsets) {
+                stonePos.add(level.pointToCell(new Point(center.x + offset[0], center.y + offset[1])));
+            }
+
+            for (int pos : stonePos) {
+                level.drop(new StoneOfBlink(), pos);
+            }
 
         }
     }
