@@ -1008,7 +1008,7 @@ public abstract class Level implements Bundlable {
 			int n;
 			do {
 				n = cell + PathFinder.NEIGHBOURS8[Random.Int( 8 )];
-			} while (!passable[n] && !avoid[n]);
+			} while (!passable[n] && !avoid[n] && !(this instanceof TempleNewLevel));
 			return drop( item, n );
 			
 		} else {
