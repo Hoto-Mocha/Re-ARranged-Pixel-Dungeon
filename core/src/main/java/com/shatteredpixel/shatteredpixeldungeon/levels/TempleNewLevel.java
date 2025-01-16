@@ -3,17 +3,26 @@ package com.shatteredpixel.shatteredpixeldungeon.levels;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.EbonyMimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
 import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
+import com.shatteredpixel.shatteredpixeldungeon.items.keys.CrystalKey;
+import com.shatteredpixel.shatteredpixeldungeon.items.keys.GoldenKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.IronKey;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.FireMaker;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.IceMaker;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.MagicalFireRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SentryRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -103,8 +112,9 @@ public class TempleNewLevel extends Level {
             AlchemyChamber.class,
             SentryChamber.class,
             MineFieldChamber.class,
+            SentryMazeChamber.class,
     };
-    float[] deck = {1, 1, 1, 1, 1};
+    float[] deck = {1, 1, 1, 1, 1, 1};
 
     private void createChamber(Level level, int left, int top, int right, int bottom, Point center) {
         int index = Random.chances(deck); //picks random index from deck
@@ -151,20 +161,22 @@ public class TempleNewLevel extends Level {
 
                 createChamber(this, left, top, right, bottom, center);
 
+                int door = Terrain.EMPTY;
+
                 //door placing logic
                 int doorX;
                 //horizontally placing doors
                 doorX = center.x-Math.round(CHAMBER_WIDTH/2f);
                 if (doorX != 0 && doorX != WIDTH-1) { //doesn't place a door on the edge of map
-                    Painter.set(this, doorX, center.y, Terrain.LOCKED_DOOR);
+                    Painter.set(this, doorX, center.y, door);
                 }
                 doorX = center.x+Math.round(CHAMBER_WIDTH/2f);
                 if (doorX != 0 && doorX != WIDTH-1) { //doesn't place a door on the edge of map
-                    Painter.set(this, doorX, center.y, Terrain.LOCKED_DOOR);
+                    Painter.set(this, doorX, center.y, door);
                 }
                 //vertically placing doors
-                Painter.set(this, center.x, center.y-Math.round(CHAMBER_HEIGHT/2f), Terrain.LOCKED_DOOR);
-                Painter.set(this, center.x, center.y+Math.round(CHAMBER_HEIGHT/2f), Terrain.LOCKED_DOOR);
+                Painter.set(this, center.x, center.y-Math.round(CHAMBER_HEIGHT/2f), door);
+                Painter.set(this, center.x, center.y+Math.round(CHAMBER_HEIGHT/2f), door);
 
                 //reward placing logic
                 int remains = this.pointToCell(center);
@@ -563,6 +575,56 @@ public class TempleNewLevel extends Level {
                     level.setTrap(new ExplosiveTrap().hide(), trapCell);
                 }
             }
+        }
+    }
+
+    public static class SentryMazeChamber extends Chamber {
+
+        {
+            isBuildWithStructure = true;
+        }
+
+        @Override
+        public int[] roomStructure() {
+            return new int[] {
+                    //this is made by sandbox pd
+                    1, 1, 4, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 4, 1, 1, 1, 1, 4, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 13, 1, 1, 4, 0, 4, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 4, 4, 13, 0, 1, 1, 25, 0, 0, 1, 0, 1, 0, 1, 0, 0, 25, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 14, 14, 14, 14, 14, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 14, 11, 31, 11, 14, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 14, 31, 11, 31, 14, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 14, 11, 31, 11, 14, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 14, 14, 14, 14, 14, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 14, 0, 14, 14, 14, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 14, 0, 14, 0, 14, 14, 0, 0, 0, 0, 25, 1, 1, 1, 0, 1, 0, 14, 0, 14, 26, 0, 14, 0, 4, 4, 4, 1, 1, 0, 0, 0, 1, 0, 14, 14, 14, 0, 4, 14, 4, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 14, 0, 0, 4, 1, 1, 1, 1, 4, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 4, 1, 1
+            };
+        }
+
+        @Override
+        public void build() {
+            super.build();
+
+            int eternalFireCell = level.pointToCell(new Point(center.x-6, center.y+7));
+            int cell1 = level.pointToCell(new Point(center.x-CHAMBER_WIDTH/2, center.y+CHAMBER_HEIGHT/2));
+            int cell2 = level.pointToCell(new Point(center.x+CHAMBER_WIDTH/2, center.y+CHAMBER_HEIGHT/2));
+            int cell3 = level.pointToCell(new Point(center.x+CHAMBER_WIDTH/2, center.y-CHAMBER_HEIGHT/2));
+            int cell4 = level.pointToCell(new Point(center.x-CHAMBER_WIDTH/2, center.y-CHAMBER_HEIGHT/2));
+
+            Blob.seed(eternalFireCell, 1, MagicalFireRoom.EternalFire.class, level);
+
+            level.drop(new CrystalKey(Dungeon.depth), cell1).type = Heap.Type.CHEST;
+            level.drop(new CrystalKey(Dungeon.depth), cell2).type = Heap.Type.CHEST;
+            level.drop(new CrystalKey(Dungeon.depth), cell3).type = Heap.Type.CHEST;
+            level.drop(new CrystalKey(Dungeon.depth), cell4).type = Heap.Type.CHEST;
+
+            ArrayList<Point> sentryPos = new ArrayList<>();
+            sentryPos.add(new Point(center.x-1, center.y-1));
+            sentryPos.add(new Point(center.x+1, center.y-1));
+            sentryPos.add(new Point(center.x-1, center.y+1));
+            sentryPos.add(new Point(center.x+1, center.y+1));
+
+            int dangerDist = 10;
+            for (Point p : sentryPos) {
+                int sentryCell = level.pointToCell(p);
+                TempleLastLevel.Sentry sentry = new TempleLastLevel.Sentry();
+                sentry.pos = sentryCell;
+                sentry.initialChargeDelay = sentry.curChargeDelay = dangerDist / 3f + 0.1f;
+                level.mobs.add( sentry );
+            }
+
+
         }
     }
 }
