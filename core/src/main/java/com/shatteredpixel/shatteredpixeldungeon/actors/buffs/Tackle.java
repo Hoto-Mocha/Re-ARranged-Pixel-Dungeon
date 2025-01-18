@@ -176,7 +176,14 @@ public class Tackle extends FlavourBuff implements ActionIndicator.Action {
 					}
 				}
 				WandOfBlastWave.throwChar(ch, trajectory, dist, true, true, hero.getClass());
-				pushedPos = trajectory.path.get(dist); //checks the position of enemy after pushing
+
+				try {
+					pushedPos = trajectory.path.get(dist); //checks the position of enemy after pushing
+				} catch (ArrayIndexOutOfBoundsException e) {
+					//Idk why ArrayIndexOutOfBoundsException happens here, so I just added try-catch here
+					//if the exception occurs, pushedPos will become path's last position
+					pushedPos = trajectory.path.get(trajectory.path.size()-1);
+				}
 				if (Actor.findChar(pushedPos) != null) {
 					int findPos = Math.max(0, dist-1);
 					pushedPos = trajectory.path.get(findPos);
