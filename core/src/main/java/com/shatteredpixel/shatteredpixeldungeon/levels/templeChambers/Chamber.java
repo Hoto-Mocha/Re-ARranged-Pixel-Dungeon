@@ -54,7 +54,7 @@ public class Chamber {
 
             /*
                 if the build does not work well, check the roomStructure() is correctly overridden
-                if roomStructure() is too short, it will make uncomplete room
+                if roomStructure() is too short, it will make uncompleted room
                 if roomStructure() is too long, it will throw ArrayIndexOutOfBoundsException
             */
         if (isBuildWithStructure) {
@@ -76,6 +76,19 @@ public class Chamber {
         while (result.size() < num) {
             int randomResult = Random.element(innerRoomPos);
             if (!result.contains(randomResult)) {
+                result.add(randomResult);
+            }
+        }
+
+        return result;
+    }
+
+    //returns random pos in the room
+    public ArrayList<Integer> randomRoomPos(int num, ArrayList<Integer> exception) {
+        ArrayList<Integer> result = new ArrayList<>();
+        while (result.size() < num) {
+            int randomResult = Random.element(innerRoomPos);
+            if (!result.contains(randomResult) && !exception.contains(randomResult)) {
                 result.add(randomResult);
             }
         }
