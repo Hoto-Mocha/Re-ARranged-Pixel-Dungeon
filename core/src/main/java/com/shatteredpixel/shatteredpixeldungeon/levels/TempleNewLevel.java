@@ -3,24 +3,16 @@ package com.shatteredpixel.shatteredpixeldungeon.levels;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.GnollGuard;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.TempleEbonyMimic;
-import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
-import com.shatteredpixel.shatteredpixeldungeon.items.keys.CrystalKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.IronKey;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfBlink;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.MagicalFireRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.AlchemyChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.Chamber;
+import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.ConfusionChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MazeChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MimicInTheGrassChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MineFieldChamber;
@@ -29,13 +21,10 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.SentryCham
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.SentryMazeChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.SpearGnollChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.WarpStoneChamber;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
 import com.watabou.utils.Reflection;
-
-import java.util.ArrayList;
 
 public class TempleNewLevel extends Level {
 
@@ -122,8 +111,9 @@ public class TempleNewLevel extends Level {
             WarpStoneChamber.class,
             SpearGnollChamber.class,
             MazeChamber.class,
+            ConfusionChamber.class,
     };
-    float[] deck = {1, 1, 1, 1, 1, 1, 1, 1, 1}; //the sum needs to be equal or less than CHAMBER_NUM_X * CHAMBER_NUM_Y
+    float[] deck = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; //the sum needs to be equal or less than CHAMBER_NUM_X * CHAMBER_NUM_Y
 
     private void createChamber(Level level, int left, int top, int right, int bottom, Point center) {
         int index = Random.chances(deck); //picks random index from deck
@@ -136,7 +126,7 @@ public class TempleNewLevel extends Level {
         } catch (ArrayIndexOutOfBoundsException e) {
             chamberClass = Chamber.class;
         }
-        Chamber finalChamber = (Chamber) Reflection.newInstance(chamberClass); //finally makes new instance of the chamber
+        Chamber finalChamber = (Chamber) Reflection.newInstance(chamberClass); //finally makes a new instance of the chamber
         if (finalChamber != null) {
             finalChamber.set(level,
                     left,
