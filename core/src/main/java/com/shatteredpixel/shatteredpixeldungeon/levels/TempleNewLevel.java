@@ -33,14 +33,18 @@ public class TempleNewLevel extends Level {
         color2 = 0x569545;
     }
 
+    public static final int PEDESTAL_WALL_OFFSET = 8;
+    public static final int PEDESTAL_CHAMBER_OFFSET = 8;
+    public static final int ENTRANCE_WALL_OFFSET = 2;
+    public static final int ENTRANCE_CHAMBER_OFFSET = 3; //needs to have enough distance for keyCell()
     public static final int CHAMBER_X_NUM      = 5; // chamber's horizontal number, at least 1
     public static final int CHAMBER_Y_NUM      = 5; // chamber's vertical number, at least 1
     public static final int CHAMBER_WIDTH      = 17; // chamber's horizontal length(excluding wall), at least 1, and must be odd
     public static final int CHAMBER_HEIGHT     = 17; // chamber's vertical length(excluding wall), at least 1, and must be odd
     public static final int CHAMBER_FIRST_X    = 0; //cannot be changed
-    public static final int CHAMBER_FIRST_Y    = 2 /* <- this means how far the chamber is from the top pedestal*/ +4;
+    public static final int CHAMBER_FIRST_Y    = PEDESTAL_WALL_OFFSET + PEDESTAL_CHAMBER_OFFSET + 2;
     public static final int WIDTH = 1+CHAMBER_X_NUM*(CHAMBER_WIDTH+1); //cannot be changed
-    public static final int HEIGHT = 2 /* <- this means how far the chamber is from the bottom entrance*/ +12+CHAMBER_Y_NUM*(CHAMBER_HEIGHT+1);
+    public static final int HEIGHT = ENTRANCE_CHAMBER_OFFSET + ENTRANCE_WALL_OFFSET + CHAMBER_FIRST_Y + CHAMBER_Y_NUM * (CHAMBER_HEIGHT+1) +3;
     Rect rect = new Rect(0, 0, WIDTH, HEIGHT);
 
     private int entranceCell() {
@@ -52,7 +56,7 @@ public class TempleNewLevel extends Level {
     }
 
     private int amuletCell() {
-        return (int)(WIDTH/2f)+WIDTH*(3);
+        return (int)(WIDTH/2f)+WIDTH*(PEDESTAL_WALL_OFFSET+1);
     }
 
     private Point amuletPoint() {
