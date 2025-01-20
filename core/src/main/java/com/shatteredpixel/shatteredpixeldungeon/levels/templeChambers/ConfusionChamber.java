@@ -26,7 +26,7 @@ public class ConfusionChamber extends Chamber {
     public void build() {
         super.build();
 
-        int[][] exception = {
+        int[][] exceptionCells = {
                 //top
                 {-1, -8}, {0, -8}, {1, -8},
                 {-1, -7}, {0, -7}, {1, -7},
@@ -47,7 +47,7 @@ public class ConfusionChamber extends Chamber {
                             {-1, 2},    {0, 2},     {1, 2},
         };
 
-        ArrayList<Integer> exception = new ArrayList<>(customOffsetArray(exception));
+        ArrayList<Integer> exception = new ArrayList<>(customOffsetArray(exceptionCells));
 
         final int TRAP_NUM = 60;
         for (int pos : randomRoomPos(TRAP_NUM, exception)) {
