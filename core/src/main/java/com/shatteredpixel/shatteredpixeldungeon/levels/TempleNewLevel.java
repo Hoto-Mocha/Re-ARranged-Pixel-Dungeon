@@ -33,9 +33,9 @@ public class TempleNewLevel extends Level {
         color2 = 0x569545;
     }
 
-    public static final int PEDESTAL_WALL_OFFSET = 8;
-    public static final int PEDESTAL_CHAMBER_OFFSET = 8;
-    public static final int ENTRANCE_WALL_OFFSET = 2;
+    public static final int PEDESTAL_WALL_OFFSET = 8; //the distance of between top wall and amulet cell
+    public static final int PEDESTAL_CHAMBER_OFFSET = 8; //the distance of between amulet cell and chambers' top wall
+    public static final int ENTRANCE_WALL_OFFSET = 2; //the distance of between entrance cell and bottom wall
     public static final int ENTRANCE_CHAMBER_OFFSET = 3; //needs to have enough distance for keyCell()
     public static final int CHAMBER_X_NUM      = 5; // chamber's horizontal number, at least 1
     public static final int CHAMBER_Y_NUM      = 5; // chamber's vertical number, at least 1
