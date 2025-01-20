@@ -13,10 +13,15 @@ import com.watabou.utils.Rect;
 import java.util.ArrayList;
 
 public class Chamber {
+    //these variable doesn't need to be saved(with storeInBundle()), because these are only used when generating the level
     public Level level;
     public Point center;
     public Rect innerRoom;
     private Rect outerRoom;
+    public Point topDoor;
+    public Point bottomDoor;
+    public Point leftDoor;
+    public Point rightDoor;
     private ArrayList<Integer> innerRoomPos = new ArrayList<>();
     public boolean isBuildWithStructure = false; //make this false if you want to make room with Painter
 
@@ -41,6 +46,11 @@ public class Chamber {
                 innerRoomPos.add(this.level.pointToCell(p));
             }
         }
+
+        this.topDoor    = new Point(center.x, center.y - CHAMBER_HEIGHT/2);
+        this.bottomDoor = new Point(center.x, center.y + CHAMBER_HEIGHT/2);
+        this.leftDoor   = new Point(center.x - CHAMBER_WIDTH/2, center.y);
+        this.rightDoor  = new Point(center.x + CHAMBER_WIDTH/2, center.y);
     }
 
     public int[] roomStructure() {
