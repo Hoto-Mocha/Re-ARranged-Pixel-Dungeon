@@ -16,6 +16,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.ConfusionC
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MazeChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MimicInTheGrassChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MineFieldChamber;
+import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MoistureRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.PiranhaPoolChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.SentryChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.SentryMazeChamber;
@@ -116,8 +117,9 @@ public class TempleNewLevel extends Level {
             SpearGnollChamber.class,
             MazeChamber.class,
             ConfusionChamber.class,
+            MoistureRoom.class,
     };
-    float[] deck = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; //the sum needs to be equal or less than CHAMBER_NUM_X * CHAMBER_NUM_Y
+    float[] deck = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; //the sum needs to be equal or less than CHAMBER_NUM_X * CHAMBER_NUM_Y
 
     private void createChamber(Level level, int left, int top, int right, int bottom, Point center) {
         int index = Random.chances(deck); //picks random index from deck
