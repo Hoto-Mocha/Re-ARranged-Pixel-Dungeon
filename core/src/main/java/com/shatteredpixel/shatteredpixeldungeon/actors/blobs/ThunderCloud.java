@@ -33,7 +33,7 @@ public class ThunderCloud extends Blob {
                         fire.clear(cell);
                     }
 
-                    if (Random.Float() < 0.15f) { //15% chance to make thunder
+                    if (Random.Float() < 0.10f) { //10% chance to make thunder
                         if (Dungeon.level.heroFOV[cell]) {
                             PointF cellPoint = DungeonTilemap.tileCenterToWorld(cell);
 
