@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rebel;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
+import com.shatteredpixel.shatteredpixeldungeon.levels.TempleNewLevel;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -48,6 +49,10 @@ public class ScrollOfPsionicBlast extends ExoticScroll {
 	public void doRead() {
 
 		detach(curUser.belongings.backpack);
+		if (Dungeon.level instanceof TempleNewLevel) {
+			GLog.i(Messages.get(ScrollOfRetribution.class, "no_in_temple"));
+			return;
+		}
 		GameScene.flash( 0x80FFFFFF );
 		
 		Sample.INSTANCE.play( Assets.Sounds.BLAST );
