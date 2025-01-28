@@ -38,8 +38,8 @@ public class TempleNewLevel extends Level {
     public static final int PEDESTAL_CHAMBER_OFFSET = 8; //the distance of between amulet cell and chambers' top wall
     public static final int ENTRANCE_WALL_OFFSET = 2; //the distance of between entrance cell and bottom wall
     public static final int ENTRANCE_CHAMBER_OFFSET = 3; //needs to have enough distance for keyCell()
-    public static final int CHAMBER_X_NUM      = 5; // chamber's horizontal number, at least 1
-    public static final int CHAMBER_Y_NUM      = 5; // chamber's vertical number, at least 1
+    public static final int CHAMBER_X_NUM      = 2; // chamber's horizontal number, at least 1
+    public static final int CHAMBER_Y_NUM      = 6; // chamber's vertical number, at least 1
     public static final int CHAMBER_WIDTH      = 17; // chamber's horizontal length(excluding wall), at least 1, and must be odd
     public static final int CHAMBER_HEIGHT     = 17; // chamber's vertical length(excluding wall), at least 1, and must be odd
     public static final int CHAMBER_FIRST_X    = 0; //cannot be changed
@@ -166,7 +166,7 @@ public class TempleNewLevel extends Level {
 
                 createChamber(this, left, top, right, bottom, center);
 
-                int door = Terrain.EMPTY;
+                int door = Terrain.LOCKED_DOOR; //방의 4면에 있는 문 타일 지정
 
                 //door placing logic
                 int doorX;
@@ -186,27 +186,27 @@ public class TempleNewLevel extends Level {
                 //reward placing logic
                 int remains = this.pointToCell(center);
 
-                Item mainLoot = null;
-                do {
-                    switch (Random.Int(3)){
-                        case 0:
-                            mainLoot = Generator.random(Generator.Category.RING);
-                            break;
-                        case 1:
-                            mainLoot = Generator.random(Generator.Category.ARTIFACT);
-                            break;
-                        case 2:
-                            mainLoot = Generator.random(Random.oneOf(
-                                    Generator.Category.WEAPON,
-                                    Generator.Category.ARMOR));
-                            break;
-                    }
-                } while ( mainLoot == null || Challenges.isItemBlocked(mainLoot));
-                this.drop(mainLoot, remains).setHauntedIfCursed().type = Heap.Type.SKELETON;
+//                Item mainLoot = null;
+//                do {
+//                    switch (Random.Int(3)){
+//                        case 0:
+//                            mainLoot = Generator.randomUsingDefaults(Generator.Category.RING);
+//                            break;
+//                        case 1:
+//                            mainLoot = Generator.randomUsingDefaults(Generator.Category.ARTIFACT);
+//                            break;
+//                        case 2:
+//                            mainLoot = Generator.randomUsingDefaults(Random.oneOf(
+//                                    Generator.Category.WEAPON,
+//                                    Generator.Category.ARMOR));
+//                            break;
+//                    }
+//                } while ( mainLoot == null || Challenges.isItemBlocked(mainLoot));
+//                this.drop(mainLoot, remains).setHauntedIfCursed().type = Heap.Type.SKELETON;
 
                 int n = Random.IntRange( 1, 2 );
                 for (int i=0; i < n; i++) {
-                    this.drop( prize( this ), remains ).setHauntedIfCursed();
+                    this.drop( prize( this ), remains ).setHauntedIfCursed().type = Heap.Type.SKELETON;
                 }
 
                 this.drop( new IronKey( Dungeon.depth, Dungeon.branch ), remains );
@@ -221,7 +221,7 @@ public class TempleNewLevel extends Level {
     }
 
     private static Item prize( Level level ) {
-        return Generator.random( Random.oneOf(
+        return Generator.randomUsingDefaults( Random.oneOf(
                 Generator.Category.POTION,
                 Generator.Category.SCROLL,
                 Generator.Category.FOOD,
