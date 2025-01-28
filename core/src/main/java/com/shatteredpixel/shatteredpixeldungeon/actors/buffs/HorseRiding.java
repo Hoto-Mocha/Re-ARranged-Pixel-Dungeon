@@ -214,7 +214,7 @@ public class HorseRiding extends Buff implements ActionIndicator.Action, Hero.Do
                     }
                 }
                 for (Char enemyOnDirection : chars) {
-                    hero.attack(enemyOnDirection, 1f+0.2f*hero.pointsInTalent(Talent.DASH_ENHANCE), 1, Char.INFINITE_ACCURACY);
+                    hero.attack(enemyOnDirection, 1f+0.2f*hero.pointsInTalent(Talent.DASH_ENHANCE), 1, 1);
                 }
 
                 hero.sprite.jump(hero.pos, finalCell, 0, 0.1f, new Callback() {
