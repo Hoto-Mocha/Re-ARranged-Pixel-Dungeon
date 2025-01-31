@@ -30,6 +30,7 @@ public class FT extends Gun {
     {
         max_round = 2;
         round = max_round;
+        shootingAccuracy = 1.5f;
     }
 
     @Override
