@@ -32,9 +32,9 @@ public class Beam extends Image {
 	
 	private static final double A = 180 / Math.PI;
 	
-	private  float duration;
+	public float duration;
 	
-	private float timeLeft;
+	public float timeLeft;
 
 	private Beam(PointF s, PointF e, Effects.Type asset, float duration) {
 		super( Effects.get( asset ) );
@@ -75,6 +75,28 @@ public class Beam extends Image {
 	public static class GreenRay extends Beam{
 		public GreenRay(PointF s, PointF e){
 			super(s, e, Effects.Type.GREEN_RAY, 1f);
+		}
+	}
+
+	public static class SuperNovaRay extends Beam {
+		float multi;
+		public SuperNovaRay(PointF s, PointF e, float multi){
+			super(s, e, Effects.Type.SUPERNOVA_RAY, 2f);
+			this.multi = multi;
+			scale.set( scale.x, scale.y );
+		}
+
+		@Override
+		public void update() {
+			super.update();
+
+			float p = timeLeft*multi / duration;
+			alpha( p );
+			scale.set( scale.x, p );
+
+			if ((timeLeft -= Game.elapsed) <= 0) {
+				killAndErase();
+			}
 		}
 	}
 	

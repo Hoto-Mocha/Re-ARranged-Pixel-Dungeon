@@ -10,7 +10,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LaserParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -20,7 +20,6 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -76,13 +75,25 @@ public class LG extends Gun {
 
                     }
 
-                    CellEmitter.center( c ).burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
+                    CellEmitter.center( c ).burst( LaserParticle.BURST, 3 );
                 }
                 if (terrainAffected) {
                     Dungeon.observe();
                 }
 
-                curUser.sprite.parent.add(new Beam.DeathRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( cells )));
+                float multi;
+                switch (weightMod) {
+                    case NORMAL_WEIGHT: default:
+                        multi = 2f;
+                        break;
+                    case LIGHT_WEIGHT:
+                        multi = 1f;
+                        break;
+                    case HEAVY_WEIGHT:
+                        multi = 3f;
+                        break;
+                }
+                curUser.sprite.parent.add(new Beam.SuperNovaRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( cells ), multi));
 
                 for (Char ch : chars) {
                     for (int i=0; i<shotPerShoot(); i++) {
@@ -90,7 +101,6 @@ public class LG extends Gun {
                             ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10+buffedLvl() );
                         }
                     }
-
                     if (ch == hero && !ch.isAlive()) {
                         Dungeon.fail(getClass());
                         Badges.validateDeathFromFriendlyMagic();
