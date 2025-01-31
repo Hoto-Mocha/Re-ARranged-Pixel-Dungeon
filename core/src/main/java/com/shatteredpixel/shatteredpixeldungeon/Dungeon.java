@@ -71,6 +71,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.SewerBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.SewerLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.TempleChasmLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.TempleLastLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.TempleLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.TempleNewLevel;
@@ -395,19 +396,15 @@ public class Dungeon {
 					level = new DeadEndLevel();
 			}
 		} else if (branch == 2) {
-			if (DeviceCompat.isDebug()) {
-				level = new TempleNewLevel();
-			} else {
-				switch (depth) {
-					case 11:
-					case 12:
-					case 13:
-					case 14:
-						level = new TempleNewLevel();
-						break;
-					default:
-						level = new DeadEndLevel();
-				}
+			switch (depth) {
+				case 14:
+					level = new TempleNewLevel();
+					break;
+				case 15:
+					level = new TempleChasmLevel();
+					break;
+				default:
+					level = new DeadEndLevel();
 			}
 		} else {
 			level = new DeadEndLevel();
