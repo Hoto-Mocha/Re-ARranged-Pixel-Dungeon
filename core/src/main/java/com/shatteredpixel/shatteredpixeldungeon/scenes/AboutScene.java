@@ -36,6 +36,9 @@ import com.watabou.noosa.Group;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.ui.Component;
+import com.watabou.utils.PointF;
+
+import java.util.ArrayList;
 
 public class AboutScene extends PixelScene {
 
@@ -99,6 +102,36 @@ public class AboutScene extends PixelScene {
 
 		addLine(arrangedTransifex.bottom() + 4, content);
 
+		CreditsBlock supporter = new CreditsBlock(true, Window.RED,
+				"ARPD Supporters",
+				Icons.HEART.get(),
+				"Game Supporter Credit",
+				"patreon",
+				"https://patreon.com/Hot_Mocha?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink");
+		supporter.setRect((Camera.main.width - colWidth)/2f, arrangedTransifex.bottom() + 12, colWidth, 0);
+		content.add(supporter);
+
+		ArrayList<String> diamondSupporters = new ArrayList<>();
+		diamondSupporters.add("Special Thanks name example");
+
+		ArrayList<String> goldSupporters = new ArrayList<>();
+		goldSupporters.add("Drunkendove");
+
+		ArrayList<String> whiteSupporters = new ArrayList<>();
+		whiteSupporters.add("Great Thanks name example");
+
+		DiamondSupporterCreditsBlock diamondSupporter = new DiamondSupporterCreditsBlock(true, "Special Thanks", null, diamondSupporters, 6);
+		diamondSupporter.setRect((Camera.main.width - colWidth)/2f, supporter.bottom() + 12, colWidth, 0);
+		content.add(diamondSupporter);
+
+		GoldSupporterCreditsBlock goldSupporter = new GoldSupporterCreditsBlock(true, "Superior Thanks", null, goldSupporters, 6);
+		goldSupporter.setRect((Camera.main.width - colWidth)/2f, diamondSupporter.bottom() + 12, colWidth, 0);
+		content.add(goldSupporter);
+
+		WhiteSupporterCreditsBlock whiteSupporter = new WhiteSupporterCreditsBlock(true, "Great Thanks", null, whiteSupporters, 6);
+		whiteSupporter.setRect((Camera.main.width - colWidth)/2f, goldSupporter.bottom() + 12, colWidth, 0);
+		content.add(whiteSupporter);
+
 		//*** Shattered Pixel Dungeon Credits ***
 
 		CreditsBlock shpx = new CreditsBlock(true, Window.SHPX_COLOR,
@@ -108,7 +141,7 @@ public class AboutScene extends PixelScene {
 				"ShatteredPixel.com",
 				"https://ShatteredPixel.com");
 		if (landscape()){
-			shpx.setRect(arranged.left(), arrangedTransifex.bottom() + 12, colWidth, 0);
+			shpx.setRect(arranged.left(), whiteSupporter.bottom() + 12, colWidth, 0);
 		} else {
 			shpx.setRect(splash.left(), splash.bottom() + 12, colWidth, 0);
 		}
@@ -425,6 +458,393 @@ public class AboutScene extends PixelScene {
 				linkUnderline.size(link.width(), PixelScene.align(0.49f));
 				linkUnderline.x = link.left();
 				linkUnderline.y = link.bottom()+1;
+
+			}
+
+			topY -= 2;
+
+			height = Math.max(height, topY - top());
+		}
+	}
+
+	private static class DiamondSupporterCreditsBlock extends Component {
+
+		boolean large;
+		RenderedTextBlock title;
+		Image avatar;
+		Flare flare;
+		ArrayList<RenderedTextBlock> names = new ArrayList<>();
+		RenderedTextBlock lastMessage;
+
+		//many elements can be null, but body is assumed to have content.
+		private DiamondSupporterCreditsBlock(boolean large, String title, Image avatar, ArrayList<String> nameList, int size){
+			super();
+
+			this.large = large;
+
+			if (title != null) {
+				this.title = PixelScene.renderTextBlock(title, large ? 8 : 6);
+				this.title.hardlight(Window.DIAMOND);
+				add(this.title);
+			}
+
+			if (avatar != null){
+				this.avatar = avatar;
+				add(this.avatar);
+			}
+
+			if (large && this.avatar != null){
+				this.flare = new Flare( 7, 10 ).color( Window.DIAMOND, true ).show(this.avatar, 0);
+				this.flare.angularSpeed = 20;
+			}
+
+			for (String name : nameList) {
+				RenderedTextBlock newBody = PixelScene.renderTextBlock("_"+name+"_", size);
+				newBody.setHightlighting(true, Window.DIAMOND);
+				if (large) newBody.align(RenderedTextBlock.CENTER_ALIGN);
+				this.names.add(newBody);
+				add(newBody);
+			}
+
+			this.lastMessage = PixelScene.renderTextBlock("_Thank you for your support!!!_", 6);
+			this.lastMessage.setHightlighting(true, Window.DIAMOND);
+			if (large) this.lastMessage.align(RenderedTextBlock.CENTER_ALIGN);
+			add(this.lastMessage);
+		}
+
+		@Override
+		protected void layout() {
+			super.layout();
+
+			float topY = top();
+
+			if (title != null){
+				title.maxWidth((int)width());
+				title.setPos( x + (width() - title.width())/2f, topY);
+				topY += title.height() + (large ? 4 : 2);
+			}
+
+			if (large){
+
+				if (avatar != null){
+					avatar.x = x + (width()-avatar.width())/2f;
+					avatar.y = topY;
+					PixelScene.align(avatar);
+					if (flare != null){
+						flare.point(avatar.center());
+					}
+					topY = avatar.y + avatar.height() + 2;
+				}
+
+				for (RenderedTextBlock name : names) {
+					Image nothingImage = Icons.NOTHING.get();
+					nothingImage.x = x + (width()-nothingImage.width())/2f;
+					nothingImage.y = topY+2;
+					PixelScene.align(nothingImage);
+					add(nothingImage);
+
+					Flare[] flares = new Flare[3];
+					float[] xOffsets = {0, -(name.width() / 2f - 1), (name.width() / 2f - 1)};
+					PointF centerPoint = nothingImage.center();
+
+					for (int i = 0; i < 3; i++) {
+						flares[i] = new Flare(7, 10).color(Window.DIAMOND, true).show(nothingImage, 0);
+						flares[i].angularSpeed = 60;
+						flares[i].point(new PointF(centerPoint.x + xOffsets[i], centerPoint.y));
+					}
+
+					name.maxWidth((int)width());
+					name.setPos( x + (width() - name.width())/2f, topY);
+					topY += name.height() + 6;
+				}
+
+				lastMessage.maxWidth((int)width());
+				lastMessage.setPos( x + (width() - lastMessage.width())/2f, topY);
+				topY += lastMessage.height() + 2;
+
+			} else {
+
+				if (avatar != null){
+					avatar.x = x;
+					lastMessage.maxWidth((int)(width() - avatar.width - 1));
+
+					float fullAvHeight = Math.max(avatar.height(), 16);
+					if (fullAvHeight > lastMessage.height()){
+						avatar.y = topY + (fullAvHeight - avatar.height())/2f;
+						PixelScene.align(avatar);
+						lastMessage.setPos( avatar.x + avatar.width() + 1, topY + (fullAvHeight - lastMessage.height())/2f);
+						topY += fullAvHeight + 1;
+					} else {
+						avatar.y = topY + (lastMessage.height() - fullAvHeight)/2f;
+						PixelScene.align(avatar);
+						lastMessage.setPos( avatar.x + avatar.width() + 1, topY);
+						topY += lastMessage.height() + 2;
+					}
+
+				} else {
+					topY += 1;
+					lastMessage.maxWidth((int)width());
+					lastMessage.setPos( x, topY);
+					topY += lastMessage.height()+2;
+				}
+
+			}
+
+			topY -= 2;
+
+			height = Math.max(height, topY - top());
+		}
+	}
+
+	private static class GoldSupporterCreditsBlock extends Component {
+
+		boolean large;
+		RenderedTextBlock title;
+		Image avatar;
+		Flare flare;
+		ArrayList<RenderedTextBlock> names = new ArrayList<>();
+		RenderedTextBlock lastMessage;
+
+		//many elements can be null, but body is assumed to have content.
+		private GoldSupporterCreditsBlock(boolean large, String title, Image avatar, ArrayList<String> nameList, int size){
+			super();
+
+			this.large = large;
+
+			if (title != null) {
+				this.title = PixelScene.renderTextBlock(title, large ? 8 : 6);
+				this.title.hardlight(Window.YELLOW);
+				add(this.title);
+			}
+
+			if (avatar != null){
+				this.avatar = avatar;
+				add(this.avatar);
+			}
+
+			if (large && this.avatar != null){
+				this.flare = new Flare( 7, 10 ).color( Window.YELLOW, true ).show(this.avatar, 0);
+				this.flare.angularSpeed = 20;
+			}
+
+			for (String name : nameList) {
+				RenderedTextBlock newBody = PixelScene.renderTextBlock("_"+name+"_", size);
+				newBody.setHightlighting(true, Window.YELLOW);
+				if (large) newBody.align(RenderedTextBlock.CENTER_ALIGN);
+				this.names.add(newBody);
+				add(newBody);
+			}
+
+			this.lastMessage = PixelScene.renderTextBlock("_Thank you for your support!!_", 6);
+			this.lastMessage.setHightlighting(true, Window.YELLOW);
+			if (large) this.lastMessage.align(RenderedTextBlock.CENTER_ALIGN);
+			add(this.lastMessage);
+		}
+
+		@Override
+		protected void layout() {
+			super.layout();
+
+			float topY = top();
+
+			if (title != null){
+				title.maxWidth((int)width());
+				title.setPos( x + (width() - title.width())/2f, topY);
+				topY += title.height() + (large ? 4 : 2);
+			}
+
+			if (large){
+
+				if (avatar != null){
+					avatar.x = x + (width()-avatar.width())/2f;
+					avatar.y = topY;
+					PixelScene.align(avatar);
+					if (flare != null){
+						flare.point(avatar.center());
+					}
+					topY = avatar.y + avatar.height() + 2;
+				}
+
+				for (RenderedTextBlock name : names) {
+//					Image nothingImage = Icons.NOTHING.get();
+//					nothingImage.x = x + (width()-nothingImage.width())/2f;
+//					nothingImage.y = topY+2;
+//					PixelScene.align(nothingImage);
+//					add(nothingImage);
+//
+//					Flare[] flares = new Flare[3];
+//					float[] xOffsets = {0, -(name.width() / 2f - 1), (name.width() / 2f - 1)};
+//					PointF centerPoint = nothingImage.center();
+//
+//					for (int i = 0; i < 3; i++) {
+//						flares[i] = new Flare(7, 10).color(Window.YELLOW, true).show(nothingImage, 0);
+//						flares[i].angularSpeed = 60;
+//						flares[i].point(new PointF(centerPoint.x + xOffsets[i], centerPoint.y));
+//					}
+
+					name.maxWidth((int)width());
+					name.setPos( x + (width() - name.width())/2f, topY);
+					topY += name.height() + 6;
+				}
+
+				lastMessage.maxWidth((int)width());
+				lastMessage.setPos( x + (width() - lastMessage.width())/2f, topY);
+				topY += lastMessage.height() + 2;
+
+			} else {
+
+				if (avatar != null){
+					avatar.x = x;
+					lastMessage.maxWidth((int)(width() - avatar.width - 1));
+
+					float fullAvHeight = Math.max(avatar.height(), 16);
+					if (fullAvHeight > lastMessage.height()){
+						avatar.y = topY + (fullAvHeight - avatar.height())/2f;
+						PixelScene.align(avatar);
+						lastMessage.setPos( avatar.x + avatar.width() + 1, topY + (fullAvHeight - lastMessage.height())/2f);
+						topY += fullAvHeight + 1;
+					} else {
+						avatar.y = topY + (lastMessage.height() - fullAvHeight)/2f;
+						PixelScene.align(avatar);
+						lastMessage.setPos( avatar.x + avatar.width() + 1, topY);
+						topY += lastMessage.height() + 2;
+					}
+
+				} else {
+					topY += 1;
+					lastMessage.maxWidth((int)width());
+					lastMessage.setPos( x, topY);
+					topY += lastMessage.height()+2;
+				}
+
+			}
+
+			topY -= 2;
+
+			height = Math.max(height, topY - top());
+		}
+	}
+
+	private static class WhiteSupporterCreditsBlock extends Component {
+
+		boolean large;
+		RenderedTextBlock title;
+		Image avatar;
+		Flare flare;
+		ArrayList<RenderedTextBlock> names = new ArrayList<>();
+		RenderedTextBlock lastMessage;
+
+		//many elements can be null, but body is assumed to have content.
+		private WhiteSupporterCreditsBlock(boolean large, String title, Image avatar, ArrayList<String> nameList, int size){
+			super();
+
+			this.large = large;
+
+			if (title != null) {
+				this.title = PixelScene.renderTextBlock(title, large ? 8 : 6);
+				this.title.hardlight(Window.WHITE);
+				add(this.title);
+			}
+
+			if (avatar != null){
+				this.avatar = avatar;
+				add(this.avatar);
+			}
+
+			if (large && this.avatar != null){
+				this.flare = new Flare( 7, 10 ).color( Window.WHITE, true ).show(this.avatar, 0);
+				this.flare.angularSpeed = 20;
+			}
+
+			for (String name : nameList) {
+				RenderedTextBlock newBody = PixelScene.renderTextBlock("_"+name+"_", size);
+				newBody.setHightlighting(true, Window.WHITE);
+				if (large) newBody.align(RenderedTextBlock.CENTER_ALIGN);
+				this.names.add(newBody);
+				add(newBody);
+			}
+
+			this.lastMessage = PixelScene.renderTextBlock("_Thank you for your support!_", 6);
+			this.lastMessage.setHightlighting(true, Window.WHITE);
+			if (large) this.lastMessage.align(RenderedTextBlock.CENTER_ALIGN);
+			add(this.lastMessage);
+		}
+
+		@Override
+		protected void layout() {
+			super.layout();
+
+			float topY = top();
+
+			if (title != null){
+				title.maxWidth((int)width());
+				title.setPos( x + (width() - title.width())/2f, topY);
+				topY += title.height() + (large ? 4 : 2);
+			}
+
+			if (large){
+
+				if (avatar != null){
+					avatar.x = x + (width()-avatar.width())/2f;
+					avatar.y = topY;
+					PixelScene.align(avatar);
+					if (flare != null){
+						flare.point(avatar.center());
+					}
+					topY = avatar.y + avatar.height() + 2;
+				}
+
+				for (RenderedTextBlock name : names) {
+//					Image nothingImage = Icons.NOTHING.get();
+//					nothingImage.x = x + (width()-nothingImage.width())/2f;
+//					nothingImage.y = topY+2;
+//					PixelScene.align(nothingImage);
+//					add(nothingImage);
+
+//					Flare[] flares = new Flare[3];
+//					float[] xOffsets = {0, -(name.width() / 2f - 1), (name.width() / 2f - 1)};
+//					PointF centerPoint = nothingImage.center();
+//
+//					for (int i = 0; i < 3; i++) {
+//						flares[i] = new Flare(7, 10).color(Window.WHITE, true).show(nothingImage, 0);
+//						flares[i].angularSpeed = 60;
+//						flares[i].point(new PointF(centerPoint.x + xOffsets[i], centerPoint.y));
+//					}
+
+					name.maxWidth((int)width());
+					name.setPos( x + (width() - name.width())/2f, topY);
+					topY += name.height() + 6;
+				}
+
+				lastMessage.maxWidth((int)width());
+				lastMessage.setPos( x + (width() - lastMessage.width())/2f, topY);
+				topY += lastMessage.height() + 2;
+
+			} else {
+
+				if (avatar != null){
+					avatar.x = x;
+					lastMessage.maxWidth((int)(width() - avatar.width - 1));
+
+					float fullAvHeight = Math.max(avatar.height(), 16);
+					if (fullAvHeight > lastMessage.height()){
+						avatar.y = topY + (fullAvHeight - avatar.height())/2f;
+						PixelScene.align(avatar);
+						lastMessage.setPos( avatar.x + avatar.width() + 1, topY + (fullAvHeight - lastMessage.height())/2f);
+						topY += fullAvHeight + 1;
+					} else {
+						avatar.y = topY + (lastMessage.height() - fullAvHeight)/2f;
+						PixelScene.align(avatar);
+						lastMessage.setPos( avatar.x + avatar.width() + 1, topY);
+						topY += lastMessage.height() + 2;
+					}
+
+				} else {
+					topY += 1;
+					lastMessage.maxWidth((int)width());
+					lastMessage.setPos( x, topY);
+					topY += lastMessage.height()+2;
+				}
 
 			}
 

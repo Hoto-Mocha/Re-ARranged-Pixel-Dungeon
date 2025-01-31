@@ -108,8 +108,6 @@ public class SeedFinder {
 		}
 	}
 
-
-
 	public void findSeed(boolean stop){
 		if(!stop){
 			findingStatus = FINDING.STOP;

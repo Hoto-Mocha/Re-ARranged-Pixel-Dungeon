@@ -45,6 +45,7 @@ public enum Icons {
 	ARRANGED,
 	DISCORD,
 	GITHUB,
+	HEART,
 	JOURNAL,
 
 	//grey icons, mainly used for buttons, spacing for 16x16
@@ -140,7 +141,8 @@ public enum Icons {
 	CUBE_CODE,
 	PURIGRO,
 	ARCNOR,
-	DCINSIDE;
+	DCINSIDE,
+	NOTHING;
 
 	public Image get() {
 		return get( this );
@@ -182,6 +184,9 @@ public enum Icons {
 				break;
 			case GITHUB:
 				icon.frame( icon.texture.uvRectBySize( 80, 128, 16, 16 ) );
+				break;
+			case HEART:
+				icon.frame( icon.texture.uvRectBySize( 96, 128, 14, 13 ) );
 				break;
 			case JOURNAL:
 				icon.frame( icon.texture.uvRectBySize( 136, 0, 17, 15 ) );
@@ -457,6 +462,9 @@ public enum Icons {
 			case DCINSIDE:
 				icon.frame( icon.texture.uvRectBySize( 0, 128, 32, 32 ) );
 				icon.scale.set(PixelScene.align(0.49f));
+				break;
+			case NOTHING:
+				icon.frame( icon.texture.uvRectBySize( 31, 159, 1, 1 ) );
 				break;
 
 		}
