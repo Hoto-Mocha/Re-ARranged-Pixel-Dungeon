@@ -28,7 +28,7 @@ public class WarpStoneChamber extends Chamber {
         };
 
         for (int pos : customOffsetArray(offsets)) {
-            level.drop(new StoneOfBlink(), pos);
+            level.drop(new StoneOfBlink().quantity(2), pos);
         }
 
     }
