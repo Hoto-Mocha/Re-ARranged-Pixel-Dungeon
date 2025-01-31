@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Elastic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ForceCube;
@@ -60,8 +61,9 @@ public class ForceGlove extends MeleeWeapon implements AlchemyWeapon {
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
+		int dmg = super.proc( attacker, defender, damage );
 		if (Dungeon.level.adjacent( attacker.pos, defender.pos )) {
-			damage *= 0.5f;
+			dmg = Math.round(damage*0.5f);
 			//trace a ballistica to our target (which will also extend past them
 			Ballistica trajectory = new Ballistica(attacker.pos, defender.pos, Ballistica.STOP_TARGET);
 			//trim it to just be the part that goes past them
@@ -69,7 +71,7 @@ public class ForceGlove extends MeleeWeapon implements AlchemyWeapon {
 			//knock them back along that ballistica
 			WandOfBlastWave.throwChar(defender, trajectory, 20, true, true, Dungeon.hero.getClass());
 		}
-		return super.proc( attacker, defender, damage );
+		return dmg;
 	}
 	@Override
 	public int max(int lvl) {
