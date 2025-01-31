@@ -92,7 +92,9 @@ public class FT extends Gun {
                     }
                 }
                 for (Char ch : chars) {
-                    curUser.shoot(ch, this);
+                    for (int i=0; i<shotPerShoot(); i++) {
+                        curUser.shoot(ch, this);
+                    }
                     if (ch == hero && !ch.isAlive()) {
                         Dungeon.fail(getClass());
                         Badges.validateDeathFromFriendlyMagic();

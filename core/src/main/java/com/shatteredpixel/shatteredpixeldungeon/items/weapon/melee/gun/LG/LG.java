@@ -85,9 +85,12 @@ public class LG extends Gun {
                 curUser.sprite.parent.add(new Beam.DeathRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( cells )));
 
                 for (Char ch : chars) {
-                    if (curUser.shoot(ch, this)) {
-                        ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10+buffedLvl() );
+                    for (int i=0; i<shotPerShoot(); i++) {
+                        if (curUser.shoot(ch, this)) {
+                            ch.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10+buffedLvl() );
+                        }
                     }
+
                     if (ch == hero && !ch.isAlive()) {
                         Dungeon.fail(getClass());
                         Badges.validateDeathFromFriendlyMagic();
