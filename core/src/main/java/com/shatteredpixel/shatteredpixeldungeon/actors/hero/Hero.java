@@ -205,6 +205,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.LanceNShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ObsidianShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG.SG;
@@ -2478,6 +2479,30 @@ public class Hero extends Char {
 		if (belongings.getItem(KnightsShield.class) != null && belongings.getItem(KnightsShield.class).hasGlyph(AntiMagic.class, this)
 				&& AntiMagic.RESISTS.contains(src.getClass())) {
 			dmg -= AntiMagic.drRoll(this, belongings.getItem(KnightsShield.class).buffedLvl());
+			dmg = Math.max(dmg, 0);
+		}
+
+		if (belongings.weapon() instanceof ObsidianShield
+				&& AntiMagic.RESISTS.contains(src.getClass())) {
+			dmg -= ObsidianShield.drRoll(belongings.weapon().buffedLvl());
+			dmg = Math.max(dmg, 0);
+		}
+
+		if (belongings.secondWep() instanceof ObsidianShield
+				&& AntiMagic.RESISTS.contains(src.getClass())) {
+			dmg -= ObsidianShield.drRoll(belongings.secondWep().buffedLvl());
+			dmg = Math.max(dmg, 0);
+		}
+
+		if (belongings.weapon() instanceof LanceNShield && !((LanceNShield) belongings.weapon()).stance
+				&& AntiMagic.RESISTS.contains(src.getClass())) {
+			dmg -= LanceNShield.drRoll(belongings.weapon().buffedLvl());
+			dmg = Math.max(dmg, 0);
+		}
+
+		if (belongings.secondWep() instanceof LanceNShield && !((LanceNShield) belongings.secondWep()).stance
+				&& AntiMagic.RESISTS.contains(src.getClass())) {
+			dmg -= LanceNShield.drRoll(belongings.secondWep().buffedLvl());
 			dmg = Math.max(dmg, 0);
 		}
 
