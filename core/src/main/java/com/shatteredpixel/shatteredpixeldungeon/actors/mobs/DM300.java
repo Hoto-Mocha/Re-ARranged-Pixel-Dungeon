@@ -592,12 +592,12 @@ public class DM300 extends Mob {
 			beacon.upgrade();
 		}
 
-		if (!Dungeon.templeCompleted) {
-			GLog.w(Messages.get(OldAmulet.class, "boss_kill"));
-			Dungeon.templeCompleted = true;
-			PixelScene.shake(1, 0.7f);
-			Sample.INSTANCE.play(Assets.Sounds.ROCKS, 0.7f, 0.5f);
-		}
+//		if (!Dungeon.templeCompleted) {
+//			GLog.w(Messages.get(OldAmulet.class, "boss_kill"));
+//			Dungeon.templeCompleted = true;
+//			PixelScene.shake(1, 0.7f);
+//			Sample.INSTANCE.play(Assets.Sounds.ROCKS, 0.7f, 0.5f);
+//		}
 
 		yell( Messages.get(this, "defeated") );
 	}
