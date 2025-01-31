@@ -165,6 +165,12 @@ public class BeaconOfReturning extends Spell {
 				return;
 			}
 
+			//cannot return to temple level
+			if (returnDepth >= 14 && returnDepth <= 15 && returnBranch == 2){
+				GLog.w( Messages.get(ScrollOfTeleportation.class, "no_tele") );
+				return;
+			}
+
 			Level.beforeTransition();
 			Invisibility.dispel();
 			InterlevelScene.mode = InterlevelScene.Mode.RETURN;
