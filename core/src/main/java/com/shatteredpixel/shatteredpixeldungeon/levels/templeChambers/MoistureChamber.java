@@ -9,7 +9,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.watabou.utils.Point;
 
-public class MoistureRoom extends Chamber {
+public class MoistureChamber extends Chamber {
     {
         isBuildWithStructure = false;
     }
