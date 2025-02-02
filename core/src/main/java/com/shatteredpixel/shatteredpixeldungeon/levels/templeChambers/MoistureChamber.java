@@ -2,7 +2,6 @@ package com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.StormCloud;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ThunderCloud;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
@@ -33,13 +32,13 @@ public class MoistureChamber extends Chamber {
             int cell = level.pointToCell(p);
             if (level.map[cell] == Terrain.WATER) {
                 //as if gas has been spreading in the room for a while
-                Blob.seed(cell, 30, StormCloud.class, level);
-                Blob.seed(cell, 12, StormCloudSeed.class, level);
+                Blob.seed(cell, 30, ThunderCloud.class, level);
+                Blob.seed(cell, 12, ThunderCloudSeed.class, level);
             }
         }
     }
 
-    public static class StormCloudSeed extends Blob {
+    public static class ThunderCloudSeed extends Blob {
 
         @Override
         protected void evolve() {
