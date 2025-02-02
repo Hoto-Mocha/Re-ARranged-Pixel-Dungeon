@@ -1,7 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -16,7 +15,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.ConfusionC
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MazeChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MimicInTheGrassChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MineFieldChamber;
-import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MoistureRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.MoistureChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.PiranhaPoolChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.SentryChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.SentryMazeChamber;
@@ -117,7 +116,7 @@ public class TempleNewLevel extends Level {
             SpearGnollChamber.class,
             MazeChamber.class,
             ConfusionChamber.class,
-            MoistureRoom.class,
+            MoistureChamber.class,
     };
     float[] deck = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; //the sum needs to be equal or less than CHAMBER_NUM_X * CHAMBER_NUM_Y
 
