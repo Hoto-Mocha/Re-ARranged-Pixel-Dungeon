@@ -46,6 +46,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ParchmentScrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.MagicalBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Annoying;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Dazzling;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Displacing;
@@ -526,6 +528,11 @@ abstract public class Weapon extends KindOfWeapon {
 			if (attacker.buff(TrueRunicBlade.TrueRunicSlashTracker.class) != null){
 				multi += 3f;
 				attacker.buff(TrueRunicBlade.TrueRunicSlashTracker.class).detach();
+			}
+
+			if (attacker.buff(MagicalBow.MagicalArrowTracker.class) != null){
+				multi += attacker.buff(MagicalBow.MagicalArrowTracker.class).getMulti();
+				attacker.buff(MagicalBow.MagicalArrowTracker.class).detach();
 			}
 
 			if (attacker.buff(ElementalStrike.DirectedPowerTracker.class) != null){

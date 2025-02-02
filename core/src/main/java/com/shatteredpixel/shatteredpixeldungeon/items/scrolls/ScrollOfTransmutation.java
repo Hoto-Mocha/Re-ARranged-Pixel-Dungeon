@@ -46,8 +46,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.CorrosiveBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.ElectricBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.MagicalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.PhaseBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.TacticalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.WindBow;
@@ -98,7 +101,14 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			return item instanceof Ring || item instanceof Wand || item instanceof Artifact
 					|| item instanceof Trinket || item instanceof Plant.Seed || item instanceof Pill
 					|| item instanceof Runestone
-					|| item instanceof NaturesBow || item instanceof GoldenBow || item instanceof CorrosiveBow || item instanceof WindBow || item instanceof TacticalBow;
+					|| item instanceof NaturesBow
+					|| item instanceof GoldenBow
+					|| item instanceof CorrosiveBow
+					|| item instanceof WindBow
+					|| item instanceof TacticalBow
+					|| item instanceof PhaseBow
+					|| item instanceof ElectricBow
+					|| item instanceof MagicalBow;
 		}
 	}
 	
@@ -198,7 +208,14 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			}
 		} else if (item instanceof Trinket) {
 			return changeTrinket( (Trinket)item );
-		} else if (item instanceof NaturesBow || item instanceof GoldenBow || item instanceof CorrosiveBow || item instanceof WindBow || item instanceof TacticalBow) {
+		} else if (item instanceof NaturesBow
+				|| item instanceof GoldenBow
+				|| item instanceof CorrosiveBow
+				|| item instanceof WindBow
+				|| item instanceof TacticalBow
+				|| item instanceof PhaseBow
+				|| item instanceof ElectricBow
+				|| item instanceof MagicalBow) {
 			return OldAmulet.changeBow((SpiritBow) item);
 		} else {
 			return null;

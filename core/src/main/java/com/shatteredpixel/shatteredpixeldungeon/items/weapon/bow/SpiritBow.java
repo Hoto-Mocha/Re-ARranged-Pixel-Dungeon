@@ -106,7 +106,6 @@ public class SpiritBow extends Weapon {
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
-
 		if (attacker.buff(NaturesPower.naturesPowerTracker.class) != null && !sniperSpecial){
 
 			Actor.add(new Actor() {
@@ -140,6 +139,10 @@ public class SpiritBow extends Weapon {
 		return super.proc(attacker, defender, damage);
 	}
 
+	public String additionalInfo() {
+		return "";
+	}
+
 	@Override
 	public String info() {
 		String info = super.info();
@@ -153,6 +156,10 @@ public class SpiritBow extends Weapon {
 			info += " " + Messages.get(Weapon.class, "too_heavy");
 		} else if (Dungeon.hero.STR() > STRReq()){
 			info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
+		}
+
+		if (!additionalInfo().isEmpty()) {
+			info += "\n\n" + additionalInfo();
 		}
 		
 		switch (augment) {

@@ -943,12 +943,18 @@ public class ItemSpriteSheet {
 	public static final int ARROW_GOLD		= ARROWS+2;
 	public static final int ARROW_CORROSION	= ARROWS+3;
 	public static final int ARROW_TACTICAL	= ARROWS+4;
+	public static final int ARROW_PHASE		= ARROWS+5;
+	public static final int ARROW_ELECTRIC	= ARROWS+6;
+	public static final int ARROW_MAGICAL	= ARROWS+7;
 	static{
 		assignItemRect(ARROW_WIND		, 11, 11);
 		assignItemRect(ARROW_NATURE		, 11, 11);
 		assignItemRect(ARROW_GOLD		, 11, 11);
 		assignItemRect(ARROW_CORROSION	, 11, 11);
 		assignItemRect(ARROW_TACTICAL	, 11, 11);
+		assignItemRect(ARROW_PHASE		, 11, 11);
+		assignItemRect(ARROW_ELECTRIC	, 11, 11);
+		assignItemRect(ARROW_MAGICAL	, 11, 11);
 	}
 
 	private static final int NEW_WEP_TIER_1	=			xy(1, 45);  //8 slots
@@ -1191,12 +1197,18 @@ public class ItemSpriteSheet {
 	public static final int GOLDEN_BOW		= BOWS+2;
 	public static final int CORROSION_BOW	= BOWS+3;
 	public static final int TACTICAL_BOW	= BOWS+4;
+	public static final int PHASE_BOW		= BOWS+5;
+	public static final int ELECTRIC_BOW	= BOWS+6;
+	public static final int MAGICAL_BOW		= BOWS+7;
 	static{
 		assignItemRect(WIND_BOW		, 16, 16);
 		assignItemRect(NATURE_BOW	, 16, 16);
 		assignItemRect(GOLDEN_BOW	, 16, 16);
 		assignItemRect(CORROSION_BOW, 16, 16);
 		assignItemRect(TACTICAL_BOW	, 16, 16);
+		assignItemRect(PHASE_BOW	, 16, 16);
+		assignItemRect(ELECTRIC_BOW	, 16, 16);
+		assignItemRect(MAGICAL_BOW	, 16, 16);
 	}
 
 	//보조무기 추후 추가

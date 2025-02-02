@@ -23,8 +23,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.CorrosiveBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.ElectricBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.MagicalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.PhaseBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.TacticalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.WindBow;
@@ -163,7 +166,7 @@ public class OldAmulet extends Item {
         }
     }
 
-    private static float[] bowDeck = {1, 1, 1, 1, 1};
+    private static float[] bowDeck = {1, 1, 1, 1, 1, 1, 1, 1};
 
     public static SpiritBow changeBow(SpiritBow bow) {
         SpiritBow newBow;
@@ -188,10 +191,27 @@ public class OldAmulet extends Item {
                 newBow = new TacticalBow();
                 bowDeck[4] = 0;
                 break;
+            case 5:
+                newBow = new PhaseBow();
+                bowDeck[5] = 0;
+                break;
+            case 6:
+                newBow = new ElectricBow();
+                bowDeck[6] = 0;
+                break;
+            case 7:
+                newBow = new MagicalBow();
+                bowDeck[7] = 0;
+                break;
             case -1:
-                bowDeck = new float[]{1, 1, 1, 1, 1};
+                bowDeck = new float[]{1, 1, 1, 1, 1, 1, 1, 1};
                 newBow = changeBow(bow);
                 return newBow;
+        }
+
+        if (newBow.getClass() == bow.getClass()) {
+            newBow = changeBow(bow);
+            return newBow;
         }
 
         newBow.level(0);
