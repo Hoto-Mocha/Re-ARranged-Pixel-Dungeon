@@ -103,8 +103,8 @@ public class TempleNewLevel extends Level {
         transitions.add(new LevelTransition(this,
                 amuletCell(),
                 LevelTransition.Type.BRANCH_EXIT,
-                Dungeon.depth,
-                0,
+                Dungeon.depth+1,
+                2,
                 LevelTransition.Type.BRANCH_ENTRANCE));
 
         buildLevel();
