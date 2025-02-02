@@ -1,6 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.spells;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
@@ -119,7 +120,7 @@ public class ElectricityImbue extends Spell {
         }
 
         {
-            immunities.add( ElectricityImbue.class );
+            immunities.add( Electricity.class );
             immunities.add( Paralysis.class );
         }
 
