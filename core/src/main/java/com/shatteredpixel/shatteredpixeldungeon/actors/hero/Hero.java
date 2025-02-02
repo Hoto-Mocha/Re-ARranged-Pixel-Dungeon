@@ -1953,9 +1953,6 @@ public class Hero extends Char {
 				}
 			}
 		}
-		damage = Talent.onAttackProc( this, enemy, damage );
-
-		if (wep != null) damage = wep.proc( this, enemy, damage );
 
 		if (hero.buff(Sheath.DashAttackTracker.class) != null) {
 			if (hero.hasTalent(Talent.ACCELERATION)) {
