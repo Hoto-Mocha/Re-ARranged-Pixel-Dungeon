@@ -1,5 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfBlink;
 
 public class WarpStoneChamber extends Chamber {
@@ -28,8 +29,7 @@ public class WarpStoneChamber extends Chamber {
         };
 
         for (int pos : customOffsetArray(offsets)) {
-            level.drop(new StoneOfBlink().quantity(2), pos);
+            level.drop(new StoneOfBlink(), pos);
         }
-
     }
 }
