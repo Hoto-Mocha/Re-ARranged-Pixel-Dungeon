@@ -87,7 +87,9 @@ public class ThunderImbue extends Buff {
 	}
 
 	public void proc(Char enemy, int damage){
-		enemy.damage(Hero.heroDamageIntRange(Math.round(damage*0.2f), Math.round(damage*0.6f)), target);
+		if (!enemy.isImmune(Electricity.class)) {
+			enemy.damage(Hero.heroDamageIntRange(Math.round(damage*0.2f), Math.round(damage*0.6f)), new Electricity());
+		}
 		thunderEffect(enemy.sprite);
 	}
 
