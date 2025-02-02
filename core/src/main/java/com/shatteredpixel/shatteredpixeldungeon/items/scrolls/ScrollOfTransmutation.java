@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
+import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
 import com.shatteredpixel.shatteredpixeldungeon.items.pills.Pill;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.Brew;
@@ -44,6 +45,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.CorrosiveBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.TacticalBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.WindBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DeathSword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -90,7 +97,8 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		} else {
 			return item instanceof Ring || item instanceof Wand || item instanceof Artifact
 					|| item instanceof Trinket || item instanceof Plant.Seed || item instanceof Pill
-					|| item instanceof Runestone;
+					|| item instanceof Runestone
+					|| item instanceof NaturesBow || item instanceof GoldenBow || item instanceof CorrosiveBow || item instanceof WindBow || item instanceof TacticalBow;
 		}
 	}
 	
@@ -190,6 +198,8 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			}
 		} else if (item instanceof Trinket) {
 			return changeTrinket( (Trinket)item );
+		} else if (item instanceof NaturesBow || item instanceof GoldenBow || item instanceof CorrosiveBow || item instanceof WindBow || item instanceof TacticalBow) {
+			return OldAmulet.changeBow((SpiritBow) item);
 		} else {
 			return null;
 		}

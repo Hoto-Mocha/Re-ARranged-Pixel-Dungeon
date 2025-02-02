@@ -163,25 +163,35 @@ public class OldAmulet extends Item {
         }
     }
 
-    private static SpiritBow changeBow(SpiritBow bow) {
+    private static float[] bowDeck = {1, 1, 1, 1, 1};
+
+    public static SpiritBow changeBow(SpiritBow bow) {
         SpiritBow newBow;
-        switch (Random.Int(5)) {
+        switch (Random.chances(bowDeck)) {
             case 0: default:
                 newBow = new NaturesBow();
+                bowDeck[0] = 0;
                 break;
             case 1:
                 newBow = new GoldenBow();
+                bowDeck[1] = 0;
                 break;
             case 2:
                 newBow = new CorrosiveBow();
+                bowDeck[2] = 0;
                 break;
             case 3:
                 newBow = new WindBow();
+                bowDeck[3] = 0;
                 break;
             case 4:
                 newBow = new TacticalBow();
+                bowDeck[4] = 0;
                 break;
-
+            case -1:
+                bowDeck = new float[]{1, 1, 1, 1, 1};
+                newBow = changeBow(bow);
+                return newBow;
         }
 
         newBow.level(0);
