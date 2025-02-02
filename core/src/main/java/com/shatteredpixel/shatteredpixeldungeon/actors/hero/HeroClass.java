@@ -58,6 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Sh
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
+import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.BulletBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.GammaRayGun;
@@ -179,6 +180,8 @@ public enum HeroClass {
 			new TengusMask().collect();
 			new KingsCrown().collect();
 			new OldAmulet().collect();
+			new Ankh().collect();
+			new PotionOfLiquidFlame().identify().quantity(100).collect();
 		}
 
 		switch (this) {

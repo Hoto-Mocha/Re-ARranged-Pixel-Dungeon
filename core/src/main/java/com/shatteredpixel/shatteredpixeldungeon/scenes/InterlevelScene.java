@@ -35,6 +35,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.LostBackpack;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
+import com.shatteredpixel.shatteredpixeldungeon.levels.TempleChasmLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.TempleNewLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
@@ -723,7 +725,14 @@ public class InterlevelScene extends PixelScene {
 		Mob.holdAllies( Dungeon.level );
 
 		Level level;
-		if (Dungeon.level.locked) {
+		if (Dungeon.branch == 2) {
+			Dungeon.hero.resurrect();
+			level = Dungeon.level;
+
+			Dungeon.hero.pos = level.entrance();
+			int pos = level.entrance();
+			level.drop(new LostBackpack(), pos);
+		} else if (Dungeon.level.locked) {
 			ArrayList<Item> preservedItems = Dungeon.level.getItemsToPreserveFromSealedResurrect();
 
 			Dungeon.hero.resurrect();
