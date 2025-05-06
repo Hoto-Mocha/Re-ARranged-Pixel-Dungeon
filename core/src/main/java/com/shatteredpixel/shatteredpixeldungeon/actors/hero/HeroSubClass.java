@@ -52,6 +52,9 @@ public enum HeroSubClass {
 	MONK(HeroIcon.MONK),
 	FENCER(HeroIcon.FENCER),
 
+	PRIEST(HeroIcon.PRIEST),
+	PALADIN(HeroIcon.PALADIN),
+
 	OUTLAW(HeroIcon.OUTLAW),
 	GUNSLINGER(HeroIcon.GUNSLINGER),
 	SPECIALIST(HeroIcon.SPECIALIST),

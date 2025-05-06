@@ -100,8 +100,14 @@ public class WndJournal extends WndTabbed {
 	private BadgesTab badgesTab;
 	
 	public static int last_index = 0;
+
+	private static WndJournal INSTANCE = null;
 	
 	public WndJournal(){
+
+		if (INSTANCE != null){
+			INSTANCE.hide();
+		}
 		
 		int width = PixelScene.landscape() ? WIDTH_L : WIDTH_P;
 		int height = PixelScene.landscape() ? HEIGHT_L : HEIGHT_P;
@@ -202,6 +208,8 @@ public class WndJournal extends WndTabbed {
 		layoutTabs();
 		
 		select(last_index);
+
+		INSTANCE = this;
 	}
 
 	@Override
@@ -763,7 +771,7 @@ public class WndJournal extends WndTabbed {
 					title = "???";
 					desc = Messages.get(CatalogTab.class, "not_seen_item");
 				} else {
-					title = Messages.titleCase(item.trueName());
+					title = Messages.titleCase( item.name() );
 					//some items don't include direct stats, generally when they're not applicable
 					if (item instanceof ClassArmor || item instanceof SpiritBow){
 						desc += item.desc();

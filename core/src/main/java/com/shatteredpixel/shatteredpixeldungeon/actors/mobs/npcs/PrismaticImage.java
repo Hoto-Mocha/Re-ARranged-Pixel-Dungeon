@@ -34,8 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -202,28 +201,16 @@ public class PrismaticImage extends NPC {
 		}
 		return super.defenseProc(enemy, damage);
 	}
-	
+
 	@Override
-	public void damage(int dmg, Object src) {
-		
-		//TODO improve this when I have proper damage source logic
-		if (hero != null && hero.belongings.armor() != null && hero.belongings.armor().hasGlyph(AntiMagic.class, this)
-				&& AntiMagic.RESISTS.contains(src.getClass())){
-			dmg -= AntiMagic.drRoll(hero, hero.belongings.armor().buffedLvl());
-			dmg = Math.max(dmg, 0);
+	public int glyphLevel(Class<? extends Armor.Glyph> cls) {
+		if (hero != null){
+			return Math.max(super.glyphLevel(cls), hero.glyphLevel(cls));
+		} else {
+			return super.glyphLevel(cls);
 		}
-		
-		super.damage(dmg, src);
 	}
-	
-	@Override
-	public float speed() {
-		if (hero != null && hero.belongings.armor() != null){
-			return hero.belongings.armor().speedFactor(this, super.speed());
-		}
-		return super.speed();
-	}
-	
+
 	@Override
 	public int attackProc( Char enemy, int damage ) {
 		
@@ -248,17 +235,6 @@ public class PrismaticImage extends NPC {
 		return s;
 	}
 	
-	@Override
-	public boolean isImmune(Class effect) {
-		if (effect == Burning.class
-				&& hero != null
-				&& hero.belongings.armor() != null
-				&& hero.belongings.armor().hasGlyph(Brimstone.class, this)){
-			return true;
-		}
-		return super.isImmune(effect);
-	}
-	
 	{
 		immunities.add( ToxicGas.class );
 		immunities.add( CorrosiveGas.class );
@@ -271,7 +247,7 @@ public class PrismaticImage extends NPC {
 		@Override
 		public boolean act(boolean enemyInFOV, boolean justAlerted) {
 			if (!enemyInFOV){
-				Buff.affect(hero, PrismaticGuard.class).set( HP );
+				Buff.affect(hero, PrismaticGuard.class).set( PrismaticImage.this );
 				destroy();
 				CellEmitter.get(pos).start( Speck.factory(Speck.LIGHT), 0.2f, 3 );
 				sprite.die();

@@ -72,6 +72,7 @@ public class MagicMissile extends Emitter {
 	public static final int SHAMAN_PURPLE   = 13;
 	public static final int ELMO            = 14;
 	public static final int POISON          = 15;
+	public static final int LIGHT_MISSILE   = 16;
 
 	public static final int MAGIC_MISS_CONE = 100;
 	public static final int FROST_CONE      = 101;
@@ -196,6 +197,10 @@ public class MagicMissile extends Emitter {
 			case POISON:
 				size( 3 );
 				pour( PoisonParticle.MISSILE, 0.01f );
+				break;
+			case LIGHT_MISSILE:
+				size( 4 );
+				pour( WhiteParticle.YELLOW, 0.01f );
 				break;
 
 			case MAGIC_MISS_CONE:
@@ -493,6 +498,28 @@ public class MagicMissile extends Emitter {
 				return true;
 			}
 		};
+
+		public static final Emitter.Factory YELLOW = new Factory() {
+			@Override
+			public void emit( Emitter emitter, int index, float x, float y ) {
+				((WhiteParticle)emitter.recycle( WhiteParticle.class )).reset( x, y, 1f, 1f, 0.25f );
+			}
+			@Override
+			public boolean lightMode() {
+				return true;
+			}
+		};
+
+		public static final Emitter.Factory WALL = new Factory() {
+			@Override
+			public void emit( Emitter emitter, int index, float x, float y ) {
+				((WhiteParticle)emitter.recycle( WhiteParticle.class )).resetWall( x, y );
+			}
+			@Override
+			public boolean lightMode() {
+				return true;
+			}
+		};
 		
 		public WhiteParticle() {
 			super();
@@ -509,6 +536,22 @@ public class MagicMissile extends Emitter {
 			this.y = y;
 			
 			left = lifespan;
+			hardlight(1, 1, 1);
+		}
+
+		public void reset( float x, float y, float r, float g, float b ) {
+			reset(x, y);
+			hardlight(r, g, b);
+		}
+
+		public void resetWall( float x, float y){
+			reset(x, y);
+
+			left = lifespan = 2f;
+
+			this.x = Math.round(x/4)*4;
+			this.y = Math.round(y/4)*4 - 6;
+			this.x += Math.round(this.y % 16)/4f - 2;
 		}
 		
 		@Override

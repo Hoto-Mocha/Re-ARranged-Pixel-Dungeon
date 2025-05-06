@@ -122,6 +122,17 @@ public class BuffIndicator extends Component {
 	public static final int DAZE        = 70;
 	public static final int DISGUISE    = 71;
 	public static final int WAND        = 72;
+	public static final int HOLY_WEAPON = 73;
+	public static final int HOLY_ARMOR  = 74;
+	public static final int SPELL_FOOD  = 75;
+	public static final int LIGHT_SHIELD= 76;
+	public static final int HOLY_SIGHT  = 77;
+	public static final int GLYPH_RECALL= 78;
+	public static final int ASCEND      = 79;
+	public static final int PROT_AURA   = 80;
+	public static final int ILLUMINATED = 81;
+	public static final int TRINITY_FORM= 82;
+	public static final int MANY_POWER  = 83;
 
 	//arranged buffs
 	public static final int PARRY		= 136;

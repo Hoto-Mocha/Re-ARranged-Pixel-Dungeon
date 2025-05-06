@@ -79,8 +79,8 @@ public class Dart extends MissileWeapon {
 	public int min(int lvl) {
 		if (bow != null){
 			if (!(this instanceof TippedDart) && Dungeon.hero.buff(Crossbow.ChargedShot.class) != null){
-				//ability increases base dmg by 37.5%, scaling by 50%
-				return  7 +                     //7 base
+				//ability increases base dmg by 50%, scaling by 50%
+				return  8 +                     //8 base
 						2*bow.buffedLvl() + lvl;//+2 per bow level, +1 per level
 			} else {
 				return  4 +                     //4 base
@@ -96,8 +96,8 @@ public class Dart extends MissileWeapon {
 	public int max(int lvl) {
 		if (bow != null){
 			if (!(this instanceof TippedDart) && Dungeon.hero.buff(Crossbow.ChargedShot.class) != null){
-				//ability increases base dmg by 37.5%, scaling by 50%
-				return  15 +                       //15 base
+				//ability increases base dmg by 50%, scaling by 50%
+				return  16 +                       //16 base
 						4*bow.buffedLvl() + 2*lvl; //+4 per bow level, +2 per level
 			} else {
 				return  12 +                       //12 base
@@ -227,11 +227,11 @@ public class Dart extends MissileWeapon {
 	public String info() {
 		updateCrossbow();
 		if (bow != null && !bow.isIdentified()){
-			int level = bow.level();
-			//temporarily sets the level of the bow to 0 for IDing purposes
-			bow.level(0);
+			Crossbow realBow = bow;
+			//create a temporary bow for IDing purposes
+			bow = new Crossbow();
 			String info = super.info();
-			bow.level(level);
+			bow = realBow;
 			return info;
 		} else {
 			return super.info();

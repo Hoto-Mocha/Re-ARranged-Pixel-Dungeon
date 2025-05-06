@@ -141,12 +141,14 @@ public class QuickRecipe extends Component {
 					if (sim.getClass() != in.getClass() || sim.isIdentified())
 						quantity += sim.quantity();
 				}
-			}
-			
-			if (quantity < in.quantity()) {
-				curr.sprite.alpha(0.3f);
+				if (quantity < in.quantity()) {
+					curr.sprite.alpha(0.3f);
+					hasInputs = false;
+				}
+			} else {
 				hasInputs = false;
 			}
+
 			curr.showExtraInfo(false);
 			add(curr);
 			this.inputs.add(curr);
@@ -176,7 +178,7 @@ public class QuickRecipe extends Component {
 				ShatteredPixelDungeon.scene().addToFront(new WndInfoItem(output));
 			}
 		};
-		if (!hasInputs){
+		if (Dungeon.hero != null && !hasInputs){
 			this.output.sprite.alpha(0.3f);
 		}
 		this.output.showExtraInfo(false);

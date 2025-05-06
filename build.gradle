@@ -7,10 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        //gradle version packaged with AGP 8.5 causes crashes on Android 4.4-
-        //this won't be needed once the bundled R8 version is 8.7.11+ (should happen with AGP 8.6)
-        classpath 'com.android.tools:r8:8.7.11'
-        classpath 'com.android.tools.build:gradle:8.8.0'
+        classpath 'com.android.tools.build:gradle:8.7.1'
     }
 }
 
@@ -20,14 +17,14 @@ allprojects {
         appName = 'Rearranged Pixel Dungeon'
         appPackageName = 'com.rearrangedpixel.rearrangedpixeldungon'
 
-        appVersionCode = 802
-        appVersionName = '2.5.4'
-        appVersionCode += 39
-        appVersionName += '_based_3.22.0'
+        appVersionCode = 833
+        appVersionName = '3.0.2'
+        appVersionCode += 40
+        appVersionName += '_based_3.23.0'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
-        appAndroidCompileSDK = 33 //compile SDK is still 33 atm as we're sticking with AGP 8.0.2
+        appAndroidCompileSDK = 34
         appAndroidMinSDK = 14
         appAndroidTargetSDK = 34
 

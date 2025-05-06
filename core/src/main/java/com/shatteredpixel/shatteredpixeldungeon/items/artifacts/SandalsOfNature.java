@@ -65,7 +65,6 @@ import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class SandalsOfNature extends Artifact {
@@ -237,6 +236,12 @@ public class SandalsOfNature extends Artifact {
 				&& (level() < 3 || curSeedEffect != item.getClass());
 	}
 
+	@Override
+	public void resetForTrinity(int visibleLevel) {
+		super.reset();
+		curSeedEffect = null;
+	}
+
 	private static final String SEEDS = "seeds";
 	private static final String CUR_SEED_EFFECT = "cur_seed_effect";
 
@@ -250,8 +255,11 @@ public class SandalsOfNature extends Artifact {
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle(bundle);
+		seeds.clear();
 		if (bundle.contains(SEEDS) && bundle.getClassArray(SEEDS) != null) {
-			Collections.addAll(seeds, bundle.getClassArray(SEEDS));
+			for (Class<?> seed : bundle.getClassArray(SEEDS)) {
+				if (seed != null) seeds.add(seed);
+			}
 		}
 		curSeedEffect = bundle.getClass(CUR_SEED_EFFECT);
 
@@ -322,7 +330,7 @@ public class SandalsOfNature extends Artifact {
 		}
 	};
 
-	protected CellSelector.Listener cellSelector = new CellSelector.Listener(){
+	public CellSelector.Listener cellSelector = new CellSelector.Listener(){
 
 		@Override
 		public void onSelect(Integer cell) {
@@ -344,6 +352,10 @@ public class SandalsOfNature extends Artifact {
 					plant.activate(Actor.findChar(cell));
 					Sample.INSTANCE.play(Assets.Sounds.PLANT);
 					Sample.INSTANCE.playDelayed(Assets.Sounds.TRAMPLE, 0.25f, 1, Random.Float( 0.96f, 1.05f ) );
+
+					if (Actor.findChar(cell) != null){
+						artifactProc(Actor.findChar(cell), visiblyUpgraded(), seedChargeReqs.get(curSeedEffect));
+					}
 
 					charge -= seedChargeReqs.get(curSeedEffect);
 					Talent.onArtifactUsed(Dungeon.hero);

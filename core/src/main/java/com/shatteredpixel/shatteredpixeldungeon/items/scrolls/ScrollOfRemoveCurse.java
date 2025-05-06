@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
@@ -143,10 +144,14 @@ public class ScrollOfRemoveCurse extends InventoryScroll {
 			}
 		}
 		
-		if (procced && hero != null) {
-			hero.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
-			hero.updateHT( false ); //for ring of might
-			updateQuickslot();
+		if (procced) {
+			if (hero != null) {
+				hero.sprite.emitter().start(ShadowParticle.UP, 0.05f, 10);
+				hero.updateHT(false); //for ring of might
+				updateQuickslot();
+			}
+
+			Badges.validateClericUnlock();
 		}
 		
 		return procced;

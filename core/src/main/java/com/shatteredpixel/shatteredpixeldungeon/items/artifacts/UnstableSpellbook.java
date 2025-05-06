@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -37,8 +38,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
@@ -57,7 +61,6 @@ import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class UnstableSpellbook extends Artifact {
 
@@ -80,6 +83,12 @@ public class UnstableSpellbook extends Artifact {
 
 	public UnstableSpellbook() {
 		super();
+
+		setupScrolls();
+	}
+
+	private void setupScrolls(){
+		scrolls.clear();
 
 		Class<?>[] scrollClasses = Generator.Category.SCROLL.classes;
 		float[] probs = Generator.Category.SCROLL.defaultProbsTotal.clone(); //array of primitives, clone gives deep copy.
@@ -120,66 +129,91 @@ public class UnstableSpellbook extends Artifact {
 			else if (charge <= 0)                     GLog.i( Messages.get(this, "no_charge") );
 			else if (cursed)                          GLog.i( Messages.get(this, "cursed") );
 			else {
-				charge--;
-
-				Scroll scroll;
-				do {
-					scroll = (Scroll) Generator.randomUsingDefaults(Generator.Category.SCROLL);
-				} while (scroll == null
-						//reduce the frequency of these scrolls by half
-						||((scroll instanceof ScrollOfIdentify ||
-							scroll instanceof ScrollOfRemoveCurse ||
-							scroll instanceof ScrollOfMagicMapping) && Random.Int(2) == 0)
-						//cannot roll transmutation
-						|| (scroll instanceof ScrollOfTransmutation));
-				
-				scroll.anonymize();
-				curItem = scroll;
-				curUser = hero;
-
-				//if there are charges left and the scroll has been given to the book
-				if (charge > 0 && !scrolls.contains(scroll.getClass())) {
-					final Scroll fScroll = scroll;
-
-					final ExploitHandler handler = Buff.affect(hero, ExploitHandler.class);
-					handler.scroll = scroll;
-
-					GameScene.show(new WndOptions(new ItemSprite(this),
-							Messages.get(this, "prompt"),
-							Messages.get(this, "read_empowered"),
-							scroll.trueName(),
-							Messages.get(ExoticScroll.regToExo.get(scroll.getClass()), "name")){
-						@Override
-						protected void onSelect(int index) {
-							handler.detach();
-							if (index == 1){
-								Scroll scroll = Reflection.newInstance(ExoticScroll.regToExo.get(fScroll.getClass()));
-								curItem = scroll;
-								charge--;
-								scroll.anonymize();
-								scroll.doRead();
-								Talent.onArtifactUsed(Dungeon.hero);
-							} else {
-								fScroll.doRead();
-								Talent.onArtifactUsed(Dungeon.hero);
-							}
-							updateQuickslot();
-						}
-						
-						@Override
-						public void onBackPressed() {
-							//do nothing
-						}
-					});
-				} else {
-					scroll.doRead();
-					Talent.onArtifactUsed(Dungeon.hero);
-				}
-				updateQuickslot();
+				doReadEffect(hero);
 			}
 
 		} else if (action.equals( AC_ADD )) {
 			GameScene.selectItem(itemSelector);
+		}
+	}
+
+	public void doReadEffect(Hero hero){
+		charge--;
+
+		Scroll scroll;
+		do {
+			scroll = (Scroll) Generator.randomUsingDefaults(Generator.Category.SCROLL);
+		} while (scroll == null
+				//reduce the frequency of these scrolls by half
+				||((scroll instanceof ScrollOfIdentify ||
+				scroll instanceof ScrollOfRemoveCurse ||
+				scroll instanceof ScrollOfMagicMapping) && Random.Int(2) == 0)
+				//cannot roll transmutation
+				|| (scroll instanceof ScrollOfTransmutation));
+
+		scroll.anonymize();
+		curItem = scroll;
+		curUser = hero;
+
+		//if there are charges left and the scroll has been given to the book
+		if (charge > 0 && !scrolls.contains(scroll.getClass())) {
+			final Scroll fScroll = scroll;
+
+			final ExploitHandler handler = Buff.affect(hero, ExploitHandler.class);
+			handler.scroll = scroll;
+
+			GameScene.show(new WndOptions(new ItemSprite(this),
+					Messages.get(this, "prompt"),
+					Messages.get(this, "read_empowered"),
+					scroll.trueName(),
+					Messages.get(ExoticScroll.regToExo.get(scroll.getClass()), "name")){
+				@Override
+				protected void onSelect(int index) {
+					handler.detach();
+					if (index == 1){
+						Scroll scroll = Reflection.newInstance(ExoticScroll.regToExo.get(fScroll.getClass()));
+						curItem = scroll;
+						charge--;
+						scroll.anonymize();
+						checkForArtifactProc(curUser, scroll);
+						scroll.doRead();
+						Talent.onArtifactUsed(Dungeon.hero);
+					} else {
+						checkForArtifactProc(curUser, fScroll);
+						fScroll.doRead();
+						Talent.onArtifactUsed(Dungeon.hero);
+					}
+					updateQuickslot();
+				}
+
+				@Override
+				public void onBackPressed() {
+					//do nothing
+				}
+			});
+		} else {
+			checkForArtifactProc(curUser, scroll);
+			scroll.doRead();
+			Talent.onArtifactUsed(Dungeon.hero);
+		}
+
+		updateQuickslot();
+	}
+
+	private void checkForArtifactProc(Hero user, Scroll scroll){
+		//if the base scroll (exotics all match) is an AOE effect, then also trigger illuminate
+		if (scroll instanceof ScrollOfLullaby
+				|| scroll instanceof ScrollOfRemoveCurse || scroll instanceof ScrollOfTerror) {
+			for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+				if (Dungeon.level.heroFOV[mob.pos]) {
+					artifactProc(mob, visiblyUpgraded(), 1);
+				}
+			}
+		//except rage, which affects everything even if it isn't visible
+		} else if (scroll instanceof ScrollOfRage){
+			for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+				artifactProc(mob, visiblyUpgraded(), 1);
+			}
 		}
 	}
 
@@ -243,10 +277,20 @@ public class UnstableSpellbook extends Artifact {
 		chargeCap = (int)((level()+1)*0.6f)+2;
 
 		//for artifact transmutation.
-		while (!scrolls.isEmpty() && scrolls.size() > (levelCap-1-level()))
+		while (!scrolls.isEmpty() && scrolls.size() > (levelCap-1-level())) {
 			scrolls.remove(0);
+		}
 
 		return super.upgrade();
+	}
+
+	@Override
+	public void resetForTrinity(int visibleLevel) {
+		super.resetForTrinity(visibleLevel);
+		setupScrolls();
+		while (!scrolls.isEmpty() && scrolls.size() > (levelCap-1-level())) {
+			scrolls.remove(0);
+		}
 	}
 
 	@Override
@@ -285,8 +329,10 @@ public class UnstableSpellbook extends Artifact {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle(bundle);
 		scrolls.clear();
-		if (bundle.contains(SCROLLS)) {
-			Collections.addAll(scrolls, bundle.getClassArray(SCROLLS));
+		if (bundle.contains(SCROLLS) && bundle.getClassArray(SCROLLS) != null) {
+			for (Class<?> scroll : bundle.getClassArray(SCROLLS)) {
+				if (scroll != null) scrolls.add(scroll);
+			}
 		}
 	}
 

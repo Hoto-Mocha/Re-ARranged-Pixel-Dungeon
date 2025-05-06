@@ -27,6 +27,8 @@ import com.watabou.utils.Bundle;
 public abstract class ShieldBuff extends Buff {
 	
 	private int shielding;
+
+	protected boolean detachesAtZero = true;
 	
 	@Override
 	public boolean attachTo(Char target) {
@@ -61,6 +63,11 @@ public abstract class ShieldBuff extends Buff {
 		shielding += amt;
 		if (target != null) target.needsShieldUpdate = true;
 	}
+
+	//doesn't add shield, but postpones it detereorating
+	public void delay( float value ){
+		spend(value);
+	}
 	
 	public void decShield(){
 		decShield(1);
@@ -80,7 +87,7 @@ public abstract class ShieldBuff extends Buff {
 			dmg -= shielding;
 			shielding = 0;
 		}
-		if (shielding == 0){
+		if (shielding <= 0 && detachesAtZero){
 			detach();
 		}
 		if (target != null) target.needsShieldUpdate = true;

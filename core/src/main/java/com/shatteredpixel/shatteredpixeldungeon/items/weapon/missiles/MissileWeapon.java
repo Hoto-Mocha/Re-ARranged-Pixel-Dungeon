@@ -67,6 +67,9 @@ abstract public class MissileWeapon extends Weapon {
 		defaultAction = AC_THROW;
 		usesTargeting = true;
 	}
+
+	//whether or not this instance of the item exists purely to trigger its effect. i.e. no dropping
+	public boolean spawnedForEffect = false;
 	
 	protected boolean sticky = true;
 	
@@ -266,7 +269,7 @@ abstract public class MissileWeapon extends Weapon {
 				}
 			}
 
-			super.onThrow( cell );
+			if (!spawnedForEffect) super.onThrow( cell );
 		} else {
 			if (!curUser.shoot( enemy, this )) {
 				rangedMiss( cell );
@@ -328,7 +331,7 @@ abstract public class MissileWeapon extends Weapon {
 	
 	protected void rangedHit( Char enemy, int cell ){
 		decrementDurability();
-		if (durability > 0){
+		if (durability > 0 && !spawnedForEffect){
 			//attempt to stick the missile weapon to the enemy, just drop it if we can't.
 			if (sticky && enemy != null && enemy.isActive() && enemy.alignment != Char.Alignment.ALLY){
 				PinCushion p = Buff.affect(enemy, PinCushion.class);
@@ -343,7 +346,7 @@ abstract public class MissileWeapon extends Weapon {
 	
 	protected void rangedMiss( int cell ) {
 		parent = null;
-		super.onThrow(cell);
+		if (!spawnedForEffect) super.onThrow(cell);
 	}
 
 	public float durabilityLeft(){
@@ -533,12 +536,14 @@ abstract public class MissileWeapon extends Weapon {
 	public int value() {
 		return 6 * tier * quantity * (level() + 1);
 	}
-	
+
+	private static final String SPAWNED = "spawned";
 	private static final String DURABILITY = "durability";
 	
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
+		bundle.put(SPAWNED, spawnedForEffect);
 		bundle.put(DURABILITY, durability);
 	}
 	
@@ -549,6 +554,7 @@ abstract public class MissileWeapon extends Weapon {
 		bundleRestoring = true;
 		super.restoreFromBundle(bundle);
 		bundleRestoring = false;
+		spawnedForEffect = bundle.getBoolean(SPAWNED);
 		durability = bundle.getFloat(DURABILITY);
 	}
 

@@ -101,7 +101,7 @@ public class Messages {
 			bundleLocal = Locale.ROOT; //english is source, uses root locale for fetching bundle
 		} else {
 			locale = new Locale(lang.code());
-			bundleLocal = new Locale(lang.code());
+			bundleLocal = locale;
 		}
 		formatters.clear();
 

@@ -145,6 +145,8 @@ public class SPDSettings extends GameSettings {
 	public static final String KEY_SLOTWATERSKIN= "quickslot_waterskin";
 	public static final String KEY_SYSTEMFONT	= "system_font";
 	public static final String KEY_VIBRATION    = "vibration";
+
+	public static final String KEY_GAMES_SORT    = "games_sort";
 	public static final String KEY_UI_TYPE		= "ui_type";
 
 	//0 = mobile, 1 = mixed (large without inventory in main UI), 2 = large
@@ -220,6 +222,14 @@ public class SPDSettings extends GameSettings {
 
 	public static boolean vibration(){
 		return getBoolean(KEY_VIBRATION, true);
+	}
+
+	public static String gamesInProgressSort(){
+		return getString(KEY_GAMES_SORT, "level");
+	}
+
+	public static void gamesInProgressSort(String value){
+		put(KEY_GAMES_SORT, value);
 	}
 
 	public static void uiType(int idx) {

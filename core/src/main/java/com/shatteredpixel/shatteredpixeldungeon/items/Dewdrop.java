@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
@@ -53,6 +54,7 @@ public class Dewdrop extends Item {
 		
 		Waterskin flask = hero.belongings.getItem( Waterskin.class );
 		Catalog.setSeen(getClass());
+		Statistics.itemTypesDiscovered.add(getClass());
 		
 		if (flask != null && !flask.isFull()){
 
@@ -79,29 +81,39 @@ public class Dewdrop extends Item {
 
 	public static boolean consumeDew(int quantity, Hero hero, boolean force){
 		//20 drops for a full heal
-		int heal = Math.round( hero.HT * 0.05f * quantity );
+		int effect = Math.round( hero.HT * 0.05f * quantity );
+
+		int heal = Math.min( hero.HT - hero.HP, effect );
 
 		heal += hero.pointsInTalent(Talent.HEALING_DEW);
 
-		int effect = Math.min( hero.HT - hero.HP, heal );
 		int shield = 0;
 		if (hero.hasTalent(Talent.SHIELDING_DEW)){
-			shield = heal - effect;
+
+			//When vial is present, this allocates exactly as much of the effect as is needed
+			// to get to 100% HP, and the rest is then given as shielding (without the vial boost)
+			if (quantity > 1 && heal < effect && VialOfBlood.delayBurstHealing()){
+				heal = Math.round(heal/VialOfBlood.totalHealMultiplier());
+			}
+
+			shield = effect - heal;
+
 			int maxShield = Math.round(hero.HT *0.2f*hero.pointsInTalent(Talent.SHIELDING_DEW));
 			int curShield = 0;
 			if (hero.buff(Barrier.class) != null) curShield = hero.buff(Barrier.class).shielding();
 			shield = Math.min(shield, maxShield-curShield);
 		}
-		if (effect > 0 || shield > 0) {
 
-			if (effect > 0 && quantity > 1 && VialOfBlood.delayBurstHealing()){
+		if (heal > 0 || shield > 0) {
+
+			if (heal > 0 && quantity > 1 && VialOfBlood.delayBurstHealing()){
 				Healing healing = Buff.affect(hero, Healing.class);
-				healing.setHeal(effect, 0, VialOfBlood.maxHealPerTurn());
+				healing.setHeal(heal, 0, VialOfBlood.maxHealPerTurn());
 				healing.applyVialEffect();
 			} else {
-				hero.HP += effect;
-				if (effect > 0){
-					hero.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString(effect), FloatingText.HEALING);
+				hero.HP += heal;
+				if (heal > 0){
+					hero.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString(heal), FloatingText.HEALING);
 				}
 			}
 

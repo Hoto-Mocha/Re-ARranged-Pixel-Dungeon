@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
@@ -93,10 +94,14 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			return !(item instanceof Elixir || item instanceof Brew);
 
 		//all regular or exotic scrolls, except itself (unless un-ided, in which case it was already consumed)
-		} else if (item instanceof Scroll){
+		} else if (item instanceof Scroll) {
 			return item != this || item.quantity() > 1 || identifiedByUse;
 
-		//all rings, wands, artifacts, trinkets, seeds, and runestones
+		//all non-unique artifacts (no holy tome or cloak of shadows, basically)
+		} else if (item instanceof Artifact) {
+			return !item.unique;
+
+		//all rings, wands, trinkets, seeds, and runestones
 		} else {
 			return item instanceof Ring || item instanceof Wand || item instanceof Artifact
 					|| item instanceof Trinket || item instanceof Plant.Seed || item instanceof Pill
@@ -157,6 +162,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			}
 			if (result.isIdentified()){
 				Catalog.setSeen(result.getClass());
+				Statistics.itemTypesDiscovered.add(result.getClass());
 			}
 			Transmuting.show(curUser, item, result);
 			curUser.sprite.emitter().start(Speck.factory(Speck.CHANGE), 0.2f, 10);

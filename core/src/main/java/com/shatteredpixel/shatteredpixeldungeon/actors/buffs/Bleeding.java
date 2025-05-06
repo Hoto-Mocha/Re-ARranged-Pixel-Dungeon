@@ -79,6 +79,11 @@ public class Bleeding extends Buff {
 		}
 	}
 
+	public void extend( float amount ) {
+		level += amount;
+	}
+	
+
 	public void add( float level ) {
 		add( level, null );
 	}

@@ -28,9 +28,15 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.Judgement;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.GuidingLight;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.HolyLance;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.HolyWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.Smite;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.Sunray;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CrystalWisp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM100;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Eye;
@@ -88,6 +94,13 @@ public class AntiMagic extends Armor.Glyph {
 		RESISTS.add( ScrollOfTeleportation.class );
 		RESISTS.add( HolyDart.class );
 
+		RESISTS.add( GuidingLight.class );
+		RESISTS.add( HolyWeapon.class );
+		RESISTS.add( Sunray.class );
+		RESISTS.add( HolyLance.class );
+		RESISTS.add( Smite.class );
+		RESISTS.add( Judgement.class );
+
 		RESISTS.add( ElementalBlast.class );
 		RESISTS.add( CursedWand.class );
 		RESISTS.add( WandOfBlastWave.class );
@@ -121,19 +134,18 @@ public class AntiMagic extends Armor.Glyph {
 	
 	@Override
 	public int proc(Armor armor, Char attacker, Char defender, int damage) {
-		//no proc effect, see:
-		// Hero.damage
-		// GhostHero.damage
-		// Shadowclone.damage
-		// ArmoredStatue.damage
-		// PrismaticImage.damage
+		//no proc effect, triggers in Char.damage
 		return damage;
 	}
 	
-	public static int drRoll( Char ch, int level ){
-		return Random.NormalIntRange(
-				Math.round(level * genericProcChanceMultiplier(ch)),
-				Math.round((3 + (level*1.5f)) * genericProcChanceMultiplier(ch)));
+	public static int drRoll( Char owner, int level ){
+		if (level == -1){
+			return 0;
+		} else {
+			return Random.NormalIntRange(
+					Math.round(level * genericProcChanceMultiplier(owner)),
+					Math.round((3 + (level * 1.5f)) * genericProcChanceMultiplier(owner)));
+		}
 	}
 
 	@Override

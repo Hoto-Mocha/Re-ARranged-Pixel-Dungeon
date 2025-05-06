@@ -172,6 +172,9 @@ public class Wandmaker extends NPC {
 				case DUELIST:
 					msg1 += Messages.get(this, "intro_duelist");
 					break;
+				case CLERIC:
+					msg1 += Messages.get(this, "intro_cleric");
+					break;
 				case GUNNER:
 					msg1 += Messages.get(this, "intro_gunner");
 					break;
@@ -181,12 +184,12 @@ public class Wandmaker extends NPC {
 				case ADVENTURER:
 					msg1 += Messages.get(this, "intro_adventurer");
 					break;
-//				case KNIGHT:
-//					msg1 += Messages.get(this, "intro_knight");
-//					break;
-//				case NURSE:
-//					msg1 += Messages.get(this, "intro_nurse");
-//					break;
+				case KNIGHT:
+					msg1 += Messages.get(this, "intro_knight");
+					break;
+				case NURSE:
+					msg1 += Messages.get(this, "intro_nurse");
+					break;
 			}
 
 			msg1 += Messages.get(this, "intro_1");

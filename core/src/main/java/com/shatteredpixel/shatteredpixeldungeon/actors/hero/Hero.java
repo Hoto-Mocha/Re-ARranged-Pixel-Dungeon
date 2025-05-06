@@ -44,8 +44,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FirstAidBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HeroDisguise;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invulnerability;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awakening;
@@ -57,7 +55,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cloaking;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
@@ -68,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fatigue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GreaterHaste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HeroDisguise;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
@@ -100,6 +98,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.cleric.AscendedForm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.adventurer.TreasureMap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
@@ -110,6 +109,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.Ange
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.HealingGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.BodyForm;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.HallowedGround;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.HolyWard;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.HolyWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.Smite;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
@@ -139,8 +143,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Afterimage;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Obfuscation;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
@@ -148,6 +151,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
@@ -202,6 +206,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.ChainFlail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Lance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.LanceNShield;
@@ -243,6 +248,7 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.Delayer;
+import com.watabou.utils.BArray;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
@@ -932,10 +938,10 @@ public class Hero extends Char {
 		return dmg;
 	}
 
-	//damage rolls that come from the hero can have their RNG influenced
+	//damage rolls that come from the hero can have their RNG influenced by clover
 	public static int heroDamageIntRange(int min, int max ){
-		if (Random.Float() < ThirteenLeafClover.combatDistributionInverseChance()){
-			return ThirteenLeafClover.invCombatRoll(min, max);
+		if (Random.Float() < ThirteenLeafClover.alterHeroDamageChance()){
+			return ThirteenLeafClover.alterDamageRoll(min, max);
 		} else {
 			return Random.NormalIntRange(min, max);
 		}
@@ -1034,6 +1040,15 @@ public class Hero extends Char {
 
 		if (wep != null){
 			return wep.canReach(this, enemy.pos);
+		} else if (buff(AscendedForm.AscendBuff.class) != null) {
+			boolean[] passable = BArray.not(Dungeon.level.solid, null);
+			for (Char ch : Actor.chars()) {
+				if (ch != this) passable[ch.pos] = false;
+			}
+
+			PathFinder.buildDistanceMap(enemy.pos, passable, 3);
+
+			return PathFinder.distance[pos] <= 3;
 		} else {
 			return false;
 		}
@@ -1918,56 +1933,25 @@ public class Hero extends Char {
 			damage *= 3f;
 		}
 
-		if (wep != null) damage = wep.proc( this, enemy, damage );
-
-		damage = Talent.onAttackProc( this, enemy, damage );
-
-		if (wep instanceof Weapon) {
-			if (Random.Float() < critChance(enemy, (Weapon)wep)) {
-				damage = criticalDamage(damage, (Weapon)wep, enemy);
-
-				Buff.affect(enemy, Sheath.CriticalAttack.class);
-
-				if (Sheath.isFlashSlash()) {
-					damage *= 1 + 0.15f * hero.pointsInTalent(Talent.POWERFUL_SLASH);
+		if (wep != null) {
+			damage = wep.proc( this, enemy, damage );
+		} else {
+			boolean wasEnemy = enemy.alignment == Alignment.ENEMY;
+			if (buff(BodyForm.BodyFormBuff.class) != null
+					&& buff(BodyForm.BodyFormBuff.class).enchant() != null){
+				damage = buff(BodyForm.BodyFormBuff.class).enchant().proc(new WornShortsword(), this, enemy, damage);
+			}
+			if (!wasEnemy || enemy.alignment == Alignment.ENEMY) {
+				if (buff(HolyWeapon.HolyWepBuff.class) != null) {
+					int dmg = subClass == HeroSubClass.PALADIN ? 6 : 2;
+					enemy.damage(Math.round(dmg * Weapon.Enchantment.genericProcChanceMultiplier(this)), HolyWeapon.INSTANCE);
 				}
-
-				Awakening awakening = hero.buff(Awakening.class);
-				if (awakening != null && awakening.isAwaken()) {
-					spend(-hero.attackDelay());
-					if (hero.hasTalent(Talent.STABLE_BARRIER)) {
-						int shield = 1;
-						int maxShield = Math.round(hero.HT * 0.2f * hero.pointsInTalent(Talent.STABLE_BARRIER));
-						int curShield = 0;
-						if (hero.buff(Barrier.class) != null) curShield = hero.buff(Barrier.class).shielding();
-						shield = Math.min(shield, maxShield-curShield);
-						if (shield > 0) {
-							Buff.affect(hero, Barrier.class).incShield(shield);
-							hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(Dewdrop.class, "shield", shield) );
-						}
-					}
-				}
-			} else {
-				if (Sheath.isFlashSlash()) {
-					Buff.prolong(hero, Sheath.FlashSlashCooldown.class, (30-5*hero.pointsInTalent(Talent.STATIC_PREPARATION))-1);
+				if (buff(Smite.SmiteTracker.class) != null) {
+					enemy.damage(Smite.bonusDmg(this, enemy), Smite.INSTANCE);
 				}
 			}
 		}
-
-		if (hero.buff(Sheath.DashAttackTracker.class) != null) {
-			if (hero.hasTalent(Talent.ACCELERATION)) {
-				Buff.prolong(hero, Sheath.DashAttackAcceleration.class, Sheath.DashAttackAcceleration.DURATION).hit();
-				Sheath.DashAttackAcceleration buff = hero.buff(Sheath.DashAttackAcceleration.class);
-				if (buff != null) {
-					damage *= buff.getDmgMulti();
-				}
-			}
-			if (hero.buff(Sheath.DashAttackAcceleration.class) != null) {
-				damage *= hero.buff(Sheath.DashAttackAcceleration.class).getDmgMulti();
-			}
-			hero.buff(Sheath.DashAttackTracker.class).detach();
-		}
-
+		
 		switch (subClass) {
 			case SNIPER:
 				if (wep instanceof MissileWeapon && !(wep instanceof SpiritBow.SpiritArrow) && enemy != this) {
@@ -1980,8 +1964,14 @@ public class Hero extends Char {
 						@Override
 						protected boolean act() {
 							if (enemy.isAlive()) {
-								int bonusTurns = hasTalent(Talent.SHARED_UPGRADES) ? wep.buffedLvl() : 0;
-								Buff.prolong(Hero.this, SnipersMark.class, SnipersMark.DURATION + bonusTurns).set(enemy.id(), bonusTurns);
+								if (hasTalent(Talent.SHARED_UPGRADES)){
+								int bonusTurns = wep.buffedLvl();
+								// bonus dmg is 2.5% x talent lvl x weapon level x weapon tier
+								float bonusDmg = wep.buffedLvl() * ((MissileWeapon) wep).tier * pointsInTalent(Talent.SHARED_UPGRADES) * 0.025f;
+									Buff.prolong(Hero.this, SnipersMark.class, SnipersMark.DURATION + bonusTurns).set(enemy.id(), bonusDmg);
+							} else {
+								Buff.prolong(Hero.this, SnipersMark.class, SnipersMark.DURATION).set(enemy.id(), 0);
+							}
 							}
 							Actor.remove(this);
 							return true;
@@ -2353,6 +2343,15 @@ public class Hero extends Char {
 		
 		if (belongings.armor() != null) {
 			damage = belongings.armor().proc( enemy, this, damage );
+		} else {
+			if (buff(BodyForm.BodyFormBuff.class) != null
+				&& buff(BodyForm.BodyFormBuff.class).glyph() != null){
+				damage = buff(BodyForm.BodyFormBuff.class).glyph().proc(new ClothArmor(), enemy, this, damage);
+			}
+			if (buff(HolyWard.HolyArmBuff.class) != null){
+				int blocking = subClass == HeroSubClass.PALADIN ? 3 : 1;
+				damage -= Math.round(blocking * Armor.Glyph.genericProcChanceMultiplier(enemy));
+			}
 		}
 
 		if (belongings.getItem(KnightsShield.class) != null) {
@@ -2410,7 +2409,20 @@ public class Hero extends Char {
 
 		return super.defenseProc( enemy, damage );
 	}
-	
+
+	@Override
+	public int glyphLevel(Class<? extends Armor.Glyph> cls) {
+		if (belongings.armor() != null && belongings.armor().hasGlyph(cls, this)){
+			return Math.max(super.glyphLevel(cls), belongings.armor.buffedLvl());
+		} else if (buff(BodyForm.BodyFormBuff.class) != null
+				&& buff(BodyForm.BodyFormBuff.class).glyph() != null
+				&& buff(BodyForm.BodyFormBuff.class).glyph().getClass() == cls){
+			return belongings.armor() != null ? belongings.armor.buffedLvl() : 0;
+		} else {
+			return super.glyphLevel(cls);
+		}
+	}
+
 	@Override
 	public void damage( int dmg, Object src ) {
 		if (buff(TimekeepersHourglass.timeStasis.class) != null
@@ -2429,19 +2441,22 @@ public class Hero extends Char {
 			GLog.w( Messages.get(this, "pain_resist") );
 		}
 
+		//temporarily assign to a float to avoid rounding a bunch
+		float damage = dmg;
+
 		Endure.EndureTracker endure = buff(Endure.EndureTracker.class);
 		if (!(src instanceof Char)){
 			//reduce damage here if it isn't coming from a character (if it is we already reduced it)
 			if (endure != null){
-				dmg = Math.round(endure.adjustDamageTaken(dmg));
+				damage = endure.adjustDamageTaken(dmg);
 			}
 			//the same also applies to challenge scroll damage reduction
 			if (buff(ScrollOfChallenge.ChallengeArena.class) != null){
-				dmg *= 0.67f;
+				damage *= 0.67f;
 			}
 			//and to monk meditate damage reduction
 			if (buff(MonkEnergy.MonkAbility.Meditate.MeditateResistance.class) != null){
-				dmg *= 0.2f;
+				damage *= 0.2f;
 			}
 			//고통 저항 버프 효과
 			if (buff(PainKiller.class) != null) {
@@ -2449,6 +2464,7 @@ public class Hero extends Char {
 			}
 		}
 
+		//unused, could be removed
 		CapeOfThorns.Thorns thorns = buff( CapeOfThorns.Thorns.class );
 		if (thorns != null) {
 			dmg = thorns.proc(dmg, (src instanceof Char ? (Char)src : null),  this);
@@ -2458,8 +2474,6 @@ public class Hero extends Char {
 		if (hero.hasTalent(Talent.PROTECTION)) {
 			dmg = (int)Math.ceil(dmg * (1 - hero.pointsInTalent(Talent.PROTECTION)/6f * ((float)(this.HT - this.HP)/this.HT)));
 		}
-
-		dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
 
 		LargeSword.LargeSwordBuff largeSwordBuff = hero.buff(LargeSword.LargeSwordBuff.class);
 		if (largeSwordBuff != null) {
@@ -2504,8 +2518,8 @@ public class Hero extends Char {
 		}
 
 		if (buff(Talent.WarriorFoodImmunity.class) != null){
-			if (pointsInTalent(Talent.IRON_STOMACH) == 1)       dmg = Math.round(dmg*0.25f);
-			else if (pointsInTalent(Talent.IRON_STOMACH) == 2)  dmg = Math.round(dmg*0.00f);
+			if (pointsInTalent(Talent.IRON_STOMACH) == 1)       damage /= 4f;
+			else if (pointsInTalent(Talent.IRON_STOMACH) == 2)  damage = 0;
 		}
 
 		if (buff(Tackle.SuperArmorTracker.class) != null) {
@@ -2523,6 +2537,9 @@ public class Hero extends Char {
 					break;
 			}
 		}
+
+		//we ceil this one to avoid letting the player easily take 0 dmg from tenacity early
+		dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
 
 		int preHP = HP + shielding();
 		if (src instanceof Hunger) preHP -= shielding();
@@ -2906,7 +2923,7 @@ public class Hero extends Char {
 
 		MasterThievesArmband.Thievery armband = buff(MasterThievesArmband.Thievery.class);
 		if (armband != null) armband.gainCharge(percent);
-		
+
 		Berserk berserk = buff(Berserk.class);
 		if (berserk != null) berserk.recover(percent);
 		
@@ -2924,6 +2941,12 @@ public class Hero extends Char {
 				buff(ElementalStrike.ElementalStrikeFurrowCounter.class).countDown(percent*20f);
 				if (buff(ElementalStrike.ElementalStrikeFurrowCounter.class).count() <= 0){
 					buff(ElementalStrike.ElementalStrikeFurrowCounter.class).detach();
+				}
+			}
+			if (buff(HallowedGround.HallowedFurrowTracker.class) != null){
+				buff(HallowedGround.HallowedFurrowTracker.class).countDown(percent*5f);
+				if (buff(HallowedGround.HallowedFurrowTracker.class).count() <= 0){
+					buff(HallowedGround.HallowedFurrowTracker.class).detach();
 				}
 			}
 		}
@@ -3043,9 +3066,22 @@ public class Hero extends Char {
 	@Override
 	public float stealth() {
 		float stealth = super.stealth();
-		
-		if (belongings.armor() != null){
-			stealth = belongings.armor().stealthFactor(this, stealth);
+
+		stealth += hero.pointsInTalent(Talent.STEALTH);
+
+		KindOfWeapon wep = belongings.weapon;
+		if (wep instanceof Gun) {
+			switch (((Gun) wep).attachMod) {
+				case NORMAL_ATTACH: default:
+					//no effect
+					break;
+				case LASER_ATTACH:
+					stealth -= 1;
+					break;
+				case FLASH_ATTACH:
+					stealth -= 2;
+					break;
+			}
 		}
 
 		if ((belongings.getItem(KnightsShield.class) != null && belongings.getItem(KnightsShield.class).hasGlyph(Obfuscation.class, this))) {
@@ -3581,8 +3617,10 @@ public class Hero extends Char {
 		for (Item i : belongings){
 			if (i instanceof EquipableItem && i.isEquipped(this)){
 				((EquipableItem) i).activate(this);
-			} else if (i instanceof CloakOfShadows && i.keptThroughLostInventory() && hasTalent(Talent.LIGHT_CLOAK)){
+			} else if (i instanceof CloakOfShadows && i.keptThroughLostInventory() && hasTalent(Talent.LIGHT_CLOAK)) {
 				((CloakOfShadows) i).activate(this);
+			} else if (i instanceof HolyTome  && i.keptThroughLostInventory() && hasTalent(Talent.LIGHT_READING)) {
+				((HolyTome) i).activate(this);
 			} else if (i instanceof Wand && i.keptThroughLostInventory()){
 				if (holster != null && holster.contains(i)){
 					((Wand) i).charge(this, MagicalHolster.HOLSTER_SCALE_FACTOR);

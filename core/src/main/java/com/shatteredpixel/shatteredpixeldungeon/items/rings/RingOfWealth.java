@@ -24,6 +24,8 @@ package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
@@ -50,12 +52,12 @@ import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class RingOfWealth extends Ring {
 
 	{
 		icon = ItemSpriteSheet.Icons.RING_WEALTH;
+		buffClass = Wealth.class;
 	}
 
 	private float triesToDrop = Float.MIN_VALUE;
@@ -110,31 +112,25 @@ public class RingOfWealth extends Ring {
 		int bonus = getBuffedBonus(target, Wealth.class);
 
 		if (bonus <= 0) return null;
-		
-		HashSet<Wealth> buffs = target.buffs(Wealth.class);
-		float triesToDrop = Float.MIN_VALUE;
-		int dropsToEquip = Integer.MIN_VALUE;
-		
-		//find the largest count (if they aren't synced yet)
-		for (Wealth w : buffs){
-			if (w.triesToDrop() > triesToDrop){
-				triesToDrop = w.triesToDrop();
-				dropsToEquip = w.dropsToRare();
-			}
+
+		CounterBuff triesToDrop = target.buff(TriesToDropTracker.class);
+		if (triesToDrop == null){
+			triesToDrop = Buff.affect(target, TriesToDropTracker.class);
+			triesToDrop.countUp( Random.NormalIntRange(0, 20) );
 		}
 
-		//reset (if needed), decrement, and store counts
-		if (triesToDrop == Float.MIN_VALUE) {
-			triesToDrop = Random.NormalIntRange(0, 20);
-			dropsToEquip = Random.NormalIntRange(5, 10);
+		CounterBuff dropsToEquip = target.buff(DropsToEquipTracker.class);
+		if (dropsToEquip == null){
+			dropsToEquip = Buff.affect(target, DropsToEquipTracker.class);
+			dropsToEquip.countUp( Random.NormalIntRange(5, 10) );
 		}
 
 		//now handle reward logic
 		ArrayList<Item> drops = new ArrayList<>();
 
-		triesToDrop -= tries;
-		while ( triesToDrop <= 0 ){
-			if (dropsToEquip <= 0){
+		triesToDrop.countDown(tries);
+		while ( triesToDrop.count() <= 0 ){
+			if (dropsToEquip.count() <= 0){
 				int equipBonus = 0;
 
 				//A second ring of wealth can be at most +1 when calculating wealth bonus for equips
@@ -153,22 +149,16 @@ public class RingOfWealth extends Ring {
 					i = genEquipmentDrop(equipBonus - 1);
 				} while (Challenges.isItemBlocked(i));
 				drops.add(i);
-				dropsToEquip = Random.NormalIntRange(5, 10);
+				dropsToEquip.countUp(Random.NormalIntRange(5, 10));
 			} else {
 				Item i;
 				do {
 					i = genConsumableDrop(bonus - 1);
 				} while (Challenges.isItemBlocked(i));
 				drops.add(i);
-				dropsToEquip--;
+				dropsToEquip.countDown(1);
 			}
-			triesToDrop += Random.NormalIntRange(0, 20);
-		}
-
-		//store values back into rings
-		for (Wealth w : buffs){
-			w.triesToDrop(triesToDrop);
-			w.dropsToRare(dropsToEquip);
+			triesToDrop.countUp( Random.NormalIntRange(0, 20) );
 		}
 		
 		return drops;
@@ -319,22 +309,17 @@ public class RingOfWealth extends Ring {
 	}
 
 	public class Wealth extends RingBuff {
-		
-		private void triesToDrop( float val ){
-			triesToDrop = val;
-		}
-		
-		private float triesToDrop(){
-			return triesToDrop;
-		}
+	}
 
-		private void dropsToRare( int val ) {
-			dropsToRare = val;
+	public static class TriesToDropTracker extends CounterBuff {
+		{
+			revivePersists = true;
 		}
+	}
 
-		private int dropsToRare(){
-			return dropsToRare;
+	public static class DropsToEquipTracker extends CounterBuff {
+		{
+			revivePersists = true;
 		}
-		
 	}
 }

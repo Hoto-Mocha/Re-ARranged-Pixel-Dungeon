@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.ClericSpell;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.TextureFilm;
 
@@ -34,7 +35,7 @@ public class HeroIcon extends Image {
 	private static final int SIZE = 16;
 
 	//transparent icon
-	public static final int NONE    = 119;
+	public static final int NONE    = 127;
 
 	//subclasses
 	public static final int BERSERKER   = 0;
@@ -213,6 +214,38 @@ public class HeroIcon extends Image {
 	public static final int COMMAND			= 142;
 //	public static final int 				= 143;
 
+//cleric spells
+	public static final int GUIDING_LIGHT   = 144;
+	public static final int HOLY_WEAPON     = 145;
+	public static final int HOLY_WARD       = 146;
+	public static final int HOLY_INTUITION  = 147;
+	public static final int SHIELD_OF_LIGHT = 148;
+	public static final int RECALL_GLYPH    = 149;
+	public static final int SUNRAY          = 150;
+	public static final int DIVINE_SENSE    = 151;
+	public static final int BLESS           = 152;
+	public static final int CLEANSE         = 153;
+	public static final int RADIANCE        = 154;
+	public static final int HOLY_LANCE      = 155;
+	public static final int HALLOWED_GROUND = 156;
+	public static final int MNEMONIC_PRAYER = 157;
+	public static final int SMITE           = 158;
+	public static final int LAY_ON_HANDS    = 159;
+	public static final int AURA_OF_PROTECTION = 160;
+	public static final int WALL_OF_LIGHT   = 161;
+	public static final int DIVINE_INTERVENTION = 162;
+	public static final int JUDGEMENT       = 163;
+	public static final int FLASH           = 164;
+	public static final int BODY_FORM       = 165;
+	public static final int MIND_FORM       = 166;
+	public static final int SPIRIT_FORM     = 167;
+	public static final int BEAMING_RAY     = 168;
+	public static final int LIFE_LINK       = 169;
+	public static final int STASIS          = 170;
+
+	//all cleric spells have a separate icon with no background for the action indicator
+	public static final int SPELL_ACTION_OFFSET      = 48;
+
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );
 		if (film == null){
@@ -235,6 +268,14 @@ public class HeroIcon extends Image {
 			film = new TextureFilm(texture, SIZE, SIZE);
 		}
 		frame(film.get(action.actionIcon()));
+	}
+
+	public HeroIcon(ClericSpell spell){
+		super( Assets.Interfaces.HERO_ICONS );
+		if (film == null){
+			film = new TextureFilm(texture, SIZE, SIZE);
+		}
+		frame(film.get(spell.icon()));
 	}
 
 }

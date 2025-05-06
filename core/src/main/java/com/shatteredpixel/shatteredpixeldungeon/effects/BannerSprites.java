@@ -27,18 +27,25 @@ import com.watabou.noosa.Image;
 public class BannerSprites {
 
 	public enum  Type {
-		PIXEL_DUNGEON,
+		TITLE_PORT,
+		TITLE_GLOW_PORT,
+		TITLE_LAND,
+		TITLE_GLOW_LAND,
 		BOSS_SLAIN,
 		GAME_OVER,
-		SELECT_YOUR_HERO,
-		PIXEL_DUNGEON_SIGNS
+		SELECT_YOUR_HERO
 	}
 
 	public static Image get( Type type ) {
 		Image icon = new Image( Assets.Interfaces.BANNERS );
 		switch (type) {
-			case PIXEL_DUNGEON:
-				icon.frame( icon.texture.uvRect( 0, 0, 132, 90 ) );
+			case TITLE_PORT:
+			case TITLE_LAND:
+				icon.frame( icon.texture.uvRect( 0, 0, 122, 92 ) );
+				break;
+			case TITLE_GLOW_PORT:
+			case TITLE_GLOW_LAND:
+				icon.frame( icon.texture.uvRect( 122, 0, 122, 92 ) );
 				break;
 			case BOSS_SLAIN:
 				icon.frame( icon.texture.uvRect( 0, 90, 128, 125 ) );
@@ -48,9 +55,6 @@ public class BannerSprites {
 				break;
 			case SELECT_YOUR_HERO:
 				icon.frame( icon.texture.uvRect( 0, 160, 128, 181 ) );
-				break;
-			case PIXEL_DUNGEON_SIGNS:
-				icon.frame( icon.texture.uvRect( 132, 0, 256, 90 ) );
 				break;
 		}
 		return icon;

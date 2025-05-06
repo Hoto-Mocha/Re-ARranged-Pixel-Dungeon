@@ -501,6 +501,8 @@ public enum Icons {
 				return new ItemSprite(ItemSpriteSheet.SPIRIT_BOW);
 			case DUELIST:
 				return new ItemSprite(ItemSpriteSheet.RAPIER);
+			case CLERIC:
+				return new ItemSprite(ItemSpriteSheet.ARTIFACT_TOME);
 			case GUNNER:
 				return new ItemSprite(ItemSpriteSheet.HG_T1);
 			case SAMURAI:

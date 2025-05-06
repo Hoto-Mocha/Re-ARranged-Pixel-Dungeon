@@ -67,6 +67,7 @@ public class Badges {
 		MASTERY_ROGUE,
 		MASTERY_HUNTRESS,
 		MASTERY_DUELIST,
+		MASTERY_CLERIC,
 		MASTERY_GUNNER,
 		MASTERY_SAMURAI,
 		MASTERY_ADVENTURER,
@@ -79,7 +80,7 @@ public class Badges {
 		UNLOCK_ROGUE                ( 2 ),
 		UNLOCK_HUNTRESS             ( 3 ),
 		UNLOCK_DUELIST              ( 4 ),
-		//UNLOCK_CLERIC             ( 5 ),
+		UNLOCK_CLERIC               ( 5 ),
 		MONSTERS_SLAIN_1            ( 6 ),
 		MONSTERS_SLAIN_2            ( 7 ),
 		GOLD_COLLECTED_1            ( 8 ),
@@ -131,6 +132,7 @@ public class Badges {
 		BOSS_SLAIN_1_ROGUE,
 		BOSS_SLAIN_1_HUNTRESS,
 		BOSS_SLAIN_1_DUELIST,
+		BOSS_SLAIN_1_CLERIC,
 		BOSS_SLAIN_1_GUNNER,
 		BOSS_SLAIN_1_SAMURAI,
 		BOSS_SLAIN_1_ADVENTURER,
@@ -188,6 +190,7 @@ public class Badges {
 		VICTORY_ROGUE,
 		VICTORY_HUNTRESS,
 		VICTORY_DUELIST,
+		VICTORY_CLERIC,
 		VICTORY_GUNNER,
 		VICTORY_SAMURAI,
 		VICTORY_ADVENTURER,
@@ -214,6 +217,10 @@ public class Badges {
 		BOSS_SLAIN_3_CHAMPION,
 		BOSS_SLAIN_3_MONK,
 		BOSS_SLAIN_3_FENCER,
+
+		BOSS_SLAIN_3_PRIEST,
+		BOSS_SLAIN_3_PALADIN,
+
 
 		BOSS_SLAIN_3_OUTLAW,
 		BOSS_SLAIN_3_GUNSLINGER,
@@ -838,6 +845,7 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.ROGUE, Badge.BOSS_SLAIN_1_ROGUE);
 		firstBossClassBadges.put(HeroClass.HUNTRESS, Badge.BOSS_SLAIN_1_HUNTRESS);
 		firstBossClassBadges.put(HeroClass.DUELIST, Badge.BOSS_SLAIN_1_DUELIST);
+		firstBossClassBadges.put(HeroClass.CLERIC, Badge.BOSS_SLAIN_1_CLERIC);
 		firstBossClassBadges.put(HeroClass.GUNNER, Badge.BOSS_SLAIN_1_GUNNER);
 		firstBossClassBadges.put(HeroClass.SAMURAI, Badge.BOSS_SLAIN_1_SAMURAI);
 		firstBossClassBadges.put(HeroClass.ADVENTURER, Badge.BOSS_SLAIN_1_ADVENTURER);
@@ -852,6 +860,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.ROGUE, Badge.VICTORY_ROGUE);
 		victoryClassBadges.put(HeroClass.HUNTRESS, Badge.VICTORY_HUNTRESS);
 		victoryClassBadges.put(HeroClass.DUELIST, Badge.VICTORY_DUELIST);
+		victoryClassBadges.put(HeroClass.CLERIC, Badge.VICTORY_CLERIC);
 		victoryClassBadges.put(HeroClass.GUNNER, Badge.VICTORY_GUNNER);
 		victoryClassBadges.put(HeroClass.SAMURAI, Badge.VICTORY_SAMURAI);
 		victoryClassBadges.put(HeroClass.ADVENTURER, Badge.VICTORY_ADVENTURER);
@@ -876,6 +885,9 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.CHAMPION, Badge.BOSS_SLAIN_3_CHAMPION);
 		thirdBossSubclassBadges.put(HeroSubClass.MONK, Badge.BOSS_SLAIN_3_MONK);
 		thirdBossSubclassBadges.put(HeroSubClass.FENCER, Badge.BOSS_SLAIN_3_FENCER);
+		thirdBossSubclassBadges.put(HeroSubClass.PRIEST, Badge.BOSS_SLAIN_3_PRIEST);
+		thirdBossSubclassBadges.put(HeroSubClass.PALADIN, Badge.BOSS_SLAIN_3_PALADIN);
+
 		thirdBossSubclassBadges.put(HeroSubClass.OUTLAW, Badge.BOSS_SLAIN_3_OUTLAW);
 		thirdBossSubclassBadges.put(HeroSubClass.GUNSLINGER, Badge.BOSS_SLAIN_3_GUNSLINGER);
 		thirdBossSubclassBadges.put(HeroSubClass.SPECIALIST, Badge.BOSS_SLAIN_3_SPECIALIST);
@@ -1010,6 +1022,9 @@ public class Badges {
 			case DUELIST:
 				badge = Badge.MASTERY_DUELIST;
 				break;
+			case CLERIC:
+				badge = Badge.MASTERY_CLERIC;
+				break;
 			case GUNNER:
 				badge = Badge.MASTERY_GUNNER;
 				break;
@@ -1066,6 +1081,12 @@ public class Badges {
 					((MeleeWeapon) Dungeon.hero.belongings.weapon).STRReq(0) <= Dungeon.hero.STR()){
 				displayBadge(Badge.UNLOCK_DUELIST);
 			}
+		}
+	}
+
+	public static void validateClericUnlock(){
+		if (!isUnlocked(Badge.UNLOCK_CLERIC)){
+			displayBadge( Badge.UNLOCK_CLERIC );
 		}
 	}
 
@@ -1136,6 +1157,7 @@ public class Badges {
 			Badge badge = Badge.NO_MONSTERS_SLAIN;
 			local.add( badge );
 			displayBadge( badge );
+			Statistics.completedWithNoKilling = false;
 		}
 	}
 	

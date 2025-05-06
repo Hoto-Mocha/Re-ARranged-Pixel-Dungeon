@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DwarfKing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Ghoul;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Statue;
@@ -96,9 +97,11 @@ public class Multiplicity extends Armor.Glyph {
 							m.HP = m.HT;
 
 							//don't duplicate stuck projectiles
-							m.remove(m.buff(PinCushion.class));
+							m.remove(PinCushion.class);
 							//don't duplicate pending damage to dwarf king
 							m.remove(DwarfKing.KingDamager.class);
+							//don't duplicate downed ghouls
+							m.remove(Ghoul.GhoulLifeLink.class);
 							
 							//If a thief has stolen an item, that item is not duplicated.
 							if (m instanceof Thief) {
