@@ -105,6 +105,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -416,7 +417,7 @@ public enum Talent {
 	//Paladin T3
 	LAY_ON_HANDS				(19, 5, 3),
 	AURA_OF_PROTECTION			(20, 5, 3),
-	WALL_OF_LIGHT				(20, 5, 3),
+	WALL_OF_LIGHT				(21, 5, 3),
 
 
 
@@ -632,7 +633,7 @@ public enum Talent {
 	//HolyShield T4
 	BUFFER_BARRIER				(31, 9, 4),
 	HOLY_LIGHT					(32, 9, 4),
-	BLESS						(33, 9, 4),
+	BLESSING					(33, 9, 4),
 	//StimPack T4
 	BURDEN_RELIEF				(34, 9, 4),
 	LASTING_PACK				(35, 9, 4),

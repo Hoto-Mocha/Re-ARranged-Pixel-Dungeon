@@ -100,7 +100,7 @@ public class Blacksmith extends NPC {
 				case SAMURAI:   msg1 += Messages.get(Blacksmith.this, "intro_quest_samurai"); break;
 				case ADVENTURER:msg1 += Messages.get(Blacksmith.this, "intro_quest_adventurer"); break;
   				case KNIGHT:   	msg1 += Messages.get(Blacksmith.this, "intro_quest_knight"); break;
-  				case NURSE:   	msg1 += Messages.get(Blacksmith.this, "intro_quest_nurse"); break;
+				case MEDIC:   	msg1 += Messages.get(Blacksmith.this, "intro_quest_medic"); break;
 			}
 
 			msg1 += "\n\n" + Messages.get(Blacksmith.this, "intro_quest_start");

@@ -560,7 +560,7 @@ public class Generator {
 					Dagger.class,
 					Gloves.class,
 					Rapier.class,
-					Cudgel.class,,
+					Cudgel.class,
 					WornKatana.class,
 					AR_T1.class,
 					Shovel.class,

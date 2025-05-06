@@ -69,7 +69,7 @@ public class Hunger extends Buff implements Hero.Doom {
 				|| SPDSettings.intro()
 				|| target.buff(ScrollOfChallenge.ChallengeArena.class) != null
 				|| (Dungeon.hero.pointsInTalent(Talent.STEALTH_MASTER) > 2 && Dungeon.hero.buff(Cloaking.class) != null)){
-			spend(STEP);
+			spend(TICK);
 			return true;
 		}
 

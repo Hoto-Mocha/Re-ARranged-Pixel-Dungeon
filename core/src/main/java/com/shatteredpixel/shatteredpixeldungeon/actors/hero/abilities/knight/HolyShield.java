@@ -53,8 +53,8 @@ public class HolyShield extends ArmorAbility {
 		if (hero.hasTalent(Talent.HOLY_LIGHT)) {
 			Buff.affect(hero, Light.class, 25*hero.pointsInTalent(Talent.HOLY_LIGHT));
 		}
-		if (hero.hasTalent(Talent.BLESS)) {
-			Buff.affect(hero, Bless.class, 5*hero.pointsInTalent(Talent.BLESS));
+		if (hero.hasTalent(Talent.BLESSING)) {
+			Buff.affect(hero, Bless.class, 5*hero.pointsInTalent(Talent.BLESSING));
 		}
 		hero.sprite.operate(hero.pos);
 		Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
@@ -73,6 +73,6 @@ public class HolyShield extends ArmorAbility {
 
 	@Override
 	public Talent[] talents() {
-		return new Talent[]{Talent.BUFFER_BARRIER, Talent.HOLY_LIGHT, Talent.BLESS, Talent.HEROIC_ENERGY};
+		return new Talent[]{Talent.BUFFER_BARRIER, Talent.HOLY_LIGHT, Talent.BLESSING, Talent.HEROIC_ENERGY};
 	}
 }

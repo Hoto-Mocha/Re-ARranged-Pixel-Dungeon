@@ -109,7 +109,7 @@ public class DriedRose extends Artifact {
 	private MeleeWeapon weapon = null;
 	private Armor armor = null;
 
-	private static boolean autoReload = false;
+	private boolean autoReload = false;
 
 	public int droppedPetals = 0;
 
@@ -224,6 +224,17 @@ public class DriedRose extends Artifact {
 			
 		} else if (action.equals(AC_OUTFIT)){
 			GameScene.show( new WndGhostHero(this) );
+		} else if (action.equals(AC_AUTO_RELOAD)) {
+			autoReload = !autoReload;
+			if (ghost != null) {
+				if (autoReload) {
+					ghost.yell(Messages.get(this, "auto_reload_on"));
+					Sample.INSTANCE.play( Assets.Sounds.GHOST );
+				} else {
+					ghost.yell(Messages.get(this, "auto_reload_off"));
+					Sample.INSTANCE.play( Assets.Sounds.GHOST );
+				}
+			}
 		}
 	}
 
@@ -238,28 +249,7 @@ public class DriedRose extends Artifact {
 			} else {
 				ghostID = 0;
 			}
-				Actor a = Actor.findById(ghostID);
-				if (a != null){
-					ghost = (GhostHero)a;
-				} else {
-					ghostID = 0;
-				}
-			}
 			if (ghost != null) GameScene.selectCell(ghostDirector);
-
-		} else if (action.equals(AC_OUTFIT)){
-			GameScene.show( new WndGhostHero(this) );
-		} else if (action.equals(AC_AUTO_RELOAD)) {
-			autoReload = !autoReload;
-			if (ghost != null) {
-				if (autoReload) {
-					ghost.yell(Messages.get(this, "auto_reload_on"));
-					Sample.INSTANCE.play( Assets.Sounds.GHOST );
-				} else {
-					ghost.yell(Messages.get(this, "auto_reload_off"));
-					Sample.INSTANCE.play( Assets.Sounds.GHOST );
-				}
-			}
 		}
 	}
 
@@ -800,7 +790,7 @@ public class DriedRose extends Artifact {
 				((Gun)rose.weapon).useRound();
 			}
 
-			if (DriedRose.autoReload) {
+			if (rose.autoReload) {
 				tryReload(true);
 			}
 

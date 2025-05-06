@@ -456,15 +456,15 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 				if (parent != null) {
 					aura.show(this, 0);
-					case JUDGED:
+				}
+				break;
+			case JUDGED:
 				judged = emitter();
 				judged.pour(LightParticle.UP, 0.1f);
 				break;
 			case ELECTRIC:
 				electric = emitter();
 				electric.pour( SparkParticle.STATIC, 0.06f );
-				break;
-		}
 				break;
 		}
 	}
@@ -476,10 +476,6 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 			stateAdditions.remove(state);
 			stateRemovals.add(state);
 		}
-	}
-
-	public void clearAura(){
-		remove(State.AURA);
 	}
 
 	protected synchronized void processStateRemoval( State state ) {
@@ -577,22 +573,6 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 					electric = null;
 				}
 				break;
-		}
-	}
-
-	public void aura( int color ){
-		if (aura != null){
-			aura.killAndErase();
-		}
-		float size = Math.max(width(), height());
-		size = Math.max(size+4, 16);
-		aura = new Flare(5, size);
-		aura.angularSpeed = 90;
-		aura.color(color, true);
-		aura.visible = visible;
-
-		if (parent != null) {
-			aura.show(this, 0);
 		}
 	}
 

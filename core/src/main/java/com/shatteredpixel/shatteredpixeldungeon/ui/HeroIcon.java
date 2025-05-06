@@ -63,8 +63,8 @@ public class HeroIcon extends Image {
 	public static final int FENCER		= 18;
 //	public static final int 			= 19;
 
-//	public static final int 			= 20;
-//	public static final int 			= 21;
+	public static final int PRIEST		= 20;
+	public static final int PALADIN		= 21;
 //	public static final int 			= 22;
 //	public static final int 			= 23;
 
@@ -125,9 +125,9 @@ public class HeroIcon extends Image {
 	public static final int FEINT           = 66;
 //	public static final int 				= 67;
 
-//	public static final int 				= 68;
-//	public static final int 				= 69;
-//	public static final int 				= 70;
+	public static final int ASCENDED_FORM	= 68;
+	public static final int TRINITY      	= 69;
+	public static final int POWER_OF_MANY	= 70;
 //	public static final int 				= 71;
 
 	//new abilities
