@@ -396,14 +396,14 @@ public enum Talent {
 	HOLY_INTUITION				(1, 5),
 	SEARING_LIGHT				(2, 5),
 	SHIELD_OF_LIGHT				(3, 5),
-
+	WARDING_LIGHT				(4, 5),
 	//Cleric T2
 	ENLIGHTENING_MEAL			(5, 5),
 	RECALL_INSCRIPTION			(6, 5),
 	SUNRAY						(7, 5),
 	DIVINE_SENSE				(8, 5),
 	BLESS						(9, 5),
-
+	DIVINE_BLAST				(10, 5),
 	//Cleric T3
 	CLEANSE						(11, 5, 3),
 	LIGHT_READING				(12, 5, 3),
@@ -411,23 +411,23 @@ public enum Talent {
 	HOLY_LANCE					(13, 5, 3),
 	HALLOWED_GROUND				(14, 5, 3),
 	MNEMONIC_PRAYER				(15, 5, 3),
-
-
-
+	DIVINE_RAY					(16, 5, 3),
+	HOLY_BOMB					(17, 5, 3),
+	RESURRECTION				(18, 5, 3),
 	//Paladin T3
 	LAY_ON_HANDS				(19, 5, 3),
 	AURA_OF_PROTECTION			(20, 5, 3),
 	WALL_OF_LIGHT				(21, 5, 3),
-
-
-
-	//
-
-
-
-
-
-
+	HOLY_MANTLE	 				(22, 5, 3),
+	POWER_OF_LIFE				(23, 5, 3),
+	INDUCE_AGGRO 				(24, 5, 3),
+	//Enchanter T3
+	TIME_AMP	   				(25, 5, 3),
+	WEAKENING_HEX  				(26, 5, 3),
+	STUN		   				(27, 5, 3),
+	ELEMENTAL_IMBUE				(28, 5, 3),
+	ARCANE_ARMOR 				(29, 5, 3),
+	ENCHANT		   				(30, 5, 3),
 	//Ascended Form T4
 	DIVINE_INTERVENTION			(31, 5, 4),
 	JUDGEMENT					(32, 5, 4),
@@ -2372,7 +2372,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SCAR_ATTACK, DOCTORS_INTUITION, FINISH_ATTACK, FIRST_AID_TREAT, BREAKTHROUGH);
 				break;
 			case CLERIC:
-				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT);
+				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT, WARDING_LIGHT);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -2416,7 +2416,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, HEALING_MEAL, RECYCLING, HIGH_POWER, RADIATION, STRONG_HEALPOWER, DIET);
 				break;
 			case CLERIC:
-				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS);
+				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS, DIVINE_BLAST);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -2537,14 +2537,14 @@ public enum Talent {
 				Collections.addAll(tierTalents, CLAM_STEPS, CRITICAL_MOMENTUM, KINETIC_MOVEMENT, AGGRESSIVE_MOVEMENT, UNENCUMBERED_MOVEMENT, SOULIZE );
 				break;
 			case PRIEST:
-				Collections.addAll(tierTalents, HOLY_LANCE, HALLOWED_GROUND, MNEMONIC_PRAYER);
+				Collections.addAll(tierTalents, HOLY_LANCE, HALLOWED_GROUND, MNEMONIC_PRAYER, DIVINE_RAY, HOLY_BOMB, RESURRECTION );
 				break;
 			case PALADIN:
-				Collections.addAll(tierTalents, LAY_ON_HANDS, AURA_OF_PROTECTION, WALL_OF_LIGHT);
+				Collections.addAll(tierTalents, LAY_ON_HANDS, AURA_OF_PROTECTION, WALL_OF_LIGHT, HOLY_MANTLE, POWER_OF_LIFE, INDUCE_AGGRO );
 				break;
-
-
-
+			case ENCHANTER:
+				Collections.addAll(tierTalents, TIME_AMP, WEAKENING_HEX, STUN, ELEMENTAL_IMBUE, ARCANE_ARMOR, ENCHANT );
+				break;
 			case OUTLAW:
 				Collections.addAll(tierTalents, ROLLING, PERFECT_FOCUSING, HONORABLE_SHOT, BULLET_TIME, INEVITABLE_DEATH, HEADSHOT );
 				break;

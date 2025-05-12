@@ -65,7 +65,7 @@ public class HeroIcon extends Image {
 
 	public static final int PRIEST		= 20;
 	public static final int PALADIN		= 21;
-//	public static final int 			= 22;
+	public static final int ENCHANTER	= 22;
 //	public static final int 			= 23;
 
 	//new classes
@@ -242,6 +242,21 @@ public class HeroIcon extends Image {
 	public static final int BEAMING_RAY     = 168;
 	public static final int LIFE_LINK       = 169;
 	public static final int STASIS          = 170;
+//cleric new spells
+	public static final int DIVINE_BLAST	= 171;
+	public static final int DIVINE_RAY	    = 172;
+	public static final int HOLY_BOMB	    = 173;
+	public static final int RESURRECTION    = 174;
+	public static final int HOLY_MANTLE	    = 175;
+	public static final int POWER_OF_LIFE   = 176;
+	public static final int INDUCE_AGGRO    = 178;
+	public static final int SPELL_BLAST	    = 179;
+	public static final int TIME_AMP	    = 180;
+	public static final int WEAKENING_HEX   = 181;
+	public static final int STUN		    = 182;
+	public static final int ELEMENTAL_IMBUE = 183;
+	public static final int ARCANE_ARMOR 	= 184;
+	public static final int ENCHANT		    = 185;
 
 	//all cleric spells have a separate icon with no background for the action indicator
 	public static final int SPELL_ACTION_OFFSET      = 48;
