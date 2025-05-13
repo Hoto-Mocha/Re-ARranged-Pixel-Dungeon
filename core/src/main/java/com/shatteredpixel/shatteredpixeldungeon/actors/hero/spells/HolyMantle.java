@@ -57,7 +57,7 @@ public class HolyMantle extends TargetedClericSpell {
         }
 
         public static float damageReduction(float damage) {
-            return damage * (1-(1+Dungeon.hero.pointsInTalent(Talent.HOLY_MANTLE)/4f));
+            return Math.max(0, damage * (1 - 0.25f * (1+Dungeon.hero.pointsInTalent(Talent.HOLY_MANTLE))));
         }
 
         @Override
