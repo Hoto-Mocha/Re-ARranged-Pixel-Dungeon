@@ -114,6 +114,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.BodyForm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.HallowedGround;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.HolyWard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.HolyWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.Resurrection;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.Smite;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -1927,14 +1928,7 @@ public class Hero extends Char {
 			wep = belongings.attackingWeapon();
 		}
 
-		if (hero.buff(MeleeWeapon.DashAttack.class) != null) {
-			damage *= hero.buff(MeleeWeapon.DashAttack.class).getDmgMulti();
-			hero.buff(MeleeWeapon.DashAttack.class).detach();
-		}
-
-		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
-			damage *= 3f;
-		}
+		damage = Talent.onAttackProc(hero, enemy, damage);
 
 		if (wep != null) {
 			damage = wep.proc( this, enemy, damage );
@@ -1953,6 +1947,18 @@ public class Hero extends Char {
 					enemy.damage(Smite.bonusDmg(this, enemy), Smite.INSTANCE);
 				}
 			}
+		}
+
+		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
+			damage *= 3;
+		}
+
+		if (Dungeon.isChallenged(Challenges.PYRO)) {
+			Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
+		}
+
+		if (Dungeon.isChallenged(Challenges.FATIGUE)) {
+			Buff.affect(hero, Fatigue.class).hit(true);
 		}
 		
 		switch (subClass) {
@@ -2110,141 +2116,15 @@ public class Hero extends Char {
 			default:
 		}
 
-		if (Random.Float() < hero.pointsInTalent(Talent.MADNESS)/10f) {
-			Buff.prolong(enemy, Amok.class, 3f);
-		}
-
-		SpellBook.SpellBookCoolDown spellBookCoolDown = buff(SpellBook.SpellBookCoolDown.class);
-		if (hero.hasTalent(Talent.BRIG_BOOST) && spellBookCoolDown != null) {
-			spellBookCoolDown.hit(hero.pointsInTalent(Talent.BRIG_BOOST));
-		}
-
-		if (hero.buff(Bible.Angel.class) != null) {
-			hero.heal(Math.max(Math.round(0.2f*damage), 1));
-		}
-
-		if (hero.buff(UnholyBible.Demon.class) != null) {
-			damage *= 1.33f;
-		}
-
-		if (hero.buff(DualDagger.ReverseBlade.class) != null) {
-			damage *= 0.5f;
-			Buff.affect(enemy, Bleeding.class).add(Random.NormalIntRange(1, 3));
-			if (enemy.sprite.visible) {
-				Splash.at( enemy.sprite.center(), -PointF.PI / 2, PointF.PI / 6,
-						enemy.sprite.blood(), Math.min( 10 * Random.NormalIntRange(1, 3) / enemy.HT, 10 ) );
-			}
-		}
-
-		if (hero.buff(Awakening.class) != null && hero.buff(Awakening.class).isAwaken()) {
-			damage *= 0.5f;
-		}
-
-		if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null) {
-			damage *= 0.5f;
-		}
-
-		if (hero.hasTalent(Talent.BIOLOGY_PROJECT)) {
-			if (!(enemy.properties().contains(Property.INORGANIC) || enemy.properties().contains(Property.UNDEAD))){
-				enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 3 );
-				Sample.INSTANCE.play(Assets.Sounds.BURNING);
-
-				damage *= Math.pow(1.1f, hero.pointsInTalent(Talent.BIOLOGY_PROJECT));
-			}
-		}
-
-		if (hero.belongings.attackingWeapon() instanceof MeleeWeapon && hero.heroClass != HeroClass.ADVENTURER && hero.hasTalent(Talent.LONG_MACHETE)) {
-			int dist = level.distance(hero.pos, enemy.pos)-1;
-			dist = Math.min(dist, hero.pointsInTalent(Talent.LONG_MACHETE));
-			damage = (int)Math.round(damage * Math.pow(0.8f, dist));
-		}
-
-		if (hero.buff(TreasureMap.GoldTracker.class) != null) {
-			damage *= 1 + 0.1f * hero.pointsInTalent(Talent.GOLD_HUNTER);
-			hero.buff(TreasureMap.GoldTracker.class).detach();
-		}
-
-		//attacking procs
-		HealingGenerator.RegenBuff regenBuff = hero.buff(HealingGenerator.RegenBuff.class);
-		if (regenBuff != null) {
-			regenBuff.attackProc();
-		}
-
-		if (hero.hasTalent(Talent.BAYONET) && hero.buff(ReinforcedArmor.ReinforcedArmorTracker.class) != null){
-			if (wep instanceof Gun) {
-				Buff.affect( enemy, Bleeding.class ).set( 4 + hero.pointsInTalent(Talent.BAYONET));
-			}
-		}
-
-		if (Dungeon.isChallenged(Challenges.PYRO)) {
-			Buff.affect(enemy, Burning.class).reignite(enemy, 8f);
-		}
-
-		if (Dungeon.isChallenged(Challenges.FATIGUE)) {
-			Buff.affect(this, Fatigue.class).hit(true);
-		}
-
-		if (hero.subClass == HeroSubClass.SLASHER) {
-			Buff.affect(hero, SwordAura.class).hit(damage);
-		}
-
-
-		if (hero.subClass == HeroSubClass.RESEARCHER && Random.Float() < 0.2f) {
-			Buff.affect(enemy, Ooze.class).set(Ooze.DURATION/4f * (1+0.5f*hero.pointsInTalent(Talent.POWERFUL_ACID)));
-		}
-
-		if (buff(TreasureMap.LuckTracker.class) != null
-				&& enemy.HP <= damage) {
-			Buff.affect(enemy, Lucky.LuckProc.class);
-		}
-
-		if (buff(Sheath.CertainCrit.class) != null) {
-			buff(Sheath.CertainCrit.class).hit();
-		}
-
-		if (hero.subClass == HeroSubClass.CRUSADER && hero.buff(Bless.class) != null) {
-			int healAmt = Math.round(damage*0.4f);
-			int excessHeal = healAmt - (hero.HT - hero.HP);
-			hero.heal(healAmt);
-			if (hero.hasTalent(Talent.HOLY_SHIELD) && excessHeal > 0) {
-				int maxShield = Math.round(hero.HT*0.2f*hero.pointsInTalent(Talent.HOLY_SHIELD));
-				Barrier barrier = hero.buff(Barrier.class);
-				if (barrier != null) {
-					if (barrier.shielding()+excessHeal > maxShield) {
-						excessHeal = maxShield - barrier.shielding(); //방어막을 얻을 때 최대치를 넘길 경우 얻을 방어막의 양을 감소시킴
-						Buff.affect(hero, Barrier.class).setShield(excessHeal);
-					} else {
-						Buff.affect(hero, Barrier.class).setShield(excessHeal);
-					}
-				} else {
-					Buff.affect(hero, Barrier.class).setShield(Math.min(excessHeal, maxShield));
-				}
-			}
-		}
-
-		if (hero.buff(Pray.Punishment.class) != null) {
-			hero.buff(Pray.Punishment.class).hit(enemy, damage);
-		}
-
-		if (hero.belongings.attackingWeapon() instanceof Gun && hasTalent(Talent.BULLET_COLLECT)) {
-			if (Random.Float() < 0.05f * hero.pointsInTalent(Talent.BULLET_COLLECT)) {
-				((Gun)hero.belongings.attackingWeapon()).manualReload(1, true);
-			}
-		}
-
-		if (hero.buff(WeaponEnhance.class) != null) {
-			hero.buff(WeaponEnhance.class).attackProc();
-		}
-
 		if (Dungeon.isChallenged(Challenges.MUTATION) //돌연변이 챌린지 활성화 시
 				&& !(enemy instanceof Thief && ((Thief)enemy).item != null) //도적류 적인데 훔친 물건이 있다면 발동하지 않음
 				&& ( //보스, 미니보스, 보스 사역마, 석상류, 미믹류 적이 아닌 적에게만 발동
-					!Char.hasProp(enemy, Property.BOSS)
-					&& !Char.hasProp(enemy, Property.MINIBOSS)
-					&& !Char.hasProp(enemy, Property.BOSS_MINION)
-					&& !(enemy instanceof Statue)
-					&& !(enemy instanceof Mimic)
-				)
+				!Char.hasProp(enemy, Char.Property.BOSS)
+						&& !Char.hasProp(enemy, Char.Property.MINIBOSS)
+						&& !Char.hasProp(enemy, Char.Property.BOSS_MINION)
+						&& !(enemy instanceof Statue)
+						&& !(enemy instanceof Mimic)
+		)
 				&& enemy.alignment == Char.Alignment.ENEMY //적으로 분류되는 적에게만 발동
 				&& damage < enemy.HP //공격으로 입힌 피해보다 적의 체력이 높을 때에만 발동
 				&& Dungeon.depth % 5 != 0 //현재 층이 보스층이면 발동하지 않음
@@ -2262,8 +2142,8 @@ public class Hero extends Char {
 
 			switch (region) { //지역별로 나올 수 있는 일반 몹들 중 랜덤하게 하나를 추출
 				case 1: default:
-                    //noinspection unchecked
-                    newEnemy = Reflection.newInstance((Class<Mob>) Random.oneOf(Challenges.enemyListR1.toArray()));
+					//noinspection unchecked
+					newEnemy = Reflection.newInstance((Class<Mob>) Random.oneOf(Challenges.enemyListR1.toArray()));
 					break;
 				case 2:
 					//noinspection unchecked
@@ -3112,6 +2992,25 @@ public class Hero extends Char {
 			if (buff(SoulCollect.class).soulUsed(this)) {
 				return;
 			}
+		}
+
+		if (buff(Resurrection.ResurrectionBuff.class) != null) {
+			interrupt();
+			this.HP = Math.max(1, HT / 10);
+
+			PotionOfHealing.cure(this);
+			Buff.prolong(this, Invulnerability.class, Invulnerability.DURATION);
+
+			SpellSprite.show(this, SpellSprite.ANKH);
+			GameScene.flash(0x80FFFF40);
+			Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
+			GLog.w(Messages.get(this, "revive"));
+			Catalog.countUse(Ankh.class);
+
+			buff(Resurrection.ResurrectionBuff.class).detach();
+			Buff.affect(this, Resurrection.ResurrectionCooldown.class, Resurrection.ResurrectionCooldown.DURATION);
+			
+			return;
 		}
 		
 		curAction = null;

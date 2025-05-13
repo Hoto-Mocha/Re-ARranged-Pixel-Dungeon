@@ -23,7 +23,6 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
-import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -33,10 +32,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awakening;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
@@ -49,19 +50,27 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Pray;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RadioactiveMutation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SwordAura;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.adventurer.TreasureMap;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.ReinforcedArmor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.medic.HealingGenerator;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.ShadowBlade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.DivineSense;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.PowerOfLife;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.RecallInscription;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.WatchTower;
@@ -70,6 +79,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.TalentSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
@@ -77,6 +87,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.BulletItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -90,12 +101,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.Elixir;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.SpellBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
@@ -104,9 +116,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualDagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.UnholyBible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -121,7 +137,6 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TalentIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
@@ -129,8 +144,8 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
-import com.watabou.utils.Reflection;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -1927,24 +1942,35 @@ public enum Talent {
 		}
 	}
 
-	public static int onAttackProc( Hero hero, Char enemy, int dmg ){
+	public static int onAttackProc( Hero hero, Char enemy, int damage ){
+		KindOfWeapon wep;
+		if (RingOfForce.fightingUnarmed(hero) && !RingOfForce.unarmedGetsWeaponEnchantment(hero)){
+			wep = null;
+		} else {
+			wep = hero.belongings.attackingWeapon();
+		}
+
+		if (hero.buff(MeleeWeapon.DashAttack.class) != null) {
+			damage = Math.round(damage * hero.buff(MeleeWeapon.DashAttack.class).getDmgMulti());
+			hero.buff(MeleeWeapon.DashAttack.class).detach();
+		}
 
 		if (hero.hasTalent(Talent.PROVOKED_ANGER)
 			&& hero.buff(ProvokedAngerTracker.class) != null){
-			dmg += 1 + hero.pointsInTalent(Talent.PROVOKED_ANGER);
+			damage += 1 + hero.pointsInTalent(Talent.PROVOKED_ANGER);
 			hero.buff(ProvokedAngerTracker.class).detach();
 		}
 
 		if (hero.hasTalent(Talent.LINGERING_MAGIC)
 				&& hero.buff(LingeringMagicTracker.class) != null){
-			dmg += Random.IntRange(hero.pointsInTalent(Talent.LINGERING_MAGIC) , 2);
+			damage += Random.IntRange(hero.pointsInTalent(Talent.LINGERING_MAGIC) , 2);
 			hero.buff(LingeringMagicTracker.class).detach();
 		}
 
 		if (hero.hasTalent(Talent.SUCKER_PUNCH)
 				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
 				&& enemy.buff(SuckerPunchTracker.class) == null){
-			dmg += Random.IntRange(hero.pointsInTalent(Talent.SUCKER_PUNCH) , 2);
+			damage += Random.IntRange(hero.pointsInTalent(Talent.SUCKER_PUNCH) , 2);
 			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
@@ -1953,7 +1979,7 @@ public enum Talent {
 				Buff.prolong(hero, FollowupStrikeTracker.class, 5f).object = enemy.id();
 			} else if (hero.buff(FollowupStrikeTracker.class) != null
 					&& hero.buff(FollowupStrikeTracker.class).object == enemy.id()){
-				dmg += 1 + hero.pointsInTalent(FOLLOWUP_STRIKE);
+				damage += 1 + hero.pointsInTalent(FOLLOWUP_STRIKE);
 				if (hero.belongings.weapon == null && hero.subClass == HeroSubClass.FIGHTER) {
 					Buff.affect( enemy, Paralysis.class, 1f );
 				}
@@ -1964,7 +1990,7 @@ public enum Talent {
 		if (hero.buff(Talent.SpiritBladesTracker.class) != null
 				&& Random.Int(10) < 3*hero.pointsInTalent(Talent.SPIRIT_BLADES)){
 			SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
-			if (bow != null) dmg = bow.proc( hero, enemy, dmg );
+			if (bow != null) damage = bow.proc( hero, enemy, damage );
 			hero.buff(Talent.SpiritBladesTracker.class).detach();
 		}
 
@@ -1972,7 +1998,7 @@ public enum Talent {
 			if (hero.buff(PatientStrikeTracker.class) != null
 					&& !(hero.belongings.attackingWeapon() instanceof MissileWeapon)){
 				hero.buff(PatientStrikeTracker.class).detach();
-				dmg += Random.IntRange(hero.pointsInTalent(Talent.PATIENT_STRIKE), 2);
+				damage += Random.IntRange(hero.pointsInTalent(Talent.PATIENT_STRIKE), 2);
 			}
 		}
 
@@ -1983,48 +2009,48 @@ public enum Talent {
 				}
 			} else if (hero.buff(DeadlyFollowupTracker.class) != null
 					&& hero.buff(DeadlyFollowupTracker.class).object == enemy.id()){
-				dmg = Math.round(dmg * (1.0f + .1f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
+				damage = Math.round(damage * (1.0f + .1f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
 			}
 		}
 
 		if (hero.hasTalent(DRAWING_ENHANCE) && hero.buff(Sheath.Sheathing.class) != null) {
-			dmg += 1+hero.pointsInTalent(DRAWING_ENHANCE);
+			damage += 1+hero.pointsInTalent(DRAWING_ENHANCE);
 		}
 
 		if (hero.heroClass != HeroClass.SAMURAI && hero.hasTalent(DRAWING_ENHANCE) && enemy.buff(Talent.DrawEnhanceMetaTracker.class) == null ) {
-			dmg += Hero.heroDamageIntRange(hero.pointsInTalent(Talent.DRAWING_ENHANCE), 2);
+			damage += Hero.heroDamageIntRange(hero.pointsInTalent(Talent.DRAWING_ENHANCE), 2);
 			Buff.affect(enemy, Talent.DrawEnhanceMetaTracker.class);
 		}
 
 		if (hero.hasTalent(Talent.WATER_FRIENDLY) && Dungeon.level.map[hero.pos] == Terrain.WATER) {
-			dmg += Hero.heroDamageIntRange(1, hero.pointsInTalent(Talent.WATER_FRIENDLY));
+			damage += Hero.heroDamageIntRange(1, hero.pointsInTalent(Talent.WATER_FRIENDLY));
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 		}
 
 		if (hero.buff(Talent.SkilledHandTracker.class) != null) {
-			dmg += 1+hero.pointsInTalent(Talent.SKILLED_HAND);
+			damage += 1+hero.pointsInTalent(Talent.SKILLED_HAND);
 			hero.buff(Talent.SkilledHandTracker.class).detach();
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 		}
 
 		if (hero.hasTalent(Talent.SKILLED_HAND) && hero.heroClass != HeroClass.DUELIST) {
-			dmg += Random.NormalIntRange(0, 1+hero.pointsInTalent(Talent.SKILLED_HAND));
+			damage += Random.NormalIntRange(0, 1+hero.pointsInTalent(Talent.SKILLED_HAND));
 		}
 
 		if (hero.hasTalent(Talent.NATURE_FRIENDLY) && (level.map[hero.pos] == Terrain.HIGH_GRASS || level.map[hero.pos] == Terrain.FURROWED_GRASS)) {
-			dmg += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
+			damage += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
 		}
 
 		if (hero.hasTalent(Talent.NATURE_FRIENDLY) && (level.map[hero.pos] == Terrain.GRASS) && hero.heroClass != HeroClass.ADVENTURER) {
-			dmg += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
+			damage += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
 		}
 
 		if (hero.buff(Talent.KineticBattle.class) != null) {
-			dmg = hero.buff(Talent.KineticBattle.class).proc(dmg);
+			damage = hero.buff(Talent.KineticBattle.class).proc(damage);
 		}
 
 		if (hero.hasTalent(Talent.TACKLE) && level.adjacent(enemy.pos, hero. pos) && hero.belongings.armor != null && (hero.belongings.attackingWeapon() instanceof MeleeWeapon || (hero.belongings.attackingWeapon() == null))) {
-			dmg += hero.belongings.armor.DRMax()*0.05f*hero.pointsInTalent(Talent.TACKLE);
+			damage += Math.round(hero.belongings.armor.DRMax()*0.05f*hero.pointsInTalent(Talent.TACKLE));
 		}
 
 		//attacking procs
@@ -2037,7 +2063,7 @@ public enum Talent {
 			if (hero.hasTalent(Talent.POISONOUS_BLADE)) {
 				Buff.affect(enemy, Poison.class).set(2+hero.pointsInTalent(Talent.POISONOUS_BLADE));
 			}
-			if (hero.hasTalent(Talent.SOUL_COLLECT) && dmg >= enemy.HP) {
+			if (hero.hasTalent(Talent.SOUL_COLLECT) && damage >= enemy.HP) {
 				int healAmt = 3*hero.pointsInTalent(Talent.SOUL_COLLECT);
 				healAmt = Math.min( healAmt, hero.HT - hero.HP );
 				if (healAmt > 0 && hero.isAlive()) {
@@ -2046,7 +2072,7 @@ public enum Talent {
 					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
 				}
 			}
-			if (hero.hasTalent(Talent.TRAIL_TRACKING) && dmg >= enemy.HP) {
+			if (hero.hasTalent(Talent.TRAIL_TRACKING) && damage >= enemy.HP) {
 				Buff.affect(hero, MindVision.class, hero.pointsInTalent(Talent.TRAIL_TRACKING));
 			}
 
@@ -2088,12 +2114,12 @@ public enum Talent {
 		if (hero.hasTalent(Talent.ANTI_DEMON) &&
 				hero.buff(Bless.class) != null &&
 				(Char.hasProp(enemy, Char.Property.DEMONIC) || Char.hasProp(enemy, Char.Property.UNDEAD))) {
-			dmg *= 1f+hero.pointsInTalent(Talent.ANTI_DEMON)/3f;
+			damage = Math.round(damage * 1f+hero.pointsInTalent(Talent.ANTI_DEMON)/3f);
 		}
 
 		if (hero.hasTalent(Talent.ARMY_OF_DEATH)) {
 			float procChance = 0.1f * hero.pointsInTalent(Talent.ARMY_OF_DEATH);
-			if (dmg >= enemy.HP
+			if (damage >= enemy.HP
 					&& Random.Float() < procChance
 					&& !enemy.isImmune(Corruption.class)
 					&& enemy.buff(Corruption.class) == null
@@ -2101,7 +2127,7 @@ public enum Talent {
 					&& enemy.isAlive()){
 				Corruption.corruptionHeal(enemy);
 				AllyBuff.affectAndLoot((Mob) enemy, hero, Corruption.class);
-				dmg = 0;
+				damage = 0;
 			}
 
 		}
@@ -2109,12 +2135,12 @@ public enum Talent {
 		if (hero.hasTalent(Talent.SCAR_ATTACK)) {
 			int debuffs = enemy.buffs().size();
 			if (debuffs > 0) {
-				dmg += debuffs * Random.NormalIntRange(1, hero.pointsInTalent(Talent.SCAR_ATTACK));
+				damage += debuffs * Random.NormalIntRange(1, hero.pointsInTalent(Talent.SCAR_ATTACK));
 			}
 		}
 
 		if (hero.hasTalent(Talent.FINISH_ATTACK) && enemy.HP <= enemy.HT*0.25f) {
-			dmg += 1+hero.pointsInTalent(Talent.FINISH_ATTACK);
+			damage += 1+hero.pointsInTalent(Talent.FINISH_ATTACK);
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 		}
 
@@ -2129,7 +2155,7 @@ public enum Talent {
 			} //heals nearby enemies and herself per every attack
 		}
 
-		if (hero.hasTalent(Talent.TARGET_SET) && hero.belongings.attackingWeapon() instanceof MissileWeapon) {
+		if (hero.hasTalent(Talent.TARGET_SET) && wep instanceof MissileWeapon) {
 			int duration = hero.pointsInTalent(Talent.TARGET_SET);
 			if (enemy.alignment != Char.Alignment.ENEMY) duration *= 5;
 			Buff.prolong(enemy, StoneOfAggression.Aggression.class, duration);
@@ -2141,15 +2167,14 @@ public enum Talent {
 			}
 		}
 
-		if (hero.belongings.attackingWeapon() instanceof Weapon) {
-			Weapon wep = (Weapon) hero.belongings.attackingWeapon();
+		if (wep instanceof Weapon) {
 			if (Random.Float() < hero.critChance(enemy, (Weapon)wep)) {
-				dmg = hero.criticalDamage(dmg, (Weapon)wep, enemy);
+				damage = hero.criticalDamage(damage, (Weapon)wep, enemy);
 
 				Buff.affect(enemy, Sheath.CriticalAttack.class);
 
 				if (Sheath.isFlashSlash()) {
-					dmg *= 1 + 0.15f * hero.pointsInTalent(Talent.POWERFUL_SLASH);
+					damage = Math.round(damage * (1 + 0.15f * hero.pointsInTalent(Talent.POWERFUL_SLASH)));
 				}
 
 				Awakening awakening = hero.buff(Awakening.class);
@@ -2179,16 +2204,138 @@ public enum Talent {
 				Buff.prolong(hero, Sheath.DashAttackAcceleration.class, Sheath.DashAttackAcceleration.DURATION).hit();
 				Sheath.DashAttackAcceleration buff = hero.buff(Sheath.DashAttackAcceleration.class);
 				if (buff != null) {
-					dmg = Math.round(dmg*buff.getDmgMulti());
+					damage = Math.round(damage*buff.getDmgMulti());
 				}
 			}
 			if (hero.buff(Sheath.DashAttackAcceleration.class) != null) {
-				dmg = Math.round(dmg*hero.buff(Sheath.DashAttackAcceleration.class).getDmgMulti());
+				damage = Math.round(damage*hero.buff(Sheath.DashAttackAcceleration.class).getDmgMulti());
 			}
 			hero.buff(Sheath.DashAttackTracker.class).detach();
 		}
 
-		return dmg;
+		if (Random.Float() < hero.pointsInTalent(Talent.MADNESS)/10f) {
+			Buff.prolong(enemy, Amok.class, 3f);
+		}
+
+		SpellBook.SpellBookCoolDown spellBookCoolDown = hero.buff(SpellBook.SpellBookCoolDown.class);
+		if (hero.hasTalent(Talent.BRIG_BOOST) && spellBookCoolDown != null) {
+			spellBookCoolDown.hit(hero.pointsInTalent(Talent.BRIG_BOOST));
+		}
+
+		if (hero.buff(Bible.Angel.class) != null) {
+			hero.heal(Math.max(Math.round(0.2f*damage), 1));
+		}
+
+		if (hero.buff(UnholyBible.Demon.class) != null) {
+			damage = Math.round(damage * 1.33f);
+		}
+
+		if (hero.buff(DualDagger.ReverseBlade.class) != null) {
+			damage = Math.round(damage * 0.5f);
+			Buff.affect(enemy, Bleeding.class).add(Random.NormalIntRange(1, 3));
+			if (enemy.sprite.visible) {
+				Splash.at( enemy.sprite.center(), -PointF.PI / 2, PointF.PI / 6,
+						enemy.sprite.blood(), Math.min( 10 * Random.NormalIntRange(1, 3) / enemy.HT, 10 ) );
+			}
+		}
+
+		if (hero.buff(Awakening.class) != null && hero.buff(Awakening.class).isAwaken()) {
+			damage = Math.round(damage * 0.5f);
+		}
+
+		if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null) {
+			damage = Math.round(damage * 0.5f);
+		}
+
+		if (hero.hasTalent(Talent.BIOLOGY_PROJECT)) {
+			if (!(enemy.properties().contains(Char.Property.INORGANIC) || enemy.properties().contains(Char.Property.UNDEAD))){
+				enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 3 );
+				Sample.INSTANCE.play(Assets.Sounds.BURNING);
+
+				damage = (int)Math.pow(1.1f, hero.pointsInTalent(Talent.BIOLOGY_PROJECT));
+			}
+		}
+
+		if (hero.belongings.attackingWeapon() instanceof MeleeWeapon && hero.heroClass != HeroClass.ADVENTURER && hero.hasTalent(Talent.LONG_MACHETE)) {
+			int dist = level.distance(hero.pos, enemy.pos)-1;
+			dist = Math.min(dist, hero.pointsInTalent(Talent.LONG_MACHETE));
+			damage = (int)Math.round(damage * Math.pow(0.8f, dist));
+		}
+
+		if (hero.buff(TreasureMap.GoldTracker.class) != null) {
+			damage = Math.round(1 + 0.1f * hero.pointsInTalent(Talent.GOLD_HUNTER));
+			hero.buff(TreasureMap.GoldTracker.class).detach();
+		}
+
+		//attacking procs
+		HealingGenerator.RegenBuff regenBuff = hero.buff(HealingGenerator.RegenBuff.class);
+		if (regenBuff != null) {
+			regenBuff.attackProc();
+		}
+
+		if (hero.hasTalent(Talent.BAYONET) && hero.buff(ReinforcedArmor.ReinforcedArmorTracker.class) != null){
+			if (hero.belongings.attackingWeapon() instanceof Gun) {
+				Buff.affect( enemy, Bleeding.class ).set( 4 + hero.pointsInTalent(Talent.BAYONET));
+			}
+		}
+
+		if (hero.subClass == HeroSubClass.SLASHER) {
+			Buff.affect(hero, SwordAura.class).hit(damage);
+		}
+
+
+		if (hero.subClass == HeroSubClass.RESEARCHER && Random.Float() < 0.2f) {
+			Buff.affect(enemy, Ooze.class).set(Ooze.DURATION/4f * (1+0.5f*hero.pointsInTalent(Talent.POWERFUL_ACID)));
+		}
+
+		if (hero.buff(TreasureMap.LuckTracker.class) != null
+				&& enemy.HP <= damage) {
+			Buff.affect(enemy, Lucky.LuckProc.class);
+		}
+
+		if (hero.buff(Sheath.CertainCrit.class) != null) {
+			hero.buff(Sheath.CertainCrit.class).hit();
+		}
+
+		if (hero.subClass == HeroSubClass.CRUSADER && hero.buff(Bless.class) != null) {
+			int healAmt = Math.round(damage*0.4f);
+			int excessHeal = healAmt - (hero.HT - hero.HP);
+			hero.heal(healAmt);
+			if (hero.hasTalent(Talent.HOLY_SHIELD) && excessHeal > 0) {
+				int maxShield = Math.round(hero.HT*0.2f*hero.pointsInTalent(Talent.HOLY_SHIELD));
+				Barrier barrier = hero.buff(Barrier.class);
+				if (barrier != null) {
+					if (barrier.shielding()+excessHeal > maxShield) {
+						excessHeal = maxShield - barrier.shielding(); //방어막을 얻을 때 최대치를 넘길 경우 얻을 방어막의 양을 감소시킴
+						Buff.affect(hero, Barrier.class).setShield(excessHeal);
+					} else {
+						Buff.affect(hero, Barrier.class).setShield(excessHeal);
+					}
+				} else {
+					Buff.affect(hero, Barrier.class).setShield(Math.min(excessHeal, maxShield));
+				}
+			}
+		}
+
+		if (hero.buff(Pray.Punishment.class) != null) {
+			hero.buff(Pray.Punishment.class).hit(enemy, damage);
+		}
+
+		if (wep instanceof Gun && hero.hasTalent(Talent.BULLET_COLLECT)) {
+			if (Random.Float() < 0.05f * hero.pointsInTalent(Talent.BULLET_COLLECT)) {
+				((Gun)wep).manualReload(1, true);
+			}
+		}
+
+		if (hero.buff(WeaponEnhance.class) != null) {
+			hero.buff(WeaponEnhance.class).attackProc();
+		}
+
+		if (hero.buff(PowerOfLife.PowerOfLifeBarrier.class) != null) {
+			hero.buff(PowerOfLife.PowerOfLifeBarrier.class).proc(damage);
+		}
+
+		return damage;
 	}
 
 	public static int onDefenseProc(Hero hero, Char enemy, int damage) {

@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedLargeArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Shadows;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
@@ -1517,6 +1518,13 @@ public abstract class Level implements Bundlable {
 			for (RevealedArea a : c.buffs(RevealedArea.class)){
 				if (Dungeon.depth != a.depth || Dungeon.branch != a.branch) continue;
 				for (int i : PathFinder.NEIGHBOURS9) heroMindFov[a.pos+i] = true;
+			}
+
+			for (RevealedLargeArea a : c.buffs(RevealedLargeArea.class)){
+				if (Dungeon.depth != a.depth || Dungeon.branch != a.branch) continue;
+				for (int p : a.pos) {
+					for (int i : PathFinder.NEIGHBOURS9) heroMindFov[p+i] = true;
+				}
 			}
 
 			//set mind vision chars

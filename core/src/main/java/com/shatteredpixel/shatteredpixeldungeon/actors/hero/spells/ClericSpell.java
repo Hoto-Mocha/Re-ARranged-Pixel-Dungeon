@@ -136,6 +136,10 @@ public abstract class ClericSpell {
 				spells.add(BlessSpell.INSTANCE);
 			}
 
+			if (cleric.hasTalent(Talent.DIVINE_BLAST)){
+				spells.add(DivineBlast.INSTANCE);
+			}
+
 		} else if (tier == 3){
 
 			if (cleric.subClass == HeroSubClass.PRIEST) {
@@ -158,6 +162,15 @@ public abstract class ClericSpell {
 			if (cleric.hasTalent(Talent.MNEMONIC_PRAYER)){
 				spells.add(MnemonicPrayer.INSTANCE);
 			}
+			if (cleric.hasTalent(Talent.DIVINE_RAY)){
+				spells.add(DivineRay.INSTANCE);
+			}
+			if (cleric.hasTalent(Talent.HOLY_BOMB)){
+				spells.add(HolyBombSpell.INSTANCE);
+			}
+			if (cleric.hasTalent(Talent.RESURRECTION)){
+				spells.add(Resurrection.INSTANCE);
+			}
 
 			if (cleric.hasTalent(Talent.LAY_ON_HANDS)){
 				spells.add(LayOnHands.INSTANCE);
@@ -167,6 +180,15 @@ public abstract class ClericSpell {
 			}
 			if (cleric.hasTalent(Talent.WALL_OF_LIGHT)){
 				spells.add(WallOfLight.INSTANCE);
+			}
+			if (cleric.hasTalent(Talent.HOLY_MANTLE)){
+				spells.add(HolyMantle.INSTANCE);
+			}
+			if (cleric.hasTalent(Talent.POWER_OF_LIFE)){
+				spells.add(PowerOfLife.INSTANCE);
+			}
+			if (cleric.hasTalent(Talent.INDUCE_AGGRO)){
+				spells.add(InduceAggro.INSTANCE);
 			}
 
 		} else if (tier == 4){
@@ -208,24 +230,38 @@ public abstract class ClericSpell {
 
 	public static ArrayList<ClericSpell> getAllSpells() {
 		ArrayList<ClericSpell> spells = new ArrayList<>();
+		//inherit spells
 		spells.add(GuidingLight.INSTANCE);
 		spells.add(HolyWeapon.INSTANCE);
 		spells.add(HolyWard.INSTANCE);
+		//1 tier
 		spells.add(HolyIntuition.INSTANCE);
 		spells.add(ShieldOfLight.INSTANCE);
+		//2 tier
 		spells.add(RecallInscription.INSTANCE);
 		spells.add(Sunray.INSTANCE);
 		spells.add(DivineSense.INSTANCE);
 		spells.add(BlessSpell.INSTANCE);
+		spells.add(DivineBlast.INSTANCE);
+		//3 tier
 		spells.add(Cleanse.INSTANCE);
-		spells.add(Radiance.INSTANCE);
+		//Paladin spells
 		spells.add(Smite.INSTANCE);
 		spells.add(LayOnHands.INSTANCE);
 		spells.add(AuraOfProtection.INSTANCE);
 		spells.add(WallOfLight.INSTANCE);
+		spells.add(HolyMantle.INSTANCE);
+		spells.add(PowerOfLife.INSTANCE);
+		spells.add(InduceAggro.INSTANCE);
+		//Priest spells
+		spells.add(Radiance.INSTANCE);
 		spells.add(HolyLance.INSTANCE);
 		spells.add(HallowedGround.INSTANCE);
 		spells.add(MnemonicPrayer.INSTANCE);
+		spells.add(DivineRay.INSTANCE);
+		spells.add(HolyBombSpell.INSTANCE);
+		spells.add(Resurrection.INSTANCE);
+		//4 tier
 		spells.add(DivineIntervention.INSTANCE);
 		spells.add(Judgement.INSTANCE);
 		spells.add(Flash.INSTANCE);

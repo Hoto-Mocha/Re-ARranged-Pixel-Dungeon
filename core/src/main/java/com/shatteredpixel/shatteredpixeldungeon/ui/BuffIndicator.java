@@ -161,6 +161,8 @@ public class BuffIndicator extends Component {
 	public static final int RADIOACTIVE	= 159;
 	public static final int STIMPACK	= 160;
 	public static final int REGEN		= 161;
+	public static final int RESSURRECT	= 162;
+	public static final int HOLY_MANTLE	= 163;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

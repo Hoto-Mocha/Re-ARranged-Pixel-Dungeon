@@ -20,6 +20,9 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 
 public class DivineBlast extends TargetedClericSpell {
+
+    public static final DivineBlast INSTANCE = new DivineBlast();
+
     @Override
     public int icon(){
         return HeroIcon.DIVINE_BLAST;
@@ -55,6 +58,7 @@ public class DivineBlast extends TargetedClericSpell {
         hero.sprite.operate(target, new Callback() {
             @Override
             public void call() {
+                hero.sprite.idle();
                 WandOfBlastWave.BlastWave.blast(target);
                 //presses all tiles in the AOE first, with the exception of tengu dart traps
                 for (int i : PathFinder.NEIGHBOURS9){
@@ -83,12 +87,11 @@ public class DivineBlast extends TargetedClericSpell {
                 if (ch != null && ch.alignment == Char.Alignment.ENEMY && !ch.isImmune(Paralysis.class)){
                     Buff.affect(ch, Paralysis.class, 3);
                 }
+
+                hero.spend( 1f );
+                hero.next();
+                onSpellCast(tome, hero);
             }
         });
-
-        hero.spend( 1f );
-        hero.next();
-
-        onSpellCast(tome, hero);
     }
 }

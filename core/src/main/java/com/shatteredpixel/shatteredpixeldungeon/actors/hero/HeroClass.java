@@ -92,6 +92,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
@@ -166,24 +167,14 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		if (DeviceCompat.isDebug() || SPDSettings.customSeed().contains("test")) {
-//			new MagicalCompass().collect();
-//			new CrystalBall().collect();
-//			new BrokenMagnifyingGlass().collect();
-//			new SuspiciousKey().collect();
-//			new PinkGem().collect();
-//			new Necklace().collect();
-//			new TrinketCatalyst().collect();
-//			new TrinketCatalyst().collect();
-//			new TrinketCatalyst().collect();
-//			new Xray().collect();
 			new RingOfMight().identify().upgrade(10).collect();
+			new RingOfEnergy().identify().upgrade(20).collect();
 			new RingOfHaste().identify().upgrade(100).collect();
 			new RingOfAccuracy().identify().upgrade(100).collect();
 			new AlchemistsToolkit().identify().upgrade(10).collect();
 			new ElixirOfHoneyedHealing().identify().quantity(500).collect();
 			new PlateArmor().identify().upgrade(100).collect();
 			new TacticalShield().identify().upgrade(100).collect();
-//			new GunSmithingTool().quantity(200).collect();
 			new Teleporter().collect();
 			new TengusMask().collect();
 			new KingsCrown().collect();

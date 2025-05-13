@@ -85,6 +85,28 @@ public class Beam extends Image {
 		}
 	}
 
+	public static class YellowRay extends Beam {
+		float multi;
+		public YellowRay(PointF s, PointF e, float multi){
+			super(s, e, Effects.Type.YELLOW_RAY, 2f);
+			this.multi = multi;
+			scale.set( scale.x, scale.y );
+		}
+
+		@Override
+		public void update() {
+			super.update();
+
+			float p = timeLeft*multi / duration;
+			alpha( p );
+			scale.set( scale.x, p );
+
+			if ((timeLeft -= Game.elapsed) <= 0) {
+				killAndErase();
+			}
+		}
+	}
+
 	public static class SuperNovaRay extends Beam {
 		float multi;
 		public SuperNovaRay(PointF s, PointF e, float multi){
@@ -106,6 +128,8 @@ public class Beam extends Image {
 			}
 		}
 	}
+
+
 	
 	@Override
 	public void update() {
