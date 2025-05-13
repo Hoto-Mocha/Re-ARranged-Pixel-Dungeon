@@ -249,14 +249,14 @@ public class HeroIcon extends Image {
 	public static final int RESURRECTION    = 174;
 	public static final int HOLY_MANTLE	    = 175;
 	public static final int POWER_OF_LIFE   = 176;
-	public static final int INDUCE_AGGRO    = 178;
-	public static final int SPELL_BLAST	    = 179;
-	public static final int TIME_AMP	    = 180;
-	public static final int WEAKENING_HEX   = 181;
-	public static final int STUN		    = 182;
-	public static final int ELEMENTAL_IMBUE = 183;
-	public static final int ARCANE_ARMOR 	= 184;
-	public static final int ENCHANT		    = 185;
+	public static final int INDUCE_AGGRO    = 177;
+	public static final int SPELL_BLAST	    = 178;
+	public static final int TIME_AMP	    = 179;
+	public static final int WEAKENING_HEX   = 180;
+	public static final int STUN		    = 181;
+	public static final int ELEMENTAL_IMBUE = 182;
+	public static final int ARCANE_ARMOR 	= 183;
+	public static final int ENCHANT		    = 184;
 
 	//all cleric spells have a separate icon with no background for the action indicator
 	public static final int SPELL_ACTION_OFFSET      = 48;
