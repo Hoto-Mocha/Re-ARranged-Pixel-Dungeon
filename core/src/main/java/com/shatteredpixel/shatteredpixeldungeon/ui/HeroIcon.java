@@ -254,7 +254,7 @@ public class HeroIcon extends Image {
 	public static final int TIME_AMP	    = 179;
 	public static final int WEAKENING_HEX   = 180;
 	public static final int STUN		    = 181;
-	public static final int ELEMENTAL_IMBUE = 182;
+	public static final int ELEMENT_IMBUE	= 182;
 	public static final int ARCANE_ARMOR 	= 183;
 	public static final int ENCHANT		    = 184;
 
