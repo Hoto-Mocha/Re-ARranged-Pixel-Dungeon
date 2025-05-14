@@ -14,6 +14,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
 
 public class InduceAggro extends TargetedClericSpell {
     public static final InduceAggro INSTANCE = new InduceAggro();
@@ -37,6 +38,8 @@ public class InduceAggro extends TargetedClericSpell {
             GLog.w(Messages.get(this, "no_target"));
             return;
         }
+
+        Sample.INSTANCE.play(Assets.Sounds.READ);
 
         hero.busy();
         hero.spendAndNext(Actor.TICK);
