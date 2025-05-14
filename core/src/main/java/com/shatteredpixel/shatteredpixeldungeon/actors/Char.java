@@ -167,7 +167,6 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MobSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TargetHealthIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -1025,7 +1024,7 @@ public abstract class Char extends Actor {
 		}
 
 		if (buff(HolyMantle.HolyMantleBuff.class) != null) {
-			damage = HolyMantle.HolyMantleBuff.damageReduction(damage);
+			damage = HolyMantle.HolyMantleBuff.DamageReduction(damage);
 			buff(HolyMantle.HolyMantleBuff.class).detach();
 		}
 

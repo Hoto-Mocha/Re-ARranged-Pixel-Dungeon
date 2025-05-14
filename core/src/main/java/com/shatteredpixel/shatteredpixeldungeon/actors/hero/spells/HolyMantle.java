@@ -60,7 +60,7 @@ public class HolyMantle extends TargetedClericSpell {
             return BuffIndicator.HOLY_MANTLE;
         }
 
-        public static float damageReduction(float damage) {
+        public static float DamageReduction(float damage) {
             return Math.max(0, damage * (1 - 0.25f * (1+Dungeon.hero.pointsInTalent(Talent.HOLY_MANTLE))));
         }
 

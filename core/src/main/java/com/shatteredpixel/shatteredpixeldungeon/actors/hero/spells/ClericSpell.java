@@ -147,6 +147,9 @@ public abstract class ClericSpell {
 
 			} else if (cleric.subClass == HeroSubClass.PALADIN){
 				spells.add(Smite.INSTANCE);
+
+			} else if (cleric.subClass == HeroSubClass.ENCHANTER) {
+				spells.add(SpellBlast.INSTANCE);
 			}
 
 			if (cleric.hasTalent(Talent.CLEANSE)){
@@ -261,6 +264,8 @@ public abstract class ClericSpell {
 		spells.add(DivineRay.INSTANCE);
 		spells.add(HolyBombSpell.INSTANCE);
 		spells.add(Resurrection.INSTANCE);
+		//Enchanter spells
+		spells.add(SpellBlast.INSTANCE);
 		//4 tier
 		spells.add(DivineIntervention.INSTANCE);
 		spells.add(Judgement.INSTANCE);
