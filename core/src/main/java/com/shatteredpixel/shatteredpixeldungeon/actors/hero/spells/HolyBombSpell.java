@@ -41,7 +41,7 @@ public class HolyBombSpell extends TargetedClericSpell {
         if (target == null) return;
 
         if (!Dungeon.level.heroFOV[target]) {
-            GLog.w(Messages.get(this, "not_in_fov"));
+            GLog.w(Messages.get(ClericSpell.class, "not_in_fov"));
             return;
         }
 

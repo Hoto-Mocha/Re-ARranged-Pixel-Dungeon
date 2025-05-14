@@ -194,6 +194,13 @@ public abstract class ClericSpell {
 				spells.add(InduceAggro.INSTANCE);
 			}
 
+			if (cleric.hasTalent(Talent.TIME_AMP)) {
+				spells.add(TimeAmp.INSTANCE);
+			}
+			if (cleric.hasTalent(Talent.WEAKENING_HEX)) {
+				spells.add(WeakeningHex.INSTANCE);
+			}
+
 		} else if (tier == 4){
 
 			if (cleric.hasTalent(Talent.DIVINE_INTERVENTION)){
@@ -266,6 +273,8 @@ public abstract class ClericSpell {
 		spells.add(Resurrection.INSTANCE);
 		//Enchanter spells
 		spells.add(SpellBlast.INSTANCE);
+		spells.add(TimeAmp.INSTANCE);
+		spells.add(WeakeningHex.INSTANCE);
 		//4 tier
 		spells.add(DivineIntervention.INSTANCE);
 		spells.add(Judgement.INSTANCE);

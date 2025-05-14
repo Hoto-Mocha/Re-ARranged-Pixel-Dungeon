@@ -43,7 +43,7 @@ public class SpellBlast extends TargetedClericSpell implements Hero.Doom {
         Char ch = Actor.findChar(target);
 
         if (ch == null) {
-            GLog.w(Messages.get(this, "no_target"));
+            GLog.w(Messages.get(ClericSpell.class, "no_target"));
             return;
         }
 
@@ -56,7 +56,7 @@ public class SpellBlast extends TargetedClericSpell implements Hero.Doom {
         }
 
         if (buffs <= 0) {
-            GLog.w(Messages.get(this, "no_debuffs"));
+            GLog.n(Messages.get(this, "no_debuffs"));
             return;
         }
 
