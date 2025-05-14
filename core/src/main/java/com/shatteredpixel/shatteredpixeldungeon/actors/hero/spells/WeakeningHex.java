@@ -13,6 +13,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Degradation;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
@@ -71,8 +72,9 @@ public class WeakeningHex extends TargetedClericSpell {
         if (Dungeon.hero.pointsInTalent(Talent.WEAKENING_HEX) >= 3) {
             Buff.affect(ch, Vulnerable.class, duration());
         }
-
-        ch.sprite.parent.add( Degradation.weapon( new PointF(Dungeon.level.cellToPoint(ch.pos))) );
+        CharSprite sprite = ch.sprite;
+        PointF point = sprite.center().offset( 0, -16 );
+        sprite.parent.add( Degradation.weapon( point ) );
 
         Sample.INSTANCE.play(Assets.Sounds.DEGRADE);
 
