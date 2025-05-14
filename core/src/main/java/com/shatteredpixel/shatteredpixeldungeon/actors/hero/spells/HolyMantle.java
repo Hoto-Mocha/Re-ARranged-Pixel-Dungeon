@@ -31,10 +31,14 @@ public class HolyMantle extends TargetedClericSpell {
     protected void onTargetSelected(HolyTome tome, Hero hero, Integer target) {
         if (target == null) return;
 
-        Char ch = Actor.findChar(target);
+        if (!Dungeon.level.heroFOV[target]) {
+            GLog.w(Messages.get(ClericSpell.class, "not_in_fov"));
+            return;
+        }
 
+        Char ch = Actor.findChar(target);
         if (ch == null) {
-            GLog.w(Messages.get(this, "no_target"));
+            GLog.w(Messages.get(ClericSpell.class, "no_target"));
             return;
         }
 
