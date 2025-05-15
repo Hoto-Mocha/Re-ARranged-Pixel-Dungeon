@@ -379,7 +379,7 @@ public class OldAmulet extends Item {
 
     @Override
     public int value() {
-        return -1;
+        return 2000;
     }
 
     protected WndBag.ItemSelector itemSelector = new WndBag.ItemSelector() {
