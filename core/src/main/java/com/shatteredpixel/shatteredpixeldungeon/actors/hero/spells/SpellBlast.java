@@ -9,6 +9,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -34,6 +35,11 @@ public class SpellBlast extends TargetedClericSpell implements Hero.Doom {
 
     private int maxDamage() {
         return 4+Dungeon.hero.lvl/2;
+    }
+
+    @Override
+    public int targetingFlags() {
+        return Ballistica.STOP_TARGET;
     }
 
     @Override

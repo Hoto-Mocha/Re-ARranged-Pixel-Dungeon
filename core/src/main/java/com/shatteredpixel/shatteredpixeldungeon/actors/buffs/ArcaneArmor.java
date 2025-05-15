@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -66,6 +67,13 @@ public class ArcaneArmor extends Buff {
 			interval = time;
 			spend(time - cooldown() - 1);
 		}
+	}
+
+	public void add( int value, int time ) {
+		level += value;
+		if (level > Dungeon.hero.lvl) level = Dungeon.hero.lvl;
+		interval = time;
+		spend(time - cooldown() - 1);
 	}
 
 	public void delay( float value ){

@@ -11,6 +11,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlessingParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
@@ -26,6 +27,11 @@ public class TimeAmp extends TargetedClericSpell {
     @Override
     public int icon(){
         return HeroIcon.TIME_AMP;
+    }
+
+    @Override
+    public int targetingFlags() {
+        return Ballistica.STOP_TARGET;
     }
 
     @Override

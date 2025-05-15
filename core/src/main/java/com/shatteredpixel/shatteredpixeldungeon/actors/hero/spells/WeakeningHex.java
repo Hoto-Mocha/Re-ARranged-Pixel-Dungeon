@@ -12,6 +12,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Degradation;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
@@ -38,6 +39,11 @@ public class WeakeningHex extends TargetedClericSpell {
             s.append(", ").append(new Vulnerable().name());
         }
         return Messages.get(this, "desc", s.toString())+ "\n\n" + Messages.get(this, "charge_cost", (int)chargeUse(Dungeon.hero));
+    }
+
+    @Override
+    public int targetingFlags() {
+        return Ballistica.STOP_TARGET;
     }
 
     private float duration() {

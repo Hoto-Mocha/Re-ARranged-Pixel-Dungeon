@@ -206,6 +206,12 @@ public abstract class ClericSpell {
 			if (cleric.hasTalent(Talent.ELEMENT_IMBUE)) {
 				spells.add(ElementImbue.INSTANCE);
 			}
+			if (cleric.hasTalent(Talent.ARCANE_ARMOR)) {
+				spells.add(ArcaneArmorSpell.INSTANCE);
+			}
+			if (cleric.hasTalent(Talent.ENCHANT)) {
+				spells.add(Enchant.INSTANCE);
+			}
 
 		} else if (tier == 4){
 
@@ -283,6 +289,8 @@ public abstract class ClericSpell {
 		spells.add(WeakeningHex.INSTANCE);
 		spells.add(Stun.INSTANCE);
 		spells.add(ElementImbue.INSTANCE);
+		spells.add(ArcaneArmorSpell.INSTANCE);
+		spells.add(Enchant.INSTANCE);
 		//4 tier
 		spells.add(DivineIntervention.INSTANCE);
 		spells.add(Judgement.INSTANCE);
