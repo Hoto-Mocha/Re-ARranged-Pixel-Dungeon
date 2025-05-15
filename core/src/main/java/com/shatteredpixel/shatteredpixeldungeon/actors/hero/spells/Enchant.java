@@ -1,5 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -10,22 +11,24 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
 
 public class Enchant extends InventoryClericSpell {
 
-    public static final TimeAmp INSTANCE = new TimeAmp();
+    public static final Enchant INSTANCE = new Enchant();
 
     @Override
     public int icon(){
-        return HeroIcon.TIME_AMP;
+        return HeroIcon.ENCHANT;
     }
 
     @Override
     protected boolean usableOnItem(Item item) {
-        return item.isIdentified() && !item.cursed;
+        return item.isIdentified() && !item.cursed && (item instanceof Weapon || item instanceof Armor);
     }
 
     @Override
@@ -53,6 +56,7 @@ public class Enchant extends InventoryClericSpell {
         }
         hero.sprite.operate(hero.pos);
         hero.spendAndNext(Actor.TICK);
+        Sample.INSTANCE.play(Assets.Sounds.READ);
 
         onSpellCast(tome, hero);
     }
