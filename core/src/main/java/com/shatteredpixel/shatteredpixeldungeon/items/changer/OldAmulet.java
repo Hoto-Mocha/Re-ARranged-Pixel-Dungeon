@@ -94,11 +94,14 @@ public class OldAmulet extends Item {
 
     @Override
     public boolean doPickUp(Hero hero, int pos) {
-        if (Dungeon.depth == 14 && Dungeon.branch == 2 && hero.buff(TempleCurse.class) == null) {
-            Dungeon.templeCompleted = true;
-            Buff.affect(hero, TempleCurse.class);
+        if (super.doPickUp(hero, pos)) {
+            if (Dungeon.depth == 14 && Dungeon.branch == 2 && hero.buff(TempleCurse.class) == null) {
+                Dungeon.templeCompleted = true;
+                Buff.affect(hero, TempleCurse.class);
+            }
+            return true;
         }
-        return super.doPickUp(hero, pos);
+        return false;
     }
 
     @Override
