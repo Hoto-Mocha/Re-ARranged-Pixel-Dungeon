@@ -833,7 +833,7 @@ public class Dungeon {
 			}
 
 			droppedItems = new SparseArray<>();
-			for (int i=1; i <= 26; i++) {
+			for (int i=1; i <= 31; i++) {
 
 				//dropped items
 				ArrayList<Item> items = new ArrayList<>();
