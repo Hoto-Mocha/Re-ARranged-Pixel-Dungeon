@@ -78,15 +78,19 @@ public class AboutScene extends PixelScene {
 				"Hero Splash Art",
 				Icons.DCINSIDE.get(),
 				"oo(211.195)",
-				"SPD Gallery",
-				"https://gall.dcinside.com/mgallery/board/lists?id=spd");
+				null,
+				null);
 		splash.setSize(colWidth/2f, 0);
 		if (landscape()){
 			splash.setPos(arranged.right(), arranged.top());
 		} else {
-			splash.setPos(w/2f - colWidth/2f, arranged.bottom()+5);
+			splash.setPos(w/2f - colWidth/2f + splash.width()/2f, arranged.bottom()+12);
 		}
 		content.add(splash);
+
+		if (!landscape()){
+			addLine(splash.top() - 4, content);
+		}
 
 		CreditsBlock arrangedTransifex = new CreditsBlock(true,
 				Window.TITLE_COLOR,
@@ -98,9 +102,11 @@ public class AboutScene extends PixelScene {
 		arrangedTransifex.setRect((Camera.main.width - colWidth)/2f, arranged.bottom() + 12, colWidth, 0);
 		content.add(arrangedTransifex);
 
-		addLine(arrangedTransifex.top() - 4, content);
+		if (!landscape()){
+			arrangedTransifex.setPos(w/2f - colWidth/2f, splash.bottom()+8);
+		}
 
-		addLine(arrangedTransifex.bottom() + 4, content);
+		addLine(arrangedTransifex.top() - 4, content);
 
 		CreditsBlock supporter = new CreditsBlock(true, Window.RED,
 				"ARPD Supporters",
@@ -112,7 +118,7 @@ public class AboutScene extends PixelScene {
 		content.add(supporter);
 
 		ArrayList<String> diamondSupporters = new ArrayList<>();
-		diamondSupporters.add("Special Thanks name example");
+		diamondSupporters.add("Pernant");
 
 		ArrayList<String> goldSupporters = new ArrayList<>();
 		goldSupporters.add("Drunkendove");
@@ -143,7 +149,7 @@ public class AboutScene extends PixelScene {
 		if (landscape()){
 			shpx.setRect(arranged.left(), whiteSupporter.bottom() + 12, colWidth, 0);
 		} else {
-			shpx.setRect(splash.left(), splash.bottom() + 12, colWidth, 0);
+			shpx.setRect(arranged.left(), whiteSupporter.bottom() + 12, colWidth, 0);
 		}
 		content.add(shpx);
 
