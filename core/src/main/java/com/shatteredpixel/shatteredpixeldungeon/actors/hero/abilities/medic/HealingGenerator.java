@@ -104,9 +104,10 @@ public class HealingGenerator extends ArmorAbility {
 				affected = Math.min(affected, 8); //최대 8체까지만 적용
 				for (int i = 0; i < affected; i++) {
 					Barrier barrier = Buff.affect(hero, Barrier.class);
-					barrier.incShield(hero.pointsInTalent(Talent.SHIELD_GEN));
-					if (barrier.shielding() > Math.round(hero.HT*0.8f)) { //실드가 최대 체력의 80%를 넘어갈 경우 방어막 양을 최대 체력의 80%로 설정
+					if (barrier.shielding()+hero.pointsInTalent(Talent.SHIELD_GEN) > Math.round(hero.HT*0.8f)) { //실드가 최대 체력의 80%를 넘어갈 경우 방어막 양을 최대 체력의 80%로 설정
 						barrier.setShield(Math.round(hero.HT*0.8f));
+					} else {
+						barrier.incShield(hero.pointsInTalent(Talent.SHIELD_GEN));
 					}
 				}
 			}
