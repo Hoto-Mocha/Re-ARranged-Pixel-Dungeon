@@ -80,6 +80,10 @@ public class Chamber {
         }
     }
 
+    public ArrayList<Integer> innerRoomPos() {
+        return this.innerRoomPos;
+    }
+
     //returns random pos in the room
     public ArrayList<Integer> randomRoomPos(int num) {
         ArrayList<Integer> result = new ArrayList<>();
