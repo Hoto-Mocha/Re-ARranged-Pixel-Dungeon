@@ -49,6 +49,9 @@ public class ScrollOfRetribution extends Scroll {
 		detach(curUser.belongings.backpack);
 		if (Dungeon.level instanceof TempleNewLevel) {
 			GLog.i(Messages.get(ScrollOfRetribution.class, "no_in_temple"));
+			identify();
+			readAnimation();
+			Sample.INSTANCE.play(Assets.Sounds.READ);
 			return;
 		}
 		GameScene.flash( 0x80FFFFFF );
