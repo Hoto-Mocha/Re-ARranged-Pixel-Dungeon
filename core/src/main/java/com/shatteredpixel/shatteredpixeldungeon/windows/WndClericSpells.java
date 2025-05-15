@@ -111,12 +111,29 @@ public class WndClericSpells extends Window {
 				spellBtns.add(spellBtn);
 			}
 
-			int left = 2 + (WIDTH - spellBtns.size() * (BTN_SIZE + 4)) / 2;
-			for (IconButton btn : spellBtns) {
-				btn.setRect(left, top, BTN_SIZE, BTN_SIZE);
-				left += btn.width() + 4;
-			}
+			int btnNumber = spellBtns.size();
+			if (btnNumber > 5) {
+				int firstHalf = Math.round(btnNumber / 2f); //총 버튼 수의 절반. 홀수일 경우 윗 줄이 더 큰 값을 가짐.
+				int secondHalf = btnNumber - firstHalf; //총 버튼 수의 절반. 홀수일 경우 아랫 줄이 더 작은 값을 가짐.
+				int arrayedBtn = 0;
 
+				int left = 2 + (WIDTH - firstHalf * (BTN_SIZE + 4)) / 2; //윗 줄의 왼쪽 좌표
+				for (IconButton btn : spellBtns) {
+					btn.setRect(left, top, BTN_SIZE, BTN_SIZE);
+					arrayedBtn++;
+					left += btn.width() + 4;
+					if (arrayedBtn == firstHalf) {
+						top += BTN_SIZE + 2;
+						left = 2 + (WIDTH - secondHalf * (BTN_SIZE + 4)) / 2; //아랫 줄의 왼쪽 좌표
+					}
+				}
+			} else {
+				int left = 2 + (WIDTH - spellBtns.size() * (BTN_SIZE + 4)) / 2;
+				for (IconButton btn : spellBtns) {
+					btn.setRect(left, top, BTN_SIZE, BTN_SIZE);
+					left += btn.width() + 4;
+				}
+			}
 		}
 
 		resize(WIDTH, top + BTN_SIZE);
