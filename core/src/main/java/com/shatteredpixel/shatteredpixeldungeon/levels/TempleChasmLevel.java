@@ -32,7 +32,7 @@ public class TempleChasmLevel extends Level {
         transitions.add(new LevelTransition(this,
                 entranceCell(),
                 LevelTransition.Type.BRANCH_EXIT,
-                Dungeon.depth-1,
+                Dungeon.depth,
                 2,
                 LevelTransition.Type.BRANCH_ENTRANCE));
 

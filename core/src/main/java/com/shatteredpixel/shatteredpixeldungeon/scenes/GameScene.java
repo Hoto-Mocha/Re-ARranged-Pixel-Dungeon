@@ -585,10 +585,10 @@ public class GameScene extends PixelScene {
 			}
 
 			if (Dungeon.templeCompleted) {
-				if (Dungeon.hero.buff(OldAmulet.TempleCurse.class) != null) {
-					Dungeon.hero.buff(OldAmulet.TempleCurse.class).saySwitch();
-				}
 				if (Dungeon.branch == 0) {
+					if (Dungeon.hero.buff(OldAmulet.TempleCurse.class) != null) {
+						Dungeon.hero.buff(OldAmulet.TempleCurse.class).saySwitch();
+					}
 					for (LevelTransition transition : Dungeon.level.transitions) {
 						if (transition.type == LevelTransition.Type.BRANCH_EXIT && transition.destBranch == 2) {
 							int cell = transition.cell();

@@ -313,10 +313,10 @@ public class Dungeon {
 	}
 	
 	public static Level newLevel() {
-		
+
 		Dungeon.level = null;
 		Actor.clear();
-		
+
 		Level level;
 		if (branch == 0) {
 			switch (depth) {
@@ -396,7 +396,12 @@ public class Dungeon {
 				case 14:
 					level = new TempleNewLevel();
 					break;
-				case 15:
+				default:
+					level = new DeadEndLevel();
+			}
+		} else if (branch == 3) {
+			switch (depth) {
+				case 14:
 					level = new TempleChasmLevel();
 					break;
 				default:
