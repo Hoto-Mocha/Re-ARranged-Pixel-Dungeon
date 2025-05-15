@@ -6,7 +6,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.changer.OldAmulet;
-import com.shatteredpixel.shatteredpixeldungeon.items.keys.IronKey;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.AlchemyChamber;
@@ -63,13 +62,14 @@ public class TempleNewLevel extends Level {
         return this.cellToPoint(amuletCell());
     }
 
-    private int keyCell() {
-        return entranceCell()-WIDTH*2;
-    }
-
-    private Point keyPoint() {
-        return this.cellToPoint(keyCell());
-    }
+    //더 이상 입구 위에 열쇠를 두지 않음
+//    private int keyCell() {
+//        return entranceCell()-WIDTH*2;
+//    }
+//
+//    private Point keyPoint() {
+//        return this.cellToPoint(keyCell());
+//    }
 
     private int centerCell() {
         return (int)(WIDTH/2f)+WIDTH*(int)(WIDTH/2f);
@@ -156,7 +156,7 @@ public class TempleNewLevel extends Level {
 
         Painter.set(this, amuletPoint(), Terrain.EXIT);
 
-        Painter.set(this, keyPoint(), Terrain.PEDESTAL);
+//        Painter.set(this, keyPoint(), Terrain.PEDESTAL);
 
         for (int x = 0; x < CHAMBER_X_NUM; x++) {                   //chamber's x coordinate. 0~CHAMBER_X_NUM
             for (int y = 0; y < CHAMBER_Y_NUM; y++) {               //chamber's y coordinate. 0~CHAMBER_Y_NUM
@@ -172,7 +172,7 @@ public class TempleNewLevel extends Level {
 
                 createChamber(this, left, top, right, bottom, center);
 
-                int door = Terrain.LOCKED_DOOR; //방의 4면에 있는 문 타일 지정
+                int door = Terrain.DOOR; //방의 4면에 있는 문 타일 지정
 
                 //door placing logic
                 int doorX;
@@ -214,13 +214,10 @@ public class TempleNewLevel extends Level {
                 for (int i=0; i < n; i++) {
                     this.drop( prize( this ), remains ).setHauntedIfCursed().type = Heap.Type.SKELETON;
                 }
-
-                this.drop( new IronKey( Dungeon.depth, Dungeon.branch ), remains );
             }
         }
 
         //key item placing logic
-        this.drop(new IronKey(Dungeon.depth, Dungeon.branch), keyCell());
         this.drop(new OldAmulet(), amuletCell());
 
         Painter.set(this, entrancePoint(), Terrain.ENTRANCE);
