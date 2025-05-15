@@ -3,7 +3,6 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -11,7 +10,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -36,13 +34,11 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
     private int damage = 0;
 
     public int damageUse() {
-        int use = this.damage;
-        use = Math.round(use/(float)(1+hero.pointsInTalent(Talent.DIVIDED_POWER)));
-        return use;
+        return this.damage;
     }
 
     private float storeMulti() {
-        float multi = 0.2f;
+        float multi = 1f;
         multi *= 1+hero.pointsInTalent(Talent.MIND_FOCUSING)/3f;
         return multi;
     }
@@ -65,7 +61,7 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
     }
 
     public void use(int recoverAmt) {
-        this.damage -= damageUse() - recoverAmt;
+        this.damage -= Math.round(damageUse()*(1-0.1f*(1+hero.pointsInTalent(Talent.ENERGY_SAVING)))) - recoverAmt;
         if (damage <= 0) {
             detach();
             ActionIndicator.clearAction();
@@ -152,7 +148,7 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
         public float accuracyFactor(Char owner, Char target) {
             float accFactor = super.accuracyFactor(owner, target);
 
-            accFactor *= 1.5f;
+            accFactor *= Char.INFINITE_ACCURACY;
 
             return accFactor;
         }
@@ -164,11 +160,7 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
 
         @Override
         public int damageRoll(Char owner) {
-            int damage = SwordAura.this.damageUse();
-            if (hero.hasTalent(Talent.WIND_BLAST)) {
-                damage += 5*hero.pointsInTalent(Talent.WIND_BLAST);
-            }
-            return damage;
+            return SwordAura.this.damageUse();
         }
 
         @Override
@@ -200,11 +192,15 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
                 for (Char ch : chars) {
                     if (curUser.shoot(ch, this)) {
                         hitChar++;
+
+                        if (hero.hasTalent(Talent.WIND_BLAST)) {
+                            ch.damage(5*hero.pointsInTalent(Talent.WIND_BLAST), new SwordAuraMagicDamage());
+                        }
                     }
                 }
             }
             if (hero.hasTalent(Talent.ENERGY_COLLECT)) {
-                SwordAura.this.use(hitChar * Aura.this.damageRoll(hero)/(10-2*hero.pointsInTalent(Talent.ENERGY_COLLECT)));
+                SwordAura.this.use(hitChar * Math.round(damageUse()/(float)(7-hero.pointsInTalent(Talent.ENERGY_COLLECT))));
             } else {
                 SwordAura.this.use();
             }
@@ -242,4 +238,6 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
+
+    public static class SwordAuraMagicDamage {}
 }

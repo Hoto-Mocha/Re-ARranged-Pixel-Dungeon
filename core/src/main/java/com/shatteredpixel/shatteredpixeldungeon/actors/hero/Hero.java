@@ -2207,6 +2207,37 @@ public class Hero extends Char {
 			}
 		}
 
+		if (wep instanceof Weapon) {
+			if (Random.Float() < hero.critChance(enemy, (Weapon)wep)) {
+				damage = hero.criticalDamage(damage, (Weapon)wep, enemy);
+
+				Buff.affect(enemy, Sheath.CriticalAttack.class);
+
+				if (Sheath.isFlashSlash()) {
+					damage = Math.round(damage * (1 + 0.15f * hero.pointsInTalent(Talent.POWERFUL_SLASH)));
+				}
+
+				Awakening awakening = hero.buff(Awakening.class);
+				if (awakening != null && awakening.isAwaken()) {
+					hero.spend(-hero.attackDelay());
+					if (hero.hasTalent(Talent.STABLE_BARRIER)) {
+						int shield = 1;
+						int maxShield = Math.round(hero.HT * 0.2f * hero.pointsInTalent(Talent.STABLE_BARRIER));
+						int curShield = 0;
+						if (hero.buff(Barrier.class) != null) curShield = hero.buff(Barrier.class).shielding();
+						shield = Math.min(shield, maxShield-curShield);
+						if (shield > 0) {
+							Buff.affect(hero, Barrier.class).incShield(shield);
+							hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(Dewdrop.class, "shield", shield) );
+						}
+					}
+				}
+			} else {
+				if (Sheath.isFlashSlash()) {
+					Buff.prolong(hero, Sheath.FlashSlashCooldown.class, (30-5*hero.pointsInTalent(Talent.STATIC_PREPARATION))-1);
+				}
+			}
+		}
 
 		return damage;
 	}
