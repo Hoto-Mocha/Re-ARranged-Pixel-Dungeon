@@ -45,7 +45,7 @@ public class BannerSprites {
 				break;
 			case TITLE_GLOW_PORT:
 			case TITLE_GLOW_LAND:
-				icon.frame( icon.texture.uvRect( 122, 0, 122, 92 ) );
+				icon.frame( icon.texture.uvRect( 122, 0, 244, 92 ) );
 				break;
 			case BOSS_SLAIN:
 				icon.frame( icon.texture.uvRect( 0, 90, 128, 125 ) );
