@@ -1058,6 +1058,11 @@ public class Hero extends Char {
 			return 0;
 		}
 
+		Awakening awakening = hero.buff(Awakening.class);
+		if (awakening != null && awakening.isAwaken()) {
+			return 0;
+		}
+
 		float delay = 1f;
 
 		if ( buff(Adrenaline.class) != null) delay /= 1.5f;
@@ -2208,7 +2213,6 @@ public class Hero extends Char {
 
 				Awakening awakening = hero.buff(Awakening.class);
 				if (awakening != null && awakening.isAwaken()) {
-					hero.spend(-hero.attackDelay());
 					if (hero.hasTalent(Talent.STABLE_BARRIER)) {
 						int shield = 1;
 						int maxShield = Math.round(hero.HT * 0.2f * hero.pointsInTalent(Talent.STABLE_BARRIER));
