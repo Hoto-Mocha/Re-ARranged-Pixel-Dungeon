@@ -167,6 +167,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTa
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.DarkGold;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
+import com.shatteredpixel.shatteredpixeldungeon.items.remains.BrokenShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
@@ -2308,6 +2309,11 @@ public class Hero extends Char {
 		}
 
 		damage = Talent.onDefenseProc(this, enemy, damage);
+
+		if (buff(BrokenShield.DRBuff.class) != null) {
+			damage = 0;
+			buff(BrokenShield.DRBuff.class).detach();
+		}
 
 		return super.defenseProc( enemy, damage );
 	}

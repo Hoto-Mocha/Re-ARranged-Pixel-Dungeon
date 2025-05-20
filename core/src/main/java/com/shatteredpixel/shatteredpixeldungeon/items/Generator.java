@@ -351,6 +351,7 @@ public class Generator {
 		POTION	( 8, 8, Potion.class ),
 		SEED	( 1, 1, Plant.Seed.class ),
 		PILL	( 0, 0, Pill.class ),
+		POSITIVE_PILL	( 0, 0, Pill.class ),
 
 		SCROLL	( 8, 8, Scroll.class ),
 		STONE   ( 1, 1, Runestone.class),
@@ -480,6 +481,17 @@ public class Generator {
 					PillOfVitamin.class};
 			PILL.defaultProbs = new float[]{ 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 };
 			PILL.probs = PILL.defaultProbs.clone();
+
+			POSITIVE_PILL.classes = new Class<?>[]{
+					PillOfHealing.class,
+					PillOfMindFocus.class,
+					PillOfAcceleration.class,
+					PillOfInvisibility.class,
+					PillOfLevitation.class,
+					PillOfAntibiotics.class,
+					PillOfVitamin.class};
+			POSITIVE_PILL.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 1 };
+			POSITIVE_PILL.probs = POSITIVE_PILL.defaultProbs.clone();
 			
 			SCROLL.classes = new Class<?>[]{
 					ScrollOfUpgrade.class, //3 drop every chapter, see Dungeon.souNeeded()

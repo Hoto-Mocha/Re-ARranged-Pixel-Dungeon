@@ -154,6 +154,8 @@ public class ItemSpriteSheet {
 	public static final int TORN_PAGE       = MISC_CONSUMABLE +21;
 	public static final int TRINKET_CATA    = MISC_CONSUMABLE +22;
 
+
+
 	static{
 		assignItemRect(ANKH,            10, 16);
 		assignItemRect(STYLUS,          12, 13);
@@ -832,7 +834,7 @@ public class ItemSpriteSheet {
 	public static final int TELEPORTER			= NEW_SPECIAL_ITEM+5;
 	static{
 		assignItemRect(AMMO_BELT	, 15, 15);
-		assignItemRect(SHEATH		, 14, 14);
+		assignItemRect(SHEATH		, 16, 16);
 		assignItemRect(KNIGHT_SHIELD, 16, 15);
 		assignItemRect(GAMMA_GUN	, 12, 15);
 		assignItemRect(HAND_MIRROR	, 10, 16);
@@ -1499,6 +1501,19 @@ public class ItemSpriteSheet {
 		assignItemRect(FIRST_AID_KIT	, 16, 13);
 	}
 
+	private static final int NEW_MISC_CONSUMABLE	= 	xy(1, 72); //16 slots
+	public static final int SPARE_MAG 				= NEW_MISC_CONSUMABLE+0;
+	public static final int SHEATH_FRAGMENT 		= NEW_MISC_CONSUMABLE+1;
+	public static final int HOLED_POUCH 			= NEW_MISC_CONSUMABLE+2;
+	public static final int BROKEN_SHIELD 			= NEW_MISC_CONSUMABLE+3;
+	public static final int BROKEN_PILLBOX 			= NEW_MISC_CONSUMABLE+4;
+	static{
+		assignItemRect(SPARE_MAG 		, 10, 13);
+		assignItemRect(SHEATH_FRAGMENT 	, 13, 10);
+		assignItemRect(HOLED_POUCH 		, 14, 13);
+		assignItemRect(BROKEN_SHIELD 	, 13, 10);
+		assignItemRect(BROKEN_PILLBOX	, 13, 15);
+	}
 	// ****** new sprites end ******
 
 

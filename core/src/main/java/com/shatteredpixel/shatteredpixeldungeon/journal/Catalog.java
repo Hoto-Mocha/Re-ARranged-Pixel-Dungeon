@@ -102,9 +102,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.remains.BowFragment;
 import com.shatteredpixel.shatteredpixeldungeon.items.remains.BrokenHilt;
+import com.shatteredpixel.shatteredpixeldungeon.items.remains.BrokenShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.remains.BrokenStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.remains.CloakScrap;
+import com.shatteredpixel.shatteredpixeldungeon.items.remains.HoledPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.remains.SealShard;
+import com.shatteredpixel.shatteredpixeldungeon.items.remains.ShatteredPillbox;
+import com.shatteredpixel.shatteredpixeldungeon.items.remains.SheathFragment;
+import com.shatteredpixel.shatteredpixeldungeon.items.remains.SpareMagazine;
 import com.shatteredpixel.shatteredpixeldungeon.items.remains.TornPage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
@@ -305,6 +310,7 @@ public enum Catalog {
 				GooBlob.class, TengusMask.class, MetalShard.class, KingsCrown.class,
 				LiquidMetal.class, ArcaneResin.class,
 				SealShard.class, BrokenStaff.class, CloakScrap.class, BowFragment.class, BrokenHilt.class, TornPage.class,
+				SpareMagazine.class, SheathFragment.class, HoledPouch.class, BrokenShield.class, ShatteredPillbox.class,
 				Rope.class, GunSmithingTool.class, BulletBelt.class);
 
 	}
