@@ -118,7 +118,7 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
 
     @Override
     public String name() {
-        if (Dungeon.hero.STR() >= this.STRReq()) {
+        if (Dungeon.hero != null && Dungeon.hero.STR() >= this.STRReq()) {
             String trueName = Messages.get(this, "true_name");
             return enchantment != null && (cursedKnown || !enchantment.curse()) ? enchantment.name( trueName ) : trueName;
         } else {
