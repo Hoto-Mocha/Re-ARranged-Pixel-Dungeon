@@ -13,6 +13,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.TacticalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -82,6 +83,8 @@ public class GunSmithingTool extends Item {
 
         Statistics.gunModified = true;
         Badges.validateGunnerUnlock();
+
+        Catalog.countUse(GunSmithingTool.class);
 
         Item tool = Dungeon.hero.belongings.getItem(GunSmithingTool.class);
         if (tool != null) {

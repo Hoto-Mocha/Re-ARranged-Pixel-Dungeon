@@ -215,6 +215,8 @@ public class BluePrint extends Item {
             GLog.p( Messages.get(this, "morph") );
         }
         detach(Dungeon.hero.belongings.backpack);
+
+        Catalog.countUse(getClass());
     }
 
     @Override

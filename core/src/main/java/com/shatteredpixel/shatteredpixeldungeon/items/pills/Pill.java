@@ -110,6 +110,7 @@ public class Pill extends Item {
 
         hero.sprite.operate( hero.pos );
         useEffect(hero);
+        Catalog.countUse(getClass());
     }
 
     @Override

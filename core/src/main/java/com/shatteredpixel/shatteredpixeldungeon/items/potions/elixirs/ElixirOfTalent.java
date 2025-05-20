@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.IceMaker;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -87,6 +88,7 @@ public class ElixirOfTalent extends Elixir {
 			StatusPane.talentBlink = 10f;
 			WndHero.lastIdx = 1;
 		}
+		Catalog.countUse(getClass());
 
 		Sample.INSTANCE.play( Assets.Sounds.DRINK );
 	}
