@@ -1058,8 +1058,7 @@ public class Hero extends Char {
 			return 0;
 		}
 
-		Awakening awakening = hero.buff(Awakening.class);
-		if (awakening != null && awakening.isAwaken()) {
+		if (buff(Awakening.class) != null && buff(Awakening.class).isAwaken() && buff(Sheath.CriticalAttack.class) != null) {
 			return 0;
 		}
 
@@ -1096,8 +1095,7 @@ public class Hero extends Char {
 				speed *= 1 + 0.05f * hero.pointsInTalent(Talent.ATK_SPEED_ENHANCE);
 			}
 
-			Awakening awakening = hero.buff(Awakening.class);
-			if (awakening != null && awakening.isAwaken()) {
+			if (buff(Awakening.class) != null && buff(Awakening.class).isAwaken()) {
 				speed *= 2f;
 			}
 
@@ -1890,6 +1888,9 @@ public class Hero extends Char {
 			chance += 0.05f;
 		}
 
+		System.out.println("CritChance() : " + chance);
+		System.out.println("CritChance() after gate : " + GameMath.gate(0, chance, 2));
+
 		return GameMath.gate(0, chance, 2);
 	}
 
@@ -2202,7 +2203,10 @@ public class Hero extends Char {
 		}
 
 		if (wep instanceof Weapon) {
-			if (Random.Float() < hero.critChance(enemy, (Weapon)wep)) {
+			float randomFloat = Random.Float();
+			System.out.println("randomFloat : "+randomFloat);
+			System.out.println("current chance : "+hero.critChance(enemy, (Weapon)wep));
+			if (randomFloat < hero.critChance(enemy, (Weapon)wep)) {
 				damage = hero.criticalDamage(damage, (Weapon)wep, enemy);
 
 				Buff.affect(enemy, Sheath.CriticalAttack.class);
@@ -2230,6 +2234,10 @@ public class Hero extends Char {
 					Buff.prolong(hero, Sheath.FlashSlashCooldown.class, (30-5*hero.pointsInTalent(Talent.STATIC_PREPARATION))-1);
 				}
 			}
+		}
+
+		if (hero.buff(Sheath.CertainCrit.class) != null) {
+			hero.buff(Sheath.CertainCrit.class).hit();
 		}
 
 		return damage;

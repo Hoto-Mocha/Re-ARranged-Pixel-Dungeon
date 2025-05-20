@@ -2260,10 +2260,6 @@ public enum Talent {
 			Buff.affect(enemy, Lucky.LuckProc.class);
 		}
 
-		if (hero.buff(Sheath.CertainCrit.class) != null) {
-			hero.buff(Sheath.CertainCrit.class).hit();
-		}
-
 		if (hero.subClass == HeroSubClass.CRUSADER && hero.buff(Bless.class) != null) {
 			int healAmt = Math.round(damage*0.4f);
 			int excessHeal = healAmt - (hero.HT - hero.HP);
