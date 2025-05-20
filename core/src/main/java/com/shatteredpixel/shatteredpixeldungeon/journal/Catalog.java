@@ -129,8 +129,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.Xray;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.CorrosiveBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.ElectricBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.GoldenBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.MagicalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.NaturesBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.PhaseBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.TacticalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.WindBow;
@@ -253,7 +256,7 @@ public enum Catalog {
 		TRINKETS.addItems(Generator.Category.TRINKET.classes);
 
 		MISC_EQUIPMENT.addItems(BrokenSeal.class, KnightsShield.class,
-				SpiritBow.class, WindBow.class, TacticalBow.class, GoldenBow.class, NaturesBow.class, CorrosiveBow.class,
+				SpiritBow.class, WindBow.class, TacticalBow.class, GoldenBow.class, NaturesBow.class, CorrosiveBow.class, ElectricBow.class, MagicalBow.class, PhaseBow.class,
 				Sheath.class, GammaRayGun.class,
 				Waterskin.class, VelvetPouch.class, PotionBandolier.class, ScrollHolder.class, MagicalHolster.class,
 				OldAmulet.class, Amulet.class);
