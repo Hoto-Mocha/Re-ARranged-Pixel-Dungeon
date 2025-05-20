@@ -715,6 +715,7 @@ public abstract class RegularLevel extends Level {
 				int pos = pointToCell(room.random());
 				if (passable[pos] && !solid[pos]
 						&& pos != exit()
+						&& pos != transitionPos()
 						&& heaps.get(pos) == null
 						&& room.canPlaceItem(cellToPoint(pos), this)
 						&& findMob(pos) == null) {

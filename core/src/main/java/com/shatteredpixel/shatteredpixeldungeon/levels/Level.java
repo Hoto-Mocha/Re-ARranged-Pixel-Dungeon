@@ -552,6 +552,20 @@ public abstract class Level implements Bundlable {
 		if (l != null){
 			return l.cell();
 		}
+
+		return 0;
+	}
+
+	public int transitionPos() {
+		LevelTransition branchEntrance = getTransition(LevelTransition.Type.BRANCH_ENTRANCE);
+		if (branchEntrance != null){
+			return branchEntrance.cell();
+		}
+		LevelTransition branchExit = getTransition(LevelTransition.Type.BRANCH_EXIT);
+		if (branchExit != null){
+			return branchExit.cell();
+		}
+
 		return 0;
 	}
 
