@@ -2,6 +2,7 @@ package com.shatteredpixel.shatteredpixeldungeon.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -20,6 +21,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.SentryCham
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.SentryMazeChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.SpearGnollChamber;
 import com.shatteredpixel.shatteredpixeldungeon.levels.templeChambers.WarpStoneChamber;
+import com.watabou.noosa.audio.Music;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
@@ -30,6 +32,20 @@ public class TempleNewLevel extends Level {
     {
         color1 = 0x64bb4c;
         color2 = 0x569545;
+    }
+
+    public static final String[] CAVES_TRACK_LIST
+            = new String[]{Assets.Music.CAVES_1, Assets.Music.CAVES_2, Assets.Music.CAVES_2,
+            Assets.Music.CAVES_1, Assets.Music.CAVES_3, Assets.Music.CAVES_3};
+    public static final float[] CAVES_TRACK_CHANCES = new float[]{1f, 1f, 0.5f, 0.25f, 1f, 0.5f};
+
+    @Override
+    public void playLevelMusic() {
+        if (Statistics.amuletObtained || Dungeon.templeCompleted){
+            Music.INSTANCE.play(Assets.Music.CAVES_TENSE, true);
+        } else {
+            Music.INSTANCE.playTracks(CAVES_TRACK_LIST, CAVES_TRACK_CHANCES, false);
+        }
     }
 
     public static final int PEDESTAL_WALL_OFFSET = 3; //the distance of between top wall and amulet cell

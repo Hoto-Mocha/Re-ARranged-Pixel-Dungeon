@@ -2,8 +2,10 @@ package com.shatteredpixel.shatteredpixeldungeon.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
+import com.watabou.noosa.audio.Music;
 import com.watabou.utils.Rect;
 
 public class TempleChasmLevel extends Level {
@@ -11,6 +13,20 @@ public class TempleChasmLevel extends Level {
     {
         color1 = 0x64bb4c;
         color2 = 0x569545;
+    }
+
+    public static final String[] CAVES_TRACK_LIST
+            = new String[]{Assets.Music.CAVES_1, Assets.Music.CAVES_2, Assets.Music.CAVES_2,
+            Assets.Music.CAVES_1, Assets.Music.CAVES_3, Assets.Music.CAVES_3};
+    public static final float[] CAVES_TRACK_CHANCES = new float[]{1f, 1f, 0.5f, 0.25f, 1f, 0.5f};
+
+    @Override
+    public void playLevelMusic() {
+        if (Statistics.amuletObtained || Dungeon.templeCompleted){
+            Music.INSTANCE.play(Assets.Music.CAVES_TENSE, true);
+        } else {
+            Music.INSTANCE.playTracks(CAVES_TRACK_LIST, CAVES_TRACK_CHANCES, false);
+        }
     }
 
     public static final int WIDTH = 7;

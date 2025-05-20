@@ -395,13 +395,13 @@ public class Teleporter extends Item {
 //            }
 
             //사원으로 이동
-//            InterlevelScene.mode = InterlevelScene.Mode.RETURN;
-//            InterlevelScene.returnDepth = 14;
-//            InterlevelScene.returnBranch = 2;
-//            InterlevelScene.returnPos = -2;
-//            Game.switchScene( InterlevelScene.class );
+            InterlevelScene.mode = InterlevelScene.Mode.RETURN;
+            InterlevelScene.returnDepth = 14;
+            InterlevelScene.returnBranch = 2;
+            InterlevelScene.returnPos = -2;
+            Game.switchScene( InterlevelScene.class );
 
-            Dungeon.hero.HP = 1;
+//            Dungeon.hero.HP = 1;
         }
     }
 

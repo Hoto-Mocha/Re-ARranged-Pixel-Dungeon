@@ -97,6 +97,7 @@ public class OldAmulet extends Item {
         if (super.doPickUp(hero, pos)) {
             if (Dungeon.depth == 14 && Dungeon.branch == 2 && hero.buff(TempleCurse.class) == null) {
                 Dungeon.templeCompleted = true;
+                Dungeon.level.playLevelMusic();
                 Buff.affect(hero, TempleCurse.class);
             }
             return true;
