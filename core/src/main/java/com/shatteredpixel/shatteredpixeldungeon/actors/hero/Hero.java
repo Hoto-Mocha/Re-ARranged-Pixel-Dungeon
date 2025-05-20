@@ -2380,15 +2380,22 @@ public class Hero extends Char {
 			}
 			//고통 저항 버프 효과
 			if (buff(PainKiller.class) != null) {
-				dmg *= 0.5f;
+				damage *= 0.5f;
 			}
 		}
 
 		//unused, could be removed
 		CapeOfThorns.Thorns thorns = buff( CapeOfThorns.Thorns.class );
 		if (thorns != null) {
-			dmg = thorns.proc(dmg, (src instanceof Char ? (Char)src : null),  this);
+			damage = thorns.proc(dmg, (src instanceof Char ? (Char)src : null),  this);
 		}
+
+		if (buff(Talent.WarriorFoodImmunity.class) != null){
+			if (pointsInTalent(Talent.IRON_STOMACH) == 1)       damage /= 4f;
+			else if (pointsInTalent(Talent.IRON_STOMACH) == 2)  damage = 0;
+		}
+
+		dmg = Math.round(damage);
 
 		//~17%/~33% damage reduction, proportional to hero's lost health
 		if (hero.hasTalent(Talent.PROTECTION)) {
@@ -2435,11 +2442,6 @@ public class Hero extends Char {
 				&& AntiMagic.RESISTS.contains(src.getClass())) {
 			dmg -= LanceNShield.drRoll(belongings.secondWep().buffedLvl());
 			dmg = Math.max(dmg, 0);
-		}
-
-		if (buff(Talent.WarriorFoodImmunity.class) != null){
-			if (pointsInTalent(Talent.IRON_STOMACH) == 1)       damage /= 4f;
-			else if (pointsInTalent(Talent.IRON_STOMACH) == 2)  damage = 0;
 		}
 
 		if (buff(Tackle.SuperArmorTracker.class) != null) {
