@@ -2219,7 +2219,7 @@ public enum Talent {
 				enemy.sprite.emitter().start( ShadowParticle.UP, 0.05f, 3 );
 				Sample.INSTANCE.play(Assets.Sounds.BURNING);
 
-				damage = (int)Math.pow(1.1f, hero.pointsInTalent(Talent.BIOLOGY_PROJECT));
+				damage = damage * (int)Math.pow(1.1f, hero.pointsInTalent(Talent.BIOLOGY_PROJECT));
 			}
 		}
 
