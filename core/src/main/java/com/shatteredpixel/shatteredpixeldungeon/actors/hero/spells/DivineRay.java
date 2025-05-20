@@ -134,6 +134,7 @@ public class DivineRay extends TargetedClericSpell {
             int damage = Random.NormalIntRange(minDamage, 16);
             if (ch.alignment == Char.Alignment.ENEMY) {
                 ch.damage( damage, this );
+                Buff.affect(ch, GuidingLight.Illuminated.class);
                 ch.sprite.centerEmitter().burst( YellowParticle.BURST, 4 );
                 ch.sprite.flash();
             } else if (ch.alignment == Char.Alignment.ALLY) {
