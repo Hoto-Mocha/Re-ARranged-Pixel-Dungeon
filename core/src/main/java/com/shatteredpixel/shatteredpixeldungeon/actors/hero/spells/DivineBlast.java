@@ -85,7 +85,7 @@ public class DivineBlast extends TargetedClericSpell {
                 //paralyzes the center target
                 Char ch = Actor.findChar(target);
                 if (ch != null && ch.alignment == Char.Alignment.ENEMY && !ch.isImmune(Paralysis.class)){
-                    Buff.affect(ch, Paralysis.class, 3);
+                    Buff.affect(ch, Paralysis.class, 2);
                 }
 
                 hero.spend( 1f );
