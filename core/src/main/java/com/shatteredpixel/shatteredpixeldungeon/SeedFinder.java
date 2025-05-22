@@ -80,17 +80,19 @@ public class SeedFinder {
 				Heap h = item.heap;
 				String itemName = i.title();
 
-				for (int j = 0; j < itemList.size(); j++) {
-					String wantingItem = itemList.get(j);
-					boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
-					if (precise) {
-						wantingItem = wantingItem.replaceAll("\"","");
-					} else {
-						wantingItem = wantingItem.replaceAll(" ", "");
-					}
-					if (!precise && i.title().replaceAll(" ","").contains(wantingItem) ||
-							precise && i.title().equals(wantingItem)) {
-						itemName = "_" + itemName + "_";
+				if (itemList != null && !itemList.isEmpty()) {
+					for (int j = 0; j < itemList.size(); j++) {
+						String wantingItem = itemList.get(j);
+						boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
+						if (precise) {
+							wantingItem = wantingItem.replaceAll("\"","");
+						} else {
+							wantingItem = wantingItem.replaceAll(" ", "");
+						}
+						if (!precise && i.title().replaceAll(" ","").contains(wantingItem) ||
+								precise && i.title().equals(wantingItem)) {
+							itemName = "_" + itemName + "_";
+						}
 					}
 				}
 
@@ -119,17 +121,19 @@ public class SeedFinder {
 			for (Item i : items) {
 				String itemName = i.title();
 
-				for (int j = 0; j < itemList.size(); j++) {
-					String wantingItem = itemList.get(j);
-					boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
-					if (precise) {
-						wantingItem = wantingItem.replaceAll("\"","");
-					} else {
-						wantingItem = wantingItem.replaceAll(" ", "");
-					}
-					if (!precise && i.title().replaceAll(" ","").contains(wantingItem) ||
-							precise && i.title().equals(wantingItem)) {
-						itemName = "_" + itemName + "_";
+				if (itemList != null && !itemList.isEmpty()) {
+					for (int j = 0; j < itemList.size(); j++) {
+						String wantingItem = itemList.get(j);
+						boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
+						if (precise) {
+							wantingItem = wantingItem.replaceAll("\"","");
+						} else {
+							wantingItem = wantingItem.replaceAll(" ", "");
+						}
+						if (!precise && i.title().replaceAll(" ","").contains(wantingItem) ||
+								precise && i.title().equals(wantingItem)) {
+							itemName = "_" + itemName + "_";
+						}
 					}
 				}
 
@@ -177,19 +181,19 @@ public class SeedFinder {
 		ArrayList<Heap> heaps = new ArrayList<>();
 
 		for (Mob m : l.mobs) {
-			if (m instanceof Statue) {
-				Heap h = new Heap();
-				h.items = new LinkedList<>();
-				h.items.add(((Statue) m).weapon.identify());
-				h.type = Type.STATUE;
-				heaps.add(h);
-			}
-
-			else if (m instanceof ArmoredStatue) {
+			if (m instanceof ArmoredStatue) {
 				Heap h = new Heap();
 				h.items = new LinkedList<>();
 				h.items.add(((ArmoredStatue) m).armor.identify());
 				h.items.add(((ArmoredStatue) m).weapon.identify());
+				h.type = Type.STATUE;
+				heaps.add(h);
+			}
+
+			else if (m instanceof Statue) {
+				Heap h = new Heap();
+				h.items = new LinkedList<>();
+				h.items.add(((Statue) m).weapon.identify());
 				h.type = Type.STATUE;
 				heaps.add(h);
 			}
