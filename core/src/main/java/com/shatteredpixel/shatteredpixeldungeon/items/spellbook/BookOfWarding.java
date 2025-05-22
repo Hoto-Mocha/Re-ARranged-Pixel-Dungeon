@@ -55,7 +55,7 @@ public class BookOfWarding extends SpellBook {
             if (ch instanceof MirrorImage) sqawnedImages++;
         }
         if (sqawnedImages < 5) {
-            int spawned = spawnImages(Dungeon.hero.pos, Math.round((4+Dungeon.hero.lvl)*(1+0.5f*Dungeon.hero.pointsInTalent(Talent.SPELL_ENHANCE))), 3);
+            int spawned = spawnImages(Dungeon.hero.pos, mirrorImageAmount(), 3);
             if (spawned > 0) {
                 GLog.p(Messages.get(this, "appear"));
             }
@@ -69,8 +69,7 @@ public class BookOfWarding extends SpellBook {
         String info = super.info();
         if (Dungeon.hero != null) {
             if (Dungeon.hero.buff(SpellBookCoolDown.class) == null) {
-                info += "\n\n" + Messages.get(this, "time",
-                        Math.round((4+Dungeon.hero.lvl)*(1+0.5f*Dungeon.hero.pointsInTalent(Talent.SPELL_ENHANCE))));
+                info += "\n\n" + Messages.get(this, "time", mirrorImageAmount());
             }
         }
         return info;
@@ -114,5 +113,9 @@ public class BookOfWarding extends SpellBook {
         }
 
         return spawned;
+    }
+
+    public int mirrorImageAmount() {
+        return Math.round((1+(int)(Dungeon.hero.lvl/10))*(1+0.5f*Dungeon.hero.pointsInTalent(Talent.SPELL_ENHANCE)));
     }
 }
