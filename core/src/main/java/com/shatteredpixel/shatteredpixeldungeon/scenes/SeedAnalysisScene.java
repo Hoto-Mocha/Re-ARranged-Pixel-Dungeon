@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
+import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.SeedFinder;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -31,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTextInput;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.ColorBlock;
@@ -43,7 +45,7 @@ public class SeedAnalysisScene extends PixelScene {
 	public void create() {
 		super.create();
 
-		final float colWidth = 120;
+		final float colWidth = 200;
 		final float fullWidth = colWidth * (landscape() ? 2 : 1);
 
 		int w = Camera.main.width;
@@ -78,7 +80,7 @@ public class SeedAnalysisScene extends PixelScene {
 				text = DungeonSeed.formatText(text);
 				long seed = DungeonSeed.convertFromText(text);
 				if (positive && seed > -1){
-					CreditsBlock txt = new CreditsBlock(true, Window.TITLE_COLOR, new SeedFinder().logSeedItems(text,31));
+					ResultBlock txt = new ResultBlock(true, Window.TITLE_COLOR, new SeedFinder().logSeedItems(text,31));
 					txt.setRect((Camera.main.width - colWidth)/2f, 12, colWidth, 0);
 					content.add(txt);
 					content.setSize( fullWidth, txt.bottom()+10 );
@@ -113,12 +115,12 @@ public class SeedAnalysisScene extends PixelScene {
 		line.y = y;
 		content.add(line);
 	}
-	public static class CreditsBlock extends Component {
+	public static class ResultBlock extends Component {
 		boolean large;
 
 		RenderedTextBlock body;
 
-		public CreditsBlock(boolean large, int highlight, String body){
+		public ResultBlock(boolean large, int highlight, String body){
 			super();
 
 			this.large = large;

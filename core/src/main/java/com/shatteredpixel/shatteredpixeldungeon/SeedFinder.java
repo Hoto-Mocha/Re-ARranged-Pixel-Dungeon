@@ -12,6 +12,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Wandmaker;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
@@ -28,12 +29,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.quest.Embers;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.HeroSelectScene;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -75,9 +80,9 @@ public class SeedFinder {
 				Heap h = item.heap;
 
 				if (((i instanceof Armor && ((Armor) i).hasGoodGlyph()) ||
-					(i instanceof Weapon && ((Weapon) i).hasGoodEnchant()) ||
-					(i instanceof Ring) || (i instanceof Wand)) && i.cursed)
-					builder.append("- " + Messages.get(this, "cursed")).append(i.title().toLowerCase());
+						(i instanceof Weapon && ((Weapon) i).hasGoodEnchant()) ||
+						(i instanceof Ring) || (i instanceof Wand)) && i.cursed)
+					builder.append("- "+ Messages.get(this, "cursed") +" ").append(i.title().toLowerCase());
 
 				else
 					builder.append("- ").append(i.title().toLowerCase());
@@ -98,8 +103,7 @@ public class SeedFinder {
 
 			for (Item i : items) {
 				if (i.cursed)
-					builder.append("- " + Messages.get(this, "cursed")).append(i.title().toLowerCase()).append("\n");
-
+					builder.append("- "+ Messages.get(this, "cursed") +" ").append(i.title().toLowerCase()).append("\n");
 				else
 					builder.append("- ").append(i.title().toLowerCase()).append("\n");
 			}
@@ -114,6 +118,10 @@ public class SeedFinder {
 		}
 	}
 
+	public void stopFindSeed(){
+		findingStatus = FINDING.STOP;
+	}
+
 	public String findSeed(String[] wanted, int floor) {
 		itemList = new ArrayList<>(Arrays.asList(wanted));
 
@@ -122,14 +130,16 @@ public class SeedFinder {
 		Options.condition = Condition.ALL;
 
 		String result="NONE";
-
-		for (int i = Random.Int(9999999); i < DungeonSeed.TOTAL_SEEDS && findingStatus == FINDING.CONTINUE ; i++) {
-			if (testSeedALL(seedDigits + i, floor)) {
-				result = logSeedItems(seedDigits + i, floor);
+		int i = 0;
+		for (; i < DungeonSeed.TOTAL_SEEDS && findingStatus == FINDING.CONTINUE ; i++) {
+			long seed = DungeonSeed.randomSeed();
+			if (testSeedALL(Long.toString(seed), floor)) {
+				result = logSeedItems(Long.toString(seed), floor);
 				break;
 			}
 		}
-		return result;
+		findingStatus = FINDING.STOP;
+		return result+"\n\n[ " + Messages.get(this, "found", i) + " ]";
 	}
 
 	private ArrayList<Heap> getMobDrops(Level l) {
@@ -170,6 +180,26 @@ public class SeedFinder {
 		return heaps;
 	}
 
+	private ArrayList<HeapItem> getTrinkets() {
+		TrinketCatalyst cata = new TrinketCatalyst();
+		final int NUM_TRINKETS = TrinketCatalyst.WndTrinket.NUM_TRINKETS;
+
+		// roll new trinkets if trinkets were not already rolled
+		while (cata.rolledTrinkets.size() < NUM_TRINKETS) {
+			cata.rolledTrinkets.add((Trinket) Generator.random(Generator.Category.TRINKET));
+		}
+
+		ArrayList<HeapItem> trinkets = new ArrayList<>();
+
+		for (int i = 0; i < NUM_TRINKETS; i++) {
+			Heap h = new Heap();
+			h.type = Heap.Type.CATALYST;
+			trinkets.add(new HeapItem(cata.rolledTrinkets.get(i), h));
+		}
+
+		return trinkets;
+	}
+
 	private boolean testSeed(String seed, int floors) {
 		SPDSettings.customSeed(seed);
 		GamesInProgress.selectedClass = HeroClass.WARRIOR;
@@ -182,7 +212,7 @@ public class SeedFinder {
 
 			ArrayList<Heap> heaps = new ArrayList<>(l.heaps.valueList());
 			heaps.addAll(getMobDrops(l));
-			
+
 			if(Ghost.Quest.armor != null){
 				for (int j = 0; j < itemList.size(); j++) {
 					if (Ghost.Quest.armor.identify().title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ",""))) {
@@ -200,18 +230,18 @@ public class SeedFinder {
 							itemsFound[j] = true;
 							break;
 						}
-					}	
-					if(Wandmaker.Quest.type == 1 && Messages.get(this, "corpsedust").contains(itemList.get(j).replaceAll(" ",""))){
+					}
+					if (Wandmaker.Quest.type == 1 && Messages.get(this, "corpsedust").contains(itemList.get(j).replaceAll(" ",""))){
 						if (!itemsFound[j]) {
 							itemsFound[j] = true;
 							break;
 						}
-					}else if(Wandmaker.Quest.type == 2 && Messages.get(this, "embers").contains(itemList.get(j).replaceAll(" ",""))){
+					} else if (Wandmaker.Quest.type == 2 && Messages.get(this, "embers").contains(itemList.get(j).replaceAll(" ",""))){
 						if (!itemsFound[j]) {
 							itemsFound[j] = true;
 							break;
 						}
-					}else if(Wandmaker.Quest.type == 3 && Messages.get(this, "rotberry").contains(itemList.get(j).replaceAll(" ",""))){
+					} else if (Wandmaker.Quest.type == 3 && Messages.get(this, "rotberry").contains(itemList.get(j).replaceAll(" ",""))){
 						if (!itemsFound[j]) {
 							itemsFound[j] = true;
 							break;
@@ -219,7 +249,7 @@ public class SeedFinder {
 					}
 				}
 			}
-			if(Imp.Quest.reward != null){
+			if (Imp.Quest.reward != null){
 				for (int j = 0; j < itemList.size(); j++) {
 					if (Imp.Quest.reward.identify().title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ",""))) {
 						if (!itemsFound[j]) {
@@ -250,7 +280,7 @@ public class SeedFinder {
 
 		if (Options.condition == Condition.ANY) {
 			for (int i = 0; i < itemList.size(); i++) {
-				if (itemsFound[i])
+				if (itemsFound[i] == true)
 					return true;
 			}
 
@@ -259,7 +289,7 @@ public class SeedFinder {
 
 		else {
 			for (int i = 0; i < itemList.size(); i++) {
-				if (!itemsFound[i])
+				if (itemsFound[i] == false)
 					return false;
 			}
 
@@ -269,11 +299,32 @@ public class SeedFinder {
 
 	private boolean testSeedALL(String seed, int floors) {
 		SPDSettings.customSeed(seed);
+		Dungeon.initSeed();
 		GamesInProgress.selectedClass = HeroClass.WARRIOR;
 		Dungeon.init();
 
 		boolean[] itemsFound = new boolean[itemList.size()];
 		Arrays.fill(itemsFound, false);
+
+		ArrayList<HeapItem> trinkets = getTrinkets();
+		for (int k = 0; k < trinkets.size(); k++) {
+			for (int j = 0; j < itemList.size(); j++) {
+				String wantingItem = itemList.get(j);
+				boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
+				if(precise){
+					wantingItem = wantingItem.replaceAll("\"","");
+				}else{
+					wantingItem = wantingItem.replaceAll(" ", "");
+				}
+				if (!precise && trinkets.get(k).item.title().replaceAll(" ","").contains(wantingItem) ||
+						precise && trinkets.get(k).item.title().equals(wantingItem)) {
+					if (!itemsFound[j]) {
+						itemsFound[j] = true;
+						break;
+					}
+				}
+			}
+		}
 
 		for (int i = 0; i < floors; i++) {
 			Level l = Dungeon.newLevel();
@@ -286,9 +337,9 @@ public class SeedFinder {
 					String wantingItem = itemList.get(j);
 					boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
 					if(precise){
-						wantingItem = wantingItem.replaceAll(" ", "");
-					}else{
 						wantingItem = wantingItem.replaceAll("\"","");
+					}else{
+						wantingItem = wantingItem.replaceAll(" ", "");
 					}
 					if (!precise&&Ghost.Quest.armor.identify().title().toLowerCase().replaceAll(" ","").contains(wantingItem) || precise&& Ghost.Quest.armor.identify().title().toLowerCase().equals(wantingItem)) {
 						if (!itemsFound[j]) {
@@ -303,7 +354,7 @@ public class SeedFinder {
 					String wantingItem = itemList.get(j);
 					String wand1 = Wandmaker.Quest.wand1.identify().title().toLowerCase();
 					String wand2 = Wandmaker.Quest.wand2.identify().title().toLowerCase();
-					boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
+					boolean precise = wantingItem.startsWith("\"") && wantingItem.endsWith("\"");
 					if(precise){
 						wantingItem = wantingItem.replaceAll("\"","");
 						if (wand1.equals(wantingItem) || wand2.equals(wantingItem)) {
@@ -323,17 +374,17 @@ public class SeedFinder {
 							}
 						}
 					}
-					if(Wandmaker.Quest.type == 1 && Messages.get(this, "corpsedust").contains(wantingItem.replaceAll(" ",""))){
+					if (Wandmaker.Quest.type == 1 && Messages.get(this, "corpsedust").contains(wantingItem.replaceAll(" ",""))){
 						if (!itemsFound[j]) {
 							itemsFound[j] = true;
 							break;
 						}
-					}else if(Wandmaker.Quest.type == 2 && Messages.get(this, "embers").contains(wantingItem.replaceAll(" ",""))){
+					} else if (Wandmaker.Quest.type == 2 && Messages.get(this, "embers").contains(wantingItem.replaceAll(" ",""))){
 						if (!itemsFound[j]) {
 							itemsFound[j] = true;
 							break;
 						}
-					}else if(Wandmaker.Quest.type == 3 && Messages.get(this, "rotberry").contains(wantingItem.replaceAll(" ",""))){
+					} else if (Wandmaker.Quest.type == 3 && Messages.get(this, "rotberry").contains(wantingItem.replaceAll(" ",""))){
 						if (!itemsFound[j]) {
 							itemsFound[j] = true;
 							break;
@@ -341,14 +392,14 @@ public class SeedFinder {
 					}
 				}
 			}
-			if(Imp.Quest.reward != null){
+			if (Imp.Quest.reward != null){
 				for (int j = 0; j < itemList.size(); j++) {
 					String wantingItem = itemList.get(j);
 					boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
 					String ring = Imp.Quest.reward.identify().title().toLowerCase();
 					if (!precise&&ring.replaceAll(" ","").contains(wantingItem.replaceAll(" ",""))
-					||
-					precise&& ring.equals(wantingItem)) {
+							||
+							precise&& ring.equals(wantingItem)) {
 						if (!itemsFound[j]) {
 							itemsFound[j] = true;
 							break;
@@ -366,7 +417,7 @@ public class SeedFinder {
 						String wantingItem = itemList.get(j);
 						boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
 						if (!precise&&itemName.replaceAll(" ","").contains(wantingItem.replaceAll(" ",""))
-						|| precise&& itemName.equals(wantingItem.replaceAll("\"", ""))) {
+								|| precise&& itemName.equals(wantingItem.replaceAll("\"", ""))) {
 							if (!itemsFound[j]) {
 								itemsFound[j] = true;
 								break;
@@ -375,7 +426,8 @@ public class SeedFinder {
 					}
 				}
 			}
-			if(areAllTrue(itemsFound)){
+
+			if (areAllTrue(itemsFound)){
 				return true;
 			}
 			Dungeon.depth++;
@@ -383,24 +435,32 @@ public class SeedFinder {
 		return false;
 	}
 
-	private static boolean areAllTrue(boolean[] array) {
-		for(boolean b : array) if(!b) return false;
+	private static boolean areAllTrue(boolean[] array)
+	{
+		for(boolean b : array) if (!b) return false;
 		return true;
 	}
 
 	public String logSeedItems(String seed, int floors) {
-		
+		for (GamesInProgress.Info info : GamesInProgress.checkAll()){
+			if (info.seed == DungeonSeed.convertFromText(seed)){
+				return Messages.get(this, "already_playing");
+			}
+		}
+
 		SPDSettings.customSeed(seed);
+		Dungeon.initSeed();
 		GamesInProgress.selectedClass = HeroClass.WARRIOR;
 		Dungeon.init();
-		StringBuilder result = new StringBuilder(Messages.get(this, "seed") + DungeonSeed.convertToCode(Dungeon.seed) + " (" + Dungeon.seed + ") " + Messages.get(this, "items") + ":\n\n");
+		StringBuilder result = new StringBuilder(Messages.get(this, "result", DungeonSeed.convertToCode(Dungeon.seed), Dungeon.seed)+":\n\n");
 
 		blacklist = Arrays.asList(Gold.class, Dewdrop.class, IronKey.class, GoldenKey.class, CrystalKey.class, EnergyCrystal.class,
-								  CorpseDust.class, Embers.class, CeremonialCandle.class, Pickaxe.class);
-
+				CorpseDust.class, Embers.class, CeremonialCandle.class, Pickaxe.class);
+		ArrayList<HeapItem> trinkets = getTrinkets();
+		addTextItems(appendCaption(Messages.get(this, "trinket")), trinkets, result);
 
 		for (int i = 0; i < floors; i++) {
-			result.append("\n_----- ").append(Long.toString(Dungeon.depth)).append(" ").append(Messages.get(this, "floor") + " -----_\n\n");
+			result.append("\n_----- ").append(Long.toString(Dungeon.depth)).append(Messages.get(this, "floor")).append(" -----_\n\n");
 
 			Level l = Dungeon.newLevel();
 			ArrayList<Heap> heaps = new ArrayList<>(l.heaps.valueList());
@@ -421,7 +481,7 @@ public class SeedFinder {
 				rewards.add(Ghost.Quest.weapon.identify());
 				Ghost.Quest.complete();
 
-				addTextQuest("[ " + Messages.get(this, "sad_ghost_reward") + " ]", rewards, builder);
+				addTextQuest(appendCaption(Messages.get(this, "sad_ghost_reward")), rewards, builder);
 			}
 
 			if (Wandmaker.Quest.wand1 != null) {
@@ -430,21 +490,21 @@ public class SeedFinder {
 				rewards.add(Wandmaker.Quest.wand2.identify());
 				Wandmaker.Quest.complete();
 
-				builder.append("[ " + Messages.get(this, "wandmaker_need") +" ]:\n ");
+				builder.append(appendCaption(Messages.get(this, "wandmaker_need"))+":\n");
 
 
 				switch (Wandmaker.Quest.type) {
 					case 1: default:
-						builder.append(Messages.get(this, "corpsedust") + "\n\n");
+						builder.append(Messages.get(this, "corpsedust")).append("\n\n");
 						break;
 					case 2:
-						builder.append(Messages.get(this, "embers") + "\n\n");
+						builder.append(Messages.get(this, "embers")).append("\n\n");
 						break;
 					case 3:
-						builder.append(Messages.get(this, "rotberry") + "\n\n");
+						builder.append(Messages.get(this, "rotberry")).append("\n\n");
 				}
 
-				addTextQuest("[ "+ Messages.get(this, "wandmaker_reward") +" ]", rewards, builder);
+				addTextQuest(appendCaption(Messages.get(this, "wandmaker_reward")), rewards, builder);
 			}
 
 			if (Imp.Quest.reward != null) {
@@ -452,7 +512,7 @@ public class SeedFinder {
 				rewards.add(Imp.Quest.reward.identify());
 				Imp.Quest.complete();
 
-				addTextQuest("[ "+ Messages.get(this, "imp_reward") +" ]", rewards, builder);
+				addTextQuest(appendCaption(Messages.get(this, "imp_reward")), rewards, builder);
 			}
 
 			heaps.addAll(getMobDrops(l));
@@ -474,20 +534,24 @@ public class SeedFinder {
 				}
 			}
 
-			addTextItems("[ "+ Messages.get(this, "scrolls") +" ]", scrolls, builder);
-			addTextItems("[ "+ Messages.get(this, "potions") +" ]", potions, builder);
-			addTextItems("[ "+ Messages.get(this, "equipment") +" ]", equipment, builder);
-			addTextItems("[ "+ Messages.get(this, "rings") +" ]", rings, builder);
-			addTextItems("[ "+ Messages.get(this, "artifacts") +" ]", artifacts, builder);
-			addTextItems("[ "+ Messages.get(this, "wands") +" ]", wands, builder);
-			addTextItems("[ "+ Messages.get(this, "for_sales") +" ]", forSales, builder);
-			addTextItems("[ "+ Messages.get(this, "others") +" ]", others, builder);
+			addTextItems(appendCaption(Messages.get(this, "scrolls")), 	scrolls, builder);
+			addTextItems(appendCaption(Messages.get(this, "potions")), 	potions, builder);
+			addTextItems(appendCaption(Messages.get(this, "equipment")), 	equipment, builder);
+			addTextItems(appendCaption(Messages.get(this, "rings")), 		rings, builder);
+			addTextItems(appendCaption(Messages.get(this, "artifacts")), 	artifacts, builder);
+			addTextItems(appendCaption(Messages.get(this, "wands")), 		wands, builder);
+			addTextItems(appendCaption(Messages.get(this, "for_sales")), 	forSales, builder);
+			addTextItems(appendCaption(Messages.get(this, "others")),		others, builder);
 
 			result.append("\n").append(builder);
 
 			Dungeon.depth++;
 		}
 		return result.toString();
-    }
+	}
+
+	private String appendCaption(String str) {
+        return "[ " + str + " ]";
+	}
 
 }

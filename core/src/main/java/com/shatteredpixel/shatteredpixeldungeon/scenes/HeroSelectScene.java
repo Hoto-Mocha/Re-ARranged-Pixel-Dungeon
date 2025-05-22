@@ -673,8 +673,8 @@ public class HeroSelectScene extends PixelScene {
 			};
 			btnSeedTest.icon(Icons.get(Icons.MAGNIFY));
 			//TODO: 시드파인더 픽스 시 활성화
-//			add(btnSeedTest);
-//			buttons.add(btnSeedTest);
+			add(btnSeedTest);
+			buttons.add(btnSeedTest);
 
 			StyledButton btnSeedAnalysis = new StyledButton(Chrome.Type.BLANK, Messages.get(HeroSelectScene.class, "seed_analysis"), 6){
 				@Override
@@ -684,8 +684,8 @@ public class HeroSelectScene extends PixelScene {
 			};
 			btnSeedAnalysis.icon(Icons.get(Icons.NEWS));
 			//TODO: 시드파인더 픽스 시 활성화
-//			add(btnSeedAnalysis);
-//			buttons.add(btnSeedAnalysis);
+			add(btnSeedAnalysis);
+			buttons.add(btnSeedAnalysis);
 
 			StyledButton dailyButton = new StyledButton(Chrome.Type.BLANK, Messages.get(HeroSelectScene.class, "daily"), 6){
 
