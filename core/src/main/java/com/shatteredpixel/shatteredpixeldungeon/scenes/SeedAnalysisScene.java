@@ -87,7 +87,7 @@ public class SeedAnalysisScene extends PixelScene {
 				if (positive && seed > -1){
 					SeedFindScene.CreditsBlock alertMsg = new SeedFindScene.CreditsBlock(true,
 							Window.TITLE_COLOR,
-							Messages.get(SeedFinder.class, "seedanalysis_warning"));
+							Messages.get(SeedFinder.class, "seedanalyze_warning"));
 					alertMsg.setRect((Camera.main.width - colWidth)/2f, (Camera.main.height-12)/2f, colWidth, 0);
 					content.add(alertMsg);
 
