@@ -118,7 +118,7 @@ public class SeedFinder {
 		}
 	}
 
-	public void stopFindSeed(){
+	public static void stopFindSeed(){
 		findingStatus = FINDING.STOP;
 	}
 

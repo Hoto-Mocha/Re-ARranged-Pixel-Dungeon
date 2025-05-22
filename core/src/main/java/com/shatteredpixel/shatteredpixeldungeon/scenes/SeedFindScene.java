@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.SeedFinder;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -39,8 +40,12 @@ import com.watabou.noosa.Group;
 import com.watabou.noosa.ui.Component;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class SeedFindScene extends PixelScene {
+
+	private Thread seedThread;
+
 	@Override
 	public void create() {
 		super.create();
@@ -96,11 +101,37 @@ public class SeedFindScene extends PixelScene {
 					Component content = list.content();
 					content.clear();
 
-					CreditsBlock txt = new CreditsBlock(true, Window.TITLE_COLOR, new SeedFinder().findSeed(itemList, floor));
-					txt.setRect((Camera.main.width - colWidth)/2f, 12, colWidth, 0);
-					content.add(txt);
+					CreditsBlock alertMsg = new CreditsBlock(true,
+							Window.TITLE_COLOR,
+							Messages.get(SeedFinder.class, "seedfind_warning"));
+					alertMsg.setRect((Camera.main.width - colWidth)/2f, (Camera.main.height-12)/2f, colWidth, 0);
+					content.add(alertMsg);
 
-					content.setSize( fullWidth, txt.bottom()+10 );
+					if(!Objects.isNull(seedThread) && seedThread.isAlive()){
+						SeedFinder.stopFindSeed();
+						seedThread.interrupt();
+					}
+					int finalFloor = floor;
+					seedThread = new Thread(new Runnable() {
+						@Override
+						public void run() {
+							String resultContent = new SeedFinder().findSeed(itemList, finalFloor);
+							Gdx.app.postRunnable(new Runnable() {
+								@Override
+								public void run() {
+									if(!(ShatteredPixelDungeon.scene() instanceof SeedFindScene)) return;
+									CreditsBlock txt = new CreditsBlock(true,
+											Window.TITLE_COLOR,
+											resultContent);
+									txt.setRect((Camera.main.width - colWidth)/2f, 12, colWidth, 0);
+									content.add(txt);
+									content.remove(alertMsg);
+									content.setSize( fullWidth, txt.bottom()+10 );
+								}
+							});
+						}
+					});
+					seedThread.start();
 
 					list.setRect( 0, 0, w, h );
 					list.scrollTo(0, 0);

@@ -21,7 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
-import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
+import com.badlogic.gdx.Gdx;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.SeedFinder;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -32,7 +32,6 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTextInput;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.ColorBlock;
@@ -40,7 +39,12 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.ui.Component;
 
+import java.util.Objects;
+
 public class SeedAnalysisScene extends PixelScene {
+
+	private Thread seedThread;
+
 	@Override
 	public void create() {
 		super.create();
@@ -79,11 +83,40 @@ public class SeedAnalysisScene extends PixelScene {
 			public void onSelect(boolean positive, String text) {
 				text = DungeonSeed.formatText(text);
 				long seed = DungeonSeed.convertFromText(text);
+
 				if (positive && seed > -1){
-					ResultBlock txt = new ResultBlock(true, Window.TITLE_COLOR, new SeedFinder().logSeedItems(text,31));
-					txt.setRect((Camera.main.width - colWidth)/2f, 12, colWidth, 0);
-					content.add(txt);
-					content.setSize( fullWidth, txt.bottom()+10 );
+					SeedFindScene.CreditsBlock alertMsg = new SeedFindScene.CreditsBlock(true,
+							Window.TITLE_COLOR,
+							Messages.get(SeedFinder.class, "seedanalysis_warning"));
+					alertMsg.setRect((Camera.main.width - colWidth)/2f, (Camera.main.height-12)/2f, colWidth, 0);
+					content.add(alertMsg);
+
+					if(!Objects.isNull(seedThread) && seedThread.isAlive()){
+						SeedFinder.stopFindSeed();
+						seedThread.interrupt();
+					}
+
+					String finalText = text;
+					seedThread = new Thread(new Runnable() {
+						@Override
+						public void run() {
+							String resultContent = new SeedFinder().logSeedItems(finalText,31);
+							Gdx.app.postRunnable(new Runnable() {
+								@Override
+								public void run() {
+									if(!(ShatteredPixelDungeon.scene() instanceof SeedAnalysisScene)) return;
+									CreditsBlock txt = new CreditsBlock(true,
+											Window.TITLE_COLOR,
+											resultContent);
+									txt.setRect((Camera.main.width - colWidth)/2f, 12, colWidth, 0);
+									content.add(txt);
+									content.remove(alertMsg);
+									content.setSize( fullWidth, txt.bottom()+10 );
+								}
+							});
+						}
+					});
+					seedThread.start();
 				} else {
 					SPDSettings.customSeed("");
 					ShatteredPixelDungeon.switchNoFade( HeroSelectScene.class );
@@ -115,12 +148,12 @@ public class SeedAnalysisScene extends PixelScene {
 		line.y = y;
 		content.add(line);
 	}
-	public static class ResultBlock extends Component {
+	public static class CreditsBlock extends Component {
 		boolean large;
 
 		RenderedTextBlock body;
 
-		public ResultBlock(boolean large, int highlight, String body){
+		public CreditsBlock(boolean large, int highlight, String body){
 			super();
 
 			this.large = large;
