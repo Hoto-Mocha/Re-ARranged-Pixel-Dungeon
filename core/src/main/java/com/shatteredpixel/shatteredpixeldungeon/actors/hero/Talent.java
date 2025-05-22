@@ -640,7 +640,7 @@ public enum Talent {
 	//Crusader T3
 	HOLY_SHIELD					(25, 9, 3),
 	PRAY_FOR_DEAD				(26, 9, 3),
-	JUDGEMENT_1					(27, 9, 3),
+	GODS_JUDGEMENT(27, 9, 3),
 	CLEANSING_PRAY				(28, 9, 3),
 	PUNISHMENT					(29, 9, 3),
 	ANTI_DEMON					(30, 9, 3),
@@ -2689,7 +2689,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SHOCKWAVE, ARMORED_HORSE, DASH_ENHANCE, BUFFER, PARKOUR, PILOTING);
 				break;
 			case CRUSADER:
-				Collections.addAll(tierTalents, HOLY_SHIELD, PRAY_FOR_DEAD, JUDGEMENT, CLEANSING_PRAY, PUNISHMENT, ANTI_DEMON);
+				Collections.addAll(tierTalents, HOLY_SHIELD, PRAY_FOR_DEAD, GODS_JUDGEMENT, CLEANSING_PRAY, PUNISHMENT, ANTI_DEMON);
 				break;
 			case SAVIOR:
 				Collections.addAll(tierTalents, RECRUIT, DELAYED_HEALING, APPEASE, ADRENALINE, STIMPACK, MEDICAL_RAY);
