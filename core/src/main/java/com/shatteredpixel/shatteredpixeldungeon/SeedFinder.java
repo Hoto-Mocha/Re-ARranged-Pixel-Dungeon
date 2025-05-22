@@ -78,14 +78,29 @@ public class SeedFinder {
 			for (HeapItem item : items) {
 				Item i = item.item;
 				Heap h = item.heap;
+				String itemName = i.title();
+
+				for (int j = 0; j < itemList.size(); j++) {
+					String wantingItem = itemList.get(j);
+					boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
+					if (precise) {
+						wantingItem = wantingItem.replaceAll("\"","");
+					} else {
+						wantingItem = wantingItem.replaceAll(" ", "");
+					}
+					if (!precise && i.title().replaceAll(" ","").contains(wantingItem) ||
+							precise && i.title().equals(wantingItem)) {
+						itemName = "_" + itemName + "_";
+					}
+				}
 
 				if (((i instanceof Armor && ((Armor) i).hasGoodGlyph()) ||
 						(i instanceof Weapon && ((Weapon) i).hasGoodEnchant()) ||
-						(i instanceof Ring) || (i instanceof Wand)) && i.cursed)
-					builder.append("- "+ Messages.get(this, "cursed") +" ").append(i.title().toLowerCase());
-
-				else
-					builder.append("- ").append(i.title().toLowerCase());
+						(i instanceof Ring) || (i instanceof Wand)) && i.cursed) {
+					builder.append("- ").append(Messages.get(this, "cursed")).append(" ").append(itemName.toLowerCase());
+				} else {
+					builder.append("- ").append(itemName.toLowerCase());
+				}
 
 				if (h.type != Type.HEAP)
 					builder.append(" (").append(h.title().toLowerCase()).append(")");
@@ -102,10 +117,26 @@ public class SeedFinder {
 			builder.append(caption).append(":\n");
 
 			for (Item i : items) {
+				String itemName = i.title();
+
+				for (int j = 0; j < itemList.size(); j++) {
+					String wantingItem = itemList.get(j);
+					boolean precise = wantingItem.startsWith("\"")&&wantingItem.endsWith("\"");
+					if (precise) {
+						wantingItem = wantingItem.replaceAll("\"","");
+					} else {
+						wantingItem = wantingItem.replaceAll(" ", "");
+					}
+					if (!precise && i.title().replaceAll(" ","").contains(wantingItem) ||
+							precise && i.title().equals(wantingItem)) {
+						itemName = "_" + itemName + "_";
+					}
+				}
+
 				if (i.cursed)
-					builder.append("- "+ Messages.get(this, "cursed") +" ").append(i.title().toLowerCase()).append("\n");
+					builder.append("- "+ Messages.get(this, "cursed") +" ").append(itemName.toLowerCase()).append("\n");
 				else
-					builder.append("- ").append(i.title().toLowerCase()).append("\n");
+					builder.append("- ").append(itemName.toLowerCase()).append("\n");
 			}
 
 			builder.append("\n");
@@ -125,7 +156,7 @@ public class SeedFinder {
 	public String findSeed(String[] wanted, int floor) {
 		itemList = new ArrayList<>(Arrays.asList(wanted));
 
-		String seedDigits = Integer.toString(Random.Int(500000));
+//		String seedDigits = Integer.toString(Random.Int(500000));
 		findingStatus = FINDING.CONTINUE;
 		Options.condition = Condition.ALL;
 
@@ -198,103 +229,6 @@ public class SeedFinder {
 		}
 
 		return trinkets;
-	}
-
-	private boolean testSeed(String seed, int floors) {
-		SPDSettings.customSeed(seed);
-		GamesInProgress.selectedClass = HeroClass.WARRIOR;
-		Dungeon.init();
-
-		boolean[] itemsFound = new boolean[itemList.size()];
-
-		for (int i = 0; i < floors; i++) {
-			Level l = Dungeon.newLevel();
-
-			ArrayList<Heap> heaps = new ArrayList<>(l.heaps.valueList());
-			heaps.addAll(getMobDrops(l));
-
-			if(Ghost.Quest.armor != null){
-				for (int j = 0; j < itemList.size(); j++) {
-					if (Ghost.Quest.armor.identify().title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ",""))) {
-						if (!itemsFound[j]) {
-							itemsFound[j] = true;
-							break;
-						}
-					}
-				}
-			}
-			if(Wandmaker.Quest.wand1 != null){
-				for (int j = 0; j < itemList.size(); j++) {
-					if (Wandmaker.Quest.wand1.identify().title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ","")) || Wandmaker.Quest.wand2.identify().title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ",""))) {
-						if (!itemsFound[j]) {
-							itemsFound[j] = true;
-							break;
-						}
-					}
-					if (Wandmaker.Quest.type == 1 && Messages.get(this, "corpsedust").contains(itemList.get(j).replaceAll(" ",""))){
-						if (!itemsFound[j]) {
-							itemsFound[j] = true;
-							break;
-						}
-					} else if (Wandmaker.Quest.type == 2 && Messages.get(this, "embers").contains(itemList.get(j).replaceAll(" ",""))){
-						if (!itemsFound[j]) {
-							itemsFound[j] = true;
-							break;
-						}
-					} else if (Wandmaker.Quest.type == 3 && Messages.get(this, "rotberry").contains(itemList.get(j).replaceAll(" ",""))){
-						if (!itemsFound[j]) {
-							itemsFound[j] = true;
-							break;
-						}
-					}
-				}
-			}
-			if (Imp.Quest.reward != null){
-				for (int j = 0; j < itemList.size(); j++) {
-					if (Imp.Quest.reward.identify().title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ",""))) {
-						if (!itemsFound[j]) {
-							itemsFound[j] = true;
-							break;
-						}
-					}
-				}
-			}
-
-			for (Heap h : heaps) {
-				for (Item item : h.items) {
-					item.identify();
-
-					for (int j = 0; j < itemList.size(); j++) {
-						if (item.title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ",""))) {
-							if (!itemsFound[j]) {
-								itemsFound[j] = true;
-								break;
-							}
-						}
-					}
-				}
-			}
-
-			Dungeon.depth++;
-		}
-
-		if (Options.condition == Condition.ANY) {
-			for (int i = 0; i < itemList.size(); i++) {
-				if (itemsFound[i] == true)
-					return true;
-			}
-
-			return false;
-		}
-
-		else {
-			for (int i = 0; i < itemList.size(); i++) {
-				if (itemsFound[i] == false)
-					return false;
-			}
-
-			return true;
-		}
 	}
 
 	private boolean testSeedALL(String seed, int floors) {
@@ -465,6 +399,7 @@ public class SeedFinder {
 			Level l = Dungeon.newLevel();
 			ArrayList<Heap> heaps = new ArrayList<>(l.heaps.valueList());
 			StringBuilder builder = new StringBuilder();
+
 			ArrayList<HeapItem> scrolls = new ArrayList<>();
 			ArrayList<HeapItem> potions = new ArrayList<>();
 			ArrayList<HeapItem> equipment = new ArrayList<>();
@@ -553,5 +488,102 @@ public class SeedFinder {
 	private String appendCaption(String str) {
         return "[ " + str + " ]";
 	}
+
+	//	private boolean testSeed(String seed, int floors) {
+//		SPDSettings.customSeed(seed);
+//		GamesInProgress.selectedClass = HeroClass.WARRIOR;
+//		Dungeon.init();
+//
+//		boolean[] itemsFound = new boolean[itemList.size()];
+//
+//		for (int i = 0; i < floors; i++) {
+//			Level l = Dungeon.newLevel();
+//
+//			ArrayList<Heap> heaps = new ArrayList<>(l.heaps.valueList());
+//			heaps.addAll(getMobDrops(l));
+//
+//			if (Ghost.Quest.armor != null){
+//				for (int j = 0; j < itemList.size(); j++) {
+//					if (Ghost.Quest.armor.identify().title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ",""))) {
+//						if (!itemsFound[j]) {
+//							itemsFound[j] = true;
+//							break;
+//						}
+//					}
+//				}
+//			}
+//			if (Wandmaker.Quest.wand1 != null) {
+//				for (int j = 0; j < itemList.size(); j++) {
+//					if (Wandmaker.Quest.wand1.identify().title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ","")) || Wandmaker.Quest.wand2.identify().title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ",""))) {
+//						if (!itemsFound[j]) {
+//							itemsFound[j] = true;
+//							break;
+//						}
+//					}
+//					if (Wandmaker.Quest.type == 1 && Messages.get(this, "corpsedust").contains(itemList.get(j).replaceAll(" ",""))) {
+//						if (!itemsFound[j]) {
+//							itemsFound[j] = true;
+//							break;
+//						}
+//					} else if (Wandmaker.Quest.type == 2 && Messages.get(this, "embers").contains(itemList.get(j).replaceAll(" ",""))) {
+//						if (!itemsFound[j]) {
+//							itemsFound[j] = true;
+//							break;
+//						}
+//					} else if (Wandmaker.Quest.type == 3 && Messages.get(this, "rotberry").contains(itemList.get(j).replaceAll(" ",""))) {
+//						if (!itemsFound[j]) {
+//							itemsFound[j] = true;
+//							break;
+//						}
+//					}
+//				}
+//			}
+//			if (Imp.Quest.reward != null){
+//				for (int j = 0; j < itemList.size(); j++) {
+//					if (Imp.Quest.reward.identify().title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ",""))) {
+//						if (!itemsFound[j]) {
+//							itemsFound[j] = true;
+//							break;
+//						}
+//					}
+//				}
+//			}
+//
+//			for (Heap h : heaps) {
+//				for (Item item : h.items) {
+//					item.identify();
+//
+//					for (int j = 0; j < itemList.size(); j++) {
+//						if (item.title().toLowerCase().replaceAll(" ","").contains(itemList.get(j).replaceAll(" ",""))) {
+//							if (!itemsFound[j]) {
+//								itemsFound[j] = true;
+//								break;
+//							}
+//						}
+//					}
+//				}
+//			}
+//
+//			Dungeon.depth++;
+//		}
+//
+//		if (Options.condition == Condition.ANY) {
+//			for (int i = 0; i < itemList.size(); i++) {
+//				if (itemsFound[i])
+//					return true;
+//			}
+//
+//			return false;
+//		}
+//
+//		else {
+//			for (int i = 0; i < itemList.size(); i++) {
+//				if (!itemsFound[i])
+//					return false;
+//			}
+//
+//			return true;
+//		}
+//	}
 
 }
