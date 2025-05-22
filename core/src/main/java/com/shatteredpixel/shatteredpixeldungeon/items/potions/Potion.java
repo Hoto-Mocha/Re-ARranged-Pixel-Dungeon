@@ -276,9 +276,6 @@ public class Potion extends Item {
 		} else if (action.equals( AC_DRINK )) {
 
 			if (isKnown() && mustThrowPots.contains(getClass())) {
-				if (hero.pointsInTalent(Talent.SAFE_POTION) > 1) {
-					Buff.affect(hero, BlobImmunity.class, 3f);
-				}
 				GameScene.show(
 						new WndOptions(new ItemSprite(this),
 								Messages.get(Potion.class, "harmful"),
@@ -294,9 +291,6 @@ public class Potion extends Item {
 				);
 
 			} else {
-				if (hero.hasTalent(Talent.SAFE_POTION)) {
-					Buff.affect(hero, BlobImmunity.class, 3f);
-				}
 				drink( hero );
 			}
 			
@@ -330,6 +324,13 @@ public class Potion extends Item {
 	}
 	
 	protected void drink( Hero hero ) {
+		if (!isKnown() && hero.hasTalent(Talent.SAFE_POTION)) {
+			Buff.affect(hero, BlobImmunity.class, 3f);
+		}
+
+		if (mustThrowPots.contains(getClass()) && hero.pointsInTalent(Talent.SAFE_POTION) > 1) {
+			Buff.affect(hero, BlobImmunity.class, 3f);
+		}
 		
 		detach( hero.belongings.backpack );
 		
