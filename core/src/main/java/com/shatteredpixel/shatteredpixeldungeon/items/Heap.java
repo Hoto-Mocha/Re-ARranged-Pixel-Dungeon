@@ -388,6 +388,8 @@ public class Heap implements Bundlable {
 				return Messages.get(this, "remains");
 			case CATALYST:
 				return Messages.get(this, "catalyst");
+			case STATUE:
+				return Messages.get(this, "statue");
 			default:
 				return peek().title();
 		}
