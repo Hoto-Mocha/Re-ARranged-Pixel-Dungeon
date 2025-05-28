@@ -148,8 +148,9 @@ public class LiquidMetal extends Item {
 												}
 												if (!item.doPickUp(hero)) {
 													Dungeon.level.drop( item, hero.pos ).sprite.drop();
+												} else {
+													hero.spend(-1); //아이템을 얻는 데에 시간을 소모하지 않음
 												}
-												hero.spend(-1); //아이템을 얻는 데에 시간을 소모하지 않음
 												hero.busy();
 												LiquidMetal.this.quantity(LiquidMetal.this.quantity-(25 + 25 * (1+Dungeon.depth/5))*2);
 												hero.sprite.operate(hero.pos);
