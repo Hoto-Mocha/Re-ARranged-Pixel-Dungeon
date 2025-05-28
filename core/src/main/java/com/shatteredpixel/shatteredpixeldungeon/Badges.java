@@ -261,7 +261,9 @@ public class Badges {
 		UNLOCK_SAMURAI				(137),
 		UNLOCK_ADVENTURER			(138),
 		UNLOCK_KNIGHT				(139),
-		UNLOCK_MEDIC				(140);
+		UNLOCK_MEDIC				(140),
+
+		HEDGEHOG					(141);
 
 		public boolean meta;
 
@@ -1250,6 +1252,14 @@ public class Badges {
 		}
 		local.add(badge);
 		displayBadge( badge );
+	}
+
+	public static void validateHedgehog() {
+		if (!local.contains( Badge.HEDGEHOG )) {
+			Badge badge = Badge.HEDGEHOG;
+			local.add( badge );
+			displayBadge( badge );
+		}
 	}
 	
 	private static void displayBadge( Badge badge ) {
