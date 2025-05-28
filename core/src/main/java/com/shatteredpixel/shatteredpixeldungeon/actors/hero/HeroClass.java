@@ -120,6 +120,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TacticalShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.Bow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.GreatBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.LongBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.ShortBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.WornShortBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T1;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
@@ -169,23 +173,27 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		if (DeviceCompat.isDebug() || SPDSettings.customSeed().contains("test")) {
-			new RingOfMight().identify().upgrade(10).collect();
-			new RingOfEnergy().identify().upgrade(20).collect();
-			new RingOfHaste().identify().upgrade(100).collect();
-			new RingOfAccuracy().identify().upgrade(100).collect();
-			new AlchemistsToolkit().identify().upgrade(10).collect();
-			new ElixirOfHoneyedHealing().identify().quantity(500).collect();
-			new PlateArmor().identify().upgrade(100).collect();
-			new TacticalShield().identify().upgrade(100).collect();
+//			new RingOfMight().identify().upgrade(10).collect();
+//			new RingOfEnergy().identify().upgrade(20).collect();
+//			new RingOfHaste().identify().upgrade(100).collect();
+//			new RingOfAccuracy().identify().upgrade(100).collect();
+//			new AlchemistsToolkit().identify().upgrade(10).collect();
+//			new ElixirOfHoneyedHealing().identify().quantity(500).collect();
+//			new PlateArmor().identify().upgrade(100).collect();
+//			new TacticalShield().identify().upgrade(100).collect();
 			new Teleporter().collect();
-			new TengusMask().collect();
-			new KingsCrown().collect();
-			new OldAmulet().collect();
-			new Ankh().collect();
-			new PotionOfLiquidFlame().identify().quantity(100).collect();
-			new SheathFragment().quantity(20).collect();
-			new WornShortBow().identify().collect();
+//			new TengusMask().collect();
+//			new KingsCrown().collect();
+//			new OldAmulet().collect();
+//			new Ankh().collect();
+//			new PotionOfLiquidFlame().identify().quantity(100).collect();
+//			new SheathFragment().quantity(20).collect();
 			new BulletBelt().collect();
+			new WornShortBow().identify().collect();
+			new ShortBow().identify().collect();
+			new Bow().identify().collect();
+			new LongBow().identify().collect();
+			new GreatBow().identify().collect();
 		}
 
 		switch (this) {

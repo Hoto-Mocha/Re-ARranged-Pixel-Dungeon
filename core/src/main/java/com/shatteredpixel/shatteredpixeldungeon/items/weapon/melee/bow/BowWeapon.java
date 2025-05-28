@@ -156,18 +156,26 @@ public class BowWeapon extends MeleeWeapon {
             if (enemy != null) {
                 if (curUser.shoot( enemy, this )) {
                     if (Random.Float() < 0.5f) {
-                        Buff.prolong(enemy, ArrowAttached.class, ArrowAttached.DURATION).hit();
+                        if (enemy.isAlive()) {
+                            Buff.affect(enemy, ArrowAttached.class).hit();
+                        } else {
+                            dropArrow(cell);
+                        }
                     }
                 } else {
-                    Dungeon.level.drop(new ArrowItem(), cell).sprite.drop(cell);
+                    dropArrow(cell);
                 }
             }
 
             if (enemy == null) {
-                Dungeon.level.drop(new ArrowItem(), cell).sprite.drop(cell);
+                dropArrow(cell);
             }
 
             onShoot();
+        }
+
+        public void dropArrow(int cell) {
+            Dungeon.level.drop(new ArrowItem(), cell).sprite.drop(cell);
         }
 
         public void onShoot() {
@@ -194,7 +202,7 @@ public class BowWeapon extends MeleeWeapon {
         }
     };
 
-    public static class ArrowAttached extends FlavourBuff {
+    public static class ArrowAttached extends Buff {
         {
             type = buffType.NEUTRAL;
         }
@@ -202,23 +210,38 @@ public class BowWeapon extends MeleeWeapon {
         public static final float DURATION = 50f;
 
         int arrows = 0;
+        float left;
 
         public void hit() {
             arrows++;
+            left = DURATION;
+        }
+
+        @Override
+        public boolean act() {
+            left-=TICK;
+            spend(TICK);
+            if (left <= 0) {
+                detach();
+            }
+            return true;
         }
 
         private final String ARROWS = "arrows";
+        private final String LEFT = "left";
 
         @Override
         public void storeInBundle(Bundle bundle) {
             super.storeInBundle(bundle);
             bundle.put(ARROWS, arrows);
+            bundle.put(LEFT, left);
         }
 
         @Override
         public void restoreFromBundle(Bundle bundle) {
             super.restoreFromBundle(bundle);
             arrows = bundle.getInt(ARROWS);
+            left = bundle.getFloat(LEFT);
         }
 
         @Override
@@ -233,7 +256,7 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public float iconFadePercent() {
-            return (DURATION-visualcooldown())/DURATION;
+            return (DURATION-left)/DURATION;
         }
 
         @Override
@@ -244,7 +267,7 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public String desc() {
-            return Messages.get(this, "desc", arrows, dispTurns());
+            return Messages.get(this, "desc", arrows, left);
         }
     }
 }
