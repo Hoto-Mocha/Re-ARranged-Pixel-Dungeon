@@ -246,12 +246,7 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public int icon() {
-            return BuffIndicator.PINCUSHION;
-        }
-
-        @Override
-        public void tintIcon(Image icon) {
-            icon.hardlight(1f, 1f, 0);
+            return BuffIndicator.ARROW_ATTACHED;
         }
 
         @Override
