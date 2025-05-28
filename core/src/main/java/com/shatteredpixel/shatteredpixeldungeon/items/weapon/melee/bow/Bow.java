@@ -1,24 +1,19 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
-import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArrowItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
@@ -74,6 +69,21 @@ public class Bow extends MeleeWeapon {
     }
 
     @Override
+    public String info() {
+        String info = super.info();
+        //근접 무기의 설명을 모두 가져옴, 여기에서 할 것은 근접 무기의 설명에 추가로 생기는 문장을 더하는 것
+        if (levelKnown) { //감정되어 있을 때
+            info += "\n\n" + Messages.get(this, "bow_desc",
+                    augment.damageFactor(arrowMin(buffedLvl())), augment.damageFactor(arrowMax(buffedLvl())));
+        } else { //감정되어 있지 않을 때
+            info += "\n\n" + Messages.get(this, "bow_typical_desc",
+                    augment.damageFactor(arrowMin(0)), augment.damageFactor(arrowMax(0)));
+        }
+
+        return info;
+    }
+
+    @Override
     public void execute(Hero hero, String action) {
         super.execute(hero, action);
 
@@ -100,6 +110,10 @@ public class Bow extends MeleeWeapon {
     }
 
     public class Arrow extends DisposableMissileWeapon {
+        {
+            image = ItemSpriteSheet.SPIRIT_ARROW;
+        }
+
         @Override
         public int proc(Char attacker, Char defender, int damage) {
             return Bow.this.proc(attacker, defender, damage);
@@ -142,13 +156,15 @@ public class Bow extends MeleeWeapon {
             if (enemy != null) {
                 if (curUser.shoot( enemy, this )) {
                     if (Random.Float() < 0.5f) {
-                        Buff.affect(enemy, ArrowAttached.class).hit();
+                        Buff.prolong(enemy, ArrowAttached.class, ArrowAttached.DURATION).hit();
                     }
+                } else {
+                    Dungeon.level.drop(new ArrowItem(), cell).sprite.drop(cell);
                 }
             }
 
             if (enemy == null) {
-                Dungeon.level.drop(new ArrowItem(), cell);
+                Dungeon.level.drop(new ArrowItem(), cell).sprite.drop(cell);
             }
 
             onShoot();
@@ -178,10 +194,12 @@ public class Bow extends MeleeWeapon {
         }
     };
 
-    public static class ArrowAttached extends Buff {
+    public static class ArrowAttached extends FlavourBuff {
         {
             type = buffType.NEUTRAL;
         }
+
+        public static final float DURATION = 50f;
 
         int arrows = 0;
 
@@ -210,18 +228,23 @@ public class Bow extends MeleeWeapon {
 
         @Override
         public void tintIcon(Image icon) {
-            icon.hardlight(0, 1f, 0);
+            icon.hardlight(1f, 1f, 0);
+        }
+
+        @Override
+        public float iconFadePercent() {
+            return (DURATION-visualcooldown())/DURATION;
         }
 
         @Override
         public void detach() {
             super.detach();
-            Dungeon.level.drop(new ArrowItem().quantity(arrows), target.pos);
+            Dungeon.level.drop(new ArrowItem().quantity(arrows), target.pos).sprite.drop(target.pos);
         }
 
         @Override
         public String desc() {
-            return Messages.get(this, "desc", arrows);
+            return Messages.get(this, "desc", arrows, dispTurns());
         }
     }
 }
