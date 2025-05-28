@@ -4,6 +4,6 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class ArrowItem extends BulletItem {
     {
-        image = ItemSpriteSheet.SPIRIT_ARROW;
+        image = ItemSpriteSheet.NORMAL_ARROW;
     }
 }

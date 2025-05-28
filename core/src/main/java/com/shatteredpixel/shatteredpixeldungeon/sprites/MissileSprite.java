@@ -30,7 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.Machin
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.Bow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.BowWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.FT.FT;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.GL.GL;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
@@ -118,7 +118,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(RebelSprite.RebelShot.class, 	  0);
 
 		ANGULAR_SPEEDS.put(Gun.Bullet.class,   0);
-		ANGULAR_SPEEDS.put(Bow.Arrow.class,   0);
+		ANGULAR_SPEEDS.put(BowWeapon.Arrow.class,   0);
 		ANGULAR_SPEEDS.put(CannonSprite.CannonShot.class,   0);
 		ANGULAR_SPEEDS.put(MortarSprite.MineShot.class,   0);
 		ANGULAR_SPEEDS.put(MachineGun.MachineGunBullet.class,   0);
@@ -195,7 +195,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				|| item instanceof RebelSprite.RebelShot
 				|| item instanceof TenguSprite.TenguShuriken){
 			speed *= 1.5f;
-		} else if (item instanceof Gun.Bullet || item instanceof Bow.Arrow) {
+		} else if (item instanceof Gun.Bullet || item instanceof BowWeapon.Arrow) {
 			if (item instanceof FT.FTBullet ||
 				item instanceof LG.LGBullet) {
 				speed *= 1000f;

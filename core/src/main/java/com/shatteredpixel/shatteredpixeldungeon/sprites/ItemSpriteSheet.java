@@ -1514,6 +1514,26 @@ public class ItemSpriteSheet {
 		assignItemRect(BROKEN_SHIELD 	, 13, 10);
 		assignItemRect(BROKEN_PILLBOX	, 13, 15);
 	}
+
+	private static final int BOW_WEAPONS			=	xy(1, 73);
+	public static final int WORN_SHORTBOW			= BOW_WEAPONS+0;
+	public static final int SHORTBOW				= BOW_WEAPONS+1;
+	public static final int BOW						= BOW_WEAPONS+2;
+	public static final int LONGBOW					= BOW_WEAPONS+3;
+	public static final int GREATBOW				= BOW_WEAPONS+4;
+	static {
+		assignItemRect(WORN_SHORTBOW, 12, 12);
+		assignItemRect(SHORTBOW		, 13, 13);
+		assignItemRect(BOW			, 15, 15);
+		assignItemRect(LONGBOW		, 16, 16);
+		assignItemRect(GREATBOW		, 16, 16);
+	}
+
+	private static final int ARROW_WEAPONS			=	xy(1, 74);
+	public static final int NORMAL_ARROW			= ARROW_WEAPONS+0;
+	static {
+		assignItemRect(NORMAL_ARROW, 14, 14);
+	}
 	// ****** new sprites end ******
 
 
