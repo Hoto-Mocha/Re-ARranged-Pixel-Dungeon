@@ -60,8 +60,6 @@ public class Gun extends MeleeWeapon {
 	private boolean riot = false;
 	private boolean shootAll = false;
 
-	public boolean isEmpowered = false;
-
 	public enum BarrelMod {
 		NORMAL_BARREL(1, 1),
 		SHORT_BARREL(1.5f, 0.5f),

@@ -120,6 +120,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shovel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornKatana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TacticalShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.WornShortBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T1;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
@@ -183,6 +184,8 @@ public enum HeroClass {
 			new Ankh().collect();
 			new PotionOfLiquidFlame().identify().quantity(100).collect();
 			new SheathFragment().quantity(20).collect();
+			new WornShortBow().identify().collect();
+			new BulletBelt().collect();
 		}
 
 		switch (this) {
