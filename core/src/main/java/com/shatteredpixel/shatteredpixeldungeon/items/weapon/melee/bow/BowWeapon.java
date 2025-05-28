@@ -6,8 +6,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArrowItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Elastic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -22,11 +24,14 @@ import com.watabou.utils.Random;
 import java.util.ArrayList;
 
 public class BowWeapon extends MeleeWeapon {
+
     public static final String AC_SHOOT		= "SHOOT";
+
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
     }
+
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
@@ -65,6 +70,21 @@ public class BowWeapon extends MeleeWeapon {
 
         damage = augment.damageFactor(damage);  //증강에 따라 변화하는 효과
         return damage;
+    }
+
+    @Override
+    public int proc(Char attacker, Char defender, int damage) {
+        //적과 근접한 상태에서 공격 시 40% 확률로, 혹은 기습 공격 시 적을 2타일 밀쳐냄
+        if (Dungeon.level.adjacent(attacker.pos, defender.pos)
+                && ((defender instanceof Mob && ((Mob) defender).surprisedBy(attacker)) || Random.Float() < 0.4f)) {
+            Elastic.pushEnemy(this, attacker, defender, 2);
+        }
+        return super.proc(attacker, defender, damage);
+    }
+
+    //arrows will copy all procs of the bow, but excludes the pushing effect
+    public int arrowProc(Char attacker, Char defender, int damage) {
+        return super.proc(attacker, defender, damage);
     }
 
     @Override
@@ -115,7 +135,7 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
-            return BowWeapon.this.proc(attacker, defender, damage);
+            return BowWeapon.this.arrowProc(attacker, defender, damage);
         }
 
         @Override
