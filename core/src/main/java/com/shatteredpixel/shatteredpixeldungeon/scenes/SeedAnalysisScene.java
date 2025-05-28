@@ -50,7 +50,7 @@ public class SeedAnalysisScene extends PixelScene {
 		super.create();
 
 		final float colWidth = 200;
-		final float fullWidth = colWidth * (landscape() ? 2 : 1);
+		final float fullWidth = landscape() ? 400 : 120;
 
 		int w = Camera.main.width;
 		int h = Camera.main.height;
