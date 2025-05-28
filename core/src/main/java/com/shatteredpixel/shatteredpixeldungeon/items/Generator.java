@@ -250,6 +250,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.Tacti
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.TrueRunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.UnformedBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.alchemy.UnholyBible;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.Bow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.GreatBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.LongBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.ShortBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.WornShortBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T1;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T2;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T3;
@@ -577,9 +582,10 @@ public class Generator {
 					AR_T1.class,
 					Shovel.class,
 					Machete.class,
-					Scalpel.class
+					Scalpel.class,
+					WornShortBow.class
 			};
-			WEP_T1.defaultProbs = new float[]{ 2, 0, 2, 2, 2, 2, 2, 2, 0, 0, 2 };
+			WEP_T1.defaultProbs = new float[]{ 2, 0, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2 };
 			WEP_T1.probs = WEP_T1.defaultProbs.clone();
 			
 			WEP_T2.classes = new Class<?>[]{
@@ -596,9 +602,10 @@ public class Generator {
 					ShortKatana.class,
 					AR_T2.class,
 					HG_T2.class,
-					SMG_T2.class
+					SMG_T2.class,
+					ShortBow.class
 			};
-			WEP_T2.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2 };
+			WEP_T2.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1, 1, 1, 2 };
 			WEP_T2.probs = WEP_T2.defaultProbs.clone();
 			
 			WEP_T3.classes = new Class<?>[]{
@@ -614,9 +621,10 @@ public class Generator {
 					MG_T3.class,
 					SG_T3.class,
 					SR_T3.class,
-					GL_T3.class
+					GL_T3.class,
+					Bow.class
 			};
-			WEP_T3.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+			WEP_T3.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2 };
 			WEP_T3.probs = WEP_T1.defaultProbs.clone();
 			
 			WEP_T4.classes = new Class<?>[]{
@@ -630,9 +638,10 @@ public class Generator {
 					LongKatana.class,
 					AR_T4.class,
 					SMG_T4.class,
-					RL_T4.class
+					RL_T4.class,
+					LongBow.class
 			};
-			WEP_T4.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+			WEP_T4.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2 };
 			WEP_T4.probs = WEP_T4.defaultProbs.clone();
 			
 			WEP_T5.classes = new Class<?>[]{
@@ -654,9 +663,10 @@ public class Generator {
 					GL_T5.class,
 					RL_T5.class,
 					FT_T5.class,
-					LG_T5.class
+					LG_T5.class,
+					GreatBow.class
 			};
-			WEP_T5.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+			WEP_T5.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2 };
 			WEP_T5.probs = WEP_T5.defaultProbs.clone();
 
 			WEP_AL_T3.classes = new Class<?>[]{
