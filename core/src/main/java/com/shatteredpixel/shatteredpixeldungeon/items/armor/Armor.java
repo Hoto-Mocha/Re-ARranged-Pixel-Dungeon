@@ -513,18 +513,15 @@ public class Armor extends EquipableItem {
 
 	@Override
 	public int buffedLvl() {
-		int lvl;
-		if (isEquipped( hero ) || hero.belongings.contains( this )){
-			lvl = super.buffedLvl();
-		} else {
-			lvl = level();
-		}
-		ArmorEnhance armorEnhance = hero.buff(ArmorEnhance.class);
-		if (armorEnhance != null && isEquipped( hero )) {
-			lvl = armorEnhance.armorLevel(lvl);
-		}
-		if (hero.hasTalent(Talent.CRAFTMANS_SKILLS) && isEquipped( hero )) {
-			lvl += hero.pointsInTalent(Talent.CRAFTMANS_SKILLS);
+		int lvl = super.buffedLvl();
+		if (hero != null) {
+			ArmorEnhance armorEnhance = hero.buff(ArmorEnhance.class);
+			if (armorEnhance != null && isEquipped( hero )) {
+				lvl = armorEnhance.armorLevel(lvl);
+			}
+			if (hero.hasTalent(Talent.CRAFTMANS_SKILLS) && isEquipped( hero )) {
+				lvl += hero.pointsInTalent(Talent.CRAFTMANS_SKILLS);
+			}
 		}
 		return lvl;
 	}
