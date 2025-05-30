@@ -174,7 +174,7 @@ public class BowWeapon extends MeleeWeapon {
             Char enemy = Actor.findChar( cell );
             if (enemy != null) {
                 if (curUser.shoot( enemy, this )) {
-                    if (Random.Float() < 0.5f) {
+                    if (Random.Float() < 0.25f) {
                         if (enemy.isAlive()) {
                             Buff.affect(enemy, ArrowAttached.class).hit();
                         } else {
@@ -182,7 +182,9 @@ public class BowWeapon extends MeleeWeapon {
                         }
                     }
                 } else {
-                    dropArrow(cell);
+                    if (Random.Float() < 0.25f) {
+                        dropArrow(cell);
+                    }
                 }
             }
 
