@@ -39,6 +39,8 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.ui.Component;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -115,14 +117,26 @@ public class SeedFindScene extends PixelScene {
 					seedThread = new Thread(new Runnable() {
 						@Override
 						public void run() {
-							String resultContent = new SeedFinder().findSeed(itemList, finalFloor);
+							String resultContent;
+							try {
+								resultContent = new SeedFinder().findSeed(itemList, finalFloor);
+							} catch (NullPointerException e) {
+								//스택 트레이스를 문자열로 받음
+								StringWriter sw = new StringWriter();
+								PrintWriter pw = new PrintWriter(sw);
+								e.printStackTrace(pw);
+								String stackTrace = sw.toString();
+								//결과 문자열을 에러 메시지로 변경
+								resultContent = Messages.get(SeedFinder.class, "error", text, stackTrace);
+							}
+							String finalResultContent = resultContent;
 							Gdx.app.postRunnable(new Runnable() {
 								@Override
 								public void run() {
 									if(!(ShatteredPixelDungeon.scene() instanceof SeedFindScene)) return;
 									CreditsBlock txt = new CreditsBlock(true,
 											Window.TITLE_COLOR,
-											resultContent);
+											finalResultContent);
 									txt.setRect((Camera.main.width - colWidth)/2f, 12, colWidth, 0);
 									content.add(txt);
 									content.remove(alertMsg);
@@ -146,6 +160,10 @@ public class SeedFindScene extends PixelScene {
 		ExitButton btnExit = new ExitButton() {
 			@Override
 			protected void onClick() {
+				if(!Objects.isNull(seedThread) && seedThread.isAlive()){
+					SeedFinder.stopFindSeed();
+					seedThread.interrupt();
+				}
 				if (Game.scene() instanceof TitleScene) {
 					Game.instance.finish();
 				} else {

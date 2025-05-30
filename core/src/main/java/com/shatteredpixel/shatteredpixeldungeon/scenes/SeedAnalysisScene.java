@@ -39,6 +39,8 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.ui.Component;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Objects;
 
 public class SeedAnalysisScene extends PixelScene {
@@ -81,8 +83,8 @@ public class SeedAnalysisScene extends PixelScene {
 				Messages.get(HeroSelectScene.class, "custom_seed_clear")){
 			@Override
 			public void onSelect(boolean positive, String text) {
-				text = DungeonSeed.formatText(text);
-				long seed = DungeonSeed.convertFromText(text);
+				String formattedText = DungeonSeed.formatText(text);
+				long seed = DungeonSeed.convertFromText(formattedText);
 
 				if (positive && seed > -1){
 					SeedFindScene.CreditsBlock alertMsg = new SeedFindScene.CreditsBlock(true,
@@ -95,19 +97,29 @@ public class SeedAnalysisScene extends PixelScene {
 						SeedFinder.stopFindSeed();
 						seedThread.interrupt();
 					}
-
-					String finalText = text;
 					seedThread = new Thread(new Runnable() {
 						@Override
 						public void run() {
-							String resultContent = new SeedFinder().logSeedItems(finalText,31);
+							String resultContent;
+							try {
+								resultContent = new SeedFinder().logSeedItems(text,31);
+							} catch (NullPointerException e) {
+								//스택 트레이스를 문자열로 받음
+								StringWriter sw = new StringWriter();
+								PrintWriter pw = new PrintWriter(sw);
+								e.printStackTrace(pw);
+								String stackTrace = sw.toString();
+								//결과 문자열을 에러 메시지로 변경
+								resultContent = Messages.get(SeedFinder.class, "error", text, stackTrace);
+							}
+							String finalResultContent = resultContent;
 							Gdx.app.postRunnable(new Runnable() {
 								@Override
 								public void run() {
 									if(!(ShatteredPixelDungeon.scene() instanceof SeedAnalysisScene)) return;
 									CreditsBlock txt = new CreditsBlock(true,
 											Window.TITLE_COLOR,
-											resultContent);
+											finalResultContent);
 									txt.setRect((Camera.main.width - colWidth)/2f, 12, colWidth, 0);
 									content.add(txt);
 									content.remove(alertMsg);
