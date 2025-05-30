@@ -38,6 +38,8 @@ public class Enchant extends InventoryClericSpell {
 
     @Override
     protected void onItemSelected(HolyTome tome, Hero hero, Item item) {
+        if (item == null) return;
+        
         hero.busy();
 
         if (item instanceof Weapon) {
