@@ -1844,7 +1844,7 @@ public class Hero extends Char {
 		}
 
 		if (wep instanceof MissileWeapon && hasTalent(Talent.CRITICAL_THROW)) {
-			chance += 0.25f * pointsInTalent(Talent.CRITICAL_THROW);
+			chance += 0.125f * pointsInTalent(Talent.CRITICAL_THROW);
 		}
 
 		Awakening awakening = buff(Awakening.class);
