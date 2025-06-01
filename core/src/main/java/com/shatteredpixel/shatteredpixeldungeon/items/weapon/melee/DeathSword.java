@@ -50,11 +50,12 @@ public class DeathSword extends MeleeWeapon {
 
     @Override
     public String desc() {
-        int HTBoost = 0;
-        if (Dungeon.hero.buff(MaxHPBoost.class) != null) {
-            HTBoost = Dungeon.hero.buff(MaxHPBoost.class).HTBonus();
+        if (Dungeon.hero != null && Dungeon.hero.buff(MaxHPBoost.class) != null) {
+            int HTBoost = Dungeon.hero.buff(MaxHPBoost.class).HTBonus();
+            return Messages.get(this, "desc_hero", HTBoost, Dungeon.isChallenged(Challenges.SUPERMAN) ? 10 : 15+Dungeon.hero.lvl*5);
+        } else {
+            return Messages.get(this, "desc");
         }
-        return Messages.get(this, "desc", HTBoost, Dungeon.isChallenged(Challenges.SUPERMAN) ? 10 : 15+Dungeon.hero.lvl*5);
     }
 
     @Override
