@@ -192,7 +192,7 @@ public class BowWeapon extends MeleeWeapon {
         @Override
         protected void onThrow(int cell) {
             Char enemy = Actor.findChar( cell );
-            if (enemy != null) {
+            if (enemy != null && !(enemy instanceof Hero)) {
                 if (curUser.shoot( enemy, this )) {
                     if (Random.Float() < 0.25f) {
                         if (enemy.isAlive()) {
@@ -208,8 +208,10 @@ public class BowWeapon extends MeleeWeapon {
                 }
             }
 
-            if (enemy == null) {
-                dropArrow(cell);
+            if (enemy == null || enemy instanceof Hero) {
+                if (Random.Float() < 0.25f) {
+                    dropArrow(cell);
+                }
             }
 
             onShoot();
