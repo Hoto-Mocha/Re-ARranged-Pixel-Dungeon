@@ -7,6 +7,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArrowItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
@@ -197,7 +198,6 @@ public class BowWeapon extends MeleeWeapon {
 
                 if (hero.buff(PenetrationShotBuff.class) != null) {
                     damage = hero.buff(PenetrationShotBuff.class).proc(damage, this.buffedLvl(), this.tier);
-                    hero.buff(PenetrationShotBuff.class).detach();
                     Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
                 }
             }
@@ -259,6 +259,10 @@ public class BowWeapon extends MeleeWeapon {
         public void onShoot() {
             Dungeon.bullet--;
 
+            if (Dungeon.hero.buff(PenetrationShotBuff.class) != null) {
+                Dungeon.hero.buff(PenetrationShotBuff.class).detach();
+            }
+
             updateQuickslot();
         }
 
@@ -273,7 +277,14 @@ public class BowWeapon extends MeleeWeapon {
         public void onSelect( Integer target ) {
             if (target != null) {
                 if (target == curUser.pos) {
-                    return;
+                    if (Dungeon.hero.heroClass == HeroClass.DUELIST && Dungeon.hero.buff(Charger.class) != null) {
+                        Charger charger = Dungeon.hero.buff(Charger.class);
+                        if (charger.charges >= 1) {
+                            duelistAbility(Dungeon.hero, target);
+                        } else {
+                            GLog.w(Messages.get(MeleeWeapon.class, "ability_no_charge"));
+                        }
+                    }
                 } else {
                     knockArrow().cast(curUser, target);
                 }
