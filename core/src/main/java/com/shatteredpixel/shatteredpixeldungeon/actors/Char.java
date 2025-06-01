@@ -154,6 +154,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kineti
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.BowWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
@@ -454,6 +455,12 @@ public abstract class Char extends Actor {
 				Hero h = (Hero)this;
 				if (h.belongings.attackingWeapon() instanceof MissileWeapon
 						&& h.subClass == HeroSubClass.SNIPER
+						&& !Dungeon.level.adjacent(h.pos, enemy.pos)){
+					dr = 0;
+				}
+
+				if (h.belongings.attackingWeapon() instanceof BowWeapon.Arrow
+						&& Dungeon.hero.buff(BowWeapon.PenetrationShotBuff.class) != null
 						&& !Dungeon.level.adjacent(h.pos, enemy.pos)){
 					dr = 0;
 				}
@@ -1120,6 +1127,13 @@ public abstract class Char extends Actor {
 					&& Dungeon.hero.subClass == HeroSubClass.SNIPER
 					&& !Dungeon.level.adjacent(Dungeon.hero.pos, pos)
 					&& Dungeon.hero.belongings.attackingWeapon() instanceof MissileWeapon){
+				icon = FloatingText.PHYS_DMG_NO_BLOCK;
+			}
+
+			if (src == Dungeon.hero
+					&& Dungeon.hero.buff(BowWeapon.PenetrationShotBuff.class) != null
+					&& !Dungeon.level.adjacent(Dungeon.hero.pos, pos)
+					&& Dungeon.hero.belongings.attackingWeapon() instanceof BowWeapon.Arrow){
 				icon = FloatingText.PHYS_DMG_NO_BLOCK;
 			}
 

@@ -1,5 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -22,6 +23,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -128,6 +130,25 @@ public class BowWeapon extends MeleeWeapon {
         }
     }
 
+    protected void duelistAbility( Hero hero, Integer target ){
+        hero.sprite.operate(hero.pos);
+        hero.spendAndNext(0);
+        Buff.affect(hero, PenetrationShotBuff.class);
+        Sample.INSTANCE.play(Assets.Sounds.MISS);
+    }
+
+    @Override
+    public String abilityInfo() {
+        int lvl = levelKnown ? buffedLvl() : 0;
+        int min = arrowMin(lvl) + lvl + Math.round(arrowMin(lvl)*(7-tier())*0.1f);
+        int max = arrowMax(lvl) + lvl + Math.round(arrowMax(lvl)*(7-tier())*0.1f);
+        if (levelKnown){
+            return Messages.get(this, "ability_desc", augment.damageFactor(min), augment.damageFactor(max));
+        } else {
+            return Messages.get(this, "typical_ability_desc", augment.damageFactor(min), augment.damageFactor(max));
+        }
+    }
+
     public Arrow knockArrow(){
         return new Arrow();
     }
@@ -136,6 +157,7 @@ public class BowWeapon extends MeleeWeapon {
         {
             image = ItemSpriteSheet.NORMAL_ARROW;
             tier = BowWeapon.this.tier();
+            hitSound = Assets.Sounds.HIT_ARROW;
         }
 
         @Override
@@ -150,23 +172,29 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public int damageRoll(Char owner) {
+            int damage = arrowDamage();
             if (owner instanceof Hero) {
                 Hero hero = (Hero)owner;
                 Char enemy = hero.enemy();
                 if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
                     //deals 50% toward max to max on surprise, instead of min to max.
                     int diff = arrowMax() - arrowMin();
-                    int damage = augment.damageFactor(Hero.heroDamageIntRange(
-                            min() + Math.round(diff*(3/(3f+tier))), //75%, 60%, 50%, 43%, 38% toward max
-                            max()));
+                    damage = augment.damageFactor(Hero.heroDamageIntRange(
+                            arrowMin() + Math.round(diff*(3/(3f+tier))), //75%, 60%, 50%, 43%, 38% toward max
+                            arrowMax()));
                     int exStr = hero.STR() - STRReq();
                     if (exStr > 0) {
                         damage += Hero.heroDamageIntRange(0, exStr);
                     }
-                    return damage;
+                }
+
+                if (hero.buff(PenetrationShotBuff.class) != null) {
+                    damage = hero.buff(PenetrationShotBuff.class).proc(damage, this.buffedLvl(), this.tier);
+                    hero.buff(PenetrationShotBuff.class).detach();
+                    Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
                 }
             }
-            return arrowDamage();
+            return damage;
         }
 
         @Override
@@ -325,5 +353,20 @@ public class BowWeapon extends MeleeWeapon {
                 false,
                 false,
                 BowWeapon.class);
+    }
+
+    public static class PenetrationShotBuff extends Buff {
+        {
+            type = buffType.NEUTRAL;
+        }
+
+        @Override
+        public int icon() {
+            return BuffIndicator.DUEL_BOW;
+        }
+
+        public int proc(int damage, int lvl, int tier) {
+            return damage + lvl + Math.round(damage*(7-tier)*0.1f);
+        }
     }
 }

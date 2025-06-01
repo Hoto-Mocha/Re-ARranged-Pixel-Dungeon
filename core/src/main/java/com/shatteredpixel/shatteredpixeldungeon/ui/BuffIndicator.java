@@ -135,7 +135,8 @@ public class BuffIndicator extends Component {
 	public static final int MANY_POWER  = 83;
 
 	//arranged buffs
-	public static final int PARRY		= 136;
+	public static final int PARRY		= 135;
+	public static final int DUEL_BOW	= 136;
 	public static final int DUEL_ANGEL	= 137;
 	public static final int DUEL_EVIL	= 138;
 	public static final int DUEL_DAGGER	= 139;
