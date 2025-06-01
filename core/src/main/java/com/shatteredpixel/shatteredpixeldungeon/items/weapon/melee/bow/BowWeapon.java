@@ -12,10 +12,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.ArrowItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Elastic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -131,10 +129,19 @@ public class BowWeapon extends MeleeWeapon {
     }
 
     protected void duelistAbility( Hero hero, Integer target ){
+        if (hero.buff(PenetrationShotBuff.class) != null) {
+            GLog.w(Messages.get(this, "already_used"));
+            return;
+        }
+
+        beforeAbilityUsed(hero, null);
+
         hero.sprite.operate(hero.pos);
         hero.spendAndNext(0);
         Buff.affect(hero, PenetrationShotBuff.class);
         Sample.INSTANCE.play(Assets.Sounds.MISS);
+
+        afterAbilityUsed(hero);
     }
 
     @Override
@@ -253,6 +260,11 @@ public class BowWeapon extends MeleeWeapon {
             Dungeon.bullet--;
 
             updateQuickslot();
+        }
+
+        @Override
+        public void throwSound() {
+            Sample.INSTANCE.play( Assets.Sounds.ATK_SPIRITBOW, 1, Random.Float(0.87f, 1.15f) );
         }
     }
 
