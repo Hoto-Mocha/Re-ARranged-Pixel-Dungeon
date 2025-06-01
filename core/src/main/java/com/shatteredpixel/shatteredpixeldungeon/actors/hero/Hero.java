@@ -1893,9 +1893,6 @@ public class Hero extends Char {
 			chance += 0.05f;
 		}
 
-		System.out.println("CritChance() : " + chance);
-		System.out.println("CritChance() after gate : " + GameMath.gate(0, chance, 2));
-
 		return GameMath.gate(0, chance, 2);
 	}
 
