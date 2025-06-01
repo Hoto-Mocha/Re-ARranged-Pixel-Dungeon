@@ -43,7 +43,7 @@ public class BowWeapon extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        return tier()*2
+        return 2+tier()
                 +lvl;
     }
 
@@ -57,7 +57,7 @@ public class BowWeapon extends MeleeWeapon {
     }
 
     public int arrowMax(int lvl) {
-        return 5*(tier()+1) +
+        return 3*(tier()+1) +
                 lvl*(tier()+1);
     }
 
@@ -131,6 +131,7 @@ public class BowWeapon extends MeleeWeapon {
     public class Arrow extends DisposableMissileWeapon {
         {
             image = ItemSpriteSheet.NORMAL_ARROW;
+            tier = BowWeapon.this.tier();
         }
 
         @Override
@@ -145,8 +146,23 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public int damageRoll(Char owner) {
-            int damage = arrowDamage();
-            return damage;
+            if (owner instanceof Hero) {
+                Hero hero = (Hero)owner;
+                Char enemy = hero.enemy();
+                if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
+                    //deals 50% toward max to max on surprise, instead of min to max.
+                    int diff = arrowMax() - arrowMin();
+                    int damage = augment.damageFactor(Hero.heroDamageIntRange(
+                            min() + Math.round(diff*(3/(3f+tier))), //75%, 60%, 50%, 43%, 38% toward max
+                            max()));
+                    int exStr = hero.STR() - STRReq();
+                    if (exStr > 0) {
+                        damage += Hero.heroDamageIntRange(0, exStr);
+                    }
+                    return damage;
+                }
+            }
+            return arrowDamage();
         }
 
         @Override
