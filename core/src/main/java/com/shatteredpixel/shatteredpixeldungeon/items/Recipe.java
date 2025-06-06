@@ -91,6 +91,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.Cross;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.ThunderBolt;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -264,7 +265,8 @@ public abstract class Recipe {
 		new StewedMeat.threeMeat(),
 		new MeatPie.Recipe(),
 		new BluePrint.Recipe(),
-		new Cross.Recipe()
+		new Cross.Recipe(),
+		new ThunderBolt.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){

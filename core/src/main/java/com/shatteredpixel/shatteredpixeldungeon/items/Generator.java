@@ -295,6 +295,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSt
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Tomahawk;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.Cross;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.ThunderBolt;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
@@ -793,9 +794,10 @@ public class Generator {
 			MIS_T5.probs = MIS_T5.defaultProbs.clone();
 
 			MIS_SP.classes = new Class<?>[]{
-					Cross.class
+					Cross.class,
+					ThunderBolt.class
 			};
-			MIS_SP.defaultProbs = new float[]{ 0 };
+			MIS_SP.defaultProbs = new float[]{ 0, 0 };
 			MIS_SP.probs = MIS_SP.defaultProbs.clone();
 			
 			FOOD.classes = new Class<?>[]{
