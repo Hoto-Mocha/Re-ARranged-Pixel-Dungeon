@@ -91,6 +91,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticG
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
+import com.shatteredpixel.shatteredpixeldungeon.items.remains.BrokenShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.remains.SheathFragment;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
@@ -106,6 +107,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurs
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.PinkGem;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Cudgel;
@@ -185,9 +187,12 @@ public enum HeroClass {
 			new TengusMask().collect();
 			new KingsCrown().collect();
 			new OldAmulet().collect();
-			new Ankh().collect();
-			new PotionOfLiquidFlame().identify().quantity(100).collect();
-			new SheathFragment().quantity(20).collect();
+
+			new BrokenShield().collect();
+			new PinkGem().collect();
+//			new Ankh().collect();
+//			new PotionOfLiquidFlame().identify().quantity(100).collect();
+//			new SheathFragment().quantity(20).collect();
 //			new BulletBelt().collect();
 //			new WornShortBow().identify().collect();
 //			new ShortBow().identify().collect();

@@ -3,16 +3,30 @@ package com.shatteredpixel.shatteredpixeldungeon.items.trinkets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.watabou.noosa.Image;
 import com.watabou.utils.Random;
 
 public class PinkGem extends Trinket {
     {
         image = ItemSpriteSheet.PINK_GEM;
+    }
+
+    @Override
+    public boolean doPickUp(Hero hero, int pos) {
+        if (super.doPickUp(hero, pos)) {
+            Buff.prolong(hero, PreventDropBuff.class, PreventDropBuff.DURATION);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -59,17 +73,21 @@ public class PinkGem extends Trinket {
 //            case 3:
 //                return 0.5f;
 //        }
-        switch (level) {
-            default:
-                return 0;
-            case 0:
-                return 0.05f;
-            case 1:
-                return 0.1f;
-            case 2:
-                return 0.15f;
-            case 3:
-                return 0.2f;
+        if (Dungeon.hero != null && Dungeon.hero.buff(PreventDropBuff.class) != null) {
+            return 0;
+        } else {
+            switch (level) {
+                default:
+                    return 0;
+                case 0:
+                    return 0.05f;
+                case 1:
+                    return 0.1f;
+                case 2:
+                    return 0.15f;
+                case 3:
+                    return 0.2f;
+            }
         }
     }
 
@@ -116,6 +134,30 @@ public class PinkGem extends Trinket {
                 return 0.3f;
             case 3:
                 return 0f;
+        }
+    }
+
+    public static class PreventDropBuff extends FlavourBuff {
+        {
+            type = buffType.NEUTRAL;
+            announced = false;
+        }
+
+        public static final float DURATION = 300f;
+
+        @Override
+        public int icon() {
+            return BuffIndicator.TIME;
+        }
+
+        @Override
+        public void tintIcon(Image icon) {
+            icon.hardlight(0xFFB2FF);
+        }
+
+        @Override
+        public float iconFadePercent() {
+            return (DURATION - visualcooldown())/DURATION;
         }
     }
 }
