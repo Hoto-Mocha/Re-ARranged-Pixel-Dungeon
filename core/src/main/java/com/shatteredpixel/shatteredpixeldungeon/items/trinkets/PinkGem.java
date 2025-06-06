@@ -47,17 +47,29 @@ public class PinkGem extends Trinket {
     }
 
     public static float dropChance(int level) {
+//        switch (level) {
+//            default:
+//                return 0;
+//            case 0:
+//                return 0.1f;
+//            case 1:
+//                return 0.25f;
+//            case 2:
+//                return 0.35f;
+//            case 3:
+//                return 0.5f;
+//        }
         switch (level) {
             default:
                 return 0;
             case 0:
-                return 0.1f;
+                return 0.05f;
             case 1:
-                return 0.25f;
+                return 0.1f;
             case 2:
-                return 0.35f;
+                return 0.15f;
             case 3:
-                return 0.5f;
+                return 0.2f;
         }
     }
 
@@ -66,15 +78,25 @@ public class PinkGem extends Trinket {
     }
 
     public static int ringLevel(int level) {
+//        switch (level) {
+//            case 0: default:
+//                return 0; //60% common, 30% uncommon, 10% rare
+//            case 1:
+//                return 3; //48% common, 36% uncommon, 16% rare
+//            case 2:
+//                return 6; //36% common, 42% uncommon, 22% rare
+//            case 3:
+//                return 9; //24% common, 48% uncommon, 28% rare
+//        }
         switch (level) {
             case 0: default:
                 return 0; //60% common, 30% uncommon, 10% rare
             case 1:
-                return 3; //48% common, 36% uncommon, 16% rare
+                return 2; //52% common, 34% uncommon, 14% rare
             case 2:
-                return 6; //36% common, 42% uncommon, 22% rare
+                return 4; //44% common, 38% uncommon, 18% rare
             case 3:
-                return 9; //24% common, 48% uncommon, 28% rare
+                return 6; //36% common, 42% uncommon, 22% rare
         }
     }
 
