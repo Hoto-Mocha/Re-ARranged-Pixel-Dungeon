@@ -187,9 +187,8 @@ public enum HeroClass {
 			new TengusMask().collect();
 			new KingsCrown().collect();
 			new OldAmulet().collect();
-
-			new BrokenShield().collect();
-			new PinkGem().collect();
+//			new BrokenShield().collect();
+//			new PinkGem().collect();
 //			new Ankh().collect();
 //			new PotionOfLiquidFlame().identify().quantity(100).collect();
 //			new SheathFragment().quantity(20).collect();
