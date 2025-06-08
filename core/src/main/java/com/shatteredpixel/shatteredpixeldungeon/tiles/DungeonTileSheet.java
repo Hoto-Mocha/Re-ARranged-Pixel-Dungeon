@@ -129,7 +129,8 @@ public class DungeonTileSheet {
 			if (Dungeon.depth <= 5)     return CHASM_FLOOR_SP;
 			if (Dungeon.depth <= 10)    return CHASM;
 			if (Dungeon.depth <= 20)    return CHASM_FLOOR_SP;
-			else                        return CHASM_FLOOR;
+			if (Dungeon.depth <= 25)	return CHASM_FLOOR;
+			else                        return CHASM;
 		}
 		return chasmStitcheable.get(above, CHASM);
 	}

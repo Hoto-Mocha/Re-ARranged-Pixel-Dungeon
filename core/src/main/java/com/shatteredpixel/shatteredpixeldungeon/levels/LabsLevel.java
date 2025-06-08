@@ -24,8 +24,9 @@ package com.shatteredpixel.shatteredpixeldungeon.levels;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Ripple;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.WindParticle;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
-import com.shatteredpixel.shatteredpixeldungeon.levels.painters.SewerPainter;
+import com.shatteredpixel.shatteredpixeldungeon.levels.painters.PrisonPainter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BlazingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ConfusionTrap;
@@ -102,7 +103,7 @@ public class LabsLevel extends RegularLevel {
 	
 	@Override
 	protected Painter painter() {
-		return new SewerPainter()
+		return new PrisonPainter()
 				.setWater(feeling == Feeling.WATER ? 0.85f : 0.30f, 5)
 				.setGrass(feeling == Feeling.GRASS ? 0.80f : 0.20f, 4)
 				.setTraps(nTraps(), trapClasses(), trapChances());
@@ -162,6 +163,10 @@ public class LabsLevel extends RegularLevel {
 			if (level.map[i] == Terrain.WALL_DECO) {
 				group.add( new Sink( i ) );
 			}
+			//alt deco is a chasm visual in the prison
+			if (level.map[i] == Terrain.REGION_DECO_ALT) {
+				group.add( new WindParticle.Wind( i ) );
+			}
 		}
 	}
 	
@@ -176,6 +181,10 @@ public class LabsLevel extends RegularLevel {
 				return Messages.get(LabsLevel.class, "statue_name");
 			case Terrain.EMPTY_SP:
 				return Messages.get(LabsLevel.class, "empty_sp_name");
+			case Terrain.REGION_DECO:
+				return Messages.get(LabsLevel.class, "region_deco_name");
+			case Terrain.REGION_DECO_ALT:
+				return Messages.get(LabsLevel.class, "region_deco_alt_name");
 			default:
 				return super.tileName( tile );
 		}
@@ -198,6 +207,10 @@ public class LabsLevel extends RegularLevel {
 				return Messages.get(LabsLevel.class, "bookshelf_desc");
 			case Terrain.STATUE:
 				return Messages.get(LabsLevel.class, "statue_desc");
+			case Terrain.REGION_DECO:
+				return Messages.get(LabsLevel.class, "region_deco_desc");
+			case Terrain.REGION_DECO_ALT:
+				return Messages.get(LabsLevel.class, "region_deco_alt_desc");
 			default:
 				return super.tileDesc( tile );
 		}
