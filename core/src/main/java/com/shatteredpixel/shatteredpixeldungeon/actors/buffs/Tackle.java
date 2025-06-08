@@ -159,7 +159,7 @@ public class Tackle extends FlavourBuff implements ActionIndicator.Action {
 					BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
 					int amount = shield.shielding()+1;
 					if (hero.hasTalent(Talent.IMPROVED_TACKLE)) amount++;
-					shield.supercharge(Math.min(shield.maxShield(), amount));
+//					shield.supercharge(Math.min(shield.maxShield(), amount));
 				}
 
 				//pushes the enemy back
