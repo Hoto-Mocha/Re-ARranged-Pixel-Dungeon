@@ -15,6 +15,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RouletteOfDeath;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -751,8 +752,17 @@ public class Gun extends MeleeWeapon {
 			if (Gun.this.attachMod == AttachMod.LASER_ATTACH) {
 				ACC *= 1.25f;
 			}
+			if (hero.hasTalent(Talent.INEVITABLE_DEATH) && hero.buff(RouletteOfDeath.class) != null && hero.buff(RouletteOfDeath.class).timeToDeath()) {
+				ACC *= 1 + hero.pointsInTalent(Talent.INEVITABLE_DEATH);
+			}
+
 			ACC = Gun.this.barrelMod.bulletAccuracyFactor(ACC, Dungeon.level.adjacent(owner.pos, target.pos));
 			return ACC;
+		}
+
+		@Override
+		protected float adjacentAccFactor(Char owner, Char target) {
+			return super.adjacentAccFactor(owner, target)*0.5f;
 		}
 
 		@Override

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2025 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -606,15 +606,9 @@ public class Hero extends Char {
 		if (Dungeon.isChallenged(Challenges.SUPERMAN)) {
 			accuracy *= 2;
 		}
-		
-		if (wep instanceof MissileWeapon && !(wep instanceof Gun.Bullet)){ //총탄을 제외한 투척 무기의 정확성
-			if (Dungeon.level.adjacent( pos, target.pos )) {
-				accuracy *= (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
-			} else {
-				accuracy *= 1.5f;
-			}
+
 		//precise assault and liquid agility
-		} else {
+		if (!(wep instanceof MissileWeapon)) {
 			if ((hasTalent(Talent.PRECISE_ASSAULT) || hasTalent(Talent.LIQUID_AGILITY))
 					//does not trigger on ability attacks
 					&& belongings.abilityWeapon != wep && buff(MonkEnergy.MonkAbility.UnarmedAbilityTracker.class) == null){
@@ -651,19 +645,6 @@ public class Hero extends Char {
 						buff.detach();
 					}
 				}
-			}
-		}
-
-		if (wep instanceof Gun.Bullet) {	//총탄의 정확성
-			if (Dungeon.level.adjacent( pos, target.pos )) {
-				if (wep instanceof SG.SGBullet) {
-					accuracy *= 10f; //산탄총은 기본적으로 0.2배의 명중률 보정이 있으며, 이를 10배함으로써 2배의 명중률을 가짐
-				} else {
-					accuracy *= (0.5f + 0.2f*pointsInTalent(Talent.POINT_BLANK));
-				}
-			}
-			if (hero.hasTalent(Talent.INEVITABLE_DEATH) && hero.buff(RouletteOfDeath.class) != null && hero.buff(RouletteOfDeath.class).timeToDeath()) {
-				accuracy *= 1 + hero.pointsInTalent(Talent.INEVITABLE_DEATH);
 			}
 		}
 
@@ -1743,9 +1724,10 @@ public class Hero extends Char {
 			if (heroClass != HeroClass.DUELIST
 					&& hasTalent(Talent.AGGRESSIVE_BARRIER)
 					&& buff(Talent.AggressiveBarrierCooldown.class) == null
-					&& (HP / (float)HT) < 0.20f*(1+pointsInTalent(Talent.AGGRESSIVE_BARRIER))){
-				Buff.affect(this, Barrier.class).setShield(3);
-				sprite.showStatusWithIcon(CharSprite.POSITIVE, "3", FloatingText.SHIELDING);
+					&& (HP / (float)HT) <= 0.5f){
+				int shieldAmt = 1 + 2*pointsInTalent(Talent.AGGRESSIVE_BARRIER);
+				Buff.affect(this, Barrier.class).setShield(shieldAmt);
+				sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(shieldAmt), FloatingText.SHIELDING);
 				Buff.affect(this, Talent.AggressiveBarrierCooldown.class, 50f);
 
 			}
@@ -2868,7 +2850,7 @@ public class Hero extends Char {
 				}
 			}
 			if (buff(HallowedGround.HallowedFurrowTracker.class) != null){
-				buff(HallowedGround.HallowedFurrowTracker.class).countDown(percent*5f);
+				buff(HallowedGround.HallowedFurrowTracker.class).countDown(percent*100f);
 				if (buff(HallowedGround.HallowedFurrowTracker.class).count() <= 0){
 					buff(HallowedGround.HallowedFurrowTracker.class).detach();
 				}

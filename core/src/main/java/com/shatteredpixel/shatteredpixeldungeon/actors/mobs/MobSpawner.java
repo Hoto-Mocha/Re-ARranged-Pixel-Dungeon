@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2025 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -315,25 +315,24 @@ public class MobSpawner extends Actor {
 		for (int i = 0; i < rotation.size(); i++) {
 			if (Random.Float() < altChance) {
 				Class<? extends Mob> cl = rotation.get(i);
-				if (cl == Rat.class) {
-					cl = Albino.class;
-				} else if (cl == Slime.class) {
-					cl = CausticSlime.class;
-				} else if (cl == Thief.class) {
-					cl = Bandit.class;
-				} else if (cl == Necromancer.class) {
-					cl = SpectralNecromancer.class;
-				} else if (cl == Brute.class) {
-					cl = ArmoredBrute.class;
-				} else if (cl == DM200.class) {
-					cl = DM201.class;
-				} else if (cl == Monk.class) {
-					cl = Senior.class;
-				} else if (cl == Scorpio.class) {
-					cl = Acidic.class;
-				} else if (cl == Soldier.class) {
-					cl = SWAT.class;
-				}
+				if (cl == Rat.class)                cl = Albino.class;
+				else if (cl == Gnoll.class)         cl = GnollExile.class;
+				else if (cl == Crab.class)          cl = HermitCrab.class;
+				else if (cl == Slime.class)         cl = CausticSlime.class;
+
+				else if (cl == Thief.class)         cl = Bandit.class;
+				else if (cl == Necromancer.class)   cl = SpectralNecromancer.class;
+
+				else if (cl == Brute.class)         cl = ArmoredBrute.class;
+				else if (cl == DM200.class)         cl = DM201.class;
+
+				else if (cl == Monk.class)          cl = Senior.class;
+				//chaos elemental spawning happens in Elemental.Random
+
+				else if (cl == Scorpio.class)       cl = Acidic.class;
+
+				else if (cl == Soldier.class) 		cl = SWAT.class;
+
 				rotation.set(i, cl);
 			}
 		}

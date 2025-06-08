@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2025 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -77,9 +77,12 @@ public class FloatingText extends RenderedTextBlock {
 	public static int GOLD      = 23;
 	public static int ENERGY    = 24;
 
+	//dodge icons
+	public static int TUFT      = 26;
+
 	//new icons
-	public static int EXPERIENCE_USE = 26;
-	public static int RADIOACTIVE	 = 27;
+	public static int EXPERIENCE_USE = 27;
+	public static int RADIOACTIVE	 = 28;
 
 	private Image icon;
 	private boolean iconLeft;

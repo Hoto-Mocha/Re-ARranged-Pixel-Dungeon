@@ -1,5 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.SG;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -33,6 +34,11 @@ public class SG extends Gun {
     public class SGBullet extends Bullet {
         {
             image = ItemSpriteSheet.TRIPLE_BULLET;
+        }
+
+        @Override
+        protected float adjacentAccFactor(Char owner, Char target) {
+            return super.adjacentAccFactor(owner, target)*10f;
         }
     }
 }

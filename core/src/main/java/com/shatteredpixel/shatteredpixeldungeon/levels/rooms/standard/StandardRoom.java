@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2025 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -104,6 +104,9 @@ public abstract class StandardRoom extends Room {
 	}
 
 	public int mobSpawnWeight(){
+		if (isEntrance()){
+			return 1; //entrance rooms don't have higher mob spawns even if they're larger
+		}
 		return sizeFactor();
 	}
 
@@ -120,30 +123,32 @@ public abstract class StandardRoom extends Room {
 	//FIXME this is a very messy way of handing variable standard rooms
 	private static ArrayList<Class<?extends StandardRoom>> rooms = new ArrayList<>();
 	static {
-		rooms.add(EmptyRoom.class);
-
-
 		rooms.add(SewerPipeRoom.class);
 		rooms.add(RingRoom.class);
 		rooms.add(WaterBridgeRoom.class);
+		rooms.add(RegionDecoPatchRoom.class);
 		rooms.add(CircleBasinRoom.class);
 
+		rooms.add(RegionDecoLineRoom.class);
 		rooms.add(SegmentedRoom.class);
 		rooms.add(PillarsRoom.class);
 		rooms.add(ChasmBridgeRoom.class);
 		rooms.add(CellBlockRoom.class);
 
 		rooms.add(CaveRoom.class);
+		rooms.add(RegionDecoBridgeRoom.class);
 		rooms.add(CavesFissureRoom.class);
 		rooms.add(CirclePitRoom.class);
 		rooms.add(CircleWallRoom.class);
 
 		rooms.add(HallwayRoom.class);
-		rooms.add(StatuesRoom.class);
+		rooms.add(LibraryHallRoom.class);
 		rooms.add(LibraryRingRoom.class);
+		rooms.add(StatuesRoom.class);
 		rooms.add(SegmentedLibraryRoom.class);
 
 		rooms.add(RuinsRoom.class);
+		rooms.add(RegionDecoPatchRoom.class);
 		rooms.add(ChasmRoom.class);
 		rooms.add(SkullsRoom.class);
 		rooms.add(RitualRoom.class);
@@ -159,77 +164,33 @@ public abstract class StandardRoom extends Room {
 		rooms.add(StudyRoom.class);
 		rooms.add(SuspiciousChestRoom.class);
 		rooms.add(MinefieldRoom.class);
-
-		rooms.add(TempleCenterItemRoom.class);
-		rooms.add(TempleMazeRoom.class);
-		rooms.add(TempleLibraryRoom.class);
 	}
 	
 	private static float[][] chances = new float[32][];
 	static {
-		chances[1] =  new float[]{5,  10,10,10,5, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,  1,0,1,0,1,0,1,1,0,0 ,0,0,0};
-		chances[2] =  new float[]{5,  10,10,10,5, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,  1,1,1,1,1,1,1,1,1,1 ,0,0,0};
+		chances[1] =  new float[]{16,8,8,4,4,   0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0,  1,0,1,0,1,0,1,1,0,0};
+		chances[2] =  new float[]{16,8,8,4,4,   0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0,  1,1,1,1,1,1,1,1,1,1};
 		chances[4] =  chances[3] = chances[2];
-		chances[5] =  new float[]{5,  10,10,10,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,  0,0,0,0,0,0,0,0,0,0 ,0,0,0};
+		chances[5] =  new float[]{16,8,8,4,0,   0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0,  0,0,0,0,0,0,0,0,0,0};
 
-		chances[6] =  new float[]{5,  0,0,0,0, 10,10,10,5, 0,0,0,0, 0,0,0,0, 0,0,0,0,  1,1,1,1,1,1,1,1,1,1 ,0,0,0};
+		chances[6] =  new float[]{0,0,0,0,0, 10,10,10,5,5, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0,  1,1,1,1,1,1,1,1,1,1};
 		chances[10] = chances[9] = chances[8] = chances[7] = chances[6];
 
-		chances[11] = new float[]{5,  0,0,0,0, 0,0,0,0, 15,10,5,5,  0,0,0,0, 0,0,0,0,  1,1,1,1,1,1,1,1,1,1 ,0,0,0};
+		chances[11] = new float[]{0,0,0,0,0, 0,0,0,0,0, 16,8,8,4,4,   0,0,0,0,0, 0,0,0,0,0,  1,1,1,1,1,1,1,1,1,1};
 		chances[15] = chances[14] = chances[13] = chances[12] = chances[11];
 
-		chances[16] = new float[]{5,  0,0,0,0, 0,0,0,0, 0,0,0,0, 10,10,10,5, 0,0,0,0,  1,1,1,1,1,1,1,1,1,1 ,0,0,0};
+		chances[16] = new float[]{0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 10,10,10,5,5, 0,0,0,0,0,  1,1,1,1,1,1,1,1,1,1};
 		chances[20] = chances[19] = chances[18] = chances[17] = chances[16];
 
-		chances[21] = new float[]{5,  0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 15,10,5,5,   1,1,1,1,1,1,1,1,1,1 ,0,0,0};
+		chances[21] = new float[]{0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 10,10,10,5,5,  1,1,1,1,1,1,1,1,1,1};
 		chances[25] = chances[24] = chances[23] = chances[22] = chances[21];
-		chances[26] = chances[27] = chances[28] = chances[29] = chances[2];
+		chances[26] = chances[27] = chances[28] = chances[29] = chances[6];
 		chances[30] = chances[5];
 
 		chances[31] = chances[21];
 	}
 
-	private static float[][] branchChances = new float[32][];
-	static {
-		branchChances[1] =  new float[]{0,  0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,  1,0,1,0,1,0,1,1,1,0, 10,6,8};
-		branchChances[31]
-				= branchChances[30]
-				= branchChances[29]
-				= branchChances[28]
-				= branchChances[27]
-				= branchChances[26]
-				= branchChances[25]
-				= branchChances[24]
-				= branchChances[23]
-				= branchChances[22]
-				= branchChances[21]
-				= branchChances[20]
-				= branchChances[19]
-				= branchChances[18]
-				= branchChances[17]
-				= branchChances[16]
-				= branchChances[15]
-				= branchChances[14]
-				= branchChances[13]
-				= branchChances[12]
-				= branchChances[11]
-				= branchChances[10]
-				= branchChances[9]
-				= branchChances[8]
-				= branchChances[7]
-				= branchChances[6]
-				= branchChances[5]
-				= branchChances[4]
-				= branchChances[3]
-				= branchChances[2]
-				= branchChances[1];
-	}
-
 	public static StandardRoom createRoom(){
-		if (Dungeon.branch == 0) {
-			return Reflection.newInstance(rooms.get(Random.chances(chances[Dungeon.depth])));
-		} else {
-			return Reflection.newInstance(rooms.get(Random.chances(branchChances[Dungeon.depth])));
-		}
+		return Reflection.newInstance(rooms.get(Random.chances(chances[Dungeon.depth])));
 	}
 }

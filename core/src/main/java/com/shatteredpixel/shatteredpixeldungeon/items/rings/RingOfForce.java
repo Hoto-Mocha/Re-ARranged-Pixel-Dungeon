@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2025 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -231,12 +232,14 @@ public class RingOfForce extends Ring {
 				}
 				BuffIndicator.refreshHero();
 				AttackIndicator.updateState();
+				hero.sprite.operate(hero.pos);
 			} else if (!isEquipped(hero)) {
 				GLog.w(Messages.get(MeleeWeapon.class, "ability_need_equip"));
 
 			} else {
 				Buff.affect(hero, BrawlersStance.class).reset();
 				AttackIndicator.updateState();
+				hero.sprite.operate(hero.pos);
 			}
 		} else {
 			super.execute(hero, action);
@@ -319,10 +322,14 @@ public class RingOfForce extends Ring {
 		}
 
 		//buff must be active for at least 50 turns, to discourage micro-managing for max charges
-		public boolean active;
+		public boolean active = true;
 		private int minTurnsLeft;
 
 		public void reset(){
+			if (!active){
+				//announce the buff
+				target.sprite.showStatus(CharSprite.POSITIVE, Messages.titleCase(name()));
+			}
 			active = true;
 			minTurnsLeft = 50;
 		}
