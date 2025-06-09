@@ -34,8 +34,16 @@ public class SpellBlast extends TargetedClericSpell implements Hero.Doom {
     }
 
     private int maxDamage() {
-        return 4+Dungeon.hero.lvl/2;
+        return 10+Dungeon.hero.lvl;
     }
+//
+//    private int minDamage() {
+//        return 2+Dungeon.hero.lvl/5;
+//    }
+//
+//    private int maxDamage() {
+//        return 4+Dungeon.hero.lvl/2;
+//    }
 
     @Override
     public int targetingFlags() {
