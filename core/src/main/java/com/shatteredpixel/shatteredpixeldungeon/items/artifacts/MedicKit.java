@@ -153,8 +153,8 @@ public class MedicKit extends Artifact {
 
     public void charge(Hero hero, float amount) {
         float chargeAmt = amount * RingOfEnergy.artifactChargeMultiplier(hero);
-        if (charge >= hero.HT) {
-            chargeAmt *= 0.25f; //x0.25 if current charge is over the hero's max HP
+        if (charge + chargeAmt >= hero.HT) {
+            chargeAmt = hero.HT-charge; //can't charge over the hero's max HP
         }
         if (cursed) chargeAmt = 0;
 

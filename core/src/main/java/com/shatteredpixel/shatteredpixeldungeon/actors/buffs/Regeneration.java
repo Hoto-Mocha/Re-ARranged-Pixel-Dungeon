@@ -100,7 +100,7 @@ public class Regeneration extends Buff {
 					}
 					MedicKit.MedicKitBuff medicKitBuff = Dungeon.hero.buff( MedicKit.MedicKitBuff.class );
 					if (medicKitBuff != null) {
-						medicKitBuff.charge((Hero)target, 1);
+						medicKitBuff.charge((Hero)target, 0.25f);
 					}
 				}
 
