@@ -1,24 +1,22 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
-import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.Berry;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
-import com.shatteredpixel.shatteredpixeldungeon.levels.features.HighGrass;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ConeAOE;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -43,6 +41,7 @@ public class Machete extends MeleeWeapon {
 
         tier = 1;
         DLY = 1.5f; //0.67x speed
+        RCH = 2; //2x range
 
         unique = true;
         bones = false;
@@ -52,7 +51,7 @@ public class Machete extends MeleeWeapon {
     public int reachFactor(Char owner) {
         int reach = super.reachFactor(owner);
 
-        reach += hero.pointsInTalent(Talent.LONG_MACHETE);
+        reach += Dungeon.hero.pointsInTalent(Talent.LONG_MACHETE);
 
         return reach;
     }
@@ -88,15 +87,16 @@ public class Machete extends MeleeWeapon {
     }
 
     public void slash(int pos) {
+        Hero hero = Dungeon.hero;
         if (pos == hero.pos) {
             GLog.w((Messages.get(this, "cannot_target")));
             return;
         }
 
-        if (Dungeon.level.map[pos] != Terrain.FURROWED_GRASS && Dungeon.level.map[pos] != Terrain.HIGH_GRASS) {
-            GLog.w(Messages.get(this, "no_grass"));
-            return;
-        }
+//        if (Dungeon.level.map[pos] != Terrain.FURROWED_GRASS && Dungeon.level.map[pos] != Terrain.HIGH_GRASS) {
+//            GLog.w(Messages.get(this, "no_grass"));
+//            return;
+//        }
 
         curUser.spendAndNext(Actor.TICK);
         Sample.INSTANCE.play(Assets.Sounds.HIT_SLASH, 2, Random.Float(0.9f, 1.3f));
@@ -118,12 +118,38 @@ public class Machete extends MeleeWeapon {
                 Level.set(cell, Terrain.GRASS);
                 GameScene.updateMap(cell);
                 CellEmitter.get(cell).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
-                float chance = 0.33f;
+                float chance = 0.5f;
                 if (hero.hasTalent(Talent.ROPE_COLLECTOR)) {
                     chance *= 1+0.2f * hero.pointsInTalent(Talent.ROPE_COLLECTOR);
                 }
                 if (Random.Float() < chance) {
                     count ++;
+                }
+
+                //berries try to drop on floors 2/3/4/6/7/8, to a max of 4/6
+                if (hero.hasTalent(Talent.HARVEST_BERRY)){
+                    int berriesAvailable = 2 + 2*hero.pointsInTalent(Talent.HARVEST_BERRY);
+
+                    Talent.HarvestBerriesDropped dropped = Buff.affect(hero, Talent.HarvestBerriesDropped.class);
+                    berriesAvailable -= dropped.count();
+
+                    if (berriesAvailable > 0) {
+                        int targetFloor = 2 + 2 * hero.pointsInTalent(Talent.HARVEST_BERRY);
+                        targetFloor -= berriesAvailable;
+                        targetFloor += (targetFloor >= 5) ? 3 : 2;
+
+                        //If we're behind: 1/10, if we're on page: 1/30, if we're ahead: 1/90
+                        boolean droppingBerry = false;
+                        if (Dungeon.depth > targetFloor) droppingBerry = Random.Int(10) == 0;
+                        else if (Dungeon.depth == targetFloor) droppingBerry = Random.Int(30) == 0;
+                        else if (Dungeon.depth < targetFloor) droppingBerry = Random.Int(90) == 0;
+
+                        if (droppingBerry) {
+                            dropped.countUp(1);
+                            Dungeon.level.drop(new Berry(), pos).sprite.drop();
+                        }
+                    }
+
                 }
             }
         }
@@ -144,6 +170,7 @@ public class Machete extends MeleeWeapon {
         public void onSelect( Integer target ) {
             if (target != null) {
                 Char ch = Actor.findChar(target);
+                Hero hero = Dungeon.hero;
                 if (ch != null && ch.alignment == Char.Alignment.ENEMY) {
                     KindOfWeapon herosWeapon = hero.belongings.weapon; //기존에 사용하던 무기를 저장
                     hero.belongings.weapon = Machete.this; //공격에 사용할 무기를 마체테로 변경
@@ -155,14 +182,12 @@ public class Machete extends MeleeWeapon {
                         hero.busy();
                         hero.spendAndNext(hero.attackDelay());
                         hero.attack(ch, 1, 0, 1);
-                        hero.buff(Hunger.class).affectHunger(-1);
                     }
 
                     hero.belongings.weapon = herosWeapon; //영웅의 무기를 원래 무기로 되돌림
                 } else {
                     if (Dungeon.level.distance(hero.pos, target) > Machete.this.reachFactor(hero)) {
                         GLog.w(Messages.get(Machete.this, "cannot_reach"));
-                        hero.buff(Hunger.class).affectHunger(-1);
                         return;
                     }
                     slash(target);

@@ -121,10 +121,6 @@ public class HighGrass {
 					}
 
 				}
-
-				if (ch instanceof Hero && ((Hero) ch).hasTalent(Talent.ROPE_MAKING) && Random.Float() < 0.1f*((Hero) ch).pointsInTalent(Talent.ROPE_MAKING)) {
-					level.drop(new Rope(), pos).sprite.drop();
-				}
 			}
 
 			//grass gives 1/3 the normal amount of loot in fungi level
@@ -179,18 +175,7 @@ public class HighGrass {
 				}
 			}
 
-			if (ch instanceof Hero && ((Hero) ch).heroClass != HeroClass.ADVENTURER && ((Hero) ch).hasTalent(Talent.PLANT_BARRIER)) {
-				Barrier barrier = ch.buff(Barrier.class);
-				if (barrier != null) {
-					Buff.affect(ch, Barrier.class).incShield(2);
-					int maxBarrier = 1+7*((Hero) ch).pointsInTalent(Talent.PLANT_BARRIER);
-					if (barrier.shielding() > maxBarrier) {
-						Buff.affect(ch, Barrier.class).setShield(maxBarrier);
-					}
-				} else {
-					Buff.affect(ch, Barrier.class).setShield(2);
-				}
-			}
+
 		}
 		
 		freezeTrample = false;

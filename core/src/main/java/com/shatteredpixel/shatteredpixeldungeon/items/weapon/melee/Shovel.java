@@ -128,10 +128,6 @@ public class Shovel extends MeleeWeapon {
             }
         }
 
-        if (hero.HP <= hero.HT/2f && hero.hasTalent(Talent.PLANT_BARRIER)) {
-            Buff.affect(hero, Barrier.class).setShield(1+2*hero.pointsInTalent(Talent.PLANT_BARRIER));
-        }
-
         curUser.spend(Actor.TICK);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.TRAMPLE, 2, 1.1f);

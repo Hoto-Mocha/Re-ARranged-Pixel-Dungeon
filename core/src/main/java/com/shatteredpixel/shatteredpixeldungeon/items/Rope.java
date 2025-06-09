@@ -92,6 +92,10 @@ public class Rope extends Item {
                 } else {
                     chainLocation( chain, curUser );
                 }
+
+                if (hero.hasTalent(Talent.KINETIC_ATTACK)) {
+                    Buff.affect(hero, Talent.KineticAttackTracker.class, 5f);
+                }
             }
         }
 

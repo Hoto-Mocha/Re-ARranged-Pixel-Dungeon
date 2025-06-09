@@ -557,11 +557,11 @@ public enum Talent {
 	CORROSIVE_KUNAI				(39, 7, 4),
 
 	//Adventurer T1
-	NATURE_FRIENDLY				(0, 8),
+	HARVEST_BERRY				(0, 8),
 	SAFE_POTION					(1, 8),
 	ROOT						(2, 8),
-	PLANT_BARRIER				(3, 8),
-	ROPE_MAKING					(4, 8),
+	PROTECTIVE_SLASH			(3, 8),
+	KINETIC_ATTACK				(4, 8),
 	//Adventurer T2
 	NATURES_MEAL				(5, 8),
 	PHARMACEUTICS				(6, 8),
@@ -1097,6 +1097,24 @@ public enum Talent {
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
 
+
+	//adventurer talent buff
+	//1-4
+	public static class ProtectiveSlashCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.8f, 0.8f, 0.8f); }
+		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 10)); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	//1-5
+	public static class KineticAttackTracker extends FlavourBuff {
+		{ type = Buff.buffType.POSITIVE; }
+		public int icon() { return BuffIndicator.INVERT_MARK; }
+		public void tintIcon(Image icon) { icon.hardlight(0f, 0.75f, 0f); }
+		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
+	};
+
 	//Samurai 1-3 meta
 	public static class DrawEnhanceMetaTracker extends Buff {}
 	//Samurai 2-3
@@ -1290,6 +1308,8 @@ public enum Talent {
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
+
+
 
 	int icon;
 	int maxPoints;
@@ -1558,6 +1578,7 @@ public enum Talent {
 
 	public static class CachedRationsDropped extends CounterBuff{{revivePersists = true;}};
 	public static class NatureBerriesDropped extends CounterBuff{{revivePersists = true;}};
+	public static class HarvestBerriesDropped extends CounterBuff{{revivePersists = true;}};
 
 	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
 		if (hero.hasTalent(HEARTY_MEAL)){
@@ -2087,13 +2108,7 @@ public enum Talent {
 			damage += Random.NormalIntRange(0, 1+hero.pointsInTalent(Talent.SKILLED_HAND));
 		}
 
-		if (hero.hasTalent(Talent.NATURE_FRIENDLY) && (level.map[hero.pos] == Terrain.HIGH_GRASS || level.map[hero.pos] == Terrain.FURROWED_GRASS)) {
-			damage += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
-		}
 
-		if (hero.hasTalent(Talent.NATURE_FRIENDLY) && (level.map[hero.pos] == Terrain.GRASS) && hero.heroClass != HeroClass.ADVENTURER) {
-			damage += Random.Int(1, hero.pointsInTalent(Talent.NATURE_FRIENDLY));
-		}
 
 		if (hero.buff(Talent.KineticBattle.class) != null) {
 			damage = hero.buff(Talent.KineticBattle.class).proc(damage);
@@ -2349,6 +2364,19 @@ public enum Talent {
 			hero.buff(PowerOfLife.PowerOfLifeBarrier.class).proc(damage);
 		}
 
+		if (hero.hasTalent(Talent.PROTECTIVE_SLASH)
+				&& hero.buff(Talent.ProtectiveSlashCooldown.class) == null
+				&& !Dungeon.level.adjacent(hero.pos, enemy.pos)) {
+			Buff.affect(hero, Barrier.class).setShield(1+2*Dungeon.hero.pointsInTalent(Talent.PROTECTIVE_SLASH));
+			Buff.affect(hero, Talent.ProtectiveSlashCooldown.class, 10);
+		}
+
+		if (hero.buff(KineticAttackTracker.class) != null) {
+			damage += Random.IntRange(hero.pointsInTalent(Talent.KINETIC_ATTACK), 2); //1~2 at +1, 2 at +2
+			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+			hero.buff(KineticAttackTracker.class).detach();
+		}
+
 		return damage;
 	}
 
@@ -2524,7 +2552,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, BASIC_PRACTICE, MASTERS_INTUITION, DRAWING_ENHANCE, PARRING, ADRENALINE_SURGE);
 				break;
 			case ADVENTURER:
-				Collections.addAll(tierTalents, NATURE_FRIENDLY, SAFE_POTION, ROOT, PLANT_BARRIER, ROPE_MAKING);
+				Collections.addAll(tierTalents, HARVEST_BERRY, SAFE_POTION, ROOT, PROTECTIVE_SLASH, KINETIC_ATTACK);
 				break;
 			case KNIGHT:
 				Collections.addAll(tierTalents, TOUGH_MEAL, KNIGHTS_INTUITION, KINETIC_BATTLE, HARD_SHIELD, WAR_CRY	);
