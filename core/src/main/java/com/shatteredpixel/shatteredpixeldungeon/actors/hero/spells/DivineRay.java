@@ -48,7 +48,7 @@ public class DivineRay extends TargetedClericSpell {
 
     @Override
     public float chargeUse(Hero hero) {
-        return 3;
+        return 2;
     }
 
     @Override
