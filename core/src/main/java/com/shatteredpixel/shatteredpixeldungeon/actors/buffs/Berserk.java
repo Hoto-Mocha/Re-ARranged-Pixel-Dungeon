@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal.WarriorShield;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -227,11 +228,18 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 	}
 	
 	public void damage(int damage){
+		Hero hero = ((Hero) target);
+
 		if (state != State.NORMAL) return;
-		float maxPower = 1f + 0.1667f*((Hero)target).pointsInTalent(Talent.ENDLESS_RAGE);
+		float maxPower = 1f + 0.1667f*hero.pointsInTalent(Talent.ENDLESS_RAGE);
+		float powerAmt = 100*(damage/(float)target.HT)/3f;
+		System.out.println("powerAmt: " + powerAmt);
+		if (hero.hasTalent(Talent.ENDURANCE) && powerAmt > 0) {
+			Buff.affect(hero, BrokenSeal.WarriorShield.class).spendCooldown(powerAmt * hero.pointsInTalent(Talent.ENDURANCE)/3f);
+		}
 		power = Math.min(maxPower, power + (damage/(float)target.HT)/3f );
-		if (((Hero) target).hasTalent(Talent.MAX_RAGE) && power >= maxPower && target.buff(Talent.MaxRageCooldown.class) == null) {
-			Buff.affect(target, Adrenaline.class, 10 * power * ((Hero) target).pointsInTalent(Talent.MAX_RAGE));
+		if (hero.hasTalent(Talent.MAX_RAGE) && power >= maxPower && target.buff(Talent.MaxRageCooldown.class) == null) {
+			Buff.affect(target, Adrenaline.class, 10 * power * hero.pointsInTalent(Talent.MAX_RAGE));
 			Buff.affect(target, Talent.MaxRageCooldown.class, 50f);
 		}
 		BuffIndicator.refreshHero(); //show new power immediately

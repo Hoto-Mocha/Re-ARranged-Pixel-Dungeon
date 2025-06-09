@@ -353,6 +353,11 @@ public class BrokenSeal extends Item {
 			cooldown = Math.max(cooldown, -COOLDOWN_START);
 		}
 
+		public void spendCooldown(float amount) {
+			cooldown -= Math.round(amount);
+			cooldown = Math.max(cooldown, -COOLDOWN_START);
+		}
+
 		public synchronized void setArmor(Armor arm){
 			armor = arm;
 		}
