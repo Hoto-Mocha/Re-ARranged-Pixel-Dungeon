@@ -4,14 +4,17 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.HolyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.Image;
 import com.watabou.utils.BArray;
 import com.watabou.utils.PathFinder;
 
@@ -52,7 +55,14 @@ public class HolyBombSpell extends TargetedClericSpell {
         SpelledHolyBomb bomb = new SpelledHolyBomb();
         bomb.explode(target);
 
+        Buff.affect(hero, HolyBombSpellCooldown.class, 50f);
+
         onSpellCast(tome, hero);
+    }
+
+    @Override
+    public boolean canCast(Hero hero) {
+        return hero.buff(HolyBombSpellCooldown.class) == null;
     }
 
     //same with HolyBomb.class, but explosion illuminates affected enemies
@@ -79,5 +89,13 @@ public class HolyBombSpell extends TargetedClericSpell {
                 }
             }
         }
+    }
+
+    public static class HolyBombSpellCooldown extends FlavourBuff {
+        public int icon() { return BuffIndicator.TIME; }
+        public void tintIcon(Image icon) { icon.hardlight(0x002157); }
+        public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 50)); }
+        public String toString() { return Messages.get(this, "name"); }
+        public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
     }
 }
