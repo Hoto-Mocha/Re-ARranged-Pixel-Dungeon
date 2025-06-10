@@ -161,6 +161,11 @@ public class BowWeapon extends MeleeWeapon {
         return new Arrow();
     }
 
+    @Override
+    public int targetingPos(Hero user, int dst) {
+        return knockArrow().targetingPos(user, dst);
+    }
+
     public class Arrow extends DisposableMissileWeapon {
         {
             image = ItemSpriteSheet.NORMAL_ARROW;
