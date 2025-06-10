@@ -461,7 +461,7 @@ public class Armor extends EquipableItem {
 			return 1 + tier + lvl + augment.defenseFactor(lvl);
 		}
 		int upgradefactor = tier;
-		if (hasGlyph(Afterimage.class, hero)) {
+		if (hero != null && hasGlyph(Afterimage.class, hero)) {
 			upgradefactor --;
 		}
 		if (hero != null) {
