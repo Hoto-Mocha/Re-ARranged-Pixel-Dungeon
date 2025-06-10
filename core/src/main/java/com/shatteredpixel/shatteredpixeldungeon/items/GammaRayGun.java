@@ -8,6 +8,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Healing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
@@ -29,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -39,6 +41,9 @@ import com.watabou.utils.Random;
 import java.util.ArrayList;
 
 public class GammaRayGun extends Item {
+
+    private static ItemSprite.Glowing WHITE_FAST = new ItemSprite.Glowing( 0xFFFFFF, 0.33f );
+    private static ItemSprite.Glowing WHITE_SLOW = new ItemSprite.Glowing( 0xFFFFFF, 1f );
 
     {
         image = ItemSpriteSheet.GAMMA_RAY_GUN;
@@ -81,6 +86,39 @@ public class GammaRayGun extends Item {
             curItem = this;
             GameScene.selectCell(shooter);
         }
+    }
+
+    @Override
+    public ItemSprite.Glowing glowing() {
+        GammaRayWarning buff = hero.buff(GammaRayWarning.class);
+        if (buff != null) {
+            if (buff.getDuration() > 7+hero.pointsInTalent(Talent.HIGH_POWER)) {
+                return WHITE_FAST;
+            } else {
+                return WHITE_SLOW;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String info() {
+        String info = super.info();
+
+        GammaRayWarning buff = hero.buff(GammaRayWarning.class);
+
+        if (buff != null) {
+            if (buff.getDuration() > 7 + hero.pointsInTalent(Talent.HIGH_POWER)) {
+                info += "\n\n" + Messages.get(this, "warning_high");
+            } else {
+                info += "\n\n" + Messages.get(this, "warning_low");
+            }
+        } else {
+            info += "\n\n" + Messages.get(this, "warning_none");
+        }
+
+        return info;
     }
 
     private CellSelector.Listener shooter = new CellSelector.Listener() {
@@ -166,9 +204,11 @@ public class GammaRayGun extends Item {
                     BuffIndicator.refreshHero();
                     CellEmitter.center( curUser.pos ).burst( PoisonParticle.SPLASH, 3 );
                 }
+                int duration = Random.NormalIntRange(3, 5) + hero.pointsInTalent(Talent.HIGH_POWER);
                 if (Random.Float() < 0.5f) {
-                    Buff.affect(hero, GammaRayCooldown.class).set(Random.NormalIntRange(3, 5) + hero.pointsInTalent(Talent.HIGH_POWER));
+                    Buff.affect(hero, GammaRayCooldown.class).set(duration);
                 }
+                Buff.affect(hero, GammaRayWarning.class).set(10+hero.pointsInTalent(Talent.HIGH_POWER));
                 hero.spendAndNext(Actor.TICK);
             }
         }
@@ -178,13 +218,46 @@ public class GammaRayGun extends Item {
         }
     };
 
+    public static class GammaRayWarning extends Buff {
+        private int duration;
+
+        public void set(int time) {
+            duration = time;
+        }
+
+        public int getDuration() {
+            return duration;
+        }
+
+        @Override
+        public boolean act() {
+            duration -= TICK;
+            spend(TICK);
+            Item.updateQuickslot();
+            if (duration <= 0) {
+                detach();
+            }
+            return true;
+        }
+
+        private static final String DURATION  = "duration";
+
+        @Override
+        public void storeInBundle(Bundle bundle) {
+            super.storeInBundle(bundle);
+            bundle.put(DURATION, duration);
+        }
+
+        @Override
+        public void restoreFromBundle(Bundle bundle) {
+            super.restoreFromBundle(bundle);
+            duration = bundle.getInt( DURATION );
+        }
+    }
+
     public static class GammaRayCooldown extends Buff {
 
-        int duration;
-
-        {
-            type = buffType.NEUTRAL;
-        }
+        private int duration;
 
         public void set(int time) {
             duration = time;
