@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -67,7 +68,7 @@ public class Elastic extends Weapon.Enchantment {
 		return PINK;
 	}
 
-	public static void pushEnemy(Weapon weapon, Char attacker, Char defender, int power) {
+	public static void pushEnemy(KindOfWeapon weapon, Char attacker, Char defender, int power) {
 		//trace a ballistica to our target (which will also extend past them
 		Ballistica trajectory = new Ballistica(attacker.pos, defender.pos, Ballistica.STOP_TARGET);
 		//trim it to just be the part that goes past them

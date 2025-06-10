@@ -116,6 +116,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Elastic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Bible;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.DualDagger;
@@ -1072,14 +1073,17 @@ public enum Talent {
 		public void tintIcon(Image icon) { icon.hardlight(0f, 0f, 1f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
 	}
+	public static class WardingLightCooldown extends FlavourBuff{
+		@Override
+		public int icon() {
+			return BuffIndicator.TIME;
+		}
+		public void tintIcon(Image icon) { icon.hardlight(0f, 1f, 1f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
+	}
 
 	//gunner talent's buff
 	public static class SpeedyMoveTracker extends Buff{};
-	public static class BulletSavingCooldown extends FlavourBuff{
-		public int icon() { return BuffIndicator.TIME; }
-		public void tintIcon(Image icon) { icon.hardlight(0x666666); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 10); }
-	};
 	public static class RollingTracker extends FlavourBuff{};
 	public static class HonorableShotTracker extends FlavourBuff{};
 	public static class SkillfulRunnerCooldown extends FlavourBuff{
@@ -2375,6 +2379,13 @@ public enum Talent {
 			damage += Random.IntRange(hero.pointsInTalent(Talent.KINETIC_ATTACK), 2); //1~2 at +1, 2 at +2
 			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 			hero.buff(KineticAttackTracker.class).detach();
+		}
+
+		if (enemy.alignment != Char.Alignment.ALLY
+				&& hero.heroClass != HeroClass.CLERIC
+				&& hero.hasTalent(Talent.DIVINE_BLAST)
+				&& Random.Float() < 0.2f * hero.pointsInTalent(Talent.DIVINE_BLAST)){
+			Elastic.pushEnemy(wep, hero, enemy, 1);
 		}
 
 		return damage;
