@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKn
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.PotOThunder;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.Visual;
@@ -123,6 +124,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		ANGULAR_SPEEDS.put(MortarSprite.MineShot.class,   0);
 		ANGULAR_SPEEDS.put(MachineGun.MachineGunBullet.class,   0);
 		ANGULAR_SPEEDS.put(SwordAura.Aura.class,   0);
+		ANGULAR_SPEEDS.put(PotOThunder.class,   0);
 
 		//720 is default
 

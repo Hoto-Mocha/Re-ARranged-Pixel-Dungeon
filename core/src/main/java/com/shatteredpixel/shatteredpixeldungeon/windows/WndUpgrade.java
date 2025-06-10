@@ -39,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.BowWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.PotOThunder;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -337,6 +338,14 @@ public class WndUpgrade extends Window {
 			bottom = fillFields(Messages.get(this, "bullet_damage"),
 					gun.bulletMin(levelFrom)+"-"+gun.bulletMax(levelFrom),
 					gun.bulletMin(levelTo)+"-"+gun.bulletMax(levelTo),
+					bottom);
+		}
+
+		if (toUpgrade instanceof PotOThunder) {
+			PotOThunder item = (PotOThunder) toUpgrade;
+			bottom = fillFields(Messages.get(this, "thunder_damage"),
+					item.magicMin(levelFrom)+"-"+item.magicMax(levelFrom),
+					item.magicMin(levelTo)+"-"+item.magicMax(levelTo),
 					bottom);
 		}
 

@@ -46,22 +46,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMi
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
-import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScroll;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfBlast;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfCorrosion;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfCorruption;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfDisintegration;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfEarth;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfFire;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfFrost;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfLight;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfMagic;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfRegrowth;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfThunderBolt;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfTransfusion;
-import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.BookOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.spellbook.SpellBook;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Alchemize;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
@@ -76,7 +62,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.RapidGrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.Spell;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.SummonElemental;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableIdentification;
@@ -84,14 +69,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.UpgradeDust;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Xray;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.UnstableSpell;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.WildEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.Trinket;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.TrinketCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.Cross;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.ThunderBolt;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.alchemy.PotOThunder;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -266,7 +250,7 @@ public abstract class Recipe {
 		new MeatPie.Recipe(),
 		new BluePrint.Recipe(),
 		new Cross.Recipe(),
-		new ThunderBolt.Recipe()
+		new PotOThunder.Recipe()
 	};
 	
 	public static ArrayList<Recipe> findRecipes(ArrayList<Item> ingredients){
