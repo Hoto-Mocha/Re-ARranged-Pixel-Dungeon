@@ -2188,8 +2188,6 @@ public class Hero extends Char {
 
 		if (wep instanceof Weapon) {
 			float randomFloat = Random.Float();
-			System.out.println("randomFloat : "+randomFloat);
-			System.out.println("current chance : "+hero.critChance(enemy, (Weapon)wep));
 			if (randomFloat < hero.critChance(enemy, (Weapon)wep)) {
 				damage = hero.criticalDamage(damage, (Weapon)wep, enemy);
 
