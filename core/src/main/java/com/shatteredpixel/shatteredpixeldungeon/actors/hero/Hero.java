@@ -1000,7 +1000,6 @@ public class Hero extends Char {
 		if (STR() < ((Weapon)w).STRReq())       return false;
 		if (w instanceof Flail)                 return false;
 		if (w instanceof ChainFlail)            return false;
-		if (w instanceof SG.SGBullet)           return false;
 
 		return super.canSurpriseAttack();
 	}
