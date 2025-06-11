@@ -25,7 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
-import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -39,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
+import com.shatteredpixel.shatteredpixeldungeon.items.changer.BluePrint;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
@@ -86,6 +86,7 @@ import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 public class WndJournal extends WndTabbed {
 	
@@ -106,6 +107,12 @@ public class WndJournal extends WndTabbed {
 	public static int last_index = 0;
 
 	private static WndJournal INSTANCE = null;
+
+
+	private static final HashSet<Class<? extends Item>> catalogShoppingRestrictedItems = new HashSet<>();
+	static {
+		catalogShoppingRestrictedItems.add(BluePrint.class);
+	}
 	
 	public WndJournal(){
 
@@ -860,7 +867,8 @@ public class WndJournal extends WndTabbed {
 							GameScene.show(new WndJournalItem(sprite, finalTitle, finalDesc));
 							if (Dungeon.hero != null
 									&& (DeviceCompat.isDebug() || Dungeon.customSeedText.contains("test"))
-									&& Item.class.isAssignableFrom(itemClass)) {
+									&& Item.class.isAssignableFrom(itemClass)
+									&& !catalogShoppingRestrictedItems.contains(itemClass)) {
 								Item item = (Item) Reflection.newInstance(itemClass);
 								if (item != null) {
 									if (!item.identify().doPickUp(Dungeon.hero)) {
