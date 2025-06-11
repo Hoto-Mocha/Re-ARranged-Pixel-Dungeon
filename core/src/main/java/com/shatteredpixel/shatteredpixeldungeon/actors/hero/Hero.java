@@ -1044,9 +1044,11 @@ public class Hero extends Char {
 			return 0;
 		}
 
-		if (buff(Awakening.class) != null && buff(Awakening.class).isAwaken() && buff(Sheath.CriticalAttack.class) != null) {
+		if (buff(Awakening.class) != null && buff(Awakening.class).isAwaken() && buff(Sheath.CriticalAttacking.class) != null) {
 			return 0;
 		}
+
+		if (Sheath.isFlashSlash()) return 0;
 
 		float delay = 1f;
 
@@ -1868,7 +1870,6 @@ public class Hero extends Char {
 						chance *= 2f;
 						break;
 				}
-				spend(-attackDelay());
 			} else {
 				chance *= 1.2f;
 			}
@@ -2191,6 +2192,7 @@ public class Hero extends Char {
 			if (randomFloat < hero.critChance(enemy, (Weapon)wep)) {
 				damage = hero.criticalDamage(damage, (Weapon)wep, enemy);
 
+				Buff.affect(hero, Sheath.CriticalAttacking.class);
 				Buff.affect(enemy, Sheath.CriticalAttack.class);
 
 				if (Sheath.isFlashSlash()) {
@@ -3229,7 +3231,9 @@ public class Hero extends Char {
 				|| (enemy instanceof Mimic && enemy.alignment == Alignment.NEUTRAL);
 
 		boolean hit = attack( enemy );
-		
+
+		System.out.println("attackDelay(): "+attackDelay());
+
 		Invisibility.dispel();
 		spend( attackDelay() );
 

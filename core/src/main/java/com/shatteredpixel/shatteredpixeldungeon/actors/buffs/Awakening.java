@@ -75,11 +75,7 @@ public class Awakening extends Buff implements ActionIndicator.Action {
     }
 
     public boolean isAwaken() {
-        if (state == State.ON) {
-            return true;
-        } else {
-            return false;
-        }
+        return state == State.ON;
     }
 
     @Override
