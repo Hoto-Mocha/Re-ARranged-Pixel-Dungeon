@@ -858,7 +858,9 @@ public class WndJournal extends WndTabbed {
 						sprite.copy(icon);
 						if (ShatteredPixelDungeon.scene() instanceof GameScene){
 							GameScene.show(new WndJournalItem(sprite, finalTitle, finalDesc));
-							if (Dungeon.hero != null && (DeviceCompat.isDebug() || Dungeon.customSeedText.contains("test"))) {
+							if (Dungeon.hero != null
+									&& (DeviceCompat.isDebug() || Dungeon.customSeedText.contains("test"))
+									&& Item.class.isAssignableFrom(itemClass)) {
 								Item item = (Item) Reflection.newInstance(itemClass);
 								if (item != null) {
 									if (!item.identify().doPickUp(Dungeon.hero)) {
