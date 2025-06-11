@@ -5,14 +5,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class SG extends Gun {
-    //근접 시 탄환 명중률이 크게 증가. Hero.attackSkill()참고
-    //탄환 기습 불가. Hero.canSurpriseAttack()참고
 
     {
         max_round = 2;
         round = max_round;
         shotPerShoot = 5;
-        shootingAccuracy = 0.2f;
+        shootingAccuracy = 1f;
+        spread = true;
     }
 
     @Override
@@ -38,7 +37,7 @@ public class SG extends Gun {
 
         @Override
         protected float adjacentAccFactor(Char owner, Char target) {
-            return super.adjacentAccFactor(owner, target)*10f;
+            return super.adjacentAccFactor(owner, target)*3f;
         }
     }
 }
