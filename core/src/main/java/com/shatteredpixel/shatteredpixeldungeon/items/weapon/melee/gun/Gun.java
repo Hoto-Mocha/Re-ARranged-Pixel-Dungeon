@@ -54,12 +54,11 @@ public class Gun extends MeleeWeapon {
 	protected int shotPerShoot = 1; //발사 당 탄환의 개수
 	protected float shootingSpeed = 1f; //발사 시 소모하는 턴의 배율. 낮을수록 빠르다
 	protected float shootingAccuracy = 1f; //발사 시 탄환 정확성의 배율. 높을 수록 정확하다.
+	protected float adjacentShootingAccuracy = 1f; //발사 시 근접한 상황에서 탄환 정확성의 배율. 높을 수록 정확하다.
 	//총기의 정확성은 근접할 때에는 떨어지지만, 멀리 있다고 증가하진 않는다. Hero.attackSkill()참고
 	protected boolean explode = false; //탄환 폭발 여부
 	protected boolean spread = false; //산탄 여부 = 거리에 따른 탄환 위력 감소 여부.
 	public static final String TXT_STATUS = "%d/%d";
-
-	private boolean shootAll = false;
 
 	public enum BarrelMod {
 		NORMAL_BARREL(1, 1),
@@ -189,15 +188,6 @@ public class Gun extends MeleeWeapon {
 		hitSoundPitch = 0.8f;
 	}
 
-	private static final String ROUND = "round";
-	private static final String MAX_ROUND = "max_round";
-	private static final String RELOAD_TIME = "reload_time";
-	private static final String SHOT_PER_SHOOT = "shotPerShoot";
-	private static final String SHOOTING_SPEED = "shootingSpeed";
-	private static final String SHOOTING_ACCURACY = "shootingAccuracy";
-	private static final String EXPLODE = "explode";
-	private static final String SPREAD = "spread";
-	private static final String SHOOTALL = "shootAll";
 	private static final String BARREL_MOD = "barrelMod";
 	private static final String MAGAZINE_MOD = "magazineMod";
 	private static final String BULLET_MOD = "bulletMod";
@@ -208,15 +198,6 @@ public class Gun extends MeleeWeapon {
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
-		bundle.put(MAX_ROUND, max_round);
-		bundle.put(ROUND, round);
-		bundle.put(RELOAD_TIME, reload_time);
-		bundle.put(SHOT_PER_SHOOT, shotPerShoot);
-		bundle.put(SHOOTING_SPEED, shootingSpeed);
-		bundle.put(SHOOTING_ACCURACY, shootingAccuracy);
-		bundle.put(EXPLODE, explode);
-		bundle.put(SPREAD, spread);
-		bundle.put(SHOOTALL, shootAll);
 		bundle.put(BARREL_MOD, barrelMod);
 		bundle.put(MAGAZINE_MOD, magazineMod);
 		bundle.put(BULLET_MOD, bulletMod);
@@ -229,15 +210,6 @@ public class Gun extends MeleeWeapon {
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-		max_round = bundle.getInt(MAX_ROUND);
-		round = bundle.getInt(ROUND);
-		reload_time = bundle.getFloat(RELOAD_TIME);
-		shotPerShoot = bundle.getInt(SHOT_PER_SHOOT);
-		shootingSpeed = bundle.getFloat(SHOOTING_SPEED);
-		shootingAccuracy = bundle.getFloat(SHOOTING_ACCURACY);
-		explode = bundle.getBoolean(EXPLODE);
-		spread = bundle.getBoolean(SPREAD);
-		shootAll = bundle.getBoolean(SHOOTALL);
 		barrelMod = bundle.getEnum(BARREL_MOD, BarrelMod.class);
 		magazineMod = bundle.getEnum(MAGAZINE_MOD, MagazineMod.class);
 		bulletMod = bundle.getEnum(BULLET_MOD, BulletMod.class);
@@ -751,9 +723,6 @@ public class Gun extends MeleeWeapon {
 		public float accuracyFactor(Char owner, Char target) {
 			float ACC = super.accuracyFactor(owner, target);
 			ACC *= shootingAccuracy;
-			if (shootAll) {
-				ACC *= 0.5f;
-			}
 			if (Gun.this.attachMod == AttachMod.LASER_ATTACH) {
 				ACC *= 1.25f;
 			}
