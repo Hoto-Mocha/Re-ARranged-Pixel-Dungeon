@@ -90,12 +90,16 @@ public class GammaRayGun extends Item {
 
     @Override
     public ItemSprite.Glowing glowing() {
-        GammaRayWarning buff = hero.buff(GammaRayWarning.class);
-        if (buff != null) {
-            if (buff.getDuration() > 7+hero.pointsInTalent(Talent.HIGH_POWER)) {
-                return WHITE_FAST;
+        if (hero != null) {
+            GammaRayWarning buff = hero.buff(GammaRayWarning.class);
+            if (buff != null) {
+                if (buff.getDuration() > 7+hero.pointsInTalent(Talent.HIGH_POWER)) {
+                    return WHITE_FAST;
+                } else {
+                    return WHITE_SLOW;
+                }
             } else {
-                return WHITE_SLOW;
+                return null;
             }
         } else {
             return null;
