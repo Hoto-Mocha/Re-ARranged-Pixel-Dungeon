@@ -7,6 +7,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -182,6 +183,7 @@ public class Machete extends MeleeWeapon {
                         hero.busy();
                         hero.spendAndNext(hero.attackDelay());
                         hero.attack(ch, 1, 0, 1);
+                        Invisibility.dispel();
                     }
 
                     hero.belongings.weapon = herosWeapon; //영웅의 무기를 원래 무기로 되돌림
