@@ -9,6 +9,7 @@ public class MG extends Gun {
         round = max_round;
         shotPerShoot = 3;
         shootingAccuracy = 0.7f;
+        adjacentShootingAccuracy = 0.3f;
     }
 
     @Override

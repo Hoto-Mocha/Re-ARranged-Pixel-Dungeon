@@ -8,7 +8,8 @@ public class SR extends Gun {
         max_round = 2;
         round = max_round;
         reload_time = 3f;
-        shootingAccuracy = 1.5f;
+        shootingAccuracy = 2f;
+        adjacentShootingAccuracy = 0.3f;
     }
 
     @Override

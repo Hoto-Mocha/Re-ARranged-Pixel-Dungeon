@@ -9,6 +9,7 @@ public class HG extends Gun {
         round = max_round;
         shootingSpeed = 0.5f;
         reload_time = 1f;
+        adjacentShootingAccuracy = 2f;
     }
 
     @Override

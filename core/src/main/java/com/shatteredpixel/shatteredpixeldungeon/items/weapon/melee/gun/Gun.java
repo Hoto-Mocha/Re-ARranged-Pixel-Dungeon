@@ -736,7 +736,7 @@ public class Gun extends MeleeWeapon {
 
 		@Override
 		protected float adjacentAccFactor(Char owner, Char target) {
-			return 1f;
+			return adjacentShootingAccuracy;
 		}
 
 		@Override

@@ -11,6 +11,7 @@ public class SG extends Gun {
         round = max_round;
         shotPerShoot = 5;
         shootingAccuracy = 1f;
+        adjacentShootingAccuracy = 3f;
         spread = true;
     }
 
