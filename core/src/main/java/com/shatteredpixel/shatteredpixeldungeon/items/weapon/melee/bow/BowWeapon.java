@@ -10,6 +10,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArrowItem;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
@@ -57,13 +58,27 @@ public class BowWeapon extends MeleeWeapon {
     }
 
     public int arrowMin(int lvl) {
-        return tier()
-                +lvl;
+        if (Dungeon.hero != null) {
+            return tier()
+                    + lvl
+                    + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        } else {
+            return tier()
+                    + lvl;
+        }
+
     }
 
     public int arrowMax(int lvl) {
-        return 3*(tier()+1) +
-                lvl*(tier()+1);
+        if (Dungeon.hero != null) {
+            return 3*(tier()+1)
+                    + lvl*(tier()+1)
+                    + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        } else {
+            return 3*(tier()+1) +
+                    lvl*(tier()+1);
+        }
+
     }
 
     public int arrowMax() {
