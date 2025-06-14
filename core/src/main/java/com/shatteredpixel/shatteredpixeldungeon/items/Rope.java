@@ -92,10 +92,6 @@ public class Rope extends Item {
                 } else {
                     chainLocation( chain, curUser );
                 }
-
-                if (hero.hasTalent(Talent.KINETIC_ATTACK)) {
-                    Buff.affect(hero, Talent.KineticAttackTracker.class, 5f);
-                }
             }
         }
 
@@ -259,6 +255,10 @@ public class Rope extends Item {
     public void onUse() {
         if (hero.hasTalent(Talent.ROPE_REBOUND)) {
             Buff.affect(hero, Haste.class, 1+hero.pointsInTalent(Talent.ROPE_REBOUND));
+        }
+
+        if (hero.hasTalent(Talent.KINETIC_ATTACK)) {
+            Buff.affect(hero, Talent.KineticAttackTracker.class, 5f);
         }
     }
 
