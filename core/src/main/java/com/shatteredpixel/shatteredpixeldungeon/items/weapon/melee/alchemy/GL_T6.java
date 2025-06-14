@@ -22,4 +22,9 @@ public class GL_T6 extends GL implements AlchemyWeapon {
         return new ArrayList<>(Arrays.asList(GL_T5.class, UpgradeDust.class, Evolution.class));
     }
 
+    @Override
+    public String discoverHint() {
+        return AlchemyWeapon.hintString(weaponRecipe());
+    }
+
 }

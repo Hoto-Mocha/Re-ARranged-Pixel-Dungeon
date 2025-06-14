@@ -93,4 +93,9 @@ public class MeisterHammer extends MeleeWeapon implements AlchemyWeapon {
 		return new ArrayList<>(Arrays.asList(WarHammer.class, UpgradeDust.class, Evolution.class));
 	}
 
+	@Override
+	public String discoverHint() {
+		return AlchemyWeapon.hintString(weaponRecipe());
+	}
+
 }

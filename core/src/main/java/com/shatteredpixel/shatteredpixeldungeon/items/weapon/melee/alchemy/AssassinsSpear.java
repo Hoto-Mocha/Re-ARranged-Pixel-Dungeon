@@ -150,4 +150,9 @@ public class AssassinsSpear extends MeleeWeapon implements AlchemyWeapon {
 		return new ArrayList<>(Arrays.asList(Glaive.class, AssassinsBlade.class, Evolution.class));
 	}
 
+	@Override
+	public String discoverHint() {
+		return AlchemyWeapon.hintString(weaponRecipe());
+	}
+
 }

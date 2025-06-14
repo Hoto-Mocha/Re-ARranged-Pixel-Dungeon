@@ -88,4 +88,10 @@ public class SharpKatana extends MeleeWeapon implements AlchemyWeapon {
     public ArrayList<Class<?extends Item>> weaponRecipe() {
         return new ArrayList<>(Arrays.asList(LargeKatana.class, UpgradeDust.class, Evolution.class));
     }
+
+    @Override
+    public String discoverHint() {
+        return AlchemyWeapon.hintString(weaponRecipe());
+    }
+
 }

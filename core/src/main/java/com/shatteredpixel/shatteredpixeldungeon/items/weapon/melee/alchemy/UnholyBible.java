@@ -155,4 +155,9 @@ public class UnholyBible extends MeleeWeapon implements AlchemyWeapon {
 		return new ArrayList<>(Arrays.asList(Bible.class, UpgradeDust.class, Evolution.class));
 	}
 
+	@Override
+	public String discoverHint() {
+		return AlchemyWeapon.hintString(weaponRecipe());
+	}
+
 }

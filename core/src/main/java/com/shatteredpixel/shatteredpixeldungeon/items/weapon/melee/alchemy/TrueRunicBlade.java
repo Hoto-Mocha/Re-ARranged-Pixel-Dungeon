@@ -20,6 +20,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
+import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,4 +110,10 @@ public class TrueRunicBlade extends MeleeWeapon implements AlchemyWeapon {
     public ArrayList<Class<?extends Item>> weaponRecipe() {
         return new ArrayList<>(Arrays.asList(RunicBlade.class, UpgradeDust.class, Evolution.class));
     }
+
+    @Override
+    public String discoverHint() {
+        return AlchemyWeapon.hintString(weaponRecipe());
+    }
+
 }

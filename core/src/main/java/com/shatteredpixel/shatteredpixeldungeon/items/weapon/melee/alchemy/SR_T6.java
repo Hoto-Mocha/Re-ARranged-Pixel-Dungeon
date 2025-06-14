@@ -22,4 +22,9 @@ public class SR_T6 extends SR implements AlchemyWeapon {
         return new ArrayList<>(Arrays.asList(SR_T5.class, UpgradeDust.class, Evolution.class));
     }
 
+    @Override
+    public String discoverHint() {
+        return AlchemyWeapon.hintString(weaponRecipe());
+    }
+
 }

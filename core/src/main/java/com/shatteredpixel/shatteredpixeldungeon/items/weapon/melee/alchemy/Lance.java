@@ -218,4 +218,9 @@ public class Lance extends MeleeWeapon implements AlchemyWeapon {
         return new ArrayList<>(Arrays.asList(Glaive.class, UpgradeDust.class, Evolution.class));
     }
 
+    @Override
+    public String discoverHint() {
+        return AlchemyWeapon.hintString(weaponRecipe());
+    }
+
 }

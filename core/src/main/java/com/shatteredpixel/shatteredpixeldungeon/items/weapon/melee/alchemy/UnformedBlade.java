@@ -254,4 +254,9 @@ public class UnformedBlade extends MeleeWeapon implements AlchemyWeapon {
 		return new ArrayList<>(Arrays.asList(AssassinsBlade.class, UpgradeDust.class, Evolution.class));
 	}
 
+	@Override
+	public String discoverHint() {
+		return AlchemyWeapon.hintString(weaponRecipe());
+	}
+
 }

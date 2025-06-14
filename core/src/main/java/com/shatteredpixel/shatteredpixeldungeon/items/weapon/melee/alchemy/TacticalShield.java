@@ -64,4 +64,9 @@ public class TacticalShield extends HG implements AlchemyWeapon {
         return new ArrayList<>(Arrays.asList(HG_T6.class, ObsidianShield.class, Evolution.class));
     }
 
+    @Override
+    public String discoverHint() {
+        return AlchemyWeapon.hintString(weaponRecipe());
+    }
+
 }

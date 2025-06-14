@@ -22,4 +22,9 @@ public class RL_T6 extends RL implements AlchemyWeapon {
         return new ArrayList<>(Arrays.asList(RL_T5.class, UpgradeDust.class, Evolution.class));
     }
 
+    @Override
+    public String discoverHint() {
+        return AlchemyWeapon.hintString(weaponRecipe());
+    }
+
 }

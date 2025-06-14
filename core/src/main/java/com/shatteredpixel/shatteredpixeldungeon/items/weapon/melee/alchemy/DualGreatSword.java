@@ -101,4 +101,9 @@ public class DualGreatSword extends MeleeWeapon implements AlchemyWeapon {
 		return new ArrayList<>(Arrays.asList(Greatsword.class, Greatsword.class, Evolution.class));
 	}
 
+	@Override
+	public String discoverHint() {
+		return AlchemyWeapon.hintString(weaponRecipe());
+	}
+
 }

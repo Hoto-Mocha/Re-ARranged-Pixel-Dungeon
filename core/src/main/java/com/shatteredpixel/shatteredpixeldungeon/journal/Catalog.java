@@ -365,7 +365,7 @@ public enum Catalog {
 	}
 	
 	public static boolean isSeen(Class<?> cls){
-		if (DeviceCompat.isDebug()) return true;
+		if (DeviceCompat.isDebug()) return false;
 		for (Catalog cat : values()) {
 			if (cat.seen.containsKey(cls)) {
 				return cat.seen.get(cls);
