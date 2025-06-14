@@ -138,6 +138,9 @@ public class MedicKit extends Artifact {
 
     private void onUpgrade(int upgrades, Item item) {
         if (upgrades > 0) {
+            if (this.level() + upgrades > levelCap) {
+                upgrades = levelCap - this.level();
+            }
             GLog.p(Messages.get(MedicKit.class, "upgrade"));
 
             MedicKit.this.upgrade(upgrades);
