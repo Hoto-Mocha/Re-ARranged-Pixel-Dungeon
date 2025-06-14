@@ -784,7 +784,7 @@ public class WndJournal extends WndTabbed {
 					sprite.lightness(0);
 					title = "???";
 					desc = Messages.get(CatalogTab.class, "not_seen_item");
-					desc += "\n\n" + Messages.get(item, "discover_hint");
+					desc += "\n\n" + item.discoverHint();
 				} else {
 					title = Messages.titleCase( item.name() );
 					//some items don't include direct stats, generally when they're not applicable

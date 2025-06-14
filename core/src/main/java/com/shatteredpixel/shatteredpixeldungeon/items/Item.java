@@ -721,4 +721,8 @@ public class Item implements Bundlable {
 			return Messages.get(Item.class, "prompt");
 		}
 	};
+
+	public String discoverHint() {
+		return Messages.get(this, "discover_hint");
+	}
 }
