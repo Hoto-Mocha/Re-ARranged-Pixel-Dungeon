@@ -71,11 +71,19 @@ public class PotOThunder extends MissileWeapon {
     }
 
     public int magicMin(int lvl) {
-        return tier+lvl+RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero != null){
+            return tier+lvl+RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        } else {
+            return tier+lvl;
+        }
     }
 
     public int magicMax(int lvl) {
-        return (5+lvl+RingOfSharpshooting.levelDamageBonus(Dungeon.hero))*tier;
+        if (Dungeon.hero != null){
+            return (5+lvl+RingOfSharpshooting.levelDamageBonus(Dungeon.hero))*tier;
+        } else {
+            return (5+lvl)*tier;
+        }
     }
 
     public int magicDamage(int lvl) { //magic damage

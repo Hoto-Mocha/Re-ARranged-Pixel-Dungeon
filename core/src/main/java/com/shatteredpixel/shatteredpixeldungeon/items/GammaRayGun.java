@@ -110,16 +110,18 @@ public class GammaRayGun extends Item {
     public String info() {
         String info = super.info();
 
-        GammaRayWarning buff = hero.buff(GammaRayWarning.class);
+        if (hero != null) {
+            GammaRayWarning buff = hero.buff(GammaRayWarning.class);
 
-        if (buff != null) {
-            if (buff.getDuration() > 7 + hero.pointsInTalent(Talent.HIGH_POWER)) {
-                info += "\n\n" + Messages.get(this, "warning_high");
+            if (buff != null) {
+                if (buff.getDuration() > 7 + hero.pointsInTalent(Talent.HIGH_POWER)) {
+                    info += "\n\n" + Messages.get(this, "warning_high");
+                } else {
+                    info += "\n\n" + Messages.get(this, "warning_low");
+                }
             } else {
-                info += "\n\n" + Messages.get(this, "warning_low");
+                info += "\n\n" + Messages.get(this, "warning_none");
             }
-        } else {
-            info += "\n\n" + Messages.get(this, "warning_none");
         }
 
         return info;
