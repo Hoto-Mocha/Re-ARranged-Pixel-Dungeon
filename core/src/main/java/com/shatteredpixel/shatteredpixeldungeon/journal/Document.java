@@ -211,6 +211,14 @@ public enum Document {
 					return new ItemSprite( ItemSpriteSheet.SPIRIT_BOW );
 				case "Magic":
 					return new ItemSprite( ItemSpriteSheet.WAND_FIREBOLT );
+				case "Gun":
+					return new ItemSprite( ItemSpriteSheet.SR_T5 );
+				case "GunSmithing":
+					return new ItemSprite( ItemSpriteSheet.GUNSMITHING_TOOL );
+				case "Bow":
+					return new ItemSprite( ItemSpriteSheet.BOW );
+				case "BluePrint":
+					return new ItemSprite( ItemSpriteSheet.BLUEPRINT );
 			}
 		}
 	}
@@ -275,7 +283,12 @@ public enum Document {
 		ADVENTURERS_GUIDE.pagesStates.put("Levelling",          debug ? READ : NOT_FOUND);
 		ADVENTURERS_GUIDE.pagesStates.put("Positioning",        debug ? READ : NOT_FOUND);
 		ADVENTURERS_GUIDE.pagesStates.put("Magic",              debug ? READ : NOT_FOUND);
-		
+		//ReARranged Guide
+		ADVENTURERS_GUIDE.pagesStates.put("Gun",                debug ? READ : NOT_FOUND);
+		ADVENTURERS_GUIDE.pagesStates.put("GunSmithing",        debug ? READ : NOT_FOUND);
+		ADVENTURERS_GUIDE.pagesStates.put("Bow",                debug ? READ : NOT_FOUND);
+		ADVENTURERS_GUIDE.pagesStates.put("BluePrint",          debug ? READ : NOT_FOUND);
+
 		//given in sewers
 		ALCHEMY_GUIDE.pagesStates.put("Potions",                debug ? READ : NOT_FOUND);
 		ALCHEMY_GUIDE.pagesStates.put("Stones",                 debug ? READ : NOT_FOUND);
@@ -287,7 +300,7 @@ public enum Document {
 		ALCHEMY_GUIDE.pagesStates.put("Weapons",                debug ? READ : NOT_FOUND);
 		ALCHEMY_GUIDE.pagesStates.put("Brews_Elixirs",          debug ? READ : NOT_FOUND);
 		ALCHEMY_GUIDE.pagesStates.put("Spells",                 debug ? READ : NOT_FOUND);
-		ALCHEMY_GUIDE.pagesStates.put("Pills",                 	debug ? READ : NOT_FOUND);
+		ALCHEMY_GUIDE.pagesStates.put("Pills",                  debug ? READ : NOT_FOUND);
 
 		INTROS.pagesStates.put("Dungeon",                       READ);
 		INTROS.pagesStates.put("Sewers",                        debug ? READ : NOT_FOUND);
