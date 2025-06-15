@@ -71,12 +71,13 @@ public class SeedFindScene extends PixelScene {
 		Component content = list.content();
 		content.clear();
 
-		ShatteredPixelDungeon.scene().addToFront(new WndTextInput(Messages.get(this, "title"), Messages.get(this, "body"), Messages.get(this, "initial_value"), 1000, true, Messages.get(this, "find"), Messages.get(HeroSelectScene.class, "custom_seed_clear")) {
+		ShatteredPixelDungeon.scene().addToFront(new WndTextInput(Messages.get(this, "title"), Messages.get(this, "body"), Messages.get(this, "initial_value")+"\n", 1000, true, Messages.get(this, "find"), Messages.get(HeroSelectScene.class, "custom_seed_clear")) {
 			@Override
 			public void onSelect(boolean positive, String text) {
 				int floor = 31;
 				boolean floorOption = false;
 				text = text.toLowerCase(); //대문자를 소문자로 변경
+				text = text.replaceAll(" ", ""); //공백 제거
 				String up_to_floor;
 				if (Messages.lang() == Languages.KOREAN) {
 					up_to_floor = "층까지";
