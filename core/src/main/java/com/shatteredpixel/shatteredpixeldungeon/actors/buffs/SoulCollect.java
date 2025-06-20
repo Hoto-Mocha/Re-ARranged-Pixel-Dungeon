@@ -90,22 +90,16 @@ public class SoulCollect extends Buff {
                     }
                 }
             case 2:
-                int cell = hero.pos;
-                if (Dungeon.level.heroFOV[cell]) {
-                    Sample.INSTANCE.play( Assets.Sounds.SHATTER );
-                    Sample.INSTANCE.play( Assets.Sounds.GAS );
-                }
+                for (Char ch : Actor.chars()) {
+                    Sample.INSTANCE.play(Assets.Sounds.SHATTER);
 
-                int centerVolume = 120;
-                for (int i : PathFinder.NEIGHBOURS8){
-                    if (!Dungeon.level.solid[cell+i]){
-                        GameScene.add( Blob.seed( cell+i, 120, Blizzard.class ) );
-                    } else {
-                        centerVolume += 120;
+                    if (Dungeon.level.heroFOV[ch.pos] && ch.alignment == Char.Alignment.ENEMY) {
+                        for (int c : PathFinder.NEIGHBOURS9) {
+                            int cell = ch.pos + c;
+                            GameScene.add( Blob.seed( cell, 20, Freezing.class ) );
+                        }
                     }
                 }
-
-                GameScene.add( Blob.seed( cell, centerVolume, Blizzard.class ) );
             case 1:
                 Buff.affect(hero, FrostImbue.class, 20f);
             case 0: default:
