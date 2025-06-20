@@ -522,10 +522,6 @@ public abstract class Char extends Actor {
 			Berserk berserk = buff(Berserk.class);
 			if (berserk != null) dmg = berserk.damageFactor(dmg);
 
-			if (hero.subClass == HeroSubClass.DEATHKNIGHT) {
-				dmg *= 1+(0.1f*hero.pointsInTalent(Talent.RESENTMENT))*((hero.HT-hero.HP)/(float)hero.HT);
-			}
-
 			if (buff( Fury.class ) != null) {
 				dmg *= 1.5f;
 			}
