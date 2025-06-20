@@ -892,10 +892,6 @@ public abstract class Mob extends Char {
 				if (Dungeon.hero.subClass == HeroSubClass.MONK){
 					Buff.affect(Dungeon.hero, MonkEnergy.class).gainEnergy(this);
 				}
-
-				if (Dungeon.hero.subClass == HeroSubClass.DEATHKNIGHT){
-					Buff.affect(Dungeon.hero, SoulCollect.class).killMob(this);
-				}
 			}
 		}
 	}
@@ -988,6 +984,10 @@ public abstract class Mob extends Char {
 
 			if (hero.subClass == HeroSubClass.MEDICALOFFICER) {
 				Buff.affect(hero, Command.class).kill();
+			}
+
+			if (Dungeon.hero.subClass == HeroSubClass.DEATHKNIGHT){
+				Buff.affect(Dungeon.hero, SoulCollect.class).killMob(this);
 			}
 
 			Saddle.kill(this);
