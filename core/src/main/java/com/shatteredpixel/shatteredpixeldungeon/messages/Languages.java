@@ -94,6 +94,10 @@ public enum Languages {
 	}
 
 	public static Languages matchLocale(Locale locale){
+		//special case for chinese traditional, which matches more specifically than other languages
+		if (locale.getLanguage().equals("zh") && locale.toString().contains("Hant")){
+			return Languages.CHI_TRAD;
+		}
 		return matchCode(locale.getLanguage());
 	}
 

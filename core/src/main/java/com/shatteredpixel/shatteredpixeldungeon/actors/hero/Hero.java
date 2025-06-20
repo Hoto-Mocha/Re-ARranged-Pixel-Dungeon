@@ -285,7 +285,8 @@ public class Hero extends Char {
 	public HeroAction curAction = null;
 	public HeroAction lastAction = null;
 
-	private Char enemy;
+	//reference to the enemy the hero is currently in the process of attacking
+	private Char attackTarget;
 	
 	public boolean resting = false;
 	
@@ -573,7 +574,7 @@ public class Hero extends Char {
 	
 	public boolean shoot( Char enemy, MissileWeapon wep ) {
 
-		this.enemy = enemy;
+		attackTarget = enemy;
 		boolean wasEnemy = enemy.alignment == Alignment.ENEMY
 				|| (enemy instanceof Mimic && enemy.alignment == Alignment.NEUTRAL);
 
@@ -592,6 +593,7 @@ public class Hero extends Char {
 			Buff.affect( this, Sai.ComboStrikeTracker.class).addHit();
 		}
 
+		attackTarget = null;
 		return hit;
 	}
 	
@@ -1711,15 +1713,15 @@ public class Hero extends Char {
 	
 	private boolean actAttack( HeroAction.Attack action ) {
 
-		enemy = action.target;
+		attackTarget = action.target;
 
-		if (isCharmedBy( enemy )){
+		if (isCharmedBy(attackTarget)){
 			GLog.w( Messages.get(Charm.class, "cant_attack"));
 			ready();
 			return false;
 		}
 
-		if (enemy.isAlive() && canAttack( enemy ) && enemy.invisible == 0) {
+		if (attackTarget.isAlive() && canAttack(attackTarget) && attackTarget.invisible == 0) {
 
 			if (heroClass != HeroClass.DUELIST
 					&& hasTalent(Talent.AGGRESSIVE_BARRIER)
@@ -1731,27 +1733,29 @@ public class Hero extends Char {
 				Buff.affect(this, Talent.AggressiveBarrierCooldown.class, 50f);
 
 			}
-
-			sprite.attack( enemy.pos );
+			//attack target cleared on onAttackComplete
+			sprite.attack( attackTarget.pos );
 
 			return false;
 
 		} else {
 
-			if (fieldOfView[enemy.pos] && getCloser( enemy.pos )) {
+			if (fieldOfView[attackTarget.pos] && getCloser( attackTarget.pos )) {
 
+				attackTarget = null;
 				return true;
 
 			} else {
 				ready();
+				attackTarget = null;
 				return false;
 			}
 
 		}
 	}
 
-	public Char enemy(){
-		return enemy;
+	public Char attackTarget(){
+		return attackTarget;
 	}
 	
 	public void rest( boolean fullRest ) {
@@ -3218,34 +3222,32 @@ public class Hero extends Char {
 	@Override
 	public void onAttackComplete() {
 
-		if (enemy == null){
+		if (attackTarget == null){
 			curAction = null;
 			super.onAttackComplete();
 			return;
 		}
 		
-		AttackIndicator.target(enemy);
-		boolean wasEnemy = enemy.alignment == Alignment.ENEMY
-				|| (enemy instanceof Mimic && enemy.alignment == Alignment.NEUTRAL);
+		AttackIndicator.target(attackTarget);
+		boolean wasEnemy = attackTarget.alignment == Alignment.ENEMY
+				|| (attackTarget instanceof Mimic && attackTarget.alignment == Alignment.NEUTRAL);
 
-		boolean hit = attack( enemy );
-
-		System.out.println("attackDelay(): "+attackDelay());
-
+		boolean hit = attack(attackTarget);
+		
 		Invisibility.dispel();
 		spend( attackDelay() );
 
 		if (hit && subClass == HeroSubClass.GLADIATOR && wasEnemy){
-			Buff.affect( this, Combo.class ).hit( enemy );
+			Buff.affect( this, Combo.class ).hit(attackTarget);
 		}
 
 		if (hit && subClass == HeroSubClass.BATTLEMAGE && hero.belongings.attackingWeapon() instanceof MagesStaff && hero.hasTalent(Talent.BATTLE_MAGIC) && wasEnemy) {
-			Buff.affect( this, MagicalCombo.class).hit( enemy );
+			Buff.affect( this, MagicalCombo.class).hit( attackTarget );
 		}
 
 		if (hero.subClass == HeroSubClass.CHASER
 				&& hero.hasTalent(Talent.CHAIN_CLOCK)
-				&& ((Mob) enemy).surprisedBy(hero)
+				&& ((Mob) attackTarget).surprisedBy(hero)
 				&& hero.buff(Talent.ChainCooldown.class) == null){
 			Buff.affect( this, Invisibility.class, 1f * hero.pointsInTalent(Talent.CHAIN_CLOCK));
 			Buff.affect( this, Haste.class, 1f * hero.pointsInTalent(Talent.CHAIN_CLOCK));
@@ -3255,8 +3257,8 @@ public class Hero extends Char {
 
 		if (hero.subClass == HeroSubClass.CHASER
 				&& hero.hasTalent(Talent.LETHAL_SURPRISE)
-				&& ((Mob) enemy).surprisedBy(hero)
-				&& !enemy.isAlive()
+				&& ((Mob) attackTarget).surprisedBy(hero)
+				&& !attackTarget.isAlive()
 				&& hero.buff(Talent.LethalCooldown.class) == null) {
 			if (hero.pointsInTalent(Talent.LETHAL_SURPRISE) >= 1) {
 				for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
@@ -3288,11 +3290,12 @@ public class Hero extends Char {
 
 		if (hero.buff(Sheath.Sheathing.class) != null) {
 			hero.buff(Sheath.Sheathing.class).detach();
-			if (!enemy.isAlive() && Random.Float() < hero.pointsInTalent(Talent.QUICK_SHEATHING)/3f) {
+			if (!attackTarget.isAlive() && Random.Float() < hero.pointsInTalent(Talent.QUICK_SHEATHING)/3f) {
 				Buff.affect(hero, Sheath.Sheathing.class);
 			}
 		}
 		curAction = null;
+		attackTarget = null;
 
 		super.onAttackComplete();
 	}

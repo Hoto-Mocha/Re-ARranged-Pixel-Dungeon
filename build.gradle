@@ -17,8 +17,8 @@ allprojects {
         appName = 'Rearranged Pixel Dungeon'
         appPackageName = 'com.rearrangedpixel.rearrangedpixeldungon'
 
-        appVersionCode = 846
-        appVersionName = '3.1.0'
+        appVersionCode = 850
+        appVersionName = '3.1.1'
         appVersionCode += 48
         appVersionName += '_based_3.31.0'
 
