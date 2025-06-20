@@ -95,11 +95,17 @@ public class HolySword extends MeleeWeapon implements AlchemyWeapon {
 
     @Override
     public String desc() {
+        String info;
+
         if (Dungeon.hero != null && Dungeon.hero.STR() >= this.STRReq()) {
-            return Messages.get(this, "true_desc");
+            info = Messages.get(this, "true_desc");
         } else {
-            return Messages.get(this, "normal_desc");
+            info = Messages.get(this, "normal_desc");
         }
+
+        info += "\n\n" + AlchemyWeapon.hintString(weaponRecipe());
+
+        return info;
     }
 
     @Override

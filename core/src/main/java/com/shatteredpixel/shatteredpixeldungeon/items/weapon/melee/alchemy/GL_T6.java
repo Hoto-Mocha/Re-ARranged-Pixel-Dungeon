@@ -27,4 +27,13 @@ public class GL_T6 extends GL implements AlchemyWeapon {
         return AlchemyWeapon.hintString(weaponRecipe());
     }
 
+    @Override
+    public String desc() {
+        String info = super.desc();
+
+        info += "\n\n" + AlchemyWeapon.hintString(weaponRecipe());
+
+        return info;
+    }
+
 }

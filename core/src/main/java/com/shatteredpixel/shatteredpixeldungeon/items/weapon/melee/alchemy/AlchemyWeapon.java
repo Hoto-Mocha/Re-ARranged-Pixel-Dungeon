@@ -19,7 +19,7 @@ public interface AlchemyWeapon {
     }
 
     /*
-    If a class implements this interface, you MUST override the following method with this for catalog item hint:
+    If a class implements this interface, you should override the following method with this for catalog item hint:
 
     @Override
     public String discoverHint() {

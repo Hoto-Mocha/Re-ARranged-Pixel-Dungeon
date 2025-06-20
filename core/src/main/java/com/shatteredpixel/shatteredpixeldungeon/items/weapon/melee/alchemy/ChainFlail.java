@@ -209,4 +209,13 @@ public class ChainFlail extends MeleeWeapon implements AlchemyWeapon {
 		return AlchemyWeapon.hintString(weaponRecipe());
 	}
 
+	@Override
+	public String desc() {
+		String info = super.desc();
+
+		info += "\n\n" + AlchemyWeapon.hintString(weaponRecipe());
+
+		return info;
+	}
+
 }
