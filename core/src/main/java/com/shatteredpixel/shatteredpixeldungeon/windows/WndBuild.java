@@ -3,7 +3,7 @@ package com.shatteredpixel.shatteredpixeldungeon.windows;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Build;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
@@ -31,24 +31,24 @@ public class WndBuild extends Window {
 
         pos = title.bottom() + 3*MARGIN;
 
-        LiquidMetal metal = Dungeon.hero.belongings.getItem(LiquidMetal.class);
-        int metalAmt = 0;
-        if (metal != null) {
-            metalAmt = metal.quantity();
+        Rope rope = Dungeon.hero.belongings.getItem(Rope.class);
+        int ropeAmt = 0;
+        if (rope != null) {
+            ropeAmt = rope.quantity();
         }
 
         for (Build.Building building : Build.Building.values()) {
-            int metalUse = building.metalReq;
+            int ropeUse = building.ropeReq;
             if (building == Build.Building.BARRICADE && Dungeon.hero.pointsInTalent(Talent.BARRICADE) > 2) {
-                metalUse /= 2;
+                ropeUse /= 2;
             }
             if (building == Build.Building.WIRE && Dungeon.hero.pointsInTalent(Talent.WIRE) > 2) {
-                metalUse /= 2;
+                ropeUse /= 2;
             }
             if (building == Build.Building.WATCHTOWER && Dungeon.hero.pointsInTalent(Talent.WATCHTOWER) > 2) {
-                metalUse /= 2;
+                ropeUse /= 2;
             }
-            String text = "_" + Messages.titleCase(building.title()) + " " + Messages.get(this, "metal_req", metalUse) + ":_ " + building.desc();
+            String text = "_" + Messages.titleCase(building.title()) + " " + Messages.get(this, "rope_req", ropeUse) + ":_ " + building.desc();
             RedButton moveBtn = new RedButton(text, 6){
                 @Override
                 protected void onClick() {
@@ -61,7 +61,7 @@ public class WndBuild extends Window {
             moveBtn.multiline = true;
             moveBtn.setSize(width, moveBtn.reqHeight());
             moveBtn.setRect(0, pos, width, moveBtn.reqHeight());
-            moveBtn.enable(build.canBuild(building, metalAmt));
+            moveBtn.enable(build.canBuild(building, ropeAmt));
             add(moveBtn);
             pos = moveBtn.bottom() + MARGIN;
         }

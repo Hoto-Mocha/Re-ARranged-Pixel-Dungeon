@@ -17,7 +17,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MinersTool;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -104,10 +104,10 @@ public class Build extends Buff implements ActionIndicator.Action {
         MACHINEGUN  (15),
         MORTAR      (40);
 
-        public int metalReq;
+        public int ropeReq;
 
-        Building(int metalReq){
-            this.metalReq = metalReq;
+        Building(int ropeReq){
+            this.ropeReq = ropeReq;
         }
 
         public String title(){
@@ -122,24 +122,24 @@ public class Build extends Buff implements ActionIndicator.Action {
         }
     }
 
-    public boolean canBuild(Building building, int metalAmt){
-        boolean haveMetal = metalAmt >= building.metalReq;
+    public boolean canBuild(Building building, int ropeAmt){
+        boolean haveRope = ropeAmt >= building.ropeReq;
         switch (building) {
             case WALL:
             case FLOOR:
-                return haveMetal;
+                return haveRope;
             case BARRICADE:
-                return haveMetal && hero.hasTalent(Talent.BARRICADE);
+                return haveRope && hero.hasTalent(Talent.BARRICADE);
             case WIRE:
-                return haveMetal && hero.hasTalent(Talent.WIRE);
+                return haveRope && hero.hasTalent(Talent.WIRE);
             case WATCHTOWER:
-                return haveMetal && hero.hasTalent(Talent.WATCHTOWER);
+                return haveRope && hero.hasTalent(Talent.WATCHTOWER);
             case CANNON:
-                return haveMetal && hero.hasTalent(Talent.CANNON);
+                return haveRope && hero.hasTalent(Talent.CANNON);
             case MACHINEGUN:
-                return haveMetal && hero.hasTalent(Talent.MACHINEGUN);
+                return haveRope && hero.hasTalent(Talent.MACHINEGUN);
             case MORTAR:
-                return haveMetal && hero.hasTalent(Talent.MORTAR);
+                return haveRope && hero.hasTalent(Talent.MORTAR);
         }
         return false;
     }
@@ -181,7 +181,7 @@ public class Build extends Buff implements ActionIndicator.Action {
         @Override
         public void onSelect(Integer target) {
             if (target != null) {
-                int metalUse = beingBuilt.metalReq;
+                int ropeUse = beingBuilt.ropeReq;
                 Level level = Dungeon.level;
                 Trap t;
                 Point coordinate = level.cellToPoint(target);
@@ -205,15 +205,6 @@ public class Build extends Buff implements ActionIndicator.Action {
                             Dungeon.observe();
                         } else {
                             if (level.map[target] == Terrain.BARRICADE) {
-                                //액체 금속 회수
-                                LiquidMetal metal = new LiquidMetal();
-                                metal.quantity(metalUse/2);
-                                if (metal.doPickUp( Dungeon.hero )) {
-                                    GLog.i( Messages.get(Dungeon.hero, "you_now_have", metal.name() ));
-                                    hero.spend(-1);
-                                } else {
-                                    Dungeon.level.drop( metal, Dungeon.hero.pos ).sprite.drop();
-                                }
                                 Sample.INSTANCE.play(Assets.Sounds.ROCKS);
                                 if (Dungeon.level.heroFOV[ target ]){
                                     CellEmitter.get( target - Dungeon.level.width() ).start(Speck.factory(Speck.ROCK), 0.07f, 10);
@@ -315,7 +306,7 @@ public class Build extends Buff implements ActionIndicator.Action {
 
                         GameScene.updateMap(target);
                         if (hero.pointsInTalent(Talent.BARRICADE) > 2) {
-                            metalUse /= 2;
+                            ropeUse /= 2;
                         }
                         break;
                     case WIRE:
@@ -330,7 +321,7 @@ public class Build extends Buff implements ActionIndicator.Action {
                         GameScene.updateMap(target);
 
                         if (hero.pointsInTalent(Talent.WIRE) > 2) {
-                            metalUse /= 2;
+                            ropeUse /= 2;
                         }
                         break;
                     case WATCHTOWER:
@@ -355,7 +346,7 @@ public class Build extends Buff implements ActionIndicator.Action {
                         GameScene.updateMap(target);
 
                         if (hero.pointsInTalent(Talent.WATCHTOWER) > 2) {
-                            metalUse /= 2;
+                            ropeUse /= 2;
                         }
                         break;
                     case CANNON:
@@ -422,11 +413,11 @@ public class Build extends Buff implements ActionIndicator.Action {
                         GameScene.updateMap(target);
                         break;
                 }
-                LiquidMetal metal = hero.belongings.getItem(LiquidMetal.class);
-                if (metal != null) {
-                    metal.quantity(metal.quantity() - metalUse);
-                    if (metal.quantity() <= 0) {
-                        metal.detach(hero.belongings.backpack);
+                Rope rope = hero.belongings.getItem(Rope.class);
+                if (rope != null) {
+                    rope.quantity(rope.quantity() - ropeUse);
+                    if (rope.quantity() <= 0) {
+                        rope.detach(hero.belongings.backpack);
                     }
                 }
                 Item.updateQuickslot();
