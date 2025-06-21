@@ -95,14 +95,14 @@ public class Build extends Buff implements ActionIndicator.Action {
     }
 
     public enum Building {
-        WALL        (20),
+        WALL        (10),
         FLOOR       (0),
-        BARRICADE   (8),
-        WIRE        (8),
-        WATCHTOWER  (12),
+        BARRICADE   (4),
+        WIRE        (4),
+        WATCHTOWER  (8),
         CANNON      (15),
-        MACHINEGUN  (15),
-        MORTAR      (40);
+        MACHINEGUN  (10),
+        MORTAR      (50);
 
         public int ropeReq;
 
