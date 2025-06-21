@@ -1,50 +1,67 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Build;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM201;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.CannonSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MachineGunSprite;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.Game;
-import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
-
-import java.util.ArrayList;
 
 public class MachineGun extends Building {
     {
         HP = HT = 20;
 
-        state = PASSIVE;
-
         alignment = Alignment.ALLY;
 
         spriteClass = MachineGunSprite.class;
 
-        actPriority = HERO_PRIO-1;
+        //before other mobs
+        actPriority = MOB_PRIO + 1;
 
         properties.add(Property.IMMOVABLE);
         properties.add(Property.INORGANIC);
+
+        state = WANDERING;
+        viewDistance = 4;
+    }
+
+    public void beckon( int cell ) {
+
+        notice();
+
+        if (state != HUNTING && state != FLEEING) {
+            state = WANDERING;
+        }
+        target = cell;
+    }
+
+    @Override
+    public int attackSkill(Char target) {
+        //same as the hero
+        return 2*defenseSkill + 5;
+    }
+
+    @Override
+    public int damageRoll() {
+        if (Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) > 1) {
+            return Random.NormalIntRange(6, 6+Math.round(Dungeon.scalingDepth()*2f));
+        } else {
+            return Random.NormalIntRange(4, 4+Math.round(Dungeon.scalingDepth()*1.33f));
+        }
     }
 
     @Override
@@ -52,30 +69,9 @@ public class MachineGun extends Building {
         return super.drRoll() + Random.NormalIntRange(0, 5);
     }
 
-//    @Override
-//    protected boolean act() {
-//        for (Char ch : Actor.chars()) {
-//            if (ch instanceof Mob) {
-//                Mob enemy = (Mob)ch;
-//                if (enemy.targetingChar() == this
-//                        && enemy.fieldOfView != null
-//                        && enemy.fieldOfView[Dungeon.hero.pos]) {
-//                    enemy.aggro(Dungeon.hero);
-//                }
-//            }
-//        }
-//
-//        return super.act();
-//    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-    }
-
     @Override
     public boolean canInteract(Char c) {
-        return Dungeon.level.adjacent(this.pos, c.pos);
+        return true;
     }
 
     @Override
@@ -86,82 +82,42 @@ public class MachineGun extends Building {
         Game.runOnRenderThread(new Callback() {
             @Override
             public void call() {
-                int bulletReq = Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) > 2 ? 0 : 1;
-                if (Dungeon.bullet < bulletReq) {
-                    GLog.w(Messages.get(MachineGun.class, "no_bullet"));
-                    return;
-                }
-                GameScene.selectCell(shooter);
+                GameScene.show(new WndOptions( sprite(),
+                        Messages.get(MachineGun.this, "dismiss_title"),
+                        Messages.get(MachineGun.this, "dismiss_body"),
+                        Messages.get(MachineGun.this, "dismiss_confirm"),
+                        Messages.get(MachineGun.this, "dismiss_cancel") ){
+                    @Override
+                    protected void onSelect(int index) {
+                        if (index == 0){
+                            die(null);
+                        }
+                    }
+                });
             }
         });
         return true;
     }
 
-    public int cell = -1;
+    @Override
+    protected boolean act() {
+        viewDistance = 4 + (Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) == 3 ? 2 : 0);
+        return super.act();
+    }
 
     @Override
-    public void onAttackComplete() {
-        if (cell == -1) return;
-
-        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 4);
-        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 4);
-
-        Char ch = Actor.findChar(cell);
-
-        if (ch != null) {
-            for (int i = 0; i < 3; i++) {
-                Dungeon.hero.shoot(ch, new MachineGunBullet());
-            }
-
-            if (ch == Dungeon.hero && !ch.isAlive()) {
-                Badges.validateDeathFromFriendlyMagic();
-                GLog.n(Messages.get(Gun.class, "ondeath"));
-                Dungeon.fail(this);
-            }
-        }
-
-        cell = -1; //초기화
-
-        next();
-        Dungeon.hero.spendAndNext(Actor.TICK);
+    protected boolean canAttack( Char enemy ) {
+        Ballistica aim = new Ballistica(this.pos, enemy.pos, Ballistica.DASH); //ignores chars
+        return aim.collisionPos == enemy.pos;
     }
 
-    public static class MachineGunBullet extends MissileWeapon {
-        {
-            image = ItemSpriteSheet.TRIPLE_BULLET;
-        }
-
-        @Override
-        public int damageRoll(Char owner) {
-            if (Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) > 1) {
-                return Random.NormalIntRange(15, Math.round(Dungeon.scalingDepth()*2f));
-            } else {
-                return Random.NormalIntRange(10, Math.round(Dungeon.scalingDepth()*1.33f));
-            }
-        }
+    @Override
+    protected boolean getCloser(int target) {
+        return false;
     }
 
-    private CellSelector.Listener shooter = new CellSelector.Listener() {
-        @Override
-        public void onSelect(Integer target) {
-            if (target != null) {
-                int bulletReq = Dungeon.hero.pointsInTalent(Talent.MACHINEGUN) > 2 ? 0 : 1;
-                if (target == MachineGun.this.pos) return;
-                final Ballistica aim = new Ballistica(MachineGun.this.pos, target, Ballistica.PROJECTILE);
-                cell = aim.collisionPos;
-                MachineGun.this.sprite.zap(target);
-                Dungeon.hero.sprite.zap(MachineGun.this.pos);
-                CellEmitter.get(MachineGun.this.pos).burst(SmokeParticle.FACTORY, 4);
-                CellEmitter.center(MachineGun.this.pos).burst(BlastParticle.FACTORY, 4);
-                Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f) );
-                Dungeon.bullet -= bulletReq;
-                Item.updateQuickslot();
-            }
-        }
-
-        @Override
-        public String prompt() {
-            return Messages.get(SpiritBow.class, "prompt");
-        }
-    };
+    @Override
+    protected boolean getFurther(int target) {
+        return false;
+    }
 }
