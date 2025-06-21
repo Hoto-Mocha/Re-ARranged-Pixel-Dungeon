@@ -70,7 +70,7 @@ public class WatchTower extends Building {
 
     @Override
     public boolean canInteract(Char c) {
-        return Dungeon.level.adjacent(this.pos, c.pos);
+        return true;
     }
 
     @Override
