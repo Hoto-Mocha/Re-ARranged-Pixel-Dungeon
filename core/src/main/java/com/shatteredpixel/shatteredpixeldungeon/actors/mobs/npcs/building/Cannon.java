@@ -45,24 +45,8 @@ public class Cannon extends Building {
 
     @Override
     public int drRoll() {
-        return super.drRoll() + Random.NormalIntRange(0, 5);
+        return super.drRoll() + Random.NormalIntRange(10, 30);
     }
-
-//    @Override
-//    protected boolean act() {
-//        for (Char ch : Actor.chars()) {
-//            if (ch instanceof Mob) {
-//                Mob enemy = (Mob)ch;
-//                if (enemy.targetingChar() == this
-//                        && enemy.fieldOfView != null
-//                        && enemy.fieldOfView[Dungeon.hero.pos]) {
-//                    enemy.aggro(Dungeon.hero);
-//                }
-//            }
-//        }
-//
-//        return super.act();
-//    }
 
     @Override
     public void destroy() {
