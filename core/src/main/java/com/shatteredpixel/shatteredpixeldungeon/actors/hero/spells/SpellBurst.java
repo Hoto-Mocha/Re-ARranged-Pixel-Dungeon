@@ -16,12 +16,12 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
-public class SpellBlast extends TargetedClericSpell implements Hero.Doom {
-    public static final SpellBlast INSTANCE = new SpellBlast();
+public class SpellBurst extends TargetedClericSpell implements Hero.Doom {
+    public static final SpellBurst INSTANCE = new SpellBurst();
 
     @Override
     public int icon(){
-        return HeroIcon.SPELL_BLAST;
+        return HeroIcon.SPELL_BURST;
     }
 
     @Override

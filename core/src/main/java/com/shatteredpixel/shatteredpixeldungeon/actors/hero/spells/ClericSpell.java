@@ -149,7 +149,7 @@ public abstract class ClericSpell {
 				spells.add(Smite.INSTANCE);
 
 			} else if (cleric.subClass == HeroSubClass.ENCHANTER) {
-				spells.add(SpellBlast.INSTANCE);
+				spells.add(SpellBurst.INSTANCE);
 			}
 
 			if (cleric.hasTalent(Talent.CLEANSE)){
@@ -284,7 +284,7 @@ public abstract class ClericSpell {
 		spells.add(HolyBombSpell.INSTANCE);
 		spells.add(Resurrection.INSTANCE);
 		//Enchanter spells
-		spells.add(SpellBlast.INSTANCE);
+		spells.add(SpellBurst.INSTANCE);
 		spells.add(TimeAmp.INSTANCE);
 		spells.add(WeakeningHex.INSTANCE);
 		spells.add(Stun.INSTANCE);

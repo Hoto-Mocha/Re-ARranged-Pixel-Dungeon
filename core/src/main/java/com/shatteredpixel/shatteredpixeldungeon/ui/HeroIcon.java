@@ -250,7 +250,7 @@ public class HeroIcon extends Image {
 	public static final int HOLY_MANTLE	    = 175;
 	public static final int POWER_OF_LIFE   = 176;
 	public static final int INDUCE_AGGRO    = 177;
-	public static final int SPELL_BLAST	    = 178;
+	public static final int SPELL_BURST = 178;
 	public static final int TIME_AMP	    = 179;
 	public static final int WEAKENING_HEX   = 180;
 	public static final int STUN		    = 181;
