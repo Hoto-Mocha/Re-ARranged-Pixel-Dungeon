@@ -2125,7 +2125,7 @@ public enum Talent {
 		//attacking procs
 		if (hero.hasTalent(SPEEDY_MOVE) && enemy instanceof Mob && enemy.buff(SpeedyMoveTracker.class) == null){
 			Buff.affect(enemy, SpeedyMoveTracker.class);
-			Buff.affect(hero, GreaterHaste.class).set(1 + hero.pointsInTalent(SPEEDY_MOVE));
+			Buff.affect(hero, GreaterHaste.class).set(2 + hero.pointsInTalent(SPEEDY_MOVE));
 		}
 
 		if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
