@@ -441,7 +441,7 @@ public enum Talent {
 	TIME_AMP	   				(25, 5, 3),
 	WEAKENING_HEX  				(26, 5, 3),
 	STUN		   				(27, 5, 3),
-	ELEMENT_IMBUE				(28, 5, 3),
+	THUNDER_IMBUE				(28, 5, 3),
 	ARCANE_ARMOR 				(29, 5, 3),
 	ENCHANT		   				(30, 5, 3),
 	//Ascended Form T4
@@ -2743,7 +2743,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, LAY_ON_HANDS, AURA_OF_PROTECTION, WALL_OF_LIGHT, HOLY_MANTLE, POWER_OF_LIFE, INDUCE_AGGRO );
 				break;
 			case ENCHANTER:
-				Collections.addAll(tierTalents, TIME_AMP, WEAKENING_HEX, STUN, ELEMENT_IMBUE, ARCANE_ARMOR, ENCHANT );
+				Collections.addAll(tierTalents, TIME_AMP, WEAKENING_HEX, STUN, THUNDER_IMBUE, ARCANE_ARMOR, ENCHANT );
 				break;
 			case OUTLAW:
 				Collections.addAll(tierTalents, ROLLING, PERFECT_FOCUSING, HONORABLE_SHOT, BULLET_TIME, INEVITABLE_DEATH, HEADSHOT );
