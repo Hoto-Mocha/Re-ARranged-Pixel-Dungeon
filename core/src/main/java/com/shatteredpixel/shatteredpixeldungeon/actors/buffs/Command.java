@@ -549,29 +549,16 @@ public class Command extends Buff implements ActionIndicator.Action {
                 float delay = 0f;
                 for (int cell : aim.subPath(2, Math.min((2+3*hero.pointsInTalent(Talent.CAS_CMD)), aim.dist))) { //경로의 3번째 타일부터 5/8/11타일 까지가 범위. 경로의 끝을 벗어나지 않음.
                     float finalDelay = delay; //폭발 이펙트 지연 시간. 0에서 시작해 루프 한 번을 돌 때마다 0.05가 추가된다.
-                    Actor.add(new Actor() { //폭발 이펙트를 발생시키는 액터 추가
-
-                        {
-                            actPriority = VFX_PRIO;
+                    hero.sprite.parent.add(new Tweener(hero.sprite.parent, finalDelay) { //finalDelay초 후에 폭발 이펙트가 작동하도록 설정한 Tweener
+                        @Override
+                        protected void updateValues(float progress) { //시간이 지남에 따라 실행되는 함수
+                            hero.spendAndNext(0); //아직 터지지 않았을 경우 영웅은 행동할 수 없다.
                         }
 
                         @Override
-                        protected boolean act() { //액터가 행동하면 지연 시간을 가진 Tweener를 추가하고 사라진다.
-                            hero.sprite.parent.add(new Tweener(hero.sprite.parent, finalDelay) { //finalDelay초 후에 폭발 이펙트가 작동하도록 설정한 Tweener
-                                @Override
-                                protected void updateValues(float progress) { //시간이 지남에 따라 실행되는 함수
-                                    hero.spendAndNext(0); //아직 터지지 않았을 경우 영웅은 행동할 수 없다.
-                                }
-
-                                @Override
-                                protected void onComplete() { //시간이 다 지나면 실행되는 함수
-                                    super.onComplete();
-                                    new CASBomb().explode(cell); //폭발
-                                }
-                            });
-                            Actor.remove(this);
-                            spend(0);
-                            return true;
+                        protected void onComplete() { //시간이 다 지나면 실행되는 함수
+                            super.onComplete();
+                            new CASBomb().explode(cell); //폭발
                         }
                     });
                     delay += 0.05f; //0.05초마다 1번 터진다.
