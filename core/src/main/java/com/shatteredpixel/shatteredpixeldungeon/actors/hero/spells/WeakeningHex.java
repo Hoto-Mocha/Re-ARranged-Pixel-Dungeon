@@ -47,7 +47,7 @@ public class WeakeningHex extends TargetedClericSpell {
     }
 
     private float duration() {
-        return 5f;
+        return 10f;
     }
 
     @Override

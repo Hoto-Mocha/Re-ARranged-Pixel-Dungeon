@@ -31,7 +31,7 @@ public class Stun extends TargetedClericSpell {
     }
 
     private int duration() {
-        return 1+Dungeon.hero.pointsInTalent(Talent.STUN);
+        return 3+Dungeon.hero.pointsInTalent(Talent.STUN);
     }
 
     @Override
