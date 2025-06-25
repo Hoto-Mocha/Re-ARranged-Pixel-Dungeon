@@ -8,6 +8,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM201;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -50,9 +51,13 @@ public class MachineGun extends Building {
     }
 
     @Override
-    public int attackSkill(Char target) {
-        //same as the hero
-        return 2*defenseSkill + 5;
+    public int attackSkill( Char target ) {
+        if (Dungeon.hero != null) {
+            //same base attack skill as hero, benefits from accuracy ring
+            return (int)((9 + Dungeon.hero.lvl) * RingOfAccuracy.accuracyMultiplier(Dungeon.hero));
+        } else {
+            return 0;
+        }
     }
 
     @Override
