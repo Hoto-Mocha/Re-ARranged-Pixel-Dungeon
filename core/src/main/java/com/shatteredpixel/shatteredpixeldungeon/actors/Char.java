@@ -858,7 +858,7 @@ public abstract class Char extends Actor {
 
 		dr += Random.NormalIntRange( 0 , Barkskin.currentLevel(this) );
 
-		dr += GrindStone.drRoll();
+		dr -= GrindStone.drRoll();
 
 		return dr;
 	}
