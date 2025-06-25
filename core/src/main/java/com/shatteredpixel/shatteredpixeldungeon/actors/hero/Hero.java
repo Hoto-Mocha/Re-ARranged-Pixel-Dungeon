@@ -987,6 +987,13 @@ public class Hero extends Char {
 			speed *= 3f;
 		}
 
+		if (hero.hasTalent(Talent.LIGHT_MOVEMENT)) {
+			int aEnc = hero.belongings.armor.STRReq() - hero.STR();
+			if (aEnc < 0) {
+				speed *= 1 + 0.05f * hero.pointsInTalent(Talent.LIGHT_MOVEMENT) * (-aEnc);
+			}
+		}
+
 		speed = AscensionChallenge.modifyHeroSpeed(speed);
 		
 		return speed;
