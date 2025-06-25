@@ -71,6 +71,7 @@ public class TimeAmp extends TargetedClericSpell {
         Sample.INSTANCE.play(Assets.Sounds.READ);
 
         onSpellCast(tome, hero);
+        onEnchanterSpellCast(ch, chargeUse(hero));
 
         if (ch.alignment == Char.Alignment.ENEMY) {
             ch.sprite.emitter().burst( SlowParticle.FACTORY, 6 );

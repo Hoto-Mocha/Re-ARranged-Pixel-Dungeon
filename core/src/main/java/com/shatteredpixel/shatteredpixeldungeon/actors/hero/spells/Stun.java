@@ -63,6 +63,7 @@ public class Stun extends TargetedClericSpell {
         Sample.INSTANCE.play(Assets.Sounds.READ);
 
         onSpellCast(tome, hero);
+        onEnchanterSpellCast(ch, chargeUse(hero));
 
         if (!ch.isImmune(Paralysis.class)){
             Sample.INSTANCE.play(Assets.Sounds.ROCKS);

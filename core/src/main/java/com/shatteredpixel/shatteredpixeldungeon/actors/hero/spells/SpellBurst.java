@@ -70,6 +70,7 @@ public class SpellBurst extends TargetedClericSpell implements Hero.Doom {
             if (b.type == Buff.buffType.NEGATIVE) {
                 buffs++;
                 b.detach();
+                Sample.INSTANCE.play(Assets.Sounds.BURNING);
             }
         }
 

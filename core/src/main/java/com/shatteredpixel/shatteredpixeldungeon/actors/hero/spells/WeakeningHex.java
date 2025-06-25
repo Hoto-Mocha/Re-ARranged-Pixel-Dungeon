@@ -77,6 +77,7 @@ public class WeakeningHex extends TargetedClericSpell {
         Sample.INSTANCE.play(Assets.Sounds.READ);
 
         onSpellCast(tome, hero);
+        onEnchanterSpellCast(ch, chargeUse(hero));
 
         Buff.affect(ch, Hex.class, duration());
         if (Dungeon.hero.pointsInTalent(Talent.WEAKENING_HEX) >= 2) {

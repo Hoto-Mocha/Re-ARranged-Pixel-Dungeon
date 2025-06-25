@@ -21,12 +21,43 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Daze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.watabou.utils.Random;
+
+import java.util.HashMap;
 
 public abstract class TargetedClericSpell extends ClericSpell {
 
@@ -55,5 +86,47 @@ public abstract class TargetedClericSpell extends ClericSpell {
 	}
 
 	protected abstract void onTargetSelected(HolyTome tome, Hero hero, Integer target);
+
+	private static final HashMap<Class<? extends FlavourBuff>, Float> DEBUFFS = new HashMap<>();
+	static {
+		DEBUFFS.put(Cripple.class,        1f);
+		DEBUFFS.put(Blindness.class,      1f);
+		DEBUFFS.put(Terror.class,         1f);
+		DEBUFFS.put(Chill.class,          1f);
+		DEBUFFS.put(Roots.class,          1f);
+		DEBUFFS.put(Vertigo.class,        1f);
+		DEBUFFS.put(Amok.class,           1f);
+		DEBUFFS.put(Daze.class,           1f);
+		DEBUFFS.put(Frost.class,          1f);
+	}
+
+	protected void onEnchanterSpellCast(Char target, float spellCost) {
+		int chargeUse = (int)spellCost;
+		if (target.alignment == Char.Alignment.ENEMY) {
+			for (int i = 0; i < chargeUse; i++) {
+				//do not consider buffs which are already assigned, or that the enemy is immune to.
+				HashMap<Class<? extends FlavourBuff>, Float> debuffs = new HashMap<>(DEBUFFS);
+				for (Buff existing : target.buffs()){
+					if (existing instanceof FlavourBuff && debuffs.containsKey(existing.getClass())) {
+						debuffs.put(((FlavourBuff) existing).getClass(), 0f);
+					}
+				}
+				for (Class<?extends FlavourBuff> toAssign : debuffs.keySet()){
+					if (debuffs.get(toAssign) > 0 && target.isImmune(toAssign)){
+						debuffs.put(toAssign, 0f);
+					}
+				}
+
+				//all buffs with a > 0 chance are flavor buffs
+				Class<?extends FlavourBuff> debuffCls = Random.chances(debuffs);
+
+				if (debuffCls != null){
+					Buff.append(target, debuffCls, 5);
+				} else {
+					Buff.affect(target, Doom.class);
+				}
+			}
+		}
+	}
 
 }
