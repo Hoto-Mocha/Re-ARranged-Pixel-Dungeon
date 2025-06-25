@@ -62,6 +62,8 @@ public class Stun extends TargetedClericSpell {
 
         Sample.INSTANCE.play(Assets.Sounds.READ);
 
+        onSpellCast(tome, hero);
+
         if (!ch.isImmune(Paralysis.class)){
             Sample.INSTANCE.play(Assets.Sounds.ROCKS);
             CellEmitter.get( target - Dungeon.level.width() ).start(Speck.factory(Speck.ROCK), 0.07f, 3);
@@ -69,7 +71,5 @@ public class Stun extends TargetedClericSpell {
         } else {
             GLog.w(Messages.get(this, "immune"));
         }
-
-        onSpellCast(tome, hero);
     }
 }
