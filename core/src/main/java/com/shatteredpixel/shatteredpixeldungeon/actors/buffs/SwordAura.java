@@ -3,10 +3,12 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Sheath;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
@@ -18,7 +20,10 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
+import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
@@ -30,6 +35,8 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
         type = buffType.NEUTRAL;
         announced = false;
     }
+
+    private static Image cross;
 
     private int damage = 0;
 
@@ -130,7 +137,35 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
 
     @Override
     public void doAction() {
-        GameScene.selectCell(shooter);
+        if (GameScene.isCellSelecterActive(shooter)) {
+            Char lastTarget = QuickSlotButton.lastTarget;
+            if (canAutoAim(lastTarget)){
+                int cell = QuickSlotButton.autoAim(lastTarget, knockAura());
+                if (cell == -1) return;
+                knockAura().cast(hero, cell);
+                cross.remove();
+            }
+        } else {
+            Char lastTarget = QuickSlotButton.lastTarget;
+            if (canAutoAim(lastTarget)){
+                //FIXME: This doesn't use QuickSlotButton's crossM.
+                // So if the player changes target while the cross is on the target,
+                // the cross will not be moved to other target.
+                // Well, IDK how to fix this. Because this is a Buff, not an Item.
+                // And that's why this cannot use QuickSlotButton's crossM.
+                cross = Icons.TARGET.get();
+                lastTarget.sprite.parent.addToFront(cross);
+                cross.point(lastTarget.sprite.center(cross));
+            }
+            GameScene.selectCell(shooter);
+        }
+    }
+
+    private boolean canAutoAim(Char lastTarget) {
+        return lastTarget != null &&
+                lastTarget.isAlive() && lastTarget.isActive() &&
+                lastTarget.alignment != Char.Alignment.ALLY &&
+                Dungeon.hero.fieldOfView[lastTarget.pos];
     }
 
     public Aura knockAura(){
@@ -232,6 +267,7 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
                     knockAura().cast(hero, target);
                 }
             }
+            cross.remove();
         }
         @Override
         public String prompt() {

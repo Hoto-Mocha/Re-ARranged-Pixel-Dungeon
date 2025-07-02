@@ -1510,6 +1510,10 @@ public class GameScene extends PixelScene {
 			return false;
 		}
 	}
+
+	public static boolean isCellSelecterActive( CellSelector.Listener listener ) {
+		return cellSelector.listener == listener;
+	}
 	
 	public static WndBag selectItem( WndBag.ItemSelector listener ) {
 		cancel();
