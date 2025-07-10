@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.StormCloud;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
@@ -57,5 +58,10 @@ public class PotionOfStormClouds extends ExoticPotion {
 		}
 		
 		GameScene.add( Blob.seed( cell, centerVolume, StormCloud.class ) );
+	}
+
+	@Override
+	public ItemSprite.Glowing potionGlowing() {
+		return new ItemSprite.Glowing( 0x0000FF );
 	}
 }

@@ -65,6 +65,7 @@ public class Statistics {
 	public static int plantTriggered;
 	public static boolean plateObtained;
 	public static int pillsMade;
+	public static boolean bowObtained;
 
 	public static int spawnersAlive;
 	

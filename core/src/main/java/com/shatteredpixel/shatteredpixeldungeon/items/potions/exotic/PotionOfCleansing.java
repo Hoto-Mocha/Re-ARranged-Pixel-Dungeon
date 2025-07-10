@@ -30,8 +30,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
@@ -86,6 +88,18 @@ public class PotionOfCleansing extends ExoticPotion {
 		Buff.prolong(ch, Cleanse.class, duration);
 	}
 
+	public static void cleanseButHunger(Char ch, float duration){
+		for (Buff b : ch.buffs()){
+			if (b.type == Buff.buffType.NEGATIVE
+					&& !(b instanceof AllyBuff)
+					&& !(b instanceof LostInventory)
+					&& !(b instanceof Hunger)){
+				b.detach();
+			}
+		}
+		Buff.prolong(ch, Cleanse.class, duration);
+	}
+
 	public static class Cleanse extends FlavourBuff {
 
 		{
@@ -109,5 +123,15 @@ public class PotionOfCleansing extends ExoticPotion {
 			return Math.max(0, (DURATION - visualcooldown()) / DURATION);
 		}
 
+	}
+
+	@Override
+	public ItemSprite.Glowing potionGlowing() {
+		return new ItemSprite.Glowing( 0xFF4CD2 );
+	}
+
+	@Override
+	public void potionProc(Hero hero, Char enemy, float damage) {
+		Buff.prolong(hero, MagicImmune.class, 4f);
 	}
 }

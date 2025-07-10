@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
@@ -89,5 +90,15 @@ public class PotionOfHealing extends Potion {
 	@Override
 	public int value() {
 		return isKnown() ? 30 * quantity : super.value();
+	}
+
+	@Override
+	public ItemSprite.Glowing potionGlowing() {
+		return new ItemSprite.Glowing( 0x00FF00 );
+	}
+
+	@Override
+	public void potionProc(Hero hero, Char enemy, float damage) {
+		hero.heal(Math.round(1+damage*0.4f));
 	}
 }

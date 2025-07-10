@@ -23,9 +23,14 @@ package com.shatteredpixel.shatteredpixeldungeon.items.potions;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ParalyticGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 
@@ -52,5 +57,15 @@ public class PotionOfParalyticGas extends Potion {
 	@Override
 	public int value() {
 		return isKnown() ? 40 * quantity : super.value();
+	}
+
+	@Override
+	public ItemSprite.Glowing potionGlowing() {
+		return new ItemSprite.Glowing( 0xFFFF60 );
+	}
+
+	@Override
+	public void potionProc(Hero hero, Char enemy, float damage) {
+		Buff.prolong(enemy, Paralysis.class, 2f);
 	}
 }

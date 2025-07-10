@@ -831,15 +831,15 @@ public class ItemSpriteSheet {
 	public static final int AMMO_BELT			= NEW_SPECIAL_ITEM+0;
 	public static final int SHEATH				= NEW_SPECIAL_ITEM+1;
 	public static final int KNIGHT_SHIELD		= NEW_SPECIAL_ITEM+2;
-	public static final int GAMMA_GUN			= NEW_SPECIAL_ITEM+3;
-	public static final int HAND_MIRROR			= NEW_SPECIAL_ITEM+4;
+	public static final int ARROW_BAG			= NEW_SPECIAL_ITEM+3;
+
 	public static final int TELEPORTER			= NEW_SPECIAL_ITEM+5;
 	static{
 		assignItemRect(AMMO_BELT	, 15, 15);
 		assignItemRect(SHEATH		, 16, 16);
 		assignItemRect(KNIGHT_SHIELD, 16, 15);
-		assignItemRect(GAMMA_GUN	, 12, 15);
-		assignItemRect(HAND_MIRROR	, 10, 16);
+		assignItemRect(ARROW_BAG	, 14, 15);
+
 		assignItemRect(TELEPORTER	, 14, 14);
 	}
 
@@ -849,12 +849,14 @@ public class ItemSpriteSheet {
 	public static final int ARMOR_PLANTER	= NEW_ARMOR+2;
 	public static final int ARMOR_KNIGHT	= NEW_ARMOR+3;
 	public static final int ARMOR_MEDIC 	= NEW_ARMOR+4;
+	public static final int ARMOR_ARCHER 	= NEW_ARMOR+5;
 	static{
 		assignItemRect(ARMOR_GUNNER	, 15, 13);
 		assignItemRect(ARMOR_SAMURAI, 12, 16);
 		assignItemRect(ARMOR_PLANTER, 15, 12);
 		assignItemRect(ARMOR_KNIGHT	, 14, 12);
 		assignItemRect(ARMOR_MEDIC	, 14, 12);
+		assignItemRect(ARMOR_ARCHER	, 12, 11);
 	}
 
 	private static final int NEW_SCROLL 	=			xy(1, 37);  //16 slots

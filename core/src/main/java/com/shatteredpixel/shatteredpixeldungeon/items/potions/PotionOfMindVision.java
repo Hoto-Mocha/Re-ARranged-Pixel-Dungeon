@@ -22,11 +22,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.potions;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
@@ -53,5 +57,18 @@ public class PotionOfMindVision extends Potion {
 	@Override
 	public int value() {
 		return isKnown() ? 30 * quantity : super.value();
+	}
+
+	@Override
+	public ItemSprite.Glowing potionGlowing() {
+		return new ItemSprite.Glowing( 0xFFC4E5 );
+	}
+
+	@Override
+	public void potionProc(Hero hero, Char enemy, float damage) {
+		Buff.append(curUser, TalismanOfForesight.CharAwareness.class, 50f).charID = enemy.id();
+		Dungeon.observe();
+		Dungeon.hero.checkVisibleMobs();
+		GameScene.updateFog();
 	}
 }

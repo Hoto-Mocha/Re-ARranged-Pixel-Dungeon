@@ -28,6 +28,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.archer.DashAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.archer.Hunt;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.archer.Snipe;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.cleric.AscendedForm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.cleric.PowerOfMany;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.cleric.Trinity;
@@ -147,7 +150,8 @@ public enum HeroClass {
 	SAMURAI( HeroSubClass.SLASHER, HeroSubClass.MASTER, HeroSubClass.SLAYER ),
 	ADVENTURER( HeroSubClass.ENGINEER, HeroSubClass.EXPLORER, HeroSubClass.RESEARCHER ),
 	KNIGHT( HeroSubClass.DEATHKNIGHT, HeroSubClass.HORSEMAN, HeroSubClass.CRUSADER),
-	MEDIC( HeroSubClass.SAVIOR, HeroSubClass.THERAPIST, HeroSubClass.MEDICALOFFICER );
+	MEDIC( HeroSubClass.SAVIOR, HeroSubClass.THERAPIST, HeroSubClass.MEDICALOFFICER ),
+	ARCHER( HeroSubClass.BOWMASTER, HeroSubClass.JUGGLER, HeroSubClass.SHARPSHOOTER );
 
 	private HeroSubClass[] subClasses;
 
@@ -244,6 +248,10 @@ public enum HeroClass {
 			case MEDIC:
 				initMedic( hero );
 				break;
+
+			case ARCHER:
+				initArcher( hero );
+				break;
 		}
 
 		if (SPDSettings.quickslotWaterskin()) {
@@ -281,6 +289,8 @@ public enum HeroClass {
 				return Badges.Badge.MASTERY_KNIGHT;
 			case MEDIC:
 				return Badges.Badge.MASTERY_MEDIC;
+			case ARCHER:
+				return Badges.Badge.MASTERY_ARCHER;
 		}
 		return null;
 	}
@@ -456,6 +466,21 @@ public enum HeroClass {
 		new PotionOfHealing().identify();
 	}
 
+	private static void initArcher( Hero hero ) {
+		WornShortBow bow = new WornShortBow();
+		(hero.belongings.weapon = bow).identify();
+		hero.belongings.weapon.activate(hero);
+
+		BulletBelt bulletBelt = new BulletBelt();
+		bulletBelt.quantity(3).collect();
+
+		Dungeon.quickslot.setSlot(0, hero.belongings.weapon);
+		Dungeon.quickslot.setSlot(1, bulletBelt);
+
+		new ScrollOfMagicMapping().identify();
+		new PotionOfHaste().identify();
+	}
+
 	public String title() {
 		return Messages.get(HeroClass.class, name());
 	}
@@ -496,6 +521,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new HolyShield(), new StimPack(), new UnstableAnkh()};
 			case MEDIC:
 				return new ArmorAbility[]{new HealingGenerator(), new AngelWing(), new GammaRayEmmit()};
+			case ARCHER:
+				return new ArmorAbility[]{new DashAbility(), new Hunt(), new Snipe()};
 		}
 	}
 
@@ -523,6 +550,8 @@ public enum HeroClass {
 				return Assets.Sprites.KNIGHT;
 			case MEDIC:
 				return Assets.Sprites.MEDIC;
+			case ARCHER:
+				return Assets.Sprites.ARCHER;
 		}
 	}
 
@@ -550,6 +579,8 @@ public enum HeroClass {
 				return Assets.Splashes.KNIGHT;
 			case MEDIC:
 				return Assets.Splashes.MEDIC;
+			case ARCHER:
+				return Assets.Splashes.ARCHER;
 		}
 	}
 	
@@ -580,6 +611,8 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_KNIGHT);
 			case MEDIC:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_MEDIC);
+			case ARCHER:
+				return Badges.isUnlocked(Badges.Badge.UNLOCK_ARCHER);
 		}
 	}
 	

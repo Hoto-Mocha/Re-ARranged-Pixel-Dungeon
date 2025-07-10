@@ -73,7 +73,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Sh
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.DivineSense;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.PowerOfLife;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.RecallInscription;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.WatchTower;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
@@ -708,6 +707,64 @@ public enum Talent {
 	TRANSMOG_BIAS				(37, 10, 4),
 	IMPRINTING_EFFECT			(38, 10, 4),
 	SHEEP_TRANSMOG				(39, 10, 4),
+
+	//Archer T1
+	FORCE_SAVING				(0, 11),
+	ARCHERS_INTUITION			(1, 11),
+	SURPRISE_PANIC				(2, 11),
+	SURVIVAL_TECHNIQUE			(3, 11),
+	DEXTERITY					(4, 11),
+
+	//Archer T2
+	FIGHTING_MEAL				(5, 11),
+	FULLY_POTION				(6, 11),
+	NATURE_FRIENDLY				(7, 11),
+	PUSHBACK					(8, 11),
+	SPECIALISTS_INTUITION		(9, 11),
+	ROOTS_ENTWINE				(10, 11),
+
+	//Archer T3
+	MAKESHIFT_BOW				(11, 11, 3),
+	FOLLOWUP_SHOOT				(12, 11, 3),
+
+	//BowMaster T3
+	FASTSHOT					(13, 11, 3),
+	EXPANDED_POWER				(14, 11, 3),
+	MOVING_FOCUS				(15, 11, 3),
+	BOTTLE_EXPANSION			(16, 11, 3),
+	SPECTRE_ARROW				(17, 11, 3),
+	UNENCUMBERED_STEP			(18, 11, 3),
+
+	//Juggler T3
+	HABITUAL_HAND				(19, 11, 3),
+	DANGEROUS_JUGGLING			(20, 11, 3),
+	SKILLFUL_JUGGLING			(21, 11, 3),
+	FOCUS_MAINTAIN				(22, 11, 3),
+	CLEANING_UP					(23, 11, 3),
+	FREE_HAND					(24, 11, 3),
+
+	//SharpShooter T3
+	STRONG_BOWSTRING			(25, 11, 3),
+	RECOIL_CONTROL				(26, 11, 3),
+	QUICK_HAND					(27, 11, 3),
+	MULTIPLE_HOMING				(28, 11, 3),
+	ACCURATE_HEADSHOT			(29, 11, 3),
+	KINETIC_FIRE				(30, 11, 3),
+
+	//Dash T4
+	LONGRANGE_DASH				(31, 11, 4),
+	DUST_SPREAD					(32, 11, 4),
+	KINETIC_DASH				(33, 11, 4),
+
+	//Hunt T4
+	CHASE						(34, 11, 4),
+	CHILL_BACK					(35, 11, 4),
+	CANNOT_ESCAPE				(36, 11, 4),
+
+	//Snipe T4
+	ENHANCED_ARROW				(37, 11, 4),
+	ACCURATE_SHIPE				(38, 11, 4),
+	KNOCKING_ARROW				(39, 11, 4),
 
 	//universal T4
 	HEROIC_ENERGY				(43, 0, 4), //See icon() and title() for special logic for this one
@@ -1368,6 +1425,9 @@ public enum Talent {
 					break;
 				case MEDIC:
 					y = 10;
+					break;
+				case ARCHER:
+					y = 11;
 					break;
 			}
 			if (Ratmogrify.useRatroicEnergy){
@@ -2556,6 +2616,9 @@ public enum Talent {
 			case DUELIST:
 				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, AGGRESSIVE_BARRIER, SKILLED_HAND);
 				break;
+			case CLERIC:
+				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT, WARDING_LIGHT);
+				break;
 			case GUNNER:
 				Collections.addAll(tierTalents, RELOADING_MEAL, GUNNERS_INTUITION, SPEEDY_MOVE, SAFE_RELOAD, CLOSE_COMBAT);
 				break;
@@ -2571,8 +2634,8 @@ public enum Talent {
 			case MEDIC:
 				Collections.addAll(tierTalents, SCAR_ATTACK, DOCTORS_INTUITION, FINISH_ATTACK, FIRST_AID_TREAT, BREAKTHROUGH);
 				break;
-			case CLERIC:
-				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT, WARDING_LIGHT);
+			case ARCHER:
+				Collections.addAll(tierTalents, FORCE_SAVING, ARCHERS_INTUITION, SURPRISE_PANIC, SURVIVAL_TECHNIQUE, DEXTERITY);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -2600,6 +2663,9 @@ public enum Talent {
 			case DUELIST:
 				Collections.addAll(tierTalents, FOCUSED_MEAL, LIQUID_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, ACCUMULATION);
 				break;
+			case CLERIC:
+				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS, DIVINE_BLAST);
+				break;
 			case GUNNER:
 				Collections.addAll(tierTalents, INFINITE_BULLET_MEAL, INSCRIBED_BULLET, MIND_VISION, CAMOUFLAGE, LARGER_MAGAZINE, BULLET_COLLECT);
 				break;
@@ -2615,8 +2681,8 @@ public enum Talent {
 			case MEDIC:
 				Collections.addAll(tierTalents, HEALING_MEAL, RECYCLING, HIGH_POWER, RADIATION, STRONG_HEALPOWER, DIET);
 				break;
-			case CLERIC:
-				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS, DIVINE_BLAST);
+			case ARCHER:
+				Collections.addAll(tierTalents, FIGHTING_MEAL, FULLY_POTION, NATURE_FRIENDLY, PUSHBACK, SPECIALISTS_INTUITION, ROOTS_ENTWINE);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -2661,6 +2727,9 @@ public enum Talent {
 				break;
 			case MEDIC:
 				Collections.addAll(tierTalents, STRONG_NEXUS, TARGET_SET);
+				break;
+			case ARCHER:
+				Collections.addAll(tierTalents, MAKESHIFT_BOW, FOLLOWUP_SHOOT);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -2789,6 +2858,15 @@ public enum Talent {
 				break;
 			case MEDICALOFFICER:
 				Collections.addAll(tierTalents, MOVE_CMD, STIMPACK_CMD, ENGINEER_CMD, PROMOTE_CMD, EXPLOSION_CMD, CAS_CMD);
+				break;
+			case BOWMASTER:
+				Collections.addAll(tierTalents, FASTSHOT, EXPANDED_POWER, MOVING_FOCUS, BOTTLE_EXPANSION, SPECTRE_ARROW, UNENCUMBERED_STEP);
+				break;
+			case JUGGLER:
+				Collections.addAll(tierTalents, HABITUAL_HAND, DANGEROUS_JUGGLING, SKILLFUL_JUGGLING, FOCUS_MAINTAIN, CLEANING_UP, FREE_HAND);
+				break;
+			case SHARPSHOOTER:
+				Collections.addAll(tierTalents, STRONG_BOWSTRING, RECOIL_CONTROL, QUICK_HAND, MULTIPLE_HOMING, ACCURATE_HEADSHOT, KINETIC_FIRE);
 				break;
 		}
 		for (Talent talent : tierTalents){

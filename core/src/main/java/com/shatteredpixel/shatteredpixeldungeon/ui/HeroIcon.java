@@ -94,9 +94,9 @@ public class HeroIcon extends Image {
 	public static final int MEDICALOFFICER	= 42;
 //	public static final int 			= 43;
 
-//	public static final int 			= 44;
-//	public static final int 			= 45;
-//	public static final int 			= 46;
+	public static final int BOWMASTER	= 44;
+	public static final int JUGGLER		= 45;
+	public static final int SHARPSHOOTER= 46;
 //	public static final int 			= 47;
 
 	//abilities
@@ -156,9 +156,9 @@ public class HeroIcon extends Image {
 	public static final int GAMMA_EMMIT		= 90;
 //	public static final int 				= 91;
 
-//	public static final int 				= 92;
-//	public static final int 				= 93;
-//	public static final int 				= 94;
+	public static final int DASH			= 92;
+	public static final int HUNT			= 93;
+	public static final int SNIPE			= 94;
 //	public static final int 				= 95;
 
 	public static final int RATMOGRIFY      = 96;

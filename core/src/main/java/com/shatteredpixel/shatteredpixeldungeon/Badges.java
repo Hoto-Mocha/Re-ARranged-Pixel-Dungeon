@@ -75,6 +75,7 @@ public class Badges {
 		MASTERY_ADVENTURER,
 		MASTERY_KNIGHT,
 		MASTERY_MEDIC,
+		MASTERY_ARCHER,
 		FOUND_RATMOGRIFY,
 
 		//bronze
@@ -140,6 +141,7 @@ public class Badges {
 		BOSS_SLAIN_1_ADVENTURER,
 		BOSS_SLAIN_1_KNIGHT,
 		BOSS_SLAIN_1_MEDIC,
+		BOSS_SLAIN_1_ARCHER,
 		BOSS_SLAIN_1_ALL_CLASSES    ( 54, BadgeType.GLOBAL ),
 		RESEARCHER_2                ( 55, BadgeType.JOURNAL ),
 		GAMES_PLAYED_2              ( 56, BadgeType.GLOBAL ),
@@ -260,19 +262,25 @@ public class Badges {
 		BOSS_SLAIN_3_THERAPIST,
 		BOSS_SLAIN_3_MEDICALOFFICER,
 
+		BOSS_SLAIN_3_BOWMASTER,
+		BOSS_SLAIN_3_JUGGLER,
+		BOSS_SLAIN_3_SHARPSHOOTER,
+
 		VICTORY_GUNNER,
 		VICTORY_SAMURAI,
 		VICTORY_ADVENTURER,
 		VICTORY_KNIGHT,
 		VICTORY_MEDIC,
+		VICTORY_ARCHER,
 
 		UNLOCK_GUNNER				(136),
 		UNLOCK_SAMURAI				(137),
 		UNLOCK_ADVENTURER			(138),
 		UNLOCK_KNIGHT				(139),
 		UNLOCK_MEDIC				(140),
+		UNLOCK_ARCHER				(141),
 
-		HEDGEHOG					(141);
+		HEDGEHOG					(142);
 
 		public boolean meta;
 
@@ -869,6 +877,7 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.ADVENTURER, Badge.BOSS_SLAIN_1_ADVENTURER);
 		firstBossClassBadges.put(HeroClass.KNIGHT, Badge.BOSS_SLAIN_1_KNIGHT);
 		firstBossClassBadges.put(HeroClass.MEDIC, Badge.BOSS_SLAIN_1_MEDIC);
+		firstBossClassBadges.put(HeroClass.ARCHER, Badge.BOSS_SLAIN_1_ARCHER);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
@@ -884,6 +893,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.ADVENTURER, Badge.VICTORY_ADVENTURER);
 		victoryClassBadges.put(HeroClass.KNIGHT, Badge.VICTORY_KNIGHT);
 		victoryClassBadges.put(HeroClass.MEDIC, Badge.VICTORY_MEDIC);
+		victoryClassBadges.put(HeroClass.ARCHER, Badge.VICTORY_ARCHER);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
@@ -921,6 +931,9 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.SAVIOR, Badge.BOSS_SLAIN_3_SAVIOR);
 		thirdBossSubclassBadges.put(HeroSubClass.THERAPIST, Badge.BOSS_SLAIN_3_THERAPIST);
 		thirdBossSubclassBadges.put(HeroSubClass.MEDICALOFFICER, Badge.BOSS_SLAIN_3_MEDICALOFFICER);
+		thirdBossSubclassBadges.put(HeroSubClass.BOWMASTER, Badge.BOSS_SLAIN_3_BOWMASTER);
+		thirdBossSubclassBadges.put(HeroSubClass.JUGGLER, Badge.BOSS_SLAIN_3_JUGGLER);
+		thirdBossSubclassBadges.put(HeroSubClass.SHARPSHOOTER, Badge.BOSS_SLAIN_3_SHARPSHOOTER);
 	}
 	
 	public static void validateBossSlain() {
@@ -1058,6 +1071,9 @@ public class Badges {
 			case MEDIC:
 				badge = Badge.MASTERY_MEDIC;
 				break;
+			case ARCHER:
+				badge = Badge.MASTERY_ARCHER;
+				break;
 		}
 		
 		unlock(badge);
@@ -1135,6 +1151,12 @@ public class Badges {
 	public static void validateMedicUnlock() {
 		if (Statistics.pillsMade > 4 && !isUnlocked(Badge.UNLOCK_MEDIC)) {
 			displayBadge(Badge.UNLOCK_MEDIC);
+		}
+	}
+
+	public static void validateArcherUnlock() {
+		if (Statistics.bowObtained && !isUnlocked(Badge.UNLOCK_ARCHER)) {
+			displayBadge(Badge.UNLOCK_ARCHER);
 		}
 	}
 	

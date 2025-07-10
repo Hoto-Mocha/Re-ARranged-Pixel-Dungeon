@@ -102,6 +102,8 @@ public abstract class RemainsItem extends Item {
 				return new BrokenShield();
 			case MEDIC:
 				return new ShatteredPillbox();
+			case ARCHER:
+				return new BowFragment();
 		}
 	}
 

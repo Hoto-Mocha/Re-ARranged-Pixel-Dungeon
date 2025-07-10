@@ -92,6 +92,9 @@ public class WndHeroInfo extends WndTabbed {
 			case MEDIC:
 				tabIcon = new ItemSprite(ItemSpriteSheet.GAMMA_RAY_GUN, null);
 				break;
+			case ARCHER:
+				tabIcon = new ItemSprite(ItemSpriteSheet.LONGBOW, null);
+				break;
 		}
 
 		int finalHeight = MIN_HEIGHT;
@@ -251,6 +254,13 @@ public class WndHeroInfo extends WndTabbed {
 							Icons.BUFFS.get(),
 							new ItemSprite(ItemSpriteSheet.PILL_STRENGTH),
 							new ItemSprite(ItemSpriteSheet.SCALPEL),
+							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
+				case ARCHER:
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.FISHING_SPEAR),
+							new TalentIcon(Talent.BASIC_PRACTICE),
+							new ItemSprite(ItemSpriteSheet.ARROW_BAG),
+							new ItemSprite(ItemSpriteSheet.WORN_SHORTBOW),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 			}

@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazing;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -219,4 +220,19 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 			return Messages.get(PotionOfDragonsBreath.class, "prompt");
 		}
 	};
+
+	@Override
+	public ItemSprite.Glowing potionGlowing() {
+		return new ItemSprite.Glowing( 0xFFAA33, 0.5f );
+	}
+
+	@Override
+	public void potionProc(Hero hero, Char enemy, float damage) {
+		int burnDamage = Random.NormalIntRange( 1, 3 + Dungeon.scalingDepth()/4 );
+		if (burnDamage > 0) {
+			enemy.damage(burnDamage, Blazing.class);
+		}
+		
+		Buff.affect(enemy, Burning.class).reignite(enemy);
+	}
 }
