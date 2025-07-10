@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -48,5 +49,9 @@ public class PotionOfMagicalSight extends ExoticPotion {
 	public ItemSprite.Glowing potionGlowing() {
 		return new ItemSprite.Glowing( 0xFFC4E5, 0.5f );
 	}
-	
+
+	@Override
+	public void potionProc(Hero hero, Char enemy, float damage) {
+		//여기부터 이어서 진행
+	}
 }

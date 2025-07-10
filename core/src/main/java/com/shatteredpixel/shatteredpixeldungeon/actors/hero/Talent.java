@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.samurai.Sh
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.DivineSense;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.PowerOfLife;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.RecallInscription;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.building.WatchTower;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;

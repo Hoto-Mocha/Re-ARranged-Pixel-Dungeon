@@ -21,8 +21,11 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -43,5 +46,11 @@ public class PotionOfEarthenArmor extends ExoticPotion {
 	public ItemSprite.Glowing potionGlowing() {
 		return new ItemSprite.Glowing( 0x998F5C );
 	}
-	
+
+	@Override
+	public void potionProc(Hero hero, Char enemy, float damage) {
+		int level = (int)Math.min((hero.lvl*1.5f), damage/2);
+		Barkskin.conditionallyAppend(hero, level, 1);
+		hero.sprite.centerEmitter().burst(MagicMissile.EarthParticle.ATTRACT, level);
+	}
 }
