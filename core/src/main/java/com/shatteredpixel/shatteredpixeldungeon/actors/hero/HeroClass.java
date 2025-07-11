@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.En
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArrowBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.BulletBelt;
 import com.shatteredpixel.shatteredpixeldungeon.items.GammaRayGun;
@@ -474,8 +475,12 @@ public enum HeroClass {
 		BulletBelt bulletBelt = new BulletBelt();
 		bulletBelt.quantity(3).collect();
 
+		ArrowBag arrowBag = new ArrowBag();
+		arrowBag.collect();
+
 		Dungeon.quickslot.setSlot(0, hero.belongings.weapon);
-		Dungeon.quickslot.setSlot(1, bulletBelt);
+		Dungeon.quickslot.setSlot(1, arrowBag);
+		Dungeon.quickslot.setSlot(2, bulletBelt);
 
 		new ScrollOfMagicMapping().identify();
 		new PotionOfHaste().identify();

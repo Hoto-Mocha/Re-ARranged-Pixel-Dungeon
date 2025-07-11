@@ -99,6 +99,8 @@ public class PotionOfHealing extends Potion {
 
 	@Override
 	public void potionProc(Hero hero, Char enemy, float damage) {
-		hero.heal(Math.round(1+damage*0.4f));
+		if (!Dungeon.isChallenged(Challenges.NO_HEALING)){
+			hero.heal(Math.round(1+damage*0.4f));
+		}
 	}
 }

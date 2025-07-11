@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.potions.brews;
 
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
@@ -39,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
@@ -171,5 +173,19 @@ public class UnstableBrew extends Brew {
 			return new UnstableBrew();
 		}
 	}
-	
+
+	@Override
+	public ItemSprite.Glowing potionGlowing() {
+		return new ItemSprite.Glowing(0x999999);
+	}
+
+	@Override
+	public void potionProc(Hero hero, Char enemy, float damage) {
+		if (Dungeon.isChallenged(Challenges.NO_HEALING)){
+			potionChances.put(PotionOfHealing.class, 0f);
+		}
+
+		Potion randomPotion = Reflection.newInstance(Random.chances(potionChances));
+		if (randomPotion != null) randomPotion.potionProc(hero, enemy, damage);
+	}
 }

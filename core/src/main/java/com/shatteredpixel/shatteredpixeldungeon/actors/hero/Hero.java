@@ -165,6 +165,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfTalent;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfMagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.DarkGold;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.remains.BrokenShield;
@@ -3398,12 +3399,20 @@ public class Hero extends Char {
 		boolean foresight = buff(Foresight.class) != null;
 		boolean foresightScan = foresight && !Dungeon.level.mapped[pos];
 
-		if (foresightScan){
+		boolean search = buff(PotionOfMagicalSight.Search.class) != null;
+		boolean searchScan = search && !Dungeon.level.mapped[pos];
+
+		if (foresightScan || search){
 			Dungeon.level.mapped[pos] = true;
 		}
 
 		if (foresight) {
 			distance = Foresight.DISTANCE;
+			circular = true;
+		}
+
+		if (searchScan) {
+			distance = PotionOfMagicalSight.Search.DISTANCE;
 			circular = true;
 		}
 

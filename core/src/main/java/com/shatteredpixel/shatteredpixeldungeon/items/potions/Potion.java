@@ -677,4 +677,8 @@ public class Potion extends Item {
 	public ItemSprite.Glowing potionGlowing() {
 		return null; //no glow by default
 	}
+
+	public float talentFactor() {
+		return this.talentFactor;
+	}
 }

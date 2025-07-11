@@ -199,7 +199,7 @@ public class PotionOfDivineInspiration extends ExoticPotion {
 
 	@Override
 	public void potionProc(Hero hero, Char enemy, float damage) {
-		if (enemy instanceof Mob) {
+		if (enemy instanceof Mob && ((Mob)enemy).EXP > 0 && ((Mob)enemy).maxLvl > hero.lvl) {
 			hero.earnExp(((Mob)enemy).EXP, PotionOfExperience.class);
 		}
 	}

@@ -6,9 +6,11 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArrowBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArrowItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
@@ -23,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
@@ -104,6 +107,10 @@ public class BowWeapon extends MeleeWeapon {
 
     //arrows will copy all procs of the bow, but excludes the pushing effect
     public int arrowProc(Char attacker, Char defender, int damage) {
+        if (attacker == Dungeon.hero && Dungeon.hero.belongings.getItem(ArrowBag.class) != null) {
+            ArrowBag arrowBag = Dungeon.hero.belongings.getItem(ArrowBag.class);
+            damage = arrowBag.proc((Hero) attacker, defender, damage);
+        }
         return super.proc(attacker, defender, damage);
     }
 
@@ -283,6 +290,8 @@ public class BowWeapon extends MeleeWeapon {
                 Dungeon.hero.buff(PenetrationShotBuff.class).detach();
             }
 
+            Buff.affect(Dungeon.hero, BowFatigue.class).countUp(1);
+
             updateQuickslot();
         }
 
@@ -410,6 +419,82 @@ public class BowWeapon extends MeleeWeapon {
 
         public int proc(int damage, int lvl, int tier) {
             return damage + lvl + Math.round(damage*(7-tier)*0.1f);
+        }
+    }
+
+    public static class BowFatigue extends CounterBuff {
+        {
+            type = buffType.NEGATIVE;
+        }
+
+        float duration;
+        final float MAX_DURATION = 3f;
+
+        @Override
+        public boolean act() {
+            duration -= TICK;
+            if (duration <= 0) {
+                detach();
+            }
+
+            spend(TICK);
+
+            return true;
+        }
+
+        @Override
+        public int icon() {
+            return BuffIndicator.WEAKNESS;
+        }
+
+        @Override
+        public void tintIcon(Image icon) {
+            icon.hardlight(0x999999);
+        }
+
+        @Override
+        public String desc() {
+            return Messages.get(this, "desc", (int)count(), Messages.decimalFormat("#.##", duration));
+        }
+
+        public static final String DURATION = "duration";
+
+        @Override
+        public void storeInBundle(Bundle bundle) {
+            super.storeInBundle(bundle);
+
+            bundle.put(DURATION, duration);
+        }
+
+        @Override
+        public void restoreFromBundle(Bundle bundle) {
+            super.restoreFromBundle(bundle);
+
+            duration = bundle.getFloat(DURATION);
+        }
+
+        @Override
+        public float iconFadePercent() {
+            return Math.max(0, ((MAX_DURATION-1) - duration) / (MAX_DURATION-1));
+        }
+
+        @Override
+        public void countUp(float inc) {
+            duration = MAX_DURATION;
+            super.countUp(inc);
+        }
+
+        @Override
+        public String iconTextDisplay() {
+            return (int)count()+"";
+        }
+
+        public int damage(int damage) {
+            if (this.count() > 4) {
+                int exceed = (int)this.count() - 4;
+                damage = Math.round(damage * (float)Math.pow(0.9f, exceed));
+            }
+            return damage;
         }
     }
 }

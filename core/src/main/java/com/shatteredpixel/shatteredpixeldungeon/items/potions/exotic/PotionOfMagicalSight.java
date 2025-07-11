@@ -24,11 +24,13 @@ package com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 
 public class PotionOfMagicalSight extends ExoticPotion {
 	
@@ -52,6 +54,30 @@ public class PotionOfMagicalSight extends ExoticPotion {
 
 	@Override
 	public void potionProc(Hero hero, Char enemy, float damage) {
-		//여기부터 이어서 진행
+		Buff.affect(hero, Search.class);
+	}
+
+	public static class Search extends FlavourBuff {
+
+		public static final int DISTANCE = 6;
+
+		{
+			type = buffType.POSITIVE;
+		}
+
+		@Override
+		public boolean attachTo(Char target) {
+			if (super.attachTo(target)){
+				//this way we get a nice VFX sweep on initial activation
+				if (target == Dungeon.hero){
+					Dungeon.level.mapped[target.pos] = false;
+					Dungeon.hero.search(false);
+				}
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 	}
 }
