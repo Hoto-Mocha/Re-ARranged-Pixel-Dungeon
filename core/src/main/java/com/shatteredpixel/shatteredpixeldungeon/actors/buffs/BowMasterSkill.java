@@ -58,11 +58,7 @@ public class BowMasterSkill extends Buff implements ActionIndicator.Action {
     }
 
     private String descString() {
-        String str = 2*charge + "+" + Messages.decimalFormat("#", ((float)Math.pow(dmgMulti(), charge)-1)*100) + "%";
-        if (isPowerShot()) {
-            str += "+" + Messages.decimalFormat("#",powerShotMulti() * 100) + "%";
-        }
-        return str;
+        return 2*charge + "+" + Messages.decimalFormat("#", ((float)(Math.pow(dmgMulti(), charge)-1) + (isPowerShot() ? powerShotMulti() : 0))*100) + "%";
     }
 
     @Override
