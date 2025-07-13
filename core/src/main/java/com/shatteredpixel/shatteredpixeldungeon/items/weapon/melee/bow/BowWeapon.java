@@ -5,7 +5,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArrowEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BowMasterSkill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -199,6 +199,12 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
+            if (attacker == Dungeon.hero && BowMasterSkill.isFastShot((Hero) attacker)) {
+                damage = Math.round(damage * BowMasterSkill.fastShotDamageMultiplier((Hero) attacker));
+            }
+            if (attacker == Dungeon.hero && attacker.buff(BowMasterSkill.class) != null) {
+                damage = attacker.buff(BowMasterSkill.class).proc(damage);
+            }
             return BowWeapon.this.arrowProc(attacker, defender, damage);
         }
 
@@ -240,11 +246,18 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public float delayFactor(Char owner) {
+            if (owner == Dungeon.hero && BowMasterSkill.isFastShot((Hero)owner)) {
+                return 0;
+            }
             return BowWeapon.this.delayFactor(owner);
         }
 
         @Override
         public float accuracyFactor(Char owner, Char target) {
+            if (owner == Dungeon.hero && owner.buff(BowMasterSkill.class) != null && owner.buff(BowMasterSkill.class).isPowerShot()) {
+                return Hero.INFINITE_ACCURACY;
+            }
+
             return BowWeapon.this.accuracyFactor(owner, target);
         }
 
@@ -299,7 +312,12 @@ public class BowWeapon extends MeleeWeapon {
                 Buff.affect(Dungeon.hero, BowFatigue.class).countUp(1);
             }
             if (Dungeon.hero.subClass == HeroSubClass.BOWMASTER) {
-                Buff.affect(Dungeon.hero, ArrowEmpower.class).shoot();
+                Buff.affect(Dungeon.hero, BowMasterSkill.class).shoot();
+            }
+            if (Dungeon.hero.hasTalent(Talent.SPECTRE_ARROW)) {
+                if (Random.Float() < Dungeon.hero.pointsInTalent(Talent.SPECTRE_ARROW)/6f) {
+                    Dungeon.bullet++;
+                }
             }
 
             updateQuickslot();

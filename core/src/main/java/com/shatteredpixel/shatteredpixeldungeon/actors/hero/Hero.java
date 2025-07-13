@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SacrificialFire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArmorEnhance;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BowMasterSkill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awakening;
@@ -994,6 +995,8 @@ public class Hero extends Char {
 				speed *= 1 + 0.05f * hero.pointsInTalent(Talent.LIGHT_MOVEMENT) * (-aEnc);
 			}
 		}
+
+		speed *= BowMasterSkill.speedBoost(hero);
 
 		speed = AscensionChallenge.modifyHeroSpeed(speed);
 		
@@ -2714,6 +2717,10 @@ public class Hero extends Char {
 
 			if (hero.hasTalent(Talent.MIND_VISION) && Random.Float() < 0.01f*hero.pointsInTalent(Talent.MIND_VISION)) {
 				Buff.affect(this, MindVision.class, 1f);
+			}
+
+			if (hero.hasTalent(Talent.MOVING_FOCUS) && hero.buff(BowMasterSkill.class) != null && !hero.buff(BowMasterSkill.class).isMoved()) {
+				hero.buff(BowMasterSkill.class).moveCharge(Math.max(0, hero.pointsInTalent(Talent.MOVING_FOCUS)-1));
 			}
 			
 			sprite.move(pos, step);

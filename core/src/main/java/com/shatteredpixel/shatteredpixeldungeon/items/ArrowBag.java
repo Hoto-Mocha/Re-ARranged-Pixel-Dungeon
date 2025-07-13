@@ -5,6 +5,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
@@ -258,7 +259,7 @@ public class ArrowBag extends Item {
                     upgrade();
                 } else {
                     potion = (Potion)item;
-                    uses = Math.max(1, Math.round(((Potion)item).talentFactor()*(12 + 6 * level())));
+                    uses = Math.max(1, Math.round(((Potion)item).talentFactor()*(12 + 6 * (level() + Dungeon.hero.pointsInTalent(Talent.BOTTLE_EXPANSION)))));
                 }
 
                 Dungeon.hero.sprite.operate(Dungeon.hero.pos);

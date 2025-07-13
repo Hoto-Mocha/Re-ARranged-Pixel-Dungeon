@@ -1907,7 +1907,7 @@ public enum Talent {
 		}
 
 		if (hero.hasTalent(Talent.FIGHTING_MEAL)) {
-			Buff.affect(hero, Adrenaline.class, 1+2*hero.pointsInTalent(Talent.FIGHTING_MEAL));
+			Buff.affect(hero, Adrenaline.class, 1+hero.pointsInTalent(Talent.FIGHTING_MEAL));
 		}
 	}
 
