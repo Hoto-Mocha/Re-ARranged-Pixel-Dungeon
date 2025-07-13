@@ -1834,6 +1834,12 @@ public class Hero extends Char {
 			chance += Math.max(0, (0.02f + 0.005f*pointsInTalent(Talent.WEAPON_MASTERY)) * (STR() - wep.STRReq()));
 		}
 
+		if (heroClass == HeroClass.ARCHER && wep instanceof MissileWeapon) {
+			chance = 0.03f;
+			chance += 0.03f*(lvl-1);
+			chance += Math.max(0, 0.03f*(STR()-wep.STRReq()));
+		}
+
 		if (buff(Sheath.CertainCrit.class) != null) {
 			chance += 1f;
 		}

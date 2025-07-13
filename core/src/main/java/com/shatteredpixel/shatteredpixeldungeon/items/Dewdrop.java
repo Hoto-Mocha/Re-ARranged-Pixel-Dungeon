@@ -72,6 +72,10 @@ public class Dewdrop extends Item {
 			}
 			
 		}
+
+		if (hero.hasTalent(Talent.SURVIVAL_TECHNIQUE)) {
+			Buff.affect(hero, Barrier.class).setShield(2+3*hero.pointsInTalent(Talent.SURVIVAL_TECHNIQUE));
+		}
 		
 		Sample.INSTANCE.play( Assets.Sounds.DEWDROP );
 		hero.spendAndNext( TIME_TO_PICK_UP );

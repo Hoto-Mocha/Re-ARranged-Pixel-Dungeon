@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -175,7 +176,9 @@ public class HighGrass {
 				}
 			}
 
-
+			if (ch instanceof Hero && Dungeon.hero.hasTalent(Talent.NATURE_FRIENDLY)) {
+				Barkskin.conditionallyAppend(hero, 1+2*Dungeon.hero.pointsInTalent(Talent.NATURE_FRIENDLY), 3);
+			}
 		}
 		
 		freezeTrample = false;

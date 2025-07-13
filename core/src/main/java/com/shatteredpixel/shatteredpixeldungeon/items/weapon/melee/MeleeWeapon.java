@@ -40,9 +40,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.HolyWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
@@ -54,6 +56,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.BowWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -113,7 +117,7 @@ public class MeleeWeapon extends Weapon {
 		if (isEquipped(hero) && hero.heroClass == HeroClass.DUELIST){
 			actions.add(AC_ABILITY);
 		}
-		if (!isEquipped(hero) && hero.heroClass == HeroClass.GUNNER) {
+		if (!isEquipped(hero) && (hero.heroClass == HeroClass.GUNNER || hero.heroClass == HeroClass.ARCHER)) {
 			actions.add(AC_SCRAP);
 		}
 		return actions;
@@ -179,60 +183,76 @@ public class MeleeWeapon extends Weapon {
 			}
 		}
 		if (action.equals(AC_SCRAP)) {
-			Game.runOnRenderThread(new Callback() {
-				@Override
-				public void call() {
-					int level = MeleeWeapon.this.isIdentified() ? MeleeWeapon.this.level() : 0;
-					final int amount = Math.round(5 * (MeleeWeapon.this.tier+1) * (float)Math.pow(2, Math.min(3, level)));
-					GameScene.show(
-							new WndOptions( new ItemSprite(MeleeWeapon.this),
-									Messages.get(MeleeWeapon.class, "scrap_title"),
-									Messages.get(MeleeWeapon.class, "scrap_desc", amount),
-									Messages.get(MeleeWeapon.class, "scrap_yes"),
-									Messages.get(MeleeWeapon.class, "scrap_no") ) {
+			if (hero.heroClass == HeroClass.GUNNER) {
+				Game.runOnRenderThread(new Callback() {
+					@Override
+					public void call() {
+						int level = MeleeWeapon.this.isIdentified() ? MeleeWeapon.this.level() : 0;
+						final int amount = Math.round(5 * (MeleeWeapon.this.tier+1) * (float)Math.pow(2, Math.min(3, level)));
+						GameScene.show(
+								new WndOptions( new ItemSprite(MeleeWeapon.this),
+										Messages.get(MeleeWeapon.class, "scrap_title"),
+										Messages.get(MeleeWeapon.class, "scrap_desc", amount),
+										Messages.get(MeleeWeapon.class, "scrap_yes"),
+										Messages.get(MeleeWeapon.class, "scrap_no") ) {
 
-								private float elapsed = 0f;
+									private float elapsed = 0f;
 
-								@Override
-								public synchronized void update() {
-									super.update();
-									elapsed += Game.elapsed;
-								}
-
-								@Override
-								public void hide() {
-									if (elapsed > 0.2f){
-										super.hide();
+									@Override
+									public synchronized void update() {
+										super.update();
+										elapsed += Game.elapsed;
 									}
-								}
 
-								@Override
-								protected void onSelect( int index ) {
-									if (index == 0 && elapsed > 0.2f) {
-										LiquidMetal metal = new LiquidMetal();
-
-										metal.quantity(amount);
-										if (!metal.doPickUp(hero)) {
-											Dungeon.level.drop( metal, hero.pos ).sprite.drop();
+									@Override
+									public void hide() {
+										if (elapsed > 0.2f){
+											super.hide();
 										}
+									}
 
-										EnergyCrystal crystal = new EnergyCrystal();
-										crystal.quantity(Random.IntRange(1, 2));
-										crystal.doPickUp(hero);
+									@Override
+									protected void onSelect( int index ) {
+										if (index == 0 && elapsed > 0.2f) {
+											LiquidMetal metal = new LiquidMetal();
 
-										MeleeWeapon.this.detach(hero.belongings.backpack);
+											metal.quantity(amount);
+											if (!metal.doPickUp(hero)) {
+												Dungeon.level.drop( metal, hero.pos ).sprite.drop();
+											}
 
-										hero.sprite.operate(hero.pos);
-										GLog.p(Messages.get(MeleeWeapon.class, "scrap", amount));
-										Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
+											EnergyCrystal crystal = new EnergyCrystal();
+											crystal.quantity(Random.IntRange(1, 2));
+											crystal.doPickUp(hero);
 
-										updateQuickslot();
+											MeleeWeapon.this.detach(hero.belongings.backpack);
+
+											hero.sprite.operate(hero.pos);
+											GLog.p(Messages.get(MeleeWeapon.class, "scrap", amount));
+											Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
+
+											updateQuickslot();
+										}
 									}
 								}
-						}
-					);
+						);
+					}
+				});
+			} else if (hero.heroClass == HeroClass.ARCHER) {
+				detach(hero.belongings.backpack);
+				hero.sprite.operate(hero.pos);
+				Sample.INSTANCE.play(Assets.Sounds.EVOKE);
+				CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
+				GLog.p(Messages.get(this, "scrap_archer"));
+				MissileWeapon result = Generator.randomMissile(true);
+				result.quantity(1);
+				if (!result.doPickUp(hero, hero.pos)) {
+					GLog.i(Messages.get(Dungeon.hero, "you_now_have", result.name()));
+					hero.spend(-1);
+					Dungeon.level.drop(result, hero.pos).sprite.drop();
 				}
-			});
+				updateQuickslot();
+			}
 		}
 	}
 

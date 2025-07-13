@@ -78,7 +78,6 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.TempleCenterItemRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
@@ -525,6 +524,27 @@ public class GameScene extends PixelScene {
 				Random.pushGenerator(Dungeon.seedCurDepth()+1);
 					if (reqSecrets <= 0 && Random.Int(4) < 2+Dungeon.hero.pointsInTalent(Talent.ROGUES_FORESIGHT)){
 						GLog.p(Messages.get(this, "secret_hint"));
+					}
+				Random.popGenerator();
+			}
+
+			if (Dungeon.hero.hasTalent(Talent.ARCHERS_FORESIGHT)
+					&& Dungeon.level instanceof RegularLevel && Dungeon.branch == 0){
+				int length = Dungeon.level.length();
+				boolean[] mapped = Dungeon.level.mapped;
+
+				for (int i=0; i < length; i++) {
+					Trap trap = Dungeon.level.traps.get( i );
+					if (trap != null) {
+						mapped[i] = true;
+						Dungeon.level.discover( i );
+					}
+				}
+				GameScene.updateFog();
+
+				Random.pushGenerator(Dungeon.seedCurDepth()+1);
+					if (Random.Float() < 0.5f+0.25f*Dungeon.hero.pointsInTalent(Talent.ARCHERS_FORESIGHT)){
+						GLog.p(Messages.get(this, "trap_discover"));
 					}
 				Random.popGenerator();
 			}

@@ -5,10 +5,13 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArrowEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArrowBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArrowItem;
@@ -74,14 +77,13 @@ public class BowWeapon extends MeleeWeapon {
 
     public int arrowMax(int lvl) {
         if (Dungeon.hero != null) {
-            return 3*(tier()+1)
+            return 4*(tier()+1)
                     + lvl*(tier()+1)
                     + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         } else {
-            return 3*(tier()+1) +
+            return 4*(tier()+1) +
                     lvl*(tier()+1);
         }
-
     }
 
     public int arrowMax() {
@@ -100,7 +102,7 @@ public class BowWeapon extends MeleeWeapon {
         //적과 근접한 상태에서 공격 시 40% 확률로, 혹은 기습 공격 시 적을 2타일 밀쳐냄
         if (Dungeon.level.adjacent(attacker.pos, defender.pos)
                 && ((defender instanceof Mob && ((Mob) defender).surprisedBy(attacker)) || Random.Float() < 0.4f)) {
-            pushEnemy(this, attacker, defender, 2);
+            pushEnemy(this, attacker, defender, 2 + Dungeon.hero.pointsInTalent(Talent.PUSHBACK));
         }
         return super.proc(attacker, defender, damage);
     }
@@ -251,12 +253,16 @@ public class BowWeapon extends MeleeWeapon {
             return BowWeapon.this.STRReq();
         }
 
+        private float arrowPinChance() {
+            return 0.25f + 0.125f*Dungeon.hero.pointsInTalent(Talent.DEXTERITY);
+        }
+
         @Override
         protected void onThrow(int cell) {
             Char enemy = Actor.findChar( cell );
             if (enemy != null && !(enemy instanceof Hero)) {
                 if (curUser.shoot( enemy, this )) {
-                    if (Random.Float() < 0.25f) {
+                    if (Random.Float() < arrowPinChance()) {
                         if (enemy.isAlive()) {
                             Buff.affect(enemy, ArrowAttached.class).hit();
                         } else {
@@ -264,14 +270,14 @@ public class BowWeapon extends MeleeWeapon {
                         }
                     }
                 } else {
-                    if (Random.Float() < 0.25f) {
+                    if (Random.Float() < arrowPinChance()) {
                         dropArrow(cell);
                     }
                 }
             }
 
             if (enemy == null || enemy instanceof Hero) {
-                if (Random.Float() < 0.25f) {
+                if (Random.Float() < arrowPinChance()) {
                     dropArrow(cell);
                 }
             }
@@ -289,8 +295,12 @@ public class BowWeapon extends MeleeWeapon {
             if (Dungeon.hero.buff(PenetrationShotBuff.class) != null) {
                 Dungeon.hero.buff(PenetrationShotBuff.class).detach();
             }
-
-            Buff.affect(Dungeon.hero, BowFatigue.class).countUp(1);
+            if (Dungeon.hero.subClass != HeroSubClass.BOWMASTER) {
+                Buff.affect(Dungeon.hero, BowFatigue.class).countUp(1);
+            }
+            if (Dungeon.hero.subClass == HeroSubClass.BOWMASTER) {
+                Buff.affect(Dungeon.hero, ArrowEmpower.class).shoot();
+            }
 
             updateQuickslot();
         }
