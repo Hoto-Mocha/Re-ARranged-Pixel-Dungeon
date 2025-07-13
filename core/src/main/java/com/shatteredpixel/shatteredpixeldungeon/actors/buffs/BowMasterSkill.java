@@ -58,7 +58,7 @@ public class BowMasterSkill extends Buff implements ActionIndicator.Action {
     }
 
     private String descString() {
-        String str = 2*charge + "+" + Messages.decimalFormat("#", ((float)Math.pow(1.1f, charge)-1)*100) + "%";
+        String str = 2*charge + "+" + Messages.decimalFormat("#", ((float)Math.pow(dmgMulti(), charge)-1)*100) + "%";
         if (isPowerShot()) {
             str += "+" + Messages.decimalFormat("#",powerShotMulti() * 100) + "%";
         }
@@ -92,10 +92,12 @@ public class BowMasterSkill extends Buff implements ActionIndicator.Action {
             this.shoot = true;
             return;
         }
-        if (charge < 0 && Random.Float() < 0.8f) {
-            return;
-        } else {
-            charge = 0;
+        if (charge < 0) {
+            if (Random.Float() < 0.8f) {
+                return;
+            } else {
+                charge = 0;
+            }
         }
 
         this.moved = true;
@@ -119,8 +121,12 @@ public class BowMasterSkill extends Buff implements ActionIndicator.Action {
         return 1f;
     }
 
+    private float dmgMulti() {
+        return 1.05f;
+    }
+
     public int proc(int damage) {
-        float result = damage * (float)Math.pow(1.1f, charge) + 2*charge;
+        float result = damage * (float)Math.pow(dmgMulti(), charge) + 2*charge;
         if (isPowerShot()) {
             result += damage * powerShotMulti();
         }

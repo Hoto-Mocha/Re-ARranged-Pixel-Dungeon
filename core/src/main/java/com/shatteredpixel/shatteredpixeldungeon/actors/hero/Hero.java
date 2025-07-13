@@ -2720,7 +2720,7 @@ public class Hero extends Char {
 			}
 
 			if (hero.hasTalent(Talent.MOVING_FOCUS) && hero.buff(BowMasterSkill.class) != null && !hero.buff(BowMasterSkill.class).isMoved()) {
-				hero.buff(BowMasterSkill.class).moveCharge(Math.max(0, hero.pointsInTalent(Talent.MOVING_FOCUS)-1));
+				hero.buff(BowMasterSkill.class).moveCharge(Math.max(-1, hero.pointsInTalent(Talent.MOVING_FOCUS)-2));
 			}
 			
 			sprite.move(pos, step);
