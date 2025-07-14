@@ -2,9 +2,14 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.items.ArrowItem;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.Bow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.BowWeapon;
@@ -12,10 +17,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.GreatBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.LongBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.ShortBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.WornShortBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
@@ -23,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -44,19 +52,25 @@ public class Juggling extends Buff implements ActionIndicator.Action {
         return 3 + hero.pointsInTalent(Talent.SKILLFUL_JUGGLING);
     }
 
-    public void juggle(Hero hero, MissileWeapon wep) {
+    public void juggle(Hero hero, MissileWeapon wep, boolean useTurn) {
         weapons.offer(wep);
         if (weapons.size() > (maxWeapons(hero))) {
             MissileWeapon polled = weapons.poll();
             if (polled != null) {
-                polled.doPickUp(hero, hero.pos);
+                if (polled instanceof BowWeapon.Arrow) {
+                    new ArrowItem().doPickUp(hero, hero.pos);
+                } else {
+                    polled.doPickUp(hero, hero.pos);
+                }
                 GLog.i(Messages.get(hero, "you_now_have", polled.name()));
             }
             hero.spend(-1);
         }
         hero.sprite.zap(hero.pos);
         Sample.INSTANCE.play(Assets.Sounds.MISS);
-        hero.spendAndNext(Math.max(0, 1f - hero.pointsInTalent(Talent.SWIFT_JUGGLING)/3f));
+        if (useTurn) {
+            hero.spendAndNext(Math.max(0, 1f - hero.pointsInTalent(Talent.SWIFT_JUGGLING)/3f));
+        }
 
         ActionIndicator.setAction(this);
     }
@@ -136,11 +150,7 @@ public class Juggling extends Buff implements ActionIndicator.Action {
                 weapons.add((MissileWeapon) item);
             }
         }
-        if (weapons.isEmpty()) {
-            detach();
-        } else {
-            ActionIndicator.setAction(this);
-        }
+        ActionIndicator.setAction(this);
     }
 
     private final CellSelector.Listener listener = new CellSelector.Listener() {
@@ -172,36 +182,43 @@ public class Juggling extends Buff implements ActionIndicator.Action {
         }
     };
 
+    public static BowWeapon getBow() {
+        BowWeapon bow;
+        if (!(Dungeon.hero.belongings.weapon instanceof BowWeapon)) {
+            switch (Dungeon.scalingDepth()/5+1) {
+                case 1: default:
+                    bow = new WornShortBow();
+                    break;
+                case 2:
+                    bow = new ShortBow();
+                    break;
+                case 3:
+                    bow = new Bow();
+                    break;
+                case 4:
+                    bow = new LongBow();
+                    break;
+                case 5:
+                case 6:
+                    bow = new GreatBow();
+                    break;
+            }
+        } else {
+            bow = (BowWeapon) Dungeon.hero.belongings.weapon;
+        }
+        return bow;
+    }
+
     public static void kill() {
         if (Dungeon.hero.subClass == HeroSubClass.JUGGLER && Dungeon.bullet > 1 && Dungeon.hero.hasTalent(Talent.HABITUAL_HAND)) {
-            BowWeapon bow;
-            if (!(Dungeon.hero.belongings.weapon instanceof BowWeapon)) {
-                switch (Dungeon.scalingDepth()/5+1) {
-                    case 1: default:
-                        bow = new WornShortBow();
-                        break;
-                    case 2:
-                        bow = new ShortBow();
-                        break;
-                    case 3:
-                        bow = new Bow();
-                        break;
-                    case 4:
-                        bow = new LongBow();
-                        break;
-                    case 5:
-                    case 6:
-                        bow = new GreatBow();
-                        break;
-                }
-            } else {
-                bow = (BowWeapon) Dungeon.hero.belongings.weapon;
-            }
             for (int i = 0; i < Dungeon.hero.pointsInTalent(Talent.HABITUAL_HAND); i++) {
                 if (Dungeon.bullet <= 0) break;
-                Buff.affect(Dungeon.hero, Juggling.class).juggle(Dungeon.hero, bow.knockArrow());
+                BowWeapon.Arrow arrow = getBow().knockArrow();
+                arrow.useBullet = false;
+                Buff.affect(Dungeon.hero, Juggling.class).juggle(Dungeon.hero, arrow, false);
                 Dungeon.bullet--;
             }
+            Item.updateQuickslot();
         }
     }
 

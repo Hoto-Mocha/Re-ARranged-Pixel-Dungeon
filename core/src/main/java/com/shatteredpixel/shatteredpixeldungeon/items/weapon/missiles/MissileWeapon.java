@@ -583,7 +583,7 @@ abstract public class MissileWeapon extends Weapon {
 				this.detach(hero.belongings.backpack);
 			}
 			if (i instanceof MissileWeapon) {
-				Buff.affect(hero, Juggling.class).juggle(hero, (MissileWeapon) i);
+				Buff.affect(hero, Juggling.class).juggle(hero, (MissileWeapon) i, true);
 			}
 			updateQuickslot();
 		}

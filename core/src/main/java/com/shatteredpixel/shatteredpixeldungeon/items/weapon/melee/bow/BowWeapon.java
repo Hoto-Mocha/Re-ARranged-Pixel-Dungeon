@@ -182,7 +182,9 @@ public class BowWeapon extends MeleeWeapon {
     }
 
     public Arrow knockArrow(){
-        return new Arrow();
+        Arrow arrow = new Arrow();
+        arrow.reset(this);
+        return arrow;
     }
 
     @Override
@@ -190,12 +192,36 @@ public class BowWeapon extends MeleeWeapon {
         return knockArrow().targetingPos(user, dst);
     }
 
-    public class Arrow extends DisposableMissileWeapon {
+    public static class Arrow extends DisposableMissileWeapon {
         {
             image = ItemSpriteSheet.NORMAL_ARROW;
-            tier = BowWeapon.this.tier();
             hitSound = Assets.Sounds.HIT_ARROW;
         }
+
+        private BowWeapon arrowFrom;
+
+        private static final String ARROW_FROM = "arrowFrom";
+
+        @Override
+        public void storeInBundle(Bundle bundle) {
+            super.storeInBundle(bundle);
+
+            bundle.put(ARROW_FROM, arrowFrom);
+        }
+
+        @Override
+        public void restoreFromBundle(Bundle bundle) {
+            super.restoreFromBundle(bundle);
+
+            arrowFrom = (BowWeapon) bundle.get(ARROW_FROM);
+        }
+
+        public void reset(BowWeapon bow) {
+            arrowFrom = bow;
+            this.tier = bow.tier();
+        }
+
+        public boolean useBullet = false;
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
@@ -205,26 +231,26 @@ public class BowWeapon extends MeleeWeapon {
             if (attacker == Dungeon.hero && attacker.buff(BowMasterSkill.class) != null) {
                 damage = attacker.buff(BowMasterSkill.class).proc(damage);
             }
-            return BowWeapon.this.arrowProc(attacker, defender, damage);
+            return arrowFrom.arrowProc(attacker, defender, damage);
         }
 
         @Override
         public int buffedLvl(){
-            return BowWeapon.this.buffedLvl();
+            return arrowFrom.buffedLvl();
         }
 
         @Override
         public int damageRoll(Char owner) {
-            int damage = arrowDamage();
+            int damage = arrowFrom.arrowDamage();
             if (owner instanceof Hero) {
                 Hero hero = (Hero)owner;
                 Char enemy = hero.attackTarget();
                 if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
                     //deals 50% toward max to max on surprise, instead of min to max.
-                    int diff = arrowMax() - arrowMin();
+                    int diff = arrowFrom.arrowMax() - arrowFrom.arrowMin();
                     damage = augment.damageFactor(Hero.heroDamageIntRange(
-                            arrowMin() + Math.round(diff*(3/(3f+tier))), //75%, 60%, 50%, 43%, 38% toward max
-                            arrowMax()));
+                            arrowFrom.arrowMin() + Math.round(diff*(3/(3f+tier))), //75%, 60%, 50%, 43%, 38% toward max
+                            arrowFrom.arrowMax()));
                     int exStr = hero.STR() - STRReq();
                     if (exStr > 0) {
                         damage += Hero.heroDamageIntRange(0, exStr);
@@ -241,7 +267,7 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-            return BowWeapon.this.hasEnchant(type, owner);
+            return arrowFrom.hasEnchant(type, owner);
         }
 
         @Override
@@ -249,7 +275,7 @@ public class BowWeapon extends MeleeWeapon {
             if (owner == Dungeon.hero && BowMasterSkill.isFastShot((Hero)owner)) {
                 return 0;
             }
-            return BowWeapon.this.delayFactor(owner);
+            return arrowFrom.delayFactor(owner);
         }
 
         @Override
@@ -258,12 +284,12 @@ public class BowWeapon extends MeleeWeapon {
                 return Hero.INFINITE_ACCURACY;
             }
 
-            return BowWeapon.this.accuracyFactor(owner, target);
+            return arrowFrom.accuracyFactor(owner, target);
         }
 
         @Override
         public int STRReq() {
-            return BowWeapon.this.STRReq();
+            return arrowFrom.STRReq();
         }
 
         private float arrowPinChance() {
@@ -303,7 +329,7 @@ public class BowWeapon extends MeleeWeapon {
         }
 
         public void onShoot() {
-            Dungeon.bullet--;
+            if (useBullet) Dungeon.bullet--;
 
             if (Dungeon.hero.buff(PenetrationShotBuff.class) != null) {
                 Dungeon.hero.buff(PenetrationShotBuff.class).detach();
@@ -315,7 +341,7 @@ public class BowWeapon extends MeleeWeapon {
                 Buff.affect(Dungeon.hero, BowMasterSkill.class).shoot();
             }
             if (Dungeon.hero.hasTalent(Talent.SPECTRE_ARROW)) {
-                if (Random.Float() < Dungeon.hero.pointsInTalent(Talent.SPECTRE_ARROW)/6f) {
+                if (Random.Float() < Dungeon.hero.pointsInTalent(Talent.SPECTRE_ARROW)/6f && useBullet) {
                     Dungeon.bullet++;
                 }
             }
