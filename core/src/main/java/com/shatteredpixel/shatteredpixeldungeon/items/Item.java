@@ -698,7 +698,7 @@ public class Item implements Bundlable {
 		}
 	}
 	
-	public void cast( final Hero user, final int dst, boolean detach, int turnsUse ) {
+	public void cast( final Hero user, final int dst, boolean detach, int turnsUse, Callback callback ) {
 
 		final int cell = throwPos( user, dst );
 		user.sprite.zap( cell );
@@ -742,6 +742,7 @@ public class Item implements Bundlable {
 							} else {
 								user.spendAndNext(delay);
 							}
+							callback.call();
 						}
 					});
 		} else {
@@ -762,6 +763,7 @@ public class Item implements Bundlable {
 							user.spend(delay);
 							if (i != null) i.onThrow(cell);
 							user.next();
+							callback.call();
 						}
 					});
 		}
