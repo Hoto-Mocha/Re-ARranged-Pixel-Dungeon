@@ -71,6 +71,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invulnerability;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Juggling;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Levitation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalCombo;
@@ -674,6 +675,8 @@ public class Hero extends Char {
 		if (hero.buff(Sheath.Sheathing.class) != null) {
 			accuracy *= 1.2f;
 		}
+
+		accuracy *= Juggling.accuracyFactor(this);
 
 		if (hero.buff(UnholyBible.Demon.class) != null) {
 			accuracy = INFINITE_ACCURACY;

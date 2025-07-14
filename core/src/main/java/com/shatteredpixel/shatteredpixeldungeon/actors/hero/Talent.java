@@ -44,7 +44,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GreaterHaste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
@@ -745,11 +744,11 @@ public enum Talent {
 
 	//Juggler T3
 	HABITUAL_HAND				(19, 11, 3),
-	PERFECT_THROW				(20, 11, 3),
+	SWIFT_JUGGLING				(20, 11, 3),
 	SKILLFUL_JUGGLING			(21, 11, 3),
 	FOCUS_MAINTAIN				(22, 11, 3),
 	CLEANING_UP					(23, 11, 3),
-	FREE_HAND					(24, 11, 3),
+	THOROUGH_TREATMENT			(24, 11, 3),
 
 	//SharpShooter T3
 	STRONG_BOWSTRING			(25, 11, 3),
@@ -2984,7 +2983,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, FASTSHOT, EXPANDED_POWER, MOVING_FOCUS, BOTTLE_EXPANSION, SPECTRE_ARROW, UNENCUMBERED_STEP);
 				break;
 			case JUGGLER:
-				Collections.addAll(tierTalents, HABITUAL_HAND, PERFECT_THROW, SKILLFUL_JUGGLING, FOCUS_MAINTAIN, CLEANING_UP, FREE_HAND);
+				Collections.addAll(tierTalents, HABITUAL_HAND, SWIFT_JUGGLING, SKILLFUL_JUGGLING, FOCUS_MAINTAIN, CLEANING_UP, THOROUGH_TREATMENT);
 				break;
 			case SHARPSHOOTER:
 				Collections.addAll(tierTalents, STRONG_BOWSTRING, RECOIL_CONTROL, QUICK_HAND, MULTIPLE_HOMING, ACCURATE_HEADSHOT, KINETIC_FIRE);
