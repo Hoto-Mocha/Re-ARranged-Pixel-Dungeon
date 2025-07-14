@@ -215,7 +215,7 @@ public class HeroIcon extends Image {
 //	public static final int 				= 143;
 
 	public static final int POWER_SHOT		= 144;
-//	public static final int 				= 145;
+	public static final int JUGGLING		= 145;
 //	public static final int 				= 146;
 //	public static final int 				= 147;
 

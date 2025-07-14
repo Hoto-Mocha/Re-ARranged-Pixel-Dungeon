@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GreaterHaste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HorseRiding;
@@ -2545,10 +2546,18 @@ public enum Talent {
 			hero.buff(ForceSavingTracker.class).detach();
 		}
 
-		if (enemy instanceof Mob && enemy.buff(SurprisePanicTracker.class) == null) {
+		if (enemy instanceof Mob && enemy.buff(SurprisePanicTracker.class) == null && hero.hasTalent(Talent.SURPRISE_PANIC)) {
 			if (((Mob)enemy).surprisedBy(hero)) {
-				Buff.affect(enemy, Terror.class, 1f);
-				Buff.affect(enemy, GreaterHaste.class).set(1+hero.pointsInTalent(Talent.SURPRISE_PANIC));
+				new FlavourBuff() {
+					{
+						actPriority = VFX_PRIO;
+					}
+
+					public boolean act() {
+						Buff.affect(target, Terror.class, 1+2*hero.pointsInTalent(Talent.SURPRISE_PANIC));
+						return super.act();
+					}
+				}.attachTo(enemy);
 			}
 			Buff.affect(enemy, SurprisePanicTracker.class);
 		}

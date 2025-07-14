@@ -720,6 +720,16 @@ public class Gun extends MeleeWeapon {
 		}
 
 		@Override
+		public float castDelay(Char user, int dst) {
+			if (hero.subClass == HeroSubClass.GUNSLINGER) {
+				if (user instanceof Hero && ((Hero) user).justMoved)  return 0;
+				else                                                  return delayFactor( user );
+			} else {
+				return delayFactor(user);
+			}
+		}
+
+		@Override
 		public float accuracyFactor(Char owner, Char target) {
 			float ACC = super.accuracyFactor(owner, target);
 			ACC *= shootingAccuracy;

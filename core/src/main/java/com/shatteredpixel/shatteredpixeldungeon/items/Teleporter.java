@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DistortionTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.SummoningTrap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -396,15 +397,34 @@ public class Teleporter extends Item {
 //            }
 
             //사원으로 이동
-            InterlevelScene.mode = InterlevelScene.Mode.RETURN;
-            InterlevelScene.returnDepth = 14;
-            InterlevelScene.returnBranch = 2;
-            InterlevelScene.returnPos = -2;
-            Game.switchScene( InterlevelScene.class );
+//            InterlevelScene.mode = InterlevelScene.Mode.RETURN;
+//            InterlevelScene.returnDepth = 14;
+//            InterlevelScene.returnBranch = 2;
+//            InterlevelScene.returnPos = -2;
+//            Game.switchScene( InterlevelScene.class );
 
-//            Dungeon.hero.HP = 1;
+            GameScene.selectCell(listener);
+
         }
     }
+
+    CellSelector.Listener listener = new CellSelector.Listener() {
+
+        @Override
+        public void onSelect(Integer cell) {
+            if (cell != null) {
+                Heap h = Dungeon.level.heaps.get(cell);
+
+                Item item = h.peek();
+                GLog.i(item.toString());
+            }
+        }
+
+        @Override
+        public String prompt() {
+            return "test";
+        }
+    };
 
     @Override
     public boolean isIdentified() {

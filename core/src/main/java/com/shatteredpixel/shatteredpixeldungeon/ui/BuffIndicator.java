@@ -168,6 +168,7 @@ public class BuffIndicator extends Component {
 	public static final int HOLY_MANTLE	= 163;
 	public static final int ARROW_ATTACHED	= 164;
 	public static final int ARROW_EMPOWER	= 165;
+	public static final int JUGGLING	= 166;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

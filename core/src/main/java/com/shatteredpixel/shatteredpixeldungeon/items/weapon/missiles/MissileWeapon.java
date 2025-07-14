@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Juggling;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
@@ -167,6 +168,9 @@ abstract public class MissileWeapon extends Weapon {
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
 		actions.remove( AC_EQUIP );
+		if (Dungeon.hero.subClass == HeroSubClass.JUGGLER && this.STRReq() <= Dungeon.hero.STR()) {
+			actions.add(AC_JUGGLE);
+		}
 		return actions;
 	}
 	
@@ -324,12 +328,7 @@ abstract public class MissileWeapon extends Weapon {
 	
 	@Override
 	public float castDelay(Char user, int dst) {
-		if (hero.subClass == HeroSubClass.GUNSLINGER) {
-			if (user instanceof Hero && ((Hero) user).justMoved)  return 0;
-			else                                                  return delayFactor( user );
-		} else {
-			return delayFactor( user );
-		}
+		return delayFactor( user );
 	}
 	
 	protected void rangedHit( Char enemy, int cell ){
@@ -559,6 +558,35 @@ abstract public class MissileWeapon extends Weapon {
 		bundleRestoring = false;
 		spawnedForEffect = bundle.getBoolean(SPAWNED);
 		durability = bundle.getFloat(DURABILITY);
+	}
+
+	public static final String AC_JUGGLE		= "JUGGLE";
+
+	@Override
+	public String defaultAction() {
+		if (Dungeon.hero.subClass == HeroSubClass.JUGGLER && this.STRReq() <= Dungeon.hero.STR()) {
+			usesTargeting = false;
+			return AC_JUGGLE;
+		} else {
+			usesTargeting = true;
+			return super.defaultAction();
+		}
+	}
+
+	@Override
+	public void execute(Hero hero, String action) {
+		super.execute(hero, action);
+		if (action.equals(AC_JUGGLE)) {
+			Item i = this.split(1);
+			if (i == null) {
+				i = this;
+				this.detach(hero.belongings.backpack);
+			}
+			if (i instanceof MissileWeapon) {
+				Buff.affect(hero, Juggling.class).juggle(hero, (MissileWeapon) i);
+			}
+			updateQuickslot();
+		}
 	}
 
 	public static class PlaceHolder extends MissileWeapon {

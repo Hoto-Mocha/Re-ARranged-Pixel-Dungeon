@@ -698,6 +698,76 @@ public class Item implements Bundlable {
 		}
 	}
 	
+	public void cast( final Hero user, final int dst, boolean detach, int turnsUse ) {
+
+		final int cell = throwPos( user, dst );
+		user.sprite.zap( cell );
+		user.busy();
+
+		throwSound();
+
+		Char enemy = Actor.findChar( cell );
+		QuickSlotButton.target(enemy);
+
+		final float delay = turnsUse;
+
+		if (enemy != null) {
+			((MissileSprite) user.sprite.parent.recycle(MissileSprite.class)).
+					reset(user.sprite,
+							enemy.sprite,
+							this,
+							new Callback() {
+						@Override
+						public void call() {
+							curUser = user;
+							Item i;
+							if (detach) {
+								i = Item.this.detach(user.belongings.backpack);
+							} else {
+								i = Item.this;
+							}
+							if (i != null) i.onThrow(cell);
+							if (curUser.hasTalent(Talent.IMPROVISED_PROJECTILES)
+									&& !(Item.this instanceof MissileWeapon)
+									&& curUser.buff(Talent.ImprovisedProjectileCooldown.class) == null){
+								if (enemy != null && enemy.alignment != curUser.alignment){
+									Sample.INSTANCE.play(Assets.Sounds.HIT);
+									Buff.affect(enemy, Blindness.class, 1f + curUser.pointsInTalent(Talent.IMPROVISED_PROJECTILES));
+									Buff.affect(curUser, Talent.ImprovisedProjectileCooldown.class, 50f);
+								}
+							}
+							if (user.buff(Talent.LethalMomentumTracker.class) != null){
+								user.buff(Talent.LethalMomentumTracker.class).detach();
+								user.next();
+							} else {
+								user.spendAndNext(delay);
+							}
+						}
+					});
+		} else {
+			((MissileSprite) user.sprite.parent.recycle(MissileSprite.class)).
+					reset(user.sprite,
+							cell,
+							this,
+							new Callback() {
+						@Override
+						public void call() {
+							curUser = user;
+							Item i;
+							if (detach) {
+								i = Item.this.detach(user.belongings.backpack);
+							} else {
+								i = Item.this;
+							}
+							user.spend(delay);
+							if (i != null) i.onThrow(cell);
+							user.next();
+						}
+					});
+		}
+		updateQuickslot();
+	}
+
 	public float castDelay( Char user, int dst ){
 		return TIME_TO_THROW;
 	}
