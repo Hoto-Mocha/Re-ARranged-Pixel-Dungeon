@@ -1,5 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -236,5 +238,11 @@ public class BowMasterSkill extends Buff implements ActionIndicator.Action {
         Dungeon.hero.sprite.operate(Dungeon.hero.pos);
         Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
         ActionIndicator.clearAction();
+    }
+
+    public static void move() {
+        if (hero.hasTalent(Talent.MOVING_FOCUS) && hero.buff(BowMasterSkill.class) != null && !hero.buff(BowMasterSkill.class).isMoved()) {
+            hero.buff(BowMasterSkill.class).moveCharge(Math.max(-1, hero.pointsInTalent(Talent.MOVING_FOCUS)-2));
+        }
     }
 }

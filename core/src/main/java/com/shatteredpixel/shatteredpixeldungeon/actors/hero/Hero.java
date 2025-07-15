@@ -2726,9 +2726,9 @@ public class Hero extends Char {
 				Buff.affect(this, MindVision.class, 1f);
 			}
 
-			if (hero.hasTalent(Talent.MOVING_FOCUS) && hero.buff(BowMasterSkill.class) != null && !hero.buff(BowMasterSkill.class).isMoved()) {
-				hero.buff(BowMasterSkill.class).moveCharge(Math.max(-1, hero.pointsInTalent(Talent.MOVING_FOCUS)-2));
-			}
+			BowMasterSkill.move();
+
+			Juggling.move();
 			
 			sprite.move(pos, step);
 			move(step);

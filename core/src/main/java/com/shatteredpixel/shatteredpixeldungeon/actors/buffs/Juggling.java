@@ -7,11 +7,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArrowItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.LiquidMetal;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.Bow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.BowWeapon;
@@ -19,9 +17,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.GreatBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.LongBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.ShortBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.WornShortBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -33,6 +30,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.Random;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -160,17 +158,19 @@ public class Juggling extends Buff implements ActionIndicator.Action {
         @Override
         public void onSelect(Integer cell) {
             if (cell != null) {
+                Ballistica aim = new Ballistica(Dungeon.hero.pos, cell, Ballistica.PROJECTILE);
+                int destination = aim.collisionPos;
                 while (!weapons.isEmpty()) {
                     MissileWeapon weapon = weapons.poll();
                     if (weapon != null) {
                         if (weapon.STRReq() <= Dungeon.hero.STR()) {
-                            weapon.cast(Dungeon.hero, cell, false, weapons.isEmpty() ? 1 : 0, new Callback() {
+                            weapon.cast(Dungeon.hero, destination, false, weapons.isEmpty() ? 1 : 0, new Callback() {
                                 @Override
                                 public void call() {
                                     if (Dungeon.hero.hasTalent(Talent.FANCY_PERFORMANCE)) {
-                                        Char ch = Actor.findChar(cell);
+                                        Char ch = Actor.findChar(destination);
                                         if (ch != null) {
-                                            Dungeon.level.drop(new Gold(5), cell);
+                                            Dungeon.level.drop(new Gold(5*Dungeon.hero.pointsInTalent(Talent.FANCY_PERFORMANCE)), destination).sprite.drop();
                                         }
                                     }
                                 }
@@ -239,6 +239,22 @@ public class Juggling extends Buff implements ActionIndicator.Action {
             return 0.5f + 0.2f*Dungeon.hero.pointsInTalent(Talent.FOCUS_MAINTAIN);
         } else {
             return 1;
+        }
+    }
+
+    public static void move() {
+        if (Dungeon.hero.subClass == HeroSubClass.JUGGLER
+                && Dungeon.bullet > 1
+                && Dungeon.hero.hasTalent(Talent.TOUR_PERFORMANCE)
+                && Random.Float() < 0.01f*Dungeon.hero.pointsInTalent(Talent.TOUR_PERFORMANCE)) {
+
+            if (Dungeon.bullet <= 0) return;
+
+            BowWeapon.Arrow arrow = getBow().knockArrow();
+            arrow.useBullet = false;
+            Buff.affect(Dungeon.hero, Juggling.class).juggle(Dungeon.hero, arrow, false);
+            Dungeon.bullet--;
+            Item.updateQuickslot();
         }
     }
 }

@@ -60,6 +60,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invulnerability;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Juggling;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LifeLink;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
@@ -330,9 +331,10 @@ public abstract class Char extends Actor {
 				Buff.affect(Dungeon.hero, Momentum.class).gainStack();
 			}
 
-			if (hero.hasTalent(Talent.MOVING_FOCUS) && hero.buff(BowMasterSkill.class) != null && !hero.buff(BowMasterSkill.class).isMoved()) {
-				hero.buff(BowMasterSkill.class).moveCharge(Math.max(-1, hero.pointsInTalent(Talent.MOVING_FOCUS)-2));
-			}
+			BowMasterSkill.move();
+
+			Juggling.move();
+
 			Dungeon.hero.justMoved = true;
 
 			Dungeon.hero.busy();
