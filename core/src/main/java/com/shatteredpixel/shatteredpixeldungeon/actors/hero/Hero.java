@@ -754,6 +754,8 @@ public class Hero extends Char {
 			}
 		}
 
+		if (buff(EvasiveMove.class) != null) return INFINITE_EVASION;
+
 		if (buff(Quarterstaff.DefensiveStance.class) != null){
 			evasion *= 3;
 		}
