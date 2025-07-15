@@ -147,7 +147,7 @@ public class Machete extends MeleeWeapon {
 
                         if (droppingBerry) {
                             dropped.countUp(1);
-                            Dungeon.level.drop(new Berry(), pos).sprite.drop();
+                            Dungeon.level.drop(new Berry(), cell).sprite.drop();
                         }
                     }
 
