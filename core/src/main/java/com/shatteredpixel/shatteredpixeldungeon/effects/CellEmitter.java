@@ -57,6 +57,16 @@ public class CellEmitter {
 		
 		return emitter;
 	}
+
+	public static Emitter heroCenter( int cell ) { //타일 중앙 기준이 아닌 학생 스프라이트 중앙 기준
+
+		PointF p = DungeonTilemap.tileToWorld( cell );
+
+		Emitter emitter = GameScene.emitter();
+		emitter.pos( p.x + DungeonTilemap.SIZE / 2, p.y + DungeonTilemap.SIZE / 2 - 5f );
+
+		return emitter;
+	}
 	
 	public static Emitter bottom( int cell ) {
 		

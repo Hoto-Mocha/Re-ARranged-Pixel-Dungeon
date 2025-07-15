@@ -198,6 +198,26 @@ public class BowWeapon extends MeleeWeapon {
             hitSound = Assets.Sounds.HIT_ARROW;
         }
 
+        @Override
+        public int min() {
+            return arrowFrom.arrowMin();
+        }
+
+        @Override
+        public int min(int lvl) {
+            return arrowFrom.arrowMin(lvl);
+        }
+
+        @Override
+        public int max() {
+            return arrowFrom.arrowMax();
+        }
+
+        @Override
+        public int max(int lvl) {
+            return arrowFrom.arrowMax(lvl);
+        }
+
         private BowWeapon arrowFrom;
 
         private static final String ARROW_FROM = "arrowFrom";

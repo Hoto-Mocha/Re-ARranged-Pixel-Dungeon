@@ -644,6 +644,26 @@ public class Gun extends MeleeWeapon {
 			tier = Gun.this.tier();
 		}
 
+		@Override
+		public int min() {
+			return bulletMin();
+		}
+
+		@Override
+		public int min(int lvl) {
+			return bulletMin(lvl);
+		}
+
+		@Override
+		public int max() {
+			return bulletMax();
+		}
+
+		@Override
+		public int max(int lvl) {
+			return bulletMax(lvl);
+		}
+
 		public BulletMod whatBullet() { //현재 탄환이 어떤 개조인지를 반환함. 탄환 피해의 적 방어력 적용량 결정에 쓰임
 			return Gun.this.bulletMod;
 		}
@@ -702,6 +722,7 @@ public class Gun extends MeleeWeapon {
 		@Override
 		public int damageRoll(Char owner) {
 			int damage = bulletDamage();
+//			System.out.println("damage: "+damage);
 			return damage;
 		}
 
