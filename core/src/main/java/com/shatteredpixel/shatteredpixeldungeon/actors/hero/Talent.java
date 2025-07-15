@@ -1849,58 +1849,6 @@ public enum Talent {
 				}
 			}
 		}
-		if (hero.hasTalent(Talent.RELOADING_MEAL)) {
-			if (hero.belongings.weapon instanceof Gun) {
-				((Gun)hero.belongings.weapon).quickReload();
-				if (hero.pointsInTalent(Talent.RELOADING_MEAL) > 1) {
-					((Gun)hero.belongings.weapon).manualReload(1, true);
-				}
-			}
-		}
-		if (hero.hasTalent(Talent.INFINITE_BULLET_MEAL)) {
-			Buff.affect(hero, InfiniteBullet.class, 1+hero.pointsInTalent(Talent.INFINITE_BULLET_MEAL));
-		}
-		if (hero.hasTalent(Talent.CRITICAL_MEAL)) {
-			Buff.affect(hero, Sheath.CertainCrit.class).set(hero.pointsInTalent(Talent.CRITICAL_MEAL));
-		}
-		if (hero.hasTalent(Talent.NATURES_MEAL)) {
-			if (hero.pointsInTalent(Talent.NATURES_MEAL) == 1) {
-				for (int i : PathFinder.NEIGHBOURS4) {
-					int c = level.map[hero.pos + i];
-					if (c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
-							|| c == Terrain.EMBERS || c == Terrain.GRASS) {
-						Level.set(hero.pos + i, Terrain.HIGH_GRASS);
-						GameScene.updateMap(hero.pos + i);
-						CellEmitter.get(hero.pos + i).burst(LeafParticle.LEVEL_SPECIFIC, 4);
-					}
-				}
-			} else {
-				for (int i : PathFinder.NEIGHBOURS8) {
-					int c = level.map[hero.pos + i];
-					if (c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
-							|| c == Terrain.EMBERS || c == Terrain.GRASS) {
-						Level.set(hero.pos + i, Terrain.HIGH_GRASS);
-						GameScene.updateMap(hero.pos + i);
-						CellEmitter.get(hero.pos + i).burst(LeafParticle.LEVEL_SPECIFIC, 4);
-					}
-				}
-			}
-		}
-		if (hero.hasTalent(Talent.TOUGH_MEAL)) {
-			Buff.affect(hero, ArmorEmpower.class).set(3, 1+hero.pointsInTalent(Talent.TOUGH_MEAL));
-		}
-		if (hero.hasTalent(Talent.IMPREGNABLE_MEAL)) {
-			Buff.affect(hero, ArmorEnhance.class).set(hero.pointsInTalent(Talent.IMPREGNABLE_MEAL), 3);
-		}
-		if (hero.hasTalent(Talent.HEALING_MEAL)) { // 식사 시 디버프 제거 / 디버프가 없을 경우 3의 체력을 회복
-			if (hero.isHeroDebuffed()) {
-				PotionOfCleansing.cleanse(hero);
-			} else {
-				if (hero.pointsInTalent(Talent.HEALING_MEAL) > 1) {
-					hero.heal(3);
-				}
-			}
-		}
 
 		if (hero.hasTalent(Talent.FORCE_SAVING)) {
 			Buff.affect(hero, ForceSavingTracker.class);
