@@ -188,6 +188,8 @@ public class Gun extends MeleeWeapon {
 		hitSoundPitch = 0.8f;
 	}
 
+
+	private static final String ROUND = "round";
 	private static final String BARREL_MOD = "barrelMod";
 	private static final String MAGAZINE_MOD = "magazineMod";
 	private static final String BULLET_MOD = "bulletMod";
@@ -198,6 +200,7 @@ public class Gun extends MeleeWeapon {
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
+		bundle.put(ROUND, round);
 		bundle.put(BARREL_MOD, barrelMod);
 		bundle.put(MAGAZINE_MOD, magazineMod);
 		bundle.put(BULLET_MOD, bulletMod);
@@ -210,6 +213,7 @@ public class Gun extends MeleeWeapon {
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
+		round = bundle.getInt(ROUND);
 		barrelMod = bundle.getEnum(BARREL_MOD, BarrelMod.class);
 		magazineMod = bundle.getEnum(MAGAZINE_MOD, MagazineMod.class);
 		bulletMod = bundle.getEnum(BULLET_MOD, BulletMod.class);
