@@ -698,7 +698,7 @@ public class Item implements Bundlable {
 		}
 	}
 	
-	public void cast( final Hero user, final int dst, boolean detach, int turnsUse, Callback callback ) {
+	public void cast( final Hero user, final int dst, boolean detach, float turnsUse, Callback callback ) {
 
 		final int cell = throwPos( user, dst );
 		user.sprite.zap( cell );

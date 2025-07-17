@@ -241,7 +241,7 @@ public class BowWeapon extends MeleeWeapon {
             this.tier = bow.tier();
         }
 
-        public boolean useBullet = false;
+        public boolean useBullet = true;
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
@@ -280,6 +280,10 @@ public class BowWeapon extends MeleeWeapon {
                 if (hero.buff(PenetrationShotBuff.class) != null) {
                     damage = hero.buff(PenetrationShotBuff.class).proc(damage, this.buffedLvl(), this.tier);
                     Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+                }
+
+                if (hero.buff(BowFatigue.class) != null) {
+                    damage = hero.buff(BowFatigue.class).damage(damage);
                 }
             }
             return damage;
