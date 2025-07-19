@@ -9,6 +9,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BowMasterSkill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GreaterHaste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SharpShooterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -104,15 +105,6 @@ public class BowWeapon extends MeleeWeapon {
         if (Dungeon.level.adjacent(attacker.pos, defender.pos)
                 && ((defender instanceof Mob && ((Mob) defender).surprisedBy(attacker)) || Random.Float() < 0.4f)) {
             pushEnemy(this, attacker, defender, 2 + Dungeon.hero.pointsInTalent(Talent.PUSHBACK));
-        }
-        return super.proc(attacker, defender, damage);
-    }
-
-    //arrows will copy all procs of the bow, but excludes the pushing effect
-    public int arrowProc(Char attacker, Char defender, int damage) {
-        if (attacker == Dungeon.hero && Dungeon.hero.belongings.getItem(ArrowBag.class) != null) {
-            ArrowBag arrowBag = Dungeon.hero.belongings.getItem(ArrowBag.class);
-            damage = arrowBag.proc((Hero) attacker, defender, damage);
         }
         return super.proc(attacker, defender, damage);
     }
@@ -252,13 +244,17 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
+            if (attacker == Dungeon.hero && Dungeon.hero.belongings.getItem(ArrowBag.class) != null) {
+                ArrowBag arrowBag = Dungeon.hero.belongings.getItem(ArrowBag.class);
+                damage = arrowBag.proc((Hero) attacker, defender, damage);
+            }
             if (attacker == Dungeon.hero && BowMasterSkill.isFastShot((Hero) attacker)) {
                 damage = Math.round(damage * BowMasterSkill.fastShotDamageMultiplier((Hero) attacker));
             }
             if (attacker == Dungeon.hero && attacker.buff(BowMasterSkill.class) != null) {
                 damage = attacker.buff(BowMasterSkill.class).proc(damage);
             }
-            return arrowFrom.arrowProc(attacker, defender, damage);
+            return super.proc(attacker, defender, damage);
         }
 
         @Override
@@ -311,11 +307,25 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public float accuracyFactor(Char owner, Char target) {
+            float ACC = arrowFrom.accuracyFactor(owner, target);
             if (owner == Dungeon.hero && owner.buff(BowMasterSkill.class) != null && owner.buff(BowMasterSkill.class).isPowerShot()) {
                 return Hero.INFINITE_ACCURACY;
             }
 
-            return arrowFrom.accuracyFactor(owner, target);
+            if (isBurst && owner instanceof Hero && ((Hero) owner).hasTalent(Talent.BULLSEYE)) {
+                switch (((Hero) owner).pointsInTalent(Talent.BULLSEYE)) {
+                    case 3:
+                        return Hero.INFINITE_ACCURACY;
+                    case 2:
+                        ACC *= 5;
+                        break;
+                    case 1: default:
+                        ACC *= 2;
+                        break;
+                }
+            }
+
+            return ACC;
         }
 
         @Override
@@ -324,7 +334,11 @@ public class BowWeapon extends MeleeWeapon {
         }
 
         private float arrowPinChance() {
-            return 0.25f + 0.125f*Dungeon.hero.pointsInTalent(Talent.DEXTERITY);
+            float chance = 0.25f + 0.125f*Dungeon.hero.pointsInTalent(Talent.DEXTERITY);
+            if (Dungeon.hero.hasTalent(Talent.PERFECT_SHOT) && isBurst) {
+                chance = Math.max(chance, Dungeon.hero.pointsInTalent(Talent.PERFECT_SHOT)/3f);
+            }
+            return chance;
         }
 
         @Override
@@ -386,6 +400,14 @@ public class BowWeapon extends MeleeWeapon {
         @Override
         public void throwSound() {
             Sample.INSTANCE.play( Assets.Sounds.ATK_SPIRITBOW, 1, Random.Float(0.87f, 1.15f) );
+        }
+
+        @Override
+        public void cast(final Hero user, int dst) {
+            if (user.hasTalent(Talent.ARROW_STORM)) {
+                SharpShooterBuff.arrowStorm(user);
+            }
+            super.cast(user, dst);
         }
     }
 

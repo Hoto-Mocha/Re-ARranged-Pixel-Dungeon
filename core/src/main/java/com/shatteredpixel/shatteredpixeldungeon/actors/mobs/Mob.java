@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Juggling;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SharpShooterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulCollect;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
@@ -1000,6 +1001,8 @@ public abstract class Mob extends Char {
 			}
 
 			Juggling.kill();
+
+			SharpShooterBuff.kill();
 
 			Saddle.kill(this);
 		}

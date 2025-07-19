@@ -16,6 +16,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RouletteOfDeath;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SharpShooterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -717,7 +718,7 @@ public class Gun extends MeleeWeapon {
 				Math.round(damage * 0.5f);
 			}
 
-			return Gun.this.proc(attacker, defender, damage);
+			return super.proc(attacker, defender, damage);
 		}
 
 		@Override
@@ -768,6 +769,19 @@ public class Gun extends MeleeWeapon {
 			}
 
 			ACC = Gun.this.barrelMod.bulletAccuracyFactor(ACC, Dungeon.level.adjacent(owner.pos, target.pos));
+
+			if (isBurst && owner instanceof Hero && ((Hero) owner).hasTalent(Talent.BULLSEYE)) {
+				switch (((Hero) owner).pointsInTalent(Talent.BULLSEYE)) {
+					case 3:
+						return Hero.INFINITE_ACCURACY;
+					case 2:
+						ACC *= 5;
+						break;
+					case 1: default:
+						ACC *= 2;
+						break;
+				}
+			}
 			return ACC;
 		}
 
@@ -894,7 +908,10 @@ public class Gun extends MeleeWeapon {
 		}
 
 		@Override
-		public void cast(final Hero user, final int dst) {
+		public void cast(final Hero user, int dst) {
+			if (user.hasTalent(Talent.ARROW_STORM)) {
+				SharpShooterBuff.arrowStorm(user);
+			}
 			super.cast(user, dst);
 		}
 	}

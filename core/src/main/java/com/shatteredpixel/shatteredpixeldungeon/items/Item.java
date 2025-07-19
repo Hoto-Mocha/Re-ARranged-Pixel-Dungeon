@@ -742,7 +742,7 @@ public class Item implements Bundlable {
 							} else {
 								user.spendAndNext(delay);
 							}
-							callback.call();
+							if (callback != null) callback.call();
 						}
 					});
 		} else {
@@ -763,7 +763,7 @@ public class Item implements Bundlable {
 							user.spend(delay);
 							if (i != null) i.onThrow(cell);
 							user.next();
-							callback.call();
+							if (callback != null) callback.call();
 						}
 					});
 		}
