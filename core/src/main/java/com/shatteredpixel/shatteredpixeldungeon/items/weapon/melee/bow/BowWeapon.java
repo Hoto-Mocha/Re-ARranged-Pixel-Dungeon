@@ -339,6 +339,9 @@ public class BowWeapon extends MeleeWeapon {
                             dropArrow(cell);
                         }
                     }
+                    if (!enemy.isAlive() && isBurst && Dungeon.hero.hasTalent(Talent.HURRICANE)) {
+                        Buff.affect(Dungeon.hero, GreaterHaste.class);
+                    }
                 } else {
                     if (Random.Float() < arrowPinChance()) {
                         dropArrow(cell);
