@@ -2,31 +2,32 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Brute;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BulletParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.bow.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.BowWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.DisposableMissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
-import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.tweeners.Tweener;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
@@ -253,7 +254,7 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
             }
 
             int shots = 3;
-            float delay = 0.05f;
+            float delay = 0.15f;
 
             if (weapon instanceof Gun) {
                 if (((Gun) weapon).round() < shots) shots = ((Gun) weapon).round();
@@ -302,6 +303,44 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
     public static void kill() {
         if (hero.buff(SharpShooterBuff.SharpShootingCoolDown.class) != null) {
             hero.buff(SharpShooterBuff.SharpShootingCoolDown.class).kill();
+        }
+    }
+
+    public static void rangedLethal(Char enemy, boolean isBurst, Weapon wep) {
+        if (enemy != null && isBurst && Dungeon.hero.hasTalent(Talent.RANGED_LETHALITY)
+                && enemy.isAlive()
+                && enemy.alignment == Char.Alignment.ENEMY
+                && !Char.hasProp(enemy, Char.Property.BOSS)
+                && !Char.hasProp(enemy, Char.Property.MINIBOSS)
+                && (enemy.HP/(float)enemy.HT) <= 0.1f*Dungeon.hero.pointsInTalent(Talent.RANGED_LETHALITY)) {
+            enemy.HP = 0;
+            if (enemy.buff(Brute.BruteRage.class) != null){
+                enemy.buff(Brute.BruteRage.class).detach();
+            }
+            if (!enemy.isAlive()) {
+                SharpShooterBuff.kill();
+                enemy.die(wep);
+            } else {
+                //helps with triggering any on-damage effects that need to activate
+                enemy.damage(-1, wep);
+                DeathMark.processFearTheReaper(enemy);
+            }
+            if (enemy.sprite != null) {
+                enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(SharpShooterBuff.class, "executed"));
+            }
+        }
+    }
+
+    public static void channel(Char attacker, Char defender, int damage) {
+        if (attacker instanceof Hero
+                && ((Hero)attacker).hasTalent(Talent.CHANNELING)
+                && Random.Float() < 0.1f*((Hero)attacker).pointsInTalent(Talent.CHANNELING)
+                && !defender.isImmune(Electricity.class)) {
+            defender.damage(Hero.heroDamageIntRange(Math.round(damage*0.2f), Math.round(damage*0.6f)), new Electricity());
+            if (!defender.isAlive()) {
+                SharpShooterBuff.kill();
+            }
+            ThunderImbue.thunderEffect(defender.sprite);
         }
     }
 

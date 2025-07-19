@@ -304,13 +304,7 @@ abstract public class MissileWeapon extends Weapon {
 			}
 		}
 
-		if (attacker instanceof Hero
-				&& ((Hero)attacker).hasTalent(Talent.CHANNELING)
-				&& Random.Float() < 0.1f*((Hero)attacker).pointsInTalent(Talent.CHANNELING)
-				&& !defender.isImmune(Electricity.class)) {
-			defender.damage(Hero.heroDamageIntRange(Math.round(damage*0.2f), Math.round(damage*0.6f)), new Electricity());
-			ThunderImbue.thunderEffect(defender.sprite);
-		}
+
 
 		SharpShooterBuff.SharpShootingCoolDown.missileHit(attacker);
 

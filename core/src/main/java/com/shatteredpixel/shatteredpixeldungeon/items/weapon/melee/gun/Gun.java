@@ -22,6 +22,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.gunner.Riot;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Brute;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
@@ -36,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWea
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
@@ -833,6 +836,8 @@ public class Gun extends MeleeWeapon {
 						Badges.validateDeathFromFriendlyMagic();
 						GLog.n(Messages.get(Gun.class, "ondeath"));
 					}
+
+					SharpShooterBuff.rangedLethal(target, isBurst, this);
 				}
 
 				Sample.INSTANCE.play( Assets.Sounds.BLAST );
@@ -853,6 +858,8 @@ public class Gun extends MeleeWeapon {
 				if (enemy != null && !enemy.isAlive()) {
 					killedEnemy = true;
 				}
+
+				SharpShooterBuff.rangedLethal(enemy, isBurst, this);
 			}
 
 			onShoot();

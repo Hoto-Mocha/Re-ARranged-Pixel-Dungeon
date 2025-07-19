@@ -373,27 +373,7 @@ public class BowWeapon extends MeleeWeapon {
                 }
             }
 
-            if (enemy != null && isBurst && Dungeon.hero.hasTalent(Talent.RANGED_LETHALITY)
-                    && enemy.isAlive()
-                    && enemy.alignment == Char.Alignment.ENEMY
-                    && !Char.hasProp(enemy, Char.Property.BOSS)
-                    && !Char.hasProp(enemy, Char.Property.MINIBOSS)
-                    && (enemy.HP/(float)enemy.HT) <= 0.1f*Dungeon.hero.pointsInTalent(Talent.RANGED_LETHALITY)) {
-                enemy.HP = 0;
-                if (enemy.buff(Brute.BruteRage.class) != null){
-                    enemy.buff(Brute.BruteRage.class).detach();
-                }
-                if (!enemy.isAlive()) {
-                    enemy.die(this);
-                } else {
-                    //helps with triggering any on-damage effects that need to activate
-                    enemy.damage(-1, this);
-                    DeathMark.processFearTheReaper(enemy);
-                }
-                if (enemy.sprite != null) {
-                    enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(SharpShooterBuff.class, "executed"));
-                }
-            }
+            SharpShooterBuff.rangedLethal(enemy, isBurst, this);
 
             onShoot();
         }
