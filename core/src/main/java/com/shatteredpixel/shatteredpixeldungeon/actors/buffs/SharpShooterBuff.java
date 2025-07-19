@@ -58,7 +58,7 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
 
     @Override
     public String actionName() {
-        return "";
+        return Messages.get(this, "action_name");
     }
 
     @Override
@@ -114,6 +114,7 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
             protected void onComplete() {
                 super.onComplete();
                 Gun.Bullet bullet = gun.knockBullet();
+                bullet.isBurst = true;
                 bullet.cast(hero, direction, true, 0, new Callback() {
                     @Override
                     public void call() {
@@ -144,6 +145,7 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
             protected void onComplete() {
                 super.onComplete();
                 BowWeapon.Arrow arrow = bow.knockArrow();
+                arrow.isBurst = true;
                 arrow.cast(hero, direction, true, 0, new Callback() {
                     @Override
                     public void call() {
@@ -172,6 +174,7 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
             protected void onComplete() {
                 super.onComplete();
                 Gun.Bullet bullet = gun.knockBullet();
+                bullet.isBurst = true;
                 bullet.cast(hero, direction, true, 0, new Callback() {
                     @Override
                     public void call() {
@@ -200,6 +203,7 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
             protected void onComplete() {
                 super.onComplete();
                 BowWeapon.Arrow arrow = bow.knockArrow();
+                arrow.isBurst = true;
                 arrow.cast(hero, direction, true, 0, new Callback() {
                     @Override
                     public void call() {

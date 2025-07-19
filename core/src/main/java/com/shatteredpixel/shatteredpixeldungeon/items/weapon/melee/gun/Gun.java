@@ -648,6 +648,8 @@ public class Gun extends MeleeWeapon {
 			tier = Gun.this.tier();
 		}
 
+		public boolean isBurst = false;
+
 		@Override
 		public int min() {
 			return bulletMin();

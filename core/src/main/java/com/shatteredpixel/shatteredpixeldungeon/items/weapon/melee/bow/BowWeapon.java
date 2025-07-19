@@ -8,6 +8,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BowMasterSkill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GreaterHaste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -219,14 +220,20 @@ public class BowWeapon extends MeleeWeapon {
         }
 
         private BowWeapon arrowFrom;
+        public boolean useBullet = true;
+        public boolean isBurst = false;
 
         private static final String ARROW_FROM = "arrowFrom";
+        private static final String USE_BULLET = "useBullet";
+        private static final String IS_BURST = "isBurst";
 
         @Override
         public void storeInBundle(Bundle bundle) {
             super.storeInBundle(bundle);
 
             bundle.put(ARROW_FROM, arrowFrom);
+            bundle.put(USE_BULLET, useBullet);
+            bundle.put(IS_BURST, isBurst);
         }
 
         @Override
@@ -234,14 +241,14 @@ public class BowWeapon extends MeleeWeapon {
             super.restoreFromBundle(bundle);
 
             arrowFrom = (BowWeapon) bundle.get(ARROW_FROM);
+            useBullet = bundle.getBoolean(USE_BULLET);
+            isBurst = bundle.getBoolean(IS_BURST);
         }
 
         public void reset(BowWeapon bow) {
             arrowFrom = bow;
             this.tier = bow.tier();
         }
-
-        public boolean useBullet = true;
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
