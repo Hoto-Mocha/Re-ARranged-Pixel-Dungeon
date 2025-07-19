@@ -1826,11 +1826,13 @@ public class Hero extends Char {
 				if (hero.pointsInTalent(Talent.STEALTH_MASTER) > 1) {
 					adjacentMob = false;
 				}
-				if (!adjacentMob && hero.hasTalent(Talent.INTO_THE_SHADOW) && hero.buff(Talent.IntoTheShadowCooldown.class) == null) {
-					Buff.affect(this, Invisibility.class, 3f*hero.pointsInTalent(Talent.INTO_THE_SHADOW));
-					Buff.affect(this, Talent.IntoTheShadowCooldown.class, 15);
-				} else {
-					Buff.affect(this, Cloaking.class);
+				if (!adjacentMob) {
+					if (hero.hasTalent(Talent.INTO_THE_SHADOW) && hero.buff(Talent.IntoTheShadowCooldown.class) == null) {
+						Buff.affect(this, Invisibility.class, 3f*hero.pointsInTalent(Talent.INTO_THE_SHADOW));
+						Buff.affect(this, Talent.IntoTheShadowCooldown.class, 15);
+					} else {
+						Buff.affect(this, Cloaking.class);
+					}
 				}
 			}
 		}
