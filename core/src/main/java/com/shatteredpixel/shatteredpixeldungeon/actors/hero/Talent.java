@@ -770,7 +770,7 @@ public enum Talent {
 
 	//Snipe T4
 	ENHANCED_ARROW				(37, 11, 4),
-	ACCURATE_SHIPE				(38, 11, 4),
+	ACCURATE_SNIPE				(38, 11, 4),
 	KNOCKING_ARROW				(39, 11, 4),
 
 	//universal T4

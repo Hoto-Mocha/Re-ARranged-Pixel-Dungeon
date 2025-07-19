@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SharpShooterBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.archer.Snipe;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.HolyLance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Command;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SwordAura;
@@ -121,6 +122,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 
 		ANGULAR_SPEEDS.put(Gun.Bullet.class,   0);
 		ANGULAR_SPEEDS.put(BowWeapon.Arrow.class,   0);
+		ANGULAR_SPEEDS.put(Snipe.SnipeArrow.class,   0);
 		ANGULAR_SPEEDS.put(CannonSprite.CannonShot.class,   0);
 		ANGULAR_SPEEDS.put(MachineGunSprite.MachineGunBullet.class,   0);
 		ANGULAR_SPEEDS.put(MortarSprite.MineShot.class,   0);
@@ -198,7 +200,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 				|| item instanceof RebelSprite.RebelShot
 				|| item instanceof TenguSprite.TenguShuriken){
 			speed *= 1.5f;
-		} else if (item instanceof Gun.Bullet || item instanceof BowWeapon.Arrow) {
+		} else if (item instanceof Gun.Bullet || item instanceof BowWeapon.Arrow || item instanceof Snipe.SnipeArrow) {
 			if (item instanceof FT.FTBullet ||
 				item instanceof LG.LGBullet) {
 				speed *= 1000f;
