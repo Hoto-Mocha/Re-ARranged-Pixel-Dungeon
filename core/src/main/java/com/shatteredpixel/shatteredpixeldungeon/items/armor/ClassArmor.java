@@ -133,6 +133,9 @@ abstract public class ClassArmor extends Armor {
 			case MEDIC:
 				classArmor = new MedicArmor();
 				break;
+			case ARCHER:
+				classArmor = new ArcherArmor();
+				break;
 		}
 		
 		classArmor.level(armor.trueLevel());

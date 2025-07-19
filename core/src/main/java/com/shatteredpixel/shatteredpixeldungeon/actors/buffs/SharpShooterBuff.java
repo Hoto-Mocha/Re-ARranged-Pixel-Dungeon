@@ -24,6 +24,7 @@ import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.tweeners.Tweener;
@@ -83,6 +84,11 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
 
     @Override
     public void doAction() {
+        if (Dungeon.hero.belongings.weapon() == null) {
+            GLog.w(Messages.get(SharpShooterBuff.class, "no_weapon"));
+            return;
+        }
+
         GameScene.selectCell(listener);
     }
 
@@ -236,53 +242,25 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
         });
     }
 
-    public static void arrowStorm(Hero hero) {
-        if (Random.Float() > hero.pointsInTalent(Talent.ARROW_STORM)/3f) return;
-
-        int direction = randomDirection();
-        if (direction == -1) return;
-
-        LightArrow lightArrow = new LightArrow();
-        lightArrow.cast(hero, direction, false, 0, null);
-        lightArrow.throwSound();
-    }
-
-    public static class LightArrow extends DisposableMissileWeapon {
-        {
-            image = ItemSpriteSheet.LIGHT_ARROW;
-            hitSound = Assets.Sounds.HIT_ARROW;
-        }
-
-        @Override
-        public int min() {
-            return 5;
-        }
-
-        @Override
-        public int max() {
-            return 10;
-        }
-
-        @Override
-        public void throwSound() {
-            Sample.INSTANCE.play( Assets.Sounds.ATK_SPIRITBOW, 1, Random.Float(0.87f, 1.15f) );
-        }
-    }
-
     CellSelector.Listener listener = new CellSelector.Listener() {
         @Override
         public void onSelect(Integer cell) {
             if (cell == null) return;
 
             KindOfWeapon weapon = Dungeon.hero.belongings.weapon();
-            if (weapon == null) return;
+            if (weapon == null) {
+                return;
+            }
 
             int shots = 3;
             float delay = 0.05f;
 
             if (weapon instanceof Gun) {
                 if (((Gun) weapon).round() < shots) shots = ((Gun) weapon).round();
-                if (shots <= 0) return;
+                if (shots <= 0) {
+                    GLog.w(Messages.get(SharpShooterBuff.class, "no_bullet"));
+                    return;
+                }
 
                 if (cell == Dungeon.hero.pos) {
                     for (int i = 0; i < shots; i++) {
@@ -295,7 +273,10 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
                 }
             } else if (weapon instanceof BowWeapon) {
                 if (Dungeon.bullet < shots) shots = Dungeon.bullet;
-                if (shots <= 0) return;
+                if (shots <= 0) {
+                    GLog.w(Messages.get(SharpShooterBuff.class, "no_arrow"));
+                    return;
+                }
 
                 if (cell == Dungeon.hero.pos) {
                     for (int i = 0; i < shots; i++) {
@@ -373,7 +354,7 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
         public String iconTextDisplay() {
             if (!Dungeon.hero.hasTalent(Talent.FOCUS_SHOT)) return super.iconTextDisplay();
 
-            return Integer.toString(maxShoot());
+            return Integer.toString(maxShoot()-shoot);
         }
 
         @Override

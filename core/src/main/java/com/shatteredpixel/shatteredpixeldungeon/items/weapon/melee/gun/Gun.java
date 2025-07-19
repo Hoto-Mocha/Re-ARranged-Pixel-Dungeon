@@ -909,9 +909,6 @@ public class Gun extends MeleeWeapon {
 
 		@Override
 		public void cast(final Hero user, int dst) {
-			if (user.hasTalent(Talent.ARROW_STORM)) {
-				SharpShooterBuff.arrowStorm(user);
-			}
 			super.cast(user, dst);
 		}
 	}

@@ -755,7 +755,7 @@ public enum Talent {
 	PERFECT_SHOT				(26, 11, 3),
 	FOCUS_SHOT					(27, 11, 3),
 	BULLSEYE					(28, 11, 3),
-	ARROW_STORM					(29, 11, 3),
+	RANGED_LETHALITY			(29, 11, 3),
 	CHANNELING					(30, 11, 3),
 
 	//Dash T4
@@ -2934,7 +2934,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, HABITUAL_HAND, SWIFT_JUGGLING, SKILLFUL_JUGGLING, FOCUS_MAINTAIN, FANCY_PERFORMANCE, TOUR_PERFORMANCE);
 				break;
 			case SHARPSHOOTER:
-				Collections.addAll(tierTalents, HURRICANE, PERFECT_SHOT, FOCUS_SHOT, BULLSEYE, ARROW_STORM, CHANNELING);
+				Collections.addAll(tierTalents, HURRICANE, PERFECT_SHOT, FOCUS_SHOT, BULLSEYE, RANGED_LETHALITY, CHANNELING);
 				break;
 		}
 		for (Talent talent : tierTalents){

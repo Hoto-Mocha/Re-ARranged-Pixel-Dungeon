@@ -14,6 +14,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Brute;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArrowBag;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArrowItem;
@@ -27,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -254,6 +257,7 @@ public class BowWeapon extends MeleeWeapon {
             if (attacker == Dungeon.hero && attacker.buff(BowMasterSkill.class) != null) {
                 damage = attacker.buff(BowMasterSkill.class).proc(damage);
             }
+
             return super.proc(attacker, defender, damage);
         }
 
@@ -354,7 +358,7 @@ public class BowWeapon extends MeleeWeapon {
                         }
                     }
                     if (!enemy.isAlive() && isBurst && Dungeon.hero.hasTalent(Talent.HURRICANE)) {
-                        Buff.affect(Dungeon.hero, GreaterHaste.class);
+                        Buff.affect(Dungeon.hero, GreaterHaste.class).set(1+Dungeon.hero.pointsInTalent(Talent.HURRICANE));
                     }
                 } else {
                     if (Random.Float() < arrowPinChance()) {
@@ -366,6 +370,28 @@ public class BowWeapon extends MeleeWeapon {
             if (enemy == null || enemy instanceof Hero) {
                 if (Random.Float() < arrowPinChance()) {
                     dropArrow(cell);
+                }
+            }
+
+            if (enemy != null && isBurst && Dungeon.hero.hasTalent(Talent.RANGED_LETHALITY)
+                    && enemy.isAlive()
+                    && enemy.alignment == Char.Alignment.ENEMY
+                    && !Char.hasProp(enemy, Char.Property.BOSS)
+                    && !Char.hasProp(enemy, Char.Property.MINIBOSS)
+                    && (enemy.HP/(float)enemy.HT) <= 0.1f*Dungeon.hero.pointsInTalent(Talent.RANGED_LETHALITY)) {
+                enemy.HP = 0;
+                if (enemy.buff(Brute.BruteRage.class) != null){
+                    enemy.buff(Brute.BruteRage.class).detach();
+                }
+                if (!enemy.isAlive()) {
+                    enemy.die(this);
+                } else {
+                    //helps with triggering any on-damage effects that need to activate
+                    enemy.damage(-1, this);
+                    DeathMark.processFearTheReaper(enemy);
+                }
+                if (enemy.sprite != null) {
+                    enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(SharpShooterBuff.class, "executed"));
                 }
             }
 
@@ -404,9 +430,6 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public void cast(final Hero user, int dst) {
-            if (user.hasTalent(Talent.ARROW_STORM)) {
-                SharpShooterBuff.arrowStorm(user);
-            }
             super.cast(user, dst);
         }
     }
