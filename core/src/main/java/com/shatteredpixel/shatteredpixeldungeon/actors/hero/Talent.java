@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GreaterHaste;
@@ -718,7 +719,7 @@ public enum Talent {
 	//Archer T1
 	FORCE_SAVING				(0, 11),
 	ARCHERS_INTUITION			(1, 11),
-	SURPRISE_PANIC				(2, 11),
+	LEG_SWEEP					(2, 11),
 	SURVIVAL_TECHNIQUE			(3, 11),
 	DEXTERITY					(4, 11),
 
@@ -2490,7 +2491,7 @@ public enum Talent {
 			hero.buff(ForceSavingTracker.class).detach();
 		}
 
-		if (enemy instanceof Mob && enemy.buff(SurprisePanicTracker.class) == null && hero.hasTalent(Talent.SURPRISE_PANIC)) {
+		if (enemy instanceof Mob && enemy.buff(SurprisePanicTracker.class) == null && hero.hasTalent(Talent.LEG_SWEEP) && !enemy.flying) {
 			if (((Mob)enemy).surprisedBy(hero)) {
 				new FlavourBuff() {
 					{
@@ -2498,7 +2499,7 @@ public enum Talent {
 					}
 
 					public boolean act() {
-						Buff.affect(target, Terror.class, 1+2*hero.pointsInTalent(Talent.SURPRISE_PANIC));
+						Buff.affect(target, Cripple.class, 1+hero.pointsInTalent(Talent.LEG_SWEEP));
 						return super.act();
 					}
 				}.attachTo(enemy);
@@ -2700,7 +2701,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SCAR_ATTACK, DOCTORS_INTUITION, FINISH_ATTACK, FIRST_AID_TREAT, BREAKTHROUGH);
 				break;
 			case ARCHER:
-				Collections.addAll(tierTalents, FORCE_SAVING, ARCHERS_INTUITION, SURPRISE_PANIC, SURVIVAL_TECHNIQUE, DEXTERITY);
+				Collections.addAll(tierTalents, FORCE_SAVING, ARCHERS_INTUITION, LEG_SWEEP, SURVIVAL_TECHNIQUE, DEXTERITY);
 				break;
 		}
 		for (Talent talent : tierTalents){
