@@ -1922,6 +1922,10 @@ public class Hero extends Char {
 
 		multi += 0.05f * pointsInTalent(Talent.LETHAL_POWER);
 
+		if (hasTalent(Talent.POWERFUL_CRIT) && wep instanceof MissileWeapon) {
+			multi += 0.1f * pointsInTalent(Talent.POWERFUL_CRIT);
+		}
+
 		return Math.round(damage * multi) + bonusDamage;
 	}
 

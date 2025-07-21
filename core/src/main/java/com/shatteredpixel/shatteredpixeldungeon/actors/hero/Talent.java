@@ -64,7 +64,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SwordAura;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WeaponEnhance;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
@@ -729,7 +728,7 @@ public enum Talent {
 	NATURE_FRIENDLY				(7, 11),
 	PUSHBACK					(8, 11),
 	ARCHERS_FORESIGHT			(9, 11),
-	ROOTS_ENTWINE				(10, 11),
+	POWERFUL_CRIT				(10, 11),
 
 	//Archer T3
 	MAKESHIFT_BOW				(11, 11, 3),
@@ -2748,7 +2747,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, HEALING_MEAL, RECYCLING, HIGH_POWER, RADIATION, STRONG_HEALPOWER, DIET);
 				break;
 			case ARCHER:
-				Collections.addAll(tierTalents, FIGHTING_MEAL, FULLY_POTION, NATURE_FRIENDLY, PUSHBACK, ARCHERS_FORESIGHT, ROOTS_ENTWINE);
+				Collections.addAll(tierTalents, FIGHTING_MEAL, FULLY_POTION, NATURE_FRIENDLY, PUSHBACK, ARCHERS_FORESIGHT, POWERFUL_CRIT);
 				break;
 		}
 		for (Talent talent : tierTalents){
