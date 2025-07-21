@@ -130,6 +130,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.Bow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.BowWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.GreatBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.LongBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.ShortBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.Gun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -1698,6 +1699,17 @@ public enum Talent {
 				} else {
 					level.drop(bow, Dungeon.hero.pos).sprite.drop();
 				}
+			}
+		}
+
+		if (talent == ARCHERS_INTUITION && hero.heroClass == HeroClass.ARCHER && hero.pointsInTalent(ARCHERS_INTUITION) == 2) {
+			BowWeapon bow = new ShortBow();
+			bow.identify();
+			if (bow.doPickUp(Dungeon.hero)) {
+				GLog.i(Messages.get(Dungeon.hero, "you_now_have", bow.name()));
+				hero.spend(-1);
+			} else {
+				level.drop(bow, Dungeon.hero.pos).sprite.drop();
 			}
 		}
 	}
