@@ -523,7 +523,7 @@ public enum Talent {
 	//Samurai T2
 	CRITICAL_MEAL				(5, 7),	//식사에 1턴만 소모, 식사 시 다음 1/2회의 물리 공격에 반드시 치명타 발생
 	INSCRIBED_LETHALITY			(6, 7),	//주문서 사용 시 다음 1/2회의 물리 공격에 반드시 치명타 발생
-	UNEXPECTED_SLASH			(7, 7),	//적을 처음 공격하면 치명 확률 +10/20% 증가
+	UNEXPECTED_SLASH			(7, 7),	//납도 중 치명 확률 +10%/20% 증가
 	DRAGONS_EYE					(8, 7),	//납도 중 주변 반경 3/4타일 이내의 적 위치를 파악할 수 있게 됨
 	WEAPON_MASTERY				(9, 7),	//무기의 힘 요구 수치를 넘은 힘 1당 치명 확률 +1/+2%
 	CRITICAL_THROW				(10, 7),	//투척 무기와 탄환의 치명 확률이 +25/50% 증가
@@ -1186,8 +1186,6 @@ public enum Talent {
 
 	//Samurai 1-3 meta
 	public static class DrawEnhanceMetaTracker extends Buff {}
-	//Samurai 2-3
-	public static class UnexpectedSlashTracker extends Buff {}
 
 	//Knight 1-1
 	public static class ArmorEmpower extends Buff {

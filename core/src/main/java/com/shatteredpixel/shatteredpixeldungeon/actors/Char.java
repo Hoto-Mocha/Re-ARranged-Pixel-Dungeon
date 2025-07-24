@@ -1148,7 +1148,7 @@ public abstract class Char extends Actor {
 		
 		if (sprite != null) {
 			String dmgText = Integer.toString(dmg + shielded);
-			if (src == hero && this.buff(Sheath.CriticalAttack.class) != null) {
+			if (src == hero && hero.buff(Sheath.CriticalAttack.class) != null) {
 				dmgText += "!";
 			}
 			//defaults to normal damage icon if no other ones apply
