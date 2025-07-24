@@ -304,8 +304,6 @@ abstract public class MissileWeapon extends Weapon {
 			}
 		}
 
-
-
 		SharpShooterBuff.SharpShootingCoolDown.missileHit(attacker);
 
 		return super.proc(attacker, defender, damage);

@@ -403,7 +403,7 @@ public class Teleporter extends Item {
 //            InterlevelScene.returnPos = -2;
 //            Game.switchScene( InterlevelScene.class );
 
-            GameScene.selectCell(listener);
+//            GameScene.selectCell(listener);
 
         }
     }
