@@ -43,7 +43,21 @@ public class ShatteredPixelDungeon extends Game {
 
 	public static final int v3_0_2 = 833;
 	public static final int v3_1_0 = 846;
-	
+
+	//if you don't want to use google play games service, this must return false
+	public static boolean useGooglePlayGmaes() {
+        return DeviceCompat.isAndroid();
+    }
+
+	public static GooglePlayGames playServices;
+
+	public ShatteredPixelDungeon( PlatformSupport platform, GooglePlayGames playServices) {
+		this(platform);
+		if (playServices != null) {
+			ShatteredPixelDungeon.playServices = playServices;
+		}
+	}
+
 	public ShatteredPixelDungeon( PlatformSupport platform ) {
 		super( sceneClass == null ? WelcomeScene.class : sceneClass, platform );
 

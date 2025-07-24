@@ -16,14 +16,14 @@ android {
 
         //noinspection MinSdkTooLow
         minSdkVersion appAndroidMinSDK
-        targetSdk 35
+        targetSdk 34
         resourceConfigurations += ['en_US', 'cs', 'de', 'el', 'es', 'fr', 'hu', 'in', 'it', 'ja', 'ko', 'nl', 'pl', 'pt', 'ru', 'tr', 'uk', 'vi', 'zh_CN']
 
     }
 
     buildTypes {
         debug {
-            applicationIdSuffix ".indev"
+//            applicationIdSuffix ".indev"
             versionNameSuffix '-INDEV'
             dependencies {
                 debugImplementation project(':services:updates:debugUpdates')
@@ -75,6 +75,8 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-freetype-platform:1.11.0:natives-x86"
     natives "com.badlogicgames.gdx:gdx-freetype-platform:1.11.0:natives-x86_64"
     implementation "com.badlogicgames.gdx-controllers:gdx-controllers-android:$gdxControllersVersion"
+
+    implementation "com.google.android.gms:play-services-games-v2:+"
 }
 
 // called every time gradle gets executed, takes the native dependencies of

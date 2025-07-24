@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon;
 
+import com.badlogic.gdx.Gdx;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -381,13 +382,21 @@ public class Badges {
 		if (global == null) {
 			try {
 				Bundle bundle = FileUtils.bundleFromFile( BADGES_FILE );
+				Gdx.app.log("REARRANGED", "Badge loaded, bundle:"+ bundle);
 				global = restore( bundle );
 
 			} catch (IOException e) {
 				global = new HashSet<>();
 			}
+		} else {
+			Gdx.app.log("REARRANGED", "Badges didn't load");
 		}
 	}
+
+	public static void forceLoad(Bundle bundle) {
+        Gdx.app.log("REARRANGED", "Badge loaded, bundle:"+ bundle);
+        global = restore( bundle );
+    }
 
 	public static void saveGlobal(){
 		saveGlobal(false);

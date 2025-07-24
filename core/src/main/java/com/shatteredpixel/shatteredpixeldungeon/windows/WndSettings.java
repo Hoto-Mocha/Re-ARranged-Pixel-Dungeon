@@ -956,6 +956,8 @@ public class WndSettings extends WndTabbed {
 		CheckBox chkUpdates;
 		CheckBox chkBetas;
 		CheckBox chkWifi;
+		RedButton btnGooglePlayUpload;
+		RedButton btnGooglePlayDownload;
 
 		@Override
 		protected void createChildren() {
@@ -1014,6 +1016,32 @@ public class WndSettings extends WndTabbed {
 				chkWifi.checked(SPDSettings.WiFi());
 				add(chkWifi);
 			}
+
+			if (ShatteredPixelDungeon.useGooglePlayGmaes()) {
+				btnGooglePlayUpload = new RedButton(Messages.get(this, "google_play_upload")) {
+					@Override
+					protected void onClick() {
+						super.onClick();
+						if (ShatteredPixelDungeon.playServices != null) {
+							ShatteredPixelDungeon.playServices.launchGooglePlayGames(true);
+							ShatteredPixelDungeon.scene().addToFront( new WndMessage( Messages.get(DataTab.class, "google_upload_launched") ) );
+						}
+					}
+				};
+				add(btnGooglePlayUpload);
+
+				btnGooglePlayDownload = new RedButton(Messages.get(this, "google_play_download")) {
+					@Override
+					protected void onClick() {
+						super.onClick();
+						if (ShatteredPixelDungeon.playServices != null) {
+							ShatteredPixelDungeon.playServices.launchGooglePlayGames(false);
+							ShatteredPixelDungeon.scene().addToFront( new WndMessage( Messages.get(DataTab.class, "google_download_launched") ) );
+						}
+					}
+				};
+				add(btnGooglePlayDownload);
+			}
 		}
 
 		@Override
@@ -1044,6 +1072,16 @@ public class WndSettings extends WndTabbed {
 			if (chkWifi != null){
 				chkWifi.setRect(0, pos + GAP, width, BTN_HEIGHT);
 				pos = chkWifi.bottom();
+			}
+
+			if (btnGooglePlayUpload != null){
+				btnGooglePlayUpload.setRect(0, pos + GAP, width, BTN_HEIGHT);
+				pos = btnGooglePlayUpload.bottom();
+			}
+
+			if (btnGooglePlayDownload != null){
+				btnGooglePlayDownload.setRect(0, pos + GAP, width, BTN_HEIGHT);
+				pos = btnGooglePlayDownload.bottom();
 			}
 
 			height = pos;

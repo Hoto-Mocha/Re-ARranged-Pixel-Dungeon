@@ -31,6 +31,10 @@ Started community-based translation on [Transifex](https://explore.transifex.com
 - 2 of New UI Style
 - Etc
 
+Google Play Games Setting for Developer
+---
+You should edit the return value of ShatteredPixelDungeon.useGooglePlayGmaes() to `false` if you don't want to use Google Play Games.
+
 ## Gameplay Screenshots
 [Go to Wiki Page](https://github.com/Hoto-Mocha/Re-ARranged-Pixel-Dungeon/wiki/Gameplay-Screenshots)
 
