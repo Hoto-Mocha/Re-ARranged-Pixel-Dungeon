@@ -169,7 +169,7 @@ public class Juggling extends Buff implements ActionIndicator.Action {
                                 public void call() {
                                     if (Dungeon.hero.hasTalent(Talent.FANCY_PERFORMANCE)) {
                                         Char ch = Actor.findChar(destination);
-                                        if (ch != null) {
+                                        if (ch != null && ch.alignment == Char.Alignment.ENEMY) {
                                             Dungeon.level.drop(new Gold(5*Dungeon.hero.pointsInTalent(Talent.FANCY_PERFORMANCE)), destination).sprite.drop();
                                         }
                                     }
