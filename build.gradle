@@ -16,16 +16,16 @@ allprojects {
 
         appVersionCode = 850
         appVersionName = '3.1.1'
-        appVersionCode += 54
-        appVersionName += '_based_3.36.0'
+        appVersionCode += 57
+        appVersionName += '_based_3.37.0_TEST_v2'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
-        appAndroidCompileSDK = 35   //Android 15
-        appAndroidMinSDK = 14       //Android 4.0
+        appAndroidCompileSDK = 34  //Android 14
+        appAndroidMinSDK = 21       //Android 5.0
         //significant layout management changes required for API 35+ as edge-to-edge is forced on
         //will do this at the same time as dropping support for Android 4.4- (later in 2025)
-        appAndroidTargetSDK = 35    //Android 15
+        appAndroidTargetSDK = 34    //Android 14
 
         gdxVersion = '1.12.1'
         gdxControllersVersion = '2.2.4-SNAPSHOT'
