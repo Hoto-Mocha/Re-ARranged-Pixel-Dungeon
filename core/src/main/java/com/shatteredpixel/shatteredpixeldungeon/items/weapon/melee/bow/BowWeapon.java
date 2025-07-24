@@ -247,6 +247,9 @@ public class BowWeapon extends MeleeWeapon {
 
         public void reset(BowWeapon bow) {
             arrowFrom = bow;
+            this.enchantment = bow.enchantment;
+            this.augment = bow.augment;
+            this.masteryPotionBonus = bow.masteryPotionBonus;
             this.tier = bow.tier();
         }
 
@@ -303,6 +306,7 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
+
             return arrowFrom.hasEnchant(type, owner);
         }
 
