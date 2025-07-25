@@ -79,9 +79,9 @@ public class PotionOfShroudingFog extends ExoticPotion {
 			}
 
 			public boolean act() {
-				Buff.affect(hero, Invisibility.class, 2f);
+				Buff.affect(hero, Invisibility.class, 1f);
 				return super.act();
 			}
-		}.attachTo(enemy);
+		}.attachTo(hero);
 	}
 }
