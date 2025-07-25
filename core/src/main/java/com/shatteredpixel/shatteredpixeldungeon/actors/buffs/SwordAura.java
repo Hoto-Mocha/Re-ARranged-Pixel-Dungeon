@@ -267,7 +267,9 @@ public class SwordAura extends Buff implements ActionIndicator.Action {
                     knockAura().cast(hero, target);
                 }
             }
-            cross.remove();
+            if (cross != null) {
+                cross.remove();
+            }
         }
         @Override
         public String prompt() {
