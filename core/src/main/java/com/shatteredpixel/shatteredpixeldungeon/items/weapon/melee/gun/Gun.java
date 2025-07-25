@@ -465,7 +465,7 @@ public class Gun extends MeleeWeapon {
 		int damage;
 		int talentBonus = 0;
 		if (Dungeon.hero != null && hero.hasTalent(Talent.CLOSE_COMBAT)) {
-			talentBonus += 2+2*hero.pointsInTalent(Talent.CLOSE_COMBAT);
+			talentBonus += 2*hero.pointsInTalent(Talent.CLOSE_COMBAT);
 		}
 		if (Dungeon.hero != null) {
 			damage = 3*(tier()+1) +

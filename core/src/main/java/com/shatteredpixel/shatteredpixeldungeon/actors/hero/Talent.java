@@ -469,7 +469,7 @@ public enum Talent {
 	GUNNERS_INTUITION			(1,  6),	//총기를 장착 시 감정/습득 시 저주 여부 감정
 	SPEEDY_MOVE					(2,  6),	//적을 처음 공격하면 초신속 2/3턴
 	SAFE_RELOAD					(3,  6),	//재장전 시 3/5의 방어막을 얻음
-	CLOSE_COMBAT				(4,  6),	//총기 근접 공격력이 0-4/0-6 증가
+	CLOSE_COMBAT				(4,  6),	//총기 근접 공격력이 0-2/0-4 증가
 	//Gunner T2
 	INFINITE_BULLET_MEAL		(5,  6),	//식사에 1턴만 소모하고, 식사 시 2/3턴의 무한 탄환을 얻음
 	INSCRIBED_BULLET			(6,  6),	//주문서 사용 시 5/10개의 탄환을 얻음
