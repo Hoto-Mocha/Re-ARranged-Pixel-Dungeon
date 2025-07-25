@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Stamina;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
@@ -51,8 +52,6 @@ public class PotionOfStamina extends ExoticPotion {
 
 	@Override
 	public void potionProc(Hero hero, Char enemy, float damage) {
-		if (hero.buff(BowWeapon.BowFatigue.class) != null) {
-			hero.buff(BowWeapon.BowFatigue.class).detach();
-		}
+		Buff.affect(hero, Stamina.class, 3f);
 	}
 }
