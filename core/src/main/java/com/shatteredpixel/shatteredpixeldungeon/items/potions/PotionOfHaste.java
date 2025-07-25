@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.BowWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -58,6 +59,8 @@ public class PotionOfHaste extends Potion {
 
 	@Override
 	public void potionProc(Hero hero, Char enemy, float damage) {
-		Buff.prolong(hero, Haste.class, 3f);
+		if (hero.buff(BowWeapon.BowFatigue.class) != null) {
+			hero.buff(BowWeapon.BowFatigue.class).detach();
+		}
 	}
 }
