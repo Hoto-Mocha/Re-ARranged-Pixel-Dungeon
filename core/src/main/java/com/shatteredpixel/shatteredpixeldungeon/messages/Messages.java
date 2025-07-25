@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IllegalFormatException;
 import java.util.Locale;
+import java.util.MissingResourceException;
 
 /*
 	Simple wrapper class for libGDX I18NBundles.
@@ -110,7 +111,11 @@ public class Messages {
 			if (bundleLocal.getLanguage().equals("id")){
 				//This is a really silly hack to fix some platforms using "id" for indonesian and some using "in" (Android 14- mostly).
 				//So if we detect "id" then we treat "###_in" as the base bundle so that it gets loaded instead of English.
-				bundles.add(I18NBundle.createBundle(Gdx.files.internal(file + "_in"), bundleLocal));
+				try {
+					bundles.add(I18NBundle.createBundle(Gdx.files.internal(file + "_in"), bundleLocal));
+				} catch (MissingResourceException e) {
+					bundles.add(I18NBundle.createBundle(Gdx.files.internal(file), bundleLocal));
+				}
 			} else {
 				bundles.add(I18NBundle.createBundle(Gdx.files.internal(file), bundleLocal));
 			}
