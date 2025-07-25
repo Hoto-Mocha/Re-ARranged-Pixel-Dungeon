@@ -96,11 +96,11 @@ public class AquaBrew extends Brew {
 		int centerVolume = 60;
 		for (int i : PathFinder.NEIGHBOURS8){
 			if (!Dungeon.level.solid[cell+i]){
-				GameScene.add( Blob.seed( cell+i, 60, StormCloud.class ) );
+				GameScene.add( Blob.seed( cell+i, 60, ThunderCloud.class ) );
 			} else {
 				centerVolume += 60;
 			}
 		}
-		GameScene.add( Blob.seed( cell, centerVolume, StormCloud.class ) );
+		GameScene.add( Blob.seed( cell, centerVolume, ThunderCloud.class ) );
 	}
 }
