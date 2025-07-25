@@ -7,7 +7,6 @@ public class WornShortBow extends BowWeapon {
         tier = 1;
         image = ItemSpriteSheet.WORN_SHORTBOW;
 
-        unique = true;
         bones = false;
     }
 }
