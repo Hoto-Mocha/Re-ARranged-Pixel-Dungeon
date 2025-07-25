@@ -132,6 +132,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.LongBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.ShortBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.bow.WornShortBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.gun.AR.AR_T1;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.quick.PocketKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
@@ -391,8 +392,12 @@ public enum HeroClass {
 		BulletBelt bulletBelt = new BulletBelt();
 		bulletBelt.quantity(5).collect();
 
+		PocketKnife pocketKnife = new PocketKnife();
+		pocketKnife.identify().collect();
+
 		Dungeon.quickslot.setSlot(0, hero.belongings.weapon);
-		Dungeon.quickslot.setSlot(1, bulletBelt);
+		Dungeon.quickslot.setSlot(1, pocketKnife);
+		Dungeon.quickslot.setSlot(2, bulletBelt);
 
 		new PotionOfHaste().identify();
 		new ScrollOfTeleportation().identify();
@@ -472,6 +477,9 @@ public enum HeroClass {
 		(hero.belongings.weapon = bow).identify();
 		hero.belongings.weapon.activate(hero);
 
+		PocketKnife pocketKnife = new PocketKnife();
+		pocketKnife.identify().collect();
+
 		BulletBelt bulletBelt = new BulletBelt();
 		bulletBelt.quantity(3).collect();
 
@@ -479,8 +487,9 @@ public enum HeroClass {
 		arrowBag.collect();
 
 		Dungeon.quickslot.setSlot(0, hero.belongings.weapon);
-		Dungeon.quickslot.setSlot(1, arrowBag);
-		Dungeon.quickslot.setSlot(2, bulletBelt);
+		Dungeon.quickslot.setSlot(1, pocketKnife);
+		Dungeon.quickslot.setSlot(2, arrowBag);
+		Dungeon.quickslot.setSlot(3, bulletBelt);
 
 		new ScrollOfMagicMapping().identify();
 		new PotionOfHaste().identify();

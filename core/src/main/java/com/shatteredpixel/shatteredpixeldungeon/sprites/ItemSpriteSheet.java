@@ -1537,11 +1537,17 @@ public class ItemSpriteSheet {
 
 	private static final int ARROW_WEAPONS			=	xy(1, 74);
 	public static final int NORMAL_ARROW			= ARROW_WEAPONS+0;
-	public static final int LIGHT_ARROW				= ARROW_WEAPONS+1;
 	static {
 		assignItemRect(NORMAL_ARROW, 14, 14);
-		assignItemRect(LIGHT_ARROW, 14, 14);
 	}
+
+	private static final int QUICK_WEAPONS			=	xy(1, 75);
+	public static final int POCKET_KNIFE			= QUICK_WEAPONS+0;
+	static {
+		assignItemRect(POCKET_KNIFE, 11, 12);
+	}
+
+
 	// ****** new sprites end ******
 
 
