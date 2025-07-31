@@ -254,7 +254,7 @@ public class SharpShooterBuff extends Buff implements ActionIndicator.Action {
             }
 
             int shots = 3;
-            float delay = 0.15f;
+            float delay = 0.2f;
 
             if (weapon instanceof Gun) {
                 if (((Gun) weapon).round() < shots) shots = ((Gun) weapon).round();
