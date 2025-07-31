@@ -87,6 +87,8 @@ public class PocketKnife extends QuickWeapon {
 
         @Override
         public void onSelect( Item item ) {
+            if (item == null) return;
+
             item.upgrade();
             Sample.INSTANCE.play( Assets.Sounds.EVOKE );
             CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
