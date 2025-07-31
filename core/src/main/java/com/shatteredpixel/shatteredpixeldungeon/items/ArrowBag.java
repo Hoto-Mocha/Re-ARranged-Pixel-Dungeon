@@ -119,7 +119,7 @@ public class ArrowBag extends Item {
         if (potion != null) {
             potion.potionProc(hero, enemy, dmg);
             uses--;
-            dmg *= (1f + 0.2f * level());
+            dmg *= (1.1f);
         }
 
         if (uses <= 0) {
@@ -253,20 +253,20 @@ public class ArrowBag extends Item {
 
         @Override
         public void onSelect(Item item) {
-            if (item != null) {
-                item.detach(Dungeon.hero.belongings.backpack);
-                if (item instanceof PotionOfStrength || item instanceof PotionOfMastery) {
-                    upgrade();
-                } else {
-                    potion = (Potion)item;
-                    uses = Math.max(1, Math.round(((Potion)item).talentFactor()*(12 + 6 * (level() + Dungeon.hero.pointsInTalent(Talent.BOTTLE_EXPANSION)))));
-                }
+            if (item == null) return;
 
-                Dungeon.hero.sprite.operate(Dungeon.hero.pos);
-                Sample.INSTANCE.play(Assets.Sounds.DRINK);
-
-                updateQuickslot();
+            item.detach(Dungeon.hero.belongings.backpack);
+            if (item instanceof PotionOfStrength || item instanceof PotionOfMastery) {
+                upgrade();
+            } else {
+                potion = (Potion)item;
+                uses = Math.max(1, Math.round(((Potion)item).talentFactor()*(15 + 3 * (level() + Dungeon.hero.pointsInTalent(Talent.BOTTLE_EXPANSION)))));
             }
+
+            Dungeon.hero.sprite.operate(Dungeon.hero.pos);
+            Sample.INSTANCE.play(Assets.Sounds.DRINK);
+
+            updateQuickslot();
         }
     };
 
