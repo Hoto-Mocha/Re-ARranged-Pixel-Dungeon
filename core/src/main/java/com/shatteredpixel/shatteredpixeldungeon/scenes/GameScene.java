@@ -530,20 +530,21 @@ public class GameScene extends PixelScene {
 
 			if (Dungeon.hero.hasTalent(Talent.ARCHERS_FORESIGHT)
 					&& Dungeon.level instanceof RegularLevel && Dungeon.branch == 0){
-				int length = Dungeon.level.length();
-				boolean[] mapped = Dungeon.level.mapped;
-
-				for (int i=0; i < length; i++) {
-					Trap trap = Dungeon.level.traps.get( i );
-					if (trap != null) {
-						mapped[i] = true;
-						Dungeon.level.discover( i );
-					}
-				}
-				GameScene.updateFog();
 
 				Random.pushGenerator(Dungeon.seedCurDepth()+1);
 					if (Random.Float() < 0.2f+0.3f*Dungeon.hero.pointsInTalent(Talent.ARCHERS_FORESIGHT)){
+						int length = Dungeon.level.length();
+						boolean[] mapped = Dungeon.level.mapped;
+
+						for (int i=0; i < length; i++) {
+							Trap trap = Dungeon.level.traps.get( i );
+							if (trap != null) {
+								mapped[i] = true;
+								Dungeon.level.discover( i );
+							}
+						}
+						GameScene.updateFog();
+
 						GLog.p(Messages.get(this, "trap_discover"));
 					}
 				Random.popGenerator();
