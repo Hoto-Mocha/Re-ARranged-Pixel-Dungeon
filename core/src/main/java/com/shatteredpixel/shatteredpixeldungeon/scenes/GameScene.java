@@ -543,7 +543,7 @@ public class GameScene extends PixelScene {
 				GameScene.updateFog();
 
 				Random.pushGenerator(Dungeon.seedCurDepth()+1);
-					if (Random.Float() < 0.5f+0.25f*Dungeon.hero.pointsInTalent(Talent.ARCHERS_FORESIGHT)){
+					if (Random.Float() < 0.2f+0.3f*Dungeon.hero.pointsInTalent(Talent.ARCHERS_FORESIGHT)){
 						GLog.p(Messages.get(this, "trap_discover"));
 					}
 				Random.popGenerator();
