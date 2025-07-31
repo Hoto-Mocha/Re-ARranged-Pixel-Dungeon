@@ -47,6 +47,8 @@ public class BowWeapon extends MeleeWeapon {
         usesTargeting = true;
     }
 
+    private static final int MAX_SHOTS = 3;
+
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
@@ -576,7 +578,7 @@ public class BowWeapon extends MeleeWeapon {
 
         @Override
         public String desc() {
-            return Messages.get(this, "desc", (int)count(), Messages.decimalFormat("#.##", duration));
+            return Messages.get(this, "desc", MAX_SHOTS+1, (int)count(), Messages.decimalFormat("#.##", duration));
         }
 
         public static final String DURATION = "duration";
@@ -612,8 +614,8 @@ public class BowWeapon extends MeleeWeapon {
         }
 
         public int damage(int damage) {
-            if (this.count() > 4) {
-                int exceed = (int)this.count() - 4;
+            if (this.count() > MAX_SHOTS) {
+                int exceed = (int)this.count() - MAX_SHOTS;
                 damage = Math.round(damage * (float)Math.pow(0.9f, exceed));
             }
             return damage;
