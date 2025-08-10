@@ -33,7 +33,7 @@ Started community-based translation on [Transifex](https://explore.transifex.com
 
 Google Play Games Setting for Developer
 ---
-You should edit the return value of ShatteredPixelDungeon.useGooglePlayGmaes() to `false` if you don't want to use Google Play Games.
+You should delete [<meta-data> tag](https://github.com/Hoto-Mocha/Re-ARranged-Pixel-Dungeon/blob/f51124a9c2737f6c5b5738682cc4b984963cfebf/android/src/main/AndroidManifest.xml#L49) to build your app successfully on android platform.
 
 ## Gameplay Screenshots
 [Go to Wiki Page](https://github.com/Hoto-Mocha/Re-ARranged-Pixel-Dungeon/wiki/Gameplay-Screenshots)
