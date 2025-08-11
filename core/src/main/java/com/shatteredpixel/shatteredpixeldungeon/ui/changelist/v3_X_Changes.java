@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.ChangesScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.GnollExileSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ImpSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
@@ -44,6 +45,7 @@ public class v3_X_Changes {
 
 	public static void addAllChanges( ArrayList<ChangeInfo> changeInfos ){
 		add_Coming_Soon(changeInfos);
+		add_v3_2_Changes(changeInfos);
 		add_v3_1_Changes(changeInfos);
 		add_v3_0_Changes(changeInfos);
 	}
@@ -54,31 +56,192 @@ public class v3_X_Changes {
 		changes.hardlight(0xCCCCCC);
 		changeInfos.add(changes);
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Overview",
-				"The next major update to Shattered will be v3.2, which will include an overhaul to thrown weapons!\n" +
+		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Overview and ETA",
+				"The next major Shattered update will v3.3 (I may change the name to v4.0 but it's unlikely). This update will include an overhaul to the Ambitious Imp quest in the metropolis!\n" +
 				"\n" +
-				"Due to deadlines relating to supporting old versions of Android, v3.2 has to release relatively quickly. Expect to hear more from me about it sometime probably toward mid or late July.\n" +
+				"The blacksmith quest overhaul ended up taking quite a bit of time, and so I expect v3.3 will as well. I will write some blog posts as I make progress though, so hopefully you'll hear from me as things start to take shape in October or November.\n" +
 				"\n" +
 				"**Please keep in mind that while I always try to keep to the ETAs I provide, they are just estimates. If you don't hear from me by the ETA, it means I'm still busy with the update!**"));
 
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.TRIDENT), "Thrown Weapon Overhaul",
-				"The biggest content change I have planned for v3.2 is something I didn't originally plan for 2025, an overhaul to thrown weapons! I've settled on a design I like, and want v3.2 to be fairly quick, which is why this has taken priority for the moment.\n" +
+		changes.addButton( new ChangeButton(Icons.get(Icons.CHANGES), "Patches & Old Android and Java",
+				"There will be a higher than normal number of patches to v3.2. Firstly to address balance concerns arising from all the item changes (rather than waiting and doing them next update), and then to make various game library updates and technical changes.\n" +
 				"\n" +
-				"The plan is to make thrown weapons behave a bit more like wands, by having them drop in 'sets' that have a fixed quantity, but which can be upgraded as a unit. This should make investing upgrades in thrown weapons much more appealing, as you'll no longer be limited to upgrading one at a time."));
+				"As mentioned previously, one of the consequences of these library updates and technical changes will be removing support for Android 4.0-4.4, and Java 8-10. Dropping support for these is unfortunately necessary in order to meet an impending requirement by Google."));
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.PREFS), "Misc. and Behind the Scenes Changes",
-				"As always, v3.2 will include some smaller misc. changes and balance tweaks, but I expect it will be lighter on them than usual as I'm working on a deadline in order to ensure old Android and Java users will still get v3.2.\n" +
+		changes.addButton( new ChangeButton(new Image(new ImpSprite()), "City Quest Overhaul!",
+				"The major content improvements coming in v3.3 will be an overhaul to the Ambitious Imp's quest in the Metropolis. This quest is one of the last major leftovers from the original Pixel Dungeon and badly needs some modernization.\n" +
 				"\n" +
-				"If there's time, I would also like to make some internal changes in prep for a new city quest toward the end of the year."));
+				"Just like the Blacksmith quest overhaul, this new quest will send you to a new sub-region of the dungeon with some unique gameplay. Rather than digging, you'll be attempting to infiltrate a dwarven vault full of danger and treasure!"));
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.WARNING), "Old Android and Java Support",
-				"Unfortunately, due to changes to code libraries and build tools that Shattered depends on, I will have to make some changes in the next few months that will remove support for **Android 4.0-4.4** and **Java 8-10**.\n" +
+		changes.addButton( new ChangeButton(Icons.get(Icons.PREFS), "Other Changes",
+				"I will want to keep v3.3 mainly focused on the new quest, but there will be room for smaller changes too! Mainly this will be balance changes, but there might be room for a few smaller design improvements or additions too.\n" +
 				"\n" +
-				"Devices with these platform versions should still receive v3.2 and any immediate patches, but will not receive updates after that. These devices will be able to continue playing v3.2 indefinitely.\n" +
+				"Also, I can't make any promises yet, but I am hoping to move forward with more visual improvements, including in-game spritework improvements, whose development has largely been on hiatus since last year."));
+	}
+
+	public static void add_v3_2_Changes( ArrayList<ChangeInfo> changeInfos ) {
+
+		ChangeInfo changes = new ChangeInfo("v3.2", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "new"), false, null);
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Dev Commentary",
+				"**-** Released August 4th, 2025\n" +
+				"**-** 63 days after Shattered v3.1.0\n" +
 				"\n" +
-				"Android 4.4 was succeeded by Android 5.0 in 2014, ~1% of Android Shattered players are using Android 4.4-. Java 10 was succeeded by Java 11 in 2018, but can run on computers from 2010 and earlier.\n" +
+				"Dev commentary will be added here in the future."));
+
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.JAVELIN), "Thrown Weapon Sets",
+				"**Thrown weapons have been majorly overhauled to be more worthwhile to upgrade!**\n" +
 				"\n" +
-				"Note that the Java requirement only applies to the plain .JAR desktop builds of Shattered, which require a separate Java install. If you're unsure which desktop build you're using, it probably isn't the Java one."));
+				"**-** Thrown weapons now spawn in sets of three, sets do not mix.\n" +
+				"**-** Thrown weapon base durability increased to 3x5/8/12, from 2x5/10/15.\n" +
+				"**-** Sets are upgraded as a unit (all 3), and upgrading fully repairs the set.\n" +
+				"**-** Upgrades now boost durability by 1.5x, down from 3x.\n" +
+				"**-** Thrown weapon default damage scaling per upgrade reduced to 1-tier, down from 2-tier.\n" +
+				"**-** Sets can be enchanted, cursed, augmented, unidentified, etc.\n" +
+				"**-** Sets can spawn with natural upgrades, enchants, or curses.\n" +
+				"**-** A few special rooms now have a chance to spawn higher value thrown weapon sets.\n" +
+				"\n" +
+				"Note that darts are not affected by these changes, they effectively all belong to the same set and still cannot be upgraded."));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.BUFFS), "Hit and Miss Icons",
+				"**Pretty much every effect that changes accuracy or evasion now has an icon that shows up when that effect is the reason an attack hit or missed!**\n" +
+				"\n" +
+				"This is an extension of the green bow icon that was used to make the Ferret Tuft's evasion boost more visible in v3.1. It should make it much easier to tell how much of a difference various buffs/debuffs are making to hit chance.\n" +
+				"\n" +
+				"There are 12 different hit icons and 11 miss icons in total."));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.DISPLAY), "Text Banners",
+				"**New visuals have been added for the 'boss slain' and 'game over' text banners!**\n" +
+				"\n" +
+				"They should now match the newer text visuals in the title screen. This also includes some detail adjustments such as centering the sword in 'boss slain' vertically instead of horizontally."));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "changes"), false, null);
+		changes.hardlight(CharSprite.WARNING);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.LIQUID_METAL), "Liquid Metal",
+				"Liquid metal has also been changed to go along with the general changes to thrown weapons:\n" +
+				"\n" +
+				"**-** Recipe adjusted, now takes one known uncursed thrown weapon set and always costs 3 energy.\n" +
+				"**-** Liquid metal can now replace missing/broken thrown weapons from a set (up to the usual cap of 3)\n" +
+				"**-** Liquid metal scaling per upgrade down to 1.33x from 2x.\n" +
+				"\n" +
+				"The upgrade scaling change works out to be a slight nerf, as thrown weapon durability scaling per upgrade was also reduced to 1.5x from 3x. However, I expect durability and repairing to be much more of a factor now, as previously upgraded thrown weapons would reach infinite durability very quickly."));
+
+		changes.addButton(new ChangeButton(new TalentIcon(Talent.SURVIVALISTS_INTUITION), "Survivalist's Intuition",
+				"Now that thrown weapons can be identified, there is design space for the Huntress to have a non-generic identification talent:\n" +
+				"\n" +
+				"**- Survivalist's Intuition** now lets the Huntress ID thrown weapons at 3x speed at +1 or on-use at +2. Previously it increased ID speed of all items by 1.75x at +1 or 2.5x at +2."));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"**Highlights:**\n" +
+				"**-** Blacksmith's smith option now offers a thrown weapon in addition to 2 melee weapons and an armor\n" +
+				"**-** Thrown weapons (including the bow) now always have a throw delay of 1 turn if they aren't aimed at a target\n" +
+				"**-** Ascension challenge now always notifies the player the first time the amulet's curse is weakened\n" +
+				"**-** Characters that are immune to the wand of lightning no longer reduce its overall damage if it arcs though them\n" +
+				"**-** Chaotic Censer no longer aims at passive enemies\n" +
+				"**-** Added a new language: Swedish!\n" +
+				"\n" +
+				"**Thrown Weapons:**\n" +
+				"**-** Augmentation now affects thrown weapon durability based on how it affects attack speed\n" +
+				"**-** Projecting enchant can now stack on thrown weapons, giving more reach\n" +
+				"**-** Explosive curse now consumes uses on thrown weapons when it triggers\n" +
+				"**-** Friendly curse now sets weapon damage to 0 if charmed by that enemy",
+
+				"**Misc:**\n" +
+				"**-** Improved most tutorial/guidebook text to be more concise\n" +
+				"**-** Stone of Intuition guess window now shows which item you are guessing for\n" +
+				"**-** Blacksmith room can no longer spawn next to the depth exit room\n" +
+				"**-** Rats that are made friendly by the 19th armor ability no longer attack enemies\n" +
+				"**-** Wands now only need to be known uncursed to be used in making resin\n" +
+				"**-** Made tweaks to tunnel and maze rooms to reduce the chance of them generating certain shapes\n" +
+				"**-** Made piranha description text more helpful\n" +
+				"**-** Updated code libraries on iOS (Android and Desktop lib updates will come in a patch later)\n" +
+				"**-** Added dev commentary for v2.2.0\n"));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"Fixed the following bugs:\n" +
+				"**Gameplay:**\n" +
+				"**-** Cases where sacrificial fire would not apply just after a character steps into it\n" +
+				"**-** Rogue's inscribed stealth talent not properly triggering from some unstable spell effects\n" +
+				"**-** Rare cases where hero could not regen more than 1hp/turn when they should\n" +
+				"**-** Distortion traps always generating mimics when choosing to generate an uncommon enemy\n" +
+				"**-** Cleric's body form enchantment/glyph effect also applying to some enemies\n" +
+				"\n" +
+				"**Misc:**\n" +
+				"**-** Cases where status text would stack on itself incorrectly\n" +
+				"**-** Language selection menu using the wrong name for Indonesian\n" +
+				"**-** Minor visual and textual bugs"));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
+		changes.hardlight(CharSprite.POSITIVE);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(new TalentIcon(Talent.PROJECTILE_MOMENTUM), "Thrown Weapon Talent Buffs",
+				"Some talents that interact with thrown weapons are getting buffs as part of the thrown weapon changes:\n" +
+				"\n" +
+				"**- Projectile Momentum** accuracy boost up substantially, to +50/100/150% at +1/2/3, from +20/40/60% at +1/2/3.\n" +
+				"\n" +
+				"**- Shared Enchantments** no longer prevents multiple enchantment triggers. Both enchants can now trigger if the thrown weapon and the Huntress' bow are both enchanted."));
+
+		changes.addButton(new ChangeButton(HeroSprite.avatar(HeroClass.CLERIC, 6), "Cleric & Priest Buffs",
+				"Firstly, a quick buff to the Cleric's worst performing T2 spell:\n" +
+				"**- Divine Sense** duration up to 50 turns from 30.\n" +
+				"\n" +
+				"I'm also making some changes to improve the Priest's synergy with their various spell effects. Hopefully this will help the subclass compete a bit more with Paladin, who already gets great synergy thanks to all spells extending holy weapon and ward:\n" +
+				"**- Guiding Light** free use cooldown down to 50 turns from 100.\n" +
+				"**- Illuminate** is now inflicted on directly targeted enemies by all spells."));
+
+		changes.addButton(new ChangeButton(HeroSprite.avatar(HeroClass.WARRIOR, 6), "Warrior & Gladiator Buffs",
+				"Firstly, I'm making a change to the Warrior in general, to improve tactical flexibility and to make the Hold Fast talent more interesting:\n" +
+				"**- Hold Fast** now slows the decay of combo and shielding buffs by 33/67/100% at +1/2/3. This includes the broken seal shield and Berserker's enrage shield!\n" +
+				"\n" +
+				"Next, the Gladiator was weakened a bit after v3.1's Warrior changes, so I'm giving him some more combo flexibility to compensate:\n" +
+				"**- Combo** now lasts for 15 turns after killing an enemy.\n" +
+				"**- Cleave** combo duration boost increased to 30/45/60 turns at +1/2/3, from 15/30/45 turns."));
+
+		changes.addButton(new ChangeButton(HeroSprite.avatar(HeroClass.MAGE, 6), "Battlemage Buffs/Changes",
+				"Some Battlemage staff on-hit effects have been changed to be more interesting and more powerful. Most notably this removes three effects that were previously just copies of enchantments:\n" +
+				"\n" +
+				"**- Staff of Fireblast** effect reworked, now has a chance to explode away flames, dealing damage to enemies.\n" +
+				"**- Staff of Lightning** effect reworked, now has a chance to charge the Mage, granting lightning immunity and extra arcing reach.\n" +
+				"**- Staff of Blast Wave** effect reworked, now consumes paralysis to deal big bonus damage.\n" +
+				"**- Staff of Warding** mildly changed, now heals level 2 and 3 wards in addition to sentries."));
+
+		changes = new ChangeInfo(Messages.get(ChangesScene.class, "nerfs"), false, null);
+		changes.hardlight(CharSprite.NEGATIVE);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.TOMAHAWK), "Thrown Weapon Nerfs",
+				"Various thrown weapons are getting targeted nerfs, mainly focused around compensating for lower durability weapons now effectively having +50% base uses, or certain weapons now being much more spammable.\n" +
+				"\n" +
+				"**- Shuriken** instant-throw condition changed to a simple 20 turn cooldown\n" +
+				"**- Kunai** base damage down to 6-12 from 6-15\n" +
+				"**- Bolas** damage scaling down to 1-2 from 1-3\n" +
+				"**- Heavy Boomerang** durability down to 5 from 8\n" +
+				"**- Tomahawk** damage scaling down to 1-3 from 1-4\n" +
+				"**- Tomahawk** bleed % down to 33% from 60%, but it is now a separate roll that ignores enemy armor\n" +
+				"**- Force Cube** base damage down to 10-20 from 10-25"));
+
+		changes.addButton(new ChangeButton(new TalentIcon(Talent.SHARED_UPGRADES), "Thrown Weapon Talent Nerfs",
+				"Some talents are also getting nerfed as part of the thrown weapon changes:\n" +
+				"\n" +
+				"**- Projectile Momentum** damage boost down to +10/20/30% at +1/2/3, from +15/30/45% at +1/2/3\n" +
+				"\n" +
+				"**- Durable Projectiles** durability boost down to +33%/+50% at +1/+2, from +50%/+75% at +1/+2\n" +
+				"**- Shared Upgrades** slightly reworked, now grants a flat +16.67% damage boost and +1 duration per thrown weapon level, but caps at +33/67/100% damage and +2/4/6 duration at talent level 1/2/3."));
+
+		changes.addButton(new ChangeButton(HeroSprite.avatar(HeroClass.WARRIOR, 6), "Berserker Nerfs",
+				"The Berserker is doing quite well after v3.1, given that the new shield naturally synergizes with him. I'm scaling back the base subclass power a bit to compensate:\n" +
+				"\n" +
+				"**-** Rate of rage gain and loss reduced by 25%\n" +
+				"**-** Base enrage shield reduced to 8+2*lvl from 10+2*lvl (the armor's level)"));
 
 	}
 
@@ -87,47 +250,6 @@ public class v3_X_Changes {
 		ChangeInfo changes = new ChangeInfo("v3.1", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
-
-		changes = new ChangeInfo("", false, null);
-		changes.hardlight(Window.TITLE_COLOR);
-		changeInfos.add(changes);
-
-		changes = new ChangeInfo("v3.1.1", false, null);
-		changes.hardlight(Window.TITLE_COLOR);
-		changeInfos.add(changes);
-
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.SEAL), "Followup Warrior Tweaks",
-				"Gameplay-wise the Warrior is doing well after his mini-rework. I will likely make some changes in v3.2 but for now I'm just making one buff to an early talent:\n" +
-				"**- Hearty Meal** HP threshold increased to 33% from 30%, healing increased to 4/6 at +1/+2 from 3/5 at +1/+2.\n\n" +
-				"There are also some tweaks to the Warrior's new splash in response to feedback:\n" +
-				"**-** Significantly brightened the broken seal so that new details are easier to see\n" +
-				"**-** Added back in scarring and some muscle definition to the Warrior's arms\n" +
-				"**-** Deepened shadowing along the Warrior's figure\n" +
-				"**-** Added various small details to make the armor appear more worn and the Warrior more rugged"));
-
-		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
-				"**-** Switched Shattered's rendering backend on iOS to use Metal (new) instead of OpenGL (legacy). This should result in better performance and higher frame rates on supported devices.\n" +
-				"\n" +
-				"**-** Enemies and items can no longer spawn on top of plants generated by garden rooms\n" +
-				"\n" +
-				"**-** Added a new language: Traditional Chinese!\n" +
-				"**-** Renamed Chinese language to Simplified Chinese\n" +
-				"**-** Updated translations and translator credits\n" +
-				"\n" +
-				"**-** Increased the HP threshold for status pane blinking red to 33% from 30%, for consistency with hearty meal change."));
-
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"**Caused By v3.1:**\n" +
-				"**-** Incorrect landmark entries for beacon of returning\n" +
-				"\n" +
-				"**Existed Prior to v3.1:**\n" +
-				"**-** Thrown weapons sticking to broken crystal guardians\n" +
-				"**-** Ebony mimics always appearing hidden after ankh revive\n" +
-				"**-** Various issues with how the game handles animation logic at very low framerates\n" +
-				"**-** Haptics not working properly on more modern iOS devices\n" +
-				"**-** Website links not working on modern iOS versions\n" +
-				"**-** Indonesian language not working on desktop platforms"));
 
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "new"), false, null);
 		changes.hardlight(Window.TITLE_COLOR);
@@ -154,7 +276,8 @@ public class v3_X_Changes {
 				"**-** The broken seal can now be applied to known-uncursed armor.\n" +
 				"**-** When swapping armor, the Warrior now gets a prompt to swap his seal too.",
 
-				"Various other Warrior mechanics have been adjusted to compensate for the seal changes:\n" +
+				"Various other Warrior mechanics have been adjusted as well:\n" +
+				"**- Hearty Meal** HP threshold increased to 33% from 30%, healing increased to 4/6 at +1/+2 from 3/5 at +1/+2.\n" +
 				"**- Provoked Anger** talent now triggers when any shield buff breaks, and grants +3/+5 bonus damage, up from +2/+3.\n" +
 				"**- Iron Will** talent unchanged, still grants 1 or 2 max shield.\n" +
 				"**- Liquid Willpower** talent now grants regular barrier equal to 6.5%/10% of max HP, instead of recharging 50%/75% of max seal shield.\n" +
@@ -236,7 +359,18 @@ public class v3_X_Changes {
 				"**-** The inventory button gold indicator on mobile now shows when buying items\n" +
 				"**-** Rooms with a chasm in the center must now be at least 3x3, up from 2x2\n" +
 				"**-** Increased the minimum supported iOS version to 12, from 11\n" +
-				"**-** Moved the notification position to the top-left on the Steam version. It should no longer obscure UI elements"));
+				"**-** Moved the notification position to the top-left on the Steam version. It should no longer obscure UI elements",
+
+				"**v3.1.1:**\n" +
+				"**-** Switched Shattered's rendering backend on iOS to use Metal (new) instead of OpenGL (legacy). This should result in better performance and higher frame rates on supported devices.\n" +
+				"\n" +
+				"**-** Enemies and items can no longer spawn on top of plants generated by garden rooms\n" +
+				"\n" +
+				"**-** Added a new language: Traditional Chinese!\n" +
+				"**-** Renamed Chinese language to Simplified Chinese\n" +
+				"**-** Updated translations and translator credits\n" +
+				"\n" +
+				"**-** Increased the HP threshold for status pane blinking red to 33% from 30%, for consistency with hearty meal change."));
 
 		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
 				"Fixed the following bugs:\n" +
@@ -278,7 +412,15 @@ public class v3_X_Changes {
 				"**-** Paralysis vfx on enemies sometimes cancelling animations as it ends\n" +
 				"**-** Rare cases of wonky display scaling on Linux systems\n" +
 				"**-** Various minor visual & textual errors\n" +
-				"**-** Various rare crash errors\n"));
+				"**-** Various rare crash errors",
+
+				"**v3.1.1:**\n" +
+				"**-** Thrown weapons sticking to broken crystal guardians\n" +
+				"**-** Ebony mimics always appearing hidden after ankh revive\n" +
+				"**-** Various issues with how the game handles animation logic at very low framerates\n" +
+				"**-** Haptics not working properly on more modern iOS devices\n" +
+				"**-** Website links not working on modern iOS versions\n" +
+				"**-** Indonesian language not working on desktop platforms"));
 
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
 		changes.hardlight(CharSprite.POSITIVE);

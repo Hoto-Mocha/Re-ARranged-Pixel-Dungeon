@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
@@ -255,7 +256,7 @@ public class BrokenSeal extends Item {
 		private Armor armor;
 
 		private int cooldown = 0;
-		private int turnsSinceEnemies = 0;
+		private float turnsSinceEnemies = 0;
 
 		private static int COOLDOWN_START = 150;
 
@@ -316,7 +317,7 @@ public class BrokenSeal extends Item {
 
 			if (shielding() > 0){
 				if (Dungeon.hero.visibleEnemies() == 0 && Dungeon.hero.buff(Combo.class) == null){
-					turnsSinceEnemies++;
+					turnsSinceEnemies += HoldFast.buffDecayFactor(target);
 					if (turnsSinceEnemies >= 5){
 						if (cooldown > 0) {
 							float percentLeft = shielding() / (float)maxShield();
@@ -390,7 +391,7 @@ public class BrokenSeal extends Item {
 			super.restoreFromBundle(bundle);
 			if (bundle.contains(COOLDOWN)) {
 				cooldown = bundle.getInt(COOLDOWN);
-				turnsSinceEnemies = bundle.getInt(TURNS_SINCE_ENEMIES);
+				turnsSinceEnemies = bundle.getFloat(TURNS_SINCE_ENEMIES);
 
 			//if we have shield from pre-3.1, have it last a bit
 			} else if (shielding() > 0) {

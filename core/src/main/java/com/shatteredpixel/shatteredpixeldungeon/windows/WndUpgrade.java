@@ -249,12 +249,24 @@ public class WndUpgrade extends Window {
 		//durability
 		if (toUpgrade instanceof MissileWeapon){
 			//missile weapons are always IDed currently, so we always use true level
-			int uses1 = (int)Math.ceil(100f/((MissileWeapon) toUpgrade).durabilityPerUse());
-			int uses2 = (int)Math.ceil(300f/((MissileWeapon) toUpgrade).durabilityPerUse());
+			int uses1, uses2;
+			if (toUpgrade.levelKnown) {
+				uses1 = (int) Math.ceil(100f / ((MissileWeapon) toUpgrade).durabilityPerUse(toUpgrade.level()));
+				uses2 = (int) Math.ceil(100f / ((MissileWeapon) toUpgrade).durabilityPerUse(toUpgrade.level()+1));
+			} else {
+				uses1 = (int) Math.ceil(100f / ((MissileWeapon) toUpgrade).durabilityPerUse(0));
+				uses2 = (int) Math.ceil(100f / ((MissileWeapon) toUpgrade).durabilityPerUse(1));
+			}
 			bottom = fillFields(Messages.get(this, "durability"),
 					uses1 >= 100 ? "∞" : Integer.toString(uses1),
 					uses2 >= 100 ? "∞" : Integer.toString(uses2),
 					bottom);
+
+			bottom = fillFields(Messages.get(this, "quantity"),
+					Integer.toString(toUpgrade.quantity()),
+					Integer.toString(((MissileWeapon) toUpgrade).defaultQuantity()),
+					bottom);
+
 		}
 
 		//we use a separate reference for wand properties so that mage's staff can include them
@@ -410,7 +422,7 @@ public class WndUpgrade extends Window {
 					|| (toUpgrade instanceof Armor && ((Armor) toUpgrade).hasCurseGlyph()))
 					&& toUpgrade.cursedKnown) {
 
-				if (toUpgrade.cursed && (toUpgrade instanceof Weapon && ((Weapon) toUpgrade).hasCurseEnchant())
+				if (toUpgrade.cursed && (toUpgrade instanceof MeleeWeapon && ((Weapon) toUpgrade).hasCurseEnchant())
 						|| (toUpgrade instanceof Armor && ((Armor) toUpgrade).hasCurseGlyph())){
 					bottom = addMessage(Messages.get(this, "cursed_weaken"), CharSprite.POSITIVE, bottom);
 				} else {
@@ -426,6 +438,10 @@ public class WndUpgrade extends Window {
 		//warning relating to arcane resin
 		if (toUpgrade instanceof Wand && ((Wand) toUpgrade).resinBonus > 0){
 			bottom = addMessage(Messages.get(this, "resin"), CharSprite.WARNING, bottom);
+		}
+
+		if (toUpgrade instanceof MissileWeapon && ((MissileWeapon) toUpgrade).extraThrownLeft){
+			bottom = addMessage(Messages.get(this, "thrown_dust"), CharSprite.WARNING, bottom);
 		}
 
 		// *** Buttons for confirming/cancelling ***

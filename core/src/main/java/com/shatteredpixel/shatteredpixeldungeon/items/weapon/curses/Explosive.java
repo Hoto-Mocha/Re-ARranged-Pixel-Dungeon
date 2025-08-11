@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -80,9 +81,25 @@ public class Explosive extends Weapon.Enchantment {
 
 			durability = 100;
 			Item.updateQuickslot();
+
+			if (weapon instanceof MissileWeapon){
+				//the explosion damages thrown weapons
+				((MissileWeapon) weapon).damage(9*((MissileWeapon) weapon).durabilityPerUse());
+			}
+		}
+
+		if (weapon instanceof MissileWeapon
+				&& ((MissileWeapon)weapon).parent != null && ((MissileWeapon) weapon).parent.enchantment instanceof Explosive){
+			((Explosive) ((MissileWeapon) weapon).parent.enchantment).durability = durability;
 		}
 
 		return damage;
+	}
+
+	public void merge(Explosive other){
+		if (other.durability < durability){
+			durability = other.durability;
+		}
 	}
 
 	@Override

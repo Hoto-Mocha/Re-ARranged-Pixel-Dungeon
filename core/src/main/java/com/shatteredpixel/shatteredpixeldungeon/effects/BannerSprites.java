@@ -33,7 +33,6 @@ public class BannerSprites {
 		TITLE_GLOW_LAND,
 		BOSS_SLAIN,
 		GAME_OVER,
-		SELECT_YOUR_HERO
 	}
 
 	public static Image get( Type type ) {
@@ -52,9 +51,6 @@ public class BannerSprites {
 				break;
 			case GAME_OVER:
 				icon.frame( icon.texture.uvRect( 0, 125, 128, 160 ) );
-				break;
-			case SELECT_YOUR_HERO:
-				icon.frame( icon.texture.uvRect( 0, 160, 128, 181 ) );
 				break;
 		}
 		return icon;

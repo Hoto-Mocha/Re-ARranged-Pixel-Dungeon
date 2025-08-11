@@ -135,6 +135,7 @@ public class BuffIndicator extends Component {
 	public static final int TRINITY_FORM= 82;
 	public static final int MANY_POWER  = 83;
 	public static final int SEAL_SHIELD = 84;
+	public static final int THROWN_WEP  = 85;
 
 	//arranged buffs
 	public static final int PARRY		= 135;

@@ -245,7 +245,6 @@ public class MeleeWeapon extends Weapon {
 				CellEmitter.center( curUser.pos ).burst( Speck.factory( Speck.STAR ), 7 );
 				GLog.p(Messages.get(this, "scrap_archer"));
 				MissileWeapon result = Generator.randomMissile(true);
-				result.quantity(1);
 				if (!result.doPickUp(hero, hero.pos)) {
 					GLog.i(Messages.get(Dungeon.hero, "you_now_have", result.name()));
 					hero.spend(-1);
