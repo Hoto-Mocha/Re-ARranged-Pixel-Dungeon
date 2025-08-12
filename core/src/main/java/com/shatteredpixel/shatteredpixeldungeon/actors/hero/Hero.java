@@ -93,6 +93,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tackle;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.TimeStasis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Undead;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.chargearea.MutationBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.cleric.AscendedForm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Challenge;
@@ -246,6 +247,7 @@ import com.watabou.noosa.tweeners.Delayer;
 import com.watabou.utils.BArray;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
@@ -2156,6 +2158,7 @@ public class Hero extends Char {
 		}
 
 		if (Dungeon.isChallenged(Challenges.MUTATION) //돌연변이 챌린지 활성화 시
+				&& buff(MutationBuff.class) == null //한 턴에 여러 번 돌연변이가 발생하는 것을 방지
 				&& !(enemy instanceof Thief && ((Thief)enemy).item != null) //도적류 적인데 훔친 물건이 있다면 발동하지 않음
 				&& ( //보스, 미니보스, 보스 사역마, 석상류, 미믹류 적이 아닌 적에게만 발동
 				!Char.hasProp(enemy, Char.Property.BOSS)
@@ -2168,6 +2171,7 @@ public class Hero extends Char {
 				&& damage < enemy.HP //공격으로 입힌 피해보다 적의 체력이 높을 때에만 발동
 				&& Dungeon.depth % 5 != 0 //현재 층이 보스층이면 발동하지 않음
 				&& Random.Float() < 0.05f) { //5% 확률로 적 변이 메커니즘 작동
+			Buff.affect(this, MutationBuff.class);
 
 			Mob newEnemy;
 			int region = 1+(Dungeon.depth - 1)/5;
