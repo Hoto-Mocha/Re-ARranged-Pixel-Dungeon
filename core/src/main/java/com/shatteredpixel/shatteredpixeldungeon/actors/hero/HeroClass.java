@@ -413,7 +413,7 @@ public enum HeroClass {
 		sheath.collect();
 
 		ThrowingKnife knives = new ThrowingKnife();
-		knives.quantity(3).collect();
+		knives.identify().collect();
 
 		Dungeon.quickslot.setSlot(0, sheath);
 		Dungeon.quickslot.setSlot(1, knives);
@@ -431,7 +431,7 @@ public enum HeroClass {
 		machete.identify().collect();
 
 		ThrowingStone stones = new ThrowingStone();
-		stones.quantity(3).collect();
+		stones.identify().collect();
 
 		Dungeon.quickslot.setSlot(0, shovel);
 		Dungeon.quickslot.setSlot(1, machete);
@@ -448,7 +448,7 @@ public enum HeroClass {
 		KnightsShield shield = new KnightsShield();
 		shield.collect();
 		ThrowingStone stones = new ThrowingStone();
-		stones.quantity(3).collect();
+		stones.identify().collect();
 		Dungeon.quickslot.setSlot(0, stones);
 
 		new ScrollOfRemoveCurse().identify();
