@@ -1079,22 +1079,6 @@ public class Hero extends Char {
 	}
 	
 	public float attackDelay() {
-		if (buff(Talent.LethalMomentumTracker.class) != null){
-			buff(Talent.LethalMomentumTracker.class).detach();
-			return 0;
-		}
-
-		if (buff(Talent.CounterAttackTracker.class) != null && hero.belongings.weapon == null) {
-			buff(Talent.CounterAttackTracker.class).detach();
-			return 0;
-		}
-
-		if (buff(Awakening.class) != null && buff(Awakening.class).isAwaken() && buff(Sheath.CriticalAttacking.class) != null) {
-			return 0;
-		}
-
-		if (Sheath.isFlashSlash()) return 0;
-
 		float delay = 1f;
 
 		if ( buff(Adrenaline.class) != null) delay /= 1.5f;
@@ -1109,35 +1093,35 @@ public class Hero extends Char {
 			//This is for that one guy, you shall get your fists of fury!
 			float speed = RingOfFuror.attackSpeedMultiplier(this);
 
-			if (hero.hasTalent(Talent.LESS_RESIST) && belongings.attackingWeapon() == null) {
-				int aEnc = hero.belongings.armor.STRReq() - hero.STR();
+			if (hasTalent(Talent.LESS_RESIST) && belongings.attackingWeapon() == null) {
+				int aEnc = belongings.armor.STRReq() - STR();
 				if (aEnc < 0) {
-					speed *= 1 + 0.05f * hero.pointsInTalent(Talent.LESS_RESIST) * (-aEnc);
+					speed *= 1 + 0.05f * pointsInTalent(Talent.LESS_RESIST) * (-aEnc);
 				}
 			}
 
-			if (hero.hasTalent(Talent.QUICK_FOLLOWUP) && hero.buff(Talent.QuickFollowupTracker.class) != null) {
-				speed *= 1+hero.pointsInTalent(Talent.QUICK_FOLLOWUP)/3f;
+			if (hasTalent(Talent.QUICK_FOLLOWUP) && buff(Talent.QuickFollowupTracker.class) != null) {
+				speed *= 1+pointsInTalent(Talent.QUICK_FOLLOWUP)/3f;
 			}
 
-			if (hero.subClass == HeroSubClass.MONK && hero.buff(MonkEnergy.class) != null && hero.buff(MonkEnergy.class).harmonized(hero)) {
+			if (subClass == HeroSubClass.MONK && buff(MonkEnergy.class) != null && buff(MonkEnergy.class).harmonized(hero)) {
 				speed *= 1.5f;
 			}
 
-			if (hero.hasTalent(Talent.ATK_SPEED_ENHANCE)) {
-				speed *= 1 + 0.05f * hero.pointsInTalent(Talent.ATK_SPEED_ENHANCE);
+			if (hasTalent(Talent.ATK_SPEED_ENHANCE)) {
+				speed *= 1 + 0.05f * pointsInTalent(Talent.ATK_SPEED_ENHANCE);
 			}
 
 			if (buff(Awakening.class) != null && buff(Awakening.class).isAwaken()) {
 				speed *= 2f;
 			}
 
-			if (hero.buff(DualDagger.ReverseBlade.class) != null) {
+			if (buff(DualDagger.ReverseBlade.class) != null) {
 				speed *= 2f;
 			}
 
-			if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null) {
-				speed *= 2f + 0.05f * hero.pointsInTalent(Talent.DOUBLE_BLADE_PRACTICE);
+			if (buff(ShadowBlade.shadowBladeTracker.class) != null) {
+				speed *= 2f + 0.05f * pointsInTalent(Talent.DOUBLE_BLADE_PRACTICE);
 			}
 
 			//ditto for furor + sword dance!
@@ -3281,7 +3265,27 @@ public class Hero extends Char {
 		boolean hit = attack(attackTarget);
 		
 		Invisibility.dispel();
-		spend( attackDelay() );
+		boolean useTurn = true;
+		if (buff(Talent.LethalMomentumTracker.class) != null){
+			buff(Talent.LethalMomentumTracker.class).detach();
+			useTurn = false;
+		}
+
+		if (buff(Talent.CounterAttackTracker.class) != null && hero.belongings.weapon == null) {
+			buff(Talent.CounterAttackTracker.class).detach();
+			useTurn = false;
+		}
+
+		if (buff(Awakening.class) != null && buff(Awakening.class).isAwaken() && buff(Sheath.CriticalAttacking.class) != null) {
+			useTurn = false;
+		}
+
+		if (Sheath.isFlashSlash()) useTurn = false;
+		if (useTurn) {
+			spend( attackDelay() );
+		} else {
+			spend(0);
+		}
 
 		if (hit && subClass == HeroSubClass.GLADIATOR && wasEnemy){
 			Buff.affect( this, Combo.class ).hit(attackTarget);
