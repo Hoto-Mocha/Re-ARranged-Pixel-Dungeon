@@ -802,9 +802,8 @@ public class Gun extends MeleeWeapon {
 		protected void onThrow( int cell ) {
 			boolean killedEnemy = false;
 			if (explode) {
-				Char chInPos = Actor.findChar(cell);
 				ArrayList<Char> targets = new ArrayList<>();
-				int shootArea[] = PathFinder.NEIGHBOURS9;
+				int[] shootArea = PathFinder.NEIGHBOURS9;
 
 				for (int i : shootArea){
 					int c = cell + i;
