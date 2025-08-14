@@ -49,8 +49,8 @@ public class PotionOfEarthenArmor extends ExoticPotion {
 
 	@Override
 	public void potionProc(Hero hero, Char enemy, float damage) {
-		int level = (int)Math.min((hero.lvl*1.5f), damage/2);
-		Barkskin.conditionallyAppend(hero, level, 1);
-		hero.sprite.centerEmitter().burst(MagicMissile.EarthParticle.ATTRACT, level);
+		int level = hero.lvl/2;
+		Barkskin.conditionallyAppend(hero, level, 3);
+		hero.sprite.centerEmitter().burst(MagicMissile.EarthParticle.ATTRACT, 5);
 	}
 }
