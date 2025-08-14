@@ -94,13 +94,13 @@ public class Assets {
 		public static final String RADIAL_MENU      = "interfaces/radial_menu.png";
 
 		//alternative UIs
-		public static String CHROME   = "interfaces/chrome.png"; //alternative
-		public static String TOOLBAR  = "interfaces/toolbar.png"; //alternative
-		public static String STATUS   = "interfaces/status_pane.png"; //alternative
-		public static String MENU     = "interfaces/menu_pane.png"; //alternative
-		public static String MENU_BTN = "interfaces/menu_button.png"; //alternative
-		public static String BOSSHP   = "interfaces/boss_hp.png"; //alternative
-		public static String TALENT_BUTTON    = "interfaces/talent_button.png"; //alternative
+		public static String CHROME   = "interfaces/chrome.png";
+		public static String TOOLBAR  = "interfaces/toolbar.png";
+		public static String STATUS   = "interfaces/status_pane.png";
+		public static String MENU     = "interfaces/menu_pane.png";
+		public static String MENU_BTN = "interfaces/menu_button.png";
+		public static String BOSSHP   = "interfaces/boss_hp.png";
+		public static String TALENT_BUTTON    = "interfaces/talent_button.png";
 		static {
 			switch (SPDSettings.uiType()) {
 				case 0: default:
