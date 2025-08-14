@@ -29,10 +29,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StatusPane;
@@ -200,6 +202,7 @@ public class PotionOfDivineInspiration extends ExoticPotion {
 	@Override
 	public void potionProc(Hero hero, Char enemy, float damage) {
 		if (enemy instanceof Mob && ((Mob)enemy).EXP > 0 && ((Mob)enemy).maxLvl > hero.lvl) {
+			hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(((Mob)enemy).EXP), FloatingText.EXPERIENCE);
 			hero.earnExp(((Mob)enemy).EXP, PotionOfExperience.class);
 		}
 	}
