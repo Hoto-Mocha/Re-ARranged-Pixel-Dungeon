@@ -310,8 +310,7 @@ public class Sheath extends Item {
 
     }
 
-    public static class CriticalAttacking extends FlavourBuff {}
-    public static class CriticalAttack extends FlavourBuff {}
+    public static class CriticalAttack extends Buff {}
 
     public static class CertainCrit extends Buff {
         {

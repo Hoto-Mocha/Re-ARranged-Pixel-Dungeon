@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
 import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
 
@@ -916,6 +917,8 @@ public class Hero extends Char {
 
 			if (wep instanceof Weapon) {
 				float randomFloat = Random.Float();
+				GLog.i("chance: " + critChance((Weapon)wep));
+				GLog.i("random: " + randomFloat);
 				if (randomFloat < critChance((Weapon)wep)) {
 					dmg = criticalDamage(dmg, (Weapon)wep);
 				} else {
@@ -1932,7 +1935,6 @@ public class Hero extends Char {
 			multi += 0.15f * pointsInTalent(Talent.POWERFUL_SLASH);
 		}
 
-		Buff.affect(this, Sheath.CriticalAttacking.class);
 		Buff.affect(this, Sheath.CriticalAttack.class);
 
 		Awakening awakening = buff(Awakening.class);
@@ -3279,7 +3281,7 @@ public class Hero extends Char {
 			useTurn = false;
 		}
 
-		if (buff(Awakening.class) != null && buff(Awakening.class).isAwaken() && buff(Sheath.CriticalAttacking.class) != null) {
+		if (buff(Awakening.class) != null && buff(Awakening.class).isAwaken() && buff(Sheath.CriticalAttack.class) != null) {
 			useTurn = false;
 		}
 
@@ -3314,6 +3316,10 @@ public class Hero extends Char {
 		}
 		curAction = null;
 		attackTarget = null;
+
+		if (buff(Sheath.CriticalAttack.class) != null) {
+			buff(Sheath.CriticalAttack.class).detach();
+		}
 
 		super.onAttackComplete();
 	}
