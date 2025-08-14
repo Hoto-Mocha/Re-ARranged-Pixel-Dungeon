@@ -2386,10 +2386,6 @@ public enum Talent {
 			}
 		}
 
-		if (hero.buff(Awakening.class) != null && hero.buff(Awakening.class).isAwaken()) {
-			damage = Math.round(damage * 0.5f);
-		}
-
 		if (hero.buff(ShadowBlade.shadowBladeTracker.class) != null) {
 			damage = Math.round(damage * 0.5f);
 		}

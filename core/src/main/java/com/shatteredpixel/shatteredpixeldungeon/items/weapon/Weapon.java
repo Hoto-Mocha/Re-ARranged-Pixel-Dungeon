@@ -365,11 +365,6 @@ abstract public class Weapon extends KindOfWeapon {
 			multi *= 2;
 		}
 
-		Awakening awakening = hero.buff(Awakening.class);
-		if (awakening != null && awakening.isAwaken()) {
-			multi *= 2f;
-		}
-
 		if (hero.buff(DualDagger.ReverseBlade.class) != null) {
 			multi *= 2f;
 		}

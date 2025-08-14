@@ -1112,10 +1112,6 @@ public class Hero extends Char {
 				speed *= 1 + 0.05f * pointsInTalent(Talent.ATK_SPEED_ENHANCE);
 			}
 
-			if (buff(Awakening.class) != null && buff(Awakening.class).isAwaken()) {
-				speed *= 2f;
-			}
-
 			if (buff(DualDagger.ReverseBlade.class) != null) {
 				speed *= 2f;
 			}
