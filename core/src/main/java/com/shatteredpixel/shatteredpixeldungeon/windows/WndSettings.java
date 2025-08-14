@@ -1101,7 +1101,6 @@ public class WndSettings extends WndTabbed {
 		ColorBlock sep3;
 		CheckBox chkIgnoreSilent;
 		CheckBox chkMusicBG;
-		CheckBox chkOldMusic;
 
 		@Override
 		protected void createChildren() {
@@ -1194,65 +1193,6 @@ public class WndSettings extends WndTabbed {
 				chkMusicBG.checked(SPDSettings.playMusicInBackground());
 				add(chkMusicBG);
 			}
-			chkOldMusic = new CheckBox( Messages.get(this, "old_music") ) {
-				@Override
-				protected void onClick() {
-					super.onClick();
-					SPDSettings.oldMusic(!checked());
-					ShatteredPixelDungeon.scene().addToFront(new Window(){
-						RedButton confirm;
-						RedButton cancel;
-						RenderedTextBlock uiDesc;
-						{
-							uiDesc = PixelScene.renderTextBlock(Messages.get(WndSettings.AudioTab.this, "comfirm_desc"), 6);
-							add(uiDesc);
-
-							cancel = new RedButton(Messages.get(WndSettings.UITab.class, "comfirm_no")) {
-								@Override
-								protected void onClick() {
-									hide();
-								}
-							};
-							add(cancel);
-
-							confirm = new RedButton(Messages.get(WndSettings.UITab.class, "comfirm_yes")) {
-								@Override
-								protected void onClick() {
-									Game.instance.finish();
-								}
-							};
-							add(confirm);
-
-							//layout
-							resize((int)uiDesc.width(), 0);
-
-							if (PixelScene.landscape()) {
-								resize((int)uiDesc.width(), 0);
-
-								uiDesc.setPos(0, GAP);
-								PixelScene.align(uiDesc);
-								int btnWidth = (int) (width - 2 * GAP) / 2;
-								cancel.setRect(0, uiDesc.bottom()+2*GAP, btnWidth, BTN_HEIGHT);
-								confirm.setRect(cancel.right() + GAP, cancel.top(), btnWidth, BTN_HEIGHT);
-
-								resize((int)uiDesc.right(), (int)confirm.bottom());
-							} else {
-								resize(Math.min((int)uiDesc.width(), 120), 0);
-								uiDesc.maxWidth(120);
-								uiDesc.setPos(0, GAP);
-								PixelScene.align(uiDesc);
-								int btnWidth = (int) (width - 8 * GAP);
-								cancel.setRect(0, uiDesc.bottom()+2*GAP, btnWidth, BTN_HEIGHT);
-								confirm.setRect(cancel.left(), cancel.bottom(), btnWidth, BTN_HEIGHT);
-
-								resize(Math.min((int)uiDesc.right(), 120), (int)confirm.bottom());
-							}
-						}
-					});
-				}
-			};
-			chkOldMusic.checked(!SPDSettings.oldMusic());
-			add( chkOldMusic );
 		}
 
 		@Override
@@ -1270,8 +1210,6 @@ public class WndSettings extends WndTabbed {
 
 				optSFX.setRect(optMusic.right()+2, sep2.y + 1 + GAP, width/2-1, SLIDER_HEIGHT);
 				chkMuteSFX.setRect(chkMusicMute.right()+2, optSFX.bottom() + GAP, width/2-1, BTN_HEIGHT);
-
-				chkOldMusic.setRect(0, chkMuteSFX.bottom() + GAP, width, BTN_HEIGHT);
 			} else {
 				optMusic.setRect(0, sep1.y + 1 + GAP, width, SLIDER_HEIGHT);
 				chkMusicMute.setRect(0, optMusic.bottom() + GAP, width, BTN_HEIGHT);
@@ -1281,8 +1219,6 @@ public class WndSettings extends WndTabbed {
 
 				optSFX.setRect(0, sep2.y + 1 + GAP, width, SLIDER_HEIGHT);
 				chkMuteSFX.setRect(0, optSFX.bottom() + GAP, width, BTN_HEIGHT);
-
-				chkOldMusic.setRect(0, chkMuteSFX.bottom() + GAP, width, BTN_HEIGHT);
 			}
 
 			height = chkMuteSFX.bottom();
@@ -1292,16 +1228,13 @@ public class WndSettings extends WndTabbed {
 				sep3.y = chkMuteSFX.bottom() + GAP;
 
 				chkIgnoreSilent.setRect(0, sep3.y + 1 + GAP, width, BTN_HEIGHT);
-
-				chkOldMusic.setRect(0, chkIgnoreSilent.bottom() + GAP, width, BTN_HEIGHT);
 				height = chkIgnoreSilent.bottom();
 			} else if (chkMusicBG != null){
 				sep3.size(width, 1);
 				sep3.y = chkMuteSFX.bottom() + GAP;
 
 				chkMusicBG.setRect(0, sep3.y + 1 + GAP, width, BTN_HEIGHT);
-				chkOldMusic.setRect(0, chkMusicBG.bottom() + GAP, width, BTN_HEIGHT);
-				height = chkOldMusic.bottom();
+				height = chkMusicBG.bottom();
 			}
 
 		}
