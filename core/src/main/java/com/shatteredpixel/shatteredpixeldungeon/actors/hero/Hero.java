@@ -2052,7 +2052,7 @@ public class Hero extends Char {
 						&& hasTalent(Talent.TARGET_SPOTTING)
 						&& buff(SnipersMark.class) != null
 						&& buff(SnipersMark.class).object == enemy.id()) {
-					damage *= 1+0.1f*pointsInTalent(Talent.TARGET_SPOTTING);
+					damage = (int)(damage*(1+0.1f*pointsInTalent(Talent.TARGET_SPOTTING)));
 				}
 				break;
 			case FIGHTER:
@@ -2066,10 +2066,10 @@ public class Hero extends Char {
 				}
 				if (wep == null && Random.Float() < pointsInTalent(Talent.MYSTICAL_PUNCH)/3f) {
 					if (belongings.ring != null) {
-						damage *= Ring.onHit(this, enemy, damage, Ring.ringTypes.get(belongings.ring.getClass()));
+						damage = (int)Ring.onHit(this, enemy, damage, Ring.ringTypes.get(belongings.ring.getClass()));
 					}
 					if (belongings.misc instanceof Ring) {
-						damage *= Ring.onHit(this, enemy, damage, Ring.ringTypes.get(belongings.misc.getClass()));
+						damage = (int)Ring.onHit(this, enemy, damage, Ring.ringTypes.get(belongings.misc.getClass()));
 					}
 				}
 				break;
@@ -2110,7 +2110,7 @@ public class Hero extends Char {
 						if (!Char.hasProp(enemy, Property.BOSS) && !Char.hasProp(enemy, Property.MINIBOSS) && enemy.alignment == Alignment.ENEMY) {
 							damage = enemy.HP;
 						} else {
-							damage *= 1.2f;
+							damage = (int)(damage*1.2f);
 						}
 						enemy.sprite.emitter().burst( ShadowParticle.UP, 5 );
 					}
@@ -2120,7 +2120,7 @@ public class Hero extends Char {
 						if (!Char.hasProp(enemy, Property.BOSS) && !Char.hasProp(enemy, Property.MINIBOSS)) {
 							damage = enemy.HP;
 						} else {
-							damage *= 1.2f;
+							damage = (int)(damage*1.2f);
 						}
 						enemy.sprite.emitter().burst( ShadowParticle.UP, 5 );
 						buff(Talent.HonorableShotTracker.class).detach();
@@ -2142,7 +2142,7 @@ public class Hero extends Char {
 								}
 							}
 						} else {
-							damage *= 1.2f;
+							damage = (int)(damage*1.2f);
 						}
 						enemy.sprite.emitter().burst( ShadowParticle.UP, 5 );
 						buff(RouletteOfDeath.class).detach();
