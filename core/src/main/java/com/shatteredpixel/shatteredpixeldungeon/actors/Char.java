@@ -1148,10 +1148,6 @@ public abstract class Char extends Actor {
 		}
 		
 		if (sprite != null) {
-			String dmgText = Integer.toString(dmg + shielded);
-			if (src == hero && hero.buff(Sheath.CriticalAttack.class) != null) {
-				dmgText += "!";
-			}
 			//defaults to normal damage icon if no other ones apply
 			int                                                         icon = FloatingText.PHYS_DMG;
 			if (NO_ARMOR_PHYSICAL_SOURCES.contains(src.getClass()))     icon = FloatingText.PHYS_DMG_NO_BLOCK;
@@ -1201,7 +1197,13 @@ public abstract class Char extends Actor {
 			}
 			hitMissIcon = -1;
 
-			sprite.showStatusWithIcon(CharSprite.NEGATIVE, Integer.toString(dmg + shielded), icon);
+
+			String dmgText = Integer.toString(dmg + shielded);
+			if (src == hero && hero.buff(Sheath.CriticalAttack.class) != null) {
+				dmgText += "!";
+			}
+
+			sprite.showStatusWithIcon(CharSprite.NEGATIVE, dmgText, icon);
 		}
 
 		if (HP < 0) HP = 0;
