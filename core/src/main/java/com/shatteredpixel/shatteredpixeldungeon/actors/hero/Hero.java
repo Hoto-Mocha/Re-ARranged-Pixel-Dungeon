@@ -917,8 +917,6 @@ public class Hero extends Char {
 
 			if (wep instanceof Weapon) {
 				float randomFloat = Random.Float();
-				GLog.i("chance: " + critChance((Weapon)wep));
-				GLog.i("random: " + randomFloat);
 				if (randomFloat < critChance((Weapon)wep)) {
 					dmg = criticalDamage(dmg, (Weapon)wep);
 				} else {
