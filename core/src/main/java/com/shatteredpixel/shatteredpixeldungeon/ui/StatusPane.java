@@ -83,7 +83,7 @@ public class StatusPane extends Component {
 	public StatusPane( boolean large ){
 		super();
 
-		String asset = Assets.Interfaces.STATUS;
+		String asset = Assets.Interfaces.getStatus();
 
 		this.large = large;
 

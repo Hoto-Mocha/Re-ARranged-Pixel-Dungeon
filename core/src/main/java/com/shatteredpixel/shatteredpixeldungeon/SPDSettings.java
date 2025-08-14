@@ -241,9 +241,7 @@ public class SPDSettings extends GameSettings {
 		return getInt(KEY_UI_TYPE, 0);
 	}
 
-
 	//Game State
-	
 	public static final String KEY_LAST_CLASS	= "last_class";
 	public static final String KEY_CHALLENGES	= "challenges";
 	public static final String KEY_CUSTOM_SEED	= "custom_seed";
@@ -440,14 +438,6 @@ public class SPDSettings extends GameSettings {
 
 	public static boolean playMusicInBackground(){
 		return getBoolean( KEY_MUSIC_BG, true);
-	}
-
-	public static void oldMusic( boolean value ) {
-		put( KEY_OLD_MUSIC, value);
-	}
-
-	public static boolean oldMusic(){
-		return getBoolean( KEY_OLD_MUSIC, false);
 	}
 
 	

@@ -377,10 +377,6 @@ public abstract class Level implements Bundlable {
 		//do nothing by default
 	}
 
-	public void playOldMusic() {
-		Music.INSTANCE.play(Assets.Music.OLD_THEME, true);
-	}
-
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 
