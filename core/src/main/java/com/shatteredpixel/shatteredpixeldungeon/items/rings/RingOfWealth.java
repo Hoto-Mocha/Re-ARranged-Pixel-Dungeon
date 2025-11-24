@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
@@ -322,4 +323,14 @@ public class RingOfWealth extends Ring {
 			revivePersists = true;
 		}
 	}
+
+    @Override
+    public int onHit(Hero hero, Char enemy, int damage) {
+        if (Random.Float() < 0.01f*RingOfWealth.dropChanceMultiplier(hero)) {
+            Item prize = RingOfWealth.genConsumableDrop(-10);
+            Dungeon.level.drop(prize, enemy.pos).sprite.drop();
+            RingOfWealth.showFlareForBonusDrop(enemy.sprite);
+        }
+        return damage;
+    }
 }

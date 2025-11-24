@@ -23,8 +23,12 @@ package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EvasiveMove;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class RingOfEvasion extends Ring {
 
@@ -63,4 +67,14 @@ public class RingOfEvasion extends Ring {
 
 	public class Evasion extends RingBuff {
 	}
+
+    @Override
+    public int onHit(Hero hero, Char enemy, int damage) {
+        float enemyAcc = enemy.attackSkill(hero)*4;	//적의 명중률에 4배의 보정이 붙음
+        int heroEva = hero.defenseSkill(enemy);
+        if (Random.Float() < heroEva/enemyAcc) {
+            Buff.prolong(hero, EvasiveMove.class, 1.0001f);
+        }
+        return damage;
+    }
 }

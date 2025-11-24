@@ -23,8 +23,16 @@ package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.spells.TelekineticGrab;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
 public class RingOfSharpshooting extends Ring {
 
@@ -74,4 +82,21 @@ public class RingOfSharpshooting extends Ring {
 
 	public class Aim extends RingBuff {
 	}
+
+    @Override
+    public int onHit(Hero hero, Char enemy, int damage) {
+        if (enemy.buff(PinCushion.class) != null) {
+            Item item = enemy.buff(PinCushion.class).grabOne();
+            if (item.doPickUp(hero, enemy.pos)) {
+                hero.spend(-Item.TIME_TO_PICK_UP); //casting the spell already takes a turn
+                GLog.i( Messages.capitalize(Messages.get(hero, "you_now_have", item.name())) );
+            } else {
+                GLog.w(Messages.get(TelekineticGrab.class, "cant_grab"));
+                Dungeon.level.drop(item, enemy.pos).sprite.drop();
+            }
+            WandOfBlastWave.throwChar(enemy, new Ballistica(hero.pos, enemy.pos, Ballistica.MAGIC_BOLT), 2, true, false, hero);
+        }
+
+        return damage;
+    }
 }

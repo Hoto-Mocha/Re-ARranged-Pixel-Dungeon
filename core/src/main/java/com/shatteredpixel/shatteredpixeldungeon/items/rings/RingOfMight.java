@@ -116,5 +116,10 @@ public class RingOfMight extends Ring {
 
 	public class Might extends RingBuff {
 	}
+
+    @Override
+    public int onHit(Hero hero, Char enemy, int damage) {
+        return (int)(damage*(1+0.05f*(hero.STR()-10)));
+    }
 }
 

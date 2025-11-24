@@ -21,10 +21,18 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Daze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.GameMath;
+import com.watabou.utils.Random;
 
 public class RingOfAccuracy extends Ring {
 
@@ -63,4 +71,22 @@ public class RingOfAccuracy extends Ring {
 	
 	public class Accuracy extends RingBuff {
 	}
+
+    @Override
+    public int onHit(Hero hero, Char enemy, int damage) {
+        float damageMulti = 1f;
+        float heroAcc = hero.attackSkill(enemy);
+        float enemyEva = enemy.defenseSkill(hero)*2; //적의 회피에 2배의 보정이 붙음
+        if (Random.Float() < heroAcc/enemyEva) {
+            damageMulti = GameMath.gate(1, heroAcc/enemyEva, 2);
+            Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+            if (Random.Float() < 0.1f) {
+                Buff.affect(enemy, Paralysis.class, 1f);
+            }
+            if (Random.Float() < 0.1f) {
+                Buff.affect(enemy, Daze.class, 2f);
+            }
+        }
+        return (int)(damage * damageMulti);
+    }
 }

@@ -2066,10 +2066,10 @@ public class Hero extends Char {
 				}
 				if (wep == null && Random.Float() < pointsInTalent(Talent.MYSTICAL_PUNCH)/3f) {
 					if (belongings.ring != null) {
-						damage = (int)Ring.onHit(this, enemy, damage, Ring.ringTypes.get(belongings.ring.getClass()));
+						damage = belongings.ring.onHit(this, enemy, damage);
 					}
 					if (belongings.misc instanceof Ring) {
-						damage = (int)Ring.onHit(this, enemy, damage, Ring.ringTypes.get(belongings.misc.getClass()));
+						damage = ((Ring)belongings.misc).onHit(this, enemy, damage);
 					}
 				}
 				break;

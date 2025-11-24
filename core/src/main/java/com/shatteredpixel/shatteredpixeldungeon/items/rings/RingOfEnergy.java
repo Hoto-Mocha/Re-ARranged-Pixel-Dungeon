@@ -23,11 +23,15 @@ package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class RingOfEnergy extends Ring {
 
@@ -87,4 +91,18 @@ public class RingOfEnergy extends Ring {
 	
 	public class Energy extends RingBuff {
 	}
+
+    @Override
+    public int onHit(Hero hero, Char enemy, int damage) {
+        if (Random.Float() < 0.25f) {
+            for (Buff b : hero.buffs()){
+                if (b instanceof Artifact.ArtifactBuff && !((Artifact.ArtifactBuff) b).isCursed() ) {
+                    ((Artifact.ArtifactBuff) b).charge(hero, 0.5f);
+                }
+            }
+            ScrollOfRecharging.charge(hero);
+        }
+
+        return damage;
+    }
 }

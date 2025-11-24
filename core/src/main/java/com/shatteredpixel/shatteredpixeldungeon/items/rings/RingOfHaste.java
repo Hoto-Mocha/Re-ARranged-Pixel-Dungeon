@@ -23,8 +23,12 @@ package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class RingOfHaste extends Ring {
 
@@ -63,4 +67,13 @@ public class RingOfHaste extends Ring {
 	
 	public class Haste extends RingBuff {
 	}
+
+    @Override
+    public int onHit(Hero hero, Char enemy, int damage) {
+        if (Random.Float() < 0.2f) {
+            Buff.affect(hero, com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste.class, 2f);
+        }
+
+        return damage;
+    }
 }

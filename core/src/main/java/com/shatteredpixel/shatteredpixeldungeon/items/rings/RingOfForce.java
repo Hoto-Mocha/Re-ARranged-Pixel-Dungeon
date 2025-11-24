@@ -21,10 +21,16 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Daze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -37,7 +43,9 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -368,5 +376,33 @@ public class RingOfForce extends Ring {
 			minTurnsLeft = bundle.getInt(MIN_TURNS_LEFT);
 		}
 	}
+
+    @Override
+    public int onHit(Hero hero, Char enemy, int damage) {
+        switch (Random.Int(20)) {
+            case 0:
+                Buff.affect(enemy, Paralysis.class, 1f);
+                Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+                return damage;
+            case 1:
+                Buff.affect(enemy, Daze.class, 3f);
+                Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+                return damage;
+            case 2:
+                Buff.affect(enemy, Cripple.class, 3f);
+                Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+                return damage;
+            case 3:
+                Buff.affect(enemy, Vertigo.class, 3f);
+                Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+                return damage;
+            case 4:
+                Buff.affect(enemy, Weakness.class, 3f);
+                Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+                return damage;
+            default:
+                return damage;
+        }
+    }
 }
 
