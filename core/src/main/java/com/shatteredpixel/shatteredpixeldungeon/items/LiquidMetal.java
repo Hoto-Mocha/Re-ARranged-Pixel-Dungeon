@@ -135,6 +135,9 @@ public class LiquidMetal extends Item {
 												hero.spend(-1); //아이템을 얻는 데에 시간을 소모하지 않음
 												hero.busy();
 												LiquidMetal.this.quantity(LiquidMetal.this.quantity-(25 + 25 * (1+Dungeon.depth/5)));
+                                                if (quantity() <= 0) {
+                                                    detach(hero.belongings.backpack);
+                                                }
 												hero.sprite.operate(hero.pos);
 												Sample.INSTANCE.play(Assets.Sounds.EVOKE);
 												CellEmitter.center( hero.pos ).burst( Speck.factory( Speck.STAR ), 7 );
@@ -154,6 +157,9 @@ public class LiquidMetal extends Item {
 												}
 												hero.busy();
 												LiquidMetal.this.quantity(LiquidMetal.this.quantity-(25 + 25 * (1+Dungeon.depth/5))*2);
+                                                if (quantity() <= 0) {
+                                                    detach(hero.belongings.backpack);
+                                                }
 												hero.sprite.operate(hero.pos);
 												Sample.INSTANCE.play(Assets.Sounds.EVOKE);
 												CellEmitter.center( hero.pos ).burst( Speck.factory( Speck.STAR ), 7 );
