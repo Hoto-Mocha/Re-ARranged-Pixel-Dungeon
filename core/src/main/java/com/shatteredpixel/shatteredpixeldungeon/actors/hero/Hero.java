@@ -3312,6 +3312,9 @@ public class Hero extends Char {
 				Buff.affect(this, Sheath.Sheathing.class);
 			}
 		}
+		if (heroClass != HeroClass.SAMURAI && hasTalent(Talent.QUICK_SHEATHING) && !attackTarget.isAlive()) {
+			Buff.affect(this, Haste.class, 3f*pointsInTalent(Talent.QUICK_SHEATHING));
+		}
 		curAction = null;
 		attackTarget = null;
 
