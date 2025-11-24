@@ -344,7 +344,7 @@ abstract public class MissileWeapon extends Weapon {
 		if (parent != null) parent.cursedKnown = true;
 
 		//instant ID with the right talent
-		if (attacker == Dungeon.hero && Dungeon.hero.pointsInTalent(Talent.SURVIVALISTS_INTUITION) == 2){
+		if (attacker == Dungeon.hero && Dungeon.hero.pointsInTalent(Talent.SURVIVALISTS_INTUITION) == 2 && !(this instanceof Gun.Bullet)){
 			usesLeftToID = Math.min(usesLeftToID, 0);
 			availableUsesToID =  Math.max(usesLeftToID, 0);
 		}
