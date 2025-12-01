@@ -32,21 +32,24 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTextInput;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.ui.Component;
+import com.watabou.utils.Random;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SeedFindScene extends PixelScene {
-
-	private Thread seedThread;
+	private final List<Thread> seedThreads = new ArrayList<>();
 
 	@Override
 	public void create() {
@@ -105,7 +108,7 @@ public class SeedFindScene extends PixelScene {
 							NumberFormatException e) {
 					}
 				}
-				if (positive && text != "") {
+				if (positive && !text.isEmpty()) {
 					String[] itemList = floorOption ? Arrays.copyOfRange(text.split("\n"), 1, text.split("\n").length) : text.split("\n");
 
 					Component content = list.content();
@@ -117,19 +120,27 @@ public class SeedFindScene extends PixelScene {
 					alertMsg.setRect((Camera.main.width - colWidth)/2f, (Camera.main.height-12)/2f, colWidth, 0);
 					content.add(alertMsg);
 
-					if(!Objects.isNull(seedThread) && seedThread.isAlive()){
-						SeedFinder.stopFindSeed();
-						seedThread.interrupt();
+					SeedFinder.stopFindSeed();
+					for (Thread t : seedThreads) {
+						if (t.isAlive()) {
+							t.interrupt();
+						}
 					}
+					seedThreads.clear();
+
 					int finalFloor = floor;
 					String finalText = text;
-					seedThread = new Thread(new Runnable() {
-						@Override
-						public void run() {
-							String resultContent;
+					int nThreads = Math.max(1, Runtime.getRuntime().availableProcessors());
+					AtomicBoolean found = new AtomicBoolean(false);
+
+					for (int i = 0; i < nThreads; i++) {
+						final long threadId = Random.Long(DungeonSeed.TOTAL_SEEDS) + i;
+						Thread seedThread = new Thread(() -> {
+							String resultContent = null;
 							try {
-								resultContent = new SeedFinder().findSeed(itemList, finalFloor);
-							} catch (NullPointerException e) {
+								// findSeed will now return null if interrupted or if another thread finds the seed first
+								resultContent = new SeedFinder().findSeed(itemList, finalFloor, threadId, nThreads);
+							} catch (Exception e) {
 								//스택 트레이스를 문자열로 받음
 								StringWriter sw = new StringWriter();
 								PrintWriter pw = new PrintWriter(sw);
@@ -139,22 +150,32 @@ public class SeedFindScene extends PixelScene {
 								resultContent = Messages.get(SeedFinder.class, "error", finalText, stackTrace);
 							}
 							String finalResultContent = resultContent;
-							Gdx.app.postRunnable(new Runnable() {
-								@Override
-								public void run() {
-									if(!(ShatteredPixelDungeon.scene() instanceof SeedFindScene)) return;
+							// use an atomic boolean to ensure we only show the first result found
+							if (finalResultContent != null && !found.getAndSet(true)) {
+								Gdx.app.postRunnable(() -> {
+									if (!(ShatteredPixelDungeon.scene() instanceof SeedFindScene)) return;
+
+									// Stop all other threads since we found a seed
+									SeedFinder.stopFindSeed();
+									for (Thread t : seedThreads) {
+										if (t.isAlive()) {
+											t.interrupt();
+										}
+									}
+
 									CreditsBlock txt = new CreditsBlock(true,
 											Window.TITLE_COLOR,
 											finalResultContent);
-									txt.setRect((Camera.main.width - colWidth)/2f, 12, colWidth, 0);
+									txt.setRect((Camera.main.width - colWidth) / 2f, 12, colWidth, 0);
 									content.add(txt);
 									content.remove(alertMsg);
-									content.setSize( fullWidth, txt.bottom()+10 );
-								}
-							});
-						}
-					});
-					seedThread.start();
+									content.setSize(fullWidth, txt.bottom() + 10);
+								});
+							}
+						});
+						seedThreads.add(seedThread);
+						seedThread.start();
+					}
 
 					list.setRect( 0, 0, w, h );
 					list.scrollTo(0, 0);
@@ -169,9 +190,11 @@ public class SeedFindScene extends PixelScene {
 		ExitButton btnExit = new ExitButton() {
 			@Override
 			protected void onClick() {
-				if(!Objects.isNull(seedThread) && seedThread.isAlive()){
-					SeedFinder.stopFindSeed();
-					seedThread.interrupt();
+				SeedFinder.stopFindSeed();
+				for (Thread t : seedThreads) {
+					if (t.isAlive()) {
+						t.interrupt();
+					}
 				}
 				if (Game.scene() instanceof TitleScene) {
 					Game.instance.finish();
