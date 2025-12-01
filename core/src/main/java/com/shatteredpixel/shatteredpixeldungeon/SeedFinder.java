@@ -36,10 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.HeroSelectScene;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
-import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,9 +45,8 @@ import java.util.List;
 
 public class SeedFinder {
 	enum Condition {ANY, ALL}
-	enum FINDING {STOP,CONTINUE}
 
-	public static FINDING findingStatus = FINDING.STOP;
+	private static volatile boolean searchStopped = false;
 
 	public static class Options {
 		public static int floors;
@@ -147,34 +143,29 @@ public class SeedFinder {
 		}
 	}
 
-	public void findSeed(boolean stop){
-		if(!stop){
-			findingStatus = FINDING.STOP;
-		}
+	public static void stopFindSeed() {
+		searchStopped = true;
 	}
 
-	public static void stopFindSeed(){
-		findingStatus = FINDING.STOP;
-	}
-
-	public String findSeed(String[] wanted, int floor) {
+	public String findSeed(String[] wanted, int floor, long startOffset, int increment) {
 		itemList = new ArrayList<>(Arrays.asList(wanted));
-
-//		String seedDigits = Integer.toString(Random.Int(500000));
-		findingStatus = FINDING.CONTINUE;
 		Options.condition = Condition.ALL;
-
-		String result="NONE";
-		int i = 0;
-		for (; i < DungeonSeed.TOTAL_SEEDS && findingStatus == FINDING.CONTINUE ; i++) {
-			long seed = DungeonSeed.randomSeed();
+		long seed = startOffset;
+		while (!searchStopped) {
+			String result="NONE";
 			if (testSeedALL(Long.toString(seed), floor)) {
 				result = logSeedItems(Long.toString(seed), floor);
-				break;
+				stopFindSeed();
+				return result+"\n\n[ " + Messages.get(this, "found", seed) + " ]";
+			}
+			seed = (seed + increment) % DungeonSeed.TOTAL_SEEDS;
+			// Check if the thread has been interrupted from the outside
+			if (Thread.currentThread().isInterrupted()) {
+				return null;
 			}
 		}
-		findingStatus = FINDING.STOP;
-		return result+"\n\n[ " + Messages.get(this, "found", i) + " ]";
+		// Return null if the search was stopped by another thread
+		return null;
 	}
 
 	private ArrayList<Heap> getMobDrops(Level l) {
