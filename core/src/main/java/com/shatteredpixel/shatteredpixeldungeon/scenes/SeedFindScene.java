@@ -77,16 +77,22 @@ public class SeedFindScene extends PixelScene {
 				int floor = 31;
 				boolean floorOption = false;
 				text = text.toLowerCase(); //대문자를 소문자로 변경
-				text = text.replaceAll(" ", ""); //공백 제거
+				if (Messages.lang() == Languages.KOREAN) {
+					text = text.replaceAll(" ", ""); //공백 제거
+				}
 				String up_to_floor;
 				if (Messages.lang() == Languages.KOREAN) {
 					up_to_floor = "층까지";
+				} else if (Messages.lang() == Languages.CHI_SMPL) {
+					up_to_floor = "层以内";
 				} else {
 					up_to_floor = "floor end";
 				}
 				String strFloor;
 				if (Messages.lang() == Languages.KOREAN) {
 					strFloor = "층";
+				} else if (Messages.lang() == Languages.CHI_SMPL) {
+					strFloor = "层";
 				} else {
 					strFloor = "floor";
 				}
